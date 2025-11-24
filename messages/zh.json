@@ -1,0 +1,34 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hero_title": "欢迎来到 Vibe Coding",
+  "hero_subtitle": "打造 Palantir 等级的精致网站体验",
+  "example_message": "你好 {username}",
+
+  "topbar_get_started": "开始使用",
+  "topbar_logo": "isBIM",
+
+  "homepage_hero_title": "建筑AI驱动全球经济骨干",
+  "homepage_hero_subtitle": "AI预测。系统交付。成果扩展。",
+  "homepage_scroll_prompt": "向下滚动探索",
+
+  "section2_tab_defense": "国防改革",
+  "section2_tab_warp": "极速部署",
+  "section2_tab_interoperability": "互操作性",
+  "section2_tab_maven": "Maven智能系统",
+  "section2_tab_titan": "TITAN",
+  "section2_tab_vantage": "Vantage",
+  "section2_tab_see_all": "查看全部",
+
+  "section2_defense_title": "国防改革",
+  "section2_defense_desc": "推动下一代国防技术创新",
+  "section2_warp_title": "极速部署",
+  "section2_warp_desc": "快速响应，精准执行",
+  "section2_interoperability_title": "互操作性",
+  "section2_interoperability_desc": "无缝集成，高效协同",
+  "section2_maven_title": "Maven智能系统",
+  "section2_maven_desc": "AI驱动的智能决策平台",
+  "section2_titan_title": "TITAN",
+  "section2_titan_desc": "强大的数据分析引擎",
+  "section2_vantage_title": "Vantage",
+  "section2_vantage_desc": "全方位视角，洞察未来"
+}

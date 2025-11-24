@@ -1,0 +1,34 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hero_title": "Welcome to Vibe Coding",
+  "hero_subtitle": "Creating Palantir-level exquisite web experiences",
+  "example_message": "Hello {username}",
+
+  "topbar_get_started": "Get Started",
+  "topbar_logo": "isBIM",
+
+  "homepage_hero_title": "Construction AI Powering the Backbone of Global Economies",
+  "homepage_hero_subtitle": "AI That Predicts. Systems That Deliver. Results That Scale.",
+  "homepage_scroll_prompt": "Scroll to Explore",
+
+  "section2_tab_defense": "Defense Reformation",
+  "section2_tab_warp": "Warp Speed",
+  "section2_tab_interoperability": "Interoperability",
+  "section2_tab_maven": "Maven Smart System",
+  "section2_tab_titan": "TITAN",
+  "section2_tab_vantage": "Vantage",
+  "section2_tab_see_all": "SEE ALL",
+
+  "section2_defense_title": "Defense Reformation",
+  "section2_defense_desc": "Driving next-generation defense technology innovation",
+  "section2_warp_title": "Warp Speed",
+  "section2_warp_desc": "Rapid response, precise execution",
+  "section2_interoperability_title": "Interoperability",
+  "section2_interoperability_desc": "Seamless integration, efficient collaboration",
+  "section2_maven_title": "Maven Smart System",
+  "section2_maven_desc": "AI-powered intelligent decision platform",
+  "section2_titan_title": "TITAN",
+  "section2_titan_desc": "Powerful data analytics engine",
+  "section2_vantage_title": "Vantage",
+  "section2_vantage_desc": "Comprehensive perspective, future insights"
+}
