@@ -114,7 +114,7 @@ export async function generateMetadata({ params }) {
 
 ## 10) Dev/Build Notes
 - Console warning "headers() should be awaited": Safe to ignore - Paraglide v1.x known issue with Next.js 15.
-- Turbopack/config changes: delete `.next` and restart dev to avoid stale/ENOENT build artifacts.
+- Turbopack disabled (Sanity bundling issues); use `next dev` / `next build` (Webpack). If you re-enable Turbopack, expect possible `sanity` chunk errors.
 - Keep the flat `app/` structure; do not reintroduce `[locale]`.
 
 ## 11) Backlog / Placeholders

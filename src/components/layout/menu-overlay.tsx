@@ -10,6 +10,28 @@ import { useLocalizedHref } from "@/lib/i18n/index";
 import { ROUTES } from "@/lib/constants";
 import * as m from "@/paraglide/messages";
 
+// --- Type definitions for menu data ---
+interface MenuChild {
+  title: string;
+  href: string;
+  action?: string;
+  isHighlight?: boolean;
+}
+
+interface MenuLink {
+  title: string;
+  href: string;
+  type: "link";
+}
+
+interface MenuGroup {
+  title: string;
+  type: "group";
+  children: MenuChild[];
+}
+
+type MenuItem = MenuLink | MenuGroup;
+
 // --- Helper function to get menu data with i18n ---
 const getMenuData = () => ({
   structure: [
@@ -33,7 +55,7 @@ const getMenuData = () => ({
     { title: m.menu_nav_newsroom(), href: ROUTES.NEWSROOM, type: "link" as const },
     { title: m.menu_nav_careers(), href: ROUTES.CAREERS, type: "link" as const },
     { title: m.menu_nav_contact(), href: ROUTES.CONTACT, type: "link" as const },
-  ],
+  ] as MenuItem[],
   jarvisProducts: [
     { name: m.menu_product_agent_name(), desc: m.menu_product_agent_desc() },
     { name: m.menu_product_pay_name(), desc: m.menu_product_pay_desc() },

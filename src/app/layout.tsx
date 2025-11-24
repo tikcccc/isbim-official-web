@@ -44,20 +44,39 @@ export default async function RootLayout({
 }>) {
   // Next.js 15 requires await headers() before use
   const headersList = await headers();
-  const locale = (headersList.get("x-language-tag") ?? sourceLanguageTag) as AvailableLanguageTag;
+  const headerUrl =
+    headersList.get("next-url") ||
+    headersList.get("x-invoke-path") ||
+    headersList.get("x-pathname") ||
+    headersList.get("referer") ||
+    "";
+  const languageTag = headersList.get("x-language-tag");
+  const isStudioRoute = headerUrl.includes("/studio") || !languageTag;
+  const locale = (languageTag ?? sourceLanguageTag) as AvailableLanguageTag;
 
-  // Tell Paraglide runtime to use this locale (prevents it from reading headers synchronously)
+
+  
+  // Studio route: no i18n middleware, no providers, no topbar/footer.
+  if (isStudioRoute) {
+    return (
+      <html
+        lang={sourceLanguageTag}
+        className={`${allianceNo1.variable} ${allianceNo2.variable}`}
+      >
+        <body className="antialiased bg-white text-black">
+          {children}
+        </body>
+      </html>
+    );
+  }
+
+  // Public routes: normal i18n flow
   setLanguageTag(() => locale);
 
   return (
     <LanguageProvider>
-      <html
-        lang={locale}
-        className={`${allianceNo1.variable} ${allianceNo2.variable}`}
-      >
-        <body
-          className="antialiased bg-zinc-100 text-zinc-900 footer-alliance-font"
-        >
+      <html lang={locale} className={`${allianceNo1.variable} ${allianceNo2.variable}`}>
+        <body className="antialiased bg-zinc-100 text-zinc-900 footer-alliance-font">
           <LocaleProvider locale={locale}>
             <AppProviders>
               <Topbar />

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "npm run paraglide:compile && next build --turbopack",
+    "dev": "next dev",
+    "build": "npm run paraglide:compile && next build",
     "start": "next start",
     "lint": "eslint",
     "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide"
@@ -16,6 +16,7 @@
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@sanity/client": "^7.12.1",
+    "@sanity/image-url": "^1.0.3",
     "@sanity/vision": "^4.15.0",
     "@tanstack/react-query": "^5.90.8",
     "class-variance-authority": "^0.7.1",

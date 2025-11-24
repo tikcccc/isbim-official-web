@@ -8,12 +8,17 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as m from "@/paraglide/messages";
 
+interface Section5CTAProps {
+  imageUrl?: string;
+  imageAlt?: string;
+}
+
 // Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export function Section5CTA() {
+export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
   // Phase 2: Refs for GSAP DOM control
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -77,8 +82,8 @@ export function Section5CTA() {
             className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-2xl bg-zinc-200"
           >
             <img
-              src="/images/cta.png"
-              alt="Modern business technology and collaboration"
+              src={imageUrl ?? "/images/cta.png"}
+              alt={imageAlt ?? "Modern business technology and collaboration"}
               className="object-cover w-full h-full"
             />
             {/* Gradient overlay for atmosphere */}

@@ -1,13 +1,16 @@
-import { postType } from './postType'
-// TODO: 導入新的schema types
-// import { newsType } from './newsType'
-// import { careerType } from './careerType'
-// import { projectType } from './projectType'
+import { postType } from "./postType";
+import { productType } from "./productType";
+import { imageType } from "./imageType";
+// TODO: add remaining schema types when ready
+// import { newsType } from "./newsType";
+// import { careerType } from "./careerType";
+// import { projectType } from "./projectType";
 
 export const schemaTypes = [
   postType,
-  // TODO: 添加新schema到數組
+  productType,
+  imageType,
   // newsType,
   // careerType,
   // projectType,
-]
+];

@@ -94,11 +94,20 @@ src/styles/
 ```
 src/sanity/schemaTypes/
   postType.ts          # live
+  productType.ts       # Product doc with mainImage (image + hotspot + alt)
+  imageType.ts         # Standalone Image doc (hotspot + alt + slug)
   newsType.ts          # TODO
   careerType.ts        # TODO
   projectType.ts       # TODO
-  index.ts             # register schemas (currently only postType)
+  index.ts             # register schemas
 ```
+
+#### Sanity Image Content Table (current)
+| Document | Field | Type | Notes | File |
+|---|---|---|---|---|
+| product | `mainImage` | `image` | hotspot enabled; has `alt` subfield | src/sanity/schemaTypes/productType.ts |
+| imageAsset | `file` | `image` | hotspot enabled; has `alt`; standalone image entry | src/sanity/schemaTypes/imageType.ts |
+
 
 ### Public Assets
 ```
@@ -120,6 +129,10 @@ public/
 - **Providers**: Global providers centralized in `AppProviders`; Zustand store limited to `menu-store.ts`.
 - **Env**: Use `lib/env.ts`; do not read `process.env` directly in app code.
 - **Legal pages**: `/privacy`, `/terms`, `/cookies` exist as placeholders to prevent 404 in nav/footer/menu.
+- **Build tooling**: Turbopack disabled due to Sanity bundle issues; scripts use Webpack (`next dev`, `next build`).
+- **Sanity**: Studio mounted at `/studio` with deskTool; product schema (image with hotspot) registered; middleware excludes `/studio`; layout hides Topbar/Footer when `x-language-tag` absent (Studio requests).
+- **Studio isolation**: Layout detects Studio (headers `next-url`/`x-invoke-path`/`x-pathname`/`referer`) and renders bare HTML/Body only—no i18n/Paraglide, no providers, no Topbar/Footer.
+- **Sanity usage in app**: `Section5CTA` now accepts Sanity-driven image props; `app/page.tsx` fetches `imageAsset` with slug `home-cta` via GROQ and builds URLs using `@sanity/image-url` (`src/sanity/lib/image.ts`), falling back to static `/images/cta.png`.
 
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.

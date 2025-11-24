@@ -10,3 +10,10 @@
  */
 
 export { middleware } from "@/lib/i18n";
+
+export const config = {
+  matcher: [
+    // Exclude Next internals, assets, API routes, and Studio (all subpaths)
+    "/((?!studio|api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+  ],
+};
