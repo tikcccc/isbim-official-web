@@ -47,77 +47,64 @@ export const InnerOverlayRunner = () => {
                 />
             </motion.div>
 
-            {/* 2. Loading Icon - isBIM Logo with bounce effect */}
+            {/* 2. Logo with Shimmer Effect */}
             <motion.div
-                className="absolute inset-0 flex flex-col items-center justify-center z-[10000]"
-                initial={{ opacity: 1, scale: 1 }}
-                exit={{
-                    opacity: 1,
-                    scale: 1.2,
-                    transition: { duration: 0.2 }
-                }}
+                className="absolute inset-0 flex items-center justify-center z-[10000]"
+                initial={{ opacity: 1 }}
                 animate={{
                     opacity: 0,
-                    scale: 0.8,
                     transition: {
-                        delay: 0.4,
-                        duration: 0.4
+                        delay: 0.7,
+                        duration: 0.3,
+                    }
+                }}
+                exit={{
+                    opacity: 1,
+                    transition: {
+                        duration: 0.2,
                     }
                 }}
             >
-                <motion.div
-                    className="relative flex flex-col items-center justify-center"
-                    animate={{
-                        filter: [
-                            "drop-shadow(0 0 0px rgba(255,255,255,0.8))",
-                            "drop-shadow(0 0 20px rgba(255,255,255,0.8))",
-                            "drop-shadow(0 0 0px rgba(255,255,255,0.8))"
-                        ]
-                    }}
-                    transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                >
-                    {/* isBIM Logo - Bounce effect */}
+                <div className="relative w-48 h-32">
+                    {/* Background Layer - Black Logo (底層，半透明灰階) */}
+                    <div className="absolute inset-0 opacity-30 grayscale">
+                        <Image
+                            src="/icons/isbim_black.svg"
+                            alt="isBIM"
+                            fill
+                            className="object-contain"
+                            priority
+                        />
+                    </div>
+
+                    {/* Foreground Layer - White Logo with Shimmer Mask */}
                     <motion.div
-                        className="relative w-32 h-32 mb-4"
+                        className="absolute inset-0"
+                        style={{
+                            maskImage: 'linear-gradient(110deg, transparent 30%, black 45%, black 55%, transparent 70%)',
+                            WebkitMaskImage: 'linear-gradient(110deg, transparent 30%, black 45%, black 55%, transparent 70%)',
+                            maskSize: '250% 100%',
+                            WebkitMaskSize: '250% 100%',
+                        }}
                         animate={{
-                            y: [0, -20, 0],
-                            scale: [1, 1.1, 1]
+                            maskPosition: ['-120% 0', '220% 0'],
                         }}
                         transition={{
-                            duration: 0.6,
+                            duration: 2,
                             repeat: Infinity,
-                            ease: "easeInOut",
-                            times: [0, 0.5, 1]
+                            ease: 'linear',
+                            repeatDelay: 0.5,
                         }}
                     >
                         <Image
-                            src="/icons/isbim_black.svg"
-                            alt="isBIM Loading"
+                            src="/icons/isbim_white.svg"
+                            alt="isBIM"
                             fill
-                            className="object-contain invert"
+                            className="object-contain drop-shadow-sm"
                             priority
                         />
                     </motion.div>
-
-                    {/* Loading text */}
-                    <motion.span
-                        className="text-[10px] tracking-[0.3em] font-bold text-white drop-shadow-md bg-black/20 px-3 py-1.5 rounded"
-                        animate={{
-                            opacity: [1, 0.5, 1]
-                        }}
-                        transition={{
-                            duration: 1.2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
-                    >
-                        LOADING
-                    </motion.span>
-                </motion.div>
+                </div>
             </motion.div>
         </div>
     );

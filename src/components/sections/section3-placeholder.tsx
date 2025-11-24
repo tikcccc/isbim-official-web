@@ -67,13 +67,13 @@ export function Section3Placeholder() {
         >
           {m.section3_narrative_prefix()}
           <span className="text-gray-300">{m.section3_narrative_faster()}</span>
-          {m.section3_narrative_comma1()}
+          <span className="text-gray-300">{m.section3_narrative_comma1()}</span>
           <span className="text-gray-300">{m.section3_narrative_cheaper()}</span>
-          {m.section3_narrative_comma2()}
+          <span className="text-gray-300">{m.section3_narrative_comma2()}</span>
           <span className="text-gray-300">{m.section3_narrative_safer()}</span>
-          {m.section3_narrative_and()}
+          <span className="text-gray-300">{m.section3_narrative_and()}</span>
           <span className="text-gray-300">{m.section3_narrative_greener()}</span>
-          {m.section3_narrative_suffix()}
+          <span className="text-gray-300">{m.section3_narrative_suffix()}</span>
         </h1>
       </div>
     </section>
