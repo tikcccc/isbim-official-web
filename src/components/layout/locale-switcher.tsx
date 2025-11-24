@@ -1,16 +1,17 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
-import { getLocale, locales, type Locale } from "@/paraglide/runtime";
+import { useRouter, usePathname } from "@/lib/i18n";
+import { languageTag, availableLanguageTags, type AvailableLanguageTag } from "@/paraglide/runtime";
 import { motion } from "framer-motion";
 
 /**
  * LocaleSwitcher Component
  *
  * Minimalist professional language switcher for EN/ZH
+ * Uses localized navigation APIs from @inlang/paraglide-next
  */
 
-const localeLabels: Record<Locale, string> = {
+const localeLabels: Record<AvailableLanguageTag, string> = {
   en: "EN",
   zh: "中文",
 };
@@ -18,25 +19,19 @@ const localeLabels: Record<Locale, string> = {
 export function LocaleSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
-  const currentLocale = getLocale();
+  const currentLocale = languageTag();
 
-  const switchLocale = (newLocale: Locale) => {
+  const switchLocale = (newLocale: AvailableLanguageTag) => {
     if (newLocale === currentLocale) return;
 
-    // Remove current locale from pathname and add new locale
-    const pathWithoutLocale = pathname.replace(/^\/(en|zh)/, "");
-    const newPath = `/${newLocale}${pathWithoutLocale || ""}`;
-
-    // Set locale cookie for persistence
-    document.cookie = `locale=${newLocale}; path=/; max-age=31536000`; // 1 year
-
-    // Navigate to new locale
-    router.push(newPath);
+    // Use localized router.push with locale option
+    // This automatically handles URL construction and locale prefix
+    router.push(pathname, { locale: newLocale });
   };
 
   return (
     <div className="flex items-center">
-      {locales.map((locale, index) => (
+      {availableLanguageTags.map((locale, index) => (
         <div key={locale} className="flex items-center">
           <motion.button
             onClick={() => switchLocale(locale)}
@@ -55,7 +50,7 @@ export function LocaleSwitcher() {
           </motion.button>
 
           {/* Separator */}
-          {index < locales.length - 1 && (
+          {index < availableLanguageTags.length - 1 && (
             <span className="mx-2 text-white/30">|</span>
           )}
         </div>

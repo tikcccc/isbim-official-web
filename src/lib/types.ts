@@ -146,7 +146,7 @@ export interface SanityPost {
   slug: { current: string };
   publishedAt: string;
   excerpt?: string;
-  body?: any;
+  body?: unknown;
   author?: {
     name: string;
     image?: string;

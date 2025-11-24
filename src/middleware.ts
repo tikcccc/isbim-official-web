@@ -1,19 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import { paraglideMiddleware } from "./paraglide/server";
+/**
+ * Middleware for i18n routing
+ *
+ * Uses @inlang/paraglide-next middleware for:
+ * - Automatic locale detection from URL prefix (/zh/*, /en/*)
+ * - Locale cookie management
+ * - Accept-Language header negotiation
+ *
+ * @see src/lib/i18n.ts for routing strategy configuration
+ */
 
-export function middleware(request: NextRequest) {
-  return paraglideMiddleware(request, ({ request, locale }) => {
-    request.headers.set("x-paraglide-locale", locale);
-    request.headers.set("x-paraglide-request-url", request.url);
-    return NextResponse.next({ request });
-  });
-}
-
-export const config = {
-  matcher: [
-    // Match all pathnames except for
-    // - … if they start with `/api`, `/_next` or `/_vercel`
-    // - … the ones containing a dot (e.g. `favicon.ico`)
-    "/((?!api|_next|_vercel|.*\\..*).*)",
-  ],
-};
+export { middleware } from "@/lib/i18n";

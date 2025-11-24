@@ -11,7 +11,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { getLocale } from "@/paraglide/runtime";
+import { languageTag } from "@/paraglide/runtime";
+import * as m from "@/paraglide/messages";
 
 /**
  * Footer Component
@@ -40,7 +41,7 @@ type FooterProps = {
 export function Footer({ locale: initialLocale }: FooterProps) {
   // --- 狀態管理與表單初始化 (React Hook Form) ---
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const locale = initialLocale ?? getLocale();
+  const locale = initialLocale ?? languageTag();
   const withLocale = (href: string) => {
     if (!href) return "#";
     if (href.startsWith(`/${locale}`)) return href;
@@ -126,10 +127,10 @@ export function Footer({ locale: initialLocale }: FooterProps) {
             </Link>
 
             <p className="text-base text-muted-foreground leading-[1.8] footer-alliance-font">
-              AI That Predicts. Systems That Deliver. Results That Scale.
+              {m.footer_tagline()}
               <br className="mt-1.5" />
               <span className="text-muted-foreground/80">
-                Construction AI Powering the Backbone of Global Economies.
+                {m.footer_tagline2()}
               </span>
             </p>
 
@@ -154,7 +155,7 @@ export function Footer({ locale: initialLocale }: FooterProps) {
           {/* Column 2: Solutions (JARVIS Products) */}
           <div className="flex flex-col space-y-5">
             <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/70 footer-alliance-font">
-              AI Platforms
+              {m.footer_platforms()}
             </h3>
             <ul className="space-y-2.5 text-base text-muted-foreground footer-alliance-font">
               {productLinks.map((link) => (
@@ -177,7 +178,7 @@ export function Footer({ locale: initialLocale }: FooterProps) {
           {/* Column 3: Company */}
           <div className="flex flex-col space-y-5">
             <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/70 footer-alliance-font">
-              Company
+              {m.footer_company()}
             </h3>
             <ul className="space-y-2.5 text-base text-muted-foreground footer-alliance-font">
               {companyLinks.map((link) => (
@@ -200,17 +201,17 @@ export function Footer({ locale: initialLocale }: FooterProps) {
           {/* Column 4: Newsletter Subscription */}
           <div className="flex flex-col space-y-7 lg:space-y-8">
             <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/70 footer-alliance-font">
-              Stay Connected
+              {m.footer_stay_connected()}
             </h3>
             <p className="text-base text-muted-foreground leading-[1.75] footer-alliance-font max-w-md">
-              Join our network to get the latest insights on Digital Twins and AI Infrastructure.
+              {m.footer_newsletter_desc()}
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2.5">
               <div className="flex space-x-2">
                 <Input
                   {...register("email")}
-                  placeholder="Enter your email"
+                  placeholder={m.footer_email_placeholder()}
                   type="email"
                   className="flex-1 h-9 text-sm"
                 />
@@ -238,7 +239,7 @@ export function Footer({ locale: initialLocale }: FooterProps) {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-xs text-green-600 dark:text-green-400 pl-0.5"
                 >
-                  Thank you for subscribing!
+                  {m.footer_subscribe_success()}
                 </motion.p>
               )}
             </form>
@@ -249,16 +250,16 @@ export function Footer({ locale: initialLocale }: FooterProps) {
 
         {/* Bottom Bar - Copyright & Legal Links */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground space-y-3 md:space-y-0 footer-alliance-font">
-          <p>© 2025 isBIM Limited. All rights reserved.</p>
+          <p>{m.footer_copyright()}</p>
           <div className="flex space-x-6">
-            <Link href="/privacy" className="hover:text-foreground transition-colors">
-              Privacy Policy
+            <Link href={withLocale("/privacy")} className="hover:text-foreground transition-colors">
+              {m.footer_privacy()}
             </Link>
-            <Link href="/terms" className="hover:text-foreground transition-colors">
-              Terms of Service
+            <Link href={withLocale("/terms")} className="hover:text-foreground transition-colors">
+              {m.footer_terms()}
             </Link>
-            <Link href="/cookies" className="hover:text-foreground transition-colors">
-              Cookie Settings
+            <Link href={withLocale("/cookies")} className="hover:text-foreground transition-colors">
+              {m.footer_cookies()}
             </Link>
           </div>
         </div>

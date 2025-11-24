@@ -3,70 +3,94 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import * as m from "@/paraglide/messages";
 
 // Platform data structure
 interface PlatformItem {
   id: string;
-  title: string;
-  description: string;
+  titleKey: keyof typeof platformTitles;
+  descKey: keyof typeof platformDescs;
   version: string;
   videoUrl: string;
 }
 
+// Map keys to message functions
+const platformTitles = {
+  agent: () => m.section4_agent_title(),
+  pay: () => m.section4_pay_title(),
+  air: () => m.section4_air_title(),
+  eagleeye: () => m.section4_eagleeye_title(),
+  ssss: () => m.section4_ssss_title(),
+  dwss: () => m.section4_dwss_title(),
+  cdcp: () => m.section4_cdcp_title(),
+  assets: () => m.section4_assets_title(),
+};
+
+const platformDescs = {
+  agent: () => m.section4_agent_desc(),
+  pay: () => m.section4_pay_desc(),
+  air: () => m.section4_air_desc(),
+  eagleeye: () => m.section4_eagleeye_desc(),
+  ssss: () => m.section4_ssss_desc(),
+  dwss: () => m.section4_dwss_desc(),
+  cdcp: () => m.section4_cdcp_desc(),
+  assets: () => m.section4_assets_desc(),
+};
+
 const platforms: PlatformItem[] = [
   {
     id: "01",
-    title: "JARVIS Agent",
-    description: "Domain-specific generative AI agent for every construction stakeholder. Automates invoice scanning, tender parsing & scoring, and form-filling via email agent.",
+    titleKey: "agent",
+    descKey: "agent",
     version: "/0.1",
     videoUrl: "/videos/Agent.mp4",
   },
   {
     id: "02",
-    title: "JARVIS Pay",
-    description: "Digital twin for 60-day SOPL-compliant certification. Enables better working-capital rates via investor visibility.",
+    titleKey: "pay",
+    descKey: "pay",
     version: "/0.2",
     videoUrl: "/videos/pay.mp4",
   },
   {
     id: "03",
-    title: "JARVIS Air",
-    description: "Stable-diffusion generative design with 500K+ templates. Instant visuals, video walkthroughs, and scenario prototyping.",
+    titleKey: "air",
+    descKey: "air",
     version: "/0.3",
     videoUrl: "/videos/Air.mp4",
   },
   {
     id: "04",
-    title: "JARVIS Eagle Eye",
-    description: "Real-time digital twin with IoT & 360° capture. Remote monitoring, anomaly detection, compliance assurance.",
+    titleKey: "eagleeye",
+    descKey: "eagleeye",
     version: "/0.4",
     videoUrl: "/videos/Eagle Eye.mp4",
   },
   {
     id: "05",
-    title: "JARVIS SSSS",
-    description: "Smart Site Safety System—wearables, AI cameras, instant alerts. Reduces incidents through proactive risk orchestration.",
+    titleKey: "ssss",
+    descKey: "ssss",
     version: "/0.5",
     videoUrl: "/videos/4S.mp4",
   },
   {
     id: "06",
-    title: "JARVIS DWSS",
-    description: "Digital Works Supervision portal—secure submission, automated checks, audit trails for faster approvals.",
+    titleKey: "dwss",
+    descKey: "dwss",
     version: "/0.6",
     videoUrl: "/videos/dwss.mp4",
   },
   {
     id: "07",
-    title: "JARVIS CDCP",
-    description: "Common Data Collaboration Platform—interoperable BIM hub for version control and conflict resolution.",
+    titleKey: "cdcp",
+    descKey: "cdcp",
     version: "/0.7",
     videoUrl: "/videos/CDCP.mp4",
   },
   {
     id: "08",
-    title: "JARVIS Assets",
-    description: "Digital twin + AI FM for predictive maintenance, ESG tracking, and lifecycle optimization.",
+    titleKey: "assets",
+    descKey: "assets",
     version: "/0.8",
     videoUrl: "/videos/Assets.mp4",
   },
@@ -79,7 +103,7 @@ export function Section4PlatformList() {
     <section className="w-full min-h-screen bg-white text-slate-900 py-12 sm:py-20 flex flex-col justify-center">
       <div className="mx-auto w-full" style={{ width: "90vw", maxWidth: "1800px" }}>
         <h2 className="text-5xl sm:text-6xl lg:text-7xl font-medium mb-12 sm:mb-16 tracking-tight">
-          Our AI Platforms
+          {m.section4_title()}
         </h2>
 
         <div className="flex flex-col">
@@ -122,7 +146,7 @@ function PlatformRow({
         <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px]">
           <div className="z-10 pointer-events-none">
             <p className="text-xl sm:text-2xl lg:text-2xl leading-relaxed font-light text-gray-600">
-              {item.description}
+              {platformDescs[item.descKey]()}
             </p>
           </div>
           <span className="text-base sm:text-lg text-gray-400 font-mono block mt-auto">
@@ -167,7 +191,7 @@ function PlatformRow({
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="text-5xl sm:text-6xl lg:text-7xl xl:text-[100px] leading-none font-medium tracking-tighter text-slate-900 whitespace-nowrap"
             >
-              {item.title}
+              {platformTitles[item.titleKey]()}
             </motion.h3>
           </div>
 

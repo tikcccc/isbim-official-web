@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { paraglide } from "@inlang/paraglide-next/plugin";
 
 const nextConfig: NextConfig = {
   images: {
@@ -13,4 +14,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default paraglide({
+  paraglide: {
+    project: "./project.inlang",
+    outdir: "./src/paraglide",
+  },
+  ...nextConfig,
+});

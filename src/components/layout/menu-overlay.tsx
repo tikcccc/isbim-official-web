@@ -5,57 +5,58 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CornerDownRight } from "lucide-react";
 import Link from "next/link";
 import { useMenuStore } from "@/stores/menu-store";
-import { getLocale } from "@/paraglide/runtime";
+import { languageTag } from "@/paraglide/runtime";
 import { TypewriterText } from "@/components/ui/typewriter-text";
+import * as m from "@/paraglide/messages";
 
-// --- Menu Data Structure ---
-const menuData = {
+// --- Helper function to get menu data with i18n ---
+const getMenuData = () => ({
   structure: [
-    { title: "About Us", href: "/about-us", type: "link" as const },
+    { title: m.menu_nav_about(), href: "/about-us", type: "link" as const },
     {
-      title: "Services and AI Products",
+      title: m.menu_nav_services(),
       type: "group" as const,
       children: [
         {
-          title: "JARVIS AI Suite",
+          title: m.menu_nav_jarvis_suite(),
           action: "jarvis_suite",
           isHighlight: true,
         },
-        { title: "JARVIS Project Management", href: "/jarvis-jpm" },
-        { title: "BIM Consultancy", href: "/bim-consultancy" },
-        { title: "Project Finance", href: "/project-finance" },
-        { title: "Venture Investments", href: "/venture-investments" },
+        { title: m.menu_nav_jpm(), href: "/jarvis-jpm" },
+        { title: m.menu_nav_bim(), href: "/bim-consultancy" },
+        { title: m.menu_nav_finance(), href: "/project-finance" },
+        { title: m.menu_nav_venture(), href: "/venture-investments" },
       ],
     },
-    { title: "Newsroom", href: "/newsroom", type: "link" as const },
-    { title: "Careers", href: "/careers", type: "link" as const },
-    { title: "Contact Us", href: "/contact", type: "link" as const },
+    { title: m.menu_nav_newsroom(), href: "/newsroom", type: "link" as const },
+    { title: m.menu_nav_careers(), href: "/careers", type: "link" as const },
+    { title: m.menu_nav_contact(), href: "/contact", type: "link" as const },
   ],
   jarvisProducts: [
-    { name: "JARVIS Agent", desc: "Automated scanning & tender parsing agent." },
-    { name: "JARVIS Pay", desc: "Blockchain-enabled payment certification." },
-    { name: "JARVIS Air", desc: "Generative design with 500K+ templates." },
-    { name: "JARVIS Eagle Eye", desc: "Real-time digital twin monitoring." },
-    { name: "JARVIS SSSS", desc: "Smart Site Safety System integration." },
-    { name: "JARVIS DWSS", desc: "Digital Works Supervision System." },
-    { name: "JARVIS CDCP", desc: "Common Data Collaboration Platform." },
-    { name: "JARVIS Assets", desc: "Predictive maintenance & ESG tracking." },
+    { name: m.menu_product_agent_name(), desc: m.menu_product_agent_desc() },
+    { name: m.menu_product_pay_name(), desc: m.menu_product_pay_desc() },
+    { name: m.menu_product_air_name(), desc: m.menu_product_air_desc() },
+    { name: m.menu_product_eagleeye_name(), desc: m.menu_product_eagleeye_desc() },
+    { name: m.menu_product_ssss_name(), desc: m.menu_product_ssss_desc() },
+    { name: m.menu_product_dwss_name(), desc: m.menu_product_dwss_desc() },
+    { name: m.menu_product_cdcp_name(), desc: m.menu_product_cdcp_desc() },
+    { name: m.menu_product_assets_name(), desc: m.menu_product_assets_desc() },
   ],
   // Stats data from copywriting
   stats: [
-    { value: "2,600+", label: "LIVE_PROJECTS", desc: "AI factories, data centers & critical assets" },
-    { value: "1.2B", label: "TOTAL_SQFT", desc: "Square feet under management" },
-    { value: "71%", label: "DEFECT_REDUCTION", desc: "Quality improvement rate" },
-    { value: "45%", label: "FASTER_DELIVERY", desc: "Accelerated project timelines" },
+    { value: "2,600+", label: "LIVE_PROJECTS", desc: m.menu_stat_live_projects() },
+    { value: "1.2B", label: "TOTAL_SQFT", desc: m.menu_stat_sqft() },
+    { value: "71%", label: "DEFECT_REDUCTION", desc: m.menu_stat_defect() },
+    { value: "45%", label: "FASTER_DELIVERY", desc: m.menu_stat_delivery() },
   ],
   // Impact metrics
   impact: [
-    { value: "25-35%", label: "Lower Emissions" },
-    { value: "35-45%", label: "Less Waste" },
-    { value: "60 Days", label: "Payment Certification" },
-    { value: "99.8%", label: "AI Accuracy" },
+    { value: "25-35%", label: m.menu_impact_emissions() },
+    { value: "35-45%", label: m.menu_impact_waste() },
+    { value: "60 Days", label: m.menu_impact_payment() },
+    { value: "99.8%", label: m.menu_impact_accuracy() },
   ],
-};
+});
 
 // --- Animation Variants ---
 const overlayVariants = {
@@ -116,7 +117,8 @@ const panelVariants = {
  */
 export function MenuOverlay() {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
-  const locale = getLocale();
+  const locale = languageTag();
+  const menuData = getMenuData();
   const buildHref = (href?: string) => {
     if (!href) return "#";
     if (href.startsWith(`/${locale}`)) return href;
@@ -287,7 +289,7 @@ export function MenuOverlay() {
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
-                      text="Legal & Compliance"
+                      text={m.menu_nav_legal()}
                       className="text-sm"
                       delay={1.0}
                     />
@@ -297,7 +299,7 @@ export function MenuOverlay() {
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
-                      text="Privacy Policy"
+                      text={m.footer_privacy()}
                       className="text-sm"
                       delay={1.1}
                     />
@@ -331,10 +333,10 @@ export function MenuOverlay() {
                           variants={fadeInUp}
                           className="text-4xl font-light text-white"
                         >
-                          JARVIS AI Suite
+                          {m.menu_nav_jarvis_suite()}
                         </motion.h2>
                         <TypewriterText
-                          text="End-to-End Intelligence"
+                          text={m.menu_suite_subtitle()}
                           className="text-sm text-neutral-400 mt-2 block"
                           delay={0.2}
                         />
@@ -405,9 +407,9 @@ export function MenuOverlay() {
                           variants={fadeInUp}
                           className="text-3xl font-light text-white max-w-lg leading-snug"
                         >
-                          Empowering the future of construction with{" "}
+                          {m.menu_headline()}{" "}
                           <span className="text-blue-400">
-                            adaptive intelligence.
+                            {m.menu_headline_highlight()}
                           </span>
                         </motion.h2>
                       </div>
@@ -415,7 +417,7 @@ export function MenuOverlay() {
                         variants={fadeInUp}
                         className="text-[10px] font-mono border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all text-neutral-300 uppercase tracking-widest flex items-center gap-2"
                       >
-                        Newsroom <ArrowRight size={14} />
+                        {m.menu_nav_newsroom()} <ArrowRight size={14} />
                       </motion.button>
                     </div>
 
@@ -482,7 +484,7 @@ export function MenuOverlay() {
                         variants={fadeInUp}
                         className="text-[9px] font-mono text-gray-300 hover:text-gray-100 transition-colors uppercase tracking-widest flex items-center gap-2"
                       >
-                        View All <ArrowRight size={12} />
+                        {m.menu_view_all()} <ArrowRight size={12} />
                       </motion.button>
                     </div>
 

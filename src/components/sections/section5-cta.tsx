@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as m from "@/paraglide/messages";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -94,12 +95,12 @@ export function Section5CTA() {
   {/* Title */}
   <h2
     ref={titleRef}
-    // 優化重點 2: 
+    // 優化重點 2:
     // - tracking-wide (解決太密)
     // - mb-6 (拉開標題與副標題的距離，比原本寬鬆)
     className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-wide text-slate-900 leading-[1.1] text-balance mb-6"
   >
-    Call to Action
+    {m.section5_cta_title()}
   </h2>
 
   {/* Subtitle */}
@@ -110,7 +111,7 @@ export function Section5CTA() {
     // - font-normal: 稍微加粗一點點，提升閱讀舒適度
     className="text-lg sm:text-xl lg:text-xl leading-relaxed font-normal text-gray-600 max-w-lg text-pretty mx-auto"
   >
-    Let's explore how we can transform your next project with our innovative solutions.
+    {m.section5_cta_subtitle()}
   </p>
 
   {/* Button Area */}
@@ -126,7 +127,7 @@ export function Section5CTA() {
         variant="outline"
         className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg transition-all duration-300 rounded-lg uppercase tracking-wider"
       >
-        Learn More
+        {m.section5_cta_button()}
         <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
     </motion.div>

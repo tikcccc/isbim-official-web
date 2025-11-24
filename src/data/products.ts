@@ -32,4 +32,125 @@
 
 import { Product } from "@/lib/types";
 
-// TODO: 導出jarvisProducts數組，包含全部8個JARVIS產品的完整信息
+/**
+ * Extended Product Interface for Carousel
+ * Used for interactive carousel display with detailed metadata
+ */
+export interface CarouselProduct {
+  id: number;
+  category: string;
+  tabTitle: string;
+  title: string;
+  bigText: string;
+  meta: string[];
+  description: string;
+  imageUrl: string;
+  href?: string;
+}
+
+/**
+ * JARVIS Products - Full carousel data
+ * Used in homepage interactive carousel
+ */
+export const carouselProducts: CarouselProduct[] = [
+  {
+    id: 1,
+    category: "JARVIS AGENT",
+    tabTitle: "JARVIS Agent",
+    title: "Domain-specific AI for Construction Stakeholders",
+    bigText: "Agent",
+    meta: ["AI Assistant", "Invoice Scanning", "Tender Parsing"],
+    description: "Automates invoice scanning, tender parsing & scoring, and form-filling via email agent.",
+    imageUrl: "/videos/Agent.mp4",
+    href: "/jarvis-agent",
+  },
+  {
+    id: 2,
+    category: "JARVIS PAY",
+    tabTitle: "JARVIS Pay",
+    title: "Digital Twin for Payment Certification",
+    bigText: "Pay",
+    meta: ["SOPL Compliant", "Working Capital", "Investor Visibility"],
+    description: "60-day SOPL-compliant certification enabling better working-capital rates.",
+    imageUrl: "/videos/pay.mp4",
+    href: "/jarvis-pay",
+  },
+  {
+    id: 3,
+    category: "JARVIS AIR",
+    tabTitle: "JARVIS Air",
+    title: "Generative Design with 500K+ Templates",
+    bigText: "Air",
+    meta: ["Stable Diffusion", "Video Walkthroughs", "Prototyping"],
+    description: "Instant visuals, video walkthroughs, and scenario prototyping powered by AI.",
+    imageUrl: "/videos/Air.mp4",
+    href: "/jarvis-air",
+  },
+  {
+    id: 4,
+    category: "JARVIS EAGLE EYE",
+    tabTitle: "Eagle Eye",
+    title: "Real-time Digital Twin with IoT Integration",
+    bigText: "Eagle Eye",
+    meta: ["IoT Sensors", "360° Capture", "Anomaly Detection"],
+    description: "Remote monitoring, anomaly detection, and compliance assurance in real-time.",
+    imageUrl: "/videos/Eagle Eye.mp4",
+    href: "/jarvis-eagle-eye",
+  },
+  {
+    id: 5,
+    category: "JARVIS SSSS",
+    tabTitle: "JARVIS SSSS",
+    title: "Smart Site Safety System",
+    bigText: "4S",
+    meta: ["Wearables", "AI Cameras", "Instant Alerts"],
+    description: "Reduces incidents through proactive risk orchestration and real-time monitoring.",
+    imageUrl: "/videos/4S.mp4",
+    href: "/jarvis-ssss",
+  },
+  {
+    id: 6,
+    category: "JARVIS DWSS",
+    tabTitle: "JARVIS DWSS",
+    title: "Digital Works Supervision System",
+    bigText: "DWSS",
+    meta: ["Secure Submission", "Automated Checks", "Audit Trails"],
+    description: "Digital Works Supervision portal with secure submission and automated checks for faster approvals.",
+    imageUrl: "/videos/dwss.mp4",
+    href: "/jarvis-dwss",
+  },
+  {
+    id: 7,
+    category: "JARVIS CDCP",
+    tabTitle: "JARVIS CDCP",
+    title: "Common Data Collaboration Platform",
+    bigText: "CDCP",
+    meta: ["Interoperable BIM", "Version Control", "Conflict Resolution"],
+    description: "Interoperable BIM hub for version control and conflict resolution.",
+    imageUrl: "/videos/CDCP.mp4",
+    href: "/jarvis-cdcp",
+  },
+  {
+    id: 8,
+    category: "JARVIS ASSETS",
+    tabTitle: "JARVIS Assets",
+    title: "Digital Twin + AI Facility Management",
+    bigText: "Assets",
+    meta: ["Predictive Maintenance", "ESG Tracking", "Lifecycle Optimization"],
+    description: "AI-powered facility management for predictive maintenance and sustainability.",
+    imageUrl: "/videos/Assets.mp4",
+    href: "/jarvis-assets",
+  },
+];
+
+/**
+ * Simplified Product List (for basic displays)
+ * Maps carousel products to standard Product interface
+ */
+export const jarvisProducts: Product[] = carouselProducts.map((product) => ({
+  id: product.category.toLowerCase().replace(/\s+/g, "-"),
+  title: product.title,
+  description: product.description,
+  href: product.href || `/${product.category.toLowerCase().replace(/\s+/g, "-")}`,
+  category: "jarvis" as const,
+}));

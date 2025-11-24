@@ -1,108 +1,111 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { gsap } from "gsap";
+import { carouselProducts, type CarouselProduct } from "@/data/products";
+import * as m from "@/paraglide/messages";
 
 // --- 常數定義 ---
 const AUTOPLAY_DURATION = 5000; // 5 seconds per slide
 
-// --- 數據結構 ---
-interface SlideData {
-  id: number;
-  category: string;
-  tabTitle: string;
-  title: string;
-  bigText: string;
-  meta: string[];
-  description: string;
-  imageUrl: string;
-}
+/**
+ * Get translated product data by product ID
+ * Maps product IDs to their corresponding i18n message keys
+ */
+const getTranslatedProduct = (product: CarouselProduct): CarouselProduct => {
+  const productKey = product.id;
 
-const SLIDES: SlideData[] = [
-  {
-    id: 1,
-    category: "JARVIS AGENT",
-    tabTitle: "JARVIS Agent",
-    title: "Domain-specific AI for Construction Stakeholders",
-    bigText: "Agent",
-    meta: ["AI Assistant", "Invoice Scanning", "Tender Parsing"],
-    description: "Automates invoice scanning, tender parsing & scoring, and form-filling via email agent.",
-    imageUrl: "/videos/Agent.mp4",
-  },
-  {
-    id: 2,
-    category: "JARVIS PAY",
-    tabTitle: "JARVIS Pay",
-    title: "Digital Twin for Payment Certification",
-    bigText: "Pay",
-    meta: ["SOPL Compliant", "Working Capital", "Investor Visibility"],
-    description: "60-day SOPL-compliant certification enabling better working-capital rates.",
-    imageUrl: "/videos/pay.mp4",
-  },
-  {
-    id: 3,
-    category: "JARVIS AIR",
-    tabTitle: "JARVIS Air",
-    title: "Generative Design with 500K+ Templates",
-    bigText: "Air",
-    meta: ["Stable Diffusion", "Video Walkthroughs", "Prototyping"],
-    description: "Instant visuals, video walkthroughs, and scenario prototyping powered by AI.",
-    imageUrl: "/videos/Air.mp4",
-  },
-  {
-    id: 4,
-    category: "JARVIS EAGLE EYE",
-    tabTitle: "Eagle Eye",
-    title: "Real-time Digital Twin with IoT Integration",
-    bigText: "Eagle Eye",
-    meta: ["IoT Sensors", "360° Capture", "Anomaly Detection"],
-    description: "Remote monitoring, anomaly detection, and compliance assurance in real-time.",
-    imageUrl: "/videos/Eagle Eye.mp4",
-  },
-  {
-    id: 5,
-    category: "JARVIS SSSS",
-    tabTitle: "JARVIS SSSS",
-    title: "Smart Site Safety System",
-    bigText: "4S",
-    meta: ["Wearables", "AI Cameras", "Instant Alerts"],
-    description: "Reduces incidents through proactive risk orchestration and real-time monitoring.",
-    imageUrl: "/videos/4S.mp4",
-  },
-  {
-    id: 6,
-    category: "JARVIS DWSS",
-    tabTitle: "JARVIS DWSS",
-    title: "Digital Works Supervision System",
-    bigText: "DWSS",
-    meta: ["Secure Submission", "Automated Checks", "Audit Trails"],
-    description: "Digital Works Supervision portal with secure submission and automated checks for faster approvals.",
-    imageUrl: "/videos/dwss.mp4",
-  },
-  {
-    id: 7,
-    category: "JARVIS CDCP",
-    tabTitle: "JARVIS CDCP",
-    title: "Common Data Collaboration Platform",
-    bigText: "CDCP",
-    meta: ["Interoperable BIM", "Version Control", "Conflict Resolution"],
-    description: "Interoperable BIM hub for version control and conflict resolution.",
-    imageUrl: "/videos/CDCP.mp4",
-  },
-  {
-    id: 8,
-    category: "JARVIS ASSETS",
-    tabTitle: "JARVIS Assets",
-    title: "Digital Twin + AI Facility Management",
-    bigText: "Assets",
-    meta: ["Predictive Maintenance", "ESG Tracking", "Lifecycle Optimization"],
-    description: "AI-powered facility management for predictive maintenance and sustainability.",
-    imageUrl: "/videos/Assets.mp4",
-  },
-];
+  // Mapping for i18n keys based on product ID
+  const i18nMap: Record<number, {
+    category: () => string;
+    tab: () => string;
+    title: () => string;
+    bigtext: () => string;
+    meta: [() => string, () => string, () => string];
+    description: () => string;
+  }> = {
+    1: {
+      category: m.product_agent_category,
+      tab: m.product_agent_tab,
+      title: m.product_agent_title,
+      bigtext: m.product_agent_bigtext,
+      meta: [m.product_agent_meta_1, m.product_agent_meta_2, m.product_agent_meta_3],
+      description: m.product_agent_description,
+    },
+    2: {
+      category: m.product_pay_category,
+      tab: m.product_pay_tab,
+      title: m.product_pay_title,
+      bigtext: m.product_pay_bigtext,
+      meta: [m.product_pay_meta_1, m.product_pay_meta_2, m.product_pay_meta_3],
+      description: m.product_pay_description,
+    },
+    3: {
+      category: m.product_air_category,
+      tab: m.product_air_tab,
+      title: m.product_air_title,
+      bigtext: m.product_air_bigtext,
+      meta: [m.product_air_meta_1, m.product_air_meta_2, m.product_air_meta_3],
+      description: m.product_air_description,
+    },
+    4: {
+      category: m.product_eagleeye_category,
+      tab: m.product_eagleeye_tab,
+      title: m.product_eagleeye_title,
+      bigtext: m.product_eagleeye_bigtext,
+      meta: [m.product_eagleeye_meta_1, m.product_eagleeye_meta_2, m.product_eagleeye_meta_3],
+      description: m.product_eagleeye_description,
+    },
+    5: {
+      category: m.product_ssss_category,
+      tab: m.product_ssss_tab,
+      title: m.product_ssss_title,
+      bigtext: m.product_ssss_bigtext,
+      meta: [m.product_ssss_meta_1, m.product_ssss_meta_2, m.product_ssss_meta_3],
+      description: m.product_ssss_description,
+    },
+    6: {
+      category: m.product_dwss_category,
+      tab: m.product_dwss_tab,
+      title: m.product_dwss_title,
+      bigtext: m.product_dwss_bigtext,
+      meta: [m.product_dwss_meta_1, m.product_dwss_meta_2, m.product_dwss_meta_3],
+      description: m.product_dwss_description,
+    },
+    7: {
+      category: m.product_cdcp_category,
+      tab: m.product_cdcp_tab,
+      title: m.product_cdcp_title,
+      bigtext: m.product_cdcp_bigtext,
+      meta: [m.product_cdcp_meta_1, m.product_cdcp_meta_2, m.product_cdcp_meta_3],
+      description: m.product_cdcp_description,
+    },
+    8: {
+      category: m.product_assets_category,
+      tab: m.product_assets_tab,
+      title: m.product_assets_title,
+      bigtext: m.product_assets_bigtext,
+      meta: [m.product_assets_meta_1, m.product_assets_meta_2, m.product_assets_meta_3],
+      description: m.product_assets_description,
+    },
+  };
+
+  const translations = i18nMap[productKey];
+  if (!translations) return product;
+
+  return {
+    ...product,
+    category: translations.category(),
+    tabTitle: translations.tab(),
+    title: translations.title(),
+    bigText: translations.bigtext(),
+    meta: translations.meta.map(fn => fn()),
+    description: translations.description(),
+  };
+};
 
 // --- 卡片動畫狀態 ---
 const cardVariants = {
@@ -143,6 +146,12 @@ export function InteractiveCarousel() {
   const [page, setPage] = useState(0);
   const [hovered, setHovered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Get translated product data using i18n messages
+  const SLIDES = useMemo(() =>
+    carouselProducts.map(getTranslatedProduct),
+    []
+  );
 
   // Velocity-based parallax animation using GSAP
   useEffect(() => {
