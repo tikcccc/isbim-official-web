@@ -32,7 +32,7 @@ function MyComponent() {
 }
 ```
 - ALWAYS use `useLocalizedHref()` hook
-- Import from `@/lib/i18n/index` (NOT `@/lib/i18n`)
+- Import from `@/lib/i18n/index` (NOT `@/lib/i18n` server middleware file)
 - NEVER call `languageTag()` directly - use `useLocale()` instead
 
 **Server Components (Pages/SEO):**
@@ -63,6 +63,7 @@ export async function generateMetadata({ params }) {
 - Do **NOT** use v2 APIs (`getLocale`, `locales`, `baseLocale`)
 - Keep flat `app/` structure; do **NOT** create `[locale]` folders
 - NEVER handcraft locale prefixes like `/${locale}/path`
+- Client imports: prefer `@/lib/i18n/index` for hooks/helpers; `@/lib/i18n` is reserved for middleware/navigation exports.
 
 ## 2) Design Tokens & Animations
 - Central tokens: `src/lib/design-tokens.ts` (colors, spacing, radius, shadows, z-index, typography, animation duration/easing/stagger/spring).

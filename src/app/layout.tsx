@@ -54,11 +54,9 @@ export default async function RootLayout({
       <html
         lang={locale}
         className={`${allianceNo1.variable} ${allianceNo2.variable}`}
-        suppressHydrationWarning
       >
         <body
           className="antialiased bg-zinc-100 text-zinc-900 footer-alliance-font"
-          suppressHydrationWarning
         >
           <LocaleProvider locale={locale}>
             <AppProviders>

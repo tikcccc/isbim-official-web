@@ -9,6 +9,8 @@ import { LocaleSwitcher } from "./locale-switcher";
 import { MenuOverlay } from "./menu-overlay";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
+import { useLocalizedHref } from "@/lib/i18n/index";
+import { ROUTES } from "@/lib/constants";
 
 /**
  * Topbar Component
@@ -23,6 +25,7 @@ import { TypewriterText } from "@/components/ui/typewriter-text";
 
 export function Topbar() {
   const { isOpen, openMenu, closeMenu } = useMenuStore();
+  const { buildHref } = useLocalizedHref();
 
   return (
     <>
@@ -39,7 +42,7 @@ export function Topbar() {
       >
         {/* Logo */}
         <Link
-          href="/"
+          href={buildHref(ROUTES.HOME)}
           className="flex items-center hover:opacity-80 transition-opacity"
           onClick={isOpen ? closeMenu : undefined}
         >
@@ -56,20 +59,20 @@ export function Topbar() {
         {/* Right side buttons */}
         <div className="flex items-center space-x-4">
           {/* Get Started button - hidden on mobile */}
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`hidden sm:block px-4 py-2 text-sm font-medium rounded-lg transition-colors
-              ${
-                isOpen
-                  ? "bg-white/10 text-white border border-white/20 hover:bg-white/20"
-                  : "bg-white text-black hover:bg-zinc-200"
-              }`}
-            onClick={isOpen ? closeMenu : undefined}
-          >
-            {m.topbar_get_started()}
-          </motion.a>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden sm:block">
+            <Link
+              href={buildHref(ROUTES.CONTACT)}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                ${
+                  isOpen
+                    ? "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                    : "bg-white text-black hover:bg-zinc-200"
+                }`}
+              onClick={isOpen ? closeMenu : undefined}
+            >
+              {m.topbar_get_started()}
+            </Link>
+          </motion.div>
 
           {/* Locale Switcher - hidden when menu is open */}
           {!isOpen && <LocaleSwitcher />}

@@ -11,7 +11,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useLocalizedHref } from "@/lib/i18n/route-builder";
+import { useLocalizedHref } from "@/lib/i18n/index";
+import { ROUTES } from "@/lib/constants";
 import * as m from "@/paraglide/messages";
 
 /**
@@ -62,25 +63,25 @@ export function Footer() {
 
   // --- 導航連結數據 ---
   const productLinks = [
-    { name: "JARVIS Agent", href: "/products/agent" },
-    { name: "JARVIS Pay", href: "/products/pay" },
-    { name: "JARVIS Air", href: "/products/air" },
-    { name: "JARVIS Eagle Eye", href: "/products/eagle-eye" },
-    { name: "JARVIS SSSS", href: "/products/ssss" },
-    { name: "JARVIS DWSS", href: "/jarvis-dwss" },
-    { name: "JARVIS CDCP", href: "/jarvis-cdcp" },
-    { name: "JARVIS Assets", href: "/products/assets" },
+    { name: "JARVIS Agent", href: ROUTES.JARVIS.AGENT },
+    { name: "JARVIS Pay", href: ROUTES.JARVIS.PAY },
+    { name: "JARVIS Air", href: ROUTES.JARVIS.AIR },
+    { name: "JARVIS Eagle Eye", href: ROUTES.JARVIS.EAGLE_EYE },
+    { name: "JARVIS SSSS", href: ROUTES.JARVIS.SSSS },
+    { name: "JARVIS DWSS", href: ROUTES.JARVIS.DWSS },
+    { name: "JARVIS CDCP", href: ROUTES.JARVIS.CDCP },
+    { name: "JARVIS Assets", href: ROUTES.JARVIS.ASSETS },
   ];
 
   const companyLinks = [
-    { name: "JARVIS Project Management (JPM)", href: "/jarvis-jpm" },
-    { name: "BIM Consultancy", href: "/bim-consultancy" },
-    { name: "Project Finance", href: "/project-finance" },
-    { name: "Venture Investments", href: "/venture-investments" },
-    { name: "About Us", href: "/about-us" },
-    { name: "Newsroom", href: "/newsroom" },
-    { name: "Careers", href: "/careers" },
-    { name: "Contact Us", href: "/contact" },
+    { name: "JARVIS Project Management (JPM)", href: ROUTES.JARVIS.JPM },
+    { name: "BIM Consultancy", href: ROUTES.BIM_CONSULTANCY },
+    { name: "Project Finance", href: ROUTES.PROJECT_FINANCE },
+    { name: "Venture Investments", href: ROUTES.VENTURE_INVESTMENTS },
+    { name: "About Us", href: ROUTES.ABOUT },
+    { name: "Newsroom", href: ROUTES.NEWSROOM },
+    { name: "Careers", href: ROUTES.CAREERS },
+    { name: "Contact Us", href: ROUTES.CONTACT },
   ];
 
   const socialIcons = [
@@ -97,7 +98,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Column 1: Brand & Vision */}
           <div className="flex flex-col space-y-7 lg:space-y-8">
-            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Link href={buildHref(ROUTES.HOME)} className="flex items-center hover:opacity-80 transition-opacity">
               {/* Logo SVG */}
               <Image
                 src="/icons/isbim_black.svg"

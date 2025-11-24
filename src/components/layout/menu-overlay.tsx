@@ -6,13 +6,14 @@ import Link from "next/link";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { useBodyScrollLock } from "@/hooks";
-import { useLocalizedHref } from "@/lib/i18n/route-builder";
+import { useLocalizedHref } from "@/lib/i18n/index";
+import { ROUTES } from "@/lib/constants";
 import * as m from "@/paraglide/messages";
 
 // --- Helper function to get menu data with i18n ---
 const getMenuData = () => ({
   structure: [
-    { title: m.menu_nav_about(), href: "/about-us", type: "link" as const },
+    { title: m.menu_nav_about(), href: ROUTES.ABOUT, type: "link" as const },
     {
       title: m.menu_nav_services(),
       type: "group" as const,
@@ -21,16 +22,17 @@ const getMenuData = () => ({
           title: m.menu_nav_jarvis_suite(),
           action: "jarvis_suite",
           isHighlight: true,
+          href: ROUTES.JARVIS.SUITE,
         },
-        { title: m.menu_nav_jpm(), href: "/jarvis-jpm" },
-        { title: m.menu_nav_bim(), href: "/bim-consultancy" },
-        { title: m.menu_nav_finance(), href: "/project-finance" },
-        { title: m.menu_nav_venture(), href: "/venture-investments" },
+        { title: m.menu_nav_jpm(), href: ROUTES.JARVIS.JPM },
+        { title: m.menu_nav_bim(), href: ROUTES.BIM_CONSULTANCY },
+        { title: m.menu_nav_finance(), href: ROUTES.PROJECT_FINANCE },
+        { title: m.menu_nav_venture(), href: ROUTES.VENTURE_INVESTMENTS },
       ],
     },
-    { title: m.menu_nav_newsroom(), href: "/newsroom", type: "link" as const },
-    { title: m.menu_nav_careers(), href: "/careers", type: "link" as const },
-    { title: m.menu_nav_contact(), href: "/contact", type: "link" as const },
+    { title: m.menu_nav_newsroom(), href: ROUTES.NEWSROOM, type: "link" as const },
+    { title: m.menu_nav_careers(), href: ROUTES.CAREERS, type: "link" as const },
+    { title: m.menu_nav_contact(), href: ROUTES.CONTACT, type: "link" as const },
   ],
   jarvisProducts: [
     { name: m.menu_product_agent_name(), desc: m.menu_product_agent_desc() },
@@ -163,7 +165,7 @@ export function MenuOverlay() {
                       {/* Top Level Item */}
                       {item.type === "link" ? (
                         <Link
-                          href={buildHref(item.href || "#")}
+                          href={buildHref(item.href)}
                           onClick={closeMenu}
                           className="group flex items-center gap-4 cursor-pointer"
                         >
@@ -272,8 +274,9 @@ export function MenuOverlay() {
                 transition={{ delay: 0.8 }}
               >
                 <div className="flex flex-col gap-3">
-                  <a
-                    href="#"
+                  <Link
+                    href={buildHref("/terms")}
+                    onClick={closeMenu}
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
@@ -281,9 +284,10 @@ export function MenuOverlay() {
                       className="text-sm"
                       delay={1.0}
                     />
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    href={buildHref("/privacy")}
+                    onClick={closeMenu}
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
@@ -291,7 +295,7 @@ export function MenuOverlay() {
                       className="text-sm"
                       delay={1.1}
                     />
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
             </div>

@@ -2,12 +2,15 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useMenuStore } from '@/stores/menu-store';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as m from '@/paraglide/messages';
 import { useSmoothScrollTo } from '@/hooks';
+import { useLocalizedHref } from '@/lib/i18n/index';
+import { ROUTES } from '@/lib/constants';
 
 /**
  * About Us Page
@@ -51,8 +54,8 @@ const TechDivider = ({ className }: { className?: string }) => (
 );
 
 // ArrowLink: Link with arrow and underline animation
-const ArrowLink = ({ label, href = "#" }: { label: string; href?: string }) => (
-  <a href={href} className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
+const ArrowLink = ({ label, href }: { label: string; href: string }) => (
+  <Link href={href} className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
     <div className="flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-neutral-900">
       {label}
       <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
@@ -60,7 +63,7 @@ const ArrowLink = ({ label, href = "#" }: { label: string; href?: string }) => (
     <div className="w-full h-[1px] bg-neutral-300 relative overflow-hidden">
        <div className="absolute inset-0 bg-blue-600 transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out"></div>
     </div>
-  </a>
+  </Link>
 );
 
 // RevealTitle: Cinematic blur reveal title
@@ -118,10 +121,12 @@ const FeatureRow = ({
   title,
   content,
   linkLabel,
+  href,
 }: {
   title: string;
   content: string;
   linkLabel: string;
+  href: string;
 }) => (
   <div className="group py-16 border-t border-neutral-200 first:border-t-0 hover:bg-neutral-100/50 transition-colors duration-500 px-6 -mx-6 rounded-sm">
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
@@ -137,7 +142,7 @@ const FeatureRow = ({
           {content}
         </p>
         <div>
-           <ArrowLink label={linkLabel} />
+           <ArrowLink label={linkLabel} href={href} />
         </div>
       </div>
     </div>
@@ -361,6 +366,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 // --- 3. Page Entry Point ---
 export default function AboutPage() {
   const { closeMenu } = useMenuStore();
+  const { buildHref } = useLocalizedHref();
 
   useEffect(() => {
     // Close menu when navigating to this page
@@ -407,21 +413,25 @@ export default function AboutPage() {
             title={m.about_section2_feature1_title()}
             content={m.about_section2_feature1_content()}
             linkLabel={m.about_section2_feature1_link()}
+            href={buildHref(ROUTES.SERVICES_PRODUCTS)}
           />
           <FeatureRow
             title={m.about_section2_feature2_title()}
             content={m.about_section2_feature2_content()}
             linkLabel={m.about_section2_feature2_link()}
+            href={buildHref(ROUTES.BIM_CONSULTANCY)}
           />
           <FeatureRow
             title={m.about_section2_feature3_title()}
             content={m.about_section2_feature3_content()}
             linkLabel={m.about_section2_feature3_link()}
+            href={buildHref(ROUTES.PROJECT_FINANCE)}
           />
           <FeatureRow
             title={m.about_section2_feature4_title()}
             content={m.about_section2_feature4_content()}
             linkLabel={m.about_section2_feature4_link()}
+            href={buildHref(ROUTES.CONTACT)}
           />
         </div>
       </Section>
@@ -461,10 +471,13 @@ export default function AboutPage() {
           </p>
 
           <div className="pt-4">
-            <button className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl">
+            <Link
+              href={buildHref(ROUTES.CONTACT)}
+              className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl inline-block"
+            >
               <span className="relative z-10 group-hover:tracking-wider transition-all duration-300">{m.about_cta_button()}</span>
               <div className="absolute inset-0 bg-neutral-900 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
