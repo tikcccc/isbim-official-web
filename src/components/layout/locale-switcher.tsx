@@ -1,7 +1,8 @@
 "use client";
 
+import { useLocale } from "@/lib/i18n/index";
 import { useRouter, usePathname } from "@/lib/i18n";
-import { languageTag, availableLanguageTags, type AvailableLanguageTag } from "@/paraglide/runtime";
+import { availableLanguageTags, type AvailableLanguageTag } from "@/paraglide/runtime";
 import { motion } from "framer-motion";
 
 /**
@@ -9,6 +10,7 @@ import { motion } from "framer-motion";
  *
  * Minimalist professional language switcher for EN/ZH
  * Uses localized navigation APIs from @inlang/paraglide-next
+ * Uses LocaleContext to get current locale (Level 3 implementation)
  */
 
 const localeLabels: Record<AvailableLanguageTag, string> = {
@@ -19,7 +21,7 @@ const localeLabels: Record<AvailableLanguageTag, string> = {
 export function LocaleSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
-  const currentLocale = languageTag();
+  const currentLocale = useLocale(); // Use Context instead of languageTag()
 
   const switchLocale = (newLocale: AvailableLanguageTag) => {
     if (newLocale === currentLocale) return;

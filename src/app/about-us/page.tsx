@@ -7,6 +7,7 @@ import { useMenuStore } from '@/stores/menu-store';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as m from '@/paraglide/messages';
+import { useSmoothScrollTo } from '@/hooks';
 
 /**
  * About Us Page
@@ -146,9 +147,10 @@ const FeatureRow = ({
 // StickyNav: Navigation component
 const StickyNav = () => {
   const activeSection = useNavStore((state) => state.activeSection);
+  const scrollTo = useSmoothScrollTo();
 
   const handleScrollTo = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+    scrollTo(id, { offset: 0, duration: 1.2 });
   };
 
   useEffect(() => {

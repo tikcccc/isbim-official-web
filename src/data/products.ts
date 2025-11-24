@@ -31,6 +31,7 @@
  */
 
 import { Product } from "@/lib/types";
+import { JARVIS_VIDEOS } from "@/lib/media-config";
 
 /**
  * Extended Product Interface for Carousel
@@ -50,7 +51,8 @@ export interface CarouselProduct {
 
 /**
  * JARVIS Products - Full carousel data
- * Used in homepage interactive carousel
+ * Now using centralized media configuration for flexible asset management.
+ * Videos can be easily switched between local and remote CDN by setting NEXT_PUBLIC_MEDIA_URL.
  */
 export const carouselProducts: CarouselProduct[] = [
   {
@@ -61,7 +63,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "Agent",
     meta: ["AI Assistant", "Invoice Scanning", "Tender Parsing"],
     description: "Automates invoice scanning, tender parsing & scoring, and form-filling via email agent.",
-    imageUrl: "/videos/Agent.mp4",
+    imageUrl: JARVIS_VIDEOS.agent, // Uses media-config
     href: "/jarvis-agent",
   },
   {
@@ -72,7 +74,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "Pay",
     meta: ["SOPL Compliant", "Working Capital", "Investor Visibility"],
     description: "60-day SOPL-compliant certification enabling better working-capital rates.",
-    imageUrl: "/videos/pay.mp4",
+    imageUrl: JARVIS_VIDEOS.pay, // Uses media-config
     href: "/jarvis-pay",
   },
   {
@@ -83,7 +85,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "Air",
     meta: ["Stable Diffusion", "Video Walkthroughs", "Prototyping"],
     description: "Instant visuals, video walkthroughs, and scenario prototyping powered by AI.",
-    imageUrl: "/videos/Air.mp4",
+    imageUrl: JARVIS_VIDEOS.air, // Uses media-config
     href: "/jarvis-air",
   },
   {
@@ -94,7 +96,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "Eagle Eye",
     meta: ["IoT Sensors", "360° Capture", "Anomaly Detection"],
     description: "Remote monitoring, anomaly detection, and compliance assurance in real-time.",
-    imageUrl: "/videos/Eagle Eye.mp4",
+    imageUrl: JARVIS_VIDEOS.eagleEye, // Uses media-config
     href: "/jarvis-eagle-eye",
   },
   {
@@ -105,7 +107,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "4S",
     meta: ["Wearables", "AI Cameras", "Instant Alerts"],
     description: "Reduces incidents through proactive risk orchestration and real-time monitoring.",
-    imageUrl: "/videos/4S.mp4",
+    imageUrl: JARVIS_VIDEOS.ssss, // Uses media-config
     href: "/jarvis-ssss",
   },
   {
@@ -116,7 +118,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "DWSS",
     meta: ["Secure Submission", "Automated Checks", "Audit Trails"],
     description: "Digital Works Supervision portal with secure submission and automated checks for faster approvals.",
-    imageUrl: "/videos/dwss.mp4",
+    imageUrl: JARVIS_VIDEOS.dwss, // Uses media-config
     href: "/jarvis-dwss",
   },
   {
@@ -127,7 +129,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "CDCP",
     meta: ["Interoperable BIM", "Version Control", "Conflict Resolution"],
     description: "Interoperable BIM hub for version control and conflict resolution.",
-    imageUrl: "/videos/CDCP.mp4",
+    imageUrl: JARVIS_VIDEOS.cdcp, // Uses media-config
     href: "/jarvis-cdcp",
   },
   {
@@ -138,7 +140,7 @@ export const carouselProducts: CarouselProduct[] = [
     bigText: "Assets",
     meta: ["Predictive Maintenance", "ESG Tracking", "Lifecycle Optimization"],
     description: "AI-powered facility management for predictive maintenance and sustainability.",
-    imageUrl: "/videos/Assets.mp4",
+    imageUrl: JARVIS_VIDEOS.assets, // Uses media-config
     href: "/jarvis-assets",
   },
 ];

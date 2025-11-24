@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CornerDownRight } from "lucide-react";
 import Link from "next/link";
 import { useMenuStore } from "@/stores/menu-store";
-import { languageTag } from "@/paraglide/runtime";
 import { TypewriterText } from "@/components/ui/typewriter-text";
+import { useBodyScrollLock } from "@/hooks";
+import { useLocalizedHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
 // --- Helper function to get menu data with i18n ---
@@ -63,7 +63,7 @@ const overlayVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
   },
   exit: { opacity: 0, transition: { duration: 0.3 } },
 };
@@ -85,7 +85,7 @@ const fadeInUp = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
+    transition: { duration: 0.5, ease: "easeOut" as const },
   },
 };
 
@@ -96,8 +96,8 @@ const panelVariants = {
     x: 0,
     transition: {
       duration: 0.4,
-      ease: "easeOut",
-      when: "beforeChildren",
+      ease: "easeOut" as const,
+      when: "beforeChildren" as const,
       staggerChildren: 0.1,
     },
   },
@@ -114,27 +114,15 @@ const panelVariants = {
  * - Dynamic content preview on hover
  * - Nested navigation structure
  * - Grid texture background
+ * - Type-safe routing with automatic locale handling
  */
 export function MenuOverlay() {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
-  const locale = languageTag();
+  const { buildHref } = useLocalizedHref();
   const menuData = getMenuData();
-  const buildHref = (href?: string) => {
-    if (!href) return "#";
-    if (href.startsWith(`/${locale}`)) return href;
-    return href.startsWith("/") ? `/${locale}${href}` : `/${locale}/${href}`;
-  };
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
+  // Lock body scroll when menu is open
+  useBodyScrollLock(isOpen);
 
   return (
     <AnimatePresence>
@@ -175,7 +163,7 @@ export function MenuOverlay() {
                       {/* Top Level Item */}
                       {item.type === "link" ? (
                         <Link
-                          href={buildHref(item.href)}
+                          href={buildHref(item.href || "#")}
                           onClick={closeMenu}
                           className="group flex items-center gap-4 cursor-pointer"
                         >

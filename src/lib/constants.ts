@@ -7,20 +7,300 @@
  * - 包含JARVIS產品、服務、導航等配置常量
  * - 避免硬編碼字符串，方便統一管理和修改
  *
- * 使用場景：
- * - 在導航組件中引用路由
- * - 在Link組件中使用路徑
- * - 在頁面間跳轉時引用
+ * Usage:
+ * ```tsx
+ * import { ROUTES, JARVIS_PRODUCTS } from "@/lib/constants";
  *
- * 將包含：
- * - ROUTES: 所有頁面路由對象
- * - JARVIS_PRODUCT_IDS: JARVIS產品ID列表
- * - BREAKPOINTS: 響應式斷點配置
- * - ANIMATION_DURATIONS: 動畫時長常量
- * - SITE_CONFIG: 網站基本配置（標題、描述等）
+ * <Link href={ROUTES.JARVIS.AGENT}>JARVIS Agent</Link>
+ * ```
  */
 
-// TODO: 添加所有路由常量
-// TODO: 添加產品ID常量
-// TODO: 添加響應式斷點
-// TODO: 添加動畫配置常量
+/**
+ * Application Routes
+ * All page paths used in the application.
+ */
+export const ROUTES = {
+  /** Home page */
+  HOME: "/",
+
+  /** About Us page */
+  ABOUT: "/about-us",
+
+  /** Services & Products overview */
+  SERVICES_PRODUCTS: "/services-products",
+
+  /** JARVIS AI Suite pages */
+  JARVIS: {
+    /** JARVIS AI Suite overview */
+    SUITE: "/jarvis-ai-suite",
+    /** JARVIS Agent - AI Assistant */
+    AGENT: "/jarvis-agent",
+    /** JARVIS Pay - Payment System */
+    PAY: "/jarvis-pay",
+    /** JARVIS Air - Air Quality Monitoring */
+    AIR: "/jarvis-air",
+    /** JARVIS Eagle Eye - Safety Monitoring */
+    EAGLE_EYE: "/jarvis-eagle-eye",
+    /** JARVIS SSSS - Smart Safety System */
+    SSSS: "/jarvis-ssss",
+    /** JARVIS DWSS - Digital Work Site System */
+    DWSS: "/jarvis-dwss",
+    /** JARVIS CDCP - Carbon Data Collection Platform */
+    CDCP: "/jarvis-cdcp",
+    /** JARVIS Assets - Asset Management */
+    ASSETS: "/jarvis-assets",
+    /** JARVIS JPM - Project Management */
+    JPM: "/jarvis-jpm",
+  },
+
+  /** BIM Consultancy Services */
+  BIM_CONSULTANCY: "/bim-consultancy",
+
+  /** Project Finance */
+  PROJECT_FINANCE: "/project-finance",
+
+  /** Venture Investments */
+  VENTURE_INVESTMENTS: "/venture-investments",
+
+  /** Newsroom */
+  NEWSROOM: "/newsroom",
+
+  /** Careers */
+  CAREERS: "/careers",
+
+  /** Contact Us */
+  CONTACT: "/contact",
+} as const;
+
+/**
+ * JARVIS Product IDs
+ * Numeric identifiers for each JARVIS product.
+ */
+export const JARVIS_PRODUCT_IDS = {
+  AGENT: 1,
+  PAY: 2,
+  AIR: 3,
+  EAGLE_EYE: 4,
+  SSSS: 5,
+  DWSS: 6,
+  CDCP: 7,
+  ASSETS: 8,
+} as const;
+
+/**
+ * JARVIS Products Configuration
+ * Maps product IDs to their routes and slugs.
+ */
+export const JARVIS_PRODUCTS = [
+  { id: JARVIS_PRODUCT_IDS.AGENT, slug: "agent", route: ROUTES.JARVIS.AGENT },
+  { id: JARVIS_PRODUCT_IDS.PAY, slug: "pay", route: ROUTES.JARVIS.PAY },
+  { id: JARVIS_PRODUCT_IDS.AIR, slug: "air", route: ROUTES.JARVIS.AIR },
+  { id: JARVIS_PRODUCT_IDS.EAGLE_EYE, slug: "eagle-eye", route: ROUTES.JARVIS.EAGLE_EYE },
+  { id: JARVIS_PRODUCT_IDS.SSSS, slug: "ssss", route: ROUTES.JARVIS.SSSS },
+  { id: JARVIS_PRODUCT_IDS.DWSS, slug: "dwss", route: ROUTES.JARVIS.DWSS },
+  { id: JARVIS_PRODUCT_IDS.CDCP, slug: "cdcp", route: ROUTES.JARVIS.CDCP },
+  { id: JARVIS_PRODUCT_IDS.ASSETS, slug: "assets", route: ROUTES.JARVIS.ASSETS },
+] as const;
+
+/**
+ * Responsive Breakpoints (Tailwind CSS)
+ * Pixel values for responsive design breakpoints.
+ */
+export const BREAKPOINTS = {
+  /** Small devices (640px and up) */
+  sm: 640,
+  /** Medium devices (768px and up) */
+  md: 768,
+  /** Large devices (1024px and up) */
+  lg: 1024,
+  /** Extra large devices (1280px and up) */
+  xl: 1280,
+  /** 2X large devices (1536px and up) */
+  "2xl": 1536,
+} as const;
+
+/**
+ * Responsive Breakpoint Queries
+ * Media query strings for use with matchMedia.
+ */
+export const BREAKPOINT_QUERIES = {
+  sm: `(min-width: ${BREAKPOINTS.sm}px)`,
+  md: `(min-width: ${BREAKPOINTS.md}px)`,
+  lg: `(min-width: ${BREAKPOINTS.lg}px)`,
+  xl: `(min-width: ${BREAKPOINTS.xl}px)`,
+  "2xl": `(min-width: ${BREAKPOINTS["2xl"]}px)`,
+} as const;
+
+/**
+ * Site Configuration
+ * Basic site metadata and configuration.
+ */
+export const SITE_CONFIG = {
+  /** Site name */
+  name: "isBIM",
+  /** Site title */
+  title: "isBIM - Building Information Modeling Platform",
+  /** Site description */
+  description:
+    "isBIM provides comprehensive BIM solutions and JARVIS AI-powered construction management platform for modern infrastructure projects.",
+  /** Site URL (production) */
+  url: "https://isbim.com",
+  /** Default locale */
+  defaultLocale: "zh",
+  /** Available locales */
+  locales: ["en", "zh"],
+  /** Social media links */
+  social: {
+    linkedin: "https://linkedin.com/company/isbim",
+    twitter: "https://twitter.com/isbim",
+    facebook: "https://facebook.com/isbim",
+    youtube: "https://youtube.com/@isbim",
+  },
+  /** Contact information */
+  contact: {
+    email: "info@isbim.com",
+    phone: "+86 123 4567 8900",
+  },
+} as const;
+
+/**
+ * Service Categories
+ * Types of services offered by isBIM.
+ */
+export const SERVICE_CATEGORIES = {
+  /** JARVIS AI Suite */
+  JARVIS_SUITE: "jarvis-suite",
+  /** BIM Consultancy */
+  BIM_CONSULTANCY: "bim-consultancy",
+  /** Project Finance */
+  PROJECT_FINANCE: "project-finance",
+  /** Venture Investments */
+  VENTURE_INVESTMENTS: "venture-investments",
+} as const;
+
+/**
+ * Navigation Menu Structure IDs
+ * Used for identifying menu items and active states.
+ */
+export const NAV_IDS = {
+  HOME: "home",
+  ABOUT: "about",
+  SERVICES: "services",
+  JARVIS_SUITE: "jarvis-suite",
+  NEWSROOM: "newsroom",
+  CAREERS: "careers",
+  CONTACT: "contact",
+} as const;
+
+/**
+ * Z-Index Layers
+ * Standardized z-index values for layering.
+ */
+export const Z_INDEX = {
+  /** Below content */
+  below: -1,
+  /** Base content layer */
+  base: 0,
+  /** Dropdowns */
+  dropdown: 10,
+  /** Sticky elements */
+  sticky: 20,
+  /** Fixed elements */
+  fixed: 30,
+  /** Overlay backdrop */
+  overlay: 40,
+  /** Modal dialogs */
+  modal: 50,
+  /** Popover/Tooltip */
+  popover: 60,
+  /** Toast notifications */
+  toast: 70,
+} as const;
+
+/**
+ * API Endpoints
+ * External API endpoints (if needed).
+ */
+export const API_ENDPOINTS = {
+  /** Sanity CMS Project ID */
+  SANITY_PROJECT_ID: "4y8vgu6z",
+  /** Sanity Dataset */
+  SANITY_DATASET: "production",
+  /** Sanity API Version */
+  SANITY_API_VERSION: "2024-01-01",
+} as const;
+
+/**
+ * Form Validation Constants
+ * Common validation rules.
+ */
+export const VALIDATION = {
+  /** Email regex pattern */
+  EMAIL_REGEX: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+  /** Phone regex pattern (basic) */
+  PHONE_REGEX: /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/,
+  /** Minimum password length */
+  PASSWORD_MIN_LENGTH: 8,
+  /** Maximum text field length */
+  TEXT_MAX_LENGTH: 500,
+} as const;
+
+/**
+ * Date/Time Formats
+ * Standard date and time formatting.
+ */
+export const DATE_FORMATS = {
+  /** Short date: MM/DD/YYYY */
+  SHORT: "MM/DD/YYYY",
+  /** Long date: Month DD, YYYY */
+  LONG: "MMMM DD, YYYY",
+  /** ISO date: YYYY-MM-DD */
+  ISO: "YYYY-MM-DD",
+  /** Time: HH:MM AM/PM */
+  TIME: "hh:mm A",
+} as const;
+
+/**
+ * Carousel Configuration
+ * Settings for carousel components.
+ */
+export const CAROUSEL_CONFIG = {
+  /** Auto-play duration (ms) */
+  AUTOPLAY_DURATION: 5000,
+  /** Transition duration (ms) */
+  TRANSITION_DURATION: 600,
+  /** Number of visible slides */
+  SLIDES_TO_SHOW: 1,
+} as const;
+
+/**
+ * Feature Flags
+ * Toggle features on/off.
+ */
+export const FEATURE_FLAGS = {
+  /** Enable dark mode toggle */
+  DARK_MODE: false,
+  /** Enable search functionality */
+  SEARCH: false,
+  /** Enable chatbot */
+  CHATBOT: false,
+  /** Enable analytics */
+  ANALYTICS: true,
+} as const;
+
+export default {
+  ROUTES,
+  JARVIS_PRODUCT_IDS,
+  JARVIS_PRODUCTS,
+  BREAKPOINTS,
+  BREAKPOINT_QUERIES,
+  SITE_CONFIG,
+  SERVICE_CATEGORIES,
+  NAV_IDS,
+  Z_INDEX,
+  API_ENDPOINTS,
+  VALIDATION,
+  DATE_FORMATS,
+  CAROUSEL_CONFIG,
+  FEATURE_FLAGS,
+};

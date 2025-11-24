@@ -4,6 +4,12 @@
  * This file centralizes all i18n routing and navigation configuration.
  * Uses PrefixStrategy for URL-based locale routing (/en/*, /zh/*)
  *
+ * IMPORTANT: This file MUST remain a Server Component because it exports
+ * middleware which runs on the server. Do NOT add "use client" here.
+ *
+ * For client-side route utilities (buildLocalizedHref, useLocalizedHref, etc.),
+ * import from "@/lib/i18n/route-builder" directly.
+ *
  * @see https://inlang.com/m/osslbuzt/paraglide-next-i18n
  */
 
@@ -39,3 +45,7 @@ export const middleware = Middleware({ strategy });
 export const { Link, useRouter, usePathname, redirect, permanentRedirect } = Navigation({
   strategy
 });
+
+// NOTE: Route builder utilities are NOT re-exported here because they use
+// languageTag() which requires "use client". Import them directly:
+// import { buildLocalizedHref, useLocalizedHref } from "@/lib/i18n/route-builder";

@@ -6,43 +6,150 @@
  * - 當元素進入視口時觸發動畫
  * - 結合useInView hook和Framer Motion
  *
- * 動畫效果：
- * - 元素在視口外時hidden
- * - 滾動到視口內時觸發動畫
- * - 支持淡入、滑入等多種動畫組合
- *
  * 使用場景：
  * - 長頁面的分段內容reveal
  * - About Us頁面的多個narrative section
  * - 產品特性列表的逐個展示
  * - 統計數字的count-up動畫觸發
  * - 圖片畫廊的漸進加載
- *
- * Props：
- * - children: ReactNode
- * - threshold?: number (可見閾值，0-1，默認0.1)
- * - triggerOnce?: boolean (是否只觸發一次，默認true)
- * - animation?: "fade" | "slide-up" | "slide-left" | "slide-right" | "scale"
- * - delay?: number (延遲，秒)
- * - duration?: number (時長，秒)
- * - className?: string
- *
- * 實現要點：
- * - 使用useInView hook檢測元素是否在視口內
- * - 根據inView狀態切換Framer Motion的animate狀態
- * - const { ref, inView } = useInView({ threshold, triggerOnce })
- * - <motion.div ref={ref} animate={inView ? "visible" : "hidden"}>
- * - 根據animation prop選擇不同的variants
- *
- * 示例用法：
- * <ScrollReveal animation="slide-up" threshold={0.2}>
- *   <StatisticsSection />
- * </ScrollReveal>
  */
 
 "use client";
 
-// TODO: 實現ScrollReveal組件
-// TODO: 使用useInView hook
-// TODO: 根據animation prop設置不同的variants
-// TODO: 結合Framer Motion實現動畫
+import { motion, Variants } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { useInView } from "@/hooks";
+import {
+  fadeIn,
+  fadeInUp,
+  fadeInDown,
+  fadeInLeft,
+  fadeInRight,
+  scaleIn,
+} from "@/lib/animation-variants";
+
+export type AnimationType =
+  | "fade"
+  | "slide-up"
+  | "slide-down"
+  | "slide-left"
+  | "slide-right"
+  | "scale";
+
+export interface ScrollRevealProps {
+  /** Content to animate */
+  children: React.ReactNode;
+  /** Animation type */
+  animation?: AnimationType;
+  /** Viewport visibility threshold (0-1) */
+  threshold?: number;
+  /** Trigger animation only once */
+  triggerOnce?: boolean;
+  /** Animation delay in seconds */
+  delay?: number;
+  /** Animation duration in seconds */
+  duration?: number;
+  /** Additional CSS classes */
+  className?: string;
+  /** Root margin for IntersectionObserver */
+  rootMargin?: string;
+}
+
+/**
+ * Get animation variants based on type
+ */
+function getAnimationVariants(
+  animation: AnimationType,
+  duration?: number,
+  delay?: number
+): Variants {
+  const baseVariants: Record<AnimationType, Variants> = {
+    fade: fadeIn,
+    "slide-up": fadeInUp,
+    "slide-down": fadeInDown,
+    "slide-left": fadeInLeft,
+    "slide-right": fadeInRight,
+    scale: scaleIn,
+  };
+
+  const variants = baseVariants[animation];
+
+  // Apply custom duration/delay if provided
+  if (duration || delay) {
+    return {
+      hidden: variants.hidden,
+      visible: {
+        ...variants.visible,
+        transition: {
+          ...(typeof variants.visible === "object" &&
+          "transition" in variants.visible
+            ? variants.visible.transition
+            : {}),
+          duration: duration ?? 0.5,
+          delay: delay ?? 0,
+        },
+      },
+    };
+  }
+
+  return variants;
+}
+
+/**
+ * ScrollReveal - Animate elements when they enter viewport
+ *
+ * @example
+ * ```tsx
+ * // Basic fade-in
+ * <ScrollReveal animation="fade">
+ *   <div>Content here</div>
+ * </ScrollReveal>
+ *
+ * // Slide up with custom settings
+ * <ScrollReveal
+ *   animation="slide-up"
+ *   threshold={0.3}
+ *   delay={0.2}
+ *   duration={0.8}
+ * >
+ *   <StatisticsSection />
+ * </ScrollReveal>
+ *
+ * // Trigger multiple times
+ * <ScrollReveal animation="scale" triggerOnce={false}>
+ *   <ProductCard />
+ * </ScrollReveal>
+ * ```
+ */
+export function ScrollReveal({
+  children,
+  animation = "fade",
+  threshold = 0.1,
+  triggerOnce = true,
+  delay,
+  duration,
+  className,
+  rootMargin,
+}: ScrollRevealProps) {
+  const { ref, inView } = useInView<HTMLDivElement>({
+    threshold,
+    triggerOnce,
+    rootMargin,
+  });
+
+  const variants = getAnimationVariants(animation, duration, delay);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={variants}
+      className={cn(className)}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default ScrollReveal;

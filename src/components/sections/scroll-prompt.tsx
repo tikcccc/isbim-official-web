@@ -9,36 +9,109 @@
  * - 所有JARVIS產品詳情頁（根據web.md）
  * - 顯示"Scroll to Explore"文字
  * - 通常放在Hero Section下方
- *
- * Props：
- * - text?: string (提示文字，默認"Scroll to Explore"，支持i18n)
- * - className?: string
- *
- * 設計要點：
- * - 居中顯示
- * - 使用斜體（italic）
- * - 配合向下箭頭圖標或鼠標滾動圖標
- * - 輕量的顏色（muted或secondary）
- * - 滾動一段距離後自動隱藏
- *
- * 動畫：
- * - 向下的bounce動畫（無限循環）
- * - 使用CSS animation或Framer Motion
- * - @keyframes bounce { ... }
- * - 滾動後淡出（使用useScrollProgress）
- *
- * 實現要點：
- * - 使用useScrollProgress監聽滾動
- * - scrollY > 100時opacity變為0
- * - 可選：添加點擊事件，平滑滾動到下一section
- *
- * 示例：
- * <ScrollPrompt text="Scroll to Explore" />
  */
 
 "use client";
 
-// TODO: 實現ScrollPrompt組件
-// TODO: 添加bounce動畫
-// TODO: 使用useScrollProgress控制顯示/隱藏
-// TODO: 可選：添加點擊滾動功能
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useScrollProgress, useSmoothScrollTo } from "@/hooks";
+
+export interface ScrollPromptProps {
+  /** Prompt text, defaults to "Scroll to Explore" */
+  text?: string;
+  /** Additional CSS classes */
+  className?: string;
+  /** Target to scroll to when clicked (CSS selector or number) */
+  scrollTarget?: string | number;
+  /** Scroll offset from target */
+  scrollOffset?: number;
+  /** Threshold (scrollY pixels) at which prompt starts to fade */
+  fadeThreshold?: number;
+}
+
+/**
+ * ScrollPrompt - Visual indicator to prompt users to scroll down
+ *
+ * @example
+ * ```tsx
+ * <ScrollPrompt text="Scroll to Explore" />
+ *
+ * // With click-to-scroll functionality
+ * <ScrollPrompt
+ *   text="Discover More"
+ *   scrollTarget="#next-section"
+ *   scrollOffset={-100}
+ * />
+ * ```
+ */
+export function ScrollPrompt({
+  text = "Scroll to Explore",
+  className,
+  scrollTarget,
+  scrollOffset = 0,
+  fadeThreshold = 100,
+}: ScrollPromptProps) {
+  const { scrollY } = useScrollProgress();
+  const scrollTo = useSmoothScrollTo();
+
+  // Calculate opacity based on scroll position
+  const opacity = Math.max(0, 1 - scrollY / fadeThreshold);
+
+  // Handle click to scroll
+  const handleClick = () => {
+    if (scrollTarget) {
+      scrollTo(scrollTarget, { offset: scrollOffset });
+    } else {
+      // Default: scroll down by one viewport height
+      scrollTo(window.innerHeight, { offset: 0 });
+    }
+  };
+
+  // Don't render if fully faded
+  if (opacity <= 0) return null;
+
+  return (
+    <motion.div
+      className={cn(
+        "flex flex-col items-center justify-center gap-2 cursor-pointer select-none",
+        className
+      )}
+      style={{ opacity }}
+      onClick={handleClick}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 1.5 }}
+      aria-label={text}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleClick();
+        }
+      }}
+    >
+      {/* Text */}
+      <span className="text-sm italic text-muted-foreground tracking-wide">
+        {text}
+      </span>
+
+      {/* Bouncing Arrow */}
+      <motion.div
+        animate={{
+          y: [0, 8, 0],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <ChevronDown className="w-5 h-5 text-muted-foreground" />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default ScrollPrompt;

@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { LanguageProvider } from "@inlang/paraglide-next";
-import { languageTag } from "@/paraglide/runtime";
-import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
-import { QueryProvider } from "@/providers/query-provider";
+import { sourceLanguageTag, setLanguageTag } from "@/paraglide/runtime";
+import type { AvailableLanguageTag } from "@/paraglide/runtime";
+import { AppProviders } from "@/providers/app-providers";
+import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { Topbar } from "@/components/layout/topbar";
 import { Footer } from "@/components/layout/footer";
+import { headers } from "next/headers";
 
 const allianceNo1 = localFont({
   variable: "--font-alliance-1",
@@ -35,15 +37,22 @@ export const metadata: Metadata = {
   description: "Construction AI Powering the Backbone of Global Economies",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Next.js 15 requires await headers() before use
+  const headersList = await headers();
+  const locale = (headersList.get("x-language-tag") ?? sourceLanguageTag) as AvailableLanguageTag;
+
+  // Tell Paraglide runtime to use this locale (prevents it from reading headers synchronously)
+  setLanguageTag(() => locale);
+
   return (
     <LanguageProvider>
       <html
-        lang={languageTag()}
+        lang={locale}
         className={`${allianceNo1.variable} ${allianceNo2.variable}`}
         suppressHydrationWarning
       >
@@ -51,13 +60,13 @@ export default function RootLayout({
           className="antialiased bg-zinc-100 text-zinc-900 footer-alliance-font"
           suppressHydrationWarning
         >
-          <QueryProvider>
-            <SmoothScrollProvider>
+          <LocaleProvider locale={locale}>
+            <AppProviders>
               <Topbar />
               {children}
-              <Footer locale={languageTag()} />
-            </SmoothScrollProvider>
-          </QueryProvider>
+              <Footer />
+            </AppProviders>
+          </LocaleProvider>
         </body>
       </html>
     </LanguageProvider>

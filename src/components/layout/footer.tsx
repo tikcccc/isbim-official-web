@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { languageTag } from "@/paraglide/runtime";
+import { useLocalizedHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
 /**
@@ -34,19 +34,10 @@ const subscriptionSchema = z.object({
 
 type SubscriptionFormValues = z.infer<typeof subscriptionSchema>;
 
-type FooterProps = {
-  locale?: string;
-};
-
-export function Footer({ locale: initialLocale }: FooterProps) {
+export function Footer() {
   // --- 狀態管理與表單初始化 (React Hook Form) ---
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const locale = initialLocale ?? languageTag();
-  const withLocale = (href: string) => {
-    if (!href) return "#";
-    if (href.startsWith(`/${locale}`)) return href;
-    return href.startsWith("/") ? `/${locale}${href}` : `/${locale}/${href}`;
-  };
+  const { buildHref } = useLocalizedHref();
 
   const {
     register,
@@ -165,7 +156,7 @@ export function Footer({ locale: initialLocale }: FooterProps) {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <Link
-                    href={withLocale(link.href)}
+                    href={buildHref(link.href)}
                     className="hover:text-foreground transition-colors block py-0.5"
                   >
                     {link.name}
@@ -188,7 +179,7 @@ export function Footer({ locale: initialLocale }: FooterProps) {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <Link
-                    href={withLocale(link.href)}
+                    href={buildHref(link.href)}
                     className="hover:text-foreground transition-colors block py-0.5"
                   >
                     {link.name}
@@ -252,13 +243,13 @@ export function Footer({ locale: initialLocale }: FooterProps) {
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground space-y-3 md:space-y-0 footer-alliance-font">
           <p>{m.footer_copyright()}</p>
           <div className="flex space-x-6">
-            <Link href={withLocale("/privacy")} className="hover:text-foreground transition-colors">
+            <Link href={buildHref("/privacy")} className="hover:text-foreground transition-colors">
               {m.footer_privacy()}
             </Link>
-            <Link href={withLocale("/terms")} className="hover:text-foreground transition-colors">
+            <Link href={buildHref("/terms")} className="hover:text-foreground transition-colors">
               {m.footer_terms()}
             </Link>
-            <Link href={withLocale("/cookies")} className="hover:text-foreground transition-colors">
+            <Link href={buildHref("/cookies")} className="hover:text-foreground transition-colors">
               {m.footer_cookies()}
             </Link>
           </div>
