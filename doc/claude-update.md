@@ -236,3 +236,39 @@ ________________________________________________________________________________
 強調單一來源管理的優勢
 🎯 實施效果
 現在修改容器寬度只需更新 globals.css 一處，全站所有使用該容器類別的組件會自動同步更新，徹底解決了寬度定義分散的問題。
+
+__________________________________________________________________________________
+menu修改;
+
+統一滾動 + 平滑效果。
+📋 修改總結
+1. 架構變更
+外層容器滾動：移除了左右欄的獨立 overflow-y: auto，改為外層 motion.div 滾動
+統一滾動上下文：左右兩欄內容同步滾動，像傳統網站一樣
+2. 平滑滾動實現
+自定義緩動函數：使用 requestAnimationFrame + ease-out 緩動（delta * 0.1）
+攔截 Lenis：在 capture 階段攔截 wheel 事件，防止 Lenis 處理
+平滑度調整：ease = delta * 0.1（數值越小越平滑，越大越快）
+3. 關鍵改動
+外層容器 (line 219-228):
+<motion.div
+  data-menu-overlay  // 用於 querySelector 定位
+  className="... overflow-y-auto"  // 外層滾動
+  style={{ WebkitOverflowScrolling: 'touch' }}  // iOS 平滑
+>
+Grid 容器 (line 234):
+<div className="... min-h-[calc(100vh-88px)]">  // 最小高度確保內容流動
+左右欄 (line 236, 373):
+<div className="...">  // 移除 overflow-y 和 inline styles
+平滑滾動邏輯 (line 154-213):
+攔截 wheel 事件
+計算目標滾動位置
+使用 RAF 實現平滑緩動
+ease-out 效果（快速開始，緩慢結束）
+
+
+
+合併 ScrollTrigger - 將導航追蹤和內容動畫合併為一個
+移除 RevealTitle 的 ScrollTrigger - 改用 Intersection Observer 或父級觸發
+用 CSS 替代 glitch 動畫 - 減少 JavaScript 執行.
+只用 transform 動畫 - 避免動畫 color 屬性

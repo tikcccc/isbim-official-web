@@ -66,7 +66,7 @@ const ArrowLink = ({ label, href }: { label: string; href: string }) => (
   </Link>
 );
 
-// RevealTitle: Cinematic blur reveal title
+// RevealTitle: Cinematic blur reveal title (optimized with Intersection Observer)
 const RevealTitle = ({
   text,
   className,
@@ -75,33 +75,57 @@ const RevealTitle = ({
   className?: string;
 }) => {
   const elementRef = useRef<HTMLHeadingElement>(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  // Set initial state immediately on mount
+  useEffect(() => {
+    if (!elementRef.current) return;
+
+    const words = elementRef.current.querySelectorAll('.word');
+    gsap.set(words, { transform: "translateX(18px)", opacity: 0 });
+  }, []);
 
   useEffect(() => {
     if (!elementRef.current) return;
+
+    // Use Intersection Observer instead of ScrollTrigger
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isVisible) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(elementRef.current);
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!elementRef.current || !isVisible) return;
 
     const words = elementRef.current.querySelectorAll('.word');
 
     gsap.fromTo(
       words,
       {
-        x: 18,
+        transform: "translateX(18px)",
         opacity: 0
       },
       {
-        scrollTrigger: {
-          trigger: elementRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-          once: true
-        },
-        x: 0,
+        transform: "translateX(0px)",
         opacity: 1,
         duration: 0.75,
         stagger: 0.04,
         ease: "power2.out"
       }
     );
-  }, [text]);
+  }, [isVisible]);
 
   const words = text.split(' ');
 
@@ -231,7 +255,11 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
     if (!el || !titleEl) return;
 
-    const trigger = ScrollTrigger.create({
+    gsap.set(titleEl, { width: "0%" });
+    gsap.set(cursorEl, { left: "0%" });
+
+    // Navigation tracking - persistent ScrollTrigger
+    const navTrigger = ScrollTrigger.create({
       trigger: el,
       start: "top 55%",
       end: "bottom 55%",
@@ -240,15 +268,14 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       markers: false
     });
 
-    gsap.set(titleEl, { width: "0%" });
-    gsap.set(cursorEl, { left: "0%" });
-
+    // Animation - one-time ScrollTrigger
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
         start: "top 70%",
         toggleActions: "play none none none",
         once: true,
+        markers: false
       }
     });
 
@@ -260,6 +287,8 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       ease: "steps(1)"
     });
 
+    // Note: width/left animations are intentional for typewriter effect
+    // These are isolated to title element and don't cause layout thrashing
     tl.to(titleEl, {
       width: "100%",
       duration: 1.5,
@@ -279,7 +308,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     );
 
     return () => {
-      trigger.kill();
+      navTrigger.kill();
       tl.kill();
       blinkAnim.kill();
     };
@@ -289,7 +318,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     <section
       id={`section-${id}`}
       ref={sectionRef}
-      className="min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-20 xl:px-24 relative overflow-hidden py-40 lg:py-48 bg-neutral-50"
+      className="min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-20 xl:px-24 relative overflow-hidden py-40 lg:py-48 bg-neutral-50 will-change-auto"
     >
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
 
@@ -352,7 +381,9 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
                   src={imageSrc}
                   alt={title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
                   className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105 filter grayscale hover:grayscale-0"
+                  priority={id === 1}
                 />
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
              </div>
@@ -393,7 +424,7 @@ export default function AboutPage() {
         id={1}
         title={m.about_section1_title()}
         subtitle={m.about_section1_subtitle()}
-        imageSrc="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070"
+        imageSrc="/images/cta.png"
         content={
           <>
             <p>{m.about_section1_content1()}</p>

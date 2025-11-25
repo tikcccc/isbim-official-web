@@ -33,6 +33,7 @@ src/components/layout/
   menu-overlay.tsx
   footer.tsx
   locale-switcher.tsx
+  page-transition.tsx   # global transition overlay; disables browser scroll restoration and uses Lenis/window smooth scroll to top on load/after transitions
 ```
 
 ### Sections (selected)

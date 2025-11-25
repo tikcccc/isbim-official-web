@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useLenis } from '@/components/smooth-scroll-provider';
 
 /**
  * InnerOverlayRunner - Page transition animation core component
@@ -138,6 +139,29 @@ interface PageTransitionProps {
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const pathname = usePathname();
     const shouldScrollTopRef = useRef(false);
+    const { lenis } = useLenis();
+
+    // On first load, disable browser scroll restoration and scroll to top smoothly
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        if ("scrollRestoration" in history) {
+            history.scrollRestoration = "manual";
+        }
+        const raf = requestAnimationFrame(() => {
+            if (lenis) {
+                lenis.scrollTo(0, { immediate: true });
+            } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        });
+
+        return () => {
+            if ("scrollRestoration" in history) {
+                history.scrollRestoration = "auto";
+            }
+            cancelAnimationFrame(raf);
+        };
+    }, [lenis]);
 
     // Mark that we should scroll to top after the exit animation completes
     useEffect(() => {
@@ -150,7 +174,11 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
             onExitComplete={() => {
                 if (shouldScrollTopRef.current) {
                     shouldScrollTopRef.current = false;
-                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    if (lenis) {
+                        lenis.scrollTo(0, { immediate: false });
+                    } else {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
                 }
             }}
         >
