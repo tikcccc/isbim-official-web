@@ -172,3 +172,4 @@ public/
   - Optimized touch targets (40px minimum), typography (10px minimum), and images (next/image with sizes)
   - Updated mobile-specific positioning (sticky nav, footer social icons)
   - Comprehensive responsive design guidelines documented in `claude-rules.md` Section 15
+- **Menu Overlay Scrolling**: Fixed scroll conflicts with Lenis; implemented unified smooth scrolling with custom RAF-based easing (capture-phase wheel handler with ease-out animation).

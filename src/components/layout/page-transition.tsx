@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 /**
  * InnerOverlayRunner - Page transition animation core component
@@ -12,9 +13,13 @@ import Image from 'next/image';
  * 2. Animate: x=200vw (slide right) -> transitionEnd teleport to x=-200vw (hidden left)
  * 3. Exit: x=0% (slide back from left to cover)
  *
- * This approach creates a unidirectional looping brush effect, avoiding the rewind feeling
+ * This approach creates a unidirectional looping brush effect, avoiding the rewind feeling.
+ *
+ * Branding Note:
+ * This animation runs on all route changes, including locale switching,
+ * providing a consistent branded transition experience across the application.
  */
-export const InnerOverlayRunner = () => {
+export const InnerOverlayRunner: React.FC = () => {
     return (
         <div className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden">
 
@@ -114,6 +119,9 @@ export const InnerOverlayRunner = () => {
  * PageTransition - Main page transition wrapper component
  * Compatible with Next.js App Router template.tsx
  *
+ * Provides consistent branded transition animation for all route changes,
+ * including page navigation and locale switching.
+ *
  * Usage in template.tsx:
  * ```tsx
  * import { PageTransition } from "@/components/layout/page-transition";
@@ -128,8 +136,24 @@ interface PageTransitionProps {
 }
 
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
+    const pathname = usePathname();
+    const shouldScrollTopRef = useRef(false);
+
+    // Mark that we should scroll to top after the exit animation completes
+    useEffect(() => {
+        shouldScrollTopRef.current = true;
+    }, [pathname]);
+
     return (
-        <AnimatePresence mode="wait">
+        <AnimatePresence
+            mode="wait"
+            onExitComplete={() => {
+                if (shouldScrollTopRef.current) {
+                    shouldScrollTopRef.current = false;
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+            }}
+        >
             <div className="relative w-full min-h-screen">
                 {/* Page content fade in/out */}
                 <motion.div

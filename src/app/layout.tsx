@@ -5,7 +5,7 @@ import { LanguageProvider } from "@inlang/paraglide-next";
 import { sourceLanguageTag, setLanguageTag } from "@/paraglide/runtime";
 import type { AvailableLanguageTag } from "@/paraglide/runtime";
 import { AppProviders } from "@/providers/app-providers";
-import { LocaleProvider } from "@/lib/i18n/locale-context";
+import { LocaleProvider } from "@/lib/i18n/index";
 import { Topbar } from "@/components/layout/topbar";
 import { Footer } from "@/components/layout/footer";
 import { headers } from "next/headers";

@@ -6,10 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
-import { useBodyScrollLock } from "@/hooks";
+import { useBodyScrollLock, useLenis } from "@/hooks";
 import { useLocalizedHref } from "@/lib/i18n/index";
 import { ROUTES } from "@/lib/constants";
 import * as m from "@/paraglide/messages";
+import { useEffect } from "react";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -144,28 +145,95 @@ const panelVariants = {
 export function MenuOverlay() {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
   const { buildHref } = useLocalizedHref();
+  const { lenis } = useLenis();
   const menuData = getMenuData();
 
   // Lock body scroll when menu is open
   useBodyScrollLock(isOpen);
 
+  // Stop Lenis and implement smooth scrolling for menu overlay
+  useEffect(() => {
+    if (!lenis || !isOpen) {
+      if (lenis && !isOpen) {
+        lenis.start();
+      }
+      return;
+    }
+
+    lenis.stop();
+
+    // Smooth scroll implementation for menu overlay
+    let scrollTarget = 0;
+    let currentScroll = 0;
+    let rafId: number | null = null;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Find the menu overlay element
+      const overlay = document.querySelector('[data-menu-overlay]') as HTMLElement;
+      if (!overlay) return;
+
+      // Update scroll target
+      scrollTarget += e.deltaY;
+      scrollTarget = Math.max(0, Math.min(scrollTarget, overlay.scrollHeight - overlay.clientHeight));
+
+      // Start smooth scroll animation if not already running
+      if (rafId === null) {
+        const smoothScroll = () => {
+          // Easing function (ease-out)
+          const delta = scrollTarget - currentScroll;
+          const ease = delta * 0.1; // Adjust for smoothness (0.1 = smooth, 0.3 = faster)
+
+          if (Math.abs(delta) > 0.5) {
+            currentScroll += ease;
+            overlay.scrollTop = currentScroll;
+            rafId = requestAnimationFrame(smoothScroll);
+          } else {
+            currentScroll = scrollTarget;
+            overlay.scrollTop = currentScroll;
+            rafId = null;
+          }
+        };
+
+        rafId = requestAnimationFrame(smoothScroll);
+      }
+    };
+
+    // Add wheel listener with high priority (capture phase)
+    document.addEventListener('wheel', handleWheel, { capture: true, passive: false });
+
+    return () => {
+      document.removeEventListener('wheel', handleWheel, { capture: true });
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [isOpen, lenis]);
+
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          data-menu-overlay
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed inset-0 z-40 flex flex-col bg-[#050505] text-white overflow-hidden font-sans"
+          className="fixed inset-0 z-40 bg-[#050505] text-white font-sans overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-track]:bg-transparent"
+          style={{
+            WebkitOverflowScrolling: 'touch',
+          }}
         >
           {/* Top Bar - Reserved space for Topbar integration */}
           <div className="h-[88px] shrink-0" />
 
           {/* Main Grid Layout */}
-          <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-0 max-w-screen-2xl mx-auto w-full min-h-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 max-w-screen-2xl mx-auto w-full min-h-[calc(100vh-88px)]">
             {/* LEFT COLUMN: Navigation Tree */}
-            <div className="lg:col-span-5 p-10 lg:p-16 lg:pt-10 border-r border-white/10 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="lg:col-span-5 p-10 lg:p-16 lg:pt-10 border-r border-white/10 flex flex-col">
               <div className="mb-8">
                 <TypewriterText
                   text="NAVIGATION_INDEX"
@@ -324,7 +392,7 @@ export function MenuOverlay() {
             </div>
 
             {/* RIGHT COLUMN: Dynamic Content Area */}
-            <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative overflow-hidden">
+            <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative">
               {/* Grid Texture */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
 
@@ -577,3 +645,4 @@ export function MenuOverlay() {
     </AnimatePresence>
   );
 }
+

@@ -2,14 +2,16 @@
 
 import { useLocale } from "@/lib/i18n/index";
 import { useRouter, usePathname } from "@/lib/i18n";
-import { availableLanguageTags, type AvailableLanguageTag } from "@/paraglide/runtime";
+import { type AvailableLanguageTag } from "@/paraglide/runtime";
 import { motion } from "framer-motion";
 
 /**
  * LocaleSwitcher Component
  *
- * Minimalist professional language switcher for EN/ZH
- * Uses localized navigation APIs from @inlang/paraglide-next
+ * Toggle switch design for EN/ZH language switching
+ * - Clear visual metaphor for binary state selection
+ * - Larger touch targets for better mobile UX
+ * - Enhanced hover effects for desktop interaction
  * Uses LocaleContext to get current locale (Level 3 implementation)
  */
 
@@ -26,37 +28,71 @@ export function LocaleSwitcher() {
   const switchLocale = (newLocale: AvailableLanguageTag) => {
     if (newLocale === currentLocale) return;
 
-    // Use localized router.push with locale option
-    // This automatically handles URL construction and locale prefix
-    router.push(pathname, { locale: newLocale });
+    // Use router.replace to switch locale
+    // - replace: Updates URL without adding to history (cleaner navigation)
+    // - scroll: false - Maintains user's scroll position during language switch
+    // Note: This will trigger the page transition animation as part of the branded experience
+    router.replace(pathname, { locale: newLocale, scroll: false });
   };
 
   return (
-    <div className="flex items-center">
-      {availableLanguageTags.map((locale, index) => (
-        <div key={locale} className="flex items-center">
-          <motion.button
-            onClick={() => switchLocale(locale)}
-            whileHover={{ opacity: 0.8 }}
-            whileTap={{ scale: 0.95 }}
-            className={`
-              text-sm font-medium transition-all duration-200
-              ${
-                locale === currentLocale
-                  ? "text-white"
-                  : "text-white/50 hover:text-white/70"
-              }
-            `}
-          >
-            {localeLabels[locale]}
-          </motion.button>
+    <div className="relative inline-flex items-center w-[100px] h-10 bg-white/5 border border-white/10 rounded-lg p-1 backdrop-blur-sm">
+      {/* Sliding background indicator - occupies 50% of container width */}
+      <motion.div
+        className="absolute left-1 top-1 bottom-1 bg-white/20 rounded-md shadow-sm"
+        style={{ width: "calc(50% - 4px)" }}
+        initial={false}
+        animate={{
+          x: currentLocale === "en" ? 0 : "100%",
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 500,
+          damping: 35,
+        }}
+      />
 
-          {/* Separator */}
-          {index < availableLanguageTags.length - 1 && (
-            <span className="mx-2 text-white/30">|</span>
-          )}
-        </div>
-      ))}
+      {/* EN Button */}
+      <motion.button
+        onClick={() => switchLocale("en")}
+        whileHover={{ scale: currentLocale === "en" ? 1 : 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`
+          relative z-10 w-1/2 h-full flex items-center justify-center
+          text-xs font-medium rounded-md
+          transition-all duration-300
+          ${
+            currentLocale === "en"
+              ? "text-white font-bold"
+              : "text-white/50 hover:text-white/70"
+          }
+        `}
+        aria-label="Switch to English"
+        aria-pressed={currentLocale === "en"}
+      >
+        {localeLabels.en}
+      </motion.button>
+
+      {/* ZH Button */}
+      <motion.button
+        onClick={() => switchLocale("zh")}
+        whileHover={{ scale: currentLocale === "zh" ? 1 : 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`
+          relative z-10 w-1/2 h-full flex items-center justify-center
+          text-xs font-medium rounded-md
+          transition-all duration-300
+          ${
+            currentLocale === "zh"
+              ? "text-white font-bold"
+              : "text-white/50 hover:text-white/70"
+          }
+        `}
+        aria-label="切換至中文"
+        aria-pressed={currentLocale === "zh"}
+      >
+        {localeLabels.zh}
+      </motion.button>
     </div>
   );
 }
