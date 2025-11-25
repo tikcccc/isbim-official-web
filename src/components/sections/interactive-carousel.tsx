@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { gsap } from "gsap";
 import { carouselProducts, type CarouselProduct } from "@/data/products";
 import * as m from "@/paraglide/messages";
+import Image from "next/image";
+import { useEffect } from "react";
 
 // --- 常數定義 ---
 const AUTOPLAY_DURATION = 5000; // 5 seconds per slide
@@ -145,7 +147,10 @@ const cardVariants = {
 export function InteractiveCarousel() {
   const [page, setPage] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
+  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Get translated product data using i18n messages
   const SLIDES = useMemo(() =>
@@ -153,48 +158,56 @@ export function InteractiveCarousel() {
     []
   );
 
-  // Velocity-based parallax animation using GSAP
+  // --- 1. Parallax 優化：quickTo + IntersectionObserver ---
   useEffect(() => {
     if (!sectionRef.current) return;
 
+    const section = sectionRef.current;
+    let quickToY: ((value: number) => void) | null = null;
     let lastScrollY = window.scrollY;
-    let scrollVelocity = 0;
     let ticking = false;
 
+    // IntersectionObserver: 只在元素進入視窗時啟動 parallax
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+
+        if (entry.isIntersecting) {
+          // 進入視窗：初始化 quickTo
+          quickToY = gsap.quickTo(section, "y", {
+            duration: 0.4,
+            ease: "power2.out",
+          });
+        } else {
+          // 離開視窗：重置位置
+          gsap.set(section, { y: 0 });
+          quickToY = null;
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(section);
+
     const updateParallax = () => {
+      if (!quickToY) {
+        ticking = false;
+        return;
+      }
+
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY;
-
-      // Calculate velocity with reduced sensitivity for subtle effect
-      scrollVelocity = delta * 0.5;
+      const velocity = delta * 0.7; // 降低敏感度
       lastScrollY = currentScrollY;
 
-      if (sectionRef.current) {
-        // Inverse parallax effect with smaller displacement
-        const targetY = -scrollVelocity * 3;
-
-        gsap.to(sectionRef.current, {
-          y: targetY,
-          duration: 0.3,
-          ease: "power2.out",
-          onComplete: () => {
-            // Smooth return to original position with bounce
-            if (sectionRef.current) {
-              gsap.to(sectionRef.current, {
-                y: 0,
-                duration: 1.0,
-                ease: "elastic.out(1, 0.6)",
-              });
-            }
-          },
-        });
-      }
+      // 使用 quickTo 直接更新，無需複雜的回彈動畫
+      quickToY(-velocity * 2);
 
       ticking = false;
     };
 
     const onScroll = () => {
-      if (!ticking) {
+      if (!ticking && quickToY) {
         requestAnimationFrame(updateParallax);
         ticking = true;
       }
@@ -203,18 +216,78 @@ export function InteractiveCarousel() {
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("scroll", onScroll);
+      if (quickToY) {
+        gsap.set(section, { y: 0 });
+      }
     };
   }, []);
 
-  // Auto-play functionality
+  // --- 2. 影片控制：暫停非活動 slide 的影片 ---
+  const activeIndex = (page % SLIDES.length + SLIDES.length) % SLIDES.length;
+
   useEffect(() => {
-    if (hovered) return;
-    const timer = setInterval(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (index === activeIndex) {
+        video.play().catch(() => {
+          // 自動播放失敗時靜默處理
+        });
+      } else {
+        video.pause();
+      }
+    });
+  }, [activeIndex]);
+
+  // --- 3. 自動播放優化：使用 setTimeout + Page Visibility API ---
+  const startAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) {
+      clearTimeout(autoplayTimerRef.current);
+    }
+
+    autoplayTimerRef.current = setTimeout(() => {
       setPage((prev) => prev + 1);
     }, AUTOPLAY_DURATION);
-    return () => clearInterval(timer);
-  }, [page, hovered]);
+  }, []);
+
+  const stopAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) {
+      clearTimeout(autoplayTimerRef.current);
+      autoplayTimerRef.current = null;
+    }
+  }, []);
+
+  // 自動播放邏輯
+  useEffect(() => {
+    if (hovered || !isVisible) {
+      stopAutoplay();
+      return;
+    }
+
+    startAutoplay();
+
+    return () => {
+      stopAutoplay();
+    };
+  }, [page, hovered, isVisible, startAutoplay, stopAutoplay]);
+
+  // Page Visibility API: 頁籤切換時暫停
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopAutoplay();
+        videoRefs.current.forEach((video) => video.pause());
+      } else if (!hovered && isVisible) {
+        startAutoplay();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [hovered, isVisible, startAutoplay, stopAutoplay]);
 
   const nextSlide = () => setPage(page + 1);
   const prevSlide = () => setPage(page - 1);
@@ -222,30 +295,41 @@ export function InteractiveCarousel() {
 
   const getVariant = (index: number) => {
     const total = SLIDES.length;
-    const activeIndex = (page % total + total) % total;
-    if (index === activeIndex) return "center";
-    const prevIndex = (activeIndex - 1 + total) % total;
+    const activeIdx = (page % total + total) % total;
+    if (index === activeIdx) return "center";
+    const prevIndex = (activeIdx - 1 + total) % total;
     if (index === prevIndex) return "left";
-    const nextIndex = (activeIndex + 1) % total;
+    const nextIndex = (activeIdx + 1) % total;
     if (index === nextIndex) return "right";
     return "hidden";
   };
 
-  const activeIndex = (page % SLIDES.length + SLIDES.length) % SLIDES.length;
+  // --- 4. 懶載入判斷：只渲染前/當前/後三張 slide ---
+  const shouldRenderSlide = useCallback(
+    (index: number) => {
+      const total = SLIDES.length;
+      const activeIdx = (page % total + total) % total;
+      const prevIndex = (activeIdx - 1 + total) % total;
+      const nextIndex = (activeIdx + 1) % total;
+
+      return index === activeIdx || index === prevIndex || index === nextIndex;
+    },
+    [page, SLIDES.length]
+  );
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen bg-zinc-100 overflow-hidden flex flex-col items-center py-12 sm:py-20"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="relative w-full min-h-screen bg-zinc-100 overflow-hidden flex flex-col items-center gap-10 sm:gap-12 lg:gap-14 py-12 sm:py-20"
     >
       {/* --- 導航區域 (Tabs + See All) --- */}
-      <div className="relative z-30 w-full max-w-[90%] md:max-w-[85%] flex flex-col md:flex-row gap-4 mb-8 sm:mb-12 items-stretch md:items-center">
+      <div className="relative z-30 container-content flex flex-col md:flex-row gap-4 mb-8 sm:mb-12 items-stretch md:items-center">
         {/* Tabs 容器：Grid 佈局自動均分寬度 */}
         <div className="flex-1 grid grid-cols-4 md:grid-cols-8 gap-2">
           {SLIDES.map((slide, index) => {
-            const isActive = index === activeIndex;
+            const total = SLIDES.length;
+            const activeIdx = (page % total + total) % total;
+            const isActive = index === activeIdx;
 
             return (
               <button
@@ -253,7 +337,7 @@ export function InteractiveCarousel() {
                 type="button"
                 onClick={() => jumpToSlide(index)}
                 className={cn(
-                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center text-[9px] md:text-[10px] uppercase tracking-wider border transition-all duration-300",
+                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center text-[10px] md:text-[11px] uppercase tracking-wider border transition-all duration-300",
                   "w-full bg-white border-zinc-300 text-zinc-600",
                   isActive
                     ? "border-zinc-900 text-zinc-900"
@@ -286,12 +370,18 @@ export function InteractiveCarousel() {
 
         {/* See All 按鈕 */}
         <div className="hidden md:block w-auto shrink-0">
-          <button type="button" className="h-12 px-6 text-xs font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider border border-zinc-900">
+          <button
+            type="button"
+            className="h-10 px-6 text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider border border-zinc-900"
+          >
             See All
           </button>
         </div>
         <div className="md:hidden w-full">
-          <button type="button" className="w-full h-10 text-xs font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider">
+          <button
+            type="button"
+            className="w-full h-10 text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider"
+          >
             See All
           </button>
         </div>
@@ -299,11 +389,27 @@ export function InteractiveCarousel() {
 
       {/* Slider Track */}
       <div
-        className="relative w-full max-w-[90%] md:max-w-[85%] flex-grow flex items-center justify-center"
+        className="relative container-content flex items-center justify-center min-h-[75vh] max-h-[85vh] lg:min-h-[660px] lg:max-h-[760px]"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
         {SLIDES.map((slide, index) => {
           const variant = getVariant(index);
           const isCenter = variant === "center";
+          const shouldRender = shouldRenderSlide(index);
+
+          // 懶載入：非必要 slide 不渲染內容
+          if (!shouldRender) {
+            return (
+              <motion.div
+                key={slide.id}
+                variants={cardVariants}
+                initial="hidden"
+                animate="hidden"
+                className="absolute w-full h-full bg-zinc-950 border border-white/10 min-h-[75vh] max-h-[85vh] lg:min-h-[660px] lg:max-h-[760px]"
+              />
+            );
+          }
 
           return (
             <motion.div
@@ -311,25 +417,31 @@ export function InteractiveCarousel() {
               variants={cardVariants}
               initial="hidden"
               animate={variant}
-              className="absolute w-full h-full bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden"
-              style={{ minHeight: "600px", maxHeight: "700px" }}
+              className="absolute w-full h-full bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden min-h-[75vh] max-h-[85vh] lg:min-h-[660px] lg:max-h-[760px]"
             >
               {/* Background Video/Image */}
               <div className="absolute inset-0 z-0">
                 {slide.imageUrl.endsWith(".mp4") ? (
                   <video
+                    ref={(el) => {
+                      if (el) videoRefs.current.set(index, el);
+                    }}
                     src={slide.imageUrl}
-                    autoPlay
+                    autoPlay={isCenter}
                     loop
                     muted
                     playsInline
                     className="w-full h-full object-cover opacity-80 mix-blend-overlay"
                   />
                 ) : (
-                  <img
+                  <Image
                     src={slide.imageUrl}
                     alt={slide.title}
-                    className="w-full h-full object-cover opacity-80 mix-blend-overlay"
+                    fill
+                    sizes="(max-width: 768px) 90vw, 85vw"
+                    className="object-cover opacity-80 mix-blend-overlay"
+                    quality={85}
+                    priority={isCenter}
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
@@ -407,20 +519,25 @@ export function InteractiveCarousel() {
       </div>
 
       {/* Slide Indicators (Dots) */}
-      <div className="mt-8 flex justify-center gap-3 z-30">
-        {SLIDES.map((slide, index) => (
-          <button
-            key={slide.id}
-            type="button"
-            onClick={() => jumpToSlide(index)}
-            className={`h-2 rounded-full transition-all ${
-              activeIndex === index
-                ? "w-12 bg-zinc-900"
-                : "w-2 bg-zinc-400 hover:bg-zinc-600"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+      <div className="flex justify-center gap-3 z-30 container-content">
+        {SLIDES.map((slide, index) => {
+          const total = SLIDES.length;
+          const activeIdx = (page % total + total) % total;
+
+          return (
+            <button
+              key={slide.id}
+              type="button"
+              onClick={() => jumpToSlide(index)}
+              className={`h-2 rounded-full transition-all ${
+                activeIdx === index
+                  ? "w-12 bg-zinc-900"
+                  : "w-2 bg-zinc-400 hover:bg-zinc-600"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          );
+        })}
       </div>
     </section>
   );

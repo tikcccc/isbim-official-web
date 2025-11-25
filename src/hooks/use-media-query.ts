@@ -1,31 +1,32 @@
 /**
  * useMediaQuery Hook
  *
- * 用途：
- * - 檢測當前屏幕尺寸是否匹配指定的CSS媒體查詢
- * - 實現響應式組件邏輯（而非僅CSS）
- * - 根據設備類型渲染不同內容或行為
+ * Purpose:
+ * - Detect if current screen size matches specified CSS media query
+ * - Enable responsive component logic (not just CSS)
+ * - Render different content/behavior based on device type
  *
- * 使用場景：
- * - 移動端顯示漢堡菜單，桌面端顯示完整導航
- * - 根據屏幕寬度切換組件佈局
- * - 平板和桌面的不同動畫效果
- * - 條件渲染（例如移動端隱藏某些重量級組件）
+ * Use cases:
+ * - Mobile: hamburger menu; Desktop: full navigation
+ * - Switch component layouts based on screen width
+ * - Different animation effects for tablet vs desktop
+ * - Conditional rendering (hide heavy components on mobile)
  */
 
 "use client";
 
 import { useEffect, useState } from "react";
+import { BREAKPOINTS as BREAKPOINT_VALUES } from "@/lib/design-tokens";
 
 /**
- * Tailwind CSS breakpoints for convenience
+ * Breakpoint queries built from design tokens
  */
 export const BREAKPOINTS = {
-  sm: "(min-width: 640px)",
-  md: "(min-width: 768px)",
-  lg: "(min-width: 1024px)",
-  xl: "(min-width: 1280px)",
-  "2xl": "(min-width: 1536px)",
+  sm: `(min-width: ${BREAKPOINT_VALUES.sm}px)`,
+  md: `(min-width: ${BREAKPOINT_VALUES.md}px)`,
+  lg: `(min-width: ${BREAKPOINT_VALUES.lg}px)`,
+  xl: `(min-width: ${BREAKPOINT_VALUES.xl}px)`,
+  "2xl": `(min-width: ${BREAKPOINT_VALUES["2xl"]}px)`,
 } as const;
 
 export type BreakpointKey = keyof typeof BREAKPOINTS;

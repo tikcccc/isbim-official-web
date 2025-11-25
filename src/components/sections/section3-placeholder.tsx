@@ -58,10 +58,8 @@ export function Section3Placeholder() {
         {/* Text content that animates */}
         <h1
           ref={textRef}
-          className="text-4xl md:text-7xl font-semibold text-center text-black leading-tight invisible"
+          className="container-content text-4xl md:text-7xl font-semibold text-center text-black leading-tight invisible"
           style={{
-            width: "90vw",
-            maxWidth: "1800px",
             willChange: "line-height, opacity, transform",
           }}
         >

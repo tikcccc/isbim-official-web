@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as m from "@/paraglide/messages";
+import Image from "next/image";
 
 interface Section5CTAProps {
   imageUrl?: string;
@@ -72,7 +73,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
       ref={containerRef}
       className="w-full min-h-screen bg-zinc-50 text-slate-900 py-12 sm:py-20 flex flex-col justify-center"
     >
-      <div className="mx-auto w-full" style={{ width: "90vw", maxWidth: "1800px" }}>
+      <div className="container-content">
         {/* Phase 2: Tailwind Grid - Two-column responsive layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -81,10 +82,13 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
             ref={imageRef}
             className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-2xl bg-zinc-200"
           >
-            <img
+            <Image
               src={imageUrl ?? "/images/cta.png"}
               alt={imageAlt ?? "Modern business technology and collaboration"}
-              className="object-cover w-full h-full"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+              priority
             />
             {/* Gradient overlay for atmosphere */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent" />

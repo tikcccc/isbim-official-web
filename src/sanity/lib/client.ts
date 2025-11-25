@@ -1,13 +1,62 @@
-import { createClient } from 'next-sanity'
-import { sanityConfig } from '@/lib/env'
+/**
+ * Sanity Client Configuration
+ *
+ * Purpose:
+ * - Centralized Sanity client setup with environment-based CDN configuration
+ * - Separate clients for read operations (with CDN) and write operations (without CDN)
+ * - Type-safe configuration from environment variables
+ *
+ * CDN Strategy:
+ * - Production: Use CDN for read operations (faster, cached)
+ * - Development: Bypass CDN for fresh data during development
+ * - Write operations: Always bypass CDN for immediate consistency
+ *
+ * Usage:
+ * ```tsx
+ * import { client, writeClient } from "@/sanity/lib/client";
+ *
+ * // Read operations (uses CDN in production)
+ * const data = await client.fetch(query);
+ *
+ * // Write operations (bypasses CDN)
+ * await writeClient.create(document);
+ * ```
+ */
 
-export const projectId = sanityConfig.projectId || '4y8vgu6z'
-export const dataset = sanityConfig.dataset
-export const apiVersion = sanityConfig.apiVersion
+import { createClient } from "next-sanity";
+import { sanityConfig, isProduction } from "@/lib/env";
 
+export const projectId = sanityConfig.projectId || "4y8vgu6z";
+export const dataset = sanityConfig.dataset;
+export const apiVersion = sanityConfig.apiVersion;
+
+/**
+ * Read-only client for data fetching
+ * Uses CDN in production for better performance
+ * Bypasses CDN in development for fresh data
+ */
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
-})
+  useCdn: isProduction(),
+  perspective: "published",
+  stega: {
+    enabled: false,
+    studioUrl: "/studio",
+  },
+});
+
+/**
+ * Write client for mutations
+ * Always bypasses CDN for immediate consistency
+ * Requires authentication token from environment
+ */
+export const writeClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  token: sanityConfig.token,
+  perspective: "published",
+});

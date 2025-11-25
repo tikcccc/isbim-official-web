@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CornerDownRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { useBodyScrollLock } from "@/hooks";
@@ -89,7 +90,7 @@ const overlayVariants = {
     opacity: 1,
     transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
   },
-  exit: { opacity: 0, transition: { duration: 0.3 } },
+  exit: { opacity: 0, transition: { duration: 0.1 } },
 };
 
 const staggerContainer = {
@@ -125,7 +126,7 @@ const panelVariants = {
       staggerChildren: 0.1,
     },
   },
-  exit: { opacity: 0, x: 10, transition: { duration: 0.2 } },
+  exit: { opacity: 0, x: 10, transition: { duration: 0.1 } },
 };
 
 /**
@@ -509,10 +510,12 @@ export function MenuOverlay() {
                         className="group cursor-pointer"
                       >
                         <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
-                          <img
+                          <Image
                             src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
-                            className="object-cover w-full h-full opacity-60 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-80"
                             alt="Tech"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 33vw"
+                            className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-80"
                           />
                           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
                             <TypewriterText
@@ -541,10 +544,12 @@ export function MenuOverlay() {
                         className="group cursor-pointer"
                       >
                         <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
-                          <img
+                          <Image
                             src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800"
-                            className="object-cover w-full h-full opacity-60 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-80"
                             alt="Chip"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 33vw"
+                            className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-80"
                           />
                         </div>
                         <TypewriterText

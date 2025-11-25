@@ -1,26 +1,62 @@
+import type { Metadata } from "next";
 import { HeroSection1 } from "@/components/sections/hero-section-1";
 import { InteractiveCarousel } from "@/components/sections/interactive-carousel";
 import { Section3Placeholder } from "@/components/sections/section3-placeholder";
 import { Section4PlatformList } from "@/components/sections/section4-platform-list";
 import { Section5CTA } from "@/components/sections/section5-cta";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch, buildCacheTags, REVALIDATE } from "@/sanity/lib/fetch";
+import { IMAGE_ASSET_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import type { ImageAsset } from "@/sanity/lib/types";
 import { urlFor } from "@/sanity/lib/image";
+import { generatePageMetadata, COMMON_KEYWORDS } from "@/lib/seo";
 
-const CTA_QUERY = `*[_type == "imageAsset" && slug.current == "home-cta"][0]{
-  title,
-  alt,
-  file
-}`;
+/**
+ * Generate metadata for home page
+ * Includes SEO optimization with cached Sanity image
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  // Fetch hero/OG image from Sanity
+  const heroImage = await sanityFetch<ImageAsset | null>({
+    query: IMAGE_ASSET_BY_SLUG_QUERY,
+    params: { slug: "home-hero" },
+    tags: buildCacheTags("imageAsset", "home-hero"),
+    revalidate: REVALIDATE.DAY, // Cache for a day
+  }).catch(() => null);
+
+  const imageUrl = heroImage?.file
+    ? urlFor(heroImage.file)?.width(1200).height(630).url()
+    : undefined;
+
+  return generatePageMetadata({
+    title: "Construction AI Platform - Powering Global Economies",
+    description:
+      "isBIM delivers cutting-edge construction AI solutions with JARVIS suite, BIM consultancy, and smart infrastructure management for modern construction projects worldwide.",
+    path: "/",
+    locale: "en",
+    image: imageUrl,
+    imageAlt: heroImage?.alt || "isBIM Construction AI Platform",
+    keywords: [
+      ...COMMON_KEYWORDS,
+      "construction platform",
+      "infrastructure AI",
+      "smart construction",
+      "digital construction",
+    ],
+  });
+}
 
 async function getCtaImage() {
   try {
-    const data = await client.fetch<{
-      title?: string;
-      alt?: string;
-      file?: any;
-    }>(CTA_QUERY);
+    const data = await sanityFetch<ImageAsset | null>({
+      query: IMAGE_ASSET_BY_SLUG_QUERY,
+      params: { slug: "home-cta" },
+      tags: buildCacheTags("imageAsset", "home-cta"),
+      revalidate: REVALIDATE.HOUR, // Revalidate every hour
+    });
 
-    if (!data?.file) return { imageUrl: undefined, imageAlt: data?.alt ?? data?.title };
+    if (!data?.file) {
+      return { imageUrl: undefined, imageAlt: data?.alt ?? data?.title };
+    }
 
     const built = urlFor(data.file)?.width(1600).url();
     return { imageUrl: built, imageAlt: data.alt ?? data.title };
@@ -34,21 +70,23 @@ export default async function Home() {
   const ctaImage = await getCtaImage();
 
   return (
-    <main className="relative">
-      {/* Section 1: Hero with video background */}
+    <>
+      {/* Section 1: Hero with video background - Full width */}
       <HeroSection1 />
 
-      {/* Section 2: Interactive Tab Carousel with animations */}
-      <InteractiveCarousel />
+      <main className="container-page">
+        {/* Section 2: Interactive Tab Carousel with animations */}
+        <InteractiveCarousel />
 
-      {/* Section 3: Wide-format narrative text aggregation */}
-      <Section3Placeholder />
+        {/* Section 3: Wide-format narrative text aggregation */}
+        <Section3Placeholder />
 
-      {/* Section 4: AI Platforms with video hover animation */}
-      <Section4PlatformList />
+        {/* Section 4: AI Platforms with video hover animation */}
+        <Section4PlatformList />
 
-      {/* Section 5: Call to Action with dual-column layout */}
-      <Section5CTA imageUrl={ctaImage.imageUrl} imageAlt={ctaImage.imageAlt} />
-    </main>
+        {/* Section 5: Call to Action with dual-column layout */}
+        <Section5CTA imageUrl={ctaImage.imageUrl} imageAlt={ctaImage.imageAlt} />
+      </main>
+    </>
   );
 }

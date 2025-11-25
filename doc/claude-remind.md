@@ -65,3 +65,35 @@ import { useRouter, usePathname } from "@/lib/i18n"; // middleware
 - Client imports from `@/lib/i18n/index`; middleware/nav from `@/lib/i18n`.
 - Layout keeps `await headers()` + `setLanguageTag()` + `LocaleProvider`.
 - Legal links map to existing placeholders: `/privacy`, `/terms`, `/cookies`.
+
+---
+### Type Safety
+- **NEVER use `any`** — Use `Image` (from `sanity`) for image fields, `PortableTextBlock[]` for rich text.
+- Import types: `import type { Image, Slug, PortableTextBlock } from "sanity"`.
+- All metadata query results must be typed inline or use interfaces from `types.ts`.
+
+## Build & TypeScript
+
+### Common Errors
+**Import case sensitivity:**
+- Build error: `'breakpoints' is not exported` → Use `BREAKPOINTS` (capitalized).
+- Solution: Check `design-tokens.ts` export names match import names exactly.
+
+**TypeScript `any` types:**
+- Build error: `Unexpected any. Specify a different type` → Use proper Sanity types.
+- For images: `Image` (from `sanity`)
+- For rich text: `PortableTextBlock[]` (from `sanity`)
+- Never use `any` in production code.
+
+### Build Checklist
+```bash
+cd isbim-official-web
+npm run build
+```
+- ✅ Must compile with 0 errors (warnings OK).
+- ✅ Sitemap generates at `/sitemap.xml`.
+- ✅ Robots.txt at `/robots.txt`.
+- ✅ All static pages pre-rendered.
+
+---
+

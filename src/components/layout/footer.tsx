@@ -92,52 +92,52 @@ export function Footer() {
   ];
 
   return (
-    <footer className="w-full bg-background text-foreground border-t border-border">
-      <div className="container mx-auto px-6 py-12 lg:py-20">
+    <footer className="w-full bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-t border-slate-200 dark:border-slate-800 font-sans">
+      <div className="container mx-auto px-6 py-14 lg:py-20">
         {/* 主要 Grid 佈局 */}
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">
           {/* Column 1: Brand & Vision */}
-          <div className="flex flex-col space-y-7 lg:space-y-8">
-            <Link href={buildHref(ROUTES.HOME)} className="flex items-center hover:opacity-80 transition-opacity">
-              {/* Logo SVG */}
+          <div className="flex flex-col space-y-5">
+            <Link href={buildHref(ROUTES.HOME)} className="inline-flex items-center hover:opacity-80 transition-opacity w-fit">
+              {/* Logo SVG - 優化尺寸 */}
               <Image
                 src="/icons/isbim_black.svg"
                 alt="isBIM Logo"
-                width={120}
-                height={32}
-                className="dark:hidden w-auto h-auto"
+                width={100}
+                height={28}
+                className="h-auto max-h-8 w-auto max-w-[110px] sm:max-w-[130px]"
                 priority
               />
               <Image
                 src="/icons/isbim_white.svg"
                 alt="isBIM Logo"
-                width={120}
-                height={32}
+                width={100}
+                height={28}
                 className="hidden dark:block w-auto h-auto"
                 priority
               />
             </Link>
 
-            <p className="text-base text-muted-foreground leading-[1.8] footer-alliance-font">
+            <p className="text-[15px] text-slate-600 dark:text-slate-400 leading-[1.7] max-w-[280px]">
               {m.footer_tagline()}
-              <br className="mt-1.5" />
-              <span className="text-muted-foreground/80">
+              <br className="block mt-1.5" />
+              <span className="text-slate-500 dark:text-slate-500">
                 {m.footer_tagline2()}
               </span>
             </p>
 
-            {/* Social Icons */}
-            <div className="flex space-x-1 pt-2">
+            {/* Social Icons - 優化尺寸和間距 */}
+            <div className="flex space-x-1.5 pt-1">
               {socialIcons.map(({ icon: Icon, label, href }) => (
                 <Button
                   key={label}
                   variant="ghost"
                   size="icon"
-                  className="h-9 w-9 text-muted-foreground hover:text-foreground transition-colors"
+                  className="h-10 w-10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                   asChild
                 >
                   <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-5 w-5" />
                   </a>
                 </Button>
               ))}
@@ -146,10 +146,10 @@ export function Footer() {
 
           {/* Column 2: Solutions (JARVIS Products) */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/70 footer-alliance-font">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
               {m.footer_platforms()}
             </h3>
-            <ul className="space-y-2.5 text-base text-muted-foreground footer-alliance-font">
+            <ul className="space-y-2.5 text-[15px] text-slate-600 dark:text-slate-400">
               {productLinks.map((link) => (
                 <motion.li
                   key={link.name}
@@ -158,7 +158,7 @@ export function Footer() {
                 >
                   <Link
                     href={buildHref(link.href)}
-                    className="hover:text-foreground transition-colors block py-0.5"
+                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors block py-0.5 leading-tight"
                   >
                     {link.name}
                   </Link>
@@ -169,10 +169,10 @@ export function Footer() {
 
           {/* Column 3: Company */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/70 footer-alliance-font">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
               {m.footer_company()}
             </h3>
-            <ul className="space-y-2.5 text-base text-muted-foreground footer-alliance-font">
+            <ul className="space-y-2.5 text-[15px] text-slate-600 dark:text-slate-400">
               {companyLinks.map((link) => (
                 <motion.li
                   key={link.name}
@@ -181,7 +181,7 @@ export function Footer() {
                 >
                   <Link
                     href={buildHref(link.href)}
-                    className="hover:text-foreground transition-colors block py-0.5"
+                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors block py-0.5 leading-tight"
                   >
                     {link.name}
                   </Link>
@@ -191,38 +191,37 @@ export function Footer() {
           </div>
 
           {/* Column 4: Newsletter Subscription */}
-          <div className="flex flex-col space-y-7 lg:space-y-8">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/70 footer-alliance-font">
+          <div className="flex flex-col space-y-5">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
               {m.footer_stay_connected()}
             </h3>
-            <p className="text-base text-muted-foreground leading-[1.75] footer-alliance-font max-w-md">
+            <p className="text-[15px] text-slate-500 dark:text-slate-400 leading-[1.65]">
               {m.footer_newsletter_desc()}
             </p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2.5">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2.5 pt-0.5">
               <div className="flex space-x-2">
                 <Input
                   {...register("email")}
                   placeholder={m.footer_email_placeholder()}
                   type="email"
-                  className="flex-1 h-9 text-sm"
+                  className="flex-1 h-10 text-[15px] border-slate-300 dark:border-slate-700 focus-visible:ring-slate-400 dark:focus-visible:ring-slate-500 transition-all duration-200 hover:border-slate-400 hover:shadow-sm dark:hover:border-slate-500"
                 />
                 <Button
                   type="submit"
                   disabled={isSubmitting || isSubmitted}
-                  size="icon"
-                  className="h-9 w-9 shadow-sm"
+                  className="px-4 h-10 shadow-sm transition-all duration-200 hover:-translate-y-[1px] hover:shadow-md focus:shadow-md disabled:translate-y-0 disabled:shadow-sm"
                 >
                   {isSubmitting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-[18px] w-[18px] animate-spin" />
                   ) : (
-                    <Send className="h-4 w-4" />
+                    <Send className="h-[18px] w-[18px]" />
                   )}
                 </Button>
               </div>
 
               {errors.email && (
-                <p className="text-xs text-destructive pl-0.5">{errors.email.message}</p>
+                <p className="text-xs text-red-500 pl-0.5">{errors.email.message}</p>
               )}
 
               {isSubmitted && (
@@ -241,16 +240,16 @@ export function Footer() {
         <Separator className="my-10" />
 
         {/* Bottom Bar - Copyright & Legal Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground space-y-3 md:space-y-0 footer-alliance-font">
+        <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-slate-500 dark:text-slate-400 space-y-3 md:space-y-0">
           <p>{m.footer_copyright()}</p>
-          <div className="flex space-x-6">
-            <Link href={buildHref("/privacy")} className="hover:text-foreground transition-colors">
+          <div className="flex space-x-7">
+            <Link href={buildHref("/privacy")} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
               {m.footer_privacy()}
             </Link>
-            <Link href={buildHref("/terms")} className="hover:text-foreground transition-colors">
+            <Link href={buildHref("/terms")} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
               {m.footer_terms()}
             </Link>
-            <Link href={buildHref("/cookies")} className="hover:text-foreground transition-colors">
+            <Link href={buildHref("/cookies")} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
               {m.footer_cookies()}
             </Link>
           </div>

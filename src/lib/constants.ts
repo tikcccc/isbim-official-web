@@ -1,11 +1,11 @@
 /**
  * Application Constants
  *
- * 用途：
- * - 定義全站的路由常量（ROUTES）
- * - 定義所有頁面的URL路徑
- * - 包含JARVIS產品、服務、導航等配置常量
- * - 避免硬編碼字符串，方便統一管理和修改
+ * Purpose:
+ * - Define application-wide route constants (ROUTES)
+ * - Define all page URL paths
+ * - Include JARVIS products, services, navigation configuration
+ * - Avoid hardcoded strings for centralized management
  *
  * Usage:
  * ```tsx
@@ -103,35 +103,6 @@ export const JARVIS_PRODUCTS = [
 ] as const;
 
 /**
- * Responsive Breakpoints (Tailwind CSS)
- * Pixel values for responsive design breakpoints.
- */
-export const BREAKPOINTS = {
-  /** Small devices (640px and up) */
-  sm: 640,
-  /** Medium devices (768px and up) */
-  md: 768,
-  /** Large devices (1024px and up) */
-  lg: 1024,
-  /** Extra large devices (1280px and up) */
-  xl: 1280,
-  /** 2X large devices (1536px and up) */
-  "2xl": 1536,
-} as const;
-
-/**
- * Responsive Breakpoint Queries
- * Media query strings for use with matchMedia.
- */
-export const BREAKPOINT_QUERIES = {
-  sm: `(min-width: ${BREAKPOINTS.sm}px)`,
-  md: `(min-width: ${BREAKPOINTS.md}px)`,
-  lg: `(min-width: ${BREAKPOINTS.lg}px)`,
-  xl: `(min-width: ${BREAKPOINTS.xl}px)`,
-  "2xl": `(min-width: ${BREAKPOINTS["2xl"]}px)`,
-} as const;
-
-/**
  * Site Configuration
  * Basic site metadata and configuration.
  */
@@ -190,31 +161,6 @@ export const NAV_IDS = {
   NEWSROOM: "newsroom",
   CAREERS: "careers",
   CONTACT: "contact",
-} as const;
-
-/**
- * Z-Index Layers
- * Standardized z-index values for layering.
- */
-export const Z_INDEX = {
-  /** Below content */
-  below: -1,
-  /** Base content layer */
-  base: 0,
-  /** Dropdowns */
-  dropdown: 10,
-  /** Sticky elements */
-  sticky: 20,
-  /** Fixed elements */
-  fixed: 30,
-  /** Overlay backdrop */
-  overlay: 40,
-  /** Modal dialogs */
-  modal: 50,
-  /** Popover/Tooltip */
-  popover: 60,
-  /** Toast notifications */
-  toast: 70,
 } as const;
 
 /**
@@ -292,12 +238,9 @@ export default {
   ROUTES,
   JARVIS_PRODUCT_IDS,
   JARVIS_PRODUCTS,
-  BREAKPOINTS,
-  BREAKPOINT_QUERIES,
   SITE_CONFIG,
   SERVICE_CATEGORIES,
   NAV_IDS,
-  Z_INDEX,
   API_ENDPOINTS,
   VALIDATION,
   DATE_FORMATS,

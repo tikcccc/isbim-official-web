@@ -81,22 +81,22 @@ const RevealTitle = ({
 
     const words = elementRef.current.querySelectorAll('.word');
 
-    gsap.fromTo(words,
+    gsap.fromTo(
+      words,
       {
-        y: 20,
-        opacity: 0,
-        filter: 'blur(10px)'
+        x: 18,
+        opacity: 0
       },
       {
         scrollTrigger: {
           trigger: elementRef.current,
           start: "top 85%",
-          toggleActions: "play none none reverse"
+          toggleActions: "play none none none",
+          once: true
         },
-        y: 0,
+        x: 0,
         opacity: 1,
-        filter: 'blur(0px)',
-        duration: 1,
+        duration: 0.75,
         stagger: 0.04,
         ease: "power2.out"
       }
@@ -133,7 +133,7 @@ const FeatureRow = ({
       <div className="lg:col-span-5">
         <RevealTitle
           text={title}
-          className="text-3xl md:text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight group-hover:text-blue-700 transition-colors duration-500"
+          className="text-3xl md:text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight transition-colors duration-500"
         />
       </div>
 
@@ -183,7 +183,7 @@ const StickyNav = () => {
   }, [activeSection]);
 
   return (
-    <div className="fixed bottom-10 left-10 z-50 flex flex-col gap-4 font-mono text-base tracking-widest text-neutral-900 pointer-events-auto mix-blend-darken">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-50 flex flex-col gap-4 font-mono text-base tracking-widest text-neutral-900 pointer-events-auto mix-blend-darken">
       {[1, 2, 3].map((num) => (
         <div
           key={num}
@@ -247,7 +247,8 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       scrollTrigger: {
         trigger: el,
         start: "top 70%",
-        toggleActions: "play none none reverse",
+        toggleActions: "play none none none",
+        once: true,
       }
     });
 
@@ -294,7 +295,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
       <div className="max-w-[1600px] z-10 w-full mx-auto">
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start lg:items-center mb-12">
           <div className="lg:col-span-7">
             <span className="block text-sm font-mono text-neutral-500 mb-6 font-semibold">
               0{id} <span className="text-neutral-400">/ 03</span>
@@ -321,7 +322,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
           {subtitle && (
             <div className={`section-${id}-anim opacity-0 lg:col-span-5 flex items-start`}>
-               <p className="text-xl md:text-2xl font-light text-neutral-600 leading-relaxed border-l-2 border-blue-600 pl-6">
+               <p className="text-xl md:text-2xl font-light text-neutral-600 leading-snug md:leading-normal lg:leading-snug border-l-2 border-blue-600 pl-6">
                  {subtitle}
                </p>
             </div>
