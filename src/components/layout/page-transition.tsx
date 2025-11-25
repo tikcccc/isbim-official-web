@@ -26,16 +26,16 @@ export const InnerOverlayRunner: React.FC = () => {
 
             {/* 1. Giant Parallelogram Brush */}
             <motion.div
-                className="absolute top-0 bottom-0 h-full"
+                className="absolute top-0 bottom-0 h-full will-change-transform"
                 style={{
-                    width: '150vw',
-                    left: '-25vw',
+                    width: '220vw',
+                    left: '-110vw',
                 }}
                 initial={{ x: "0%" }}
                 animate={{
-                    x: "200vw",
+                    x: "260vw",
                     transitionEnd: {
-                        x: "-200vw" // After animation, silently reset to left side
+                        x: "-260vw" // After animation, silently reset to far left to avoid residual edges on mobile DPR
                     }
                 }}
                 exit={{ x: "0%" }}

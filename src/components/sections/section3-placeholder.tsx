@@ -49,7 +49,7 @@ export function Section3Placeholder() {
   }, []);
 
   return (
-    <section className="relative z-10 bg-white py-20 sm:py-15">
+    <section className="relative z-10 bg-white section-padding">
       {/* Trigger zone with auto height */}
       <div
         ref={triggerRef}

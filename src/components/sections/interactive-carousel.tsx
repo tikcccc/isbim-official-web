@@ -320,7 +320,7 @@ export function InteractiveCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen bg-zinc-100 overflow-hidden flex flex-col items-center gap-10 sm:gap-12 lg:gap-14 py-12 sm:py-20"
+      className="relative w-full bg-zinc-100 overflow-visible flex flex-col items-center gap-10 sm:gap-12 lg:gap-14 section-padding pb-0 sm:pb-6"
     >
       {/* --- 導航區域 (Tabs + See All) --- */}
       <div className="relative z-30 container-content flex flex-col md:flex-row gap-4 mb-8 sm:mb-12 items-stretch md:items-center">
@@ -389,7 +389,7 @@ export function InteractiveCarousel() {
 
       {/* Slider Track */}
       <div
-        className="relative container-content flex items-center justify-center min-h-[75vh] max-h-[85vh] lg:min-h-[660px] lg:max-h-[760px]"
+        className="relative w-full px-4 md:px-8 max-w-[1800px] mx-auto flex items-center justify-center min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] overflow-visible"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -406,7 +406,7 @@ export function InteractiveCarousel() {
                 variants={cardVariants}
                 initial="hidden"
                 animate="hidden"
-                className="absolute w-full h-full bg-zinc-950 border border-white/10 min-h-[75vh] max-h-[85vh] lg:min-h-[660px] lg:max-h-[760px]"
+                className="absolute w-full h-full bg-zinc-950 border border-white/10 min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
               />
             );
           }
@@ -417,7 +417,7 @@ export function InteractiveCarousel() {
               variants={cardVariants}
               initial="hidden"
               animate={variant}
-              className="absolute w-full h-full bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden min-h-[75vh] max-h-[85vh] lg:min-h-[660px] lg:max-h-[760px]"
+              className="absolute w-full h-full bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
             >
               {/* Background Video/Image */}
               <div className="absolute inset-0 z-0">
@@ -455,7 +455,7 @@ export function InteractiveCarousel() {
                       {slide.category}
                     </span>
                   </div>
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight tracking-tight mb-6">
+                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-light leading-tight tracking-tight mb-6">
                     {slide.title}
                     <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 opacity-50" />
                   </h2>
@@ -464,7 +464,7 @@ export function InteractiveCarousel() {
                 {/* Bottom Section */}
                 <div className="relative">
                   <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
-                    <h1 className="text-[12vw] md:text-[7rem] font-medium leading-[0.8] tracking-tighter text-white select-none">
+                    <h1 className="text-[10vw] sm:text-[11vw] md:text-[7rem] font-medium leading-[0.8] tracking-tighter text-white select-none">
                       {slide.bigText}
                     </h1>
 
@@ -519,7 +519,7 @@ export function InteractiveCarousel() {
       </div>
 
       {/* Slide Indicators (Dots) */}
-      <div className="flex justify-center gap-3 z-30 container-content">
+      <div className="flex justify-center gap-3 z-30 w-full px-4 md:px-8">
         {SLIDES.map((slide, index) => {
           const total = SLIDES.length;
           const activeIdx = (page % total + total) % total;

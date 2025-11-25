@@ -20,7 +20,6 @@ if (typeof window !== "undefined") {
 }
 
 export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
-  // Phase 2: Refs for GSAP DOM control
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
@@ -28,20 +27,16 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
-  // Phase 3: Macro Animation (GSAP + ScrollTrigger)
-  // Responsibility: Narrative entrance animation when user scrolls to this section
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Create timeline with ScrollTrigger
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 75%", // Trigger when top of section reaches 75% of viewport
+          start: "top 75%",
           toggleActions: "play none none none",
         },
       });
 
-      // Step A: Image slides in from left with fade
       tl.from(imageRef.current, {
         x: -80,
         opacity: 0,
@@ -49,8 +44,6 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
         ease: "power3.out",
       });
 
-      // Step B: Text content floats up sequentially
-      // Use -=0.8 offset to create overlap with image animation for smooth narrative flow
       tl.from(
         [titleRef.current, subtitleRef.current, buttonRef.current],
         {
@@ -60,27 +53,23 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
           stagger: 0.15,
           ease: "power3.out",
         },
-        "-=0.8" // Overlap with image animation
+        "-=0.8"
       );
     }, containerRef);
 
-    // Cleanup is mandatory
     return () => ctx.revert();
   }, []);
 
   return (
     <section
       ref={containerRef}
-      className="w-full min-h-screen bg-zinc-50 text-slate-900 py-12 sm:py-20 flex flex-col justify-center"
+      className="w-full bg-zinc-50 text-slate-900 section-padding flex flex-col"
     >
       <div className="container-content">
-        {/* Phase 2: Tailwind Grid - Two-column responsive layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* Left: Image with gradient overlay */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-1 items-center">
           <div
             ref={imageRef}
-            className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-2xl bg-zinc-200"
+            className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden rounded-lg shadow-2xl bg-zinc-200 md:ml-auto lg:-translate-x-25"
           >
             <Image
               src={imageUrl ?? "/images/cta.png"}
@@ -90,61 +79,46 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               className="object-cover"
               priority
             />
-            {/* Gradient overlay for atmosphere */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent" />
           </div>
 
-{/* Right: Content area - Centered Layout */}
-<div
-  ref={textWrapperRef}
-  // 優化重點 1: items-center (水平置中) + text-center (文字置中)
-  // md:px-8 確保在視窗縮放時左右有足夠留白
-  className="flex flex-col items-center text-center justify-center md:px-8 lg:px-12"
->
-  {/* Title */}
-  <h2
-    ref={titleRef}
-    // 優化重點 2:
-    // - tracking-wide (解決太密)
-    // - mb-6 (拉開標題與副標題的距離，比原本寬鬆)
-    className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-wide text-slate-900 leading-[1.1] text-balance mb-6"
-  >
-    {m.section5_cta_title()}
-  </h2>
+          <div
+            ref={textWrapperRef}
+            className="flex flex-col items-center text-center justify-center md:px-6 lg:px-8"
+          >
+            <h2
+              ref={titleRef}
+              className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-wide text-slate-900 leading-[1.1] text-balance mb-6"
+            >
+              {m.section5_cta_title()}
+            </h2>
 
-  {/* Subtitle */}
-  <p
-    ref={subtitleRef}
-    // 優化重點 3:
-    // - mx-auto: 因為有設 max-w，必須加這個才能讓整個段落置中
-    // - font-normal: 稍微加粗一點點，提升閱讀舒適度
-    className="text-lg sm:text-xl lg:text-xl leading-relaxed font-normal text-gray-600 max-w-lg text-pretty mx-auto"
-  >
-    {m.section5_cta_subtitle()}
-  </p>
+            <p
+              ref={subtitleRef}
+              className="text-lg sm:text-xl lg:text-xl leading-relaxed font-normal text-gray-600 max-w-lg text-pretty mx-auto"
+            >
+              {m.section5_cta_subtitle()}
+            </p>
 
-  {/* Button Area */}
-  {/* 優化重點 4: pt-10 拉大按鈕與上方文字的距離，強調層級 */}
-  <div ref={buttonRef} className="pt-10">
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-    >
-      {/* 保留原本按鈕樣式 */}
-      <Button
-        variant="outline"
-        className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg transition-all duration-300 rounded-lg uppercase tracking-wider"
-      >
-        {m.section5_cta_button()}
-        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-      </Button>
-    </motion.div>
-  </div>
-</div>
-
+            <div ref={buttonRef} className="pt-10">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Button
+                  variant="outline"
+                  className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg transition-all duration-300 rounded-lg uppercase tracking-wider"
+                >
+                  {m.section5_cta_button()}
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                </Button>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+

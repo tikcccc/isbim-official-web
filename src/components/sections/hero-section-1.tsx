@@ -43,7 +43,7 @@ export function HeroSection1() {
   }, []);
 
   return (
-    <section className="hero-section relative w-full overflow-hidden bg-black min-h-screen lg:min-h-[120vh]">
+    <section className="hero-section relative w-full overflow-hidden bg-black min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
       {/* Video Background (absolute position within section) */}
       <div className="absolute inset-0 z-[1]">
         <video
@@ -61,7 +61,7 @@ export function HeroSection1() {
       </div>
 
       {/* Hero Content - Inner Container */}
-      <header className="relative z-10 container-page grid place-items-center text-white text-center px-6 sm:px-10 min-h-screen lg:min-h-[120vh]">
+      <header className="relative z-10 container-page grid place-items-center text-white text-center px-6 sm:px-10 flex-1">
         <div className="hero-content">
           {/* Animated Title */}
           <h1 ref={titleRef} className="hero-title overflow-hidden">

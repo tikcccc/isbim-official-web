@@ -70,23 +70,32 @@ export default async function Home() {
   const ctaImage = await getCtaImage();
 
   return (
-    <>
+    <div className="w-full overflow-x-hidden bg-white">
       {/* Section 1: Hero with video background - Full width */}
-      <HeroSection1 />
+      <div className="relative w-full">
+        <HeroSection1 />
+      </div>
 
-      <main className="container-page">
-        {/* Section 2: Interactive Tab Carousel with animations */}
+      {/* Section 2: Interactive Tab Carousel with animations (full-width wrap) */}
+      <div className="relative w-full">
         <InteractiveCarousel />
+      </div>
 
-        {/* Section 3: Wide-format narrative text aggregation */}
-        <Section3Placeholder />
+      {/* Full-bleed white wrapper to cover edges beneath the carousel */}
+      <div className="relative w-full bg-white">
+        <section className="w-full bg-white">
+          <div className="container-page">
+            {/* Section 3: Wide-format narrative text aggregation */}
+            <Section3Placeholder />
 
-        {/* Section 4: AI Platforms with video hover animation */}
-        <Section4PlatformList />
+            {/* Section 4: AI Platforms with video hover animation */}
+            <Section4PlatformList />
+          </div>
+        </section>
+      </div>
 
-        {/* Section 5: Call to Action with dual-column layout */}
-        <Section5CTA imageUrl={ctaImage.imageUrl} imageAlt={ctaImage.imageAlt} />
-      </main>
-    </>
+      {/* Section 5: Call to Action with dual-column layout (full-width gray background) */}
+      <Section5CTA imageUrl={ctaImage.imageUrl} imageAlt={ctaImage.imageAlt} />
+    </div>
   );
 }
