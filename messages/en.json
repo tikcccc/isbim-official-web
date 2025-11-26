@@ -243,6 +243,10 @@
   "services_products_subtitle_1": "Intelligent infrastructure for the next century.",
   "services_products_subtitle_2": "Seamless fusion of expertise and AI.",
   "services_products_cta_title": "Ready to build the future?",
-  "services_products_cta_button": "Transform Your Project"
+  "services_products_cta_button": "Transform Your Project",
+
+  "jarvis_suite_title": "JARVIS AI Suite",
+  "jarvis_suite_subtitle": "Domain-specific generative AI agent for every construction stakeholder.",
+  "jarvis_suite_under_construction": "Page under construction"
 }
 

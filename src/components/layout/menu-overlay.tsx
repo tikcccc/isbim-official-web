@@ -411,7 +411,7 @@ export function MenuOverlay() {
             {/* RIGHT COLUMN: Dynamic Content Area */}
             <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative">
               {/* Grid Texture */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none mix-blend-screen opacity-80" />
 
               <AnimatePresence mode="wait">
                 {activePreview === "jarvis_suite" ? (

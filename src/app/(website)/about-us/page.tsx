@@ -12,6 +12,7 @@ import * as m from '@/paraglide/messages';
 import { useSmoothScrollTo } from '@/hooks';
 import { useLocalizedHref } from '@/lib/i18n/index';
 import { ROUTES } from '@/lib/constants';
+import { TypewriterWidth } from '@/components/animations';
 
 /**
  * About Us Page
@@ -227,19 +228,11 @@ interface SectionProps {
 
 const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionProps) => {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const cursorRef = useRef<HTMLSpanElement>(null);
   const setActiveSection = useNavStore((state) => state.setActiveSection);
 
   useEffect(() => {
     const el = sectionRef.current;
-    const titleEl = titleRef.current;
-    const cursorEl = cursorRef.current;
-
-    if (!el || !titleEl) return;
-
-    gsap.set(titleEl, { width: "0%" });
-    gsap.set(cursorEl, { left: "0%" });
+    if (!el) return;
 
     // Navigation tracking - persistent ScrollTrigger
     const navTrigger = ScrollTrigger.create({
@@ -251,7 +244,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       markers: false
     });
 
-    // Animation - one-time ScrollTrigger
+    // Animation - one-time ScrollTrigger for other elements
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
@@ -262,40 +255,17 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       }
     });
 
-    const blinkAnim = gsap.to(cursorEl, {
-      opacity: 0,
-      repeat: -1,
-      yoyo: true,
-      duration: 0.5,
-      ease: "steps(1)"
-    });
-
-    // Note: width/left animations are intentional for typewriter effect
-    // These are isolated to title element and don't cause layout thrashing
-    tl.to(titleEl, {
-      width: "100%",
-      duration: 1.5,
-      ease: "steps(40)",
-    });
-
-    tl.to(cursorEl, {
-      left: "100%",
-      duration: 1.5,
-      ease: "steps(40)",
-    }, "<");
-
     tl.fromTo(`.section-${id}-anim`,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", stagger: 0.1 },
-      "-=0.5"
+      "+=1.0" // Delay to allow typewriter to finish
     );
 
     return () => {
       navTrigger.kill();
       tl.kill();
-      blinkAnim.kill();
     };
-  }, [id, title, setActiveSection]);
+  }, [id, setActiveSection]);
 
   return (
     <section
@@ -313,23 +283,19 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
               0{id} <span className="text-neutral-400">/ 03</span>
             </span>
 
-            <div className="relative inline-block">
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-transparent select-none uppercase invisible">
-                {title}
-              </h2>
-              <h2
-                ref={titleRef}
-                className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-neutral-900 whitespace-nowrap overflow-hidden align-middle uppercase absolute top-0 left-0"
-                style={{ width: '0%' }}
-              >
-                {title}
-              </h2>
-              <span
-                ref={cursorRef}
-                className="absolute top-2 h-[80%] w-3 bg-blue-600 block ml-1 md:ml-2"
-                style={{ left: '0%' }}
-              ></span>
-            </div>
+            <TypewriterWidth
+              text={title}
+              className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-neutral-900 uppercase"
+              duration={1.5}
+              steps={40}
+              cursorVisible
+              cursorClassName="top-2 h-[80%] w-3 bg-blue-600 ml-1 md:ml-2"
+              scrollTrigger={{
+                trigger: `#section-${id}`,
+                start: "top 70%",
+                toggleActions: "play none none none",
+              }}
+            />
           </div>
 
           {subtitle && (

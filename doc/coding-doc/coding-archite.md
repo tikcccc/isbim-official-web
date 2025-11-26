@@ -1,4 +1,4 @@
-# isBIM Official Web Architecture (v3.6)
+# isBIM Official Web Architecture (v3.7)
 
 Architecture for this Next.js project.
 
@@ -80,7 +80,10 @@ src/components/animations/
   scroll-reveal.tsx          # Framer + useInView
   parallax-section.tsx       # placeholder
   slide-in.tsx               # placeholder
+  typewriter.tsx             # TypewriterText/TypewriterWidth/TypewriterLines (GSAP + ScrollTrigger)
+  index.ts                   # barrel for animations suite
 ```
+- `TypewriterWidth` drives about-us section titles (1.5s duration, 40 steps, blue block cursor, ScrollTrigger once).
 
 ### Hooks (barrel: src/hooks/index.ts)
 - Scroll/viewport: `useScrollProgress`, `useInView`
@@ -196,9 +199,9 @@ public/
 - **ISR**: Sanity webhook hits `api/revalidate` with `SANITY_WEBHOOK_SECRET` (HMAC) and revalidates tags from payload.
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
 - **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.
+- **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
 
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.
 - Sections: `section3-placeholder.tsx` (content pending).
 - Sanity: `newsType.ts`, `careerType.ts`, `projectType.ts`, `schemaTypes/index.ts` registration updates.
-

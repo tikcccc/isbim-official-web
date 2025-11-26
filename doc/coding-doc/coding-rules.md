@@ -1,7 +1,7 @@
 # Coding Rules - isBIM Official Web
 Rules are terse and vibe-critical only; keep future edits short, actionable, and in this style.
 
-**Last Updated**: 2025-11-26 | **Version**: 3.6
+**Last Updated**: 2025-11-26 | **Version**: 3.7
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -20,7 +20,8 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 
 ## Motion
 - Import `m` from `components/motion/lazy-motion`; `AnimatePresence` only when needed. No direct `motion` imports.
-- Services/Products: keep SpotlightCard + CornerBrackets for hover/spotlight; don’t reinvent mousemove handlers.
+- Services/Products: keep SpotlightCard + CornerBrackets for hover/spotlight; don't reinvent mousemove handlers.
+- Use `TypewriterText/TypewriterWidth/TypewriterLines` from `components/animations`; about-us headings stick to `TypewriterWidth` defaults (1.5s, 40 steps, blue block cursor, ScrollTrigger once) via the shared Section; keep Services/Products hero on character-level `TypewriterText`.
 
 ## Styling & Tokens
 - Design tokens live in `design-tokens.ts`; no duplicate breakpoints/z-index/colors elsewhere; reuse shared container utilities from `globals.css`.

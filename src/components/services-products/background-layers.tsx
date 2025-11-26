@@ -12,18 +12,13 @@ export function BackgroundLayers() {
     <>
       {/* Noise Texture Overlay */}
       <div
-        className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-[0.03]"
-        style={{
-          zIndex: 1,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }}
+        className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-10 bg-[url('/images/noise.svg')] bg-repeat will-change-opacity"
       />
 
       {/* Tech Grid Pattern */}
       <div
-        className="fixed top-0 left-0 w-full h-full pointer-events-none"
+        className="fixed top-0 left-0 w-full h-full pointer-events-none z-[1]"
         style={{
-          zIndex: 0,
           backgroundSize: "60px 60px",
           backgroundImage: `
             linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),

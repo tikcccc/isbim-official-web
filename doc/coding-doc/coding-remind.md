@@ -1,6 +1,22 @@
-# Claude Reminders - isBIM Official Web (Updated 2025-11-25)
+# Claude Reminders - isBIM Official Web (Updated 2025-11-26)
 
 wirte item need to remind here , record the problem you fix and solution. keep simple
+
+## CDN Migration (2025-11-26)
+**Phase 1 Completed**: Switched from Mainland China CDN to Hong Kong CDN
+- **Old**: `https://posix-jarvis-cn.obs.cn-south-1.myhuaweicloud.com/share/resource/video`
+- **New**: `https://posix-jarvis-hk.obs.ap-southeast-1.myhuaweicloud.com/jarvis/share/video`
+- **Reason**: Better international reach; Hong Kong node (ap-southeast-1) serves all regions
+- **Files Updated**: `.env.local`, `.env.production` (created), `coding-archite.md`
+- **Compatibility**: Existing `media-config.ts` fully compatible (no changes needed)
+
+**Phase 2 Pending**: Smart geo-based CDN switching (mainland CN vs HK)
+- **Trigger**: After deployment platform is confirmed (Vercel / Huawei Cloud HK / other)
+- **Options**:
+  - If Vercel: Use Edge Runtime + `x-vercel-ip-country` header (server-side detection)
+  - If Huawei Cloud: Use client-side language detection (`zh-CN` → CN CDN, others → HK CDN) + optional Cloudflare Trace API
+- **Implementation**: Add `lib/geo-detector.ts`, `hooks/use-geo-cdn.ts`, update `media-config.ts` for dynamic CDN selection
+- **Fallback**: Default to Hong Kong CDN (international priority)
 
 ## SEO/Performance follow-ups (2025-11-26)
 - Set `SANITY_WEBHOOK_SECRET` in `.env.local` and configure the Sanity webhook (create/update/delete -> `/api/revalidate`) with the same secret; confirm revalidate 200 OK.

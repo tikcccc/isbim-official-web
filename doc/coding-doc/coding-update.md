@@ -1,5 +1,9 @@
 write update history here, keep simple with update time and update number
 
+## 2025-11-26 (v3.7)
+- Added reusable typewriter suite in `src/components/animations/typewriter.tsx` (barrel-exported): `TypewriterText` (character-level), `TypewriterWidth` (width-based with cursor + ScrollTrigger), `TypewriterLines` (multi-line sequencing).
+- Replaced about-us title animation with `TypewriterWidth` while preserving 1.5s/40-step blue cursor + ScrollTrigger timing; simplified `Section` to drop duplicate typewriter logic while keeping existing reveal animations.
+
 ## 2025-11-26 (v3.6)
 - Services & Products page rebuilt with dark cyberpunk theme (noise + grid + emerald glow), shimmer hero, GPU spotlight cards, Bento grid, expandable service details, and final CTA; new component suite (`background-layers`, `hero-section`, `services-grid`, `service-card`, `spotlight-card`, `corner-brackets`, `cta-section`) plus `servicesData` (5 entries). Build succeeded (5.92 kB page, 141 kB first load JS).
 
