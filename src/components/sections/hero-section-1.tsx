@@ -52,6 +52,7 @@ export function HeroSection1() {
 
         <video
           className="hero-video w-full h-full object-cover object-center relative z-10"
+          poster="/images/posters/banner-poster.jpg"
           playsInline
           autoPlay
           loop
