@@ -298,19 +298,78 @@ export const COMMON_KEYWORDS = [
 ] as const;
 
 /**
- * Generate locale-specific alternate links
+ * Generate locale-specific alternate links with proper hreflang
  *
- * @param path - Page path
- * @returns Locale alternate URLs
+ * @param path - Page path (without locale prefix, e.g., "/about-us")
+ * @param currentLocale - Current page locale (e.g., "en" or "zh")
+ * @returns Locale alternate URLs for SEO
+ *
+ * @example
+ * ```tsx
+ * const alternates = generateAlternates("/about-us", "en");
+ * // Returns proper canonical and language alternates for Google/Baidu
+ * ```
  */
-export function generateAlternates(path: string) {
+export function generateAlternates(path: string, currentLocale: string = "en") {
   const siteUrl = getSiteUrl();
 
+  // Ensure path starts with /
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+
   return {
-    canonical: `${siteUrl}${path}`,
+    canonical: `${siteUrl}/${currentLocale}${cleanPath}`,
     languages: {
-      en: `${siteUrl}/en${path}`,
-      zh: `${siteUrl}/zh${path}`,
+      // Standard language codes for hreflang
+      "en": `${siteUrl}/en${cleanPath}`,
+      "zh": `${siteUrl}/zh${cleanPath}`,
+      "zh-CN": `${siteUrl}/zh${cleanPath}`, // Baidu prefers zh-CN
+      "zh-HK": `${siteUrl}/zh${cleanPath}`, // Hong Kong variant
+      "x-default": `${siteUrl}/en${cleanPath}`, // Default fallback for unknown locales
     },
+  };
+}
+
+/**
+ * Generate hreflang links for all available languages
+ * Uses Paraglide's availableLanguageTags for consistency
+ *
+ * @param path - Page path (without locale prefix)
+ * @param currentLocale - Current page locale
+ * @returns Language alternates object for Next.js metadata
+ */
+export function generateHreflangAlternates(
+  path: string,
+  currentLocale: string = "en"
+) {
+  const siteUrl = getSiteUrl();
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  // Map Paraglide language tags to proper hreflang codes
+  const languageMap: Record<string, string[]> = {
+    "en": ["en", "en-US", "en-GB"],
+    "zh": ["zh", "zh-CN", "zh-HK", "zh-TW"],
+  };
+
+  const languages: Record<string, string> = {};
+
+  // Build language alternates based on available languages
+  const availableLanguages = ["en", "zh"]; // From Paraglide runtime
+
+  availableLanguages.forEach((lang) => {
+    const hreflangCodes = languageMap[lang] || [lang];
+    const url = `${siteUrl}/${lang}${cleanPath}`;
+
+    // Add all hreflang variants for this language
+    hreflangCodes.forEach((code) => {
+      languages[code] = url;
+    });
+  });
+
+  // Add x-default for unknown locales (best practice)
+  languages["x-default"] = `${siteUrl}/en${cleanPath}`;
+
+  return {
+    canonical: `${siteUrl}/${currentLocale}${cleanPath}`,
+    languages,
   };
 }

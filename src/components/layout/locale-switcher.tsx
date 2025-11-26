@@ -55,7 +55,7 @@ export function LocaleSwitcher() {
       {/* EN Button */}
       <m.button
         onClick={() => switchLocale("en")}
-        whileHover={{ scale: currentLocale === "en" ? 1 : 1.05 }}
+        whileHover={{}}
         whileTap={{ scale: 0.95 }}
         className={`
           relative z-10 w-1/2 h-full flex items-center justify-center
@@ -64,7 +64,7 @@ export function LocaleSwitcher() {
           ${
             currentLocale === "en"
               ? "text-white font-bold"
-              : "text-white/50 hover:text-white/70"
+              : "text-white/50 hover:bg-white/10"
           }
         `}
         aria-label="Switch to English"
@@ -76,7 +76,7 @@ export function LocaleSwitcher() {
       {/* ZH Button */}
       <m.button
         onClick={() => switchLocale("zh")}
-        whileHover={{ scale: currentLocale === "zh" ? 1 : 1.05 }}
+        whileHover={{}}
         whileTap={{ scale: 0.95 }}
         className={`
           relative z-10 w-1/2 h-full flex items-center justify-center
@@ -85,7 +85,7 @@ export function LocaleSwitcher() {
           ${
             currentLocale === "zh"
               ? "text-white font-bold"
-              : "text-white/50 hover:text-white/70"
+              : "text-white/50 hover:bg-white/10"
           }
         `}
         aria-label="切換至中文"

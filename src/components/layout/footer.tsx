@@ -170,7 +170,9 @@ export function Footer() {
               {messages.footer_newsletter_desc()}
             </p>
 
-            <NewsletterForm />
+            <div className="min-h-[72px]">
+              <NewsletterForm />
+            </div>
           </div>
         </div>
 

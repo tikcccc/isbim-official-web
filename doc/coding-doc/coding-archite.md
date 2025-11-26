@@ -1,10 +1,10 @@
-# isBIM Official Web – Architecture (v2.3)
+# isBIM Official Web Architecture (v2.4)
 
 Architecture for this Next.js project
 
 ## Tech Stack
 - Next.js 15 (App Router, Turbopack dev), TypeScript, Tailwind CSS v4
-- Paraglide v1 i18n (Level 3 LocaleContext pattern) – use `sourceLanguageTag/availableLanguageTags`
+- Paraglide v1 i18n (Level 3 LocaleContext pattern) — use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion
 - Motion: LazyMotion via `MotionProvider` + `m` factory (Framer)
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
@@ -34,6 +34,8 @@ src/app/
     robots.ts                   # robots with Studio exclusions
   (studio)/
     studio/[[...index]]/page.tsx  # Sanity Studio (NextStudio)
+  api/
+    revalidate/route.ts         # Sanity webhook -> on-demand ISR (HMAC secret)
 ```
 
 ### Layout / UI
@@ -104,6 +106,15 @@ src/styles/
   typography.css  # placeholder typography utilities
 ```
 
+### SEO & ISR
+```
+src/lib/seo.ts                     # canonical + hreflang helpers (x-default, en/en-US/en-GB/zh/zh-CN/zh-HK/zh-TW)
+src/components/seo/json-ld.tsx     # JsonLd component + helpers: Organization/Product/JobPosting/Breadcrumb schemas
+src/app/(website)/robots.ts        # disallow Studio/API/_next/admin/json/revalidate; includes CN search engines and AI bots
+src/app/layout.tsx                 # renders Organization schema (JsonLd)
+src/app/api/revalidate/route.ts    # webhook endpoint with SANITY_WEBHOOK_SECRET for tag-based revalidation
+```
+
 ### Sanity Data Layer
 ```
 src/sanity/lib/
@@ -128,11 +139,15 @@ src/sanity/schemaTypes/
   index.ts             # register schemas
 ```
 
-#### Sanity Image Content Table (current)
+#### Sanity SEO/Media Fields (current)
 | Document | Field | Type | Notes | File |
 |---|---|---|---|---|
-| product | `mainImage` | `image` | hotspot enabled; has `alt` subfield | src/sanity/schemaTypes/productType.ts |
-| imageAsset | `file` | `image` | hotspot enabled; has `alt`; standalone image entry | src/sanity/schemaTypes/imageType.ts |
+| post/product | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/postType.ts / productType.ts |
+| post/product | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/postType.ts / productType.ts |
+| post/product | `openGraphImage` | image | recommended 1200x630 | src/sanity/schemaTypes/postType.ts / productType.ts |
+| post/product | `keywords` | array<string> | optional list | src/sanity/schemaTypes/postType.ts / productType.ts |
+| product | `mainImage.alt` | string | required 10-125 chars | src/sanity/schemaTypes/productType.ts |
+| imageAsset | `alt` | string | required 10-125 chars | src/sanity/schemaTypes/imageType.ts |
 
 ### Public Assets
 ```
@@ -161,6 +176,8 @@ public/
 - **Studio isolation**: Studio lives under `(studio)` route group; keep bare layout for Studio only.
 - **Sanity usage in app**: Use typed queries and `sanityFetch` for all data operations; home uses `IMAGE_ASSET_BY_SLUG_QUERY` with cache tags and hourly revalidation.
 - **Motion**: Use `MotionProvider`/`m` from `components/motion/lazy-motion` instead of direct `motion` imports; keep `AnimatePresence` named imports.
+- **SEO**: Build canonical + hreflang via `generateHreflangAlternates` in `lib/seo.ts`; render structured data with `JsonLd` helpers; keep robots exclusions for Studio/API/Next assets/admin/json/revalidate.
+- **ISR**: Sanity webhook hits `api/revalidate` with `SANITY_WEBHOOK_SECRET` (HMAC) and revalidates tags from payload.
 
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.
@@ -172,3 +189,4 @@ public/
 - Added `MotionProvider` (LazyMotion + `m`) and migrated Framer usages to the `m` factory to reduce bundle size.
 - Footer newsletter form is now lazy-loaded; shared fonts moved to `src/app/fonts.ts`.
 - Home page uses literal `revalidate` config (3600s) for Next.js page config parsing.
+- SEO/Performance pass: added hreflang/canonical helper, JsonLd schema helpers (Org/Product/JobPosting/Breadcrumb), on-demand ISR webhook with secret, expanded Sanity SEO fields + required alt text, tightened robots.txt, and marked LCP-critical images with `priority`.

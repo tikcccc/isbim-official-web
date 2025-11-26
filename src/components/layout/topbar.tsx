@@ -51,7 +51,7 @@ export function Topbar() {
             alt="isBIM Logo"
             width={96}
             height={24}
-            className="h-5 sm:h-6 w-auto"
+            className="h-5 sm:h-6 w-[80px] sm:w-[96px]"
             priority
           />
         </Link>
