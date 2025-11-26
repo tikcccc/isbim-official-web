@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { ArrowRight, CornerDownRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,7 +9,8 @@ import { TypewriterText } from "@/components/ui/typewriter-text";
 import { useBodyScrollLock, useLenis } from "@/hooks";
 import { useLocalizedHref } from "@/lib/i18n/index";
 import { ROUTES } from "@/lib/constants";
-import * as m from "@/paraglide/messages";
+import * as messages from "@/paraglide/messages";
+import { m } from "@/components/motion/lazy-motion";
 import { useEffect } from "react";
 
 // --- Type definitions for menu data ---
@@ -37,50 +38,50 @@ type MenuItem = MenuLink | MenuGroup;
 // --- Helper function to get menu data with i18n ---
 const getMenuData = () => ({
   structure: [
-    { title: m.menu_nav_about(), href: ROUTES.ABOUT, type: "link" as const },
+    { title: messages.menu_nav_about(), href: ROUTES.ABOUT, type: "link" as const },
     {
-      title: m.menu_nav_services(),
+      title: messages.menu_nav_services(),
       type: "group" as const,
       children: [
         {
-          title: m.menu_nav_jarvis_suite(),
+          title: messages.menu_nav_jarvis_suite(),
           action: "jarvis_suite",
           isHighlight: true,
           href: ROUTES.JARVIS.SUITE,
         },
-        { title: m.menu_nav_jpm(), href: ROUTES.JARVIS.JPM },
-        { title: m.menu_nav_bim(), href: ROUTES.BIM_CONSULTANCY },
-        { title: m.menu_nav_finance(), href: ROUTES.PROJECT_FINANCE },
-        { title: m.menu_nav_venture(), href: ROUTES.VENTURE_INVESTMENTS },
+        { title: messages.menu_nav_jpm(), href: ROUTES.JARVIS.JPM },
+        { title: messages.menu_nav_bim(), href: ROUTES.BIM_CONSULTANCY },
+        { title: messages.menu_nav_finance(), href: ROUTES.PROJECT_FINANCE },
+        { title: messages.menu_nav_venture(), href: ROUTES.VENTURE_INVESTMENTS },
       ],
     },
-    { title: m.menu_nav_newsroom(), href: ROUTES.NEWSROOM, type: "link" as const },
-    { title: m.menu_nav_careers(), href: ROUTES.CAREERS, type: "link" as const },
-    { title: m.menu_nav_contact(), href: ROUTES.CONTACT, type: "link" as const },
+    { title: messages.menu_nav_newsroom(), href: ROUTES.NEWSROOM, type: "link" as const },
+    { title: messages.menu_nav_careers(), href: ROUTES.CAREERS, type: "link" as const },
+    { title: messages.menu_nav_contact(), href: ROUTES.CONTACT, type: "link" as const },
   ] as MenuItem[],
   jarvisProducts: [
-    { name: m.menu_product_agent_name(), desc: m.menu_product_agent_desc() },
-    { name: m.menu_product_pay_name(), desc: m.menu_product_pay_desc() },
-    { name: m.menu_product_air_name(), desc: m.menu_product_air_desc() },
-    { name: m.menu_product_eagleeye_name(), desc: m.menu_product_eagleeye_desc() },
-    { name: m.menu_product_ssss_name(), desc: m.menu_product_ssss_desc() },
-    { name: m.menu_product_dwss_name(), desc: m.menu_product_dwss_desc() },
-    { name: m.menu_product_cdcp_name(), desc: m.menu_product_cdcp_desc() },
-    { name: m.menu_product_assets_name(), desc: m.menu_product_assets_desc() },
+    { name: messages.menu_product_agent_name(), desc: messages.menu_product_agent_desc() },
+    { name: messages.menu_product_pay_name(), desc: messages.menu_product_pay_desc() },
+    { name: messages.menu_product_air_name(), desc: messages.menu_product_air_desc() },
+    { name: messages.menu_product_eagleeye_name(), desc: messages.menu_product_eagleeye_desc() },
+    { name: messages.menu_product_ssss_name(), desc: messages.menu_product_ssss_desc() },
+    { name: messages.menu_product_dwss_name(), desc: messages.menu_product_dwss_desc() },
+    { name: messages.menu_product_cdcp_name(), desc: messages.menu_product_cdcp_desc() },
+    { name: messages.menu_product_assets_name(), desc: messages.menu_product_assets_desc() },
   ],
   // Stats data from copywriting
   stats: [
-    { value: "2,600+", label: "LIVE_PROJECTS", desc: m.menu_stat_live_projects() },
-    { value: "1.2B", label: "TOTAL_SQFT", desc: m.menu_stat_sqft() },
-    { value: "71%", label: "DEFECT_REDUCTION", desc: m.menu_stat_defect() },
-    { value: "45%", label: "FASTER_DELIVERY", desc: m.menu_stat_delivery() },
+    { value: "2,600+", label: "LIVE_PROJECTS", desc: messages.menu_stat_live_projects() },
+    { value: "1.2B", label: "TOTAL_SQFT", desc: messages.menu_stat_sqft() },
+    { value: "71%", label: "DEFECT_REDUCTION", desc: messages.menu_stat_defect() },
+    { value: "45%", label: "FASTER_DELIVERY", desc: messages.menu_stat_delivery() },
   ],
   // Impact metrics
   impact: [
-    { value: "25-35%", label: m.menu_impact_emissions() },
-    { value: "35-45%", label: m.menu_impact_waste() },
-    { value: "60 Days", label: m.menu_impact_payment() },
-    { value: "99.8%", label: m.menu_impact_accuracy() },
+    { value: "25-35%", label: messages.menu_impact_emissions() },
+    { value: "35-45%", label: messages.menu_impact_waste() },
+    { value: "60 Days", label: messages.menu_impact_payment() },
+    { value: "99.8%", label: messages.menu_impact_accuracy() },
   ],
 });
 
@@ -216,7 +217,7 @@ export function MenuOverlay() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           data-menu-overlay
           variants={overlayVariants}
           initial="hidden"
@@ -241,14 +242,14 @@ export function MenuOverlay() {
                   delay={0.2}
                 />
 
-                <motion.nav
+                <m.nav
                   variants={staggerContainer}
                   initial="hidden"
                   animate="visible"
                   className="flex flex-col gap-8"
                 >
                   {menuData.structure.map((item, idx) => (
-                    <motion.div
+                    <m.div
                       key={idx}
                       variants={fadeInUp}
                       className="flex flex-col"
@@ -274,7 +275,7 @@ export function MenuOverlay() {
 
                       {/* Children */}
                       {item.type === "group" && item.children && (
-                        <motion.div
+                        <m.div
                           className="mt-6 ml-2 flex flex-col gap-4 border-l border-white/10 pl-6"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
@@ -309,7 +310,7 @@ export function MenuOverlay() {
 
                                 {/* Hover Indicator */}
                                 {child.action === "jarvis_suite" && (
-                                  <motion.div
+                                  <m.div
                                     layoutId="indicator"
                                     className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover/child:opacity-100"
                                   />
@@ -341,7 +342,7 @@ export function MenuOverlay() {
 
                                 {/* Hover Indicator */}
                                 {child.action === "jarvis_suite" && (
-                                  <motion.div
+                                  <m.div
                                     layoutId="indicator"
                                     className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover/child:opacity-100"
                                   />
@@ -349,15 +350,15 @@ export function MenuOverlay() {
                               </div>
                             )
                           )}
-                        </motion.div>
+                        </m.div>
                       )}
-                    </motion.div>
+                    </m.div>
                   ))}
-                </motion.nav>
+                </m.nav>
               </div>
 
               {/* Footer Links */}
-              <motion.div
+              <m.div
                 className="mt-auto pt-16"
                 variants={fadeInUp}
                 initial="hidden"
@@ -371,7 +372,7 @@ export function MenuOverlay() {
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
-                      text={m.menu_nav_legal()}
+                      text={messages.menu_nav_legal()}
                       className="text-sm"
                       delay={1.0}
                     />
@@ -382,13 +383,13 @@ export function MenuOverlay() {
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
-                      text={m.footer_privacy()}
+                      text={messages.footer_privacy()}
                       className="text-sm"
                       delay={1.1}
                     />
                   </Link>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
 
             {/* RIGHT COLUMN: Dynamic Content Area */}
@@ -398,7 +399,7 @@ export function MenuOverlay() {
 
               <AnimatePresence mode="wait">
                 {activePreview === "jarvis_suite" ? (
-                  <motion.div
+                  <m.div
                     key="products"
                     variants={panelVariants}
                     initial="hidden"
@@ -412,14 +413,14 @@ export function MenuOverlay() {
                           text="PRODUCT_CATALOG"
                           className="text-[10px] font-mono text-blue-400 mb-3 tracking-widest"
                         />
-                        <motion.h2
+                        <m.h2
                           variants={fadeInUp}
                           className="text-4xl font-light text-white"
                         >
-                          {m.menu_nav_jarvis_suite()}
-                        </motion.h2>
+                          {messages.menu_nav_jarvis_suite()}
+                        </m.h2>
                         <TypewriterText
-                          text={m.menu_suite_subtitle()}
+                          text={messages.menu_suite_subtitle()}
                           className="text-sm text-neutral-400 mt-2 block"
                           delay={0.2}
                         />
@@ -470,9 +471,9 @@ export function MenuOverlay() {
                         </div>
                       ))}
                     </div>
-                  </motion.div>
+                  </m.div>
                 ) : (
-                  <motion.div
+                  <m.div
                     key="default"
                     variants={panelVariants}
                     initial="hidden"
@@ -486,26 +487,26 @@ export function MenuOverlay() {
                           text="LATEST_INTELLIGENCE"
                           className="text-[10px] font-mono text-blue-400 tracking-[0.2em] mb-4 block"
                         />
-                        <motion.h2
+                        <m.h2
                           variants={fadeInUp}
                           className="text-3xl font-light text-white max-w-lg leading-snug"
                         >
-                          {m.menu_headline()}{" "}
+                          {messages.menu_headline()}{" "}
                           <span className="text-blue-400">
-                            {m.menu_headline_highlight()}
+                            {messages.menu_headline_highlight()}
                           </span>
-                        </motion.h2>
+                        </m.h2>
                       </div>
-                      <motion.button
+                      <m.button
                         variants={fadeInUp}
                         className="text-[10px] font-mono border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all text-neutral-300 uppercase tracking-widest flex items-center gap-2"
                       >
-                        {m.menu_nav_newsroom()} <ArrowRight size={14} />
-                      </motion.button>
+                        {messages.menu_nav_newsroom()} <ArrowRight size={14} />
+                      </m.button>
                     </div>
 
                     {/* Stats Section */}
-                    <motion.div
+                    <m.div
                       variants={fadeInUp}
                       className="grid grid-cols-4 gap-6 py-8 border-y border-white/10 mb-8"
                     >
@@ -530,10 +531,10 @@ export function MenuOverlay() {
                           />
                         </div>
                       ))}
-                    </motion.div>
+                    </m.div>
 
                     {/* Impact Metrics */}
-                    <motion.div
+                    <m.div
                       variants={fadeInUp}
                       className="flex justify-between items-center mb-10 px-4"
                     >
@@ -554,7 +555,7 @@ export function MenuOverlay() {
                           </div>
                         </div>
                       ))}
-                    </motion.div>
+                    </m.div>
 
                     {/* News Section Header */}
                     <div className="flex justify-between items-center mb-6 pt-6 border-t border-white/10">
@@ -563,17 +564,17 @@ export function MenuOverlay() {
                         className="text-[10px] font-mono text-blue-400 tracking-[0.2em]"
                         delay={0.8}
                       />
-                      <motion.button
+                      <m.button
                         variants={fadeInUp}
                         className="text-[9px] font-mono text-gray-300 hover:text-gray-100 transition-colors uppercase tracking-widest flex items-center gap-2"
                       >
-                        {m.menu_view_all()} <ArrowRight size={12} />
-                      </motion.button>
+                        {messages.menu_view_all()} <ArrowRight size={12} />
+                      </m.button>
                     </div>
 
                     {/* News Cards */}
                     <div className="grid grid-cols-2 gap-6">
-                      <motion.div
+                      <m.div
                         variants={fadeInUp}
                         className="group cursor-pointer"
                       >
@@ -605,9 +606,9 @@ export function MenuOverlay() {
                             delay={0.6}
                           />
                         </h3>
-                      </motion.div>
+                      </m.div>
 
-                      <motion.div
+                      <m.div
                         variants={fadeInUp}
                         className="group cursor-pointer"
                       >
@@ -632,17 +633,16 @@ export function MenuOverlay() {
                             delay={0.7}
                           />
                         </h3>
-                      </motion.div>
+                      </m.div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
           </div>
 
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );
 }
-

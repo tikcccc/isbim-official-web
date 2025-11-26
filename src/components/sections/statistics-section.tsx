@@ -14,7 +14,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import { cn } from "@/lib/utils";
 import { useInView } from "@/hooks";
 import { staggerContainer, fadeInUp } from "@/lib/animation-variants";
@@ -155,18 +155,18 @@ export function StatisticsSection({
       <div className="container mx-auto px-4">
         {/* Title */}
         {title && (
-          <motion.h2
+          <m.h2
             variants={fadeInUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
             className="text-3xl md:text-4xl font-light text-center mb-12"
           >
             {title}
-          </motion.h2>
+          </m.h2>
         )}
 
         {/* Stats Grid/Horizontal */}
-        <motion.div
+        <m.div
           variants={staggerContainer}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -177,7 +177,7 @@ export function StatisticsSection({
           )}
         >
           {stats.map((stat, index) => (
-            <motion.div
+            <m.div
               key={index}
               variants={fadeInUp}
               className={cn(
@@ -220,9 +220,9 @@ export function StatisticsSection({
                   {stat.description}
                 </p>
               )}
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

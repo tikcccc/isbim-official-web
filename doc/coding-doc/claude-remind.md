@@ -1,5 +1,7 @@
 # Claude Reminders - isBIM Official Web (Updated 2025-11-25)
 
+wirte item need to remind here , record the problem you fix and solution. keep simple
+
 ## i18n (Paraglide) Essentials
 - Paraglide Next v0.8.1 + Paraglide JS v1.x (use `availableLanguageTags`, `sourceLanguageTag`, `languageTag`; NOT v2 APIs).
 - Flat `app/` (no `[locale]` folder). PrefixStrategy middleware handles `/en` `/zh`.

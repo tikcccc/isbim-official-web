@@ -13,7 +13,7 @@
 
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useScrollProgress, useSmoothScrollTo } from "@/hooks";
@@ -73,7 +73,7 @@ export function ScrollPrompt({
   if (opacity <= 0) return null;
 
   return (
-    <motion.div
+    <m.div
       className={cn(
         "flex flex-col items-center justify-center gap-2 cursor-pointer select-none",
         className
@@ -98,7 +98,7 @@ export function ScrollPrompt({
       </span>
 
       {/* Bouncing Arrow */}
-      <motion.div
+      <m.div
         animate={{
           y: [0, 8, 0],
         }}
@@ -109,8 +109,8 @@ export function ScrollPrompt({
         }}
       >
         <ChevronDown className="w-5 h-5 text-muted-foreground" />
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 

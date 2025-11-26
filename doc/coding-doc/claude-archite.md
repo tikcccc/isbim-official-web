@@ -1,29 +1,39 @@
-# isBIM Official Web — Architecture (v2.2)
+# isBIM Official Web – Architecture (v2.3)
+
+Architecture for this Next.js project
 
 ## Tech Stack
 - Next.js 15 (App Router, Turbopack dev), TypeScript, Tailwind CSS v4
-- Paraglide v1 i18n (Level 3 LocaleContext pattern) — use `sourceLanguageTag/availableLanguageTags`
+- Paraglide v1 i18n (Level 3 LocaleContext pattern) – use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion
+- Motion: LazyMotion via `MotionProvider` + `m` factory (Framer)
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
 - CMS: Sanity with typed queries, tag-based revalidation, environment-based CDN
 
 ## App Structure (high level)
 ```
 src/app/
-  layout.tsx            # await headers() -> setLanguageTag() -> LocaleProvider -> AppProviders
-  page.tsx              # Home
-  about-us/page.tsx
-  services-products/page.tsx
-  jarvis-*/page.tsx     # agent/pay/air/eagle-eye/ssss/dwss/cdcp/assets/jpm
-  bim-consultancy/page.tsx
-  project-finance/page.tsx
-  venture-investments/page.tsx
-  newsroom/page.tsx
-  careers/page.tsx
-  contact/page.tsx
-  privacy/page.tsx      # minimal placeholder
-  terms/page.tsx        # minimal placeholder
-  cookies/page.tsx      # minimal placeholder
+  layout.tsx                    # fonts + globals only (no providers)
+  (website)/
+    layout.tsx                  # await headers() -> setLanguageTag() -> LocaleProvider -> AppProviders -> Topbar/Footer
+    template.tsx                # PageTransition (client) wrapper
+    page.tsx                    # Home
+    about-us/page.tsx
+    services-products/page.tsx
+    jarvis-*/page.tsx           # agent/pay/air/eagle-eye/ssss/dwss/cdcp/assets/jpm
+    bim-consultancy/page.tsx
+    project-finance/page.tsx
+    venture-investments/page.tsx
+    newsroom/page.tsx
+    careers/page.tsx
+    contact/page.tsx
+    privacy/page.tsx            # minimal placeholder
+    terms/page.tsx              # minimal placeholder
+    cookies/page.tsx            # minimal placeholder
+    sitemap.ts                  # dynamic sitemap
+    robots.ts                   # robots with Studio exclusions
+  (studio)/
+    studio/[[...index]]/page.tsx  # Sanity Studio (NextStudio)
 ```
 
 ### Layout / UI
@@ -32,8 +42,10 @@ src/components/layout/
   topbar.tsx
   menu-overlay.tsx
   footer.tsx
+  newsletter-form.tsx   # lazy-loaded in footer
   locale-switcher.tsx
   page-transition.tsx   # global transition overlay; disables browser scroll restoration and uses Lenis/window smooth scroll to top on load/after transitions
+  motion/lazy-motion.tsx# LazyMotion provider + `m`
 ```
 
 ### Sections (selected)
@@ -122,7 +134,6 @@ src/sanity/schemaTypes/
 | product | `mainImage` | `image` | hotspot enabled; has `alt` subfield | src/sanity/schemaTypes/productType.ts |
 | imageAsset | `file` | `image` | hotspot enabled; has `alt`; standalone image entry | src/sanity/schemaTypes/imageType.ts |
 
-
 ### Public Assets
 ```
 public/
@@ -133,8 +144,8 @@ public/
 ```
 
 ## Boundaries
-- **FROZEN**: `src/lib/i18n/locale-context.tsx`, `src/lib/i18n/route-builder.ts`, `src/lib/i18n/index.ts`, `src/app/layout.tsx` (await headers -> setLanguageTag -> LocaleProvider order).
-- **OPEN**: layout JSX/CSS, Paraglide language list, UI components, new pages, navigation data, styles placeholders, animation placeholders, schema placeholders.
+- **FROZEN**: `src/lib/i18n/locale-context.tsx`, `src/lib/i18n/route-builder.ts`, `src/lib/i18n/index.ts`, `src/app/layout.tsx` (await headers -> setLanguageTag -> LocaleProvider order), route groups `(website)` / `(studio)` separation.
+- **OPEN**: layout JSX/CSS in `(website)`, Paraglide language list, UI components, new pages, navigation data, styles placeholders, animation placeholders, schema placeholders.
 
 ## Patterns & Rules (current)
 - **i18n**: Client imports must use `@/lib/i18n/index`; do not import from `@/lib/i18n` (server middleware file). Client: `useLocalizedHref()`; Server: `buildHref(path, locale)` / `linkTo(key, locale)`. Never handcraft `/${locale}`.
@@ -147,30 +158,17 @@ public/
 - **Sanity Client**: Use `client` (read, CDN-enabled in prod) or `writeClient` (write, CDN-bypassed) from `@/sanity/lib/client`.
 - **Sanity Fetching**: Use `sanityFetch()` from `@/sanity/lib/fetch` with typed queries from `queries.ts`; supports tag-based revalidation and environment-aware caching.
 - **Cache Strategy**: Tag all queries (`sanity:all`, `sanity:{type}`, `sanity:{type}:{id}`); use `REVALIDATE` constants for time-based revalidation; use `revalidateTag()` for on-demand invalidation.
-- **Studio isolation**: Layout detects Studio (headers `next-url`/`x-invoke-path`/`x-pathname`/`referer`) and renders bare HTML/Body only—no i18n/Paraglide, no providers, no Topbar/Footer.
-- **Sanity usage in app**: Use typed queries and `sanityFetch` for all data operations; `app/page.tsx` uses `IMAGE_ASSET_BY_SLUG_QUERY` with cache tags and hourly revalidation.
+- **Studio isolation**: Studio lives under `(studio)` route group; keep bare layout for Studio only.
+- **Sanity usage in app**: Use typed queries and `sanityFetch` for all data operations; home uses `IMAGE_ASSET_BY_SLUG_QUERY` with cache tags and hourly revalidation.
+- **Motion**: Use `MotionProvider`/`m` from `components/motion/lazy-motion` instead of direct `motion` imports; keep `AnimatePresence` named imports.
 
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.
 - Sections: `section3-placeholder.tsx` (content pending), `services.ts` data placeholder.
 - Sanity: `newsType.ts`, `careerType.ts`, `projectType.ts`, `schemaTypes/index.ts` registration updates.
 
-## Recent Changes (2025-11-25)
-- Removed `suppressHydrationWarning` from layout `<html>/<body>`.
-- Enforced locale-safe imports via `@/lib/i18n/index`.
-- Rewired Topbar/Menu/Footer/About page links to use `buildHref`/`ROUTES`; removed hash placeholders.
-- Added placeholder legal pages to match footer/menu links.
-- **Foundation hardening**: Fixed `next.config.ts` Sanity CDN domain; cleaned `globals.css` (removed Geist/shadcn variables); removed duplicate `BREAKPOINTS`/`Z_INDEX` from `constants.ts`; unified design tokens as single source of truth.
-- **Data layer overhaul**: Implemented typed Sanity fetch layer with environment-based CDN (`client.ts`), tag-based revalidation (`fetch.ts`), typed queries (`queries.ts`), TypeScript types (`types.ts`), and comprehensive documentation (`README.md`).
-- **SEO infrastructure**: Added `lib/seo.ts` with metadata builders, `sanity/lib/seo.ts` for Sanity-driven metadata, metadata queries, and `generateMetadata()` in `app/page.tsx` with cached Open Graph images from Sanity.
-- **Sitemap & Robots**: Dynamic sitemap generation (`app/sitemap.ts`) from Sanity content with multi-language support; `robots.txt` (`app/robots.ts`) with Studio exclusion and AI crawler controls.
-- **Responsive Design Optimization**:
-  - Added viewport configuration in `layout.tsx` for proper mobile scaling
-  - Implemented centralized container system in `globals.css` (`@layer components`) with 4 utility classes: `.container-page`, `.container-content`, `.container-narrow`, `.container-wide`
-  - Refactored all sections to use unified container classes, eliminating inline width definitions
-  - Implemented Hero Section double-layer architecture (full-width background + constrained content)
-  - Applied responsive height adjustments (viewport units instead of fixed px values)
-  - Optimized touch targets (40px minimum), typography (10px minimum), and images (next/image with sizes)
-  - Updated mobile-specific positioning (sticky nav, footer social icons)
-  - Comprehensive responsive design guidelines documented in `claude-rules.md` Section 15
-- **Menu Overlay Scrolling**: Fixed scroll conflicts with Lenis; implemented unified smooth scrolling with custom RAF-based easing (capture-phase wheel handler with ease-out animation).
+## Recent Changes (2025-11-26)
+- Split routes into `(website)` vs `(studio)` groups; root layout now fonts/globals only; website layout owns providers + Topbar/Footer; Studio isolated to bare shell.
+- Added `MotionProvider` (LazyMotion + `m`) and migrated Framer usages to the `m` factory to reduce bundle size.
+- Footer newsletter form is now lazy-loaded; shared fonts moved to `src/app/fonts.ts`.
+- Home page uses literal `revalidate` config (3600s) for Next.js page config parsing.

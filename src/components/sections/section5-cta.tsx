@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useRef, useLayoutEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import * as m from "@/paraglide/messages";
+import * as messages from "@/paraglide/messages";
 import Image from "next/image";
 
 interface Section5CTAProps {
@@ -90,18 +90,18 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               ref={titleRef}
               className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-wide text-slate-900 leading-[1.1] text-balance mb-6"
             >
-              {m.section5_cta_title()}
+              {messages.section5_cta_title()}
             </h2>
 
             <p
               ref={subtitleRef}
               className="text-lg sm:text-xl lg:text-xl leading-relaxed font-normal text-gray-600 max-w-lg text-pretty mx-auto"
             >
-              {m.section5_cta_subtitle()}
+              {messages.section5_cta_subtitle()}
             </p>
 
             <div ref={buttonRef} className="pt-10">
-              <motion.div
+              <m.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -110,10 +110,10 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                   variant="outline"
                   className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg transition-all duration-300 rounded-lg uppercase tracking-wider"
                 >
-                  {m.section5_cta_button()}
+                  {messages.section5_cta_button()}
                   <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>

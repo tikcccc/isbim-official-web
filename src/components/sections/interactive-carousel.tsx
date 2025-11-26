@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useRef, useMemo, useCallback } from "react";
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { gsap } from "gsap";
 import { carouselProducts, type CarouselProduct } from "@/data/products";
-import * as m from "@/paraglide/messages";
+import * as messages from "@/paraglide/messages";
 import Image from "next/image";
 import { useEffect } from "react";
 
@@ -30,68 +30,68 @@ const getTranslatedProduct = (product: CarouselProduct): CarouselProduct => {
     description: () => string;
   }> = {
     1: {
-      category: m.product_agent_category,
-      tab: m.product_agent_tab,
-      title: m.product_agent_title,
-      bigtext: m.product_agent_bigtext,
-      meta: [m.product_agent_meta_1, m.product_agent_meta_2, m.product_agent_meta_3],
-      description: m.product_agent_description,
+      category: messages.product_agent_category,
+      tab: messages.product_agent_tab,
+      title: messages.product_agent_title,
+      bigtext: messages.product_agent_bigtext,
+      meta: [messages.product_agent_meta_1, messages.product_agent_meta_2, messages.product_agent_meta_3],
+      description: messages.product_agent_description,
     },
     2: {
-      category: m.product_pay_category,
-      tab: m.product_pay_tab,
-      title: m.product_pay_title,
-      bigtext: m.product_pay_bigtext,
-      meta: [m.product_pay_meta_1, m.product_pay_meta_2, m.product_pay_meta_3],
-      description: m.product_pay_description,
+      category: messages.product_pay_category,
+      tab: messages.product_pay_tab,
+      title: messages.product_pay_title,
+      bigtext: messages.product_pay_bigtext,
+      meta: [messages.product_pay_meta_1, messages.product_pay_meta_2, messages.product_pay_meta_3],
+      description: messages.product_pay_description,
     },
     3: {
-      category: m.product_air_category,
-      tab: m.product_air_tab,
-      title: m.product_air_title,
-      bigtext: m.product_air_bigtext,
-      meta: [m.product_air_meta_1, m.product_air_meta_2, m.product_air_meta_3],
-      description: m.product_air_description,
+      category: messages.product_air_category,
+      tab: messages.product_air_tab,
+      title: messages.product_air_title,
+      bigtext: messages.product_air_bigtext,
+      meta: [messages.product_air_meta_1, messages.product_air_meta_2, messages.product_air_meta_3],
+      description: messages.product_air_description,
     },
     4: {
-      category: m.product_eagleeye_category,
-      tab: m.product_eagleeye_tab,
-      title: m.product_eagleeye_title,
-      bigtext: m.product_eagleeye_bigtext,
-      meta: [m.product_eagleeye_meta_1, m.product_eagleeye_meta_2, m.product_eagleeye_meta_3],
-      description: m.product_eagleeye_description,
+      category: messages.product_eagleeye_category,
+      tab: messages.product_eagleeye_tab,
+      title: messages.product_eagleeye_title,
+      bigtext: messages.product_eagleeye_bigtext,
+      meta: [messages.product_eagleeye_meta_1, messages.product_eagleeye_meta_2, messages.product_eagleeye_meta_3],
+      description: messages.product_eagleeye_description,
     },
     5: {
-      category: m.product_ssss_category,
-      tab: m.product_ssss_tab,
-      title: m.product_ssss_title,
-      bigtext: m.product_ssss_bigtext,
-      meta: [m.product_ssss_meta_1, m.product_ssss_meta_2, m.product_ssss_meta_3],
-      description: m.product_ssss_description,
+      category: messages.product_ssss_category,
+      tab: messages.product_ssss_tab,
+      title: messages.product_ssss_title,
+      bigtext: messages.product_ssss_bigtext,
+      meta: [messages.product_ssss_meta_1, messages.product_ssss_meta_2, messages.product_ssss_meta_3],
+      description: messages.product_ssss_description,
     },
     6: {
-      category: m.product_dwss_category,
-      tab: m.product_dwss_tab,
-      title: m.product_dwss_title,
-      bigtext: m.product_dwss_bigtext,
-      meta: [m.product_dwss_meta_1, m.product_dwss_meta_2, m.product_dwss_meta_3],
-      description: m.product_dwss_description,
+      category: messages.product_dwss_category,
+      tab: messages.product_dwss_tab,
+      title: messages.product_dwss_title,
+      bigtext: messages.product_dwss_bigtext,
+      meta: [messages.product_dwss_meta_1, messages.product_dwss_meta_2, messages.product_dwss_meta_3],
+      description: messages.product_dwss_description,
     },
     7: {
-      category: m.product_cdcp_category,
-      tab: m.product_cdcp_tab,
-      title: m.product_cdcp_title,
-      bigtext: m.product_cdcp_bigtext,
-      meta: [m.product_cdcp_meta_1, m.product_cdcp_meta_2, m.product_cdcp_meta_3],
-      description: m.product_cdcp_description,
+      category: messages.product_cdcp_category,
+      tab: messages.product_cdcp_tab,
+      title: messages.product_cdcp_title,
+      bigtext: messages.product_cdcp_bigtext,
+      meta: [messages.product_cdcp_meta_1, messages.product_cdcp_meta_2, messages.product_cdcp_meta_3],
+      description: messages.product_cdcp_description,
     },
     8: {
-      category: m.product_assets_category,
-      tab: m.product_assets_tab,
-      title: m.product_assets_title,
-      bigtext: m.product_assets_bigtext,
-      meta: [m.product_assets_meta_1, m.product_assets_meta_2, m.product_assets_meta_3],
-      description: m.product_assets_description,
+      category: messages.product_assets_category,
+      tab: messages.product_assets_tab,
+      title: messages.product_assets_title,
+      bigtext: messages.product_assets_bigtext,
+      meta: [messages.product_assets_meta_1, messages.product_assets_meta_2, messages.product_assets_meta_3],
+      description: messages.product_assets_description,
     },
   };
 
@@ -346,7 +346,7 @@ export function InteractiveCarousel() {
               >
                 {/* 進度填充層 */}
                 {isActive && !hovered && (
-                  <motion.div
+                  <m.div
                     key={`progress-${page}`}
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
@@ -401,7 +401,7 @@ export function InteractiveCarousel() {
           // 懶載入：非必要 slide 不渲染內容
           if (!shouldRender) {
             return (
-              <motion.div
+              <m.div
                 key={slide.id}
                 variants={cardVariants}
                 initial="hidden"
@@ -412,7 +412,7 @@ export function InteractiveCarousel() {
           }
 
           return (
-            <motion.div
+            <m.div
               key={slide.id}
               variants={cardVariants}
               initial="hidden"
@@ -513,7 +513,7 @@ export function InteractiveCarousel() {
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
-            </motion.div>
+            </m.div>
           );
         })}
       </div>

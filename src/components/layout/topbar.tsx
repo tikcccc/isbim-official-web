@@ -1,8 +1,8 @@
 "use client";
 
-import * as m from "@/paraglide/messages";
+import * as messages from "@/paraglide/messages";
 import { Search, Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { LocaleSwitcher } from "./locale-switcher";
@@ -29,7 +29,7 @@ export function Topbar() {
 
   return (
     <>
-      <motion.nav
+      <m.nav
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -59,7 +59,7 @@ export function Topbar() {
         {/* Right side buttons */}
         <div className="flex items-center space-x-3 sm:space-x-4">
           {/* Get Started button - hidden on mobile */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
+          <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
             <Link
               href={buildHref(ROUTES.CONTACT)}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors
@@ -70,15 +70,15 @@ export function Topbar() {
                 }`}
               onClick={isOpen ? closeMenu : undefined}
             >
-              {m.topbar_get_started()}
+              {messages.topbar_get_started()}
             </Link>
-          </motion.div>
+          </m.div>
 
           {/* Locale Switcher - hidden when menu is open */}
           {!isOpen && <LocaleSwitcher />}
 
           {/* Search button */}
-          <motion.button
+          <m.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center border border-white/20 rounded-lg
@@ -86,10 +86,10 @@ export function Topbar() {
             aria-label="Search"
           >
             <Search className="w-4 h-4 md:w-5 md:h-5" />
-          </motion.button>
+          </m.button>
 
           {/* Menu / Close button */}
-          <motion.button
+          <m.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={isOpen ? closeMenu : openMenu}
@@ -112,9 +112,9 @@ export function Topbar() {
             ) : (
               <Menu className="w-5 h-5" />
             )}
-          </motion.button>
+          </m.button>
         </div>
-      </motion.nav>
+      </m.nav>
 
       {/* Menu Overlay */}
       <MenuOverlay />

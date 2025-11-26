@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import { ArrowRight } from "lucide-react";
-import * as m from "@/paraglide/messages";
+import * as messages from "@/paraglide/messages";
 import { useEffect } from "react";
 
 // Platform data structure
@@ -17,25 +17,25 @@ interface PlatformItem {
 
 // Map keys to message functions
 const platformTitles = {
-  agent: () => m.section4_agent_title(),
-  pay: () => m.section4_pay_title(),
-  air: () => m.section4_air_title(),
-  eagleeye: () => m.section4_eagleeye_title(),
-  ssss: () => m.section4_ssss_title(),
-  dwss: () => m.section4_dwss_title(),
-  cdcp: () => m.section4_cdcp_title(),
-  assets: () => m.section4_assets_title(),
+  agent: () => messages.section4_agent_title(),
+  pay: () => messages.section4_pay_title(),
+  air: () => messages.section4_air_title(),
+  eagleeye: () => messages.section4_eagleeye_title(),
+  ssss: () => messages.section4_ssss_title(),
+  dwss: () => messages.section4_dwss_title(),
+  cdcp: () => messages.section4_cdcp_title(),
+  assets: () => messages.section4_assets_title(),
 };
 
 const platformDescs = {
-  agent: () => m.section4_agent_desc(),
-  pay: () => m.section4_pay_desc(),
-  air: () => m.section4_air_desc(),
-  eagleeye: () => m.section4_eagleeye_desc(),
-  ssss: () => m.section4_ssss_desc(),
-  dwss: () => m.section4_dwss_desc(),
-  cdcp: () => m.section4_cdcp_desc(),
-  assets: () => m.section4_assets_desc(),
+  agent: () => messages.section4_agent_desc(),
+  pay: () => messages.section4_pay_desc(),
+  air: () => messages.section4_air_desc(),
+  eagleeye: () => messages.section4_eagleeye_desc(),
+  ssss: () => messages.section4_ssss_desc(),
+  dwss: () => messages.section4_dwss_desc(),
+  cdcp: () => messages.section4_cdcp_desc(),
+  assets: () => messages.section4_assets_desc(),
 };
 
 const platforms: PlatformItem[] = [
@@ -165,7 +165,7 @@ export function Section4PlatformList() {
     >
       <div className="container-content-wide">
         <h2 className="text-5xl sm:text-6xl lg:text-7xl font-medium mb-12 sm:mb-16 tracking-tight">
-          {m.section4_title()}
+          {messages.section4_title()}
         </h2>
 
         <div className="flex flex-col">
@@ -247,7 +247,7 @@ function PlatformRow({
         {/* 2. Middle Section: Video Container (只在此列被 hover 時顯示影片) */}
         <div className="lg:col-span-4 relative flex items-center justify-center">
           {isHovered && isInViewport && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -265,30 +265,30 @@ function PlatformRow({
                   className="w-full h-full object-cover opacity-90"
                 />
               </div>
-            </motion.div>
+            </m.div>
           )}
         </div>
 
         {/* 3. Right Section: Large Title (with shift animation) */}
         <div className="lg:col-span-5 flex items-center justify-start relative min-h-[220px] lg:min-h-[240px]">
           <div className="w-full lg:pl-8 overflow-visible">
-            <motion.h3
+            <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="text-3xl sm:text-5xl lg:text-6xl xl:text-[88px] leading-[1.2] font-medium tracking-tighter text-slate-900 whitespace-nowrap will-change-transform"
             >
               {platformTitles[item.titleKey]()}
-            </motion.h3>
+            </m.h3>
           </div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? -10 : -20 }}
             transition={{ duration: 0.3 }}
             className="absolute left-0 top-1/2 -translate-y-1/2 will-change-transform"
           >
              <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" />
-          </motion.div>
+          </m.div>
         </div>
 
       </div>

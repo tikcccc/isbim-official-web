@@ -7,7 +7,8 @@
     "build": "npm run paraglide:compile && next build",
     "start": "next start",
     "lint": "eslint",
-    "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide"
+    "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -36,10 +37,12 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^16.0.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.6",
     "tailwindcss": "^4",

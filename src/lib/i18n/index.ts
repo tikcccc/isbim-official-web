@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * i18n Utilities Index
  * Centralized exports for all i18n-related utilities.

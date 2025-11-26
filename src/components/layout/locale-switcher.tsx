@@ -3,7 +3,7 @@
 import { useLocale } from "@/lib/i18n/index";
 import { useRouter, usePathname } from "@/lib/i18n";
 import { type AvailableLanguageTag } from "@/paraglide/runtime";
-import { motion } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 
 /**
  * LocaleSwitcher Component
@@ -38,7 +38,7 @@ export function LocaleSwitcher() {
   return (
     <div className="relative inline-flex items-center w-[100px] h-10 bg-white/5 border border-white/10 rounded-lg p-1 backdrop-blur-sm">
       {/* Sliding background indicator - occupies 50% of container width */}
-      <motion.div
+      <m.div
         className="absolute left-1 top-1 bottom-1 bg-white/20 rounded-md shadow-sm"
         style={{ width: "calc(50% - 4px)" }}
         initial={false}
@@ -53,7 +53,7 @@ export function LocaleSwitcher() {
       />
 
       {/* EN Button */}
-      <motion.button
+      <m.button
         onClick={() => switchLocale("en")}
         whileHover={{ scale: currentLocale === "en" ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -71,10 +71,10 @@ export function LocaleSwitcher() {
         aria-pressed={currentLocale === "en"}
       >
         {localeLabels.en}
-      </motion.button>
+      </m.button>
 
       {/* ZH Button */}
-      <motion.button
+      <m.button
         onClick={() => switchLocale("zh")}
         whileHover={{ scale: currentLocale === "zh" ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -92,7 +92,7 @@ export function LocaleSwitcher() {
         aria-pressed={currentLocale === "zh"}
       >
         {localeLabels.zh}
-      </motion.button>
+      </m.button>
     </div>
   );
 }

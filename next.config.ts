@@ -1,3 +1,7 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 import type { NextConfig } from "next";
 import { paraglide } from "@inlang/paraglide-next/plugin";
 
@@ -20,10 +24,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default paraglide({
+export default withBundleAnalyzer(paraglide({
   paraglide: {
     project: "./project.inlang",
     outdir: "./src/paraglide",
   },
   ...nextConfig,
-});
+}));

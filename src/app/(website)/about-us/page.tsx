@@ -66,7 +66,7 @@ const ArrowLink = ({ label, href }: { label: string; href: string }) => (
   </Link>
 );
 
-// RevealTitle: Cinematic blur reveal title (optimized with Intersection Observer)
+// RevealTitle: Cinematic blur reveal title (optimized with ScrollTrigger)
 const RevealTitle = ({
   text,
   className,
@@ -75,59 +75,38 @@ const RevealTitle = ({
   className?: string;
 }) => {
   const elementRef = useRef<HTMLHeadingElement>(null);
-  const [isVisible, setIsVisible] = React.useState(false);
 
-  // Set initial state immediately on mount
-  useEffect(() => {
-    if (!elementRef.current) return;
-
-    const words = elementRef.current.querySelectorAll('.word');
-    gsap.set(words, { transform: "translateX(18px)", opacity: 0 });
-  }, []);
+  // Split words only once during render
+  const words = text.split(' ');
 
   useEffect(() => {
-    if (!elementRef.current) return;
+    const el = elementRef.current;
+    if (!el) return;
 
-    // Use Intersection Observer instead of ScrollTrigger
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isVisible) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
+    // Use gsap.context for proper cleanup in React (Best Practice)
+    const ctx = gsap.context(() => {
+      const wordElements = el.querySelectorAll('.word');
+      
+      // Set initial state immediately
+      gsap.set(wordElements, { x: 18, opacity: 0 });
 
-    observer.observe(elementRef.current);
-
-    return () => observer.disconnect();
-  }, [isVisible]);
-
-  useEffect(() => {
-    if (!elementRef.current || !isVisible) return;
-
-    const words = elementRef.current.querySelectorAll('.word');
-
-    gsap.fromTo(
-      words,
-      {
-        transform: "translateX(18px)",
-        opacity: 0
-      },
-      {
-        transform: "translateX(0px)",
+      // Animate directly with ScrollTrigger - NO React state updates involved
+      gsap.to(wordElements, {
+        x: 0,
         opacity: 1,
         duration: 0.75,
         stagger: 0.04,
-        ease: "power2.out"
-      }
-    );
-  }, [isVisible]);
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%", // Trigger when top of text hits 85% of viewport height
+          toggleActions: "play none none reverse",
+        }
+      });
+    }, elementRef);
 
-  const words = text.split(' ');
+    return () => ctx.revert(); // Clean up all GSAP animations when component unmounts
+  }, [text]);
 
   return (
     <h3 ref={elementRef} className={cn("cursor-default flex flex-wrap gap-x-[0.3em]", className)}>
@@ -152,7 +131,10 @@ const FeatureRow = ({
   linkLabel: string;
   href: string;
 }) => (
-  <div className="group py-16 border-t border-neutral-200 first:border-t-0 hover:bg-neutral-100/50 transition-colors duration-500 px-6 -mx-6 rounded-sm">
+  <div className="group relative py-16 border-t border-neutral-200 first:border-t-0 px-6 -mx-6 rounded-sm isolate">
+    {/* Background layer - separated from content to avoid repaint */}
+    <div className="absolute inset-0 bg-neutral-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 rounded-sm pointer-events-none" />
+    
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <div className="lg:col-span-5">
         <RevealTitle

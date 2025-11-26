@@ -35,6 +35,7 @@
 import type { ReactNode } from "react";
 import { QueryProvider } from "./query-provider";
 import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
+import { MotionProvider } from "@/components/motion/lazy-motion";
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -76,6 +77,9 @@ export function AppProviders({
 }: AppProvidersProps) {
   // Build provider tree from inside out
   let result = <>{children}</>;
+
+  // Framer Motion features (lazy-loaded via LazyMotion)
+  result = <MotionProvider>{result}</MotionProvider>;
 
   // Smooth scroll provider (innermost - needs query for potential data fetching)
   if (enableSmoothScroll) {

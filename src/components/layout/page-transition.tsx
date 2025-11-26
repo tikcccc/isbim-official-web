@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useLenis } from '@/components/smooth-scroll-provider';
+import { m } from '@/components/motion/lazy-motion';
 
 /**
  * InnerOverlayRunner - Page transition animation core component
@@ -25,7 +26,7 @@ export const InnerOverlayRunner: React.FC = () => {
         <div className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden">
 
             {/* 1. Giant Parallelogram Brush */}
-            <motion.div
+            <m.div
                 className="absolute top-0 bottom-0 h-full will-change-transform"
                 style={{
                     width: '220vw',
@@ -51,10 +52,10 @@ export const InnerOverlayRunner: React.FC = () => {
                         transformOrigin: 'bottom left'
                     }}
                 />
-            </motion.div>
+            </m.div>
 
             {/* 2. Logo with Shimmer Effect */}
-            <motion.div
+            <m.div
                 className="absolute inset-0 flex items-center justify-center z-[10000]"
                 initial={{ opacity: 1 }}
                 animate={{
@@ -84,7 +85,7 @@ export const InnerOverlayRunner: React.FC = () => {
                     </div>
 
                     {/* Foreground Layer - White Logo with Shimmer Mask */}
-                    <motion.div
+                    <m.div
                         className="absolute inset-0"
                         style={{
                             maskImage: 'linear-gradient(110deg, transparent 30%, black 45%, black 55%, transparent 70%)',
@@ -109,9 +110,9 @@ export const InnerOverlayRunner: React.FC = () => {
                             className="object-contain drop-shadow-sm"
                             priority
                         />
-                    </motion.div>
+                    </m.div>
                 </div>
-            </motion.div>
+            </m.div>
         </div>
     );
 };
@@ -184,7 +185,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
         >
             <div className="relative w-full min-h-screen">
                 {/* Page content fade in/out */}
-                <motion.div
+                <m.div
                     className="min-h-screen w-full"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -195,7 +196,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
                     }}
                 >
                     {children}
-                </motion.div>
+                </m.div>
 
                 {/* Transition overlay */}
                 <InnerOverlayRunner />
@@ -216,7 +217,7 @@ interface PageWrapperProps {
 export const PageWrapper: React.FC<PageWrapperProps> = ({ children, className = '' }) => {
     return (
         <div className="relative w-full min-h-screen">
-            <motion.div
+            <m.div
                 className={`min-h-screen w-full ${className}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -227,7 +228,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({ children, className = 
                 }}
             >
                 {children}
-            </motion.div>
+            </m.div>
 
             <InnerOverlayRunner />
         </div>

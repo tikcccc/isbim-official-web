@@ -16,7 +16,8 @@
 
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import type { Variants } from "framer-motion";
+import { m } from "@/components/motion/lazy-motion";
 import { cn } from "@/lib/utils";
 import { useInView } from "@/hooks";
 import {
@@ -140,7 +141,7 @@ export function ScrollReveal({
   const variants = getAnimationVariants(animation, duration, delay);
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
@@ -148,7 +149,7 @@ export function ScrollReveal({
       className={cn(className)}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 

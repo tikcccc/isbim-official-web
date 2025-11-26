@@ -10,6 +10,9 @@ import type { ImageAsset } from "@/sanity/lib/types";
 import { urlFor } from "@/sanity/lib/image";
 import { generatePageMetadata, COMMON_KEYWORDS } from "@/lib/seo";
 
+// Use literal number to satisfy Next.js page config parsing.
+export const revalidate = 3600;
+
 /**
  * Generate metadata for home page
  * Includes SEO optimization with cached Sanity image

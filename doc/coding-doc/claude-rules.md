@@ -1,8 +1,20 @@
 # Coding Rules - isBIM Official Web
 
-**Last Updated**: 2025-11-25 | **Version**: 3.1
+**Last Updated**: 2025-11-26 | **Version**: 3.2
 
+write coding rules here, keep rules description simple and understanable
 Follow these rules when adding or modifying code.
+
+---
+
+## 0) Routing / Layout Groups
+- `(website)` route group: owns providers (LanguageProvider/LocaleProvider/AppProviders), Topbar/Footer/PageTransition. Keep website-only code here.
+- `(studio)` route group: Studio-only (NextStudio); keep layout bare (no providers, no i18n middleware).
+- `src/app/layout.tsx`: fonts + globals only. Do not reintroduce providers here.
+
+## 0.5) Framer Motion
+- Use `MotionProvider` (`components/motion/lazy-motion`) and import `m` instead of `motion`. Keep `AnimatePresence` from `framer-motion` as needed.
+- Do not import `framer-motion` directly in new components unless you use only `AnimatePresence`.
 
 ---
 
