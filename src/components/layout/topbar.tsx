@@ -43,17 +43,20 @@ export function Topbar() {
         {/* Logo */}
         <Link
           href={buildHref(ROUTES.HOME)}
-          className="flex items-center hover:opacity-80 transition-opacity"
+          className="group relative flex items-center hover:opacity-80 transition-opacity focus-visible:outline-none"
           onClick={isOpen ? closeMenu : undefined}
         >
-          <Image
-            src="/icons/isbim_white.svg"
-            alt="isBIM Logo"
-            width={96}
-            height={24}
-            className="h-5 sm:h-6 w-[80px] sm:w-[96px]"
-            priority
-          />
+          <div className="relative h-5 sm:h-6 w-[80px] sm:w-[96px]">
+            <Image
+              src="/icons/isbim_white.svg"
+              alt="isBIM Logo"
+              width={96}
+              height={24}
+              className="h-full w-full"
+              priority
+            />
+            <span aria-hidden className="logo-mask-shine" />
+          </div>
         </Link>
 
         {/* Right side buttons */}
@@ -118,6 +121,38 @@ export function Topbar() {
 
       {/* Menu Overlay */}
       <MenuOverlay />
+
+      <style jsx global>{`
+        .logo-mask-shine {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          background: linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0) 18%,
+            rgba(186, 219, 255, 0.75) 48%,
+            rgba(255, 255, 255, 0) 78%
+          );
+          background-size: 220% 100%;
+          background-position: -130% 50%;
+          mask-image: url("/icons/isbim_white.svg");
+          -webkit-mask-image: url("/icons/isbim_white.svg");
+          mask-repeat: no-repeat;
+          -webkit-mask-repeat: no-repeat;
+          mask-size: contain;
+          -webkit-mask-size: contain;
+          mask-position: center;
+          -webkit-mask-position: center;
+          transition: opacity 180ms ease-out, background-position 750ms ease-out;
+          pointer-events: none;
+        }
+
+        .group:hover .logo-mask-shine,
+        .group:focus-visible .logo-mask-shine {
+          opacity: 1;
+          background-position: 130% 50%;
+        }
+      `}</style>
     </>
   );
 }
