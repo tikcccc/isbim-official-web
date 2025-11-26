@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# isBIM Official Web
 
-## Getting Started
+Next.js 15 app for isBIM’s marketing site and embedded Sanity Studio. Uses Paraglide i18n, GSAP/Framer Motion, Lenis, TanStack Query, and typed Sanity data fetching.
 
-First, run the development server:
+## Project Layout
+- `src/app/layout.tsx` – fonts + globals only.
+- `(website)/` – public site with providers, Topbar, Footer, PageTransition, sitemap/robots.
+- `(studio)/studio/[[...index]]/page.tsx` – Sanity Studio (NextStudio) isolated layout.
+- Components: `src/components/layout/*`, `src/components/sections/*`, `src/components/motion/lazy-motion.tsx` (LazyMotion `m` factory).
+- i18n: `src/lib/i18n/locale-context.tsx`, `route-builder.ts`, barrel `index.ts` (client imports).
+- Sanity data layer: `src/sanity/lib/*` (client, fetch, queries, types, image).
+- Fonts: `src/app/fonts.ts`.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Requirements
+- Node 18.18+ (Next.js 15), npm.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
+- `npm run dev` – start dev server.
+- `npm run build` – compile Paraglide messages then Next build.
+- `npm run start` – run production server.
+- `npm run lint` – lint with ESLint.
+- `npm run analyze` – build with bundle analyzer (`.next/analyze/*.html`).
+- `npm run paraglide:compile` – regenerate Paraglide outputs (`src/paraglide`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Conventions
+- Route groups: `(website)` for public UI, `(studio)` for Studio-only; keep shared providers out of root layout.
+- Framer Motion: use `MotionProvider` + `m` from `components/motion/lazy-motion`; import `AnimatePresence` directly when needed.
+- i18n: client code imports from `@/lib/i18n/index` (hooks) and server code uses pure functions (`buildHref`, `linkTo`). Locale comes from headers; no `[locale]` segments.
+- Sanity: use `sanityFetch` with tags and `REVALIDATE` constants; build image URLs via `urlFor`.
+- Styling/layout: Tailwind v4; shared container utilities in `globals.css`; Lenis for smooth scroll.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Developing
+1) Install deps: `npm install`
+2) Dev: `npm run dev` and open http://localhost:3000
+3) Lint: `npm run lint`
+4) Analyze bundles: `npm run analyze` and open `.next/analyze/client.html`
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+- Studio is excluded from public providers/topbar/footer; keep it minimal.
+- Remember to run `npm run paraglide:compile` when message catalog changes.
