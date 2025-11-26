@@ -409,9 +409,23 @@ export function MenuOverlay() {
             </div>
 
             {/* RIGHT COLUMN: Dynamic Content Area */}
-            <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative">
-              {/* Grid Texture */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none mix-blend-screen opacity-80" />
+            <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative overflow-hidden">
+              {/* Grid Texture - soft-light with edge fade to reduce clutter */}
+              <div
+                className="absolute inset-0 pointer-events-none mix-blend-screen"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(rgba(255,255,255,0.24) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.24) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "80px 80px",
+                  opacity: 0.08,
+                  maskImage:
+                    "radial-gradient(circle at 50% 45%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 68%, rgba(255,255,255,0.7) 82%, rgba(255,255,255,0.4) 94%, rgba(255,255,255,0) 100%)",
+                  WebkitMaskImage:
+                    "radial-gradient(circle at 50% 45%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 68%, rgba(255,255,255,0.7) 82%, rgba(255,255,255,0.4) 94%, rgba(255,255,255,0) 100%)",
+                }}
+              />
 
               <AnimatePresence mode="wait">
                 {activePreview === "jarvis_suite" ? (
@@ -458,7 +472,7 @@ export function MenuOverlay() {
                       {menuData.jarvisProducts.map((prod, idx) => (
                         <div
                           key={idx}
-                          className="group cursor-pointer p-4 rounded-lg border border-white/5 hover:border-blue-500/30 hover:bg-white/5 transition-all"
+                          className="group cursor-pointer p-4 rounded-lg bg-white/[0.015] hover:bg-white/5 transition-all shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[inset_0_0_0_1px_rgba(59,130,246,0.25)]"
                         >
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex items-start gap-3 flex-1">
