@@ -4,7 +4,7 @@ import { schemaTypes } from './src/sanity/schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'isBIM Official Web',
+  title: 'isBIM Sanity Studio',
 
   projectId: '4y8vgu6z',
   dataset: 'production',

@@ -8,7 +8,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 
 export const metadata: Metadata = {
-  title: "isBIM Official Web - Construction AI Platform",
+  title: "isBIM - Construction AI Platform",
   description: "Construction AI Powering the Backbone of Global Economies",
 };
 
