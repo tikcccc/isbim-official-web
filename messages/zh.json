@@ -245,6 +245,36 @@
   "services_products_cta_title": "準備好建造未來了嗎？",
   "services_products_cta_button": "轉型您的項目",
 
+  "services_card_jarvis_suite_type": "AI 平台",
+  "services_card_jarvis_suite_title": "JARVIS AI 产品",
+  "services_card_jarvis_suite_header": "面向建築業每個參與者的專業生成式 AI 代理。",
+  "services_card_jarvis_suite_description": "自動化 99.8% 發票掃描，即時解析招標並生成 50 萬+ 設計方案。",
+  "services_card_jarvis_suite_cta": "探索套件",
+
+  "services_card_jarvis_pm_type": "管理",
+  "services_card_jarvis_pm_title": "JARVIS 項目管理",
+  "services_card_jarvis_pm_header": "一站式加速「一帶一路」超級項目。",
+  "services_card_jarvis_pm_description": "融合香港精準、AI 預測與中國 MiC 規模，縮短 30–45% 工期並降低 71% 缺陷。",
+  "services_card_jarvis_pm_cta": "探索項目管理",
+
+  "services_card_bim_type": "顧問服務",
+  "services_card_bim_title": "BIM 諮詢服務",
+  "services_card_bim_header": "屢獲殊榮的 BIM 落地：建模、4D/5D 模擬。",
+  "services_card_bim_description": "全生命周期建模與 ISO 19650 合規，確保複雜項目的數據無縫流轉。",
+  "services_card_bim_cta": "了解 BIM",
+
+  "services_card_finance_type": "融資",
+  "services_card_finance_title": "項目融資",
+  "services_card_finance_header": "為多邊金融機構提供可投資的透明度。",
+  "services_card_finance_description": "通過實時信用評級與 360° 可視化，提供絕對可信的數字化透明度以解鎖資本。",
+  "services_card_finance_cta": "了解融資",
+
+  "services_card_venture_type": "投資",
+  "services_card_venture_title": "風險投資",
+  "services_card_venture_header": "為前沿技術提供股權與全球分銷。",
+  "services_card_venture_description": "依託 2,600 個實時項目測試平台，為 AI 工廠與新能源電網降風險並加速落地。",
+  "services_card_venture_cta": "了解投資",
+
   "jarvis_suite_title": "JARVIS AI Suite",
   "jarvis_suite_subtitle": "針對建築業各利益相關者的專業生成式AI代理。",
   "jarvis_suite_under_construction": "頁面建設中"

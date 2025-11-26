@@ -245,6 +245,36 @@
   "services_products_cta_title": "Ready to build the future?",
   "services_products_cta_button": "Transform Your Project",
 
+  "services_card_jarvis_suite_type": "AI Platform",
+  "services_card_jarvis_suite_title": "JARVIS AI Suite",
+  "services_card_jarvis_suite_header": "Domain-specific generative AI agent for every construction stakeholder.",
+  "services_card_jarvis_suite_description": "Automates 99.8% of invoice scanning, parses tenders instantly, and generates 500,000+ design variants in seconds.",
+  "services_card_jarvis_suite_cta": "Explore Suite",
+
+  "services_card_jarvis_pm_type": "Management",
+  "services_card_jarvis_pm_title": "JARVIS Project Management",
+  "services_card_jarvis_pm_header": "End-to-end acceleration for Belt and Road megaprojects.",
+  "services_card_jarvis_pm_description": "Delivers 30–45% faster timelines and 71% fewer defects by fusing Hong Kong precision with China's MiC scale.",
+  "services_card_jarvis_pm_cta": "Explore JPM",
+
+  "services_card_bim_type": "Consultancy",
+  "services_card_bim_title": "BIM Consultancy",
+  "services_card_bim_header": "Award-winning BIM implementation: modelling, 4D/5D simulation.",
+  "services_card_bim_description": "Full-lifecycle modelling and ISO 19650 compliance ensuring seamless data flow across complex challenges.",
+  "services_card_bim_cta": "Explore BIM",
+
+  "services_card_finance_type": "Finance",
+  "services_card_finance_title": "Project Finance",
+  "services_card_finance_header": "Bankable transparency for multilateral financial institutions.",
+  "services_card_finance_description": "Unlocking capital with real-time credit ratings and 360° visibility for absolute digital certainty.",
+  "services_card_finance_cta": "Explore Finance",
+
+  "services_card_venture_type": "Investment",
+  "services_card_venture_title": "Venture Investments",
+  "services_card_venture_header": "Equity + global distribution for frontier technology.",
+  "services_card_venture_description": "De-risking and accelerating AI factories and renewable grids via 2,600 live project testbeds.",
+  "services_card_venture_cta": "Explore Ventures",
+
   "jarvis_suite_title": "JARVIS AI Suite",
   "jarvis_suite_subtitle": "Domain-specific generative AI agent for every construction stakeholder.",
   "jarvis_suite_under_construction": "Page under construction"

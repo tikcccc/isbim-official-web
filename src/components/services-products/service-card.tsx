@@ -15,6 +15,16 @@ import { ArrowRight } from "lucide-react";
 import { SpotlightCard } from "./spotlight-card";
 import { CornerBrackets } from "./corner-brackets";
 import type { ServiceData } from "@/data/services";
+import * as messages from "@/paraglide/messages";
+
+const translate = (
+  key: keyof typeof messages | undefined,
+  fallback: string
+): string => {
+  if (!key) return fallback;
+  const messageFn = messages[key];
+  return typeof messageFn === "function" ? (messageFn as () => string)() : fallback;
+};
 
 interface ServiceCardProps {
   item: ServiceData;
@@ -24,13 +34,21 @@ interface ServiceCardProps {
 export function ServiceCard({ item, index }: ServiceCardProps) {
   const Icon = item.icon;
   const displayIndex = (index + 1).toString().padStart(2, "0");
+  const typeLabel = translate(item.typeKey, item.type);
+  const title = translate(item.titleKey, item.title);
+  const headerDescription = translate(
+    item.headerDescriptionKey,
+    item.headerDescription
+  );
+  const description = translate(item.descriptionKey, item.description);
+  const ctaText = translate(item.ctaTextKey, item.ctaText);
 
   return (
     <SpotlightCard className={`${item.gridArea} ${item.height}`}>
       {/* Background Image */}
       <Image
         src={item.image}
-        alt={item.title}
+        alt={title}
         fill
         className="absolute inset-0 object-cover transition-transform duration-1000 ease-out group-hover:scale-105 grayscale brightness-[0.4] group-hover:brightness-[0.6] group-hover:grayscale-0"
       />
@@ -48,7 +66,7 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
             {displayIndex} /
           </span>
           <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400/90 bg-emerald-950/30 px-2 py-1 backdrop-blur-md rounded border border-emerald-500/20">
-            {item.type}
+            {typeLabel}
           </span>
         </div>
         <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
@@ -62,13 +80,13 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
             <Icon className="w-5 h-5" />
           </div>
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-none group-hover:text-emerald-50 transition-colors">
-            {item.title}
+            {title}
           </h3>
         </div>
 
         {/* Header Description */}
         <p className="text-sm md:text-base text-gray-400 font-light max-w-lg mb-2 group-hover:text-gray-200 transition-colors duration-300 line-clamp-2 group-hover:line-clamp-none">
-          {item.headerDescription}
+          {headerDescription}
         </p>
 
         {/* Expandable Detail Section */}
@@ -76,14 +94,14 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
           <div className="overflow-hidden">
             <div className="pt-4 border-l border-emerald-500/30 pl-4 mt-2">
               <p className="text-gray-400 text-sm leading-relaxed mb-4 max-w-prose">
-                {item.description}
+                {description}
               </p>
               <a
                 href="#"
                 className="group/btn inline-flex items-center text-xs font-bold text-white uppercase tracking-widest hover:text-emerald-400 transition-colors"
               >
                 <span className="border-b border-transparent group-hover/btn:border-emerald-400 pb-0.5">
-                  {item.ctaText}
+                  {ctaText}
                 </span>
                 <ArrowRight className="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
               </a>

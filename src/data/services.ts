@@ -21,6 +21,9 @@ import {
   Rocket,
   type LucideIcon,
 } from "lucide-react";
+import type * as messages from "@/paraglide/messages";
+
+type MessageKey = keyof typeof messages;
 
 export interface ServiceData {
   id: string;
@@ -34,6 +37,11 @@ export interface ServiceData {
   icon: LucideIcon;
   gridArea: string;
   height: string;
+  titleKey?: MessageKey;
+  headerDescriptionKey?: MessageKey;
+  descriptionKey?: MessageKey;
+  ctaTextKey?: MessageKey;
+  typeKey?: MessageKey;
 }
 
 export const servicesData: ServiceData[] = [
@@ -52,6 +60,11 @@ export const servicesData: ServiceData[] = [
     icon: Brain,
     gridArea: "md:col-span-12 lg:col-span-8",
     height: "h-120 md:h-[32rem]",
+    titleKey: "services_card_jarvis_suite_title",
+    headerDescriptionKey: "services_card_jarvis_suite_header",
+    descriptionKey: "services_card_jarvis_suite_description",
+    ctaTextKey: "services_card_jarvis_suite_cta",
+    typeKey: "services_card_jarvis_suite_type",
   },
   {
     id: "jarvis-pm",
@@ -67,6 +80,11 @@ export const servicesData: ServiceData[] = [
     icon: Kanban,
     gridArea: "md:col-span-6 lg:col-span-4",
     height: "h-120 md:h-[32rem]",
+    titleKey: "services_card_jarvis_pm_title",
+    headerDescriptionKey: "services_card_jarvis_pm_header",
+    descriptionKey: "services_card_jarvis_pm_description",
+    ctaTextKey: "services_card_jarvis_pm_cta",
+    typeKey: "services_card_jarvis_pm_type",
   },
   {
     id: "bim-consultancy",
@@ -83,6 +101,11 @@ export const servicesData: ServiceData[] = [
     icon: Box,
     gridArea: "md:col-span-6 lg:col-span-4",
     height: "h-110",
+    titleKey: "services_card_bim_title",
+    headerDescriptionKey: "services_card_bim_header",
+    descriptionKey: "services_card_bim_description",
+    ctaTextKey: "services_card_bim_cta",
+    typeKey: "services_card_bim_type",
   },
   {
     id: "project-finance",
@@ -99,6 +122,11 @@ export const servicesData: ServiceData[] = [
     icon: Banknote,
     gridArea: "md:col-span-6 lg:col-span-4",
     height: "h-110",
+    titleKey: "services_card_finance_title",
+    headerDescriptionKey: "services_card_finance_header",
+    descriptionKey: "services_card_finance_description",
+    ctaTextKey: "services_card_finance_cta",
+    typeKey: "services_card_finance_type",
   },
   {
     id: "venture-investments",
@@ -115,5 +143,10 @@ export const servicesData: ServiceData[] = [
     icon: Rocket,
     gridArea: "md:col-span-12 lg:col-span-4",
     height: "h-110",
+    titleKey: "services_card_venture_title",
+    headerDescriptionKey: "services_card_venture_header",
+    descriptionKey: "services_card_venture_description",
+    ctaTextKey: "services_card_venture_cta",
+    typeKey: "services_card_venture_type",
   },
 ];
