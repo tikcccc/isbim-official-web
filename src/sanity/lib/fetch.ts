@@ -74,7 +74,7 @@ export async function sanityFetch<T = unknown>({
   tags = [],
   revalidate = false,
   cache,
-}: SanityFetchOptions<T>): Promise<T> {
+}: SanityFetchOptions): Promise<T> {
   const prefixedTags = ["sanity:all", ...tags.map((tag) => `sanity:${tag}`)];
 
   // In development, log queries for debugging
