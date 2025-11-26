@@ -5,6 +5,7 @@ import { m } from "@/components/motion/lazy-motion";
 import { ArrowRight } from "lucide-react";
 import * as messages from "@/paraglide/messages";
 import { useEffect } from "react";
+import { JARVIS_VIDEOS } from "@/lib/media-config";
 
 // Platform data structure
 interface PlatformItem {
@@ -44,56 +45,56 @@ const platforms: PlatformItem[] = [
     titleKey: "agent",
     descKey: "agent",
     version: "/0.1",
-    videoUrl: "/videos/Agent.mp4",
+    videoUrl: JARVIS_VIDEOS.agent,
   },
   {
     id: "02",
     titleKey: "pay",
     descKey: "pay",
     version: "/0.2",
-    videoUrl: "/videos/pay.mp4",
+    videoUrl: JARVIS_VIDEOS.pay,
   },
   {
     id: "03",
     titleKey: "air",
     descKey: "air",
     version: "/0.3",
-    videoUrl: "/videos/Air.mp4",
+    videoUrl: JARVIS_VIDEOS.air,
   },
   {
     id: "04",
     titleKey: "eagleeye",
     descKey: "eagleeye",
     version: "/0.4",
-    videoUrl: "/videos/Eagle Eye.mp4",
+    videoUrl: JARVIS_VIDEOS.eagleEye,
   },
   {
     id: "05",
     titleKey: "ssss",
     descKey: "ssss",
     version: "/0.5",
-    videoUrl: "/videos/4S.mp4",
+    videoUrl: JARVIS_VIDEOS.ssss,
   },
   {
     id: "06",
     titleKey: "dwss",
     descKey: "dwss",
     version: "/0.6",
-    videoUrl: "/videos/dwss.mp4",
+    videoUrl: JARVIS_VIDEOS.dwss,
   },
   {
     id: "07",
     titleKey: "cdcp",
     descKey: "cdcp",
     version: "/0.7",
-    videoUrl: "/videos/CDCP.mp4",
+    videoUrl: JARVIS_VIDEOS.cdcp,
   },
   {
     id: "08",
     titleKey: "assets",
     descKey: "assets",
     version: "/0.8",
-    videoUrl: "/videos/Assets.mp4",
+    videoUrl: JARVIS_VIDEOS.assets,
   },
 ];
 

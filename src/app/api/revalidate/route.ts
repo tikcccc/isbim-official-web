@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
 /**
  * Revalidate content based on Sanity document type
  */
-async function revalidateContent(payload: any) {
+async function revalidateContent(payload: { _type?: string; _id?: string; slug?: { current?: string } }) {
   const { _type, _id, slug } = payload;
 
   if (!_type) {

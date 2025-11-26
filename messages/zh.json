@@ -195,6 +195,7 @@
 
   "menu_nav_about": "關於我們",
   "menu_nav_services": "服務與AI產品",
+  "menu_nav_services_products": "服務與 AI 產品",
   "menu_nav_jarvis_suite": "JARVIS AI Suite",
   "menu_nav_jpm": "JARVIS 項目管理",
   "menu_nav_bim": "BIM 諮詢服務",
@@ -235,6 +236,13 @@
   "menu_headline": "以自適應智能賦能建築行業的未來",
   "menu_headline_highlight": "自適應智能。",
   "menu_suite_subtitle": "端到端智能",
-  "menu_view_all": "查看全部"
+  "menu_view_all": "查看全部",
+
+  "services_products_title_1": "服務與",
+  "services_products_title_2": "AI 產品",
+  "services_products_subtitle_1": "下一世紀的智能基礎設施。",
+  "services_products_subtitle_2": "專業知識與 AI 的無縫融合。",
+  "services_products_cta_title": "準備好建造未來了嗎？",
+  "services_products_cta_button": "轉型您的項目"
 }
 

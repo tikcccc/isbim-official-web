@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CTASection } from '@/components/layout/cta-section';
 import { cn } from '@/lib/utils';
 import { useMenuStore } from '@/stores/menu-store';
 import { gsap } from 'gsap';
@@ -302,7 +303,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       ref={sectionRef}
       className="min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-20 xl:px-24 relative overflow-hidden py-40 lg:py-48 bg-neutral-50 will-change-auto"
     >
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
+      <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
 
       <div className="max-w-[1600px] z-10 w-full mx-auto">
 
@@ -466,35 +467,12 @@ export default function AboutPage() {
         }
       />
 
-      {/* Call To Action (Footer) */}
-      <div className="min-h-[50vh] flex flex-col items-center justify-center text-center bg-gradient-to-b from-neutral-50 to-neutral-100 border-t border-neutral-200 relative overflow-hidden px-6 py-20">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 mix-blend-multiply pointer-events-none filter grayscale"></div>
-
-        {/* Subtle geometric pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-20 w-64 h-64 border border-neutral-400 rounded-full"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 border border-neutral-400 rounded-full"></div>
-        </div>
-
-        <div className="max-w-3xl z-10 space-y-6">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 mb-4 tracking-tight leading-tight">
-            {m.about_cta_title()}
-          </h3>
-          <p className="text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-            {m.about_cta_subtitle()}
-          </p>
-
-          <div className="pt-4">
-            <Link
-              href={buildHref(ROUTES.CONTACT)}
-              className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl inline-block"
-            >
-              <span className="relative z-10 group-hover:tracking-wider transition-all duration-300">{m.about_cta_button()}</span>
-              <div className="absolute inset-0 bg-neutral-900 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <CTASection
+        title={m.about_cta_title()}
+        subtitle={m.about_cta_subtitle()}
+        buttonLabel={m.about_cta_button()}
+        href={buildHref(ROUTES.CONTACT)}
+      />
 
     </main>
   );

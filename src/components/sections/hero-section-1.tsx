@@ -4,6 +4,7 @@ import * as m from "@/paraglide/messages";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown } from "lucide-react";
+import { JARVIS_VIDEOS } from "@/lib/media-config";
 
 /**
  * Hero Section 1
@@ -48,13 +49,13 @@ export function HeroSection1() {
       <div className="absolute inset-0 z-[1]">
         <video
           className="hero-video w-full h-full object-cover object-center"
-          poster="/videos/banner.mp4"
+          poster={JARVIS_VIDEOS.banner}
           playsInline
           autoPlay
           loop
           muted
         >
-          <source src="/videos/banner.mp4" type="video/mp4" />
+          <source src={JARVIS_VIDEOS.banner} type="video/mp4" />
         </video>
         {/* Dark overlay for better text contrast */}
         <div className="absolute inset-0 bg-black/50" />

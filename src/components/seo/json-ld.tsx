@@ -31,7 +31,7 @@ import Script from "next/script";
 
 export interface JsonLdProps {
   /** Schema.org structured data object */
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   /** Optional script ID for debugging */
   id?: string;
 }

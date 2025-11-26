@@ -31,6 +31,7 @@ interface MenuGroup {
   title: string;
   type: "group";
   children: MenuChild[];
+  href?: string;
 }
 
 type MenuItem = MenuLink | MenuGroup;
@@ -42,6 +43,7 @@ const getMenuData = () => ({
     {
       title: messages.menu_nav_services(),
       type: "group" as const,
+      href: ROUTES.SERVICES_PRODUCTS,
       children: [
         {
           title: messages.menu_nav_jarvis_suite(),
@@ -265,6 +267,16 @@ export function MenuOverlay() {
                             {item.title}
                           </span>
                         </Link>
+                      ) : item.href ? (
+                        <Link
+                          href={buildHref(item.href)}
+                          onClick={closeMenu}
+                          className="group flex items-center gap-4 cursor-pointer"
+                        >
+                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
+                            {item.title}
+                          </span>
+                        </Link>
                       ) : (
                         <div className="group flex items-center gap-4 cursor-pointer">
                           <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
@@ -287,21 +299,25 @@ export function MenuOverlay() {
                                 key={cIdx}
                                 href={buildHref(child.href)}
                                 onClick={closeMenu}
-                                className="group/child flex items-center gap-4 cursor-pointer py-1"
-                                onMouseEnter={() =>
-                                  child.action === "jarvis_suite"
-                                    ? setActivePreview("jarvis_suite")
-                                    : setActivePreview("default")
-                                }
-                              >
-                                <CornerDownRight
-                                  size={18}
-                                  className="text-neutral-600 group-hover/child:text-blue-500 transition-colors"
-                                />
-                                <span
-                                  className={`text-xl transition-colors ${
-                                    child.isHighlight
-                                      ? "text-white font-medium group-hover/child:text-blue-400"
+                          className="group/child flex items-center gap-4 cursor-pointer py-1"
+                          onMouseEnter={() =>
+                            child.action === "jarvis_suite"
+                              ? setActivePreview("jarvis_suite")
+                              : setActivePreview("default")
+                          }
+                        >
+                          <CornerDownRight
+                            size={18}
+                            className={`transition-colors ${
+                              child.action === "jarvis_suite"
+                                ? "text-blue-400 group-hover/child:text-blue-500"
+                                : "text-neutral-600 group-hover/child:text-blue-500"
+                            }`}
+                          />
+                          <span
+                            className={`text-xl transition-colors ${
+                              child.isHighlight
+                                ? "text-white font-medium group-hover/child:text-blue-400"
                                       : "text-neutral-500 group-hover/child:text-neutral-300"
                                   }`}
                                 >
@@ -344,12 +360,12 @@ export function MenuOverlay() {
                                 {child.action === "jarvis_suite" && (
                                   <m.div
                                     layoutId="indicator"
-                                    className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover/child:opacity-100"
+                                    className="w-2 h-2 bg-blue-500 rounded-full opacity-100 animate-pulse"
                                   />
                                 )}
-                              </div>
-                            )
-                          )}
+                          </div>
+                        )
+                      )}
                         </m.div>
                       )}
                     </m.div>

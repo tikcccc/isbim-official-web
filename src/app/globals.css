@@ -78,3 +78,17 @@
 .footer-alliance-font {
   font-family: var(--font-alliance-1), system-ui, sans-serif;
 }
+
+/* Text Shimmer Animation - Services & Products Page */
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-text-shimmer {
+  animation: text-shimmer 2.5s ease-out infinite alternate;
+}

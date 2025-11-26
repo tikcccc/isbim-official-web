@@ -195,6 +195,7 @@
 
   "menu_nav_about": "About Us",
   "menu_nav_services": "Services and AI Products",
+  "menu_nav_services_products": "Services & AI Products",
   "menu_nav_jarvis_suite": "JARVIS AI Suite",
   "menu_nav_jpm": "JARVIS Project Management",
   "menu_nav_bim": "BIM Consultancy",
@@ -235,6 +236,13 @@
   "menu_headline": "Empowering the future of construction with",
   "menu_headline_highlight": "adaptive intelligence.",
   "menu_suite_subtitle": "End-to-End Intelligence",
-  "menu_view_all": "View All"
+  "menu_view_all": "View All",
+
+  "services_products_title_1": "Services &",
+  "services_products_title_2": "AI Products",
+  "services_products_subtitle_1": "Intelligent infrastructure for the next century.",
+  "services_products_subtitle_2": "Seamless fusion of expertise and AI.",
+  "services_products_cta_title": "Ready to build the future?",
+  "services_products_cta_button": "Transform Your Project"
 }
 

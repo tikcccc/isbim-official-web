@@ -20,17 +20,54 @@
  *
  * # .env.production (production - use CDN)
  * NEXT_PUBLIC_MEDIA_URL=https://cdn.example.com
+ *
+ * # Optional: override only videos (keeps icons/fonts local)
+ * NEXT_PUBLIC_VIDEO_CDN_URL=https://posix-jarvis-cn.obs.cn-south-1.myhuaweicloud.com/share/resource/video
  * ```
  */
 
 import { env } from "@/lib/env";
 
 /**
+ * Normalize a base URL by trimming any trailing slash.
+ */
+function normalizeBaseUrl(value?: string) {
+  return (value || "").replace(/\/$/, "");
+}
+
+/**
  * Media Base URL
  * Set via NEXT_PUBLIC_MEDIA_URL environment variable.
  * If not set, uses local public directory.
  */
-export const MEDIA_BASE_URL = env.NEXT_PUBLIC_MEDIA_URL || "";
+export const MEDIA_BASE_URL = normalizeBaseUrl(env.NEXT_PUBLIC_MEDIA_URL);
+
+/**
+ * Video CDN Base URL
+ * Optional override for video assets only (keeps icons/fonts local).
+ */
+const VIDEO_CDN_BASE_URL = normalizeBaseUrl(env.NEXT_PUBLIC_VIDEO_CDN_URL);
+
+/**
+ * Resolve the base path for video assets.
+ * - If NEXT_PUBLIC_VIDEO_CDN_URL is set, prefer it.
+ * - Else, fall back to NEXT_PUBLIC_MEDIA_URL.
+ * - If neither is set, use local `/videos`.
+ */
+function getVideoBase(): string {
+  const base = VIDEO_CDN_BASE_URL || MEDIA_BASE_URL;
+  if (!base) return "/videos";
+
+  // If user provided a path already ending with /video or /videos, keep it.
+  if (/\/video(s)?$/.test(base)) {
+    return base;
+  }
+
+  // Otherwise, append /video to align with CDN folder structure.
+  return `${base}/video`;
+}
+
+const VIDEO_BASE_URL = getVideoBase();
 
 /**
  * Media URL Mode
@@ -46,7 +83,7 @@ export const MEDIA_CONFIG = {
   /** Videos directory */
   videos: {
     local: "/videos",
-    remote: MEDIA_BASE_URL ? `${MEDIA_BASE_URL}/videos` : "/videos",
+    remote: VIDEO_BASE_URL,
   },
   /** Images directory */
   images: {
@@ -80,10 +117,8 @@ export const MEDIA_CONFIG = {
  * ```
  */
 export function getVideoUrl(filename: string): string {
-  if (MEDIA_MODE === "remote") {
-    return `${MEDIA_CONFIG.videos.remote}/${filename}`;
-  }
-  return `${MEDIA_CONFIG.videos.local}/${filename}`;
+  const base = VIDEO_BASE_URL || MEDIA_CONFIG.videos.local;
+  return encodeURI(`${base}/${filename}`);
 }
 
 /**
@@ -258,6 +293,7 @@ export function getMediaInfo() {
   return {
     mode: MEDIA_MODE,
     baseUrl: MEDIA_BASE_URL || "local",
+    videoBase: VIDEO_BASE_URL,
     isRemote: isRemoteMedia(),
     config: MEDIA_CONFIG,
   };

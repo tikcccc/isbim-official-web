@@ -1,14 +1,14 @@
-# isBIM Official Web Architecture (v2.4)
+# isBIM Official Web Architecture (v3.6)
 
-Architecture for this Next.js project
+Architecture for this Next.js project.
 
 ## Tech Stack
-- Next.js 15 (App Router, Turbopack dev), TypeScript, Tailwind CSS v4
-- Paraglide v1 i18n (Level 3 LocaleContext pattern) — use `sourceLanguageTag/availableLanguageTags`
-- Animations: Lenis (smooth scroll), GSAP, Framer Motion
-- Motion: LazyMotion via `MotionProvider` + `m` factory (Framer)
+- Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
+- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
+- Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
-- CMS: Sanity with typed queries, tag-based revalidation, environment-based CDN
+- CMS: Sanity with typed queries, tag-based revalidation, env-based CDN
+- Media: `media-config` with optional video-only CDN override (`NEXT_PUBLIC_VIDEO_CDN_URL`)
 
 ## App Structure (high level)
 ```
@@ -61,6 +61,19 @@ src/components/sections/
   scroll-prompt.tsx
 ```
 
+### Services & Products Page
+```
+src/components/services-products/
+  background-layers.tsx   # noise + tech grid + emerald glow layers
+  hero-section.tsx        # dark hero with shimmer text
+  services-grid.tsx       # Bento grid with staggered Framer animations
+  service-card.tsx        # interactive cards (hover expand, grayscale->color)
+  spotlight-card.tsx      # GPU mouse-follow spotlight wrapper
+  corner-brackets.tsx     # HUD-style brackets overlay
+  cta-section.tsx         # final CTA with local grid background
+```
+- services data: `src/data/services.ts` (5 services/products)
+
 ### Animations
 ```
 src/components/animations/
@@ -84,7 +97,8 @@ src/lib/
   animations.ts           # GSAP config from tokens
   animation-variants.ts   # Framer variants from tokens
   constants.ts            # ROUTES + IDs/breakpoints/etc.
-  env.ts                  # typed env + sanityConfig + NEXT_PUBLIC_MEDIA_URL
+  env.ts                  # typed env + sanityConfig + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
+  media-config.ts         # getVideoUrl/getImageUrl + JARVIS_VIDEOS + CDN helpers
   i18n/
     locale-context.tsx    # LocaleProvider + useLocale (FROZEN)
     route-builder.ts      # buildHref/linkTo/useLocalizedHref (FROZEN)
@@ -105,6 +119,7 @@ src/styles/
   animations.css  # placeholder keyframes
   typography.css  # placeholder typography utilities
 ```
+- globals.css: shared utilities + text shimmer animation (services/products hero)
 
 ### SEO & ISR
 ```
@@ -157,6 +172,7 @@ public/
   icons/
   fonts/Alliance/*.woff2  # via next/font/local
 ```
+- Media CDN: `NEXT_PUBLIC_VIDEO_CDN_URL` (video-only override) falls back to `NEXT_PUBLIC_MEDIA_URL`, else local `/videos`; use `getVideoUrl`/`JARVIS_VIDEOS`.
 
 ## Boundaries
 - **FROZEN**: `src/lib/i18n/locale-context.tsx`, `src/lib/i18n/route-builder.ts`, `src/lib/i18n/index.ts`, `src/app/layout.tsx` (await headers -> setLanguageTag -> LocaleProvider order), route groups `(website)` / `(studio)` separation.
@@ -178,15 +194,11 @@ public/
 - **Motion**: Use `MotionProvider`/`m` from `components/motion/lazy-motion` instead of direct `motion` imports; keep `AnimatePresence` named imports.
 - **SEO**: Build canonical + hreflang via `generateHreflangAlternates` in `lib/seo.ts`; render structured data with `JsonLd` helpers; keep robots exclusions for Studio/API/Next assets/admin/json/revalidate.
 - **ISR**: Sanity webhook hits `api/revalidate` with `SANITY_WEBHOOK_SECRET` (HMAC) and revalidates tags from payload.
+- **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
+- **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.
 
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.
-- Sections: `section3-placeholder.tsx` (content pending), `services.ts` data placeholder.
+- Sections: `section3-placeholder.tsx` (content pending).
 - Sanity: `newsType.ts`, `careerType.ts`, `projectType.ts`, `schemaTypes/index.ts` registration updates.
 
-## Recent Changes (2025-11-26)
-- Split routes into `(website)` vs `(studio)` groups; root layout now fonts/globals only; website layout owns providers + Topbar/Footer; Studio isolated to bare shell.
-- Added `MotionProvider` (LazyMotion + `m`) and migrated Framer usages to the `m` factory to reduce bundle size.
-- Footer newsletter form is now lazy-loaded; shared fonts moved to `src/app/fonts.ts`.
-- Home page uses literal `revalidate` config (3600s) for Next.js page config parsing.
-- SEO/Performance pass: added hreflang/canonical helper, JsonLd schema helpers (Org/Product/JobPosting/Breadcrumb), on-demand ISR webhook with secret, expanded Sanity SEO fields + required alt text, tightened robots.txt, and marked LCP-critical images with `priority`.

@@ -1,5 +1,11 @@
 write update history here, keep simple with update time and update number
 
+## 2025-11-26 (v3.6)
+- Services & Products page rebuilt with dark cyberpunk theme (noise + grid + emerald glow), shimmer hero, GPU spotlight cards, Bento grid, expandable service details, and final CTA; new component suite (`background-layers`, `hero-section`, `services-grid`, `service-card`, `spotlight-card`, `corner-brackets`, `cta-section`) plus `servicesData` (5 entries). Build succeeded (5.92 kB page, 141 kB first load JS).
+
+## 2025-11-26 (v3.5)
+- Added optional video CDN override via `NEXT_PUBLIC_VIDEO_CDN_URL`; centralized video URLs through `media-config` (`getVideoUrl`/`JARVIS_VIDEOS`) for hero + platform media; docs refreshed (coding.md, coding-archite.md, coding-rules.md).
+
 ## 2025-11-26 (v3.4)
 - Added hreflang/canonical helper (`generateHreflangAlternates`) and tightened robots.txt for Studio/API/_next/admin/json/revalidate plus CN search engines and AI bots.
 - Introduced `JsonLd` helpers (Organization/Product/JobPosting/Breadcrumb) and render Organization schema in `app/layout.tsx`.
