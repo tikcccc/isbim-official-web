@@ -44,7 +44,7 @@ export function NewsletterForm() {
           {...register("email")}
           placeholder={messages.footer_email_placeholder()}
           type="email"
-          className="flex-1 h-10 text-[15px] border-slate-300 dark:border-slate-700 focus-visible:ring-slate-400 dark:focus-visible:ring-slate-500 transition-all duration-200 hover:border-slate-400 hover:shadow-sm dark:hover:border-slate-500"
+          className="flex-1 h-10 text-[15px] border-slate-300 dark:border-slate-700 focus-visible:ring-slate-400 focus-visible:ring-1 dark:focus-visible:ring-slate-600 focus-visible:shadow-[0_0_0_2px_rgba(148,163,184,0.1)] dark:focus-visible:shadow-[0_0_0_2px_rgba(71,85,105,0.12)] transition-all duration-120 hover:border-slate-400 dark:hover:border-slate-500"
         />
         <Button
           type="submit"

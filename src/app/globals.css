@@ -79,16 +79,33 @@
   font-family: var(--font-alliance-1), system-ui, sans-serif;
 }
 
-/* Text Shimmer Animation - Services & Products Page */
-@keyframes text-shimmer {
+/* HUD Flicker (Service cards index badge) */
+@keyframes hud-flicker {
   0% {
-    background-position: 0% 50%;
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0.2;
+  }
+  80% {
+    opacity: 0.85;
   }
   100% {
-    background-position: 100% 50%;
+    opacity: 1;
   }
 }
 
-.animate-text-shimmer {
-  animation: text-shimmer 2.5s ease-out infinite alternate;
+.hud-flicker {
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+.group:hover .hud-flicker {
+  animation: hud-flicker 0.22s steps(3) 1;
+  filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.35));
 }

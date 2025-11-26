@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import * as messages from "@/paraglide/messages";
 import { TypewriterText } from "@/components/animations";
+import shimmerStyles from "@/components/animations/text-shimmer.module.css";
 
 export function HeroSectionClient() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -60,7 +61,7 @@ export function HeroSectionClient() {
           {/* Second line - AI Products with shimmer */}
           <TypewriterText
             text={title2}
-            className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-white to-emerald-400 bg-[length:200%_auto] animate-text-shimmer"
+            className={`font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-white to-emerald-400 bg-[length:200%_auto] ${shimmerStyles.textShimmer}`}
             speed={40}
             delay={title1.length * 0.04 + 0.1}
             onComplete={() => setShowSubtitle(true)}

@@ -20,6 +20,35 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "framer-motion",
+              importNames: ["motion"],
+              message:
+                "Use m from '@/components/motion/lazy-motion' instead of importing motion directly.",
+            },
+            {
+              name: "framer-motion",
+              importNames: ["default"],
+              message:
+                "Use m from '@/components/motion/lazy-motion' instead of default importing motion.",
+            },
+            {
+              name: "framer-motion",
+              importNames: ["m"],
+              message:
+                "Use m from '@/components/motion/lazy-motion' to ensure LazyMotion tree-shaking.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

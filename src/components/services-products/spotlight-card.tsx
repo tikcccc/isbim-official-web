@@ -32,13 +32,13 @@ export function SpotlightCard({ children, className = "" }: SpotlightCardProps) 
       onMouseMove={handleMouseMove}
     >
       <m.div
-        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-80 z-10"
         style={{
           background: useMotionTemplate`
             radial-gradient(
-              300px circle at ${mouseX}px ${mouseY}px,
-              rgba(255, 255, 255, 0.15),
-              transparent 80%
+              120px circle at ${mouseX}px ${mouseY}px,
+              rgba(255, 255, 255, 0.1),
+              transparent 72%
             )
           `,
         }}

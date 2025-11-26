@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { m } from "@/components/motion/lazy-motion";
 import { ArrowRight } from "lucide-react";
 import * as messages from "@/paraglide/messages";
-import { useEffect } from "react";
 import { JARVIS_VIDEOS } from "@/lib/media-config";
 
 // Platform data structure
@@ -98,14 +97,87 @@ const platforms: PlatformItem[] = [
   },
 ];
 
+// Hook: Detect network quality for adaptive preloading
+function useConnectionQuality() {
+  const [quality, setQuality] = useState<'slow' | 'fast'>('fast');
+
+  useEffect(() => {
+    const conn = (navigator as any).connection;
+    if (conn?.effectiveType) {
+      const slowTypes = ['slow-2g', '2g', '3g'];
+      setQuality(slowTypes.includes(conn.effectiveType) ? 'slow' : 'fast');
+    }
+  }, []);
+
+  return quality;
+}
+
+// Hook: Smart video preloader with progressive loading
+function useSmartVideoPreloader(
+  videoRefs: React.RefObject<(HTMLVideoElement | null)[]>,
+  isInViewport: boolean
+) {
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(new Set());
+  const connectionQuality = useConnectionQuality();
+
+  const preloadVideo = useCallback((index: number) => {
+    if (loadedIndices.has(index)) return;
+
+    const video = videoRefs.current[index];
+    if (!video) return;
+
+    video.preload = 'auto';
+    video.load();
+    setLoadedIndices(prev => new Set(prev).add(index));
+  }, [loadedIndices, videoRefs]);
+
+  const preloadRange = useCallback((startIndex: number, count: number) => {
+    for (let i = 0; i < count; i++) {
+      const index = startIndex + i;
+      if (index < platforms.length) {
+        preloadVideo(index);
+      }
+    }
+  }, [preloadVideo]);
+
+  // Phase 1: Preload first 2 videos when section enters viewport
+  useEffect(() => {
+    if (!isInViewport || connectionQuality === 'slow') return;
+
+    const timer = setTimeout(() => {
+      preloadRange(0, 2);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isInViewport, connectionQuality, preloadRange]);
+
+  // Phase 3: Idle preloading - load remaining videos after 3s
+  useEffect(() => {
+    if (!isInViewport || connectionQuality === 'slow') return;
+
+    const idleTimer = setTimeout(() => {
+      for (let i = 2; i < platforms.length; i++) {
+        if (!loadedIndices.has(i)) {
+          preloadVideo(i);
+        }
+      }
+    }, 3000);
+
+    return () => clearTimeout(idleTimer);
+  }, [isInViewport, connectionQuality, loadedIndices, preloadVideo]);
+
+  return { preloadVideo, preloadRange, loadedIndices };
+}
+
 export function Section4PlatformList() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isInViewport, setIsInViewport] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [currentVideoUrl, setCurrentVideoUrl] = useState<string>("");
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // --- 1. IntersectionObserver: 只在進入視窗時允許載入影片 ---
+  const { preloadRange } = useSmartVideoPreloader(videoRefs, isInViewport);
+
+  // IntersectionObserver: Track viewport visibility
   useEffect(() => {
     if (!sectionRef.current) return;
 
@@ -113,7 +185,7 @@ export function Section4PlatformList() {
       ([entry]) => {
         setIsInViewport(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "100px" }
     );
 
     observer.observe(sectionRef.current);
@@ -123,40 +195,42 @@ export function Section4PlatformList() {
     };
   }, []);
 
-  // --- 2. 單一影片播放器控制 ---
-  const handleHover = useCallback((id: string, videoUrl: string) => {
-    setHoveredId(id);
-    setCurrentVideoUrl(videoUrl);
+  // Phase 2: Smart hover handler with progressive preload
+  const handleHover = useCallback((index: number) => {
+    setHoveredIndex(index);
 
-    if (!isInViewport || !videoRef.current) return;
+    if (!isInViewport) return;
 
-    // 切換影片來源並播放
-    if (videoRef.current.src !== videoUrl) {
-      videoRef.current.src = videoUrl;
+    // Play current video
+    const video = videoRefs.current[index];
+    if (video) {
+      video.play().catch(() => {});
     }
-    videoRef.current.play().catch(() => {
-      // 播放失敗靜默處理
-    });
-  }, [isInViewport]);
+
+    // Preload next 2 videos
+    preloadRange(index + 1, 2);
+  }, [isInViewport, preloadRange]);
 
   const handleLeave = useCallback(() => {
-    setHoveredId(null);
-    setCurrentVideoUrl("");
-    if (videoRef.current) {
-      videoRef.current.pause();
+    if (hoveredIndex !== null) {
+      const video = videoRefs.current[hoveredIndex];
+      if (video) {
+        video.pause();
+      }
     }
-  }, []);
+    setHoveredIndex(null);
+  }, [hoveredIndex]);
 
   // Mobile tap: toggle the active row
   const handleTap = useCallback(
-    (id: string, videoUrl: string, isActive: boolean) => {
-      if (isActive) {
+    (index: number) => {
+      if (hoveredIndex === index) {
         handleLeave();
-        return;
+      } else {
+        handleHover(index);
       }
-      handleHover(id, videoUrl);
     },
-    [handleHover, handleLeave]
+    [hoveredIndex, handleHover, handleLeave]
   );
 
   return (
@@ -170,17 +244,17 @@ export function Section4PlatformList() {
         </h2>
 
         <div className="flex flex-col">
-          {platforms.map((item) => (
+          {platforms.map((item, index) => (
             <PlatformRow
               key={item.id}
               item={item}
-              isHovered={hoveredId === item.id}
+              index={index}
+              isHovered={hoveredIndex === index}
               isInViewport={isInViewport}
-              videoRef={videoRef}
-              currentVideoUrl={currentVideoUrl}
-              onHover={handleHover}
+              videoRef={(el) => (videoRefs.current[index] = el)}
+              onHover={() => handleHover(index)}
               onLeave={handleLeave}
-              onTap={handleTap}
+              onTap={() => handleTap(index)}
             />
           ))}
         </div>
@@ -194,41 +268,31 @@ function PlatformRow({
   isHovered,
   isInViewport,
   videoRef,
-  currentVideoUrl,
   onHover,
   onLeave,
   onTap
 }: {
   item: PlatformItem;
+  index: number;
   isHovered: boolean;
   isInViewport: boolean;
-  videoRef: React.RefObject<HTMLVideoElement | null>;
-  currentVideoUrl: string;
-  onHover: (id: string, videoUrl: string) => void;
+  videoRef: (el: HTMLVideoElement | null) => void;
+  onHover: () => void;
   onLeave: () => void;
-  onTap: (id: string, videoUrl: string, isActive: boolean) => void;
+  onTap: () => void;
 }) {
   const handleMouseEnter = () => {
     if (isInViewport) {
-      onHover(item.id, item.videoUrl);
+      onHover();
     }
   };
-
-  // 當此列被 hover 時，自動播放影片
-  useEffect(() => {
-    if (isHovered && videoRef.current && isInViewport) {
-      videoRef.current.play().catch(() => {
-        // 播放失敗靜默處理
-      });
-    }
-  }, [isHovered, videoRef, isInViewport]);
 
   return (
     <div
       className="relative border-t border-gray-200 py-6 sm:py-10 group cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onLeave}
-      onClick={() => onTap(item.id, item.videoUrl, isHovered)}
+      onClick={onTap}
     >
       {/* Grid Layout: Left (Text) - Middle (Video) - Right (Title) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -245,29 +309,30 @@ function PlatformRow({
           </span>
         </div>
 
-        {/* 2. Middle Section: Video Container (只在此列被 hover 時顯示影片) */}
+        {/* 2. Middle Section: Video Container */}
         <div className="lg:col-span-4 relative flex items-center justify-center">
-          {isHovered && isInViewport && (
-            <m.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.25 }}
-              className="w-full flex items-center justify-center z-20"
-            >
-              <div className="overflow-hidden rounded-lg shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
-                <video
-                  ref={isHovered ? videoRef : null}
-                  src={item.videoUrl}
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover opacity-90"
-                />
-              </div>
-            </m.div>
-          )}
+          {/* Single video element with opacity transition */}
+          <m.div
+            animate={{
+              opacity: isHovered && isInViewport ? 1 : 0,
+              scale: isHovered && isInViewport ? 1 : 0.95
+            }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="w-full flex items-center justify-center z-20"
+            style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+          >
+            <div className="overflow-hidden rounded-lg shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
+              <video
+                ref={videoRef}
+                src={item.videoUrl}
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                className="w-full h-full object-cover opacity-90"
+              />
+            </div>
+          </m.div>
         </div>
 
         {/* 3. Right Section: Large Title (with shift animation) */}

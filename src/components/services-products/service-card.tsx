@@ -62,10 +62,10 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
       {/* Header Section */}
       <div className="absolute top-0 left-0 p-6 z-20 flex items-center gap-3 w-full justify-between">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-sm text-white/40 tracking-widest">
+          <span className="hud-flicker font-mono text-sm text-white/40 tracking-widest group-hover:text-white">
             {displayIndex} /
           </span>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400/90 bg-emerald-950/30 px-2 py-1 backdrop-blur-md rounded border border-emerald-500/20">
+          <span className="hud-flicker text-[10px] font-mono uppercase tracking-widest text-emerald-400/90 bg-emerald-950/30 px-2 py-1 backdrop-blur-md rounded border border-emerald-500/20 group-hover:text-emerald-200 group-hover:border-emerald-400/40">
             {typeLabel}
           </span>
         </div>
