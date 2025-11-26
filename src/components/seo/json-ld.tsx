@@ -102,7 +102,7 @@ export function JsonLd({ data, id }: JsonLdProps) {
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(data, null, process.env.NODE_ENV === "development" ? 2 : 0),
       }}
-      strategy="beforeInteractive"
+      strategy="afterInteractive"
     />
   );
 }
@@ -175,6 +175,7 @@ export function createProductSchema(props: ProductSchemaProps) {
     name,
     description,
     ...(image && { image }),
+    ...(url && { url }),
     ...(brand && {
       brand: {
         "@type": "Brand",

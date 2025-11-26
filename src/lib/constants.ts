@@ -234,7 +234,7 @@ export const FEATURE_FLAGS = {
   ANALYTICS: true,
 } as const;
 
-export default {
+const constants = {
   ROUTES,
   JARVIS_PRODUCT_IDS,
   JARVIS_PRODUCTS,
@@ -247,3 +247,5 @@ export default {
   CAROUSEL_CONFIG,
   FEATURE_FLAGS,
 };
+
+export default constants;

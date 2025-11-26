@@ -24,7 +24,6 @@
  * - 按部門、地點篩選職位
  */
 
-import { defineType, defineField } from "sanity";
 
 // TODO: 定義careerType schema
 // TODO: 添加所有字段定義

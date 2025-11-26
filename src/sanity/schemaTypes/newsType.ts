@@ -23,7 +23,6 @@
  * - Home頁的最新新聞模塊（可選）
  */
 
-import { defineType, defineField } from "sanity";
 
 // TODO: 定義newsType schema
 // TODO: 添加所有字段定義

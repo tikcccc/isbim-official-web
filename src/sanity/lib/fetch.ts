@@ -40,7 +40,7 @@ import { isDevelopment } from "@/lib/env";
 /**
  * Sanity fetch options
  */
-export interface SanityFetchOptions<T = unknown> {
+export interface SanityFetchOptions {
   /** GROQ query string */
   query: string;
   /** Query parameters */

@@ -175,9 +175,11 @@ export function hasLocalePrefix(
  * Legacy compatibility exports
  * @deprecated Use the named exports instead for better type safety
  */
-export default {
+const routeBuilder = {
   buildHref,
   linkTo,
   useLocalizedHref,
   hasLocalePrefix,
 };
+
+export default routeBuilder;

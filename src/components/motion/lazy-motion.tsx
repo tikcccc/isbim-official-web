@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { LazyMotion, domAnimation, m } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion"; // eslint-disable-line no-restricted-imports
 
 export function MotionProvider({ children }: { children: ReactNode }) {
   return (

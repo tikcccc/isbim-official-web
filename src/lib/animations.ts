@@ -273,7 +273,7 @@ export function createScrollAnimation(
  */
 export const AUTOPLAY_DURATION = 5000; // 5 seconds
 
-export default {
+const animationsConfig = {
   ANIMATION_DURATIONS,
   GSAP_EASINGS,
   FRAMER_EASINGS,
@@ -286,3 +286,5 @@ export default {
   VIEWPORT_THRESHOLDS,
   AUTOPLAY_DURATION,
 };
+
+export default animationsConfig;

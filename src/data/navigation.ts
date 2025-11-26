@@ -361,10 +361,12 @@ export function getActiveNavItem(pathname: string): NavigationItem | null {
   return findInNav(mainNavigation, cleanPath);
 }
 
-export default {
+const navigation = {
   mainNavigation,
   footerNavigation,
   mobileNavigation,
   generateBreadcrumbs,
   getActiveNavItem,
 };
+
+export default navigation;

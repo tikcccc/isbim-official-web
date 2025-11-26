@@ -141,7 +141,7 @@ export function useScrollProgress(
         cancelAnimationFrame(rafId);
       }
     };
-  }, [target?.current, useRAF, updateScrollProgress]);
+  }, [target, useRAF, updateScrollProgress]);
 
   return { scrollProgress, scrollY, scrollHeight };
 }

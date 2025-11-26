@@ -313,4 +313,4 @@ export default {
   COMMON_IMAGES,
   isRemoteMedia,
   getMediaInfo,
-};
+} as const;

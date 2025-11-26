@@ -99,13 +99,14 @@ const platforms: PlatformItem[] = [
 
 // Hook: Detect network quality for adaptive preloading
 function useConnectionQuality() {
-  const [quality, setQuality] = useState<'slow' | 'fast'>('fast');
+  const [quality, setQuality] = useState<"slow" | "fast">("fast");
 
   useEffect(() => {
-    const conn = (navigator as any).connection;
+    const nav = navigator as Navigator & { connection?: { effectiveType?: string } };
+    const conn = nav.connection;
     if (conn?.effectiveType) {
-      const slowTypes = ['slow-2g', '2g', '3g'];
-      setQuality(slowTypes.includes(conn.effectiveType) ? 'slow' : 'fast');
+      const slowTypes = ["slow-2g", "2g", "3g"];
+      setQuality(slowTypes.includes(conn.effectiveType) ? "slow" : "fast");
     }
   }, []);
 

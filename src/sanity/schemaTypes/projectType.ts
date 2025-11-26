@@ -26,7 +26,6 @@
  * - About頁的成果展示
  */
 
-import { defineType, defineField } from "sanity";
 
 // TODO: 定義projectType schema
 // TODO: 添加所有字段定義
