@@ -46,26 +46,32 @@ export function HeroSectionClient() {
     ? messages.services_products_title_2()
     : "AI Products";
 
+  const title2Display = title2.replace(" ", "\u00a0");
+
   return (
     <section className="container mx-auto px-6 pt-32 pb-16 relative z-10">
       <div className="max-w-5xl">
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-8 leading-[0.9]">
           {/* First line - Services & */}
-          <TypewriterText
-            text={title1}
-            className="text-white"
-            speed={40}
-            delay={0}
-          />
+          <span className="tracking-normal">
+            <TypewriterText
+              text={title1}
+              className="text-white tracking-normal"
+              speed={40}
+              delay={0}
+            />
+          </span>
           <br />
           {/* Second line - AI Products with shimmer */}
-          <TypewriterText
-            text={title2}
-            className={`font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-white to-emerald-400 bg-[length:200%_auto] ${shimmerStyles.textShimmer}`}
-            speed={40}
-            delay={title1.length * 0.04 + 0.1}
-            onComplete={() => setShowSubtitle(true)}
-          />
+          <span className="tracking-normal">
+            <TypewriterText
+              text={title2Display}
+              className={`font-semibold tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-white to-emerald-400 bg-[length:200%_auto] ${shimmerStyles.textShimmer}`}
+              speed={40}
+              delay={title1.length * 0.04 + 0.1}
+              onComplete={() => setShowSubtitle(true)}
+            />
+          </span>
         </h1>
         <p
           ref={subtitleRef}

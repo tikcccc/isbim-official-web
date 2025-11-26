@@ -239,13 +239,13 @@
   "menu_view_all": "查看全部",
 
   "services_products_title_1": "服務與",
-  "services_products_title_2": "AI 產品",
+  "services_products_title_2": "AI產品",
   "services_products_subtitle_1": "下一世紀的智能基礎設施。",
   "services_products_subtitle_2": "專業知識與 AI 的無縫融合。",
   "services_products_cta_title": "準備好建造未來了嗎？",
   "services_products_cta_button": "轉型您的項目",
 
-  "services_card_jarvis_suite_type": "AI 平台",
+  "services_card_jarvis_suite_type": "AI平台",
   "services_card_jarvis_suite_title": "JARVIS AI 产品",
   "services_card_jarvis_suite_header": "面向建築業每個參與者的專業生成式 AI 代理。",
   "services_card_jarvis_suite_description": "自動化 99.8% 發票掃描，即時解析招標並生成 50 萬+ 設計方案。",
@@ -275,7 +275,7 @@
   "services_card_venture_description": "依託 2,600 個實時項目測試平台，為 AI 工廠與新能源電網降風險並加速落地。",
   "services_card_venture_cta": "了解投資",
 
-  "jarvis_suite_title": "JARVIS AI Suite",
+  "jarvis_suite_title": "JARVIS AI 产品",
   "jarvis_suite_subtitle": "針對建築業各利益相關者的專業生成式AI代理。",
   "jarvis_suite_under_construction": "頁面建設中"
 }

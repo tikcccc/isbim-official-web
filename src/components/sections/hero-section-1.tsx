@@ -47,18 +47,21 @@ export function HeroSection1() {
     <section className="hero-section relative w-full overflow-hidden bg-black min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
       {/* Video Background (absolute position within section) */}
       <div className="absolute inset-0 z-[1]">
+        {/* Gradient placeholder background - shows before video loads */}
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black" />
+
         <video
-          className="hero-video w-full h-full object-cover object-center"
-          poster={JARVIS_VIDEOS.banner}
+          className="hero-video w-full h-full object-cover object-center relative z-10"
           playsInline
           autoPlay
           loop
           muted
+          preload="auto"
         >
           <source src={JARVIS_VIDEOS.banner} type="video/mp4" />
         </video>
         {/* Dark overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/50 z-20" />
       </div>
 
       {/* Hero Content - Inner Container */}
