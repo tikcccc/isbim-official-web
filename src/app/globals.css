@@ -109,3 +109,90 @@
   animation: hud-flicker 0.22s steps(3) 1;
   filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.35));
 }
+
+/* Services/Products grid entry sheen (lines only) */
+@keyframes grid-sheen-sweep {
+  0% {
+    mask-position: 0 -140%;
+    -webkit-mask-position: 0 -140%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0.6;
+  }
+  100% {
+    mask-position: 0 140%;
+    -webkit-mask-position: 0 140%;
+    opacity: 0;
+  }
+}
+
+.grid-sheen-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: 60px 60px;
+  background-image:
+    repeating-linear-gradient(to right,
+      rgba(52, 211, 153, 0.4) 0px,
+      rgba(34, 211, 238, 0.32) 0.5px,
+      rgba(255, 255, 255, 0.65) 1px,
+      transparent 1px,
+      transparent 60px),
+    repeating-linear-gradient(to bottom,
+      rgba(52, 211, 153, 0.4) 0px,
+      rgba(34, 211, 238, 0.32) 0.5px,
+      rgba(255, 255, 255, 0.65) 1px,
+      transparent 1px,
+      transparent 60px);
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 18px rgba(52, 211, 153, 0.55));
+  opacity: 0;
+  mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
+  mask-size: 100% 260%;
+  -webkit-mask-size: 100% 260%;
+  mask-position: 0 -140%;
+  -webkit-mask-position: 0 -140%;
+  animation: grid-sheen-sweep 5s ease-out 0s 1 forwards;
+  animation-play-state: paused;
+  will-change: mask-position, opacity;
+}
+
+.grid-sheen-overlay--run {
+  animation-play-state: running;
+}
+
+/* JARVIS AI Suite Page Animations */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% auto;
+  animation: gradient-x 3s ease infinite;
+}
+
+.text-glow {
+  text-shadow: 0 0 20px currentColor;
+}
+
+/* Gradient text mask for depth */
+.text-gradient-mask {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

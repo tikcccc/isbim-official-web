@@ -1,0 +1,602 @@
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, useInView, MotionValue } from 'framer-motion';
+import { ArrowDown, ChevronDown, Zap, Shield, Eye, Database, FileSignature, Leaf, Brain, ArrowRight, Server, Cpu } from 'lucide-react';
+
+// --- 0. Background Effects (Global Layer) ---
+// 保持全局噪點和微弱呼吸燈，但調整為疊加模式，讓 Section 的顏色能透出來
+const BackgroundEffects = () => {
+  return (
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* 1. Static Noise Texture (Film Grain) - Reduced opacity for cleaner colors */}
+        <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay" 
+             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+        </div>
+
+        {/* 2. Global Ambient Orbs - Adjusted for new color palette */}
+        <motion.div 
+            animate={{ opacity: [0.2, 0.4, 0.2], scale: [1, 1.1, 1] }}
+            transition={{ duration: 10, repeat: Infinity }}
+            className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-emerald-900/10 rounded-full blur-[120px] mix-blend-screen"
+        />
+        <motion.div 
+            animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] }}
+            transition={{ duration: 15, repeat: Infinity, delay: 2 }}
+            className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] mix-blend-screen"
+        />
+    </div>
+  );
+};
+
+// --- 1. Utility Components ---
+
+const StickySection = ({ 
+  children, 
+  className = "", 
+  zIndex = 0 
+}: { 
+  children: React.ReactNode, 
+  className?: string,
+  zIndex?: number 
+}) => {
+  return (
+    <section className={`sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden ${className}`} style={{ zIndex }}>
+      {children}
+    </section>
+  );
+};
+
+// --- 2. Main Page Component ---
+
+export default function JarvisAiSuitePage() {
+  const contentSectionRef = useRef<HTMLDivElement>(null);
+
+  // --- Phase 1: Foundation Setup (Lenis) ---
+  useEffect(() => {
+    let lenis: any;
+    let rafId: number;
+    const scriptId = 'lenis-script';
+
+    if (!document.getElementById(scriptId)) {
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.src = "https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"; 
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        
+        script.onload = () => {
+          try {
+            // @ts-ignore
+            if (window.Lenis) {
+              // @ts-ignore
+              lenis = new window.Lenis({
+                duration: 1.2,
+                easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+              });
+
+              function raf(time: number) {
+                lenis.raf(time);
+                rafId = requestAnimationFrame(raf);
+              }
+              rafId = requestAnimationFrame(raf);
+            }
+          } catch (error) {
+            console.error("Lenis init error:", error);
+          }
+        };
+        document.body.appendChild(script);
+    }
+    return () => { 
+      if (lenis) lenis.destroy();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+  
+  // --- Phase 2: Scroll Logic (The Narrative Track) ---
+  const { scrollYProgress } = useScroll({
+    target: contentSectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 20, restDelta: 0.001 });
+
+  // --- Background Color Interpolation ---
+  // 0.0 - 0.2: Black (Hero Transition)
+  // 0.3 - 0.5: Deep Navy/Slate (Enterprise Autonomy)
+  // 0.6 - 0.8: Dark Metallic Grey (Stats)
+  // 0.9 - 1.0: Black (Exit)
+  const trackBackgroundColor = useTransform(
+    smoothProgress,
+    [0, 0.2, 0.45, 0.7, 1],
+    [
+      "#050505", // Black
+      "#050505", // Stay Black
+      "#0B1121", // Deep Slate/Navy (Rich Blue-Black)
+      "#18181B", // Zinc 900 (Metallic Grey)
+      "#050505"  // Back to Black
+    ]
+  );
+
+  // --- Content Transformations ---
+  const title1Opacity = useTransform(smoothProgress, [0.05, 0.2], [0, 1]);
+  const title1Y = useTransform(smoothProgress, [0.05, 0.2], [40, 0]);
+  const title1Blur = useTransform(smoothProgress, [0.05, 0.2], ["10px", "0px"]);
+
+  const title2Opacity = useTransform(smoothProgress, [0.3, 0.45], [0, 1]);
+  const title2Y = useTransform(smoothProgress, [0.3, 0.45], [40, 0]);
+  const title2Blur = useTransform(smoothProgress, [0.3, 0.45], ["10px", "0px"]);
+
+  const statsOpacity = useTransform(smoothProgress, [0.55, 0.7], [0, 1]);
+  const statsY = useTransform(smoothProgress, [0.55, 0.7], [20, 0]);
+
+  const footerOpacity = useTransform(smoothProgress, [0.85, 0.95], [0, 1]);
+
+  return (
+    <div className="bg-[#050505] min-h-screen font-sans selection:bg-emerald-500/30 text-white relative">
+      <style>{`body { overflow-x: hidden; }`}</style>
+      
+      <BackgroundEffects />
+
+      {/* --- LAYER 0: HERO (Fixed Background) --- */}
+      <StickySection className="bg-transparent" zIndex={0}>
+        <div className="absolute inset-0 z-0">
+           {/* Enhanced Video Overlay */}
+           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center animate-pulse duration-[8000ms] opacity-50"></div>
+           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent"></div>
+           <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]"></div>
+           {/* Tech Grid Overlay */}
+           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] mask-image:linear-gradient(to_bottom,black,transparent)"></div>
+        </div>
+
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <div className="mb-6 inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              <span className="text-xs font-mono tracking-widest uppercase text-emerald-400">v3.7 Architecture Ready</span>
+            </div>
+            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-6 text-white drop-shadow-2xl">
+              JARVIS <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 animate-gradient-x">
+                AI Suite
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto">
+                The AI Operating System for Infrastructure.
+            </p>
+          </motion.div>
+        </div>
+
+        <motion.div 
+          className="absolute bottom-12 flex flex-col items-center gap-3 z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-500/70">Scroll to Initialize</span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
+            <ArrowDown className="w-5 h-5 text-emerald-500/50" />
+          </motion.div>
+        </motion.div>
+      </StickySection>
+
+      {/* --- LAYER 1: THE NARRATIVE TRACK (Dynamic Background) --- */}
+      <div 
+        ref={contentSectionRef}
+        className="relative z-10 h-[400vh]"
+      >
+        {/* Dynamic Background Layer */}
+        <motion.div 
+            style={{ backgroundColor: trackBackgroundColor }}
+            className="absolute inset-0 z-0"
+        >
+             {/* Overlay Grids for texture */}
+             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+             {/* Vignette to focus attention */}
+             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]"></div>
+        </motion.div>
+
+        <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden z-10">
+            <div className="flex-1 flex flex-col justify-center items-center text-center px-6 max-w-6xl mx-auto">
+                {/* Stage 1: Intro */}
+                <motion.h2 
+                  style={{ opacity: title1Opacity, y: title1Y, filter: title1Blur }}
+                  className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-4 leading-[1.1] drop-shadow-2xl"
+                >
+                    Go beyond chat.
+                </motion.h2>
+                
+                {/* Stage 2: Enterprise (Blue Background Phase) */}
+                <motion.h2 
+                  style={{ opacity: title2Opacity, y: title2Y, filter: title2Blur }}
+                  className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] mb-16"
+                >
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500">
+                        Enterprise Autonomy
+                    </span>
+                </motion.h2>
+
+                {/* Stage 3: Stats (Grey Background Phase) */}
+                <motion.div
+                  style={{ opacity: statsOpacity, y: statsY }}
+                  className="flex flex-col md:flex-row items-center gap-8 md:gap-16 mt-8"
+                >
+                    <div className="flex flex-col items-center group cursor-default">
+                        <span className="text-3xl md:text-5xl font-bold text-emerald-400 transition-transform group-hover:scale-110 duration-500 text-glow">99.8%</span>
+                        <span className="text-xs font-mono text-gray-500 tracking-widest mt-2 uppercase">Accuracy</span>
+                    </div>
+                    <div className="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                    <div className="flex flex-col items-center group cursor-default">
+                        <span className="text-3xl md:text-5xl font-bold text-white transition-transform group-hover:scale-110 duration-500">60-Day</span>
+                        <span className="text-xs font-mono text-gray-500 tracking-widest mt-2 uppercase">Payments</span>
+                    </div>
+                     <div className="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                    <div className="flex flex-col items-center group cursor-default">
+                        <span className="text-3xl md:text-5xl font-bold text-emerald-400 transition-transform group-hover:scale-110 duration-500 text-glow">Zero</span>
+                        <span className="text-xs font-mono text-gray-500 tracking-widest mt-2 uppercase">Accidents</span>
+                    </div>
+                </motion.div>
+            </div>
+
+            <motion.div 
+                style={{ opacity: footerOpacity }}
+                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer group"
+                onClick={() => document.getElementById('narrative-bridge')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+                <div className="relative w-6 h-6 flex flex-col items-center justify-center text-emerald-500/50 transition-colors group-hover:text-emerald-400">
+                    <div className="w-[1px] h-3 bg-current mb-[2px]"></div>
+                    <div className="w-3 h-[1px] bg-current absolute top-0"></div> 
+                    <ChevronDown className="w-5 h-5 -mt-1" strokeWidth={1.5} />
+                    <div className="w-3 h-[1px] bg-current mt-1"></div> 
+                </div>
+                <span className="text-[10px] uppercase tracking-widest text-emerald-500/50 font-medium group-hover:text-emerald-400 transition-colors">
+                    Scroll to Explore
+                </span>
+            </motion.div>
+
+        </div>
+      </div>
+
+      {/* --- REST OF THE PAGE (Zonal Colors) --- */}
+      <div className="relative z-20">
+        
+        <NarrativeInterlude />
+
+        <AcceleratorZone />
+        
+        <ParallaxBreaker />
+
+        <MonitorZone />
+
+        <CtaSection />
+        
+        <Footer />
+      </div>
+
+    </div>
+  );
+}
+
+// --- 3. Sub-Components ---
+
+// 2. Interlude - Indigo/Purple Tint to break the monotony
+const NarrativeInterlude = () => {
+    return (
+        <section id="narrative-bridge" className="relative py-32 overflow-hidden bg-[#07090E] border-t border-white/5">
+            {/* Indigo Ambient Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-indigo-900/20 to-transparent blur-[120px] pointer-events-none rounded-full"></div>
+            
+            <div className="container mx-auto px-6 relative z-10 max-w-5xl text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-8 tracking-tight">
+                        Designed for <span className="text-emerald-400">Builders</span>
+                    </h3>
+                    
+                    <p className="text-xl md:text-2xl text-gray-300 leading-relaxed font-light mb-12 max-w-3xl mx-auto">
+                        Trained on <span className="text-white font-medium">isBIM’s proprietary dataset</span> and <span className="text-white font-medium">Alibaba’s frontier models</span>, JARVIS transforms engineering expertise into an agentic assistant that <span className="text-emerald-400/90 font-medium">anticipates needs</span> and <span className="text-emerald-400/90 font-medium">executes with precision</span>.
+                    </p>
+
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <div className="group px-6 py-3 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm flex items-center gap-3 hover:bg-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300 cursor-default">
+                            <Cpu className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                            <span className="text-xs font-mono font-bold tracking-widest text-gray-300 group-hover:text-white">POWERED BY ALIBABA CLOUD</span>
+                        </div>
+                        <div className="group px-6 py-3 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm flex items-center gap-3 hover:bg-teal-500/10 hover:border-teal-500/40 transition-all duration-300 cursor-default">
+                            <Database className="w-4 h-4 text-teal-400 group-hover:scale-110 transition-transform" />
+                            <span className="text-xs font-mono font-bold tracking-widest text-gray-300 group-hover:text-white">isBIM PROPRIETARY DATA</span>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+            
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent"></div>
+        </section>
+    );
+}
+
+// 3. Accelerator Zone - Deep Midnight Green Gradient
+const AcceleratorZone = () => {
+  const [activeTab, setActiveTab] = useState<'agent' | 'pay' | 'air'>('agent');
+
+  return (
+    <section id="execute" className="relative py-32 bg-gradient-to-b from-[#020617] to-[#050505] overflow-hidden">
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-900/10 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
+
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+            <div className="mb-20">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-px bg-emerald-500"></div>
+                    <span className="text-emerald-500 font-mono text-sm tracking-widest">01. ACCELERATOR ZONE</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white">Automate. Accelerate. Execute.</h2>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+                {/* Left: Scrollable Trigger List */}
+                <div className="lg:w-1/2 flex flex-col gap-12 pb-32">
+                    <FeatureItem 
+                        id="agent"
+                        icon={<Brain className="w-8 h-8" />}
+                        title="JARVIS Agent"
+                        badge="99.8% ACCURACY"
+                        desc="Your AI Workforce for Admin & Tenders. Automates repetitive tasks such as invoice scanning, tender parsing, and auto-scoring."
+                        isActive={activeTab === 'agent'}
+                        onActivate={() => setActiveTab('agent')}
+                    />
+                     <FeatureItem 
+                        id="pay"
+                        icon={<FileSignature className="w-8 h-8" />}
+                        title="JARVIS Pay"
+                        badge="60-DAY PAYMENT"
+                        desc="Get Paid in 60 Days. Guaranteed. Digital twin for SOPL-compliant certification linking payment milestones to 360° digital twins."
+                        isActive={activeTab === 'pay'}
+                        onActivate={() => setActiveTab('pay')}
+                    />
+                     <FeatureItem 
+                        id="air"
+                        icon={<Zap className="w-8 h-8" />}
+                        title="JARVIS Air"
+                        badge="GEN-DESIGN"
+                        desc="Generate Cities in Seconds. Stable-diffusion generative design with 500K+ templates. Instant visuals and scenario prototyping."
+                        isActive={activeTab === 'air'}
+                        onActivate={() => setActiveTab('air')}
+                    />
+                </div>
+
+                {/* Right: Sticky Visual */}
+                <div className="hidden lg:block lg:w-1/2 relative">
+                    <div className="sticky top-32 h-[600px] w-full rounded-2xl overflow-hidden border border-white/10 bg-[#0F1115] shadow-2xl shadow-emerald-900/10 ring-1 ring-white/5">
+                        {/* Render Active Visual */}
+                        {activeTab === 'agent' && (
+                            <motion.div 
+                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555421689-491a97ff4181?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"
+                            >
+                                <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+                                <div className="absolute bottom-10 left-10 right-10 bg-[#0a0a0a]/90 border border-emerald-500/30 p-6 rounded-xl shadow-lg">
+                                    <div className="flex gap-4 items-start">
+                                        <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shrink-0 animate-pulse">
+                                            <Brain className="w-4 h-4 text-black" />
+                                        </div>
+                                        <div>
+                                            <div className="text-emerald-400 text-xs font-mono mb-1">JARVIS AGENT</div>
+                                            <p className="text-sm text-gray-300">Invoice #2024-889 scanned. Discrepancy found in line item 4. Auto-correction applied based on contract clause 12.B.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                        {activeTab === 'pay' && (
+                            <motion.div 
+                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden"
+                            >
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-900/20 via-black to-black"></div>
+                                <div className="text-center relative z-10">
+                                    <div className="text-7xl font-bold text-white mb-2 tabular-nums">60 Days</div>
+                                    <div className="text-emerald-400 font-mono text-sm tracking-widest">CERTIFICATION CYCLE</div>
+                                </div>
+                            </motion.div>
+                        )}
+                         {activeTab === 'air' && (
+                            <motion.div 
+                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2089&auto=format&fit=crop')] bg-cover bg-center"
+                            >
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                     <div className="w-full h-full border-[20px] border-emerald-500/10 animate-pulse"></div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  );
+};
+
+const FeatureItem = ({ id, icon, title, badge, desc, isActive, onActivate }: { 
+    id: string, icon: React.ReactNode, title: string, badge: string, desc: string, isActive: boolean, onActivate: () => void 
+}) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { margin: "-50% 0px -50% 0px" });
+
+    useEffect(() => {
+        if (isInView) {
+            onActivate();
+        }
+    }, [isInView]);
+
+    return (
+        <div 
+            ref={ref}
+            onClick={onActivate}
+            className={`cursor-pointer py-8 pl-8 border-l-2 transition-all duration-500 ${isActive ? 'border-emerald-500 opacity-100 bg-white/05' : 'border-white/10 opacity-30 hover:opacity-60 hover:bg-white/05'} rounded-r-xl`}
+        >
+            <div className="flex items-center gap-4 mb-4">
+                <div className={isActive ? 'text-emerald-500' : 'text-gray-400'}>{icon}</div>
+                <h3 className="text-2xl font-bold text-white">{title}</h3>
+                <span className={`px-2 py-0.5 text-[10px] font-mono rounded border ${isActive ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-gray-500 border-white/10'}`}>{badge}</span>
+            </div>
+            <p className="text-lg text-gray-400 mb-4 leading-relaxed">{desc}</p>
+            <div className={`flex items-center gap-2 text-sm font-bold ${isActive ? 'text-white' : 'text-transparent'} transition-colors`}>
+                Explore {title} <ArrowRight className="w-4 h-4" />
+            </div>
+        </div>
+    );
+}
+
+const ParallaxBreaker = () => (
+    <section className="h-[60vh] relative flex items-center justify-center overflow-hidden border-t border-b border-white/5">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-fixed bg-center opacity-30 saturate-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-[#050505]"></div>
+        <div className="z-10 text-center px-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-2xl">Bridging the <span className="text-emerald-400">Digital</span> & <span className="text-teal-400">Physical</span></h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto rounded-full shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
+        </div>
+    </section>
+);
+
+// 4. Monitor Zone - Cool Charcoal / Slate Grey
+const MonitorZone = () => {
+    return (
+        <section id="monitor" className="py-32 bg-[#0A0C10] relative overflow-hidden">
+             {/* Floor Grid Effect */}
+             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+            <div className="container mx-auto px-6 max-w-7xl relative z-10">
+                <div className="text-center mb-20">
+                    <div className="text-teal-500 font-mono text-sm mb-2 tracking-widest">02. MONITOR ZONE</div>
+                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Monitor. Protect. Optimize.</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light">Real-time digital twins, safety orchestration, and unified data environments.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-auto md:h-[600px]">
+                    <BentoCard 
+                        colSpan="md:col-span-2" 
+                        rowSpan="md:row-span-2"
+                        bgImage="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?q=80&w=2071&auto=format&fit=crop"
+                        icon={<Eye className="w-6 h-6 text-teal-400" />}
+                        title="JARVIS Eagle Eye"
+                        desc="Real-time 360° digital twin capture & remote monitoring."
+                        color="teal"
+                    />
+                    <BentoCard 
+                        colSpan="md:col-span-1" 
+                        rowSpan="md:row-span-1"
+                        icon={<Shield className="w-8 h-8 text-orange-500" />}
+                        title="JARVIS SSSS"
+                        sub="ZERO ACCIDENTS"
+                        color="orange"
+                    />
+                    <BentoCard 
+                        colSpan="md:col-span-1" 
+                        rowSpan="md:row-span-1"
+                        icon={<Database className="w-8 h-8 text-blue-500" />}
+                        title="JARVIS CDCP"
+                        sub="ONE SOURCE OF TRUTH"
+                        color="blue"
+                    />
+                    <BentoCard 
+                        colSpan="md:col-span-1" 
+                        rowSpan="md:row-span-1"
+                        icon={<FileSignature className="w-8 h-8 text-purple-500" />}
+                        title="JARVIS DWSS"
+                        sub="DIGITAL APPROVALS"
+                        color="purple"
+                    />
+                    <BentoCard 
+                        colSpan="md:col-span-1" 
+                        rowSpan="md:row-span-1"
+                        icon={<Leaf className="w-8 h-8 text-green-500" />}
+                        title="JARVIS Assets"
+                        sub="ESG & LIFECYCLE"
+                        color="green"
+                    />
+                </div>
+            </div>
+        </section>
+    );
+};
+
+// --- Helper: Static Color Mapping for Tailwind ---
+const colorStyles: Record<string, { bg: string, gradient: string, hoverGradient: string }> = {
+    teal: { bg: "bg-teal-500/10", gradient: "from-teal-900/10", hoverGradient: "group-hover:from-teal-900/30" },
+    orange: { bg: "bg-orange-500/10", gradient: "from-orange-900/10", hoverGradient: "group-hover:from-orange-900/30" },
+    blue: { bg: "bg-blue-500/10", gradient: "from-blue-900/10", hoverGradient: "group-hover:from-blue-900/30" },
+    purple: { bg: "bg-purple-500/10", gradient: "from-purple-900/10", hoverGradient: "group-hover:from-purple-900/30" },
+    green: { bg: "bg-green-500/10", gradient: "from-green-900/10", hoverGradient: "group-hover:from-green-900/30" },
+};
+
+const BentoCard = ({ colSpan, rowSpan, bgImage, icon, title, desc, sub, color }: any) => {
+    const styles = colorStyles[color] || colorStyles.teal; // Fallback to teal
+
+    return (
+        <motion.div 
+            whileHover={{ scale: 0.98 }}
+            className={`${colSpan} ${rowSpan} group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121418] cursor-pointer shadow-lg`}
+        >
+            {bgImage && (
+                <>
+                    <img src={bgImage} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-50 grayscale group-hover:grayscale-0" alt={title} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                </>
+            )}
+            
+            <div className={`absolute inset-0 bg-gradient-to-br ${styles.gradient} to-transparent ${styles.hoverGradient} transition-all duration-500`}></div>
+            
+            <div className="p-8 h-full flex flex-col justify-between relative z-10">
+                <div className={`p-2 rounded-lg w-fit ${styles.bg} backdrop-blur-sm border border-white/5`}>
+                    {icon}
+                </div>
+                <div>
+                    <h4 className="text-xl font-bold mb-1 text-white">{title}</h4>
+                    {sub && <p className="text-xs text-gray-500 font-mono tracking-widest">{sub}</p>}
+                    {desc && <p className="text-gray-300 text-sm mt-2 font-light">{desc}</p>}
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+const CtaSection = () => (
+    <section className="py-32 relative overflow-hidden bg-[#050505]">
+        <div className="absolute inset-0 bg-emerald-900/5"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+        
+        <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
+            <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight text-white drop-shadow-xl">
+                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Build Faster?</span>
+            </h2>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <button className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest rounded-full hover:bg-emerald-400 hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                    Deploy JARVIS
+                </button>
+                <button className="px-8 py-4 border border-white/20 text-white font-bold uppercase tracking-widest rounded-full hover:border-white hover:bg-white/10 transition-all">
+                    Talk to Sales
+                </button>
+            </div>
+            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-8 text-gray-500 font-mono text-xs">
+                <div>2,600+ PROJECTS</div>
+                <div>1.2B SQ FT MANAGED</div>
+                <div>30% COST SAVINGS</div>
+                <div>71% FEWER DEFECTS</div>
+            </div>
+        </div>
+    </section>
+);

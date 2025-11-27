@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Background Layers Component
  *
@@ -5,9 +7,39 @@
  * 1. Noise texture overlay
  * 2. Tech grid pattern with radial fade
  * 3. Ambient emerald glow from top-center
+ *
+ * Grid sheen is paused by default; it starts when `grid-sheen-start` is dispatched
+ * (with a 1.2s fallback timer) so the sweep is visible after page transition.
  */
 
+import { useEffect, useState } from "react";
+
 export function BackgroundLayers() {
+  const [sheenKey, setSheenKey] = useState(0);
+  const [sheenActive, setSheenActive] = useState(false);
+
+  useEffect(() => {
+    const triggerSheen = () => {
+      // Restart animation by toggling active state and key
+      setSheenActive(false);
+      requestAnimationFrame(() => {
+        setSheenKey((k) => k + 1);
+        setSheenActive(true);
+      });
+    };
+
+    const handler = () => triggerSheen();
+    window.addEventListener("grid-sheen-start", handler);
+
+    // Fallback: start sheen after initial delay in case no event is fired
+    const fallback = setTimeout(triggerSheen, 1200);
+
+    return () => {
+      window.removeEventListener("grid-sheen-start", handler);
+      clearTimeout(fallback);
+    };
+  }, []);
+
   return (
     <>
       {/* Noise Texture Overlay */}
@@ -28,6 +60,20 @@ export function BackgroundLayers() {
           WebkitMaskImage: "radial-gradient(circle at 50% 0%, black 40%, transparent 85%)",
         }}
       />
+
+      {/* Grid Sheen Sweep (starts on event) */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[2] overflow-hidden"
+        style={{
+          maskImage: "radial-gradient(circle at 50% 0%, black 35%, transparent 85%)",
+          WebkitMaskImage: "radial-gradient(circle at 50% 0%, black 35%, transparent 85%)",
+        }}
+      >
+        <div
+          key={sheenKey}
+          className={`grid-sheen-overlay${sheenActive ? " grid-sheen-overlay--run" : ""}`}
+        />
+      </div>
 
       {/* Ambient Emerald Glow */}
       <div

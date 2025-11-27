@@ -1,14 +1,47 @@
 'use client';
 
-import * as m from '@/paraglide/messages';
+import {
+  BackgroundEffects,
+  HeroSection,
+  NarrativeTrack,
+  NarrativeInterlude,
+  AcceleratorZone,
+  ParallaxBreaker,
+  MonitorZone,
+  CtaSection
+} from '@/components/jarvis-ai-suite';
 
-export default function jarvis_ai_suitePage() {
+/**
+ * JARVIS AI Suite Page
+ * Premium scroll-driven marketing page featuring:
+ * - Fixed background effects layer
+ * - Sticky hero section
+ * - 400vh narrative track with color morphing
+ * - Interactive product zones
+ * - Bento grid monitoring products
+ * - Conversion CTA section
+ */
+export default function JarvisAiSuitePage() {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">{m.jarvis_suite_title()}</h1>
-        <p className="text-lg text-gray-700 mb-2">{m.jarvis_suite_subtitle()}</p>
-        <p className="text-gray-600">{m.jarvis_suite_under_construction()}</p>
+    <div className="bg-[#050505] min-h-screen font-sans selection:bg-emerald-500/30 text-white relative">
+      <style>{`body { overflow-x: hidden; }`}</style>
+
+      {/* Global Background Effects */}
+      <BackgroundEffects />
+
+      {/* Hero (Fixed Background) */}
+      <HeroSection />
+
+      {/* Narrative Track (Dynamic Background) */}
+      <NarrativeTrack />
+
+      {/* Rest of the Page */}
+      <div className="relative z-20">
+        <NarrativeInterlude />
+        <AcceleratorZone />
+        <ParallaxBreaker />
+        <MonitorZone />
+        <CtaSection />
       </div>
     </div>
   );

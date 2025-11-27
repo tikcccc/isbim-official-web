@@ -274,6 +274,67 @@
 
   "jarvis_suite_title": "JARVIS AI Suite",
   "jarvis_suite_subtitle": "Domain-specific generative AI agent for every construction stakeholder.",
-  "jarvis_suite_under_construction": "Page under construction"
+  "jarvis_suite_under_construction": "Page under construction",
+
+  "jarvis_suite_version_badge": "v3.7 Architecture Ready",
+  "jarvis_suite_hero_title_line1": "JARVIS",
+  "jarvis_suite_hero_title_line2": "AI Suite",
+  "jarvis_suite_hero_subtitle": "The AI Operating System for Infrastructure.",
+  "jarvis_suite_scroll_prompt": "Scroll to Initialize",
+
+  "jarvis_suite_narrative_stage1": "Go beyond chat.",
+  "jarvis_suite_narrative_stage2": "Enterprise Autonomy",
+  "jarvis_suite_stat1_value": "99.8%",
+  "jarvis_suite_stat1_label": "Accuracy",
+  "jarvis_suite_stat2_value": "60-Day",
+  "jarvis_suite_stat2_label": "Payments",
+  "jarvis_suite_stat3_value": "Zero",
+  "jarvis_suite_stat3_label": "Accidents",
+  "jarvis_suite_scroll_explore": "Scroll to Explore",
+
+  "jarvis_suite_interlude_title_part1": "Designed for",
+  "jarvis_suite_interlude_title_part2": "Builders",
+  "jarvis_suite_interlude_description": "Trained on isBIM's proprietary dataset and Alibaba's frontier models, JARVIS transforms engineering expertise into an agentic assistant that anticipates needs and executes with precision.",
+  "jarvis_suite_badge_alibaba": "POWERED BY ALIBABA CLOUD",
+  "jarvis_suite_badge_isbim": "isBIM PROPRIETARY DATA",
+
+  "jarvis_suite_zone1_label": "01. ACCELERATOR ZONE",
+  "jarvis_suite_zone1_title": "Automate. Accelerate. Execute.",
+  "jarvis_suite_agent_title": "JARVIS Agent",
+  "jarvis_suite_agent_badge": "99.8% ACCURACY",
+  "jarvis_suite_agent_desc": "Your AI Workforce for Admin & Tenders. Automates repetitive tasks such as invoice scanning, tender parsing, and auto-scoring.",
+  "jarvis_suite_pay_title": "JARVIS Pay",
+  "jarvis_suite_pay_badge": "60-DAY PAYMENT",
+  "jarvis_suite_pay_desc": "Get Paid in 60 Days. Guaranteed. Digital twin for SOPL-compliant certification linking payment milestones to 360° digital twins.",
+  "jarvis_suite_air_title": "JARVIS Air",
+  "jarvis_suite_air_badge": "GEN-DESIGN",
+  "jarvis_suite_air_desc": "Generate Cities in Seconds. Stable-diffusion generative design with 500K+ templates. Instant visuals and scenario prototyping.",
+
+  "jarvis_suite_breaker_title_part1": "Bridging the",
+  "jarvis_suite_breaker_title_part2": "Digital",
+  "jarvis_suite_breaker_title_part3": "Physical",
+
+  "jarvis_suite_zone2_label": "02. MONITOR ZONE",
+  "jarvis_suite_zone2_title": "Monitor. Protect. Optimize.",
+  "jarvis_suite_zone2_subtitle": "Real-time digital twins, safety orchestration, and unified data environments.",
+  "jarvis_suite_eagle_title": "JARVIS Eagle Eye",
+  "jarvis_suite_eagle_desc": "Real-time 360° digital twin capture & remote monitoring.",
+  "jarvis_suite_ssss_title": "JARVIS SSSS",
+  "jarvis_suite_ssss_sub": "ZERO ACCIDENTS",
+  "jarvis_suite_cdcp_title": "JARVIS CDCP",
+  "jarvis_suite_cdcp_sub": "ONE SOURCE OF TRUTH",
+  "jarvis_suite_dwss_title": "JARVIS DWSS",
+  "jarvis_suite_dwss_sub": "DIGITAL APPROVALS",
+  "jarvis_suite_assets_title": "JARVIS Assets",
+  "jarvis_suite_assets_sub": "ESG & LIFECYCLE",
+
+  "jarvis_suite_cta_title_part1": "Ready to",
+  "jarvis_suite_cta_title_part2": "Build Faster?",
+  "jarvis_suite_cta_primary": "Deploy JARVIS",
+  "jarvis_suite_cta_secondary": "Talk to Sales",
+  "jarvis_suite_cta_stat1": "2,600+ PROJECTS",
+  "jarvis_suite_cta_stat2": "1.2B SQ FT MANAGED",
+  "jarvis_suite_cta_stat3": "30% COST SAVINGS",
+  "jarvis_suite_cta_stat4": "71% FEWER DEFECTS"
 }
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 思考粒子效果演示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a; /* 深色背景 (Slate-900)，模拟 Hero 区域 */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* 模拟 React 代码中的容器 */
+        .particle-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            /* 原代码是 opacity-20 (0.2)，这里为了演示清楚稍微调高了一点点，
+               实际使用建议保持 0.2 以免抢戏 */
+            opacity: 0.4; 
+            pointer-events: none; /* 让鼠标穿透，不影响交互 */
+        }
+
+        /* 粒子基础样式 */
+        .particle {
+            position: absolute;
+            width: 4px;  /* w-1 */
+            height: 4px; /* h-1 */
+            background-color: #34d399; /* bg-emerald-400 */
+            border-radius: 50%; /* rounded-full */
+            
+            /* 初始状态 */
+            opacity: 0.3;
+            transform: scale(1) translateY(0);
+        }
+
+        /* 动画定义：对应 animate={{ scale:..., opacity:..., y:... }} */
+        @keyframes ai-breathe {
+            0% {
+                transform: scale(1) translateY(0);
+                opacity: 0.3;
+            }
+            50% {
+                /* 对应 y: -50 和 scale: 1.5 */
+                transform: scale(1.5) translateY(-50px);
+                opacity: 1; /* 变亮 */
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 0.3;
+            }
+        }
+        
+        /* 中间文字 (仅用于参照) */
+        .hero-text {
+            color: white;
+            z-index: 10;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-text">
+        AI Is Thinking...<br>
+        <span style="font-size: 1rem; font-weight: normal; opacity: 0.7">背景中的绿色粒子即为效果</span>
+    </div>
+
+    <div id="particle-wrapper" class="particle-container"></div>
+
+    <script>
+        const wrapper = document.getElementById('particle-wrapper');
+        const particleCount = 30; // 对应 Array.from({ length: 30 })
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            
+            // 随机位置 (x, y)
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            // 随机延迟 (delay) 0 - 5秒
+            const delay = Math.random() * 5;
+
+            p.style.left = `${x}%`;
+            p.style.top = `${y}%`;
+            
+            // 应用动画：4s duration, infinite, ease-in-out
+            p.style.animation = `ai-breathe 4s ease-in-out infinite`;
+            p.style.animationDelay = `${delay}s`;
+
+            wrapper.appendChild(p);
+        }
+    </script>
+</body>
+</html>
