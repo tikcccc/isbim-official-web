@@ -1,0 +1,598 @@
+import React, { useRef, useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from 'framer-motion';
+import { ArrowDown, ChevronDown, Zap, Shield, Eye, Database, FileSignature, Leaf, Brain, ArrowRight, Server, Cpu, Layers, Activity, Lock, HardHat, Ruler, Box } from 'lucide-react';
+
+// --- 0. 全局背景效果 (Global Layer) ---
+// 采用 "蓝图 (Blueprint)" 风格的网格
+const BackgroundEffects = () => {
+  return (
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#0f172a]">
+        {/* 1. 基础网格 - 模拟 CAD 界面 */}
+        <div className="absolute inset-0 opacity-[0.15]" 
+             style={{ backgroundImage: `linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(to right, #38bdf8 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
+        </div>
+        <div className="absolute inset-0 opacity-[0.1]" 
+             style={{ backgroundImage: `linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(to right, #38bdf8 1px, transparent 1px)`, backgroundSize: '200px 200px' }}>
+        </div>
+
+        {/* 2. 动态光晕 - 代表数据流 */}
+        <motion.div 
+            animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
+            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sky-600/20 rounded-full blur-[100px]"
+        />
+        <motion.div 
+            animate={{ opacity: [0.2, 0.4, 0.2], scale: [1, 1.2, 1] }}
+            transition={{ duration: 12, repeat: Infinity, delay: 1 }}
+            className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-900/30 rounded-full blur-[120px]"
+        />
+    </div>
+  );
+};
+
+// --- 1. 通用组件 (Utility Components) ---
+
+const StickySection = ({ 
+  children, 
+  className = "", 
+  zIndex = 0 
+}) => {
+  return (
+    <section className={`sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden ${className}`} style={{ zIndex }}>
+      {children}
+    </section>
+  );
+};
+
+// --- 2. 主页面组件 (Main Page) ---
+
+export default function JarvisAiSuitePage() {
+  const contentSectionRef = useRef(null);
+
+  // --- Lenis 平滑滚动 ---
+  useEffect(() => {
+    let lenis;
+    let rafId;
+    const scriptId = 'lenis-script';
+
+    if (!document.getElementById(scriptId)) {
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.src = "https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"; 
+        script.async = true;
+        
+        script.onload = () => {
+          if (window.Lenis) {
+            lenis = new window.Lenis({
+              duration: 1.2,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+              smooth: true,
+            });
+            function raf(time) {
+              lenis.raf(time);
+              rafId = requestAnimationFrame(raf);
+            }
+            rafId = requestAnimationFrame(raf);
+          }
+        };
+        document.body.appendChild(script);
+    }
+    return () => { 
+      if (lenis) lenis.destroy();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+  
+  // --- 滚动逻辑 ---
+  const { scrollYProgress } = useScroll({
+    target: contentSectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 20, restDelta: 0.001 });
+
+  // --- 背景色深度微调 (Deep Slate -> Midnight) ---
+  const trackBackgroundColor = useTransform(
+    smoothProgress,
+    [0, 1],
+    ["#0f172a", "#020617"] // Slate 900 -> Slate 950
+  );
+
+  const title1Opacity = useTransform(smoothProgress, [0.05, 0.2], [0, 1]);
+  const title1Y = useTransform(smoothProgress, [0.05, 0.2], [40, 0]);
+
+  const title2Opacity = useTransform(smoothProgress, [0.3, 0.45], [0, 1]);
+  const title2Scale = useTransform(smoothProgress, [0.3, 0.6], [0.9, 1]);
+
+  const statsOpacity = useTransform(smoothProgress, [0.55, 0.7], [0, 1]);
+  const statsY = useTransform(smoothProgress, [0.55, 0.7], [30, 0]);
+
+  const footerOpacity = useTransform(smoothProgress, [0.85, 0.95], [0, 1]);
+
+  return (
+    <div className="bg-[#0f172a] min-h-screen font-sans selection:bg-amber-500 selection:text-black relative text-slate-200">
+      <style>{`
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+      `}</style>
+
+      <BackgroundEffects />
+
+      {/* --- LAYER 0: HERO (Blueprint Aesthetic) --- */}
+      <StickySection className="bg-transparent" zIndex={0}>
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            {/* Version Badge: CAD Style */}
+            <div className="mb-8 inline-flex items-center justify-center px-4 py-1 border border-sky-500/30 bg-sky-900/20 backdrop-blur-sm shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+               <div className="w-1.5 h-1.5 bg-sky-400 mr-2 animate-pulse"></div>
+               <span className="text-xs font-mono tracking-widest text-sky-300">SYSTEM.INIT(v4.2)</span>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-6 text-white drop-shadow-2xl">
+              JARVIS <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-400">
+                CONSTRUCT AI
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-2xl text-slate-400 font-light max-w-2xl mx-auto tracking-wide leading-relaxed">
+               Digital intelligence for the <span className="text-amber-400 font-medium">physical world</span>.
+            </p>
+
+            {/* CTA Buttons: Industrial Style */}
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="px-8 py-3 bg-amber-500 text-slate-900 font-bold tracking-wider hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+                    <HardHat className="w-4 h-4" />
+                    DEPLOY NOW
+                </button>
+                <button className="px-8 py-3 border border-slate-600 bg-slate-800/50 text-slate-300 font-bold tracking-wider hover:border-sky-500 hover:text-sky-400 transition-colors backdrop-blur-sm">
+                    VIEW SCHEMATICS
+                </button>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div 
+          className="absolute bottom-12 flex flex-col items-center gap-2 z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <div className="h-12 w-px bg-gradient-to-b from-transparent via-sky-500/50 to-transparent"></div>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-sky-500/50">Scroll for Data</span>
+        </motion.div>
+      </StickySection>
+
+      {/* --- LAYER 1: THE NARRATIVE TRACK --- */}
+      <div ref={contentSectionRef} className="relative z-10 h-[350vh]">
+        <motion.div style={{ backgroundColor: trackBackgroundColor }} className="absolute inset-0 z-0">
+             {/* 渐变遮罩 */}
+             <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a] via-transparent to-[#020617]"></div>
+        </motion.div>
+
+        <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden z-10 px-6">
+            <div className="max-w-7xl w-full mx-auto text-center flex flex-col items-center justify-center h-full">
+                
+                {/* Stage 1: Problem */}
+                <motion.div style={{ opacity: title1Opacity, y: title1Y, position: 'absolute' }}>
+                    <div className="mb-4 text-amber-500 font-mono text-sm tracking-widest uppercase">The Challenge</div>
+                    <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
+                        Chaos in the <br/><span className="text-slate-500 line-through decoration-amber-500/50 decoration-4">Field</span>.
+                    </h2>
+                </motion.div>
+                
+                {/* Stage 2: Solution */}
+                <motion.div 
+                  style={{ opacity: title2Opacity, scale: title2Scale }}
+                  className="relative z-20 flex flex-col items-center"
+                >
+                    <div className="mb-4 text-sky-400 font-mono text-sm tracking-widest uppercase">The Solution</div>
+                    <h2 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4 text-white">
+                        Precision Control
+                    </h2>
+                    <p className="text-slate-400 text-xl md:text-2xl font-light tracking-wide max-w-3xl">
+                        AI-driven BIM coordination and automated compliance.
+                    </p>
+                </motion.div>
+
+                {/* Stage 3: Metrics */}
+                <motion.div
+                  style={{ opacity: statsOpacity, y: statsY }}
+                  className="flex flex-col md:flex-row items-center gap-12 md:gap-24 mt-24 relative z-20"
+                >
+                    <StatItem value="99.8%" label="Model Accuracy" color="text-sky-400" />
+                    <div className="hidden md:block w-px h-16 bg-slate-700"></div>
+                    <StatItem value="60-Day" label="Payment Cycle" color="text-amber-400" />
+                    <div className="hidden md:block w-px h-16 bg-slate-700"></div>
+                    <StatItem value="Zero" label="Safety Incidents" color="text-emerald-400" />
+                </motion.div>
+            </div>
+
+            <motion.div 
+                style={{ opacity: footerOpacity }}
+                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer group"
+                onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+               <div className="px-4 py-2 border border-slate-700 rounded-full bg-slate-900/80 backdrop-blur text-xs font-mono text-slate-400 group-hover:border-sky-500 group-hover:text-white transition-all">
+                  INITIALIZE DASHBOARD
+               </div>
+            </motion.div>
+        </div>
+      </div>
+
+      {/* --- REST OF THE PAGE --- */}
+      <div id="main-content" className="relative z-20 bg-[#020617] border-t border-slate-800">
+        
+        <TechInterlude />
+        <AcceleratorZone />
+        <ParallaxBlueprint />
+        <MonitorZone />
+        <CtaSection />
+        <Footer />
+
+      </div>
+    </div>
+  );
+}
+
+// --- 3. Sub-Components (Blueprint Theme) ---
+
+const StatItem = ({ value, label, color }) => (
+    <motion.div className="flex flex-col items-center">
+        <span className={`text-5xl md:text-6xl font-bold tracking-tighter mb-2 ${color} drop-shadow-lg`}>{value}</span>
+        <span className="text-xs font-mono font-medium text-slate-500 uppercase tracking-[0.2em]">{label}</span>
+    </motion.div>
+)
+
+// 技术中场：展示核心能力
+const TechInterlude = () => {
+    return (
+        <section className="py-32 relative overflow-hidden">
+            {/* 装饰线条 */}
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-sky-500/50 to-transparent"></div>
+            
+            <div className="container mx-auto px-6 relative z-10 max-w-5xl text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <div className="inline-flex items-center justify-center p-4 bg-slate-900 border border-slate-800 rounded-2xl mb-12 shadow-2xl">
+                        <Layers className="w-8 h-8 text-sky-500" />
+                        <div className="mx-4 h-8 w-px bg-slate-800"></div>
+                        <Brain className="w-8 h-8 text-amber-500" />
+                    </div>
+
+                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-8 tracking-tight">
+                        Built on <span className="text-sky-400">Alibaba Cloud</span>.<br/>
+                        Trained on <span className="text-amber-400">Engineering Data</span>.
+                    </h3>
+                    
+                    <p className="text-lg md:text-xl text-slate-400 leading-relaxed font-light mb-12 max-w-3xl mx-auto">
+                        We don't just generate text. We generate <strong className="text-white">structures, schedules, and safety protocols</strong>. Powered by proprietary datasets from 2,600+ completed projects.
+                    </p>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <TechBadge icon={<Database className="w-4 h-4" />} text="Structured SQL" />
+                        <TechBadge icon={<Ruler className="w-4 h-4" />} text="IFC/Revit Native" />
+                        <TechBadge icon={<Lock className="w-4 h-4" />} text="ISO 19650" />
+                        <TechBadge icon={<Cpu className="w-4 h-4" />} text="Qwen-Max LLM" />
+                    </div>
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+const TechBadge = ({ icon, text }) => (
+    <div className="px-4 py-3 bg-slate-900 border border-slate-800 rounded flex items-center justify-center gap-3 hover:border-sky-500/50 transition-colors group cursor-default">
+        <span className="text-slate-500 group-hover:text-sky-400 transition-colors">{icon}</span>
+        <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 group-hover:text-white transition-colors">{text}</span>
+    </div>
+)
+
+// 3. Accelerator Zone - CAD Interface Style
+const AcceleratorZone = () => {
+  const [activeTab, setActiveTab] = useState('agent');
+
+  return (
+    <section className="relative py-32 bg-[#0B1121]"> {/* Deep Navy */}
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-slate-800 pb-8">
+                <div>
+                    <span className="text-sky-500 font-mono text-xs font-bold tracking-widest uppercase mb-2 block">01 // EXECUTION LAYER</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Workflow Automation</h2>
+                </div>
+                <div className="hidden md:block text-right">
+                     <div className="text-slate-500 font-mono text-xs">STATUS: ONLINE</div>
+                     <div className="text-slate-500 font-mono text-xs">LATENCY: 12ms</div>
+                </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-12">
+                {/* Left: Menu - Tabular Design */}
+                <div className="lg:w-1/3 flex flex-col gap-4">
+                    <FeatureTab 
+                        id="agent" 
+                        title="JARVIS Agent" 
+                        subtitle="Tender Parsing & Admin"
+                        icon={<Brain className="w-5 h-5" />}
+                        isActive={activeTab === 'agent'} 
+                        onClick={() => setActiveTab('agent')} 
+                    />
+                    <FeatureTab 
+                        id="pay" 
+                        title="JARVIS Pay" 
+                        subtitle="Smart Contracts"
+                        icon={<FileSignature className="w-5 h-5" />}
+                        isActive={activeTab === 'pay'} 
+                        onClick={() => setActiveTab('pay')} 
+                    />
+                    <FeatureTab 
+                        id="air" 
+                        title="JARVIS Air" 
+                        subtitle="Generative Design"
+                        icon={<Zap className="w-5 h-5" />}
+                        isActive={activeTab === 'air'} 
+                        onClick={() => setActiveTab('air')} 
+                    />
+                </div>
+
+                {/* Right: Interface Display - Glassmorphism Blueprint */}
+                <div className="lg:w-2/3">
+                    <div className="relative aspect-[16/10] bg-slate-900 rounded border border-slate-700 shadow-2xl overflow-hidden group">
+                        {/* Fake UI Header */}
+                        <div className="absolute top-0 left-0 right-0 h-8 bg-slate-800 border-b border-slate-700 flex items-center px-4 justify-between z-20">
+                            <span className="text-[10px] font-mono text-slate-400">JARVIS_OS_VIEWPORT_01</span>
+                            <div className="flex gap-1">
+                                <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                                <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                            </div>
+                        </div>
+
+                        {/* Grid Background inside container */}
+                        <div className="absolute inset-0 top-8 bg-[linear-gradient(rgba(56,189,248,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+
+                        <div className="absolute inset-0 top-8 p-8 flex items-center justify-center">
+                            <AnimatePresence mode="wait">
+                                {activeTab === 'agent' && (
+                                    <motion.div 
+                                        key="agent"
+                                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                                        className="w-full max-w-md"
+                                    >
+                                        <div className="bg-slate-800/80 backdrop-blur-md border border-slate-600 p-6 rounded-lg shadow-xl">
+                                            <div className="flex items-center gap-4 mb-6 border-b border-slate-700 pb-4">
+                                                <div className="p-2 bg-sky-500/20 rounded">
+                                                    <Brain className="w-6 h-6 text-sky-400" />
+                                                </div>
+                                                <div>
+                                                    <div className="text-white font-bold text-sm">TASK: INVOICE_SCAN_BATCH_04</div>
+                                                    <div className="text-sky-400 text-xs font-mono">PROCESSING...</div>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-3 font-mono text-xs">
+                                                <div className="flex justify-between text-slate-300">
+                                                    <span>&gt; Identifying Vendor...</span>
+                                                    <span className="text-green-400">[OK]</span>
+                                                </div>
+                                                <div className="flex justify-between text-slate-300">
+                                                    <span>&gt; Matching PO #8892...</span>
+                                                    <span className="text-green-400">[MATCHED]</span>
+                                                </div>
+                                                <div className="flex justify-between text-slate-300">
+                                                    <span>&gt; Checking Anomalies...</span>
+                                                    <span className="text-amber-400">[FLAGGED]</span>
+                                                </div>
+                                                <div className="p-2 bg-amber-500/10 border border-amber-500/20 text-amber-300 mt-2 rounded">
+                                                    WARN: Line item 4 exceeds threshold.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                                {activeTab === 'pay' && (
+                                    <motion.div 
+                                        key="pay"
+                                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                        className="text-center"
+                                    >
+                                        <div className="inline-block relative">
+                                             <svg className="w-48 h-48 transform -rotate-90">
+                                                <circle cx="96" cy="96" r="88" stroke="#1e293b" strokeWidth="12" fill="transparent" />
+                                                <circle cx="96" cy="96" r="88" stroke="#f59e0b" strokeWidth="12" fill="transparent" strokeDasharray="552" strokeDashoffset="100" />
+                                             </svg>
+                                             <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                                <span className="text-5xl font-bold text-white">60</span>
+                                                <span className="text-xs text-amber-500 font-mono mt-1">DAYS LEFT</span>
+                                             </div>
+                                        </div>
+                                        <div className="mt-8 text-slate-400 font-mono text-sm">
+                                            SMART CONTRACT: <span className="text-white">ACTIVE</span>
+                                        </div>
+                                    </motion.div>
+                                )}
+                                {activeTab === 'air' && (
+                                    <motion.div 
+                                        key="air"
+                                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                        className="relative w-full h-64 border border-dashed border-sky-500/30 bg-sky-900/10 rounded flex items-center justify-center"
+                                    >
+                                        <div className="absolute inset-0 grid grid-cols-4 grid-rows-4">
+                                            {[...Array(16)].map((_, i) => (
+                                                <div key={i} className="border border-sky-500/10"></div>
+                                            ))}
+                                        </div>
+                                        <div className="relative z-10 text-center">
+                                            <Zap className="w-12 h-12 text-sky-400 mx-auto mb-4 animate-pulse" />
+                                            <div className="text-sky-300 font-mono text-sm">GENERATING LAYOUT...</div>
+                                            <div className="text-sky-500/50 font-mono text-xs mt-1">ITERATION 402</div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  );
+};
+
+const FeatureTab = ({ id, title, subtitle, icon, isActive, onClick }) => (
+    <div 
+        onClick={onClick}
+        className={`group p-4 rounded border-l-2 cursor-pointer transition-all duration-300 flex items-center gap-4 ${isActive ? 'bg-white/5 border-sky-500' : 'bg-transparent border-slate-700 hover:bg-white/5 hover:border-slate-500'}`}
+    >
+        <div className={`${isActive ? 'text-sky-400' : 'text-slate-500 group-hover:text-slate-300'}`}>
+            {icon}
+        </div>
+        <div>
+            <h3 className={`font-bold text-sm ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'}`}>{title}</h3>
+            <p className={`text-xs font-mono mt-1 ${isActive ? 'text-sky-500/80' : 'text-slate-600'}`}>{subtitle}</p>
+        </div>
+    </div>
+)
+
+const ParallaxBlueprint = () => (
+    <section className="h-[40vh] relative flex items-center justify-center overflow-hidden border-y border-slate-800">
+        <div className="absolute inset-0 bg-indigo-950">
+             {/* 蓝图背景 */}
+             <div className="absolute inset-0 opacity-20" 
+                  style={{ backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`, backgroundSize: '50px 50px' }}>
+             </div>
+        </div>
+        <div className="z-10 text-center px-4 max-w-4xl bg-slate-900/80 p-12 backdrop-blur-md border border-slate-700 rounded-xl">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tight">
+                From <span className="text-sky-400">Digital</span> to <span className="text-amber-500">Physical</span>.
+            </h2>
+            <p className="text-slate-400 font-mono text-sm">BRIDGING THE GAP BETWEEN BIM AND REALITY</p>
+        </div>
+    </section>
+);
+
+// 4. Monitor Zone - Dashboard Grid
+const MonitorZone = () => {
+    return (
+        <section className="py-32 bg-[#020617] relative">
+            <div className="container mx-auto px-6 max-w-7xl relative z-10">
+                <div className="text-left mb-12">
+                     <span className="text-amber-500 font-mono text-xs font-bold tracking-widest uppercase mb-2 block">02 // MONITORING LAYER</span>
+                    <h2 className="text-4xl font-bold text-white">Site Intelligence</h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <BentoCard 
+                        title="Eagle Eye"
+                        desc="360° Digital Twin"
+                        icon={<Eye className="w-5 h-5 text-sky-400" />}
+                        accentColor="border-sky-500/30"
+                        colSpan="md:col-span-2"
+                        bgClass="bg-gradient-to-br from-slate-900 to-slate-800"
+                    />
+                    <BentoCard 
+                        title="Safety (SSSS)"
+                        desc="Hazard Detection"
+                        icon={<Shield className="w-5 h-5 text-amber-500" />}
+                        accentColor="border-amber-500/30"
+                        bgClass="bg-slate-900"
+                    />
+                    <BentoCard 
+                        title="CDE Data"
+                        desc="Common Data Env"
+                        icon={<Database className="w-5 h-5 text-indigo-400" />}
+                        accentColor="border-indigo-500/30"
+                        bgClass="bg-slate-900"
+                    />
+                    <BentoCard 
+                        title="Smart Forms"
+                        desc="DWSS Compliance"
+                        icon={<FileSignature className="w-5 h-5 text-slate-400" />}
+                        accentColor="border-slate-500/30"
+                        bgClass="bg-slate-900"
+                    />
+                     <BentoCard 
+                        title="Sustainability"
+                        desc="Carbon Tracking"
+                        icon={<Leaf className="w-5 h-5 text-emerald-500" />}
+                        accentColor="border-emerald-500/30"
+                        bgClass="bg-slate-900"
+                    />
+                </div>
+            </div>
+        </section>
+    );
+};
+
+const BentoCard = ({ title, desc, icon, accentColor, bgClass, colSpan = "" }) => {
+    return (
+        <motion.div 
+            whileHover={{ y: -5 }}
+            className={`relative p-6 rounded border border-slate-800 hover:border-slate-600 transition-all duration-300 flex flex-col justify-between h-[240px] group ${bgClass} ${colSpan} ${accentColor}`}
+        >
+            <div className="flex justify-between items-start">
+                <div className="p-3 bg-slate-950 rounded border border-slate-800 group-hover:border-slate-600 transition-colors">
+                    {icon}
+                </div>
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowRight className="w-4 h-4 text-slate-500" />
+                </div>
+            </div>
+
+            <div>
+                <h4 className="text-xl font-bold text-slate-200 mb-1 font-sans">{title}</h4>
+                <p className="text-sm text-slate-500 font-mono uppercase tracking-wider">{desc}</p>
+            </div>
+            
+            {/* 装饰角落 */}
+            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-slate-700 opacity-50"></div>
+            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-slate-700 opacity-50"></div>
+        </motion.div>
+    );
+};
+
+const CtaSection = () => (
+    <section className="py-24 bg-[#0f172a] text-center border-t border-slate-800">
+        <div className="container mx-auto px-6 max-w-4xl">
+            <h2 className="text-5xl md:text-7xl font-bold mb-8 text-white tracking-tight">
+                System Ready.
+            </h2>
+            <p className="text-slate-400 text-lg mb-12">
+                Join 2,600+ projects deploying Jarvis AI.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <button className="px-10 py-4 bg-sky-600 text-white font-bold tracking-widest hover:bg-sky-500 transition-all shadow-[0_0_30px_rgba(2,132,199,0.3)] border border-sky-400">
+                    START PILOT
+                </button>
+                <button className="px-10 py-4 border border-slate-600 text-slate-300 font-bold tracking-widest hover:bg-slate-800 hover:text-white transition-all">
+                    CONTACT SALES
+                </button>
+            </div>
+        </div>
+    </section>
+);
+
+const Footer = () => (
+    <footer className="bg-[#020617] py-12 border-t border-slate-900">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600 font-mono">
+            <div className="mb-4 md:mb-0">
+                JARVIS_SYS_V4 // AI_SUITE // BUILD_2025
+            </div>
+            <div className="flex gap-8">
+                <a href="#" className="hover:text-sky-500 transition-colors">PRIVACY_PROTOCOL</a>
+                <a href="#" className="hover:text-sky-500 transition-colors">TERMS_OF_SVC</a>
+                <a href="#" className="hover:text-sky-500 transition-colors">SYSTEM_STATUS</a>
+            </div>
+        </div>
+    </footer>
+);

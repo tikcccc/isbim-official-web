@@ -12,11 +12,12 @@
  * (with a 1.2s fallback timer) so the sweep is visible after page transition.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function BackgroundLayers() {
   const [sheenKey, setSheenKey] = useState(0);
   const [sheenActive, setSheenActive] = useState(false);
+  const lastTriggerRef = useRef(0);
 
   useEffect(() => {
     const triggerSheen = () => {
@@ -34,8 +35,24 @@ export function BackgroundLayers() {
     // Fallback: start sheen after initial delay in case no event is fired
     const fallback = setTimeout(triggerSheen, 1200);
 
+    // Trigger on upward scroll with cooldown to avoid spam
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY;
+      lastScrollY = currentY;
+
+      const now = performance.now();
+      if (delta < -20 && now - lastTriggerRef.current > 1000) {
+        lastTriggerRef.current = now;
+        triggerSheen();
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener("grid-sheen-start", handler);
+      window.removeEventListener("scroll", handleScroll);
       clearTimeout(fallback);
     };
   }, []);
