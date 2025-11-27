@@ -148,7 +148,6 @@
       transparent 1px,
       transparent 60px);
   mix-blend-mode: screen;
-  filter: drop-shadow(0 0 18px rgba(52, 211, 153, 0.4));
   opacity: 0;
   mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
   -webkit-mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
