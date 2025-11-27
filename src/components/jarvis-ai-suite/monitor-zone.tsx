@@ -14,31 +14,31 @@ import * as messages from '@/paraglide/messages';
  */
 export function MonitorZone() {
   return (
-    <section id="monitor" className="py-32 bg-[#0A0C10] relative overflow-hidden">
+    <section id="monitor" className="py-40 bg-[#0A0C10] relative overflow-hidden">
       {/* Floor Grid Effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+      <div className="container mx-auto px-6 max-w-[1400px] relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20">
-          <div className="text-teal-500 font-mono text-sm mb-2 tracking-widest">
+        <div className="text-center mb-24">
+          <div className="text-teal-500 font-mono text-sm mb-4 tracking-widest uppercase">
             {messages.jarvis_suite_zone2_label()}
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight">
             {messages.jarvis_suite_zone2_title()}
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light">
+          <p className="text-gray-300 max-w-3xl mx-auto text-2xl font-light leading-relaxed">
             {messages.jarvis_suite_zone2_subtitle()}
           </p>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-auto md:h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[800px]">
           <BentoCard
             colSpan="md:col-span-2"
             rowSpan="md:row-span-2"
             bgImage="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?q=80&w=2071&auto=format&fit=crop"
-            icon={<Eye className="w-6 h-6 text-teal-400" />}
+            icon={<Eye className="w-10 h-10 text-teal-400" />}
             title={messages.jarvis_suite_eagle_title()}
             desc={messages.jarvis_suite_eagle_desc()}
             color="teal"
@@ -46,7 +46,7 @@ export function MonitorZone() {
           <BentoCard
             colSpan="md:col-span-1"
             rowSpan="md:row-span-1"
-            icon={<Shield className="w-8 h-8 text-orange-500" />}
+            icon={<Shield className="w-10 h-10 text-orange-500" />}
             title={messages.jarvis_suite_ssss_title()}
             sub={messages.jarvis_suite_ssss_sub()}
             color="orange"
@@ -54,7 +54,7 @@ export function MonitorZone() {
           <BentoCard
             colSpan="md:col-span-1"
             rowSpan="md:row-span-1"
-            icon={<Database className="w-8 h-8 text-blue-500" />}
+            icon={<Database className="w-10 h-10 text-blue-500" />}
             title={messages.jarvis_suite_cdcp_title()}
             sub={messages.jarvis_suite_cdcp_sub()}
             color="blue"
@@ -62,7 +62,7 @@ export function MonitorZone() {
           <BentoCard
             colSpan="md:col-span-1"
             rowSpan="md:row-span-1"
-            icon={<FileSignature className="w-8 h-8 text-purple-500" />}
+            icon={<FileSignature className="w-10 h-10 text-purple-500" />}
             title={messages.jarvis_suite_dwss_title()}
             sub={messages.jarvis_suite_dwss_sub()}
             color="purple"
@@ -70,7 +70,7 @@ export function MonitorZone() {
           <BentoCard
             colSpan="md:col-span-1"
             rowSpan="md:row-span-1"
-            icon={<Leaf className="w-8 h-8 text-green-500" />}
+            icon={<Leaf className="w-10 h-10 text-green-500" />}
             title={messages.jarvis_suite_assets_title()}
             sub={messages.jarvis_suite_assets_sub()}
             color="green"
@@ -161,7 +161,7 @@ function BentoCard({ colSpan, rowSpan, bgImage, icon, title, desc, sub, color }:
       whileHover={{ scale: 0.98 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`${colSpan} ${rowSpan} group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121418] cursor-pointer shadow-lg`}
+      className={`${colSpan} ${rowSpan} group relative overflow-hidden rounded-3xl border border-white/10 bg-[#121418] cursor-pointer shadow-2xl`}
     >
       {bgImage && (
         <>
@@ -169,10 +169,10 @@ function BentoCard({ colSpan, rowSpan, bgImage, icon, title, desc, sub, color }:
             src={bgImage}
             alt={title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-50 grayscale group-hover:grayscale-0"
+            className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-40 grayscale group-hover:grayscale-0"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90" />
         </>
       )}
 
@@ -181,18 +181,18 @@ function BentoCard({ colSpan, rowSpan, bgImage, icon, title, desc, sub, color }:
       />
 
       {/* 3D inner shadow for depth */}
-      <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.3)] rounded-2xl pointer-events-none" />
+      <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)] rounded-3xl pointer-events-none" />
 
-      <div className="p-8 h-full flex flex-col justify-between relative z-10">
+      <div className="p-10 h-full flex flex-col justify-between relative z-10">
         <div className="relative w-fit">
-          <div className={`p-2 rounded-lg ${styles.bg} backdrop-blur-sm border border-white/5`}>
+          <div className={`p-4 rounded-2xl ${styles.bg} backdrop-blur-md border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
             {icon}
           </div>
         </div>
         <div>
-          <h4 className="text-xl font-bold mb-1 text-white">{title}</h4>
-          {sub && <p className="text-xs text-gray-500 font-mono tracking-widest">{sub}</p>}
-          {desc && <p className="text-gray-300 text-sm mt-2 font-light">{desc}</p>}
+          <h4 className="text-3xl font-bold mb-2 text-white tracking-tight">{title}</h4>
+          {sub && <p className="text-sm text-emerald-400/80 font-mono tracking-widest uppercase mb-2">{sub}</p>}
+          {desc && <p className="text-gray-300 text-lg mt-4 font-light leading-relaxed">{desc}</p>}
         </div>
       </div>
     </m.div>

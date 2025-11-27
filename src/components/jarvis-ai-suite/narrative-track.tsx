@@ -38,11 +38,11 @@ export function NarrativeTrack() {
     smoothProgress,
     [0, 0.2, 0.45, 0.7, 1],
     [
-      '#050505', // Black
-      '#050505', // Stay Black
-      '#0B1121', // Deep Slate/Navy (Rich Blue-Black)
-      '#18181B', // Zinc 900 (Metallic Grey)
-      '#050505'  // Back to Black
+      '#0A0A0A', // Dark Grey/Black
+      '#0A0A0A', // Stay Dark
+      '#0F172A', // Slate 900 (Rich Blue-Grey)
+      '#1C1917', // Stone 900 (Warm Grey)
+      '#0A0A0A'  // Back to Dark
     ]
   );
 
@@ -76,11 +76,11 @@ export function NarrativeTrack() {
 
       {/* Sticky Content Viewport */}
       <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden z-10">
-        <div className="flex-1 flex flex-col justify-center items-center text-center px-6 max-w-6xl mx-auto">
+        <div className="flex-1 flex flex-col justify-center items-center text-center px-6 max-w-[1400px] mx-auto">
           {/* Stage 1: Intro */}
           <m.h2
             style={{ opacity: title1Opacity, y: title1Y, filter: title1Blur }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white text-gradient-mask mb-4 leading-[1.1] drop-shadow-2xl"
+            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight text-white text-gradient-mask mb-4 leading-[1.1] drop-shadow-2xl"
           >
             {messages.jarvis_suite_narrative_stage1()}
           </m.h2>
@@ -88,7 +88,7 @@ export function NarrativeTrack() {
           {/* Stage 2: Enterprise (Blue Background Phase) */}
           <m.h2
             style={{ opacity: title2Opacity, y: title2Y, filter: title2Blur }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] mb-16"
+            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[1.1] mb-16"
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500">
               {messages.jarvis_suite_narrative_stage2()}

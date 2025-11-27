@@ -20,32 +20,32 @@ export function AcceleratorZone() {
   return (
     <section
       id="execute"
-      className="relative py-32 bg-gradient-to-b from-[#020617] to-[#050505] overflow-hidden"
+      className="relative py-40 bg-gradient-to-b from-[#0A0A0A] to-[#050505] overflow-hidden"
     >
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-900/10 via-transparent to-transparent" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30" />
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+      <div className="container mx-auto px-6 max-w-[1400px] relative z-10">
         {/* Section Header */}
-        <div className="mb-20">
+        <div className="mb-24">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-px bg-emerald-500" />
-            <span className="text-emerald-500 font-mono text-sm tracking-widest">
+            <div className="w-12 h-px bg-emerald-500" />
+            <span className="text-emerald-500 font-mono text-sm tracking-widest uppercase">
               {messages.jarvis_suite_zone1_label()}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white">
+          <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
             {messages.jarvis_suite_zone1_title()}
           </h2>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
           {/* Left: Scrollable Trigger List */}
-          <div className="lg:w-1/2 flex flex-col gap-12 pb-32">
+          <div className="lg:w-5/12 flex flex-col gap-24 pb-32">
             <FeatureItem
               id="agent"
-              icon={<Brain className="w-8 h-8" />}
+              icon={<Brain className="w-10 h-10" />}
               title={messages.jarvis_suite_agent_title()}
               badge={messages.jarvis_suite_agent_badge()}
               desc={messages.jarvis_suite_agent_desc()}
@@ -54,7 +54,7 @@ export function AcceleratorZone() {
             />
             <FeatureItem
               id="pay"
-              icon={<FileSignature className="w-8 h-8" />}
+              icon={<FileSignature className="w-10 h-10" />}
               title={messages.jarvis_suite_pay_title()}
               badge={messages.jarvis_suite_pay_badge()}
               desc={messages.jarvis_suite_pay_desc()}
@@ -63,7 +63,7 @@ export function AcceleratorZone() {
             />
             <FeatureItem
               id="air"
-              icon={<Zap className="w-8 h-8" />}
+              icon={<Zap className="w-10 h-10" />}
               title={messages.jarvis_suite_air_title()}
               badge={messages.jarvis_suite_air_badge()}
               desc={messages.jarvis_suite_air_desc()}
@@ -73,8 +73,8 @@ export function AcceleratorZone() {
           </div>
 
           {/* Right: Sticky Visual */}
-          <div className="hidden lg:block lg:w-1/2 relative">
-            <div className="sticky top-32 h-[600px] w-full rounded-2xl overflow-hidden border border-white/10 bg-[#0F1115] shadow-2xl shadow-emerald-900/10 ring-1 ring-white/5">
+          <div className="hidden lg:block lg:w-7/12 relative">
+            <div className="sticky top-32 h-[700px] w-full rounded-3xl overflow-hidden border border-white/10 bg-[#0F1115] shadow-2xl shadow-emerald-900/10 ring-1 ring-white/5">
               {/* Data Stream Background Effect */}
               <DataStream />
 
@@ -162,7 +162,7 @@ interface FeatureItemProps {
 
 function FeatureItem({ icon, title, badge, desc, isActive, onActivate }: FeatureItemProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: '-50% 0px -50% 0px' });
+  const isInView = useInView(ref, { margin: '-40% 0px -40% 0px' });
 
   useEffect(() => {
     if (isInView) {
@@ -174,32 +174,36 @@ function FeatureItem({ icon, title, badge, desc, isActive, onActivate }: Feature
     <div
       ref={ref}
       onClick={onActivate}
-      className={`cursor-pointer py-8 pl-8 border-l-2 transition-all duration-500 ${
+      className={`cursor-pointer py-10 pl-10 border-l-4 transition-all duration-500 ${
         isActive
           ? 'border-emerald-500 opacity-100 bg-white/05'
           : 'border-white/10 opacity-30 hover:opacity-60 hover:bg-white/05'
-      } rounded-r-xl`}
+      } rounded-r-2xl`}
     >
-      <div className="flex items-center gap-4 mb-4">
-        <div className={isActive ? 'text-emerald-500' : 'text-gray-400'}>{icon}</div>
-        <h3 className="text-2xl font-bold text-white">{title}</h3>
-        <span
-          className={`px-2 py-0.5 text-[10px] font-mono rounded border ${
-            isActive
-              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-              : 'bg-white/5 text-gray-500 border-white/10'
-          }`}
-        >
-          {badge}
-        </span>
+      <div className="flex items-center gap-6 mb-6">
+        <div className={`p-3 rounded-xl ${isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/5 text-gray-400'}`}>
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-3xl font-bold text-white mb-2">{title}</h3>
+          <span
+            className={`px-3 py-1 text-xs font-mono rounded-full border ${
+              isActive
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                : 'bg-white/5 text-gray-500 border-white/10'
+            }`}
+          >
+            {badge}
+          </span>
+        </div>
       </div>
-      <p className="text-lg text-gray-400 mb-4 leading-relaxed">{desc}</p>
+      <p className="text-xl text-gray-300 mb-6 leading-relaxed font-light">{desc}</p>
       <div
-        className={`flex items-center gap-2 text-sm font-bold ${
-          isActive ? 'text-white' : 'text-transparent'
+        className={`flex items-center gap-3 text-base font-bold ${
+          isActive ? 'text-emerald-400' : 'text-transparent'
         } transition-colors`}
       >
-        Explore {title} <ArrowRight className="w-4 h-4" />
+        Explore {title} <ArrowRight className="w-5 h-5" />
       </div>
     </div>
   );

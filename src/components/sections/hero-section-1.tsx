@@ -1,7 +1,7 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown } from "lucide-react";
 import { JARVIS_VIDEOS } from "@/lib/media-config";
@@ -18,30 +18,39 @@ import { JARVIS_VIDEOS } from "@/lib/media-config";
 export function HeroSection1() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const hasAnimatedRef = useRef(false);
+
+  const playTextAnimation = useCallback(() => {
+    if (hasAnimatedRef.current) return;
+    if (!titleRef.current || !subtitleRef.current) return;
+
+    const titleSpans = titleRef.current.querySelectorAll(".line-mask span");
+    const subtitle = subtitleRef.current;
+
+    hasAnimatedRef.current = true;
+
+    gsap.to(titleSpans, {
+      y: 0,
+      duration: 1.2,
+      ease: "expo.out",
+      stagger: 0.2,
+      delay: 0.2,
+    });
+
+    gsap.to(subtitle, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "expo.out",
+      delay: 1,
+    });
+  }, []);
 
   useEffect(() => {
-    // GSAP animation: slide up from bottom with stagger
-    if (titleRef.current && subtitleRef.current) {
-      const titleSpans = titleRef.current.querySelectorAll(".line-mask span");
-      const subtitle = subtitleRef.current;
-
-      gsap.to(titleSpans, {
-        y: 0,
-        duration: 1.2,
-        ease: "expo.out",
-        stagger: 0.2,
-        delay: 0.5,
-      });
-
-      gsap.to(subtitle, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "expo.out",
-        delay: 1.5,
-      });
-    }
-  }, []);
+    // Fallback: ensure text animates even if video is slow/stuck on poster
+    const fallback = setTimeout(playTextAnimation, 900);
+    return () => clearTimeout(fallback);
+  }, [playTextAnimation]);
 
   return (
     <section className="hero-section relative w-full overflow-hidden bg-black min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
@@ -58,6 +67,8 @@ export function HeroSection1() {
           loop
           muted
           preload="auto"
+          onLoadedData={playTextAnimation}
+          onError={playTextAnimation}
         >
           <source src={JARVIS_VIDEOS.banner} type="video/mp4" />
         </video>

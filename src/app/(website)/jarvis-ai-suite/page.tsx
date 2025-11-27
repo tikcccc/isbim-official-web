@@ -23,7 +23,7 @@ import {
  */
 export default function JarvisAiSuitePage() {
   return (
-    <div className="bg-[#050505] min-h-screen font-sans selection:bg-emerald-500/30 text-white relative">
+    <div className="bg-[#0A0A0A] min-h-screen font-sans selection:bg-emerald-500/30 text-white relative">
       <style>{`body { overflow-x: hidden; }`}</style>
 
       {/* Global Background Effects */}
