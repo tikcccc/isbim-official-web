@@ -18,6 +18,8 @@ export function BackgroundLayers() {
   const [sheenKey, setSheenKey] = useState(0);
   const [sheenActive, setSheenActive] = useState(false);
   const lastTriggerRef = useRef(0);
+  const sheenContainerRef = useRef<HTMLDivElement | null>(null);
+  const isVisibleRef = useRef(true);
 
   useEffect(() => {
     const triggerSheen = () => {
@@ -35,6 +37,19 @@ export function BackgroundLayers() {
     // Fallback: start sheen after initial delay in case no event is fired
     const fallback = setTimeout(triggerSheen, 1200);
 
+    // Watch visibility to avoid triggering when off-screen
+    const containerEl = sheenContainerRef.current;
+    const observer =
+      typeof window !== "undefined" && "IntersectionObserver" in window && containerEl
+        ? new IntersectionObserver(
+            ([entry]) => {
+              isVisibleRef.current = entry.isIntersecting;
+            },
+            { threshold: 0 }
+          )
+        : null;
+    if (observer && containerEl) observer.observe(containerEl);
+
     // Trigger on upward scroll with cooldown to avoid spam
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
@@ -43,7 +58,11 @@ export function BackgroundLayers() {
       lastScrollY = currentY;
 
       const now = performance.now();
-      if (delta < -20 && now - lastTriggerRef.current > 1000) {
+      if (
+        delta < -20 &&
+        isVisibleRef.current &&
+        now - lastTriggerRef.current > 2500
+      ) {
         lastTriggerRef.current = now;
         triggerSheen();
       }
@@ -54,6 +73,7 @@ export function BackgroundLayers() {
       window.removeEventListener("grid-sheen-start", handler);
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(fallback);
+      if (observer && containerEl) observer.unobserve(containerEl);
     };
   }, []);
 
@@ -81,6 +101,7 @@ export function BackgroundLayers() {
       {/* Grid Sheen Sweep (starts on event) */}
       <div
         className="fixed inset-0 pointer-events-none z-[2] overflow-hidden"
+        ref={sheenContainerRef}
         style={{
           maskImage: "radial-gradient(circle at 50% 0%, black 35%, transparent 85%)",
           WebkitMaskImage: "radial-gradient(circle at 50% 0%, black 35%, transparent 85%)",
