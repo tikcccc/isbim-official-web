@@ -183,9 +183,10 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
                 }
             }}
         >
-            <div className="relative w-full min-h-screen">
+            <div key={pathname} className="relative w-full min-h-screen">
                 {/* Page content fade in/out */}
                 <m.div
+                    key={`page-${pathname}`}
                     className="min-h-screen w-full"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -199,7 +200,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
                 </m.div>
 
                 {/* Transition overlay */}
-                <InnerOverlayRunner />
+                <InnerOverlayRunner key={`overlay-${pathname}`} />
             </div>
         </AnimatePresence>
     );
