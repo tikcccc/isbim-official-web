@@ -70,7 +70,7 @@ export function SmoothScrollProvider({
 
     setLenis(lenisInstance);
 
-    // 🔑 Connect Lenis with ScrollTrigger for proper integration
+    // dY"` Connect Lenis with ScrollTrigger for proper integration
     lenisInstance.on("scroll", ScrollTrigger.update);
 
     // Request animation frame loop
@@ -81,15 +81,31 @@ export function SmoothScrollProvider({
 
     requestAnimationFrame(raf);
 
-    // 🔑 Refresh ScrollTrigger after Lenis is fully initialized
-    // This ensures correct position calculations for all ScrollTriggers
-    const refreshTimer = setTimeout(() => {
+    // dY"` Refresh ScrollTrigger after Lenis is fully initialized
+    // Multiple refreshes to handle Edge browser's lazy image loading
+    // Edge defers load events for lazily-loaded images, affecting layout calculations
+
+    // Initial refresh after Lenis initialization
+    const refreshTimer1 = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 100);
+    }, 300); // Increased delay for Edge's image loading
+
+    // Additional refresh to ensure deferred images are processed
+    const refreshTimer2 = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 1000);
+
+    // Final refresh when all resources (including lazy images) are loaded
+    const handleLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("load", handleLoad);
 
     // Cleanup
     return () => {
-      clearTimeout(refreshTimer);
+      clearTimeout(refreshTimer1);
+      clearTimeout(refreshTimer2);
+      window.removeEventListener("load", handleLoad);
       lenisInstance.off("scroll", ScrollTrigger.update);
       lenisInstance.destroy();
       setLenis(null);

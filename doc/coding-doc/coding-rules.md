@@ -1,7 +1,7 @@
 # Coding Rules - isBIM Official Web
 Rules are terse and vibe-critical only; keep future edits short, actionable, and in this style.
 
-**Last Updated**: 2025-11-26 | **Version**: 3.7
+**Last Updated**: 2025-11-28 | **Version**: 3.8
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -22,11 +22,14 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 - 動態內容頁（Newsroom、Careers）使用 Sanity 管理資料；其他頁面不依賴 Sanity。
 - `NEXT_PUBLIC_VIDEO_CDN_URL` can override video base; keep filenames consistent.
 - When embedding any video, extract the first frame with `ffmpeg` as a poster (store under `public/images/post` via `ffmpeg -i <video> -frames:v 1 -q:v 2 <poster>`), set it as `poster`, and preload `metadata` for buffering fallback.
+- **Next.js Images**: Declare all quality values in `next.config.ts` `images.qualities` array (currently: [75, 85, 90, 100]) to avoid warnings in Next.js 15+ and prepare for Next.js 16 requirement.
 
-## Motion
+## Motion & GSAP
 - Import `m` from `components/motion/lazy-motion`; `AnimatePresence` only when needed. No direct `motion` imports.
 - Services/Products: keep SpotlightCard + CornerBrackets for hover/spotlight; don't reinvent mousemove handlers.
 - Use `TypewriterText/TypewriterWidth/TypewriterLines` from `components/animations`; about-us headings stick to `TypewriterWidth` defaults (1.5s, 40 steps, blue block cursor, ScrollTrigger once) via the shared Section; keep Services/Products hero on character-level `TypewriterText`.
+- **ScrollTrigger Components**: Use `useLayoutEffect` (not `useEffect`) + `gsap.context()` wrapper; cleanup with `ctx.revert()`; add `invalidateOnRefresh: true` to ScrollTrigger config for layout-shift resilience.
+- **Lenis Integration**: `smooth-scroll-provider.tsx` connects Lenis to ScrollTrigger via `lenisInstance.on("scroll", ScrollTrigger.update)` and handles Edge browser image lazy-loading with staggered refresh (300ms/1000ms/window-load). Do not modify this integration.
 
 ## Styling & Tokens
 - Design tokens live in `design-tokens.ts`; no duplicate breakpoints/z-index/colors elsewhere; reuse shared container utilities from `globals.css`.

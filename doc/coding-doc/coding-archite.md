@@ -1,4 +1,4 @@
-# isBIM Official Web Architecture (v3.7)
+# isBIM Official Web Architecture (v3.8)
 
 Architecture for this Next.js project.
 
@@ -48,19 +48,23 @@ src/components/layout/
   locale-switcher.tsx
   page-transition.tsx   # global transition overlay; disables browser scroll restoration and uses Lenis/window smooth scroll to top on load/after transitions
   motion/lazy-motion.tsx# LazyMotion provider + `m`
+src/components/
+  smooth-scroll-provider.tsx  # Lenis provider with ScrollTrigger integration; handles Edge browser image lazy-loading via multiple refresh timings (300ms, 1000ms, window load)
 ```
 - Menu overlay JARVIS AI Suite cards now deep-link to their localized product routes (uses `buildHref` + `ROUTES.JARVIS.*` on click).
+- **Lenis + ScrollTrigger**: `smooth-scroll-provider.tsx` connects Lenis scroll events to ScrollTrigger (`lenisInstance.on("scroll", ScrollTrigger.update)`) and refreshes at 300ms/1000ms/window-load to handle Edge browser's deferred image loading.
 
 ### Sections (selected)
 ```
 src/components/sections/
   hero-section-1.tsx
   interactive-carousel.tsx
-  section3-placeholder.tsx
+  section3-placeholder.tsx    # GSAP ScrollTrigger animation (sparse-to-dense text); uses useLayoutEffect + gsap.context pattern
   section4-platform-list.tsx
   section5-cta.tsx
   scroll-prompt.tsx
 ```
+- **Section3**: Uses `useLayoutEffect` + `gsap.context()` for ScrollTrigger animations; `invalidateOnRefresh: true` ensures correct position calculations after layout shifts.
 
 ### Services & Products Page
 ```
@@ -108,6 +112,7 @@ src/lib/
     route-builder.ts      # buildHref/linkTo/useLocalizedHref (FROZEN)
     index.ts              # Barrel export: Link/useRouter/usePathname/redirect + locale utils (FROZEN)
   i18n.ts                 # Paraglide Navigation API (Link/useRouter/redirect) - server component
+next.config.ts            # images.qualities: [75, 85, 90, 100] for Next.js 15+ image quality validation
 ```
 
 ### UI Components
