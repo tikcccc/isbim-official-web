@@ -191,7 +191,14 @@ public/
 - **OPEN**: layout JSX/CSS in `(website)`, Paraglide language list, UI components, new pages, navigation data, styles placeholders, animation placeholders, schema placeholders.
 
 ## Patterns & Rules (current)
-- **i18n Navigation**: Use `import { Link } from "@/lib/i18n"` for all navigation. Link component automatically handles locale prefixes and prefetching. DO NOT use `next/link` or `buildHref()` manually. For routing hooks: `useRouter/usePathname/redirect` also from `@/lib/i18n`. Server utils: `buildHref(path, locale)` / `linkTo(key, locale)`. Never handcraft `/${locale}`.
+- **i18n Navigation**:
+  - Standard: `import { Link } from "@/lib/i18n"` with `prefetch` prop
+  - Advanced: `import { LocalizedLink } from "@/components/ui/localized-link"` with `prefetchMode="hover|viewport|idle|auto|off"`
+  - DO NOT use `next/link` or `buildHref()` manually
+  - Routing hooks: `useRouter/usePathname/redirect` from `@/lib/i18n`
+  - Server utils: `buildHref(path, locale)` / `linkTo(key, locale)`
+  - Never handcraft `/${locale}` paths
+  - See [navigation-prefetch-guide.md](./navigation-prefetch-guide.md) for detailed strategy
 - **Hydration**: Locale provided via Context from layout; `suppressHydrationWarning` removed from `<html>/<body>`.
 - **Design tokens**: Single source of truth in `design-tokens.ts`; drives GSAP/Framer configs (`lib/animations.ts`, `lib/animation-variants.ts`) and hooks (`use-media-query.ts`). No duplicate breakpoints/z-index in `constants.ts`.
 - **Providers**: Global providers centralized in `AppProviders`; Zustand store limited to `menu-store.ts`.
