@@ -47,9 +47,9 @@ export function HeroSection1() {
   }, []);
 
   useEffect(() => {
-    // Fallback: ensure text animates even if video is slow/stuck on poster
-    const fallback = setTimeout(playTextAnimation, 900);
-    return () => clearTimeout(fallback);
+    // Start text animation immediately on mount, regardless of video state
+    const timer = setTimeout(playTextAnimation, 100);
+    return () => clearTimeout(timer);
   }, [playTextAnimation]);
 
   return (
@@ -67,8 +67,6 @@ export function HeroSection1() {
           loop
           muted
           preload="auto"
-          onLoadedData={playTextAnimation}
-          onError={playTextAnimation}
         >
           <source src={JARVIS_VIDEOS.banner} type="video/mp4" />
         </video>
