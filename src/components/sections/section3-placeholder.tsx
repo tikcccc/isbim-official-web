@@ -17,7 +17,7 @@ export function Section3Placeholder() {
       gsap.set(textRef.current, { autoAlpha: 1 });
 
       // Create the "sparse to dense" animation
-      gsap.fromTo(
+      const tween = gsap.fromTo(
         textRef.current,
         {
           // FROM: Sparse state
@@ -40,12 +40,20 @@ export function Section3Placeholder() {
           },
         }
       );
+
+      // Recompute trigger positions after mount in case layout shifts (lazy sections/media).
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+
+      // Cleanup only this trigger/tween
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
     }
 
-    // Cleanup
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
+    return undefined;
   }, []);
 
   return (

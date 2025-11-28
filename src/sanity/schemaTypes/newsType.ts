@@ -1,29 +1,115 @@
-/**
- * News Content Type Schema for Sanity CMS
- *
- * 用途：
- * - 定義新聞文章的內容結構
- * - 用於Newsroom頁面的內容管理
- *
- * 字段：
- * - title: 新聞標題
- * - slug: URL slug
- * - publishedAt: 發布日期
- * - excerpt: 摘要
- * - body: 正文內容（Rich Text / Portable Text）
- * - mainImage: 主圖片
- * - category: 分類（產品發布、公司新聞、媒體報導、案例研究等）
- * - featured: 是否為精選新聞
- * - author: 作者信息
- * - tags: 標籤數組
- *
- * 使用場景：
- * - Newsroom頁面展示新聞列表
- * - 新聞詳情頁
- * - Home頁的最新新聞模塊（可選）
- */
+import { defineField, defineType } from "sanity";
 
-
-// TODO: 定義newsType schema
-// TODO: 添加所有字段定義
-// TODO: 配置預覽模式（title, media）
+export const newsType = defineType({
+  name: "news",
+  title: "News Post",
+  type: "document",
+  fields: [
+    defineField({
+      name: "title",
+      title: "Title",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "publishedAt",
+      title: "Published At",
+      type: "datetime",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "excerpt",
+      title: "Excerpt",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "body",
+      title: "Body",
+      type: "array",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alt Text",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "string",
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO & Social",
+      type: "object",
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({
+          name: "metaTitle",
+          title: "Meta Title",
+          type: "string",
+          validation: (Rule) => Rule.max(60).warning("Keep under 60 characters"),
+        }),
+        defineField({
+          name: "metaDescription",
+          title: "Meta Description",
+          type: "text",
+          rows: 3,
+          validation: (Rule) => Rule.max(160).warning("Keep under 160 characters"),
+        }),
+        defineField({
+          name: "openGraphImage",
+          title: "Open Graph Image",
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              type: "string",
+              title: "Alt Text",
+            }),
+          ],
+        }),
+        defineField({
+          name: "keywords",
+          title: "Keywords",
+          type: "array",
+          of: [{ type: "string" }],
+          options: { layout: "tags" },
+        }),
+      ],
+    }),
+  ],
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "category",
+      media: "mainImage",
+    },
+  },
+});

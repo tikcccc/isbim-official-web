@@ -4,7 +4,7 @@ Architecture for this Next.js project.
 
 ## Tech Stack
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
-- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
+ben- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
 - CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
