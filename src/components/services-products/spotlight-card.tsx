@@ -29,7 +29,7 @@ export function SpotlightCard({ children, className = "" }: SpotlightCardProps) 
   const boundsRef = useRef<DOMRect | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   // Detect mobile devices
