@@ -427,10 +427,12 @@ export function InteractiveCarousel() {
                       if (el) videoRefs.current.set(index, el);
                     }}
                     src={slide.imageUrl}
+                    poster={slide.posterUrl}
                     autoPlay={isCenter}
                     loop
                     muted
                     playsInline
+                    preload="metadata"
                     className="w-full h-full object-cover opacity-80 mix-blend-overlay"
                   />
                 ) : (

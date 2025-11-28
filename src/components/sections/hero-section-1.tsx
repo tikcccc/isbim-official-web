@@ -4,7 +4,7 @@ import * as m from "@/paraglide/messages";
 import { useCallback, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown } from "lucide-react";
-import { JARVIS_VIDEOS } from "@/lib/media-config";
+import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
 
 /**
  * Hero Section 1
@@ -61,7 +61,7 @@ export function HeroSection1() {
 
         <video
           className="hero-video w-full h-full object-cover object-center relative z-10"
-          poster="/images/posters/banner-poster.jpg"
+          poster={JARVIS_POSTERS.banner}
           playsInline
           autoPlay
           loop

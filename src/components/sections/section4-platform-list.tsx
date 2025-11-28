@@ -4,7 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { m } from "@/components/motion/lazy-motion";
 import { ArrowRight } from "lucide-react";
 import * as messages from "@/paraglide/messages";
-import { JARVIS_VIDEOS } from "@/lib/media-config";
+import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
 
 // Platform data structure
 interface PlatformItem {
@@ -13,6 +13,7 @@ interface PlatformItem {
   descKey: keyof typeof platformDescs;
   version: string;
   videoUrl: string;
+  posterUrl?: string;
 }
 
 // Map keys to message functions
@@ -45,6 +46,7 @@ const platforms: PlatformItem[] = [
     descKey: "agent",
     version: "/0.1",
     videoUrl: JARVIS_VIDEOS.agent,
+    posterUrl: JARVIS_POSTERS.agent,
   },
   {
     id: "02",
@@ -52,6 +54,7 @@ const platforms: PlatformItem[] = [
     descKey: "pay",
     version: "/0.2",
     videoUrl: JARVIS_VIDEOS.pay,
+    posterUrl: JARVIS_POSTERS.pay,
   },
   {
     id: "03",
@@ -59,6 +62,7 @@ const platforms: PlatformItem[] = [
     descKey: "air",
     version: "/0.3",
     videoUrl: JARVIS_VIDEOS.air,
+    posterUrl: JARVIS_POSTERS.air,
   },
   {
     id: "04",
@@ -66,6 +70,7 @@ const platforms: PlatformItem[] = [
     descKey: "eagleeye",
     version: "/0.4",
     videoUrl: JARVIS_VIDEOS.eagleEye,
+    posterUrl: JARVIS_POSTERS.eagleEye,
   },
   {
     id: "05",
@@ -73,6 +78,7 @@ const platforms: PlatformItem[] = [
     descKey: "ssss",
     version: "/0.5",
     videoUrl: JARVIS_VIDEOS.ssss,
+    posterUrl: JARVIS_POSTERS.ssss,
   },
   {
     id: "06",
@@ -80,6 +86,7 @@ const platforms: PlatformItem[] = [
     descKey: "dwss",
     version: "/0.6",
     videoUrl: JARVIS_VIDEOS.dwss,
+    posterUrl: JARVIS_POSTERS.dwss,
   },
   {
     id: "07",
@@ -87,6 +94,7 @@ const platforms: PlatformItem[] = [
     descKey: "cdcp",
     version: "/0.7",
     videoUrl: JARVIS_VIDEOS.cdcp,
+    posterUrl: JARVIS_POSTERS.cdcp,
   },
   {
     id: "08",
@@ -94,6 +102,7 @@ const platforms: PlatformItem[] = [
     descKey: "assets",
     version: "/0.8",
     videoUrl: JARVIS_VIDEOS.assets,
+    posterUrl: JARVIS_POSTERS.assets,
   },
 ];
 
@@ -326,6 +335,7 @@ function PlatformRow({
               <video
                 ref={videoRef}
                 src={item.videoUrl}
+                poster={item.posterUrl}
                 loop
                 muted
                 playsInline

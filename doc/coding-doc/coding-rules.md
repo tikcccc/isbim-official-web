@@ -17,6 +17,7 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 ## Media & Assets
 - Videos/images via `media-config`: use `getVideoUrl`/`JARVIS_VIDEOS`; avoid hardcoded `/videos/*`.
 - `NEXT_PUBLIC_VIDEO_CDN_URL` can override video base; keep filenames consistent.
+- When embedding any video, extract the first frame with `ffmpeg` as a poster (store under `public/images/post` via `ffmpeg -i <video> -frames:v 1 -q:v 2 <poster>`), set it as `poster`, and preload `metadata` for buffering fallback.
 
 ## Motion
 - Import `m` from `components/motion/lazy-motion`; `AnimatePresence` only when needed. No direct `motion` imports.

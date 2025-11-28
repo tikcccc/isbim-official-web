@@ -265,6 +265,22 @@ export const JARVIS_VIDEOS = {
 } as const;
 
 /**
+ * JARVIS Video Posters (first-frame snapshots)
+ * Stored under /images/post for use as preload/fallback posters.
+ */
+export const JARVIS_POSTERS = {
+  agent: getImageUrl("agent-poster.jpg", "post"),
+  pay: getImageUrl("pay-poster.jpg", "post"),
+  air: getImageUrl("air-poster.jpg", "post"),
+  eagleEye: getImageUrl("eagle-eye-poster.jpg", "post"),
+  ssss: getImageUrl("ssss-poster.jpg", "post"),
+  dwss: getImageUrl("dwss-poster.jpg", "post"),
+  cdcp: getImageUrl("cdcp-poster.jpg", "post"),
+  assets: getImageUrl("assets-poster.jpg", "post"),
+  banner: getImageUrl("banner-poster.jpg", "post"),
+} as const;
+
+/**
  * Common Image Paths
  * Pre-configured image URLs for common assets.
  */
@@ -310,6 +326,7 @@ export default {
   getMediaAssetUrl,
   createMediaAsset,
   JARVIS_VIDEOS,
+  JARVIS_POSTERS,
   COMMON_IMAGES,
   isRemoteMedia,
   getMediaInfo,

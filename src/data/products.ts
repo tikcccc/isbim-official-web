@@ -31,7 +31,7 @@
  */
 
 import { Product } from "@/lib/types";
-import { JARVIS_VIDEOS } from "@/lib/media-config";
+import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
 
 /**
  * Extended Product Interface for Carousel
@@ -46,6 +46,7 @@ export interface CarouselProduct {
   meta: string[];
   description: string;
   imageUrl: string;
+  posterUrl?: string;
   href?: string;
 }
 
@@ -64,6 +65,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["AI Assistant", "Invoice Scanning", "Tender Parsing"],
     description: "Automates invoice scanning, tender parsing & scoring, and form-filling via email agent.",
     imageUrl: JARVIS_VIDEOS.agent, // Uses media-config
+    posterUrl: JARVIS_POSTERS.agent,
     href: "/jarvis-agent",
   },
   {
@@ -75,6 +77,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["SOPL Compliant", "Working Capital", "Investor Visibility"],
     description: "60-day SOPL-compliant certification enabling better working-capital rates.",
     imageUrl: JARVIS_VIDEOS.pay, // Uses media-config
+    posterUrl: JARVIS_POSTERS.pay,
     href: "/jarvis-pay",
   },
   {
@@ -86,6 +89,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["Stable Diffusion", "Video Walkthroughs", "Prototyping"],
     description: "Instant visuals, video walkthroughs, and scenario prototyping powered by AI.",
     imageUrl: JARVIS_VIDEOS.air, // Uses media-config
+    posterUrl: JARVIS_POSTERS.air,
     href: "/jarvis-air",
   },
   {
@@ -97,6 +101,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["IoT Sensors", "360° Capture", "Anomaly Detection"],
     description: "Remote monitoring, anomaly detection, and compliance assurance in real-time.",
     imageUrl: JARVIS_VIDEOS.eagleEye, // Uses media-config
+    posterUrl: JARVIS_POSTERS.eagleEye,
     href: "/jarvis-eagle-eye",
   },
   {
@@ -108,6 +113,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["Wearables", "AI Cameras", "Instant Alerts"],
     description: "Reduces incidents through proactive risk orchestration and real-time monitoring.",
     imageUrl: JARVIS_VIDEOS.ssss, // Uses media-config
+    posterUrl: JARVIS_POSTERS.ssss,
     href: "/jarvis-ssss",
   },
   {
@@ -119,6 +125,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["Secure Submission", "Automated Checks", "Audit Trails"],
     description: "Digital Works Supervision portal with secure submission and automated checks for faster approvals.",
     imageUrl: JARVIS_VIDEOS.dwss, // Uses media-config
+    posterUrl: JARVIS_POSTERS.dwss,
     href: "/jarvis-dwss",
   },
   {
@@ -130,6 +137,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["Interoperable BIM", "Version Control", "Conflict Resolution"],
     description: "Interoperable BIM hub for version control and conflict resolution.",
     imageUrl: JARVIS_VIDEOS.cdcp, // Uses media-config
+    posterUrl: JARVIS_POSTERS.cdcp,
     href: "/jarvis-cdcp",
   },
   {
@@ -141,6 +149,7 @@ export const carouselProducts: CarouselProduct[] = [
     meta: ["Predictive Maintenance", "ESG Tracking", "Lifecycle Optimization"],
     description: "AI-powered facility management for predictive maintenance and sustainability.",
     imageUrl: JARVIS_VIDEOS.assets, // Uses media-config
+    posterUrl: JARVIS_POSTERS.assets,
     href: "/jarvis-assets",
   },
 ];

@@ -111,10 +111,11 @@
 }
 
 /* Services/Products grid entry sheen (lines only) */
+/* Grid sheen animation with GPU layer promotion */
 @keyframes grid-sheen-sweep {
   0% {
-    mask-position: 0 -140%;
     -webkit-mask-position: 0 -140%;
+    mask-position: 0 -140%;
     opacity: 0;
   }
   20% {
@@ -124,8 +125,8 @@
     opacity: 0.6;
   }
   100% {
-    mask-position: 0 140%;
     -webkit-mask-position: 0 140%;
+    mask-position: 0 140%;
     opacity: 0;
   }
 }
@@ -149,15 +150,18 @@
       transparent 60px);
   mix-blend-mode: screen;
   opacity: 0;
-  mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
   -webkit-mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
-  mask-size: 100% 260%;
+  mask-image: linear-gradient(180deg, transparent 46%, black 48%, black 52%, transparent 54%);
   -webkit-mask-size: 100% 260%;
-  mask-position: 0 -140%;
+  mask-size: 100% 260%;
   -webkit-mask-position: 0 -140%;
+  mask-position: 0 -140%;
   animation: grid-sheen-sweep 5s ease-out 0s 1 forwards;
   animation-play-state: paused;
-  will-change: mask-position, opacity;
+  will-change: opacity;
+  /* Force GPU compositing layer for smoother animation */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .grid-sheen-overlay--run {

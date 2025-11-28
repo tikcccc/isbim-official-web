@@ -53,19 +53,19 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
         className="absolute inset-0 object-cover transition-transform duration-1000 ease-out group-hover:scale-105 grayscale brightness-[0.4] group-hover:brightness-[0.6] group-hover:grayscale-0"
       />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 transition-opacity duration-500" />
+      {/* Gradient Overlay - optimized opacity transition */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 will-change-opacity transition-opacity duration-500" />
 
       {/* Corner Brackets */}
       <CornerBrackets />
 
-      {/* Header Section */}
+      {/* Header Section - combined transitions */}
       <div className="absolute top-0 left-0 p-6 z-20 flex items-center gap-3 w-full justify-between">
         <div className="flex items-center gap-3">
-          <span className="hud-flicker font-mono text-sm text-white/40 tracking-widest group-hover:text-white">
+          <span className="hud-flicker font-mono text-sm text-white/40 tracking-widest transition-colors duration-300 group-hover:text-white">
             {displayIndex} /
           </span>
-          <span className="hud-flicker text-[10px] font-mono uppercase tracking-widest text-emerald-400/90 bg-emerald-950/30 px-2 py-1 backdrop-blur-md rounded border border-emerald-500/20 group-hover:text-emerald-200 group-hover:border-emerald-400/40">
+          <span className="hud-flicker text-[10px] font-mono uppercase tracking-widest text-emerald-400/90 bg-emerald-950/30 px-2 py-1 backdrop-blur-md rounded border border-emerald-500/20 transition-[color,border-color] duration-300 group-hover:text-emerald-200 group-hover:border-emerald-400/40">
             {typeLabel}
           </span>
         </div>
@@ -74,18 +74,18 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
 
       {/* Content Section */}
       <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col items-start">
-        {/* Icon + Title */}
-        <div className="flex items-center gap-4 mb-2 transform transition-transform duration-500 group-hover:-translate-y-2">
+        {/* Icon + Title - GPU accelerated transform */}
+        <div className="flex items-center gap-4 mb-2 will-change-transform transition-transform duration-500 group-hover:-translate-y-2">
           <div className="p-2 border border-white/10 rounded-lg backdrop-blur-md bg-white/5 text-emerald-400">
             <Icon className="w-5 h-5" />
           </div>
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-none group-hover:text-emerald-50 transition-colors">
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-none transition-colors duration-300 group-hover:text-emerald-50">
             {title}
           </h3>
         </div>
 
         {/* Header Description */}
-        <p className="text-sm md:text-base text-gray-400 font-light max-w-lg mb-2 group-hover:text-gray-200 transition-colors duration-300 line-clamp-2 group-hover:line-clamp-none">
+        <p className="text-sm md:text-base text-gray-400 font-light max-w-lg mb-2 transition-colors duration-300 group-hover:text-gray-200 line-clamp-2 group-hover:line-clamp-none">
           {headerDescription}
         </p>
 
@@ -98,12 +98,12 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
               </p>
               <a
                 href="#"
-                className="group/btn inline-flex items-center text-xs font-bold text-white uppercase tracking-widest hover:text-emerald-400 transition-colors"
+                className="group/btn inline-flex items-center text-xs font-bold text-white uppercase tracking-widest transition-colors duration-300 hover:text-emerald-400"
               >
-                <span className="border-b border-transparent group-hover/btn:border-emerald-400 pb-0.5">
+                <span className="border-b border-transparent transition-colors duration-300 group-hover/btn:border-emerald-400 pb-0.5">
                   {ctaText}
                 </span>
-                <ArrowRight className="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" />
               </a>
             </div>
           </div>

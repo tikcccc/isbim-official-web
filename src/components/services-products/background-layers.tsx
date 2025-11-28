@@ -50,21 +50,31 @@ export function BackgroundLayers() {
         : null;
     if (observer && containerEl) observer.observe(containerEl);
 
-    // Trigger on upward scroll with cooldown to avoid spam
+    // Trigger on upward scroll with cooldown to avoid spam (RAF throttled)
     let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastScrollY;
-      lastScrollY = currentY;
+    let ticking = false;
 
-      const now = performance.now();
-      if (
-        delta < -20 &&
-        isVisibleRef.current &&
-        now - lastTriggerRef.current > 2500
-      ) {
-        lastTriggerRef.current = now;
-        triggerSheen();
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentY = window.scrollY;
+          const delta = currentY - lastScrollY;
+          lastScrollY = currentY;
+
+          const now = performance.now();
+          // Increased cooldown: 5s (5000ms) and higher threshold (-50px) to reduce animation spam
+          if (
+            delta < -20 &&
+            isVisibleRef.current &&
+            now - lastTriggerRef.current > 2500
+          ) {
+            lastTriggerRef.current = now;
+            triggerSheen();
+          }
+
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
