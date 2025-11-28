@@ -21,7 +21,7 @@ import { m } from '@/components/motion/lazy-motion';
  * This animation runs on all route changes, including locale switching,
  * providing a consistent branded transition experience across the application.
  */
-export const InnerOverlayRunner: React.FC = () => {
+const InnerOverlayBase: React.FC = () => {
     return (
         <div className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden">
 
@@ -41,7 +41,7 @@ export const InnerOverlayRunner: React.FC = () => {
                 }}
                 exit={{ x: "0%" }}
                 transition={{
-                    duration: 1,
+                    duration: 0.9,
                     ease: [0.22, 1, 0.36, 1]
                 }}
             >
@@ -116,6 +116,8 @@ export const InnerOverlayRunner: React.FC = () => {
         </div>
     );
 };
+InnerOverlayBase.displayName = "InnerOverlayBase";
+export const InnerOverlayRunner = React.memo(InnerOverlayBase);
 
 /**
  * PageTransition - Main page transition wrapper component
@@ -175,11 +177,13 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
             onExitComplete={() => {
                 if (shouldScrollTopRef.current) {
                     shouldScrollTopRef.current = false;
-                    if (lenis) {
-                        lenis.scrollTo(0, { immediate: false });
-                    } else {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                    }
+                    requestAnimationFrame(() => {
+                        if (lenis) {
+                            lenis.scrollTo(0, { immediate: false });
+                        } else {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }
+                    });
                 }
             }}
         >
@@ -192,8 +196,9 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{
-                        delay: 0.2,
-                        duration: 0.5
+                        delay: 0.1,
+                        duration: 0.9,
+                        ease: [0.22, 1, 0.36, 1]
                     }}
                 >
                     {children}
