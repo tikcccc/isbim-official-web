@@ -1,6 +1,8 @@
-# isBIM Official Web Architecture (v3.8)
+# isBIM Official Web Architecture (v3.9)
 
 Architecture for this Next.js project.
+
+**Last Updated**: 2025-11-28 - Added SEO optimization system (Phase 1 complete)
 
 ## Tech Stack
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
@@ -34,6 +36,8 @@ src/app/
     robots.ts                   # robots with Studio exclusions
   (studio)/
     studio/[[...index]]/page.tsx  # Sanity Studio (NextStudio)
+  actions/
+    contact-form.action.ts      # Server Action for contact form (Zod validation + rate limiting + email sending)
   api/
     revalidate/route.ts         # Sanity webhook -> on-demand ISR (HMAC secret)
 ```
@@ -105,8 +109,13 @@ src/lib/
   animations.ts           # GSAP config from tokens
   animation-variants.ts   # Framer variants from tokens
   constants.ts            # ROUTES + IDs/breakpoints/etc.
-  env.ts                  # typed env + sanityConfig + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
+  env.ts                  # typed env + sanityConfig + getResendApiKey + getContactEmailTo + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
   media-config.ts         # getVideoUrl/getImageUrl + JARVIS_VIDEOS + CDN helpers
+  email/
+    resend-client.ts      # Resend client initialization
+    templates.ts          # Email templates (internal notification + user confirmation, i18n)
+    send-contact-email.ts # Dual email orchestration
+    index.ts              # Barrel export
   i18n/
     locale-context.tsx    # LocaleProvider + useLocale (FROZEN)
     route-builder.ts      # buildHref/linkTo/useLocalizedHref (FROZEN)
@@ -130,6 +139,12 @@ src/data/
   navigation.ts         # nav definitions; pass buildHref to localize
 ```
 
+### Schemas
+```
+src/schemas/
+  contact-form.schema.ts  # Zod validation schema for contact form (server-side validation)
+```
+
 ### Styles
 ```
 src/styles/
@@ -141,11 +156,20 @@ src/styles/
 ### SEO & ISR
 ```
 src/lib/seo.ts                     # canonical + hreflang helpers (x-default, en/en-US/en-GB/zh/zh-CN/zh-HK/zh-TW)
-src/components/seo/json-ld.tsx     # JsonLd component + helpers: Organization/Product/JobPosting/Breadcrumb schemas
+src/lib/seo-generators.ts          # SEO metadata generators with hierarchical keyword system; enforces brand (isBIM) + geographic (Hong Kong) + dual identity (AI + Construction tech) on all pages
+src/components/seo/json-ld.tsx     # JsonLd component + helpers: Organization/Product/JobPosting/Breadcrumb/SoftwareApplication schemas
 src/app/(website)/robots.ts        # disallow Studio/API/_next/admin/json/revalidate; includes CN search engines and AI bots
 src/app/layout.tsx                 # renders Organization schema (JsonLd)
 src/app/api/revalidate/route.ts    # webhook endpoint with SANITY_WEBHOOK_SECRET for tag-based revalidation
 ```
+
+**SEO Strategy** (Phase 1 Complete):
+- **Hierarchical keywords**: 5 levels (Brand → Identity → Technology → Specific → Geographic)
+- **Critical keywords** guaranteed on all pages: isBIM, Hong Kong/香港, AI technology company, Construction technology company
+- **Schema.org structured data**: Organization, SoftwareApplication (for JARVIS products), Breadcrumb
+- **P0 pages optimized**: Home, About Us, Services & Products, Newsroom (with metadata + schemas)
+- **Sitemap**: Excludes `/jarvis-ai-suite` (redesign), lowers `/contact` priority
+- **Generators**: `generateProductPageSEO()`, `generateServicePageSEO()`, `generateAboutPageSEO()`, `generateServicesPageSEO()`, `generateNewsroomPageSEO()`, `generateCareersPageSEO()`
 
 ### Sanity Data Layer
 ```
@@ -196,6 +220,14 @@ public/
   - Videos: CDN links (via `media-config`/`JARVIS_VIDEOS`)
   - Images: prefer local `/public` assets
   - Sanity usage limited to dynamic content pages (Newsroom, Careers); static pages use local/static data
+- **Email (Contact Form)**:
+  - Backend: Resend via Server Actions (`submitContactForm` in `actions/contact-form.action.ts`)
+  - Dual emails: Internal notification (English, to `CONTACT_EMAIL_TO`) + User confirmation (i18n: en/zh)
+  - Rate limiting: 3 submissions per IP per 5 minutes (in-memory Map, suitable for single-instance)
+  - Validation: Zod schema (`contact-form.schema.ts`) with server-side enforcement
+  - Templates: HTML + plain text, responsive, CRM-ready internal format
+  - Environment: `RESEND_API_KEY` (required), `CONTACT_EMAIL_TO` (default: solution@isbim.com.hk)
+  - Error handling: User-friendly localized messages, no internal error exposure
 - **i18n Navigation**:
   - Standard: `import { Link } from "@/lib/i18n"` with `prefetch` prop
   - Advanced: `import { LocalizedLink } from "@/components/ui/localized-link"` with `prefetchMode="hover|viewport|idle|auto|off"`
@@ -216,7 +248,9 @@ public/
 - **Studio isolation**: Studio lives under `(studio)` route group; keep bare layout for Studio only.
 - **Sanity usage in app**: Use typed queries and `sanityFetch` for all data operations; home uses `IMAGE_ASSET_BY_SLUG_QUERY` with cache tags and hourly revalidation.
 - **Motion**: Use `MotionProvider`/`m` from `components/motion/lazy-motion` instead of direct `motion` imports; keep `AnimatePresence` named imports.
-- **SEO**: Build canonical + hreflang via `generateHreflangAlternates` in `lib/seo.ts`; render structured data with `JsonLd` helpers; keep robots exclusions for Studio/API/Next assets/admin/json/revalidate.
+- **SEO Metadata**: Use generators from `seo-generators.ts` (`generateProductPageSEO`, `generateServicePageSEO`, etc.) for all pages; generators enforce critical keywords (isBIM + Hong Kong/香港 + AI/Construction tech dual identity) automatically. Build canonical + hreflang via `generateHreflangAlternates` in `lib/seo.ts`.
+- **SEO Schemas**: Use helpers from `json-ld.tsx` (`createOrganizationSchema`, `createSoftwareApplicationSchema`, `createBreadcrumbSchema`) and render with `<JsonLd data={schema} id="unique-id" />`. Organization schema for company pages, SoftwareApplication for JARVIS products, Breadcrumb for navigation hierarchy.
+- **SEO Sitemap**: Exclude `/jarvis-ai-suite` (redesign) and lower `/contact` priority; keep robots exclusions for Studio/API/Next assets/admin/json/revalidate.
 - **ISR**: Sanity webhook hits `api/revalidate` with `SANITY_WEBHOOK_SECRET` (HMAC) and revalidates tags from payload.
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
 - **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.

@@ -6,6 +6,7 @@ import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { AppProviders } from "@/providers/app-providers";
 import { Topbar } from "@/components/layout/topbar";
 import { Footer } from "@/components/layout/footer";
+import { Toaster } from "@/components/ui/sonner";
 
 export default async function WebsiteLayout({ children }: { children: React.ReactNode }) {
   const headersList = await headers();
@@ -23,6 +24,7 @@ export default async function WebsiteLayout({ children }: { children: React.Reac
             {children}
             <Footer />
           </div>
+          <Toaster />
         </AppProviders>
       </LocaleProvider>
     </LanguageProvider>

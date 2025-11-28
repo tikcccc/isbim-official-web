@@ -1,7 +1,7 @@
 # Coding Rules - isBIM Official Web
 Rules are terse and vibe-critical only; keep future edits short, actionable, and in this style.
 
-**Last Updated**: 2025-11-28 | **Version**: 3.8
+**Last Updated**: 2025-11-28 | **Version**: 3.9 - Added SEO optimization rules
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -16,6 +16,7 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 
 ## Env & ISR
 - Read env via `env.ts` only; `NEXT_PUBLIC_MEDIA_URL`/`NEXT_PUBLIC_VIDEO_CDN_URL` drive media bases; `SANITY_WEBHOOK_SECRET` required for `/api/revalidate`.
+- Contact form email: `RESEND_API_KEY` (required), `CONTACT_EMAIL_TO` (default: solution@isbim.com.hk).
 
 ## Media & Assets
 - Videos via CDN links using `media-config` (`getVideoUrl`/`JARVIS_VIDEOS`); avoid hardcoded `/videos/*`.
@@ -41,7 +42,27 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 - Data from `src/data/services.ts` (5 entries) only; no inline duplicates.
 - Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead.
 
-## Sanity & SEO (FROZEN)
-- Fetch with `sanityFetch` + typed queries; tag caches; no `any`; no direct `process.env`.
-- Leave `sanity` libs, `seo` helpers, and ISR webhook flow untouched; keep canonical/hreflang via `seo.ts`.
-- Registered schemas: `newsType`, `careerType` only. Dynamic content pages (Newsroom, Careers) use Sanity; other pages stay static/CDN. Unused schemas (`postType`, `productType`, `imageType`, `projectType`) are not registered.
+## Sanity & SEO
+- **Sanity**: Fetch with `sanityFetch` + typed queries; tag caches; no `any`; no direct `process.env`. Registered schemas: `newsType`, `careerType` only. Dynamic content pages (Newsroom, Careers) use Sanity; other pages stay static/CDN.
+- **SEO Metadata**: Use generators from `seo-generators.ts` for all pages:
+  - Products: `generateProductPageSEO(productKey, title, desc, locale)`
+  - Services: `generateServicePageSEO(serviceKey, title, desc, locale)`
+  - About: `generateAboutPageSEO(locale)`
+  - Services overview: `generateServicesPageSEO(locale)`
+  - Newsroom: `generateNewsroomPageSEO(locale)`
+  - Careers: `generateCareersPageSEO(locale)`
+- **Critical keywords**: All pages MUST include isBIM + Hong Kong/香港 + dual identity (AI + Construction tech). Generators enforce this automatically via `composeKeywords()`.
+- **Structured data**: Use helpers from `json-ld.tsx`:
+  - Organization: `createOrganizationSchema()` (company info)
+  - Software: `createSoftwareApplicationSchema()` (JARVIS products)
+  - Breadcrumb: `createBreadcrumbSchema()` (navigation)
+  - Render with `<JsonLd data={schema} id="unique-id" />`
+- **Sitemap**: Keep exclusions (`/jarvis-ai-suite` redesign, `/contact` low priority). Leave canonical/hreflang helpers and ISR webhook flow untouched.
+
+## Contact Form Email (Resend)
+- Use Server Action `submitContactForm` from `actions/contact-form.action.ts`; never call Resend API directly from client.
+- Dual emails: Internal (English, to `getContactEmailTo()`) + User confirmation (i18n based on locale).
+- Rate limiting: 3 submissions/IP/5min (in-memory Map); consider Cloudflare Turnstile for production.
+- Validation: `contactFormSchema` from `schemas/contact-form.schema.ts`; enforce server-side.
+- Templates in `lib/email/templates.ts`; HTML + plain text, responsive, inline CSS.
+- Env: `RESEND_API_KEY` required, `CONTACT_EMAIL_TO` optional (defaults to solution@isbim.com.hk).

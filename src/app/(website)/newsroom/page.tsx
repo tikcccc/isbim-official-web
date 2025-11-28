@@ -1,14 +1,41 @@
-'use client';
+import type { Metadata } from "next";
+import { generateNewsroomPageSEO } from "@/lib/seo-generators";
+import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
+import NewsroomPageClient from "./newsroom-page-client";
 
-import * as m from '@/paraglide/messages';
+/**
+ * Newsroom Page Metadata
+ *
+ * Enhanced SEO emphasizing:
+ * - isBIM brand and company updates
+ * - Construction technology news
+ * - Hong Kong location
+ * - AI and construction tech innovation
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  return generateNewsroomPageSEO("en");
+}
 
+/**
+ * Newsroom Page (Server Component Wrapper)
+ *
+ * Server component wrapper to provide metadata generation
+ * The actual page content is in the client component
+ */
 export default function NewsroomPage() {
+  // Breadcrumb Schema for navigation
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Newsroom", url: "/newsroom" },
+  ]);
+
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">{m.newsroom_title()}</h1>
-        <p className="text-gray-600">{m.newsroom_subtitle()}</p>
-      </div>
-    </div>
+    <>
+      {/* SEO: Structured Data */}
+      <JsonLd data={breadcrumbSchema} id="newsroom-breadcrumb" />
+
+      {/* Client component with all interactivity */}
+      <NewsroomPageClient />
+    </>
   );
 }

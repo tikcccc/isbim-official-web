@@ -27,6 +27,12 @@ const serverEnv = {
   // Sanity
   SANITY_API_TOKEN: process.env.SANITY_API_TOKEN,
 
+  // Resend
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+
+  // Contact form
+  CONTACT_EMAIL_TO: process.env.CONTACT_EMAIL_TO,
+
   // Node environment
   NODE_ENV: process.env.NODE_ENV,
 } as const;
@@ -190,5 +196,31 @@ export const sanityConfig = {
   apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01",
   token: env.SANITY_API_TOKEN,
 } as const;
+
+/**
+ * Get Resend API key
+ * Returns the Resend API key for server-side email operations.
+ * Throws an error if not set in production.
+ */
+export function getResendApiKey(): string {
+  const apiKey = env.RESEND_API_KEY;
+
+  if (!apiKey && isProduction()) {
+    throw new Error(
+      "RESEND_API_KEY is not set. Please configure it in your environment variables."
+    );
+  }
+
+  return apiKey || "";
+}
+
+/**
+ * Get contact email recipient
+ * Returns the email address for internal contact form notifications.
+ * Defaults to solution@isbim.com.hk if not set.
+ */
+export function getContactEmailTo(): string {
+  return env.CONTACT_EMAIL_TO || "solution@isbim.com.hk";
+}
 
 export default env;

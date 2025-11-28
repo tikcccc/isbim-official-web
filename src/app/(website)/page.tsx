@@ -4,37 +4,89 @@ import { InteractiveCarouselLazy } from "@/components/sections/interactive-carou
 import { Section3Placeholder } from "@/components/sections/section3-placeholder";
 import { Section4PlatformList } from "@/components/sections/section4-platform-list";
 import { Section5CTA } from "@/components/sections/section5-cta";
-import { generatePageMetadata, COMMON_KEYWORDS } from "@/lib/seo";
+import { generatePageMetadata } from "@/lib/seo";
+import { composeKeywords } from "@/lib/seo-generators";
+import { JsonLd, createOrganizationSchema, createSoftwareApplicationSchema } from "@/components/seo/json-ld";
+import { getSiteUrl } from "@/lib/env";
 
 // Use literal number to satisfy Next.js page config parsing.
 export const revalidate = 3600;
 
 /**
  * Generate metadata for home page
- * Includes SEO optimization with cached Sanity image
+ * Enhanced with dual identity (AI + Construction) and Hong Kong emphasis
  */
 export async function generateMetadata(): Promise<Metadata> {
+  const keywords = composeKeywords("home", [], "en");
+
   return generatePageMetadata({
-    title: "Construction AI Platform - Powering Global Economies",
+    title: "AI & Construction Technology Company | isBIM Hong Kong",
     description:
-      "isBIM delivers cutting-edge construction AI solutions with JARVIS suite, BIM consultancy, and smart infrastructure management for modern construction projects worldwide.",
+      "isBIM is Hong Kong's leading AI technology company and construction technology company. We deliver JARVIS AI Suite, BIM consultancy, and innovative construction solutions for global infrastructure projects. Combining artificial intelligence with construction industry expertise.",
     path: "/",
     locale: "en",
     image: "/images/cta.png",
-    imageAlt: "isBIM Construction AI Platform",
-    keywords: [
-      ...COMMON_KEYWORDS,
-      "construction platform",
-      "infrastructure AI",
-      "smart construction",
-      "digital construction",
-    ],
+    imageAlt: "isBIM - AI and Construction Technology Platform from Hong Kong",
+    keywords,
   });
 }
 
 export default function Home() {
+  const siteUrl = getSiteUrl();
+
+  // Organization Schema - isBIM company information
+  const organizationSchema = createOrganizationSchema({
+    name: "isBIM Limited",
+    url: siteUrl,
+    logo: `${siteUrl}/images/logo.png`,
+    description: "Hong Kong's leading AI and construction technology company delivering JARVIS AI Suite and innovative construction solutions for global infrastructure projects.",
+    sameAs: [
+      "https://www.linkedin.com/company/isbim",
+      "https://www.facebook.com/isbim",
+      "https://twitter.com/isbim",
+    ],
+    contactPoint: {
+      email: "info@isbim.com.hk",
+      telephone: "+852-xxxx-xxxx",
+      contactType: "Customer Service",
+    },
+  });
+
+  // SoftwareApplication Schema - JARVIS AI Suite
+  const jarvisSuiteSchema = createSoftwareApplicationSchema({
+    name: "JARVIS AI Suite",
+    description: "Comprehensive AI-powered construction management platform combining Agent, Pay, Air, Eagle Eye, SSSS, DWSS, CDCP, and Assets modules for end-to-end infrastructure project delivery.",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web-based, Cloud",
+    softwareVersion: "3.7",
+    provider: {
+      name: "isBIM Limited",
+      url: siteUrl,
+    },
+    featureList: [
+      "AI Invoice Scanning & Document Automation",
+      "Payment Certification & SOPL Compliance",
+      "Generative Design AI",
+      "Site Monitoring & Digital Twin",
+      "AI Safety Management",
+      "Digital Supervision",
+      "BIM Data Collaboration",
+      "Facility Management & Predictive Maintenance",
+    ],
+    offers: {
+      url: `${siteUrl}/services-products`,
+      price: "Contact for pricing",
+      priceCurrency: "HKD",
+      availability: "https://schema.org/InStock",
+    },
+  });
+
   return (
     <div className="w-full overflow-x-hidden bg-white">
+      {/* SEO: Structured Data for Search Engines */}
+      <JsonLd data={organizationSchema} id="organization-schema" />
+      <JsonLd data={jarvisSuiteSchema} id="jarvis-suite-schema" />
+
       {/* Section 1: Hero with video background - Full width */}
       <div className="relative w-full">
         <HeroSection1 />

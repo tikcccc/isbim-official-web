@@ -131,11 +131,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       },
     },
+    // Note: Contact page included but under redesign (lower priority)
     {
       url: `${siteUrl}${ROUTES.CONTACT}`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.5, // Lower priority - page under redesign
       alternates: {
         languages: {
           en: `${siteUrl}/en${ROUTES.CONTACT}`,
@@ -145,19 +146,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // JARVIS product pages
-  const jarvisPages: MetadataRoute.Sitemap = Object.values(ROUTES.JARVIS).map((route) => ({
-    url: `${siteUrl}${route}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.9,
-    alternates: {
-      languages: {
-        en: `${siteUrl}/en${route}`,
-        zh: `${siteUrl}/zh${route}`,
+  // JARVIS product pages (excluding SUITE - under redesign)
+  const jarvisPages: MetadataRoute.Sitemap = Object.values(ROUTES.JARVIS)
+    .filter((route) => route !== ROUTES.JARVIS.SUITE) // Exclude /jarvis-ai-suite
+    .map((route) => ({
+      url: `${siteUrl}${route}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/en${route}`,
+          zh: `${siteUrl}/zh${route}`,
+        },
       },
-    },
-  }));
+    }));
 
   // BIM Consultancy, Project Finance, Venture Investments
   const servicePages: MetadataRoute.Sitemap = [

@@ -335,6 +335,21 @@
   "jarvis_suite_cta_stat1": "2,600+ PROJECTS",
   "jarvis_suite_cta_stat2": "1.2B SQ FT MANAGED",
   "jarvis_suite_cta_stat3": "30% COST SAVINGS",
-  "jarvis_suite_cta_stat4": "71% FEWER DEFECTS"
+  "jarvis_suite_cta_stat4": "71% FEWER DEFECTS",
+
+  "contact_form_success": "Thank you! We've received your message and will get back to you shortly.",
+  "contact_form_error": "Failed to send message. Please try again later.",
+  "contact_form_rate_limit": "Too many submissions. Please try again in a few minutes.",
+  "contact_form_validation_error": "Please check your form for errors.",
+
+  "contact_label_firstName": "First Name",
+  "contact_label_lastName": "Last Name",
+  "contact_label_email": "Email",
+  "contact_label_phone": "Phone Number",
+  "contact_label_company": "Company Name",
+  "contact_label_companyType": "Company Type",
+  "contact_label_jobTitle": "Job Title",
+  "contact_label_service": "What service are you looking for?",
+  "contact_label_consent": "Yes, I want to get emails from isBIM about products, promotions, events, and featured content at the email address above."
 }
 

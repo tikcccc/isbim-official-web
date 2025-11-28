@@ -335,5 +335,20 @@
   "jarvis_suite_cta_stat1": "2,600+ 项目",
   "jarvis_suite_cta_stat2": "12亿平方英尺管理",
   "jarvis_suite_cta_stat3": "30% 成本节省",
-  "jarvis_suite_cta_stat4": "71% 缺陷减少"
+  "jarvis_suite_cta_stat4": "71% 缺陷减少",
+
+  "contact_form_success": "感謝您!我們已收到您的訊息,並將盡快回覆。",
+  "contact_form_error": "發送失敗,請稍後再試。",
+  "contact_form_rate_limit": "提交次數過多,請稍後再試。",
+  "contact_form_validation_error": "請檢查表單錯誤。",
+
+  "contact_label_firstName": "名字",
+  "contact_label_lastName": "姓氏",
+  "contact_label_email": "電郵",
+  "contact_label_phone": "電話號碼",
+  "contact_label_company": "公司名稱",
+  "contact_label_companyType": "公司類型",
+  "contact_label_jobTitle": "職位",
+  "contact_label_service": "您需要什麼服務?",
+  "contact_label_consent": "是的,我希望透過以上電郵地址接收 isBIM 有關產品、促銷、活動和精選內容的電郵。"
 }

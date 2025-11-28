@@ -288,3 +288,86 @@ export function createBreadcrumbSchema(items: BreadcrumbItem[]) {
     })),
   };
 }
+
+/**
+ * SoftwareApplication Schema Helper
+ *
+ * For JARVIS AI products - better semantic understanding than Product schema
+ * Emphasizes software/AI nature of the platform
+ */
+export interface SoftwareApplicationSchemaProps {
+  name: string;
+  description: string;
+  applicationCategory: string;
+  operatingSystem?: string;
+  softwareVersion?: string;
+  provider?: {
+    name: string;
+    url: string;
+  };
+  screenshot?: string;
+  featureList?: string[];
+  offers?: {
+    price?: string;
+    priceCurrency?: string;
+    availability?: string;
+    url?: string;
+  };
+  aggregateRating?: {
+    ratingValue: number;
+    ratingCount: number;
+  };
+}
+
+export function createSoftwareApplicationSchema(
+  props: SoftwareApplicationSchemaProps
+) {
+  const {
+    name,
+    description,
+    applicationCategory,
+    operatingSystem = "Web-based, Cloud",
+    softwareVersion = "3.7",
+    provider,
+    screenshot,
+    featureList,
+    offers,
+    aggregateRating,
+  } = props;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name,
+    description,
+    applicationCategory,
+    operatingSystem,
+    softwareVersion,
+    ...(provider && {
+      provider: {
+        "@type": "Organization",
+        name: provider.name,
+        url: provider.url,
+      },
+    }),
+    ...(screenshot && { screenshot }),
+    ...(featureList &&
+      featureList.length > 0 && { featureList: featureList.join(", ") }),
+    ...(offers && {
+      offers: {
+        "@type": "Offer",
+        ...(offers.url && { url: offers.url }),
+        ...(offers.price && { price: offers.price }),
+        ...(offers.priceCurrency && { priceCurrency: offers.priceCurrency }),
+        ...(offers.availability && { availability: offers.availability }),
+      },
+    }),
+    ...(aggregateRating && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: aggregateRating.ratingValue,
+        ratingCount: aggregateRating.ratingCount,
+      },
+    }),
+  };
+}
