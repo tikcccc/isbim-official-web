@@ -69,7 +69,12 @@ export function HeroSectionClient() {
               className={`font-semibold tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-white to-emerald-400 bg-[length:200%_auto] ${shimmerStyles.textShimmer}`}
               speed={40}
               delay={title1.length * 0.04 + 0.1}
-              onComplete={() => setShowSubtitle(true)}
+              onComplete={() => {
+                setShowSubtitle(true);
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new Event("services-hero-title-complete"));
+                }
+              }}
             />
           </span>
         </h1>

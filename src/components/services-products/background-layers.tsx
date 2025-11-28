@@ -8,83 +8,25 @@
  * 2. Tech grid pattern with radial fade
  * 3. Ambient emerald glow from top-center
  *
- * Grid sheen is paused by default; it starts when `grid-sheen-start` is dispatched
- * (with a 1.2s fallback timer) so the sweep is visible after page transition.
+ * Grid sheen runs continuously, but only starts after hero title animation completes
+ * (event: "services-hero-title-complete").
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function BackgroundLayers() {
-  const [sheenKey, setSheenKey] = useState(0);
-  const [sheenActive, setSheenActive] = useState(false);
-  const lastTriggerRef = useRef(0);
-  const sheenContainerRef = useRef<HTMLDivElement | null>(null);
-  const isVisibleRef = useRef(true);
+  const [sheenRunning, setSheenRunning] = useState(false);
 
   useEffect(() => {
-    const triggerSheen = () => {
-      // Restart animation by toggling active state and key
-      setSheenActive(false);
-      requestAnimationFrame(() => {
-        setSheenKey((k) => k + 1);
-        setSheenActive(true);
-      });
+    let started = false;
+    const startSheen = () => {
+      if (started) return;
+      started = true;
+      setSheenRunning(true);
     };
 
-    const handler = () => triggerSheen();
-    window.addEventListener("grid-sheen-start", handler);
-
-    // Fallback: start sheen after initial delay in case no event is fired
-    const fallback = setTimeout(triggerSheen, 1200);
-
-    // Watch visibility to avoid triggering when off-screen
-    const containerEl = sheenContainerRef.current;
-    const observer =
-      typeof window !== "undefined" && "IntersectionObserver" in window && containerEl
-        ? new IntersectionObserver(
-            ([entry]) => {
-              isVisibleRef.current = entry.isIntersecting;
-            },
-            { threshold: 0 }
-          )
-        : null;
-    if (observer && containerEl) observer.observe(containerEl);
-
-    // Trigger on upward scroll with cooldown to avoid spam (RAF throttled)
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const currentY = window.scrollY;
-          const delta = currentY - lastScrollY;
-          lastScrollY = currentY;
-
-          const now = performance.now();
-          // Increased cooldown: 5s (5000ms) and higher threshold (-50px) to reduce animation spam
-          if (
-            delta < -20 &&
-            isVisibleRef.current &&
-            now - lastTriggerRef.current > 2500
-          ) {
-            lastTriggerRef.current = now;
-            triggerSheen();
-          }
-
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("grid-sheen-start", handler);
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(fallback);
-      if (observer && containerEl) observer.unobserve(containerEl);
-    };
+    window.addEventListener("services-hero-title-complete", startSheen);
+    return () => window.removeEventListener("services-hero-title-complete", startSheen);
   }, []);
 
   return (
@@ -111,16 +53,12 @@ export function BackgroundLayers() {
       {/* Grid Sheen Sweep (starts on event) */}
       <div
         className="fixed inset-0 pointer-events-none z-[2] overflow-hidden"
-        ref={sheenContainerRef}
         style={{
           maskImage: "radial-gradient(circle at 50% 0%, black 35%, transparent 85%)",
           WebkitMaskImage: "radial-gradient(circle at 50% 0%, black 35%, transparent 85%)",
         }}
       >
-        <div
-          key={sheenKey}
-          className={`grid-sheen-overlay${sheenActive ? " grid-sheen-overlay--run" : ""}`}
-        />
+        <div className={`grid-sheen-overlay${sheenRunning ? " grid-sheen-overlay--run" : ""}`} />
       </div>
 
       {/* Ambient Emerald Glow */}

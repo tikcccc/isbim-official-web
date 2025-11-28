@@ -156,7 +156,7 @@
   mask-size: 100% 260%;
   -webkit-mask-position: 0 -140%;
   mask-position: 0 -140%;
-  animation: grid-sheen-sweep 5s ease-out 0s 1 forwards;
+  animation: grid-sheen-sweep var(--grid-sheen-duration, 9s) ease-out infinite;
   animation-play-state: paused;
   will-change: opacity;
   /* Force GPU compositing layer for smoother animation */
