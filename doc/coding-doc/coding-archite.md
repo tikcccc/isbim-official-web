@@ -7,7 +7,7 @@ Architecture for this Next.js project.
 - Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
-- CMS: Sanity (typed queries, tag-based revalidation) only for dynamic content (Newsroom/Careers); static pages use local/static data
+- CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
 
 ## App Structure (high level)
@@ -157,24 +157,20 @@ src/sanity/lib/
 ### Sanity Schemas
 ```
 src/sanity/schemaTypes/
-  postType.ts          # live
-  productType.ts       # Product doc with mainImage (image + hotspot + alt)
-  imageType.ts         # Standalone Image doc (hotspot + alt + slug)
-  newsType.ts          # TODO
-  careerType.ts        # TODO
-  projectType.ts       # TODO
+  newsType.ts          # News posts (live)
+  careerType.ts        # Career positions (live)
   index.ts             # register schemas
 ```
 
 #### Sanity SEO/Media Fields (current)
 | Document | Field | Type | Notes | File |
 |---|---|---|---|---|
-| post/product | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/postType.ts / productType.ts |
-| post/product | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/postType.ts / productType.ts |
-| post/product | `openGraphImage` | image | recommended 1200x630 | src/sanity/schemaTypes/postType.ts / productType.ts |
-| post/product | `keywords` | array<string> | optional list | src/sanity/schemaTypes/postType.ts / productType.ts |
-| product | `mainImage.alt` | string | required 10-125 chars | src/sanity/schemaTypes/productType.ts |
-| imageAsset | `alt` | string | required 10-125 chars | src/sanity/schemaTypes/imageType.ts |
+| news | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/newsType.ts |
+| news | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/newsType.ts |
+| news | `openGraphImage` | image | recommended 1200x630 | src/sanity/schemaTypes/newsType.ts |
+| news | `keywords` | array<string> | optional list | src/sanity/schemaTypes/newsType.ts |
+| career | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/careerType.ts |
+| career | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/careerType.ts |
 
 ### Public Assets
 ```

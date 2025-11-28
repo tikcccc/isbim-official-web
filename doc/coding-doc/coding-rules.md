@@ -40,4 +40,4 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 ## Sanity & SEO (FROZEN)
 - Fetch with `sanityFetch` + typed queries; tag caches; no `any`; no direct `process.env`.
 - Leave `sanity` libs, `seo` helpers, and ISR webhook flow untouched; keep canonical/hreflang via `seo.ts`.
-- Leave `sanity` libs, `seo` helpers, and ISR webhook flow untouched.
+- Registered schemas: `newsType`, `careerType` only. Dynamic content pages (Newsroom, Careers) use Sanity; other pages stay static/CDN. Unused schemas (`postType`, `productType`, `imageType`, `projectType`) are not registered.
