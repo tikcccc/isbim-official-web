@@ -49,6 +49,7 @@ export default function Home() {
       <div className="relative w-full bg-white">
         <section className="w-full bg-white">
           <div className="container-page">
+            <div className="h-16 md:h-24" aria-hidden="true" />
             {/* Section 3: Wide-format narrative text aggregation */}
             <Section3Placeholder />
 

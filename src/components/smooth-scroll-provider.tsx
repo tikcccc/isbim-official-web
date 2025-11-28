@@ -2,7 +2,14 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LENIS_CONFIG } from "@/lib/animations";
+
+// Register ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 /**
  * Lenis Context
@@ -63,6 +70,9 @@ export function SmoothScrollProvider({
 
     setLenis(lenisInstance);
 
+    // 🔑 Connect Lenis with ScrollTrigger for proper integration
+    lenisInstance.on("scroll", ScrollTrigger.update);
+
     // Request animation frame loop
     function raf(time: number) {
       lenisInstance.raf(time);
@@ -71,8 +81,16 @@ export function SmoothScrollProvider({
 
     requestAnimationFrame(raf);
 
+    // 🔑 Refresh ScrollTrigger after Lenis is fully initialized
+    // This ensures correct position calculations for all ScrollTriggers
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
     // Cleanup
     return () => {
+      clearTimeout(refreshTimer);
+      lenisInstance.off("scroll", ScrollTrigger.update);
       lenisInstance.destroy();
       setLenis(null);
     };

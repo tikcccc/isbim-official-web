@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as m from "@/paraglide/messages";
@@ -11,49 +11,39 @@ export function Section3Placeholder() {
   const triggerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => {
-    // Set initial visibility
-    if (textRef.current) {
-      gsap.set(textRef.current, { autoAlpha: 1 });
-
-      // Create the "sparse to dense" animation
-      const tween = gsap.fromTo(
-        textRef.current,
-        {
-          // FROM: Sparse state
-          lineHeight: "1.5",
-          opacity: 0.5,
-          y: 60,
-        },
-        {
-          // TO: Dense state
-          lineHeight: "1.1",
-          opacity: 1,
-          y: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: triggerRef.current,
-            start: "top 65%",
-            end: "center center",
-            scrub: 1,
-            markers: false,
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      if (textRef.current) {
+        // Create the "sparse to dense" animation
+        gsap.fromTo(
+          textRef.current,
+          {
+            // FROM: Sparse state
+            lineHeight: "1.5",
+            opacity: 0.5,
+            y: 60,
           },
-        }
-      );
+          {
+            // TO: Dense state
+            lineHeight: "1.1",
+            opacity: 1,
+            y: 0,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: triggerRef.current,
+              start: "top 75%",
+              end: "center center",
+              scrub: 1,
+              markers: false,
+              invalidateOnRefresh: true,
+            },
+          }
+        );
+      }
+    }, triggerRef);
 
-      // Recompute trigger positions after mount in case layout shifts (lazy sections/media).
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-
-      // Cleanup only this trigger/tween
-      return () => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
-      };
-    }
-
-    return undefined;
+    // Cleanup using context revert
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -66,9 +56,11 @@ export function Section3Placeholder() {
         {/* Text content that animates */}
         <h1
           ref={textRef}
-          className="container-content text-4xl md:text-7xl font-semibold text-center text-black leading-tight invisible"
+          className="container-content text-4xl md:text-7xl font-semibold text-center text-black leading-tight"
           style={{
             willChange: "line-height, opacity, transform",
+            opacity: 0.5,
+            lineHeight: "1.5",
           }}
         >
           {m.section3_narrative_prefix()}
