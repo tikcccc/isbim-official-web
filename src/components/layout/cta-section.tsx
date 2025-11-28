@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { LocalizedLink } from "@/components/ui/localized-link";
 
 interface CTASectionProps {
   title: ReactNode;
@@ -39,21 +39,22 @@ export function CTASection({
         {subtitle && (
           <p className="text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
             {subtitle}
-          </p>
-        )}
+        </p>
+      )}
 
-        <div className="pt-4">
-          <Link
-            href={href}
-            className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl inline-block"
-          >
-            <span className="relative z-10 group-hover:tracking-wider transition-all duration-300">
-              {buttonLabel}
-            </span>
-            <div className="absolute inset-0 bg-neutral-900 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
-          </Link>
-        </div>
+      <div className="pt-4">
+        <LocalizedLink
+          href={href}
+          prefetchMode="hover"
+          className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl inline-block"
+        >
+          <span className="relative z-10 group-hover:tracking-wider transition-all duration-300">
+            {buttonLabel}
+          </span>
+          <div className="absolute inset-0 bg-neutral-900 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+        </LocalizedLink>
       </div>
     </div>
-  );
+  </div>
+);
 }

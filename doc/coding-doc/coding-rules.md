@@ -9,6 +9,7 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 
 ## i18n (FROZEN)
 - **Navigation**: Always use `import { Link } from "@/lib/i18n"` - never `next/link`. Link handles locale prefixes automatically. Add `prefetch` prop for important routes.
+- **CTAs/Client links**: Prefer `LocalizedLink` from `@/components/ui/localized-link` for buttons/CTA links (use `prefetchMode="hover"` for primary actions); keep using `Link` from `@/lib/i18n` in simple cases.
 - **Routing**: Use `useRouter/usePathname/redirect` from `@/lib/i18n`, not `next/navigation`.
 - **Server utils**: Use `buildHref(path, locale)` in server components only; never handcraft `/${locale}` paths.
 - Do not touch `src/lib/i18n/locale-context.tsx`, `route-builder.ts`, `index.ts`, `i18n.ts` or `src/app/layout.tsx` order.

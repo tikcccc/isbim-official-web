@@ -8,6 +8,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as messages from "@/paraglide/messages";
 import Image from "next/image";
+import { ROUTES } from "@/lib/constants";
+import { LocalizedLink } from "@/components/ui/localized-link";
 
 interface Section5CTAProps {
   imageUrl?: string;
@@ -107,11 +109,14 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <Button
+                  asChild
                   variant="outline"
                   className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg transition-all duration-300 rounded-lg uppercase tracking-wider"
                 >
-                  {messages.section5_cta_button()}
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">
+                    {messages.section5_cta_button()}
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  </LocalizedLink>
                 </Button>
               </m.div>
             </div>

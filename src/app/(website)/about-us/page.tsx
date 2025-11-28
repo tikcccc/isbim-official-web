@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { CTASection } from '@/components/layout/cta-section';
 import { cn } from '@/lib/utils';
 import { useMenuStore } from '@/stores/menu-store';
@@ -10,9 +9,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as m from '@/paraglide/messages';
 import { useSmoothScrollTo } from '@/hooks';
-import { useLocalizedHref } from '@/lib/i18n/index';
 import { ROUTES } from '@/lib/constants';
 import { TypewriterWidth } from '@/components/animations';
+import { LocalizedLink } from '@/components/ui/localized-link';
 
 /**
  * About Us Page
@@ -57,7 +56,7 @@ const TechDivider = ({ className }: { className?: string }) => (
 
 // ArrowLink: Link with arrow and underline animation
 const ArrowLink = ({ label, href }: { label: string; href: string }) => (
-  <Link href={href} className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
+  <LocalizedLink href={href} prefetchMode="hover" className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
     <div className="flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-neutral-900">
       {label}
       <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
@@ -65,7 +64,7 @@ const ArrowLink = ({ label, href }: { label: string; href: string }) => (
     <div className="w-full h-[1px] bg-neutral-300 relative overflow-hidden">
        <div className="absolute inset-0 bg-blue-600 transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out"></div>
     </div>
-  </Link>
+  </LocalizedLink>
 );
 
 // RevealTitle: Cinematic blur reveal title (optimized with ScrollTrigger)
@@ -347,7 +346,6 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 // --- 3. Page Entry Point ---
 export default function AboutPage() {
   const { closeMenu } = useMenuStore();
-  const { buildHref } = useLocalizedHref();
 
   useEffect(() => {
     // Close menu when navigating to this page
@@ -394,25 +392,25 @@ export default function AboutPage() {
             title={m.about_section2_feature1_title()}
             content={m.about_section2_feature1_content()}
             linkLabel={m.about_section2_feature1_link()}
-            href={buildHref(ROUTES.SERVICES_PRODUCTS)}
+            href={ROUTES.JARVIS.SUITE}
           />
           <FeatureRow
             title={m.about_section2_feature2_title()}
             content={m.about_section2_feature2_content()}
             linkLabel={m.about_section2_feature2_link()}
-            href={buildHref(ROUTES.BIM_CONSULTANCY)}
+            href={ROUTES.JARVIS.JPM}
           />
           <FeatureRow
             title={m.about_section2_feature3_title()}
             content={m.about_section2_feature3_content()}
             linkLabel={m.about_section2_feature3_link()}
-            href={buildHref(ROUTES.PROJECT_FINANCE)}
+            href={ROUTES.VENTURE_INVESTMENTS}
           />
           <FeatureRow
             title={m.about_section2_feature4_title()}
             content={m.about_section2_feature4_content()}
             linkLabel={m.about_section2_feature4_link()}
-            href={buildHref(ROUTES.CONTACT)}
+            href={ROUTES.BIM_CONSULTANCY}
           />
         </div>
       </Section>
@@ -437,7 +435,7 @@ export default function AboutPage() {
         title={m.about_cta_title()}
         subtitle={m.about_cta_subtitle()}
         buttonLabel={m.about_cta_button()}
-        href={buildHref(ROUTES.CONTACT)}
+        href={ROUTES.CONTACT}
       />
 
     </main>

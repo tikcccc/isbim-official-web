@@ -9,6 +9,8 @@ import { carouselProducts, type CarouselProduct } from "@/data/products";
 import * as messages from "@/paraglide/messages";
 import Image from "next/image";
 import { useEffect } from "react";
+import { ROUTES } from "@/lib/constants";
+import { LocalizedLink } from "@/components/ui/localized-link";
 
 // --- 常數定義 ---
 const AUTOPLAY_DURATION = 5000; // 5 seconds per slide
@@ -371,20 +373,22 @@ export function InteractiveCarousel() {
 
         {/* See All 按鈕 */}
         <div className="hidden md:block w-auto shrink-0">
-          <button
-            type="button"
-            className="h-10 px-6 text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider border border-zinc-900"
+          <LocalizedLink
+            href={ROUTES.JARVIS.SUITE}
+            prefetchMode="hover"
+            className="inline-flex h-10 items-center justify-center px-6 text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider border border-zinc-900"
           >
             See All
-          </button>
+          </LocalizedLink>
         </div>
         <div className="md:hidden w-full">
-          <button
-            type="button"
-            className="w-full h-10 text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider"
+          <LocalizedLink
+            href={ROUTES.JARVIS.SUITE}
+            prefetchMode="hover"
+            className="w-full h-10 flex items-center justify-center text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider"
           >
             See All
-          </button>
+          </LocalizedLink>
         </div>
       </div>
 
