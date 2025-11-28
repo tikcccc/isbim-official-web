@@ -7,8 +7,8 @@ Architecture for this Next.js project.
 - Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
-- CMS: Sanity with typed queries, tag-based revalidation, env-based CDN
-- Media: `media-config` with optional video-only CDN override (`NEXT_PUBLIC_VIDEO_CDN_URL`)
+- CMS: Sanity (typed queries, tag-based revalidation) only for dynamic content (Newsroom/Careers); static pages use local/static data
+- Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
 
 ## App Structure (high level)
 ```
@@ -191,6 +191,10 @@ public/
 - **OPEN**: layout JSX/CSS in `(website)`, Paraglide language list, UI components, new pages, navigation data, styles placeholders, animation placeholders, schema placeholders.
 
 ## Patterns & Rules (current)
+- **Content sources**:
+  - Videos: CDN links (via `media-config`/`JARVIS_VIDEOS`)
+  - Images: prefer local `/public` assets
+  - Sanity usage limited to dynamic content pages (Newsroom, Careers); static pages use local/static data
 - **i18n Navigation**:
   - Standard: `import { Link } from "@/lib/i18n"` with `prefetch` prop
   - Advanced: `import { LocalizedLink } from "@/components/ui/localized-link"` with `prefetchMode="hover|viewport|idle|auto|off"`

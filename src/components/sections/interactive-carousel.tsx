@@ -151,6 +151,7 @@ export function InteractiveCarousel() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const posterFallback = "/images/post/banner-poster.jpg";
 
   // Get translated product data using i18n messages
   const SLIDES = useMemo(() =>
@@ -421,14 +422,18 @@ export function InteractiveCarousel() {
             >
               {/* Background Video/Image */}
               <div className="absolute inset-0 z-0">
-                {slide.imageUrl.endsWith(".mp4") ? (
+                {isCenter && slide.imageUrl.endsWith(".mp4") ? (
                   <video
                     ref={(el) => {
-                      if (el) videoRefs.current.set(index, el);
+                      if (el) {
+                        videoRefs.current.set(index, el);
+                      } else {
+                        videoRefs.current.delete(index);
+                      }
                     }}
                     src={slide.imageUrl}
                     poster={slide.posterUrl}
-                    autoPlay={isCenter}
+                    autoPlay
                     loop
                     muted
                     playsInline
@@ -437,8 +442,8 @@ export function InteractiveCarousel() {
                   />
                 ) : (
                   <Image
-                    src={slide.imageUrl}
-                    alt={slide.title}
+                    src={slide.posterUrl || posterFallback}
+                    alt={slide.title || "JARVIS product"}
                     fill
                     sizes="(max-width: 768px) 90vw, 85vw"
                     className="object-cover opacity-80 mix-blend-overlay"

@@ -17,7 +17,9 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 - Read env via `env.ts` only; `NEXT_PUBLIC_MEDIA_URL`/`NEXT_PUBLIC_VIDEO_CDN_URL` drive media bases; `SANITY_WEBHOOK_SECRET` required for `/api/revalidate`.
 
 ## Media & Assets
-- Videos/images via `media-config`: use `getVideoUrl`/`JARVIS_VIDEOS`; avoid hardcoded `/videos/*`.
+- Videos via CDN links using `media-config` (`getVideoUrl`/`JARVIS_VIDEOS`); avoid hardcoded `/videos/*`.
+- Images優先使用本地 `/public` 資源。
+- 動態內容頁（Newsroom、Careers）使用 Sanity 管理資料；其他頁面不依賴 Sanity。
 - `NEXT_PUBLIC_VIDEO_CDN_URL` can override video base; keep filenames consistent.
 - When embedding any video, extract the first frame with `ffmpeg` as a poster (store under `public/images/post` via `ffmpeg -i <video> -frames:v 1 -q:v 2 <poster>`), set it as `poster`, and preload `metadata` for buffering fallback.
 
