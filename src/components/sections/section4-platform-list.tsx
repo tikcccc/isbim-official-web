@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { Link } from "@/lib/i18n";
 import { m } from "@/components/motion/lazy-motion";
 import { ArrowRight } from "lucide-react";
 import * as messages from "@/paraglide/messages";
 import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
+import { ROUTES } from "@/lib/constants";
 
 // Platform data structure
 interface PlatformItem {
@@ -14,6 +16,7 @@ interface PlatformItem {
   version: string;
   videoUrl: string;
   posterUrl?: string;
+  route: string;
 }
 
 // Map keys to message functions
@@ -47,6 +50,7 @@ const platforms: PlatformItem[] = [
     version: "/0.1",
     videoUrl: JARVIS_VIDEOS.agent,
     posterUrl: JARVIS_POSTERS.agent,
+    route: ROUTES.JARVIS.AGENT,
   },
   {
     id: "02",
@@ -55,6 +59,7 @@ const platforms: PlatformItem[] = [
     version: "/0.2",
     videoUrl: JARVIS_VIDEOS.pay,
     posterUrl: JARVIS_POSTERS.pay,
+    route: ROUTES.JARVIS.PAY,
   },
   {
     id: "03",
@@ -63,6 +68,7 @@ const platforms: PlatformItem[] = [
     version: "/0.3",
     videoUrl: JARVIS_VIDEOS.air,
     posterUrl: JARVIS_POSTERS.air,
+    route: ROUTES.JARVIS.AIR,
   },
   {
     id: "04",
@@ -71,6 +77,7 @@ const platforms: PlatformItem[] = [
     version: "/0.4",
     videoUrl: JARVIS_VIDEOS.eagleEye,
     posterUrl: JARVIS_POSTERS.eagleEye,
+    route: ROUTES.JARVIS.EAGLE_EYE,
   },
   {
     id: "05",
@@ -79,6 +86,7 @@ const platforms: PlatformItem[] = [
     version: "/0.5",
     videoUrl: JARVIS_VIDEOS.ssss,
     posterUrl: JARVIS_POSTERS.ssss,
+    route: ROUTES.JARVIS.SSSS,
   },
   {
     id: "06",
@@ -87,6 +95,7 @@ const platforms: PlatformItem[] = [
     version: "/0.6",
     videoUrl: JARVIS_VIDEOS.dwss,
     posterUrl: JARVIS_POSTERS.dwss,
+    route: ROUTES.JARVIS.DWSS,
   },
   {
     id: "07",
@@ -95,6 +104,7 @@ const platforms: PlatformItem[] = [
     version: "/0.7",
     videoUrl: JARVIS_VIDEOS.cdcp,
     posterUrl: JARVIS_POSTERS.cdcp,
+    route: ROUTES.JARVIS.CDCP,
   },
   {
     id: "08",
@@ -103,6 +113,7 @@ const platforms: PlatformItem[] = [
     version: "/0.8",
     videoUrl: JARVIS_VIDEOS.assets,
     posterUrl: JARVIS_POSTERS.assets,
+    route: ROUTES.JARVIS.ASSETS,
   },
 ];
 
@@ -231,16 +242,12 @@ export function Section4PlatformList() {
     setHoveredIndex(null);
   }, [hoveredIndex]);
 
-  // Mobile tap: toggle the active row
-  const handleTap = useCallback(
+  // Touch preview for mobile without affecting click-to-navigate
+  const handleTouchStart = useCallback(
     (index: number) => {
-      if (hoveredIndex === index) {
-        handleLeave();
-      } else {
-        handleHover(index);
-      }
+      handleHover(index);
     },
-    [hoveredIndex, handleHover, handleLeave]
+    [handleHover]
   );
 
   return (
@@ -259,12 +266,13 @@ export function Section4PlatformList() {
               key={item.id}
               item={item}
               index={index}
+              href={item.route}
               isHovered={hoveredIndex === index}
               isInViewport={isInViewport}
               videoRef={(el) => (videoRefs.current[index] = el)}
               onHover={() => handleHover(index)}
               onLeave={handleLeave}
-              onTap={() => handleTap(index)}
+              onTouchStart={() => handleTouchStart(index)}
             />
           ))}
         </div>
@@ -275,21 +283,23 @@ export function Section4PlatformList() {
 
 function PlatformRow({
   item,
+  href,
   isHovered,
   isInViewport,
   videoRef,
   onHover,
   onLeave,
-  onTap
+  onTouchStart
 }: {
   item: PlatformItem;
+  href: string;
   index: number;
   isHovered: boolean;
   isInViewport: boolean;
   videoRef: (el: HTMLVideoElement | null) => void;
   onHover: () => void;
   onLeave: () => void;
-  onTap: () => void;
+  onTouchStart: () => void;
 }) {
   const handleMouseEnter = () => {
     if (isInViewport) {
@@ -298,11 +308,15 @@ function PlatformRow({
   };
 
   return (
-    <div
-      className="relative border-t border-gray-200 py-6 sm:py-10 group cursor-pointer"
+    <Link
+      href={href}
+      prefetch
+      className="relative block border-t border-gray-200 py-6 sm:py-10 group cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onLeave}
-      onClick={onTap}
+      onFocus={onHover}
+      onBlur={onLeave}
+      onTouchStart={onTouchStart}
     >
       {/* Grid Layout: Left (Text) - Middle (Video) - Right (Title) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -369,6 +383,6 @@ function PlatformRow({
         </div>
 
       </div>
-    </div>
+    </Link>
   );
 }

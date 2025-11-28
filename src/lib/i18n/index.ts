@@ -41,3 +41,7 @@ export {
   useLocalizedHref,
   hasLocalePrefix,
 } from "./route-builder";
+
+// Paraglide Navigation exports
+// These components are locale-aware and should be used instead of Next.js native components
+export { Link, useRouter, usePathname, redirect, permanentRedirect } from "../i18n";

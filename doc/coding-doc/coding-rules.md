@@ -8,8 +8,10 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 - `src/app/layout.tsx`: fonts + globals only; keep app structure flat (no `[locale]` folders).
 
 ## i18n (FROZEN)
-- Use Paraglide v1 with `useLocalizedHref()` (client) or `buildHref()` (server); never handcraft locale paths.
-- Do not touch `src/lib/i18n/locale-context.tsx`, `route-builder.ts`, `index.ts`, or `src/app/layout.tsx` order.
+- **Navigation**: Always use `import { Link } from "@/lib/i18n"` - never `next/link`. Link handles locale prefixes automatically. Add `prefetch` prop for important routes.
+- **Routing**: Use `useRouter/usePathname/redirect` from `@/lib/i18n`, not `next/navigation`.
+- **Server utils**: Use `buildHref(path, locale)` in server components only; never handcraft `/${locale}` paths.
+- Do not touch `src/lib/i18n/locale-context.tsx`, `route-builder.ts`, `index.ts`, `i18n.ts` or `src/app/layout.tsx` order.
 
 ## Env & ISR
 - Read env via `env.ts` only; `NEXT_PUBLIC_MEDIA_URL`/`NEXT_PUBLIC_VIDEO_CDN_URL` drive media bases; `SANITY_WEBHOOK_SECRET` required for `/api/revalidate`.

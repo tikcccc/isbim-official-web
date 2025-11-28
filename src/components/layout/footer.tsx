@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/i18n";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Facebook, Linkedin, Twitter, Youtube } from "lucide-react";
 import { m } from "@/components/motion/lazy-motion";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useLocalizedHref } from "@/lib/i18n/index";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 
@@ -32,8 +31,6 @@ function NewsletterFallback() {
 }
 
 export function Footer() {
-  const { buildHref } = useLocalizedHref();
-
   const productLinks = [
     { name: "JARVIS Agent", href: ROUTES.JARVIS.AGENT },
     { name: "JARVIS Pay", href: ROUTES.JARVIS.PAY },
@@ -70,7 +67,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">
           {/* Column 1: Brand & Vision */}
           <div className="flex flex-col space-y-5">
-            <Link href={buildHref(ROUTES.HOME)} className="inline-flex items-center hover:opacity-80 transition-opacity w-fit">
+            <Link href={ROUTES.HOME} prefetch className="inline-flex items-center hover:opacity-80 transition-opacity w-fit">
               <Image
                 src="/icons/isbim_black.svg"
                 alt="isBIM Logo"
@@ -128,7 +125,8 @@ export function Footer() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <Link
-                    href={buildHref(link.href)}
+                    href={link.href}
+                    prefetch
                     className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors block py-0.5 leading-tight"
                   >
                     {link.name}
@@ -151,7 +149,8 @@ export function Footer() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <Link
-                    href={buildHref(link.href)}
+                    href={link.href}
+                    prefetch
                     className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors block py-0.5 leading-tight"
                   >
                     {link.name}
@@ -182,13 +181,13 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-slate-500 dark:text-slate-400 space-y-3 md:space-y-0">
           <p>{messages.footer_copyright()}</p>
           <div className="flex space-x-7">
-            <Link href={buildHref("/privacy")} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            <Link href="/privacy" prefetch className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
               {messages.footer_privacy()}
             </Link>
-            <Link href={buildHref("/terms")} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            <Link href="/terms" prefetch className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
               {messages.footer_terms()}
             </Link>
-            <Link href={buildHref("/cookies")} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            <Link href="/cookies" prefetch className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
               {messages.footer_cookies()}
             </Link>
           </div>

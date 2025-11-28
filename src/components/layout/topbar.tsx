@@ -3,13 +3,12 @@
 import * as messages from "@/paraglide/messages";
 import { Search, Menu, X } from "lucide-react";
 import { m } from "@/components/motion/lazy-motion";
-import Link from "next/link";
+import { Link } from "@/lib/i18n";
 import Image from "next/image";
 import { LocaleSwitcher } from "./locale-switcher";
 import { MenuOverlay } from "./menu-overlay";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
-import { useLocalizedHref } from "@/lib/i18n/index";
 import { ROUTES } from "@/lib/constants";
 
 /**
@@ -25,7 +24,6 @@ import { ROUTES } from "@/lib/constants";
 
 export function Topbar() {
   const { isOpen, openMenu, closeMenu } = useMenuStore();
-  const { buildHref } = useLocalizedHref();
 
   return (
     <>
@@ -42,7 +40,8 @@ export function Topbar() {
       >
         {/* Logo */}
         <Link
-          href={buildHref(ROUTES.HOME)}
+          href={ROUTES.HOME}
+          prefetch
           className="group relative flex items-center hover:opacity-80 transition-opacity focus-visible:outline-none"
           onClick={isOpen ? closeMenu : undefined}
         >
@@ -64,7 +63,8 @@ export function Topbar() {
           {/* Get Started button - hidden on mobile */}
           <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
             <Link
-              href={buildHref(ROUTES.CONTACT)}
+              href={ROUTES.CONTACT}
+              prefetch
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors
                 ${
                   isOpen

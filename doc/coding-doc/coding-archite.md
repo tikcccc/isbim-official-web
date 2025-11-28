@@ -49,6 +49,7 @@ src/components/layout/
   page-transition.tsx   # global transition overlay; disables browser scroll restoration and uses Lenis/window smooth scroll to top on load/after transitions
   motion/lazy-motion.tsx# LazyMotion provider + `m`
 ```
+- Menu overlay JARVIS AI Suite cards now deep-link to their localized product routes (uses `buildHref` + `ROUTES.JARVIS.*` on click).
 
 ### Sections (selected)
 ```
@@ -105,7 +106,15 @@ src/lib/
   i18n/
     locale-context.tsx    # LocaleProvider + useLocale (FROZEN)
     route-builder.ts      # buildHref/linkTo/useLocalizedHref (FROZEN)
-    index.ts              # Barrel export for client imports (FROZEN path)
+    index.ts              # Barrel export: Link/useRouter/usePathname/redirect + locale utils (FROZEN)
+  i18n.ts                 # Paraglide Navigation API (Link/useRouter/redirect) - server component
+```
+
+### UI Components
+```
+src/components/ui/
+  localized-link.tsx      # Enhanced Link wrapper with auto-prefetch (optional alternative to @/lib/i18n Link)
+  ...other ui components
 ```
 
 ### Data
@@ -182,7 +191,7 @@ public/
 - **OPEN**: layout JSX/CSS in `(website)`, Paraglide language list, UI components, new pages, navigation data, styles placeholders, animation placeholders, schema placeholders.
 
 ## Patterns & Rules (current)
-- **i18n**: Client imports must use `@/lib/i18n/index`; do not import from `@/lib/i18n` (server middleware file). Client: `useLocalizedHref()`; Server: `buildHref(path, locale)` / `linkTo(key, locale)`. Never handcraft `/${locale}`.
+- **i18n Navigation**: Use `import { Link } from "@/lib/i18n"` for all navigation. Link component automatically handles locale prefixes and prefetching. DO NOT use `next/link` or `buildHref()` manually. For routing hooks: `useRouter/usePathname/redirect` also from `@/lib/i18n`. Server utils: `buildHref(path, locale)` / `linkTo(key, locale)`. Never handcraft `/${locale}`.
 - **Hydration**: Locale provided via Context from layout; `suppressHydrationWarning` removed from `<html>/<body>`.
 - **Design tokens**: Single source of truth in `design-tokens.ts`; drives GSAP/Framer configs (`lib/animations.ts`, `lib/animation-variants.ts`) and hooks (`use-media-query.ts`). No duplicate breakpoints/z-index in `constants.ts`.
 - **Providers**: Global providers centralized in `AppProviders`; Zustand store limited to `menu-store.ts`.

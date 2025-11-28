@@ -2,16 +2,15 @@
 
 import { AnimatePresence } from "framer-motion";
 import { ArrowRight, CornerDownRight } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/lib/i18n";
 import Image from "next/image";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { useBodyScrollLock, useLenis } from "@/hooks";
-import { useLocalizedHref } from "@/lib/i18n/index";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { m } from "@/components/motion/lazy-motion";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -35,6 +34,12 @@ interface MenuGroup {
 }
 
 type MenuItem = MenuLink | MenuGroup;
+
+interface JarvisProduct {
+  name: string;
+  desc: string;
+  href: string;
+}
 
 // --- Helper function to get menu data with i18n ---
 const getMenuData = () => ({
@@ -62,15 +67,47 @@ const getMenuData = () => ({
     { title: messages.menu_nav_contact(), href: ROUTES.CONTACT, type: "link" as const },
   ] as MenuItem[],
   jarvisProducts: [
-    { name: messages.menu_product_agent_name(), desc: messages.menu_product_agent_desc() },
-    { name: messages.menu_product_pay_name(), desc: messages.menu_product_pay_desc() },
-    { name: messages.menu_product_air_name(), desc: messages.menu_product_air_desc() },
-    { name: messages.menu_product_eagleeye_name(), desc: messages.menu_product_eagleeye_desc() },
-    { name: messages.menu_product_ssss_name(), desc: messages.menu_product_ssss_desc() },
-    { name: messages.menu_product_dwss_name(), desc: messages.menu_product_dwss_desc() },
-    { name: messages.menu_product_cdcp_name(), desc: messages.menu_product_cdcp_desc() },
-    { name: messages.menu_product_assets_name(), desc: messages.menu_product_assets_desc() },
-  ],
+    {
+      name: messages.menu_product_agent_name(),
+      desc: messages.menu_product_agent_desc(),
+      href: ROUTES.JARVIS.AGENT,
+    },
+    {
+      name: messages.menu_product_pay_name(),
+      desc: messages.menu_product_pay_desc(),
+      href: ROUTES.JARVIS.PAY,
+    },
+    {
+      name: messages.menu_product_air_name(),
+      desc: messages.menu_product_air_desc(),
+      href: ROUTES.JARVIS.AIR,
+    },
+    {
+      name: messages.menu_product_eagleeye_name(),
+      desc: messages.menu_product_eagleeye_desc(),
+      href: ROUTES.JARVIS.EAGLE_EYE,
+    },
+    {
+      name: messages.menu_product_ssss_name(),
+      desc: messages.menu_product_ssss_desc(),
+      href: ROUTES.JARVIS.SSSS,
+    },
+    {
+      name: messages.menu_product_dwss_name(),
+      desc: messages.menu_product_dwss_desc(),
+      href: ROUTES.JARVIS.DWSS,
+    },
+    {
+      name: messages.menu_product_cdcp_name(),
+      desc: messages.menu_product_cdcp_desc(),
+      href: ROUTES.JARVIS.CDCP,
+    },
+    {
+      name: messages.menu_product_assets_name(),
+      desc: messages.menu_product_assets_desc(),
+      href: ROUTES.JARVIS.ASSETS,
+    },
+  ] as JarvisProduct[],
   // Stats data from copywriting
   stats: [
     { value: "2,600+", label: "LIVE_PROJECTS", desc: messages.menu_stat_live_projects() },
@@ -147,9 +184,8 @@ const panelVariants = {
  */
 export function MenuOverlay() {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
-  const { buildHref } = useLocalizedHref();
   const { lenis } = useLenis();
-  const menuData = getMenuData();
+  const menuData = useMemo(() => getMenuData(), []);
 
   // Lock body scroll when menu is open
   useBodyScrollLock(isOpen);
@@ -259,8 +295,9 @@ export function MenuOverlay() {
                       {/* Top Level Item */}
                       {item.type === "link" ? (
                         <Link
-                          href={buildHref(item.href)}
+                          href={item.href}
                           onClick={closeMenu}
+                          prefetch
                           className="group flex items-center gap-4 cursor-pointer"
                         >
                           <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
@@ -269,8 +306,9 @@ export function MenuOverlay() {
                         </Link>
                       ) : item.href ? (
                         <Link
-                          href={buildHref(item.href)}
+                          href={item.href}
                           onClick={closeMenu}
+                          prefetch
                           className="group flex items-center gap-4 cursor-pointer"
                         >
                           <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
@@ -297,8 +335,9 @@ export function MenuOverlay() {
                             child.href ? (
                               <Link
                                 key={cIdx}
-                                href={buildHref(child.href)}
+                                href={child.href}
                                 onClick={closeMenu}
+                                prefetch
                           className="group/child flex items-center gap-4 cursor-pointer py-1"
                           onMouseEnter={() =>
                             child.action === "jarvis_suite"
@@ -383,8 +422,9 @@ export function MenuOverlay() {
               >
                 <div className="flex flex-col gap-3">
                   <Link
-                    href={buildHref("/terms")}
+                    href="/terms"
                     onClick={closeMenu}
+                    prefetch
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
@@ -394,8 +434,9 @@ export function MenuOverlay() {
                     />
                   </Link>
                   <Link
-                    href={buildHref("/privacy")}
+                    href="/privacy"
                     onClick={closeMenu}
+                    prefetch
                     className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
                   >
                     <TypewriterText
@@ -470,9 +511,12 @@ export function MenuOverlay() {
 
                     <div className="grid grid-cols-2 gap-x-12 gap-y-8 overflow-y-auto pr-4 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10">
                       {menuData.jarvisProducts.map((prod, idx) => (
-                        <div
-                          key={idx}
-                          className="group cursor-pointer p-4 rounded-lg bg-white/[0.015] hover:bg-white/5 transition-all shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[inset_0_0_0_1px_rgba(59,130,246,0.25)]"
+                        <Link
+                          key={prod.href}
+                          href={prod.href}
+                          onClick={closeMenu}
+                          prefetch
+                          className="group block cursor-pointer p-4 rounded-lg bg-white/[0.015] hover:bg-white/5 transition-all shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[inset_0_0_0_1px_rgba(59,130,246,0.25)]"
                         >
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex items-start gap-3 flex-1">
@@ -498,7 +542,7 @@ export function MenuOverlay() {
                               delay={0.5 + idx * 0.08}
                             />
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </m.div>
