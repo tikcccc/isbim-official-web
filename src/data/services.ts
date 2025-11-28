@@ -21,12 +21,14 @@ import {
   Rocket,
   type LucideIcon,
 } from "lucide-react";
+import { ROUTES } from "@/lib/constants";
 import type * as messages from "@/paraglide/messages";
 
 type MessageKey = keyof typeof messages;
 
 export interface ServiceData {
   id: string;
+  href: string;
   title: string;
   headerDescription: string;
   tagline: string;
@@ -47,6 +49,7 @@ export interface ServiceData {
 export const servicesData: ServiceData[] = [
   {
     id: "jarvis-suite",
+    href: ROUTES.JARVIS.SUITE,
     title: "JARVIS AI Suite",
     headerDescription:
       "Domain-specific generative AI agent for every construction stakeholder.",
@@ -68,6 +71,7 @@ export const servicesData: ServiceData[] = [
   },
   {
     id: "jarvis-pm",
+    href: ROUTES.JARVIS.JPM,
     title: "JARVIS Project Management",
     headerDescription: "End-to-end acceleration for Belt and Road megaprojects.",
     tagline: "Nation-Scale Orchestration",
@@ -88,6 +92,7 @@ export const servicesData: ServiceData[] = [
   },
   {
     id: "bim-consultancy",
+    href: ROUTES.BIM_CONSULTANCY,
     title: "BIM Consultancy",
     headerDescription:
       "Award-winning BIM implementation: modelling, 4D/5D simulation.",
@@ -109,6 +114,7 @@ export const servicesData: ServiceData[] = [
   },
   {
     id: "project-finance",
+    href: ROUTES.PROJECT_FINANCE,
     title: "Project Finance",
     headerDescription:
       "Bankable transparency for multilateral financial institutions.",
@@ -130,6 +136,7 @@ export const servicesData: ServiceData[] = [
   },
   {
     id: "venture-investments",
+    href: ROUTES.VENTURE_INVESTMENTS,
     title: "Venture Investments",
     headerDescription:
       "Equity + global distribution for frontier technology.",

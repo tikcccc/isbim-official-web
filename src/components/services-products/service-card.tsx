@@ -15,6 +15,7 @@ import { ArrowRight } from "lucide-react";
 import { SpotlightCard } from "./spotlight-card";
 import { CornerBrackets } from "./corner-brackets";
 import type { ServiceData } from "@/data/services";
+import { LocalizedLink } from "@/components/ui/localized-link";
 import * as messages from "@/paraglide/messages";
 
 const translate = (
@@ -96,15 +97,15 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
               <p className="text-gray-400 text-sm leading-relaxed mb-4 max-w-prose">
                 {description}
               </p>
-              <a
-                href="#"
+              <LocalizedLink
+                href={item.href}
                 className="group/btn inline-flex items-center text-xs font-bold text-white uppercase tracking-widest transition-colors duration-300 hover:text-emerald-400"
               >
                 <span className="border-b border-transparent transition-colors duration-300 group-hover/btn:border-emerald-400 pb-0.5">
                   {ctaText}
                 </span>
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" />
-              </a>
+              </LocalizedLink>
             </div>
           </div>
         </div>
