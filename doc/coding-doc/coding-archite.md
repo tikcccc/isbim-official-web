@@ -1,8 +1,13 @@
 # isBIM Official Web Architecture (v3.9)
 
-Architecture for this Next.js project.
+**文件说明:** 本文件记录 isBIM 官网的系统架构、技术栈分层、文件结构和模块关系。当添加/移除核心依赖、修改文件夹结构、增加新架构层(认证、支付、分析)或更新环境变量结构时需要更新此文件。
 
-**Last Updated**: 2025-11-28 - Added SEO optimization system (Phase 1 complete)
+**更新原则:**
+- 聚焦"存在什么"和"如何连接",避免实现细节
+- 保持简洁,使用列表和代码块
+- 删除过时的架构信息
+
+**Last Updated**: 2025-11-29
 
 ## Tech Stack
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4

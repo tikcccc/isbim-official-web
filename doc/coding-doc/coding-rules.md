@@ -1,7 +1,13 @@
 # Coding Rules - isBIM Official Web
-Rules are terse and vibe-critical only; keep future edits short, actionable, and in this style.
 
-**Last Updated**: 2025-11-28 | **Version**: 3.9 - Added SEO optimization rules
+**文件说明:** 本文件定义代码风格规则、命名约定、反模式和最佳实践。当建立新的编码模式(动画时序、组件结构)、定义新库的导入/导出规则、添加 TypeScript 类型安全要求或设置动画协调规则时需要更新此文件。
+
+**更新原则:**
+- 使用简洁的要点和代码片段,避免长篇解释
+- 规则简明扼要,关键时刻使用
+- 删除已过时或不再适用的规则
+
+**Last Updated**: 2025-11-29 | **Version**: 3.9
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).

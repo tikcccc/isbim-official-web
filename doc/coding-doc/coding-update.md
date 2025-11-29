@@ -1,4 +1,21 @@
-write update history here, keep simple with update time and update number
+# isBIM 官网更新日志 (Change Log)
+
+**文件说明:** 本文件记录 isBIM 官网的主要变更和版本历史。当完成重大功能(联系表单、SEO 系统等)、升级核心依赖(Next.js、Tailwind 等)或重构重要模块时需要更新此文件。
+
+**更新原则:**
+- 记录日期 + 简要描述 + 影响的文件
+- 保持简洁,每条更新不超过 3-5 行
+- 按时间倒序排列(最新的在前)
+- 仅记录重大变更,避免记录小修小补
+
+**Last Updated**: 2025-11-29
+
+---
+
+## 2025-11-29 (v4.0)
+- **Email System**: Moved sender addresses to env vars (`EMAIL_FROM_INTERNAL`, `EMAIL_FROM_USER`); use `@resend.dev` for dev, `@isbim.com.hk` for production
+- **Documentation**: Added file descriptions to all coding docs; created `coding-backup-plan.md` for service alternatives (Resend → Brevo migration guide)
+- **Files**: `.env.local`, `.env.production`, `src/lib/env.ts`, `src/lib/email/send-contact-email.ts`, `doc/coding-doc/*`
 
 ## 2025-11-26 (v3.7)
 - Added reusable typewriter suite in `src/components/animations/typewriter.tsx` (barrel-exported): `TypewriterText` (character-level), `TypewriterWidth` (width-based with cursor + ScrollTrigger), `TypewriterLines` (multi-line sequencing).
