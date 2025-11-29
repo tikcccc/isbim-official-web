@@ -199,11 +199,11 @@ export const SEO_KEYWORDS = {
  */
 export function composeKeywords(
   pageType: "home" | "product" | "service" | "about" | "newsroom" | "careers",
-  specific: string[] = [],
+  specific: readonly string[] = [],
   locale: string = "en"
 ): string[] {
   // ALWAYS include brand + geographic
-  const base = [
+  const base: string[] = [
     ...SEO_KEYWORDS.brand.slice(0, 2), // isBIM, isBIM Limited
     ...SEO_KEYWORDS.geographic.slice(0, 3), // Hong Kong, Hong Kong AI company, Hong Kong construction technology
   ];

@@ -11,6 +11,8 @@ ben- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availabl
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
 - CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
+- Email : Resend
+
 
 ## App Structure (high level)
 ```

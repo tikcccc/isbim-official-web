@@ -23,7 +23,7 @@ export interface ContactFormData {
   companyType?: "Developer" | "Contractor" | "Gov" | "Consultant";
   jobTitle?: string;
   service: string;
-  marketingConsent: boolean;
+  marketingConsent?: boolean;
 }
 
 /**
@@ -48,6 +48,7 @@ export function generateInternalNotificationEmail(
     dateStyle: "full",
     timeStyle: "long",
   });
+  const marketingConsent = data.marketingConsent ?? false;
 
   const subject = `New Contact Form Submission - ${fullName}`;
 
@@ -148,9 +149,9 @@ export function generateInternalNotificationEmail(
 
       <!-- Marketing Consent -->
       <h2 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1e293b;">Marketing Consent</h2>
-      <div style="padding: 16px; background-color: ${data.marketingConsent ? "#dcfce7" : "#fee2e2"}; border-radius: 8px; margin-bottom: 24px;">
-        <p style="margin: 0; font-size: 14px; color: ${data.marketingConsent ? "#166534" : "#991b1b"};">
-          <strong>${data.marketingConsent ? "✓ Opted In" : "✗ Not Opted In"}</strong> - User ${data.marketingConsent ? "has" : "has not"} consented to receive marketing emails.
+      <div style="padding: 16px; background-color: ${marketingConsent ? "#dcfce7" : "#fee2e2"}; border-radius: 8px; margin-bottom: 24px;">
+        <p style="margin: 0; font-size: 14px; color: ${marketingConsent ? "#166534" : "#991b1b"};">
+          <strong>${marketingConsent ? "✓ Opted In" : "✗ Not Opted In"}</strong> - User ${marketingConsent ? "has" : "has not"} consented to receive marketing emails.
         </p>
       </div>
 
@@ -202,7 +203,7 @@ ${data.service}
 
 MARKETING CONSENT
 -----------------
-${data.marketingConsent ? "✓ Opted In" : "✗ Not Opted In"} - User ${data.marketingConsent ? "has" : "has not"} consented to receive marketing emails.
+${marketingConsent ? "✓ Opted In" : "✗ Not Opted In"} - User ${marketingConsent ? "has" : "has not"} consented to receive marketing emails.
 
 ---
 isBIM Official Website

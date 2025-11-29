@@ -67,7 +67,7 @@ export const contactFormSchema = z.object({
   /** Company type - optional enum */
   companyType: z
     .enum(["Developer", "Contractor", "Gov", "Consultant"], {
-      errorMap: () => ({ message: "Please select a valid company type" }),
+      message: "Please select a valid company type",
     })
     .optional(),
 
@@ -82,8 +82,8 @@ export const contactFormSchema = z.object({
   /** Service requested - required */
   service: z.string().min(1, "Please select a service"),
 
-  /** Marketing consent - boolean, defaults to false */
-  marketingConsent: z.boolean().default(false),
+  /** Marketing consent - optional boolean */
+  marketingConsent: z.boolean().optional(),
 });
 
 /**

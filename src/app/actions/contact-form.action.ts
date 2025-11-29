@@ -148,10 +148,10 @@ export async function submitContactForm(
 
     if (!validation.success) {
       // Return first validation error
-      const firstError = validation.error.errors[0];
+      const firstError = validation.error.issues[0];
       return {
         success: false,
-        error: firstError.message,
+        error: firstError?.message || "Validation failed",
       };
     }
 

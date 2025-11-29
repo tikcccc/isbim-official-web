@@ -226,9 +226,9 @@ export default function ContactPage() {
           <div className="flex items-start space-x-2">
             <Checkbox
               id="marketingConsent"
-              checked={marketingConsent}
+              checked={marketingConsent ?? false}
               onCheckedChange={(checked) =>
-                setValue("marketingConsent", checked === true)
+                setValue("marketingConsent", Boolean(checked))
               }
             />
             <Label
