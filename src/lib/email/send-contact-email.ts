@@ -23,7 +23,11 @@ import {
   generateUserConfirmationEmail,
   type ContactFormData,
 } from "./templates";
-import { getContactEmailTo } from "@/lib/env";
+import {
+  getContactEmailTo,
+  getEmailFromInternal,
+  getEmailFromUser,
+} from "@/lib/env";
 
 /**
  * Email sending response type
@@ -57,8 +61,10 @@ export async function sendContactFormEmails(
     const userEmail = generateUserConfirmationEmail(data, locale);
 
     // Send internal notification email
+    // Development: noreply@resend.dev (no verification needed)
+    // Production: noreply@isbim.com.hk (requires domain verification at https://resend.com/domains)
     const internalResult = await resend.emails.send({
-      from: "isBIM Contact Form <noreply@isbim.com.hk>",
+      from: getEmailFromInternal(),
       to: internalEmailTo,
       subject: internalEmail.subject,
       html: internalEmail.html,
@@ -79,8 +85,10 @@ export async function sendContactFormEmails(
     }
 
     // Send user confirmation email
+    // Development: noreply@resend.dev (no verification needed)
+    // Production: noreply@isbim.com.hk (requires domain verification at https://resend.com/domains)
     const userResult = await resend.emails.send({
-      from: "isBIM <noreply@isbim.com.hk>",
+      from: getEmailFromUser(),
       to: data.email,
       subject: userEmail.subject,
       html: userEmail.html,

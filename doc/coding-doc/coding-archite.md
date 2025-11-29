@@ -111,12 +111,12 @@ src/lib/
   animations.ts           # GSAP config from tokens
   animation-variants.ts   # Framer variants from tokens
   constants.ts            # ROUTES + IDs/breakpoints/etc.
-  env.ts                  # typed env + sanityConfig + getResendApiKey + getContactEmailTo + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
+  env.ts                  # typed env + sanityConfig + getResendApiKey + getContactEmailTo + getEmailFromInternal + getEmailFromUser + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
   media-config.ts         # getVideoUrl/getImageUrl + JARVIS_VIDEOS + CDN helpers
   email/
     resend-client.ts      # Resend client initialization
     templates.ts          # Email templates (internal notification + user confirmation, i18n)
-    send-contact-email.ts # Dual email orchestration
+    send-contact-email.ts # Dual email orchestration (uses getEmailFromInternal/getEmailFromUser from env.ts)
     index.ts              # Barrel export
   i18n/
     locale-context.tsx    # LocaleProvider + useLocale (FROZEN)
@@ -125,6 +125,32 @@ src/lib/
   i18n.ts                 # Paraglide Navigation API (Link/useRouter/redirect) - server component
 next.config.ts            # images.qualities: [75, 85, 90, 100] for Next.js 15+ image quality validation
 ```
+
+### Environment Variables
+Project uses three environment file layers:
+
+**1. `src/lib/env.ts` (TypeScript module)**
+- NOT an env file - code layer for type-safe env access
+- Exports helper functions: `getResendApiKey()`, `getContactEmailTo()`, `getEmailFromInternal()`, `getEmailFromUser()`
+- Runtime validation in development mode
+- Single source of truth for environment variable access
+
+**2. `.env.local` (Local development)**
+- Used for localhost:3000 development
+- Highest priority - overrides all other env files
+- NOT committed to Git (.gitignore)
+- Contains development-safe values (e.g., `EMAIL_FROM_INTERNAL=isBIM Contact Form <noreply@resend.dev>`)
+
+**3. `.env.production` (Production template)**
+- Reference template for production deployment
+- Committed to Git (with placeholder values)
+- Not used directly - deployment platforms (Vercel) use these as reference
+- Contains production values (e.g., `EMAIL_FROM_INTERNAL=isBIM Contact Form <noreply@isbim.com.hk>`)
+
+**Email Sender Configuration:**
+- Development: `@resend.dev` domain (no verification needed)
+- Production: `@isbim.com.hk` domain (requires DNS verification at https://resend.com/domains)
+- Variables: `EMAIL_FROM_INTERNAL` (internal notifications), `EMAIL_FROM_USER` (user confirmations)
 
 ### UI Components
 ```

@@ -17,6 +17,11 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 ## Env & ISR
 - Read env via `env.ts` only; `NEXT_PUBLIC_MEDIA_URL`/`NEXT_PUBLIC_VIDEO_CDN_URL` drive media bases; `SANITY_WEBHOOK_SECRET` required for `/api/revalidate`.
 - Contact form email: `RESEND_API_KEY` (required), `CONTACT_EMAIL_TO` (default: solution@isbim.com.hk).
+- Email sender addresses: `EMAIL_FROM_INTERNAL` (internal notifications), `EMAIL_FROM_USER` (user confirmations).
+  - Development (`.env.local`): Use `@resend.dev` domain (no verification needed)
+  - Production (`.env.production`): Use `@isbim.com.hk` domain (requires DNS verification at https://resend.com/domains)
+  - Access via `getEmailFromInternal()` and `getEmailFromUser()` from `@/lib/env`
+- Environment file hierarchy: `.env.local` (dev, highest priority, not committed) > `.env.production` (template, committed) > `src/lib/env.ts` (code layer, type-safe access)
 
 ## Media & Assets
 - Videos via CDN links using `media-config` (`getVideoUrl`/`JARVIS_VIDEOS`); avoid hardcoded `/videos/*`.
@@ -62,7 +67,8 @@ Rules are terse and vibe-critical only; keep future edits short, actionable, and
 ## Contact Form Email (Resend)
 - Use Server Action `submitContactForm` from `actions/contact-form.action.ts`; never call Resend API directly from client.
 - Dual emails: Internal (English, to `getContactEmailTo()`) + User confirmation (i18n based on locale).
+- Sender addresses: Use `getEmailFromInternal()` and `getEmailFromUser()` from `@/lib/env`; never hardcode sender addresses.
 - Rate limiting: 3 submissions/IP/5min (in-memory Map); consider Cloudflare Turnstile for production.
 - Validation: `contactFormSchema` from `schemas/contact-form.schema.ts`; enforce server-side.
 - Templates in `lib/email/templates.ts`; HTML + plain text, responsive, inline CSS.
-- Env: `RESEND_API_KEY` required, `CONTACT_EMAIL_TO` optional (defaults to solution@isbim.com.hk).
+- Env: `RESEND_API_KEY` required, `CONTACT_EMAIL_TO` optional (defaults to solution@isbim.com.hk), `EMAIL_FROM_INTERNAL`/`EMAIL_FROM_USER` (defaults to `@resend.dev` for dev).

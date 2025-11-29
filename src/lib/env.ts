@@ -33,6 +33,10 @@ const serverEnv = {
   // Contact form
   CONTACT_EMAIL_TO: process.env.CONTACT_EMAIL_TO,
 
+  // Email sender addresses
+  EMAIL_FROM_INTERNAL: process.env.EMAIL_FROM_INTERNAL,
+  EMAIL_FROM_USER: process.env.EMAIL_FROM_USER,
+
   // Node environment
   NODE_ENV: process.env.NODE_ENV,
 } as const;
@@ -221,6 +225,34 @@ export function getResendApiKey(): string {
  */
 export function getContactEmailTo(): string {
   return env.CONTACT_EMAIL_TO || "solution@isbim.com.hk";
+}
+
+/**
+ * Get internal notification email sender
+ * Returns the sender address for internal contact form notifications.
+ *
+ * Development: Uses @resend.dev (no domain verification required)
+ * Production: Uses @isbim.com.hk (requires domain verification at https://resend.com/domains)
+ *
+ * Default: "isBIM Contact Form <noreply@resend.dev>"
+ */
+export function getEmailFromInternal(): string {
+  return (
+    env.EMAIL_FROM_INTERNAL || "isBIM Contact Form <noreply@resend.dev>"
+  );
+}
+
+/**
+ * Get user confirmation email sender
+ * Returns the sender address for user confirmation emails.
+ *
+ * Development: Uses @resend.dev (no domain verification required)
+ * Production: Uses @isbim.com.hk (requires domain verification at https://resend.com/domains)
+ *
+ * Default: "isBIM <noreply@resend.dev>"
+ */
+export function getEmailFromUser(): string {
+  return env.EMAIL_FROM_USER || "isBIM <noreply@resend.dev>";
 }
 
 export default env;
