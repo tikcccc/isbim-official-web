@@ -12,4 +12,6 @@
  */
 
 export { sendContactFormEmails } from "./send-contact-email";
+export { sendEmail } from "./email-client";
 export type { ContactFormData } from "./templates";
+export type { EmailParams, EmailResult } from "./email-client";

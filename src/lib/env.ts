@@ -30,6 +30,12 @@ const serverEnv = {
   // Resend
   RESEND_API_KEY: process.env.RESEND_API_KEY,
 
+  // Brevo (backup email provider)
+  BREVO_API_KEY: process.env.BREVO_API_KEY,
+
+  // Email provider selection
+  EMAIL_PROVIDER: process.env.EMAIL_PROVIDER,
+
   // Contact form
   CONTACT_EMAIL_TO: process.env.CONTACT_EMAIL_TO,
 
@@ -253,6 +259,24 @@ export function getEmailFromInternal(): string {
  */
 export function getEmailFromUser(): string {
   return env.EMAIL_FROM_USER || "isBIM <noreply@resend.dev>";
+}
+
+/**
+ * Get Brevo API key
+ * Returns the Brevo API key for backup email operations.
+ * Optional - only needed when EMAIL_PROVIDER=brevo
+ */
+export function getBrevoApiKey(): string | undefined {
+  return env.BREVO_API_KEY;
+}
+
+/**
+ * Get email provider
+ * Returns the configured email provider (resend or brevo).
+ * Defaults to 'resend' if not specified.
+ */
+export function getEmailProvider(): "resend" | "brevo" {
+  return (env.EMAIL_PROVIDER as "resend" | "brevo") || "resend";
 }
 
 export default env;

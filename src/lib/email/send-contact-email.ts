@@ -17,7 +17,7 @@
  * ```
  */
 
-import { resend } from "./resend-client";
+import { sendEmail } from "./email-client";
 import {
   generateInternalNotificationEmail,
   generateUserConfirmationEmail,
@@ -61,9 +61,8 @@ export async function sendContactFormEmails(
     const userEmail = generateUserConfirmationEmail(data, locale);
 
     // Send internal notification email
-    // Development: noreply@resend.dev (no verification needed)
-    // Production: noreply@isbim.com.hk (requires domain verification at https://resend.com/domains)
-    const internalResult = await resend.emails.send({
+    // Uses configured provider (Resend or Brevo) based on EMAIL_PROVIDER environment variable
+    const internalResult = await sendEmail({
       from: getEmailFromInternal(),
       to: internalEmailTo,
       subject: internalEmail.subject,
@@ -73,8 +72,11 @@ export async function sendContactFormEmails(
     });
 
     // Check if internal email failed
-    if (internalResult.error) {
-      console.error("Failed to send internal notification:", internalResult.error);
+    if (!internalResult.success) {
+      console.error(
+        `Failed to send internal notification via ${internalResult.provider}:`,
+        internalResult.error
+      );
       return {
         success: false,
         error:
@@ -85,9 +87,7 @@ export async function sendContactFormEmails(
     }
 
     // Send user confirmation email
-    // Development: noreply@resend.dev (no verification needed)
-    // Production: noreply@isbim.com.hk (requires domain verification at https://resend.com/domains)
-    const userResult = await resend.emails.send({
+    const userResult = await sendEmail({
       from: getEmailFromUser(),
       to: data.email,
       subject: userEmail.subject,
@@ -96,14 +96,20 @@ export async function sendContactFormEmails(
     });
 
     // Check if user email failed
-    if (userResult.error) {
-      console.error("Failed to send user confirmation:", userResult.error);
+    if (!userResult.success) {
+      console.error(
+        `Failed to send user confirmation via ${userResult.provider}:`,
+        userResult.error
+      );
       // Don't fail the whole operation if user confirmation fails
       // The important internal notification was sent successfully
       console.warn(
         "User confirmation email failed, but internal notification was sent"
       );
     }
+
+    // Log which provider was used
+    console.log(`✅ Emails sent successfully via ${internalResult.provider}`);
 
     // Both emails sent successfully (or at least internal was sent)
     return {

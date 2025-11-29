@@ -32,19 +32,42 @@
 
 ---
 
-### 备份方案 1: Brevo (原 Sendinblue)
+### 备份方案 1: Brevo (原 Sendinblue) ✅ 已实现
+
+**状态:** 已完成双提供商系统实现 (v4.1, 2025-11-29)
+
+#### 当前实现方式
+
+**架构:** 统一邮件客户端 (`lib/email/email-client.ts`) + 手动环境变量切换
+
+```typescript
+// 通过 EMAIL_PROVIDER 环境变量控制
+EMAIL_PROVIDER=resend  // 默认使用 Resend
+EMAIL_PROVIDER=brevo   // 切换到 Brevo
+```
+
+**优点:**
+- ✅ 实现简单,无需额外依赖
+- ✅ 代码零侵入 (Server Action 无需修改)
+- ✅ 适合 localhost 开发环境
+- ✅ 两个提供商都已集成,随时可切换
+
+**缺点:**
+- ❌ 需要手动修改环境变量并重启服务
+- ❌ 无法自动检测额度不足并切换
+- ❌ 无法实时监控发送状态
 
 #### 功能对比
 
 | 功能 | Resend | Brevo |
 |------|--------|-------|
 | 免费额度 | 3,000 封/月 | 300 封/天 (9,000 封/月) |
+| 域名验证 | **生产环境必须** (SPF + DKIM + DMARC) | **可选但推荐** (SPF + DKIM + DMARC) |
 | 邮件模板 | HTML + React (React Email) | HTML + 可视化编辑器 |
 | API 风格 | RESTful (现代) | RESTful (传统) |
 | 送达率 | 高 | 高 |
-| 域名验证 | SPF + DKIM + DMARC | SPF + DKIM + DMARC |
 | 附加功能 | 无 | SMS, WhatsApp, 营销自动化 |
-| TypeScript SDK | 官方 SDK | 社区 SDK |
+| TypeScript SDK | 官方 SDK | 官方 SDK (@getbrevo/brevo) |
 | 文档质量 | 优秀 | 良好 |
 
 #### 成本对比
@@ -61,125 +84,129 @@
 
 **结论:** 如果月发送量 < 3,000 封,Resend 更优。如果月发送量 3,000-9,000 封,Brevo 免费额度更大。
 
-#### 迁移难度评估
+#### 当前切换步骤 (已实现双提供商)
 
-**工作量:** 4-8 小时
-
-**影响范围:**
-- `src/lib/email/resend-client.ts` - 需更换 SDK
-- `src/lib/email/send-contact-email.ts` - 调整 API 调用方式
-- `.env.local`, `.env.production` - 更换 API Key
-- `src/lib/env.ts` - 更新环境变量名称
-
-**难度等级:** ⭐⭐ (中低) - API 相似度高,主要是 SDK 替换
-
-#### 迁移步骤
-
-**步骤 1: 注册 Brevo 账号**
-1. 访问 https://www.brevo.com/
-2. 注册账号并验证邮箱
-3. 获取 API Key (Settings > SMTP & API > API Keys)
-
-**步骤 2: 域名验证**
-1. 在 Brevo 控制台添加域名 `isbim.com.hk`
-2. 配置 DNS 记录 (SPF, DKIM)
-3. 等待验证通过
-
-**步骤 3: 安装 SDK**
+**步骤 1: 修改环境变量** (1 分钟)
 ```bash
-npm install @getbrevo/brevo
-npm uninstall resend
+# .env.local 或 Vercel 环境变量
+EMAIL_PROVIDER=brevo  # 从 resend 切换到 brevo
 ```
 
-**步骤 4: 更新代码**
-
-修改 `src/lib/email/brevo-client.ts` (新建):
-```typescript
-import * as brevo from '@getbrevo/brevo';
-import { getBrevoApiKey } from '@/lib/env';
-
-const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(
-  brevo.TransactionalEmailsApiApiKeys.apiKey,
-  getBrevoApiKey()
-);
-
-export { apiInstance as brevoClient };
+**步骤 2: 重启服务**
+```bash
+npm run dev  # 开发环境
+# 或在 Vercel 重新部署 (生产环境)
 ```
 
-修改 `src/lib/email/send-contact-email.ts`:
-```typescript
-// Before (Resend)
-const internalResult = await resend.emails.send({
-  from: getEmailFromInternal(),
-  to: internalEmailTo,
-  subject: internalEmail.subject,
-  html: internalEmail.html,
-  text: internalEmail.text,
-  replyTo: data.email,
-});
+**步骤 3: 验证发件人邮箱 (Brevo 必须)**
 
-// After (Brevo)
-const sendSmtpEmail = new brevo.SendSmtpEmail();
-sendSmtpEmail.sender = {
-  email: 'noreply@isbim.com.hk',
-  name: 'isBIM Contact Form'
-};
-sendSmtpEmail.to = [{ email: internalEmailTo }];
-sendSmtpEmail.subject = internalEmail.subject;
-sendSmtpEmail.htmlContent = internalEmail.html;
-sendSmtpEmail.textContent = internalEmail.text;
-sendSmtpEmail.replyTo = { email: data.email };
+⚠️ **重要**: Brevo 要求至少验证一个发件人邮箱才能发送邮件,否则会返回 **403 Forbidden** 错误。
 
-const internalResult = await brevoClient.sendTransacEmail(sendSmtpEmail);
-```
+**方式 A: 单个邮箱验证** (快速,适合测试)
+1. 访问 https://app.brevo.com/senders
+2. 点击 "Add a new sender"
+3. 输入邮箱地址 (如 `noreply@isbim.com.hk` 或个人 Gmail)
+4. 输入发件人名称 (如 "isBIM Contact Form")
+5. Brevo 会发送验证邮件到该地址
+6. 点击邮件中的验证链接完成验证
+7. 验证后立即可用
 
-修改 `.env.local`:
-```env
-# Before
-RESEND_API_KEY=re_xxx
+**方式 B: 域名验证** (推荐,适合生产环境)
+1. 访问 https://app.brevo.com/senders/domain/list
+2. 添加域名 `isbim.com.hk`
+3. 配置 DNS 记录:
+   - SPF 记录: `v=spf1 include:spf.brevo.com ~all`
+   - DKIM 记录: (Brevo 控制台提供)
+4. 等待验证通过 (域名下所有邮箱都可用)
 
-# After
-BREVO_API_KEY=xkeysib-xxx
-```
+**开发环境建议:**
+- 使用个人 Gmail 作为发件人,快速验证即可测试
+- 修改 `.env.local` 中的 `EMAIL_FROM_INTERNAL` 和 `EMAIL_FROM_USER` 为验证的邮箱
+- 生产环境再配置企业域名验证
 
-修改 `src/lib/env.ts`:
-```typescript
-// Before
-RESEND_API_KEY: process.env.RESEND_API_KEY,
-
-export function getResendApiKey(): string {
-  const apiKey = env.RESEND_API_KEY;
-  // ...
-}
-
-// After
-BREVO_API_KEY: process.env.BREVO_API_KEY,
-
-export function getBrevoApiKey(): string {
-  const apiKey = env.BREVO_API_KEY;
-  // ...
-}
-```
-
-**步骤 5: 测试**
+**步骤 4: 测试发送**
 1. 提交测试表单
-2. 验证内部通知邮件送达
-3. 验证用户确认邮件送达
-4. 检查邮件不进垃圾箱
+2. 检查控制台日志确认使用 Brevo: `✅ Emails sent successfully via brevo`
+3. 验证邮件送达
 
-#### 何时考虑迁移到 Brevo?
+#### 历史方案: 自动降级切换 (未实现)
 
-**建议迁移的情况:**
-- 月发送量持续超过 3,000 封
-- 需要 SMS 或 WhatsApp 功能
-- 需要营销自动化功能
-- 需要可视化邮件模板编辑器
+**背景:** 之前讨论过实现自动检测 Resend 额度不足并切换到 Brevo 的方案,但最终决定不实现。
 
-**不建议迁移的情况:**
-- 月发送量 < 3,000 封 (Resend 免费额度足够)
-- 重视开发体验 (Resend API 更现代)
-- 项目使用 React Email 组件 (Resend 原生支持)
+**方案 A: 额度监控 + 自动切换**
+```typescript
+// 伪代码 - 未实现
+async function sendEmailWithFallback(params: EmailParams) {
+  // 1. 检查 Resend 剩余额度
+  const resendQuota = await checkResendQuota();
+
+  // 2. 如果额度不足,自动切换到 Brevo
+  if (resendQuota < 100) {
+    return await sendViaBrevo(params);
+  }
+
+  // 3. 尝试 Resend,失败则降级到 Brevo
+  try {
+    return await sendViaResend(params);
+  } catch (error) {
+    if (error.code === 'quota_exceeded') {
+      return await sendViaBrevo(params);
+    }
+    throw error;
+  }
+}
+```
+
+**未实现原因:**
+1. ❌ **复杂性高**: 需要持久化额度信息 (Redis/数据库)
+2. ❌ **纯前端项目**: 无后端数据库,无法可靠存储额度状态
+3. ❌ **Serverless 不兼容**: 多实例环境下无法共享内存状态
+4. ❌ **额度 API 限制**: Resend/Brevo 都没有提供实时额度查询 API
+5. ✅ **手动切换足够**: 对于低流量网站,手动监控和切换即可
+
+**方案 B: 实时重试降级**
+```typescript
+// 伪代码 - 未实现
+async function sendWithRetry(params: EmailParams) {
+  try {
+    return await resend.send(params);
+  } catch (error) {
+    // 如果是额度错误,自动重试 Brevo
+    if (error.message.includes('quota') || error.message.includes('limit')) {
+      console.warn('Resend quota exceeded, falling back to Brevo');
+      return await brevo.send(params);
+    }
+    throw error;
+  }
+}
+```
+
+**未实现原因:**
+1. ❌ **用户体验差**: 邮件可能从不同域名发送,影响品牌一致性
+2. ❌ **额度浪费**: 可能导致两个提供商都被消耗额度
+3. ❌ **无法预测**: 无法提前知道哪个提供商会被使用
+
+**当前方案优势:**
+- ✅ **简单可靠**: 环境变量切换,无状态管理
+- ✅ **可控性强**: 明确知道使用哪个提供商
+- ✅ **适合现状**: 月发送量远低于 3000 封,手动监控即可
+- ✅ **易于调试**: 日志清晰显示使用的提供商
+
+#### 何时切换到 Brevo?
+
+**建议切换的情况:**
+- ✅ 月发送量持续超过 3,000 封 (Brevo 有 9,000 封/月)
+- ✅ 需要 SMS 或 WhatsApp 功能
+- ✅ 需要营销自动化功能
+- ✅ 需要可视化邮件模板编辑器
+- ✅ Resend 服务临时故障
+
+**继续使用 Resend 的情况:**
+- ✅ 月发送量 < 3,000 封 (Resend 免费额度足够)
+- ✅ 重视开发体验 (Resend API 更现代)
+- ✅ 项目使用 React Email 组件 (Resend 原生支持)
+
+**切换操作:** 只需修改 `EMAIL_PROVIDER=brevo` 并重启服务,1 分钟完成。
 
 ---
 

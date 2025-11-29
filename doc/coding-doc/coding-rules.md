@@ -70,11 +70,20 @@
   - Render with `<JsonLd data={schema} id="unique-id" />`
 - **Sitemap**: Keep exclusions (`/jarvis-ai-suite` redesign, `/contact` low priority). Leave canonical/hreflang helpers and ISR webhook flow untouched.
 
-## Contact Form Email (Resend)
-- Use Server Action `submitContactForm` from `actions/contact-form.action.ts`; never call Resend API directly from client.
-- Dual emails: Internal (English, to `getContactEmailTo()`) + User confirmation (i18n based on locale).
-- Sender addresses: Use `getEmailFromInternal()` and `getEmailFromUser()` from `@/lib/env`; never hardcode sender addresses.
-- Rate limiting: 3 submissions/IP/5min (in-memory Map); consider Cloudflare Turnstile for production.
-- Validation: `contactFormSchema` from `schemas/contact-form.schema.ts`; enforce server-side.
-- Templates in `lib/email/templates.ts`; HTML + plain text, responsive, inline CSS.
-- Env: `RESEND_API_KEY` required, `CONTACT_EMAIL_TO` optional (defaults to solution@isbim.com.hk), `EMAIL_FROM_INTERNAL`/`EMAIL_FROM_USER` (defaults to `@resend.dev` for dev).
+## Contact Form Email (Dual Provider: Resend + Brevo)
+- **Architecture**: Use Server Action `submitContactForm` from `actions/contact-form.action.ts`; never call email APIs directly from client.
+- **Provider Selection**: Switch via `EMAIL_PROVIDER` env var (`resend` [default] | `brevo`); routing handled by `sendEmail()` from `lib/email/email-client.ts`.
+- **Dual emails**: Internal (English, to `getContactEmailTo()`) + User confirmation (i18n based on locale).
+- **Sender addresses**: Use `getEmailFromInternal()` and `getEmailFromUser()` from `@/lib/env`; never hardcode sender addresses.
+- **Rate limiting**: 3 submissions/IP/5min (in-memory Map); WARNING: NOT serverless-compatible (use Redis for distributed deployment).
+- **Validation**: `contactFormSchema` from `schemas/contact-form.schema.ts`; enforce server-side.
+- **Templates**: `lib/email/templates.ts`; HTML + plain text, responsive, inline CSS.
+- **Env variables**:
+  - `EMAIL_PROVIDER`: `resend` (default) | `brevo` - controls which provider to use
+  - `RESEND_API_KEY`: Required if using Resend
+  - `BREVO_API_KEY`: Required if using Brevo
+  - `CONTACT_EMAIL_TO`: Optional (defaults to solution@isbim.com.hk)
+  - `EMAIL_FROM_INTERNAL`/`EMAIL_FROM_USER`: Optional (defaults to `@resend.dev` for dev, `@isbim.com.hk` for production)
+- **Provider details**:
+  - Resend: 3000 emails/month free, requires domain verification for production
+  - Brevo: 9000 emails/month free, optional domain verification

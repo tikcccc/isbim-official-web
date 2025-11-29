@@ -9,14 +9,20 @@
 
 **Last Updated**: 2025-11-29
 
+## Deployment Architecture
+- **Deployment Target**: Huawei Cloud (华为云)
+- **Architecture**: Pure frontend application with Next.js Server Actions (no separate backend)
+- **Rendering**: SSG + ISR (Incremental Static Regeneration) for optimal performance
+- **Serverless Compatibility**: ⚠️ Current rate limiting uses in-memory Map (not serverless-compatible); requires distributed cache (Redis) or container deployment with session affinity for multi-instance scenarios
+
 ## Tech Stack
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
-ben- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
+- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
 - CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
-- Email : Resend
+- Email: Dual-provider system (Resend primary, Brevo backup) - switch via `EMAIL_PROVIDER` env var
 
 
 ## App Structure (high level)
@@ -116,12 +122,14 @@ src/lib/
   animations.ts           # GSAP config from tokens
   animation-variants.ts   # Framer variants from tokens
   constants.ts            # ROUTES + IDs/breakpoints/etc.
-  env.ts                  # typed env + sanityConfig + getResendApiKey + getContactEmailTo + getEmailFromInternal + getEmailFromUser + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
+  env.ts                  # typed env + sanityConfig + getResendApiKey + getBrevoApiKey + getEmailProvider + getContactEmailTo + getEmailFromInternal + getEmailFromUser + NEXT_PUBLIC_MEDIA_URL + NEXT_PUBLIC_VIDEO_CDN_URL
   media-config.ts         # getVideoUrl/getImageUrl + JARVIS_VIDEOS + CDN helpers
   email/
-    resend-client.ts      # Resend client initialization
+    resend-client.ts      # Resend client initialization (primary)
+    brevo-client.ts       # Brevo client initialization (backup)
+    email-client.ts       # Unified email interface (routes to Resend/Brevo based on EMAIL_PROVIDER)
     templates.ts          # Email templates (internal notification + user confirmation, i18n)
-    send-contact-email.ts # Dual email orchestration (uses getEmailFromInternal/getEmailFromUser from env.ts)
+    send-contact-email.ts # Dual email orchestration (uses email-client)
     index.ts              # Barrel export
   i18n/
     locale-context.tsx    # LocaleProvider + useLocale (FROZEN)
@@ -156,6 +164,11 @@ Project uses three environment file layers:
 - Development: `@resend.dev` domain (no verification needed)
 - Production: `@isbim.com.hk` domain (requires DNS verification at https://resend.com/domains)
 - Variables: `EMAIL_FROM_INTERNAL` (internal notifications), `EMAIL_FROM_USER` (user confirmations)
+
+**Email Provider Configuration:**
+- Primary: Resend (default, 3000/月免费)
+- Backup: Brevo (9000/月免费)
+- Variables: `RESEND_API_KEY` (required), `BREVO_API_KEY` (optional), `EMAIL_PROVIDER` (resend|brevo, default: resend)
 
 ### UI Components
 ```
@@ -254,13 +267,18 @@ public/
   - Images: prefer local `/public` assets
   - Sanity usage limited to dynamic content pages (Newsroom, Careers); static pages use local/static data
 - **Email (Contact Form)**:
-  - Backend: Resend via Server Actions (`submitContactForm` in `actions/contact-form.action.ts`)
+  - Backend: Dual-provider system via Server Actions (`submitContactForm` in `actions/contact-form.action.ts`)
+  - Providers: Resend (primary, 3000/月) + Brevo (backup, 9000/月), switch via `EMAIL_PROVIDER` env
+  - Architecture: `email-client.ts` routes to `resend-client.ts`/`brevo-client.ts` based on config
   - Dual emails: Internal notification (English, to `CONTACT_EMAIL_TO`) + User confirmation (i18n: en/zh)
-  - Rate limiting: 3 submissions per IP per 5 minutes (in-memory Map, suitable for single-instance)
+  - Rate limiting: 3 submissions per IP per 5 minutes (in-memory Map)
+    - ⚠️ **Serverless limitation**: Not compatible with multi-instance serverless
+    - **Deployment options**: Single-instance container | Distributed cache (Redis) | Remove rate limiting
   - Validation: Zod schema (`contact-form.schema.ts`) with server-side enforcement
-  - Templates: HTML + plain text, responsive, CRM-ready internal format
-  - Environment: `RESEND_API_KEY` (required), `CONTACT_EMAIL_TO` (default: solution@isbim.com.hk)
-  - Error handling: User-friendly localized messages, no internal error exposure
+  - Templates: HTML + plain text, responsive, provider-agnostic
+  - Environment: `RESEND_API_KEY`/`BREVO_API_KEY`, `EMAIL_PROVIDER` (default: resend), `CONTACT_EMAIL_TO` (default: solution@isbim.com.hk)
+  - Error handling: User-friendly localized messages, logs provider used
+  - Both providers are serverless-compatible (stateless HTTP)
 - **i18n Navigation**:
   - Standard: `import { Link } from "@/lib/i18n"` with `prefetch` prop
   - Advanced: `import { LocalizedLink } from "@/components/ui/localized-link"` with `prefetchMode="hover|viewport|idle|auto|off"`

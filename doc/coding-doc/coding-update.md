@@ -12,6 +12,14 @@
 
 ---
 
+## 2025-11-29 (v4.1)
+- **Dual Email Provider System**: Added Brevo as backup email provider alongside Resend; switch via `EMAIL_PROVIDER` env var (`resend` [default] | `brevo`)
+- **Architecture**: Created unified email client (`lib/email/email-client.ts`) that routes to appropriate provider; Brevo client singleton (`lib/email/brevo-client.ts`); updated `send-contact-email.ts` to use unified interface
+- **Environment**: Added `BREVO_API_KEY` and `EMAIL_PROVIDER` to env system; updated `.env.local`/`.env.production` templates
+- **Documentation**: Updated `coding-archite.md` (Tech Stack, Library/Config, Email Provider Configuration section, Email pattern), `coding-rules.md` (Contact Form Email section), and this change log
+- **Provider Details**: Resend (3000 emails/month, domain verification required for production) + Brevo (9000 emails/month, optional verification)
+- **Files**: `src/lib/email/brevo-client.ts` (new), `src/lib/email/email-client.ts` (new), `src/lib/email/send-contact-email.ts`, `src/lib/email/index.ts`, `src/lib/env.ts`, `.env.local`, `.env.production`, `doc/coding-doc/coding-archite.md`, `doc/coding-doc/coding-rules.md`
+
 ## 2025-11-29 (v4.0)
 - **Email System**: Moved sender addresses to env vars (`EMAIL_FROM_INTERNAL`, `EMAIL_FROM_USER`); use `@resend.dev` for dev, `@isbim.com.hk` for production
 - **Documentation**: Added file descriptions to all coding docs; created `coding-backup-plan.md` for service alternatives (Resend → Brevo migration guide)
