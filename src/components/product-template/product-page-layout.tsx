@@ -1,0 +1,172 @@
+/**
+ * ProductPageLayout Component
+ *
+ * A composite layout component that combines all product page sections.
+ * Use this to quickly create new JARVIS product pages with consistent structure.
+ *
+ * @example
+ * ```tsx
+ * // In src/app/(website)/jarvis-agent/page.tsx
+ * import { ProductPageLayout } from "@/components/product-template";
+ *
+ * export default function JarvisAgentPage() {
+ *   return (
+ *     <ProductPageLayout
+ *       productName="JARVIS Agent"
+ *       videoSrc={JARVIS_VIDEOS.agent}
+ *       posterSrc={JARVIS_POSTERS.agent}
+ *       metadata={[m.meta1(), m.meta2(), m.meta3()]}
+ *       narrativeStage1={m.narrative_stage1()}
+ *       narrativeStage2={m.narrative_stage2()}
+ *       narrativeDesc={m.narrative_desc()}
+ *       features={[...]}
+ *       ctaTitle={m.cta_title()}
+ *       ctaSubtitle={m.cta_subtitle()}
+ *       ctaButtonText={m.cta_button()}
+ *     />
+ *   );
+ * }
+ * ```
+ */
+
+import { HeroSection } from "./hero-section";
+import { NarrativeTrack } from "./narrative-track";
+import { FeatureSection } from "./feature-section";
+import { ProductCTASection } from "./cta-section";
+
+/**
+ * Feature configuration for product pages
+ */
+export interface ProductFeature {
+  /** Feature index (e.g., "0.1", "0.2") */
+  index: string;
+  /** Title lines for the feature */
+  title: string[];
+  /** Feature description */
+  description: string;
+  /** Media source URL */
+  mediaSrc: string;
+  /** Media type */
+  mediaType?: "video" | "image";
+  /** Video poster image */
+  mediaPoster?: string;
+  /** Toggle labels */
+  videoLabel?: string;
+  detailsLabel?: string;
+  /** Detail items for the toggle view */
+  details?: Array<{
+    title: string;
+    description: string;
+  }>;
+}
+
+/**
+ * ProductPageLayout Props
+ */
+export interface ProductPageLayoutProps {
+  /** Product name displayed in hero */
+  productName: string;
+  /** Optional subtitle below product name */
+  productSubtitle?: string;
+  /** Hero video source URL */
+  videoSrc: string;
+  /** Hero video poster image */
+  posterSrc?: string;
+  /** Metadata items for hero sidebar */
+  metadata: string[];
+
+  /** Narrative section stage 1 text */
+  narrativeStage1: string;
+  /** Narrative section stage 2 text */
+  narrativeStage2: string;
+  /** Narrative section description */
+  narrativeDesc: string;
+  /** Optional highlight text in description */
+  narrativeHighlight?: string;
+  /** Scroll prompt text */
+  scrollPrompt?: string;
+
+  /** Product features configuration */
+  features: ProductFeature[];
+
+  /** CTA section title */
+  ctaTitle: string;
+  /** CTA section subtitle */
+  ctaSubtitle: string;
+  /** CTA button text */
+  ctaButtonText: string;
+  /** CTA button link destination */
+  ctaButtonHref?: string;
+}
+
+/**
+ * ProductPageLayout - Unified layout for all JARVIS product pages
+ */
+export function ProductPageLayout({
+  productName,
+  productSubtitle,
+  videoSrc,
+  posterSrc,
+  metadata,
+  narrativeStage1,
+  narrativeStage2,
+  narrativeDesc,
+  narrativeHighlight,
+  scrollPrompt,
+  features,
+  ctaTitle,
+  ctaSubtitle,
+  ctaButtonText,
+  ctaButtonHref = "/contact",
+}: ProductPageLayoutProps) {
+  return (
+    <div className="relative bg-product-light">
+      {/* Section A: Hero (Sticky Underlayer) */}
+      <HeroSection
+        productName={productName}
+        productSubtitle={productSubtitle}
+        videoSrc={videoSrc}
+        posterSrc={posterSrc}
+        metadata={metadata}
+      />
+
+      {/* Section B: Narrative Track (Scroll-driven Story) */}
+      <NarrativeTrack
+        stage1Text={narrativeStage1}
+        stage2Text={narrativeStage2}
+        stage2Gradient
+        description={narrativeDesc}
+        descriptionHighlight={narrativeHighlight}
+        scrollPromptText={scrollPrompt}
+      />
+
+      {/* Section C: Feature Sections */}
+      <main className="relative z-10 bg-product-light">
+        {features.map((feature, idx) => (
+          <FeatureSection
+            key={feature.index}
+            index={feature.index}
+            totalFeatures={features.length}
+            title={feature.title}
+            description={feature.description}
+            mediaSrc={feature.mediaSrc}
+            mediaType={feature.mediaType}
+            mediaPoster={feature.mediaPoster}
+            videoLabel={feature.videoLabel}
+            detailsLabel={feature.detailsLabel}
+            details={feature.details}
+            isLast={idx === features.length - 1}
+          />
+        ))}
+      </main>
+
+      {/* Section D: Call to Action */}
+      <ProductCTASection
+        title={ctaTitle}
+        subtitle={ctaSubtitle}
+        buttonText={ctaButtonText}
+        buttonHref={ctaButtonHref}
+      />
+    </div>
+  );
+}

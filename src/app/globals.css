@@ -45,6 +45,148 @@
   .section-padding {
     padding-block: clamp(3rem, 6vw, 5.5rem);
   }
+
+  /* ========================================
+     PRODUCT TEMPLATE UTILITIES
+     Used for all JARVIS product showcase pages
+     Based on product-template.html reference
+     ======================================== */
+
+  /* Background colors */
+  .bg-product-dark {
+    background-color: #1E1F2B;
+  }
+
+  .bg-product-light {
+    background-color: #F2F2F2;
+  }
+
+  /* Gradient text effect (purple → cyan) */
+  .text-product-gradient {
+    background: linear-gradient(93deg, #9881F3 0%, #13C9BA 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Gradient background */
+  .gradient-product {
+    background: linear-gradient(93deg, #9881F3 0%, #13C9BA 100%);
+  }
+
+  /* Product section base */
+  .product-section {
+    @apply relative py-20 md:py-32;
+    transition: background-color 0.3s linear;
+  }
+
+  .product-section--dark {
+    background-color: #1E1F2B;
+    @apply text-white;
+  }
+
+  .product-section--light {
+    background-color: #F2F2F2;
+    @apply text-gray-900;
+  }
+
+  /* Container for product pages */
+  .container-product {
+    @apply w-[92%] md:w-[90%] max-w-[1600px] mx-auto;
+  }
+}
+
+/* ========================================
+   PRODUCT TEMPLATE - NARRATIVE TRACK ANIMATIONS
+   ======================================== */
+
+/* Character-level reveal animation */
+.product-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100px) rotateX(20deg);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.65, 0.3, 0.9),
+              transform 0.8s cubic-bezier(0.2, 0.65, 0.3, 0.9);
+  will-change: opacity, transform;
+}
+
+.revealed .product-char {
+  opacity: 1;
+  transform: translateY(0) rotateX(0deg);
+}
+
+/* Block-level fade animation */
+.product-block-anim {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.65, 0.3, 0.9),
+              transform 0.8s cubic-bezier(0.2, 0.65, 0.3, 0.9);
+  will-change: opacity, transform;
+}
+
+.product-block-anim.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stage 2 text with gradient overlay using ::before pseudo-element */
+.product-stage2-text {
+  position: relative;
+}
+
+.product-stage2-text::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(93.94deg, #9881F3 0%, #13C9BA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+.gradient-active.product-stage2-text::before {
+  opacity: 1;
+}
+
+/* ========================================
+   PRODUCT TEMPLATE - INDEX ANIMATION (Reversible)
+   ======================================== */
+
+/* Container entrance/exit */
+.index-anim-container {
+  opacity: 0;
+  transform: translateY(-10px);
+  /* EXIT TRANSITION: Fast & clean when leaving */
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+/* ENTER TRANSITION: Slower & smoother when active */
+.feature-active .index-anim-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Line growth animation */
+.index-line {
+  transform: scaleX(0);
+  transform-origin: left;
+  /* EXIT TRANSITION: Shrink quickly */
+  transition: transform 0.5s ease-out;
+}
+
+/* ENTER TRANSITION: Grow elegantly with delay */
+.feature-active .index-line {
+  transform: scaleX(1);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0.2s;
 }
 
 /* Hero Section 1 Styles */

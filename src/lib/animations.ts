@@ -273,6 +273,67 @@ export function createScrollAnimation(
  */
 export const AUTOPLAY_DURATION = 5000; // 5 seconds
 
+/**
+ * Product Template Animation Timings
+ * Based on product-template.html reference design
+ * Used in: product-template/hero-section, narrative-track, feature-section
+ */
+export const PRODUCT_TEMPLATE_ANIMATIONS = {
+  /** Character reveal (staggered wave effect) */
+  charReveal: {
+    duration: 0.8,
+    ease: "cubic-bezier(0.2, 0.65, 0.3, 0.9)",
+    stagger: 0.03, // 30ms per character
+  },
+
+  /** Block-level fade-in animation */
+  blockFadeIn: {
+    duration: 0.8,
+    ease: "cubic-bezier(0.2, 0.65, 0.3, 0.9)",
+  },
+
+  /** Index line growth animation (reversible) */
+  indexLineGrow: {
+    enter: {
+      duration: 1.0,
+      ease: "cubic-bezier(0.22, 1, 0.36, 1)",
+      delay: 0.2,
+    },
+    exit: {
+      duration: 0.5,
+      ease: "ease-out",
+    },
+  },
+
+  /** Background color transition timing */
+  bgColorTransition: {
+    duration: 0.3,
+    ease: "linear",
+  },
+
+  /** Gradient text reveal timing */
+  gradientReveal: {
+    duration: 1.5,
+    ease: "ease-in-out",
+  },
+
+  /** Scroll progress thresholds for narrative track */
+  scrollThresholds: {
+    /** Stage 1 text reveal starts */
+    stage1Start: 0.15,
+    /** Background color transition starts */
+    bgTransitionStart: 0.2,
+    /** Stage 2 text reveal starts */
+    stage2Start: 0.4,
+    /** Background color transition ends */
+    bgTransitionEnd: 0.45,
+    /** Gradient effect activates */
+    gradientActive: 0.5,
+    /** Bottom section reveals */
+    bottomReveal: 0.65,
+  },
+} as const;
+
 const animationsConfig = {
   ANIMATION_DURATIONS,
   GSAP_EASINGS,
@@ -285,6 +346,7 @@ const animationsConfig = {
   DELAY_CONFIG,
   VIEWPORT_THRESHOLDS,
   AUTOPLAY_DURATION,
+  PRODUCT_TEMPLATE_ANIMATIONS,
 };
 
 export default animationsConfig;

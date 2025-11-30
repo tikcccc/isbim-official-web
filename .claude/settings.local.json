@@ -10,7 +10,8 @@
       "Bash(npm run build:*)",
       "Bash(npm install:*)",
       "Bash(curl:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm run paraglide:compile:*)"
     ],
     "deny": [],
     "ask": []

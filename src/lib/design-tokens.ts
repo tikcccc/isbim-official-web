@@ -75,6 +75,28 @@ export const SEMANTIC_COLORS = {
 } as const;
 
 /**
+ * Product Template Theme
+ * Used for all JARVIS product showcase pages
+ * Based on product-template.html reference design
+ */
+export const PRODUCT_TEMPLATE_COLORS = {
+  /** Immersive dark background (#1E1F2B) */
+  darkBg: "#1E1F2B",
+  /** Light content background (#F2F2F2) */
+  lightBg: "#F2F2F2",
+  /** Main text color (dark) */
+  textMain: "#1E1F2B",
+  /** Muted text color */
+  textMuted: "#454256",
+  /** Accent gradient - purple to cyan */
+  accentGradient: {
+    from: "#9881F3",
+    to: "#13C9BA",
+    deg: 93,
+  },
+} as const;
+
+/**
  * Spacing Scale
  * Consistent spacing values based on 4px base unit
  */
@@ -389,6 +411,7 @@ export const DESIGN_TOKENS = {
     brand: BRAND_COLORS,
     neutral: NEUTRAL_COLORS,
     semantic: SEMANTIC_COLORS,
+    productTemplate: PRODUCT_TEMPLATE_COLORS,
   },
   spacing: SPACING,
   radius: RADIUS,

@@ -8,9 +8,21 @@
 - 按时间倒序排列(最新的在前)
 - 仅记录重大变更,避免记录小修小补
 
-**Last Updated**: 2025-11-29
+**Last Updated**: 2025-11-30
 
 ---
+
+## 2025-11-30 (v4.2)
+- **Product Template System**: Created Palantir-inspired product page template for JARVIS product showcase pages
+- **Components**: `HeroSection` (sticky video hero), `NarrativeTrack` (scroll-driven storytelling with dark→light transition), `FeatureSection` (Video/Details toggle with next/image), `ProductCTASection`, `ProductPageLayout` (composite component)
+- **Optimizations**:
+  - Replaced `<img>` with `next/image` in FeatureSection for optimized loading
+  - Added ARIA accessibility (tablist/tab/tabpanel roles + keyboard navigation) to Video/Details toggle
+  - Created `useInViewAnimation` hook for reversible scroll-driven CSS class toggling
+  - Mobile scroll optimization: NarrativeTrack now uses 250vh on mobile (vs 350vh desktop)
+  - Added SEO schemas (SoftwareApplicationSchema + BreadcrumbSchema) to JARVIS Pay page
+- **CSS**: Added `.product-section`, `.product-char`, `.product-block-anim`, `.product-stage2-text::before` utilities in `globals.css`
+- **Files**: `src/components/product-template/*`, `src/hooks/use-in-view-animation.ts`, `src/app/(website)/jarvis-pay/page.tsx`, `src/app/(website)/jarvis-pay/layout.tsx`, `src/app/globals.css`
 
 ## 2025-11-29 (v4.1)
 - **Dual Email Provider System**: Added Brevo as backup email provider alongside Resend; switch via `EMAIL_PROVIDER` env var (`resend` [default] | `brevo`)

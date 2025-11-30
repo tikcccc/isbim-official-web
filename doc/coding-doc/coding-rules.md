@@ -53,6 +53,16 @@
 - Data from `src/data/services.ts` (5 entries) only; no inline duplicates.
 - Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead.
 
+## Product Template (JARVIS Product Pages)
+- Palantir-inspired design: sticky video hero, scroll-driven narrative, feature sections with Video/Details toggle.
+- Components: `HeroSection`, `NarrativeTrack`, `FeatureSection`, `ProductCTASection`, `ProductPageLayout` (composite).
+- **Layout**: Use dedicated `layout.tsx` with `HideDefaultFooter` + `FooterDark` (same pattern as services-products).
+- **NarrativeTrack**: Responsive scroll height via `mobileScrollHeight` (250vh) / `desktopScrollHeight` (350vh) props. Uses `data-text` + `::before` pseudo-element for gradient text overlay.
+- **FeatureSection**: Uses `next/image` with fill+sizes for optimized images. ARIA tablist/tab/tabpanel roles + keyboard navigation (ArrowLeft/ArrowRight) for accessibility.
+- **SEO**: Add `SoftwareApplicationSchema` + `BreadcrumbSchema` via `<JsonLd>` for each product page.
+- **Animation hooks**: Use `useInViewAnimation` for reversible scroll-driven CSS class toggling.
+- **CSS utilities**: `.product-section`, `.product-char`, `.product-block-anim`, `.product-stage2-text` in `globals.css`.
+
 ## Sanity & SEO
 - **Sanity**: Fetch with `sanityFetch` + typed queries; tag caches; no `any`; no direct `process.env`. Registered schemas: `newsType`, `careerType` only. Dynamic content pages (Newsroom, Careers) use Sanity; other pages stay static/CDN.
 - **SEO Metadata**: Use generators from `seo-generators.ts` for all pages:

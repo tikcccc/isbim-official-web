@@ -47,6 +47,9 @@ export type { GsapAnimationFn } from "./use-gsap-animation";
 export { useAutoplay } from "./use-autoplay";
 export type { UseAutoplayOptions, UseAutoplayReturn } from "./use-autoplay";
 
+export { useInViewAnimation } from "./use-in-view-animation";
+export type { UseInViewAnimationOptions } from "./use-in-view-animation";
+
 /**
  * Lenis Smooth Scroll Hook
  * Re-exported from smooth-scroll-provider for unified imports

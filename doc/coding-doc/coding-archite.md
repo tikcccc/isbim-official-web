@@ -96,6 +96,22 @@ src/components/services-products/
 ```
 - services data: `src/data/services.ts` (5 services/products)
 
+### Product Template (JARVIS Product Pages)
+```
+src/components/product-template/
+  hero-section.tsx          # Sticky video hero with gradient overlays
+  narrative-track.tsx       # 350vh scroll-driven storytelling (dark→light transition, char reveal)
+  feature-section.tsx       # Feature showcase with Video/Details toggle, next/image
+  cta-section.tsx           # Final CTA with gradient background
+  product-page-layout.tsx   # Composite layout (combines Hero+Narrative+Features+CTA)
+  index.ts                  # Barrel exports + ProductFeature/ProductPageLayoutProps types
+```
+- Design reference: `doc/reference-doc/pages/product-template/`
+- Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead
+- Responsive scroll height: 250vh mobile, 350vh desktop (via `mobileScrollHeight`/`desktopScrollHeight` props)
+- SEO: Uses `SoftwareApplicationSchema` + `BreadcrumbSchema` for structured data
+- Accessibility: ARIA tablist/tab/tabpanel roles + keyboard navigation for Video/Details toggle
+
 ### Animations
 ```
 src/components/animations/
@@ -114,6 +130,7 @@ src/components/animations/
 - Body scroll: `useBodyScrollLock`
 - GSAP: `useGsapAnimation`, `useGsapTimeline`
 - Autoplay: `useAutoplay`
+- Animations: `useInViewAnimation` (reversible scroll-driven CSS class toggling)
 
 ### Library / Config
 ```
