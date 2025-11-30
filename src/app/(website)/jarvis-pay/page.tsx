@@ -1,8 +1,14 @@
 export const dynamic = "force-dynamic";
 
 import { Metadata } from "next";
+import { headers } from "next/headers";
 import { generateProductPageSEO } from "@/lib/seo-generators";
-import { languageTag } from "@/paraglide/runtime";
+import {
+  languageTag,
+  setLanguageTag,
+  sourceLanguageTag,
+  type AvailableLanguageTag,
+} from "@/paraglide/runtime";
 import * as m from "@/paraglide/messages";
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
 import {
@@ -43,8 +49,11 @@ export async function generateMetadata(): Promise<Metadata> {
  *
  * @see /doc/reference-doc/pages/product-template/ for design reference
  */
-export default function JarvisPayPage() {
-  const locale = languageTag();
+export default async function JarvisPayPage() {
+  const headerList = await headers();
+  const locale = (headerList.get("x-language-tag") ?? sourceLanguageTag) as AvailableLanguageTag;
+  // Ensure paraglide runtime uses the request locale before rendering messages
+  setLanguageTag(() => locale);
   const baseUrl = "https://www.isbim.com.hk";
 
   // SEO Schema Data
