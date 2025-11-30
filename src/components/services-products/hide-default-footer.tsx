@@ -11,17 +11,17 @@ import { useEffect } from "react";
 
 export function HideDefaultFooter() {
   useEffect(() => {
-    // Find and hide the default footer (not footer-dark)
-    const defaultFooter = document.querySelector("footer:not(.footer-dark)");
+    // Find and hide the default footer (marked with .footer-default)
+    const defaultFooter = document.querySelector<HTMLElement>("footer.footer-default");
     if (defaultFooter) {
-      (defaultFooter as HTMLElement).style.display = "none";
+      defaultFooter.style.display = "none";
     }
 
     // Cleanup: restore footer when component unmounts
     return () => {
-      const defaultFooter = document.querySelector("footer:not(.footer-dark)");
+      const defaultFooter = document.querySelector<HTMLElement>("footer.footer-default");
       if (defaultFooter) {
-        (defaultFooter as HTMLElement).style.display = "";
+        defaultFooter.style.display = "";
       }
     };
   }, []);

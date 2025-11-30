@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Metadata } from "next";
 import { generateProductPageSEO } from "@/lib/seo-generators";
 import { languageTag } from "@/paraglide/runtime";

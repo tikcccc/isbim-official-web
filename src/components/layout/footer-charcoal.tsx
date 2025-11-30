@@ -22,15 +22,15 @@ function NewsletterFallback() {
   return (
     <div className="flex flex-col space-y-2.5 pt-0.5">
       <div className="flex space-x-2">
-        <div className="h-10 flex-1 rounded-md bg-slate-200 dark:bg-slate-800 animate-pulse" />
-        <div className="h-10 w-10 rounded-md bg-slate-200 dark:bg-slate-800 animate-pulse" />
+        <div className="h-10 flex-1 rounded-md bg-white/10 animate-pulse" />
+        <div className="h-10 w-10 rounded-md bg-white/10 animate-pulse" />
       </div>
-      <div className="h-3 w-24 rounded-md bg-slate-200 dark:bg-slate-800 animate-pulse" />
+      <div className="h-3 w-24 rounded-md bg-white/10 animate-pulse" />
     </div>
   );
 }
 
-export function Footer() {
+export function FooterCharcoal() {
   const productLinks = [
     { name: "JARVIS Agent", href: ROUTES.JARVIS.AGENT },
     { name: "JARVIS Pay", href: ROUTES.JARVIS.PAY },
@@ -61,37 +61,31 @@ export function Footer() {
   ];
 
   return (
-    <footer className="footer-default w-full bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-t border-slate-200 dark:border-slate-800 font-sans">
+    <footer className="footer-charcoal w-full bg-[#1e2124] text-white border-t border-white/10 font-sans">
       <div className="container mx-auto px-6 py-14 lg:py-20">
         {/* Grid layout */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">
           {/* Column 1: Brand & Vision */}
           <div className="flex flex-col space-y-5">
-            <Link href={ROUTES.HOME} prefetch className="inline-flex items-center hover:opacity-80 transition-opacity w-fit">
+            <Link
+              href={ROUTES.HOME}
+              prefetch
+              className="inline-flex items-center hover:opacity-80 transition-opacity w-fit"
+            >
               <Image
-                src="/icons/isbim_black.svg"
+                src="/icons/isbim_white.svg"
                 alt="isBIM Logo"
                 width={100}
                 height={28}
                 className="h-auto max-h-8 w-auto max-w-[110px] sm:max-w-[130px]"
                 priority
               />
-              <Image
-                src="/icons/isbim_white.svg"
-                alt="isBIM Logo"
-                width={100}
-                height={28}
-                className="hidden dark:block w-auto h-auto"
-                priority
-              />
             </Link>
 
-            <p className="text-[15px] text-slate-600 dark:text-slate-400 leading-[1.7] max-w-[280px]">
+            <p className="text-[15px] text-white leading-[1.7] max-w-[280px]">
               {messages.footer_tagline()}
               <br className="block mt-1.5" />
-              <span className="text-slate-500 dark:text-slate-500">
-                {messages.footer_tagline2()}
-              </span>
+              <span className="text-white">{messages.footer_tagline2()}</span>
             </p>
 
             {/* Social Icons */}
@@ -101,10 +95,15 @@ export function Footer() {
                   key={label}
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                  className="h-10 w-10 text-white hover:text-white hover:bg-white/15 transition-all"
                   asChild
                 >
-                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                  >
                     <Icon className="h-5 w-5" />
                   </a>
                 </Button>
@@ -114,10 +113,10 @@ export function Footer() {
 
           {/* Column 2: Solutions (JARVIS Products) */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-white">
               {messages.footer_platforms()}
             </h3>
-            <ul className="space-y-2.5 text-[15px] text-slate-600 dark:text-slate-400">
+            <ul className="space-y-2.5 text-[15px] text-white">
               {productLinks.map((link) => (
                 <m.li
                   key={link.name}
@@ -127,7 +126,7 @@ export function Footer() {
                   <Link
                     href={link.href}
                     prefetch
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors block py-0.5 leading-tight"
+                    className="text-white hover:text-white/80 transition-colors block py-0.5 leading-tight"
                   >
                     {link.name}
                   </Link>
@@ -138,10 +137,10 @@ export function Footer() {
 
           {/* Column 3: Company */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-white">
               {messages.footer_company()}
             </h3>
-            <ul className="space-y-2.5 text-[15px] text-slate-600 dark:text-slate-400">
+            <ul className="space-y-2.5 text-[15px] text-white">
               {companyLinks.map((link) => (
                 <m.li
                   key={link.name}
@@ -151,7 +150,7 @@ export function Footer() {
                   <Link
                     href={link.href}
                     prefetch
-                    className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors block py-0.5 leading-tight"
+                    className="text-white hover:text-white/80 transition-colors block py-0.5 leading-tight"
                   >
                     {link.name}
                   </Link>
@@ -162,10 +161,10 @@ export function Footer() {
 
           {/* Column 4: Newsletter Subscription */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-white">
               {messages.footer_stay_connected()}
             </h3>
-            <p className="text-[15px] text-slate-500 dark:text-slate-400 leading-[1.65]">
+            <p className="text-[15px] text-white leading-[1.65]">
               {messages.footer_newsletter_desc()}
             </p>
 
@@ -175,19 +174,31 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-10" />
+        <Separator className="my-10 bg-white/10" />
 
         {/* Bottom Bar - Copyright & Legal Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-slate-500 dark:text-slate-400 space-y-3 md:space-y-0">
+        <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-white space-y-3 md:space-y-0">
           <p>{messages.footer_copyright()}</p>
           <div className="flex space-x-7">
-            <Link href="/privacy" prefetch className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            <Link
+              href="/privacy"
+              prefetch
+              className="hover:opacity-80 transition-opacity"
+            >
               {messages.footer_privacy()}
             </Link>
-            <Link href="/terms" prefetch className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            <Link
+              href="/terms"
+              prefetch
+              className="hover:opacity-80 transition-opacity"
+            >
               {messages.footer_terms()}
             </Link>
-            <Link href="/cookies" prefetch className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+            <Link
+              href="/cookies"
+              prefetch
+              className="hover:opacity-80 transition-opacity"
+            >
               {messages.footer_cookies()}
             </Link>
           </div>
