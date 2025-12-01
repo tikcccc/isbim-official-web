@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { VIEWPORT_THRESHOLDS } from "@/lib/animations";
 
 /**
  * Detail item for the feature's detail view
@@ -79,14 +78,26 @@ export function FeatureSection({
     const section = sectionRef.current;
     if (!section) return;
 
-    // IntersectionObserver for reversible animation + index flash trigger
+    // Unified observer with multiple thresholds for better performance
+    // 0.1 = line appears, 0.3 = numbers appear
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          const ratio = entry.intersectionRatio;
+
+          // STAGE 1: Line appears at 10%
+          if (ratio >= 0.1 && entry.isIntersecting) {
+            entry.target.classList.add("line-active");
+          } else if (ratio < 0.1) {
+            entry.target.classList.remove("line-active");
+          }
+
+          // STAGE 2: Numbers appear at 30%
+          if (ratio >= 0.3 && entry.isIntersecting) {
+            // Numbers appear
             entry.target.classList.add("feature-active");
 
-            // Trigger index flash only once when section becomes active
+            // Trigger index flash when numbers become visible
             if (!hasFlashedRef.current) {
               hasFlashedRef.current = true;
 
@@ -95,32 +106,50 @@ export function FeatureSection({
                 clearTimeout(indexFlashTimerRef.current);
               }
 
-              // Wait for index entrance animation to complete (0.8s) before flashing
-              setTimeout(() => {
-                // Trigger rapid pulse flash on index
-                setIsIndexFlashing(true);
+              // Flash current index immediately as numbers appear
+              setIsIndexFlashing(true);
 
-                // Reset flash state after animation completes (0.25s)
-                indexFlashTimerRef.current = setTimeout(() => {
-                  setIsIndexFlashing(false);
-                  indexFlashTimerRef.current = null;
-                }, 300);
+              // Flash duration: 0.25s
+              indexFlashTimerRef.current = setTimeout(() => {
+                setIsIndexFlashing(false);
+                indexFlashTimerRef.current = null;
               }, 250);
             }
-          } else {
-            entry.target.classList.remove("feature-active");
-            // Reset flash flag when section exits viewport (allows re-flash on re-entry)
+          } else if (ratio < 0.3) {
+            // EXIT: Flash current index → Numbers disappear
+            if (hasFlashedRef.current) {
+              // Clear any existing timer
+              if (indexFlashTimerRef.current) {
+                clearTimeout(indexFlashTimerRef.current);
+              }
+
+              // Trigger exit flash immediately
+              setIsIndexFlashing(true);
+
+              // After flash completes (0.25s), remove feature-active to hide numbers
+              indexFlashTimerRef.current = setTimeout(() => {
+                setIsIndexFlashing(false);
+                entry.target.classList.remove("feature-active");
+                indexFlashTimerRef.current = null;
+              }, 250);
+            } else {
+              // If never flashed, just remove class immediately
+              entry.target.classList.remove("feature-active");
+            }
+
+            // Reset flash flag for next entry
             hasFlashedRef.current = false;
           }
         });
       },
       {
-        threshold: VIEWPORT_THRESHOLDS.low, // 30% visible
+        threshold: [0.1, 0.3], // Multiple thresholds for staged animation
         rootMargin: "0px",
       }
     );
 
     observer.observe(section);
+
     return () => {
       observer.disconnect();
       // Cleanup timers on unmount
@@ -203,7 +232,7 @@ export function FeatureSection({
                 </span>
 
                 {/* Animated line */}
-                <div className="index-line h-px bg-gray-900 flex-grow mx-4 opacity-50" />
+                <div className="index-line h-px bg-gray-900 flex-grow mx-4" />
 
                 {/* After indices */}
                 {afterIndices.length > 0 && (
