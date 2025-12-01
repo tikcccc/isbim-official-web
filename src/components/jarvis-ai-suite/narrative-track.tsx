@@ -29,6 +29,12 @@ export function NarrativeTrack() {
     restDelta: 0.001
   });
 
+  // Delay all in-view animations until the background has fully settled
+  const ANIMATION_START = 0.12;
+  const delayedProgress = useTransform(smoothProgress, (value) =>
+    Math.max(0, Math.min(1, (value - ANIMATION_START) / (1 - ANIMATION_START)))
+  );
+
   // Background Color Interpolation
   // 0.0 - 0.2: Black (Hero Transition)
   // 0.3 - 0.5: Deep Navy/Slate (Enterprise Autonomy)
@@ -36,29 +42,32 @@ export function NarrativeTrack() {
   // 0.9 - 1.0: Black (Exit)
   const trackBackgroundColor = useTransform(
     smoothProgress,
-    [0, 0.2, 0.45, 0.7, 1],
+    [0, 0.12, 0.35, 0.7, 1],
     [
-      '#0A0A0A', // Dark Grey/Black
-      '#0A0A0A', // Stay Dark
+      '#ffffff', // Full white while entering
+      '#ffffff', // Hold white until animation starts
       '#0F172A', // Slate 900 (Rich Blue-Grey)
       '#1C1917', // Stone 900 (Warm Grey)
       '#0A0A0A'  // Back to Dark
     ]
   );
 
+  // Fade the white cover away once the white background is fully visible
+  const whiteCoverOpacity = useTransform(smoothProgress, [0, ANIMATION_START, ANIMATION_START + 0.08], [1, 1, 0]);
+
   // Content Transformations
-  const title1Opacity = useTransform(smoothProgress, [0.05, 0.2], [0, 1]);
-  const title1Y = useTransform(smoothProgress, [0.05, 0.2], [40, 0]);
-  const title1Blur = useTransform(smoothProgress, [0.05, 0.2], ['10px', '0px']);
+  const title1Opacity = useTransform(delayedProgress, [0, 0.18], [0, 1]);
+  const title1Y = useTransform(delayedProgress, [0, 0.18], [40, 0]);
+  const title1Blur = useTransform(delayedProgress, [0, 0.18], ['10px', '0px']);
 
-  const title2Opacity = useTransform(smoothProgress, [0.3, 0.45], [0, 1]);
-  const title2Y = useTransform(smoothProgress, [0.3, 0.45], [40, 0]);
-  const title2Blur = useTransform(smoothProgress, [0.3, 0.45], ['10px', '0px']);
+  const title2Opacity = useTransform(delayedProgress, [0.25, 0.42], [0, 1]);
+  const title2Y = useTransform(delayedProgress, [0.25, 0.42], [40, 0]);
+  const title2Blur = useTransform(delayedProgress, [0.25, 0.42], ['10px', '0px']);
 
-  const statsOpacity = useTransform(smoothProgress, [0.55, 0.7], [0, 1]);
-  const statsY = useTransform(smoothProgress, [0.55, 0.7], [20, 0]);
+  const statsOpacity = useTransform(delayedProgress, [0.55, 0.72], [0, 1]);
+  const statsY = useTransform(delayedProgress, [0.55, 0.72], [20, 0]);
 
-  const footerOpacity = useTransform(smoothProgress, [0.85, 0.95], [0, 1]);
+  const footerOpacity = useTransform(delayedProgress, [0.82, 0.95], [0, 1]);
 
   const handleScrollToNext = () => {
     document.getElementById('narrative-bridge')?.scrollIntoView({ behavior: 'smooth' });
@@ -68,6 +77,8 @@ export function NarrativeTrack() {
     <div ref={contentSectionRef} className="relative z-10 h-[400vh]">
       {/* Dynamic Background Layer */}
       <m.div style={{ backgroundColor: trackBackgroundColor }} className="absolute inset-0 z-0">
+        {/* White cover so the background is fully white before animations start */}
+        <m.div style={{ opacity: whiteCoverOpacity }} className="absolute inset-0 bg-white" />
         {/* Overlay Grids for texture */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
         {/* Vignette to focus attention */}

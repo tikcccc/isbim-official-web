@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { headers } from "next/headers";
 import { sourceLanguageTag } from "@/paraglide/runtime";
 import { allianceNo1, allianceNo2 } from "./fonts";
 import { JsonLd, createOrganizationSchema } from "@/components/seo/json-ld";
@@ -23,9 +22,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Use middleware-provided locale when available to keep <html lang> accurate.
-  const headersList = await headers();
-  const languageTag = headersList.get("x-language-tag") || sourceLanguageTag;
+  const languageTag = sourceLanguageTag;
 
   // Generate Organization schema for SEO
   const siteUrl = getSiteUrl();

@@ -12,14 +12,19 @@
 
 ---
 
-- Problem: /en/jarvis-pay 渲染中文文案  
-  Root Cause: Locale 解析未锁定 URL 前缀，x-language-tag 可能返回 zh  
-  Solution: 已解决；恢复默认 Middleware，并在 src/app/(website)/jarvis-pay/page.tsx 读取 headers 的 x-language-tag + setLanguageTag，保持 `dynamic = "force-dynamic"`
-
-- Problem: Jarvis Pay 切换语言后文案错位（URL 与文案语言不一致）  
-  Root Cause: 页面被静态缓存，locale 切换未重新渲染内容  
-  Solution: 已解决；同上在页面中显式 setLanguageTag 并保留 `dynamic = "force-dynamic"`，确保按请求 locale 渲染
+- Problem: Product Template 页面（Jarvis Pay 等）切换语言后文案错位（URL 与文案语言不一致）
+  Root Cause: Server Component 中大量 m.*() 翻译调用 + 静态缓存导致 locale 切换后未重新渲染
+  Solution: ✅ 已解决；将 `ProductPageLayout` 标记为 `"use client"`，所有翻译在客户端执行，自动响应 locale 变化。优势：(1) 只刷新一次（PageTransition 动画），(2) 无需 `dynamic = "force-dynamic"`，(3) 与 About-us/Home 模式一致
+  Note: Newsroom/Careers 等动态资源页面（依赖 Sanity）应保持 Server Component + ISR 模式，不适用此方案
 
 - Problem: 使用 `next export`（或全量静态化）时 /contact 预渲染失败  
   Root Cause: 页面依赖 Server Action（submitContactForm）和 headers()，不支持纯静态导出  
   Solution: 未解决；使用常规 `next build`（动态渲染）。若必须静态导出，需改为 API 路由/外部服务以移除 Server Action 依赖
+
+- Problem: Feature title stays single-line after typewriter animation and overlaps the description column on wide headlines.
+  Root Cause: TypewriterLines/TypewriterLinesReverse only marked completion on one line, so allLinesComplete never flipped for multi-line titles and whitespace-nowrap remained.
+  Solution: Fire the line-complete handler for every line so the completion flag turns on when the final line finishes, letting whitespace reset and the title wrap normally.
+
+- Problem: Reverse typewriter flickers once before disappearing (TypewriterLinesReverse/TypewriterText).
+  Root Cause: Not fully identified; width-freezing attempts reduce reflow but GSAP per-char reverse still shifts layout when opacity drops.
+  Solution: Pending. Investigate keeping container layout stable (clone fixed-size container or fade wrapper instead of per-char) to remove the flicker.

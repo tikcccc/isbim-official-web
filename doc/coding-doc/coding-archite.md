@@ -99,15 +99,28 @@ src/components/services-products/
 ### Product Template (JARVIS Product Pages)
 ```
 src/components/product-template/
-  hero-section.tsx          # Sticky video hero with gradient overlays
-  narrative-track.tsx       # 350vh scroll-driven storytelling (dark→light transition, char reveal)
-  feature-section.tsx       # Feature showcase with Video/Details toggle, next/image
-  cta-section.tsx           # Final CTA with gradient background
-  product-page-layout.tsx   # Composite layout (combines Hero+Narrative+Features+CTA)
+  hero-section.tsx          # 'use client' - Sticky video hero with gradient overlays
+  narrative-track.tsx       # 'use client' - 350vh scroll-driven storytelling (dark→light transition, char reveal)
+  feature-section.tsx       # 'use client' - Feature showcase with Video/Details toggle, next/image
+  cta-section.tsx           # 'use client' - Final CTA with gradient background
+  product-page-layout.tsx   # 'use client' - Composite layout (combines Hero+Narrative+Features+CTA)
   index.ts                  # Barrel exports + ProductFeature/ProductPageLayoutProps types
+
+src/app/(website)/jarvis-pay/
+  page.tsx                  # Server Component - SEO metadata + JSON-LD Schema only
+  jarvis-pay-client.tsx     # 'use client' - All m.*() translations executed client-side
+  layout.tsx                # HideDefaultFooter + FooterCharcoal
 ```
+- **Architecture Pattern**: Server Wrapper + Client Content
+  - `page.tsx` (Server Component): SEO metadata + JSON-LD Schema only, NO m.*() calls except metadata generation
+  - `{product}-client.tsx` (Client Component): ALL content m.*() translations executed client-side
+  - Key: m.*() calls in Server Component are pre-rendered and passed as static strings → causes locale mismatch
+  - Solution: All page content translations must execute in dedicated client file (e.g., `jarvis-pay-client.tsx`)
+  - Advantages: (1) Single page refresh on locale switch, (2) No `dynamic = "force-dynamic"` needed, (3) Real-time locale responsiveness
+- **Data Source**: Static resources only (Paraglide m.* translations), NOT Sanity CMS
+- **Contrast with Dynamic Pages**: Newsroom/Careers use Server Component + Sanity + ISR pattern (different from Product Template)
 - Design reference: `doc/reference-doc/pages/product-template/`
-- Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead
+- Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterCharcoal` instead
 - Responsive scroll height: 250vh mobile, 350vh desktop (via `mobileScrollHeight`/`desktopScrollHeight` props)
 - SEO: Uses `SoftwareApplicationSchema` + `BreadcrumbSchema` for structured data
 - Accessibility: ARIA tablist/tab/tabpanel roles + keyboard navigation for Video/Details toggle
@@ -279,10 +292,11 @@ public/
 - **OPEN**: layout JSX/CSS in `(website)`, Paraglide language list, UI components, new pages, navigation data, styles placeholders, animation placeholders, schema placeholders.
 
 ## Patterns & Rules (current)
-- **Content sources**:
+- **Content sources & Rendering Patterns**:
+  - **Static Product Pages** (Jarvis Pay, etc.): Client Component pattern (ProductPageLayout), Paraglide m.* translations, no Sanity
+  - **Dynamic Content Pages** (Newsroom, Careers): Server Component + Sanity CMS + ISR, use `sanityFetch()` with cache tags
   - Videos: CDN links (via `media-config`/`JARVIS_VIDEOS`)
   - Images: prefer local `/public` assets
-  - Sanity usage limited to dynamic content pages (Newsroom, Careers); static pages use local/static data
 - **Email (Contact Form)**:
   - Backend: Dual-provider system via Server Actions (`submitContactForm` in `actions/contact-form.action.ts`)
   - Providers: Resend (primary, 3000/月) + Brevo (backup, 9000/月), switch via `EMAIL_PROVIDER` env
@@ -323,6 +337,12 @@ public/
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
 - **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.
 - **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
+
+### Product Template - updated guardrails (2025-02)
+- Server wrapper (`page.tsx`): only `generateMetadata` may call `m.*()`. JSON-LD text should use static strings; build URLs with `getSiteUrl()` + `buildHref()` (no hand-crafted `/${locale}`).
+- Client content (`{product}-client.tsx`): all translations and layout props live here. Do not pass server-rendered `m.*()` strings down.
+- Media: use `getVideoUrl`/`JARVIS_VIDEOS` (and feature-specific helpers) instead of hardcoded `/videos/...` so CDN overrides and URL encoding work.
+- Links/CTA: use `Link` or `LocalizedLink` from `@/lib/i18n`; avoid `next/link` to keep locale prefix/prefetch consistent across product pages.
 
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.

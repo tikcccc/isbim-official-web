@@ -283,7 +283,7 @@ export const PRODUCT_TEMPLATE_ANIMATIONS = {
   charReveal: {
     duration: 0.8,
     ease: "cubic-bezier(0.2, 0.65, 0.3, 0.9)",
-    stagger: 0.03, // 30ms per character
+    stagger: 0.05, // 50ms per character - slower for more distinct reveal
   },
 
   /** Block-level fade-in animation */

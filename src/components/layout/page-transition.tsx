@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/lib/i18n';
 import { useLenis } from '@/components/smooth-scroll-provider';
 import { m } from '@/components/motion/lazy-motion';
 

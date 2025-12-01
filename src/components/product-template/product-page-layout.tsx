@@ -1,3 +1,4 @@
+"use client";
 /**
  * ProductPageLayout Component
  *
@@ -28,6 +29,7 @@
  * }
  * ```
  */
+
 
 import { HeroSection } from "./hero-section";
 import { NarrativeTrack } from "./narrative-track";

@@ -80,6 +80,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
               priority
+              fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent" />
           </div>

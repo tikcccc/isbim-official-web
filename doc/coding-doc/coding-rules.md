@@ -54,17 +54,36 @@
 - Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead.
 
 ## Product Template (JARVIS Product Pages)
+- **Architecture**: Server Wrapper + Client Content pattern
+  - `page.tsx` (Server Component): SEO metadata generation + JSON-LD Schema ONLY
+  - `{product}-client.tsx` (Client Component): ALL m.*() translations executed client-side
+  - Benefits: Single page refresh, no `dynamic = "force-dynamic"`, automatic locale responsiveness
+- **CRITICAL i18n Rule**:
+  - ❌ NEVER call m.*() in Server Component and pass as props (pre-renders as static strings → locale mismatch)
+  - ✅ ALWAYS create dedicated `{product}-client.tsx` marked `"use client"` with all m.*() calls inside
+  - Example: `jarvis-pay/page.tsx` (Server) → `jarvis-pay/jarvis-pay-client.tsx` (Client with m.*())
+- **Data Source Rule**: Static resources ONLY (Paraglide m.* translations). NOT for Sanity-based pages (Newsroom/Careers use Server Component + ISR).
 - Palantir-inspired design: sticky video hero, scroll-driven narrative, feature sections with Video/Details toggle.
-- Components: `HeroSection`, `NarrativeTrack`, `FeatureSection`, `ProductCTASection`, `ProductPageLayout` (composite).
-- **Layout**: Use dedicated `layout.tsx` with `HideDefaultFooter` + `FooterDark` (same pattern as services-products).
+- Components: `HeroSection`, `NarrativeTrack`, `FeatureSection`, `ProductCTASection`, `ProductPageLayout` (composite) - ALL marked `"use client"`.
+- **Layout**: Use dedicated `layout.tsx` with `HideDefaultFooter` + `FooterCharcoal` (same pattern as services-products).
 - **NarrativeTrack**: Responsive scroll height via `mobileScrollHeight` (250vh) / `desktopScrollHeight` (350vh) props. Uses `data-text` + `::before` pseudo-element for gradient text overlay.
 - **FeatureSection**: Uses `next/image` with fill+sizes for optimized images. ARIA tablist/tab/tabpanel roles + keyboard navigation (ArrowLeft/ArrowRight) for accessibility.
-- **SEO**: Add `SoftwareApplicationSchema` + `BreadcrumbSchema` via `<JsonLd>` for each product page.
+- **SEO**: Add `SoftwareApplicationSchema` + `BreadcrumbSchema` via `<JsonLd>` in Server Component wrapper for each product page.
 - **Animation hooks**: Use `useInViewAnimation` for reversible scroll-driven CSS class toggling.
 - **CSS utilities**: `.product-section`, `.product-char`, `.product-block-anim`, `.product-stage2-text` in `globals.css`.
+- **Guardrails (2025-02)**:
+  - Server wrapper only: `generateMetadata` may call `m.*()`; JSON-LD content should use static strings. Build all URLs with `getSiteUrl()` + `buildHref()` (no hand-crafted locale prefixes).
+  - Client content: all translations live in `{product}-client.tsx`; do not pass server-rendered `m.*()` strings as props.
+  - Media: use `getVideoUrl`/`JARVIS_VIDEOS` (or feature helpers) instead of `/videos/...` literals so CDN overrides/encoding apply.
+  - Links/CTA: use `Link` or `LocalizedLink` from `@/lib/i18n`; avoid `next/link` to keep locale-aware routing/prefetch.
 
 ## Sanity & SEO
-- **Sanity**: Fetch with `sanityFetch` + typed queries; tag caches; no `any`; no direct `process.env`. Registered schemas: `newsType`, `careerType` only. Dynamic content pages (Newsroom, Careers) use Sanity; other pages stay static/CDN.
+- **Sanity**: Fetch with `sanityFetch` + typed queries; tag caches; no `any`; no direct `process.env`. Registered schemas: `newsType`, `careerType` only.
+- **Dynamic Content Pages (Newsroom, Careers)**:
+  - Architecture: Server Component + Sanity CMS + ISR (different from Product Template)
+  - Use `sanityFetch()` with cache tags for on-demand revalidation
+  - Keep Server Component for SEO and data fetching optimization
+  - Do NOT apply Product Template's client component pattern to these pages
 - **SEO Metadata**: Use generators from `seo-generators.ts` for all pages:
   - Products: `generateProductPageSEO(productKey, title, desc, locale)`
   - Services: `generateServicePageSEO(serviceKey, title, desc, locale)`

@@ -195,6 +195,7 @@ export function Section4PlatformList() {
   const [isInViewport, setIsInViewport] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const posterUrls = platforms.map((p) => p.posterUrl).filter(Boolean) as string[];
 
   const { preloadRange } = useSmartVideoPreloader(videoRefs, isInViewport);
 
@@ -215,6 +216,14 @@ export function Section4PlatformList() {
       observer.disconnect();
     };
   }, []);
+
+  // Preload a couple of posters so hover previews show immediately
+  useEffect(() => {
+    posterUrls.slice(0, 3).forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
+  }, [posterUrls]);
 
   // Phase 2: Smart hover handler with progressive preload
   const handleHover = useCallback((index: number) => {

@@ -3,6 +3,8 @@ import { generateNewsroomPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
 import NewsroomPageClient from "./newsroom-page-client";
 
+export const revalidate = 3600;
+
 /**
  * Newsroom Page Metadata
  *

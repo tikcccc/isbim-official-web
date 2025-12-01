@@ -52,6 +52,12 @@ export function HeroSection1() {
     return () => clearTimeout(timer);
   }, [playTextAnimation]);
 
+  useEffect(() => {
+    // Preload hero poster so the video has an immediate fallback frame
+    const img = new Image();
+    img.src = JARVIS_POSTERS.banner;
+  }, []);
+
   return (
     <section className="hero-section relative w-full overflow-hidden bg-black min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
       {/* Video Background (absolute position within section) */}

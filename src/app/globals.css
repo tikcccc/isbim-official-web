@@ -104,15 +104,32 @@
 .product-char {
   display: inline-block;
   opacity: 0;
-  transform: translateY(100px) rotateX(20deg);
-  transition: opacity 0.6s cubic-bezier(0.2, 0.65, 0.3, 0.9),
-              transform 0.8s cubic-bezier(0.2, 0.65, 0.3, 0.9);
+  transform: translateY(20px);
+  transition: opacity 0.28s cubic-bezier(0.2, 0.65, 0.3, 0.9),
+              transform 0.32s cubic-bezier(0.2, 0.65, 0.3, 0.9);
+  transition-delay: var(--char-delay-in, 0ms);
   will-change: opacity, transform;
 }
 
+.stage1-exiting .product-char {
+  transition-delay: var(--char-delay-out, 0ms);
+}
+
+/* Standard reveal (all at once or staggered) */
 .revealed .product-char {
   opacity: 1;
-  transform: translateY(0) rotateX(0deg);
+  transform: translateY(0);
+}
+
+/* Two-stage reveal support */
+.revealed-part-1 .product-char[data-part="1"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.revealed-part-2 .product-char[data-part="2"] {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Block-level fade animation */
@@ -189,16 +206,32 @@
   transform-origin: left;
   opacity: 0;
   /* EXIT TRANSITION: Smooth shrink with same easing as enter */
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* STAGE 1: Line appears first (triggered at lower threshold) */
 .line-active .index-line {
   transform: scaleX(1) translateZ(0);
-  opacity: 0.5;
+  opacity: 0.8;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.08));
+}
+
+/* Connector dashes grow together with the main line */
+.index-connector {
+  display: inline-block;
+  transform: scaleX(0) translateZ(0);
+  transform-origin: left;
+  opacity: 0;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
               opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.line-active .index-connector {
+  transform: scaleX(1) translateZ(0);
+  opacity: 0.65;
 }
 
 /* Hero Section 1 Styles */
@@ -382,4 +415,19 @@
   will-change: opacity;
   /* Override any parent transition */
   transition: none !important;
+}
+/* Slow bounce animation for scroll indicator */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(-15%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s infinite;
 }

@@ -9,9 +9,6 @@ import { composeKeywords } from "@/lib/seo-generators";
 import { JsonLd, createOrganizationSchema, createSoftwareApplicationSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
 
-// Use literal number to satisfy Next.js page config parsing.
-export const revalidate = 3600;
-
 /**
  * Generate metadata for home page
  * Enhanced with dual identity (AI + Construction) and Hong Kong emphasis

@@ -1,6 +1,6 @@
-'use client';
-
 import * as m from '@/paraglide/messages';
+
+export const revalidate = 3600;
 
 export default function CareersPage() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useMemo } from "react";
 import { PRODUCT_TEMPLATE_ANIMATIONS } from "@/lib/animations";
 import { PRODUCT_TEMPLATE_COLORS } from "@/lib/design-tokens";
 import { useIsMobile } from "@/hooks";
@@ -34,8 +34,8 @@ interface NarrativeTrackProps {
  * Features:
  * - 350vh height drives scroll animation progress
  * - Sticky inner stage (content stays centered)
- * - Background color transition (dark → light)
- * - Text color transition (white → dark)
+ * - Background color transition (dark + light)
+ * - Text color transition (white + dark)
  * - Character-by-character reveal animation
  * - Gradient text overlay effect
  * - Reversible animations (scroll up/down)
@@ -57,12 +57,25 @@ export function NarrativeTrack({
   const text2Ref = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
+  const lastProgressRef = useRef(0);
 
   // Responsive scroll height for better mobile UX
   const isMobile = useIsMobile();
   const scrollHeight = isMobile ? mobileScrollHeight : desktopScrollHeight;
 
-  const { scrollThresholds } = PRODUCT_TEMPLATE_ANIMATIONS;
+  // Custom thresholds to ensure background turns white BEFORE text appears
+  const thresholds = useMemo(
+    () => ({
+      bgTransitionStart: 0.05,
+      bgTransitionEnd: 0.25, // Background fully white by 25%
+      stage1Start: 0.3, // Text 1 Part 1 starts appearing
+      stage1Part2: 0.38, // Text 1 Part 2 starts appearing (subtle delay)
+      stage2Start: 0.55, // Text 2 starts appearing
+      gradientActive: 0.65,
+      bottomReveal: 0.8,
+    }),
+    []
+  );
 
   /**
    * Split text into individual character spans for animation
@@ -71,8 +84,16 @@ export function NarrativeTrack({
     const text = element.textContent || "";
     element.innerHTML = "";
     const words = text.split(" ");
+    const totalChars = text.replace(/\s/g, "").length;
+    const splitIndex = Math.floor(totalChars * 0.4); // Split at 40% for part 1
+
+    const part1Count = splitIndex + 1;
+    const part2Count = Math.max(totalChars - part1Count, 0);
+    const baseDelayMs = PRODUCT_TEMPLATE_ANIMATIONS.charReveal.stagger * 1000;
 
     let charIndex = 0;
+    let part1Pos = 0;
+    let part2Pos = 0;
     words.forEach((word, wordIdx) => {
       const wordSpan = document.createElement("span");
       wordSpan.style.display = "inline-block";
@@ -82,7 +103,20 @@ export function NarrativeTrack({
         const charSpan = document.createElement("span");
         charSpan.className = "product-char";
         charSpan.textContent = char;
-        charSpan.style.transitionDelay = `${charIndex * PRODUCT_TEMPLATE_ANIMATIONS.charReveal.stagger * 1000}ms`;
+        // Assign part 1 or 2 based on index
+        const isPart1 = charIndex <= splitIndex;
+        charSpan.setAttribute("data-part", isPart1 ? "1" : "2");
+
+        // Stagger in normal order for enter; reverse order for exit
+        const localIndex = isPart1 ? part1Pos++ : part2Pos++;
+        const forwardDelay = localIndex * baseDelayMs;
+        const reverseDelay =
+          (isPart1 ? Math.max(part1Count - 1 - localIndex, 0) : Math.max(part2Count - 1 - localIndex, 0)) *
+          baseDelayMs;
+
+        charSpan.style.setProperty("--char-delay-in", `${forwardDelay}ms`);
+        charSpan.style.setProperty("--char-delay-out", `${reverseDelay}ms`);
+
         wordSpan.appendChild(charSpan);
         charIndex++;
       });
@@ -157,73 +191,109 @@ export function NarrativeTrack({
     const whiteText = { r: 255, g: 255, b: 255 };
     const darkText = hexToRgb(PRODUCT_TEMPLATE_COLORS.textMain);
 
+    let rafId: number;
+
     const handleScroll = () => {
-      const rect = track.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const scrollDistance = rect.height - windowHeight;
+      rafId = requestAnimationFrame(() => {
+        if (!track || !text1 || !text2 || !bottom) return;
 
-      // Calculate scroll progress (0 to 1)
-      let progress = -rect.top / scrollDistance;
-      progress = Math.max(0, Math.min(1, progress));
+        const rect = track.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const scrollDistance = rect.height - windowHeight;
 
-      // Background color transition
-      const bgFactor = mapRange(
-        progress,
-        scrollThresholds.bgTransitionStart,
-        scrollThresholds.bgTransitionEnd,
-        0,
-        1
-      );
-      track.style.backgroundColor = interpolateColor(darkBg, lightBg, bgFactor);
+        // Calculate scroll progress (0 to 1)
+        let progress = -rect.top / scrollDistance;
+        progress = Math.max(0, Math.min(1, progress));
+        const isScrollingDown = progress >= lastProgressRef.current;
 
-      // Text color transition (stage 1 text)
-      const textFactor = mapRange(
-        progress,
-        scrollThresholds.bgTransitionStart + 0.05,
-        scrollThresholds.bgTransitionEnd,
-        0,
-        1
-      );
-      text1.style.color = interpolateColor(whiteText, darkText, textFactor);
+        // Background color transition
+        const bgFactor = mapRange(
+          progress,
+          thresholds.bgTransitionStart,
+          thresholds.bgTransitionEnd,
+          0,
+          1
+        );
+        track.style.backgroundColor = interpolateColor(darkBg, lightBg, bgFactor);
 
-      // Animation triggers based on scroll progress
-      if (progress > scrollThresholds.stage1Start) {
-        text1.classList.add("revealed");
-      } else {
-        text1.classList.remove("revealed");
-      }
+        // Text color transition (stage 1 text)
+        // We want text to be dark when it appears (since bg is white),
+        // but if it was visible during transition it would need to change.
+        // Since we hide it until bg is white, we can just set it to dark or transition it quickly.
+        // Here we keep the transition logic but sync it with bg for smoothness in case of fast scroll.
+        const textFactor = mapRange(
+          progress,
+          thresholds.bgTransitionStart,
+          thresholds.bgTransitionEnd,
+          0,
+          1
+        );
+        text1.style.color = interpolateColor(whiteText, darkText, textFactor);
 
-      if (progress > scrollThresholds.stage2Start) {
-        text2.classList.add("revealed");
-      } else {
-        text2.classList.remove("revealed");
-      }
+        // Animation triggers based on scroll progress
+        // Stage 1 Part 1
+        if (progress > thresholds.stage1Start) {
+          text1.classList.add("revealed-part-1");
+          if (isScrollingDown) {
+            text1.classList.remove("stage1-exiting");
+          }
+        } else {
+          if (!isScrollingDown) {
+            text1.classList.add("stage1-exiting");
+          }
+          text1.classList.remove("revealed-part-1");
+        }
 
-      if (progress > scrollThresholds.gradientActive && stage2Gradient) {
-        text2.classList.add("gradient-active");
-      } else {
-        text2.classList.remove("gradient-active");
-      }
+        // Stage 1 Part 2
+        if (progress > thresholds.stage1Part2) {
+          text1.classList.add("revealed-part-2");
+          if (isScrollingDown) {
+            text1.classList.remove("stage1-exiting");
+          }
+        } else {
+          if (!isScrollingDown) {
+            text1.classList.add("stage1-exiting");
+          }
+          text1.classList.remove("revealed-part-2");
+        }
 
-      if (progress > scrollThresholds.bottomReveal) {
-        bottom.classList.add("revealed");
-      } else {
-        bottom.classList.remove("revealed");
-      }
+        if (progress > thresholds.stage2Start) {
+          text2.classList.add("revealed");
+        } else {
+          text2.classList.remove("revealed");
+        }
+
+        if (progress > thresholds.gradientActive && stage2Gradient) {
+          text2.classList.add("gradient-active");
+        } else {
+          text2.classList.remove("gradient-active");
+        }
+
+        if (progress > thresholds.bottomReveal) {
+          bottom.classList.add("revealed");
+        } else {
+          bottom.classList.remove("revealed");
+        }
+
+        lastProgressRef.current = progress;
+      });
     };
 
     // Use passive listener for better scroll performance
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Initial call to set correct state
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, [
     splitTextToChars,
     mapRange,
     interpolateColor,
     hexToRgb,
     stage2Gradient,
-    scrollThresholds,
+    thresholds,
   ]);
 
   /**
@@ -260,14 +330,14 @@ export function NarrativeTrack({
     >
       {/* Sticky Stage - Centers content while scrolling */}
       <div
-        className="sticky top-0 h-screen flex items-center justify-center overflow-hidden"
+        className="sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden"
         style={{ perspective: "1000px" }}
       >
         <div className="max-w-5xl mx-auto px-6 text-center z-10 flex flex-col items-center justify-center h-full">
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}
-            className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-light leading-none tracking-tighter mb-4 text-white"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1.1] tracking-tight mb-6 text-white max-w-4xl"
             style={{ transition: "color 0.5s" }}
           >
             {stage1Text}
@@ -277,7 +347,7 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-normal tracking-tighter pb-4 leading-none relative z-[1]`}
+            className={`product-block-anim product-stage2-text text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight pb-4 leading-[1.1] relative z-[1] max-w-5xl`}
             style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
           >
             {stage2Text}
@@ -286,29 +356,31 @@ export function NarrativeTrack({
           {/* Bottom: Description + Scroll prompt */}
           <div
             ref={bottomRef}
-            className="product-block-anim mt-24 md:mt-32 flex flex-col items-center gap-6"
+            className="product-block-anim mt-20 md:mt-28 flex flex-col items-center gap-8"
           >
-            <p className="text-gray-500 text-base sm:text-lg md:text-xl font-normal max-w-xl mx-auto leading-relaxed text-center">
+            <p className="text-gray-600 text-sm sm:text-base md:text-lg font-normal max-w-lg mx-auto leading-relaxed text-center tracking-wide">
               {renderDescription()}
             </p>
 
             {/* Custom chevron scroll indicator */}
-            <div className="flex flex-col items-center mt-2">
-              <div
-                className="w-0.5 h-8 mb-[-5px]"
-                style={{ backgroundColor: PRODUCT_TEMPLATE_COLORS.textMain }}
-              />
-              <div
-                className="w-6 h-6 border-b-2 border-r-2 rotate-45 -mt-2"
-                style={{ borderColor: PRODUCT_TEMPLATE_COLORS.textMain }}
-              />
+            <div className="flex flex-col items-center mt-4 animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity duration-300">
+              <span
+                className="text-[10px] uppercase tracking-[0.25em] mb-3 font-medium"
+                style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
+              >
+                {scrollPromptText}
+              </span>
+              <div className="flex flex-col items-center gap-[-4px]">
+                <div
+                  className="w-[1px] h-12 bg-gradient-to-b from-transparent to-current"
+                  style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
+                />
+                <div
+                  className="w-3 h-3 border-b-[1px] border-r-[1px] rotate-45 -mt-1.5"
+                  style={{ borderColor: PRODUCT_TEMPLATE_COLORS.textMain }}
+                />
+              </div>
             </div>
-            <span
-              className="text-[10px] uppercase tracking-[0.2em]"
-              style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
-            >
-              {scrollPromptText}
-            </span>
           </div>
         </div>
       </div>

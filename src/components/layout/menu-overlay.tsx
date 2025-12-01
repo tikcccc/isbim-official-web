@@ -199,55 +199,51 @@ export function MenuOverlay() {
       return;
     }
 
+    // Pause Lenis and apply custom smooth scroll so the overlay scrolls even when Lenis blocks native overflow
     lenis.stop();
 
-    // Smooth scroll implementation for menu overlay
-    let scrollTarget = 0;
-    let currentScroll = 0;
+    const overlay = document.querySelector("[data-menu-overlay]") as HTMLElement | null;
+    if (!overlay) {
+      return () => {
+        lenis.start();
+      };
+    }
+
+    let scrollTarget = overlay.scrollTop;
     let rafId: number | null = null;
+
+    const smoothStep = () => {
+      const delta = scrollTarget - overlay.scrollTop;
+      const eased = delta * 0.2; // slightly faster easing to reduce drag feel
+      if (Math.abs(delta) > 0.5) {
+        overlay.scrollTop += eased;
+        rafId = requestAnimationFrame(smoothStep);
+      } else {
+        overlay.scrollTop = scrollTarget;
+        rafId = null;
+      }
+    };
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
 
-      // Find the menu overlay element
-      const overlay = document.querySelector('[data-menu-overlay]') as HTMLElement;
-      if (!overlay) return;
+      const maxScroll = overlay.scrollHeight - overlay.clientHeight;
+      scrollTarget = Math.max(0, Math.min(scrollTarget + e.deltaY, maxScroll));
 
-      // Update scroll target
-      scrollTarget += e.deltaY;
-      scrollTarget = Math.max(0, Math.min(scrollTarget, overlay.scrollHeight - overlay.clientHeight));
-
-      // Start smooth scroll animation if not already running
       if (rafId === null) {
-        const smoothScroll = () => {
-          // Easing function (ease-out)
-          const delta = scrollTarget - currentScroll;
-          const ease = delta * 0.1; // Adjust for smoothness (0.1 = smooth, 0.3 = faster)
-
-          if (Math.abs(delta) > 0.5) {
-            currentScroll += ease;
-            overlay.scrollTop = currentScroll;
-            rafId = requestAnimationFrame(smoothScroll);
-          } else {
-            currentScroll = scrollTarget;
-            overlay.scrollTop = currentScroll;
-            rafId = null;
-          }
-        };
-
-        rafId = requestAnimationFrame(smoothScroll);
+        rafId = requestAnimationFrame(smoothStep);
       }
     };
 
-    // Add wheel listener with high priority (capture phase)
-    document.addEventListener('wheel', handleWheel, { capture: true, passive: false });
+    overlay.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
-      document.removeEventListener('wheel', handleWheel, { capture: true });
+      overlay.removeEventListener("wheel", handleWheel);
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
+      lenis.start();
     };
   }, [isOpen, lenis]);
 
@@ -272,7 +268,7 @@ export function MenuOverlay() {
           {/* Main Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 max-w-screen-2xl mx-auto w-full min-h-[calc(100vh-88px)]">
             {/* LEFT COLUMN: Navigation Tree */}
-            <div className="lg:col-span-5 p-10 lg:p-16 lg:pt-10 border-r border-white/10 flex flex-col">
+            <div className="lg:col-span-5 p-10 lg:p-16 lg:pt-10 border-r border-white/10 flex flex-col pb-12">
               <div className="mb-8">
                 <TypewriterText
                   text="NAVIGATION_INDEX"
@@ -414,7 +410,7 @@ export function MenuOverlay() {
 
               {/* Footer Links */}
               <m.div
-                className="mt-auto pt-16"
+                className="mt-20 lg:mt-24 pt-10 pb-6 border-t border-white/10"
                 variants={fadeInUp}
                 initial="hidden"
                 animate="visible"
@@ -450,7 +446,7 @@ export function MenuOverlay() {
             </div>
 
             {/* RIGHT COLUMN: Dynamic Content Area */}
-            <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative overflow-hidden">
+            <div className="lg:col-span-7 bg-[#080808] p-10 lg:p-16 lg:pt-10 hidden lg:flex flex-col relative">
               {/* Grid Texture - soft-light with edge fade to reduce clutter */}
               <div
                 className="absolute inset-0 pointer-events-none mix-blend-screen"
@@ -476,7 +472,7 @@ export function MenuOverlay() {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="h-full z-10 flex flex-col"
+                    className="z-10 flex flex-col"
                   >
                     <div className="mb-10 border-b border-white/10 pb-6 flex justify-between items-end">
                       <div>
@@ -509,7 +505,7 @@ export function MenuOverlay() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-x-12 gap-y-8 overflow-y-auto pr-4 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10">
+                    <div className="grid grid-cols-2 gap-x-12 gap-y-8 pr-4">
                       {menuData.jarvisProducts.map((prod, idx) => (
                         <Link
                           key={prod.href}
@@ -553,7 +549,7 @@ export function MenuOverlay() {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="h-full z-10 flex flex-col"
+                    className="z-10 flex flex-col"
                   >
                     <div className="flex justify-between items-start mb-8">
                       <div>

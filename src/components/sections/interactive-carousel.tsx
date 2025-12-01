@@ -449,6 +449,7 @@ export function InteractiveCarousel() {
                     src={slide.posterUrl || posterFallback}
                     alt={slide.title || "JARVIS product"}
                     fill
+                    loading="eager"
                     sizes="(max-width: 768px) 90vw, 85vw"
                     className="object-cover opacity-80 mix-blend-overlay"
                     quality={85}
