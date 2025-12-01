@@ -69,19 +69,48 @@ export function FeatureSection({
 }: FeatureSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeView, setActiveView] = useState<"video" | "details">("video");
+  const [isFlashing, setIsFlashing] = useState(false);
+  const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [isIndexFlashing, setIsIndexFlashing] = useState(false);
+  const indexFlashTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hasFlashedRef = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // IntersectionObserver for reversible animation
+    // IntersectionObserver for reversible animation + index flash trigger
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("feature-active");
+
+            // Trigger index flash only once when section becomes active
+            if (!hasFlashedRef.current) {
+              hasFlashedRef.current = true;
+
+              // Clear any existing index flash timer
+              if (indexFlashTimerRef.current) {
+                clearTimeout(indexFlashTimerRef.current);
+              }
+
+              // Wait for index entrance animation to complete (0.8s) before flashing
+              setTimeout(() => {
+                // Trigger rapid pulse flash on index
+                setIsIndexFlashing(true);
+
+                // Reset flash state after animation completes (0.25s)
+                indexFlashTimerRef.current = setTimeout(() => {
+                  setIsIndexFlashing(false);
+                  indexFlashTimerRef.current = null;
+                }, 300);
+              }, 250);
+            }
           } else {
             entry.target.classList.remove("feature-active");
+            // Reset flash flag when section exits viewport (allows re-flash on re-entry)
+            hasFlashedRef.current = false;
           }
         });
       },
@@ -92,8 +121,43 @@ export function FeatureSection({
     );
 
     observer.observe(section);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      // Cleanup timers on unmount
+      if (flashTimerRef.current) {
+        clearTimeout(flashTimerRef.current);
+      }
+      if (indexFlashTimerRef.current) {
+        clearTimeout(indexFlashTimerRef.current);
+      }
+    };
   }, []);
+
+  // Handle toggle click with instant jump + rapid pulse animation
+  const handleToggleClick = (view: "video" | "details") => {
+    // Clear any existing flash timer to ensure animation can restart
+    if (flashTimerRef.current) {
+      clearTimeout(flashTimerRef.current);
+    }
+
+    // Force animation restart by briefly disabling then re-enabling
+    setIsFlashing(false);
+
+    // Use requestAnimationFrame to ensure DOM update before re-triggering
+    requestAnimationFrame(() => {
+      // Instant state change (no slide transition)
+      setActiveView(view);
+
+      // Trigger rapid pulse flash animation
+      setIsFlashing(true);
+
+      // Reset flash state after animation completes (0.25s)
+      flashTimerRef.current = setTimeout(() => {
+        setIsFlashing(false);
+        flashTimerRef.current = null;
+      }, 250);
+    });
+  };
 
   // Generate all index values and filter out current
   const allIndices = Array.from(
@@ -133,8 +197,10 @@ export function FeatureSection({
                   </div>
                 )}
 
-                {/* Current index (highlighted) */}
-                <span className="text-gray-900 font-medium mr-4">[{index}]</span>
+                {/* Current index (highlighted with flash animation) */}
+                <span className={`text-gray-900 font-medium mr-4 inline-block ${isIndexFlashing ? "animate-rapid-pulse" : ""}`}>
+                  [{index}]
+                </span>
 
                 {/* Animated line */}
                 <div className="index-line h-px bg-gray-900 flex-grow mx-4 opacity-50" />
@@ -182,16 +248,16 @@ export function FeatureSection({
                     aria-controls={`panel-video-${index}`}
                     id={`tab-video-${index}`}
                     tabIndex={activeView === "video" ? 0 : -1}
-                    onClick={() => setActiveView("video")}
+                    onClick={() => handleToggleClick("video")}
                     onKeyDown={(e) => {
                       if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
                         e.preventDefault();
-                        setActiveView(activeView === "video" ? "details" : "video");
+                        handleToggleClick(activeView === "video" ? "details" : "video");
                       }
                     }}
-                    className={`px-6 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 ${
+                    className={`px-6 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 ${
                       activeView === "video"
-                        ? "bg-[#1E1F2B] text-[#f2f2f2]"
+                        ? `bg-[#1E1F2B] text-[#f2f2f2] ${isFlashing ? "animate-rapid-pulse" : ""}`
                         : "text-[#1E1F2B] hover:bg-gray-100"
                     }`}
                   >
@@ -203,16 +269,16 @@ export function FeatureSection({
                     aria-controls={`panel-details-${index}`}
                     id={`tab-details-${index}`}
                     tabIndex={activeView === "details" ? 0 : -1}
-                    onClick={() => setActiveView("details")}
+                    onClick={() => handleToggleClick("details")}
                     onKeyDown={(e) => {
                       if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
                         e.preventDefault();
-                        setActiveView(activeView === "video" ? "details" : "video");
+                        handleToggleClick(activeView === "video" ? "details" : "video");
                       }
                     }}
-                    className={`px-6 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 ${
+                    className={`px-6 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 ${
                       activeView === "details"
-                        ? "bg-[#1E1F2B] text-[#f2f2f2]"
+                        ? `bg-[#1E1F2B] text-[#f2f2f2] ${isFlashing ? "animate-rapid-pulse" : ""}`
                         : "text-[#1E1F2B] hover:bg-gray-100"
                     }`}
                   >

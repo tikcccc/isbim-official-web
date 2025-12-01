@@ -5,6 +5,7 @@
  * Hides the default white Footer and renders FooterDark instead.
  */
 
+import { FooterCharcoal } from "@/components/layout/footer-charcoal";
 import { FooterDark } from "@/components/layout/footer-dark";
 import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
 

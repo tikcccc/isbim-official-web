@@ -73,7 +73,7 @@ export function ProductCTASection({
           <div className="mt-16 flex items-center gap-4">
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <div className="w-2 h-2 rounded-full bg-[#9881F3]/50" />
-            <div className="w-2 h-2 rounded-full bg-[#13C9BA]/50" />
+            <div className="w-2 h-2 rounded-full bg-[#9881F3]/50" />
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
         </div>
