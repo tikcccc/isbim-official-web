@@ -590,20 +590,20 @@ export function FeatureSection({
                 id={`panel-details-${index}`}
                 aria-labelledby={`tab-details-${index}`}
                 hidden={displayedView !== "details"}
-                className={`absolute inset-0 bg-[#F5F5F5] p-6 md:p-8 overflow-y-auto ${
+                className={`absolute inset-0 bg-[#F5F5F5] p-8 md:p-12 overflow-y-auto ${
                   displayedView !== "details" ? "hidden" : ""
                 }`}
               >
-                <div className="space-y-6">
+                <div className="space-y-8 md:space-y-10 max-w-5xl">
                   {details?.map((item, idx) => (
                     <div
                       key={idx}
-                      className="border-b border-gray-200 pb-4 last:border-0 last:pb-0"
+                      className="border-b border-gray-200/70 pb-6 md:pb-8 last:border-0 last:pb-0"
                     >
-                      <h4 className="text-lg font-medium text-[#1E1F2B] mb-2">
+                      <h4 className="text-xl md:text-2xl font-semibold text-[#1E1F2B] mb-3 tracking-tight">
                         {item.title}
                       </h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-base md:text-lg text-gray-700 leading-relaxed">
                         {item.description}
                       </p>
                     </div>
