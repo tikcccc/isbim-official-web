@@ -567,12 +567,16 @@ export function MenuOverlay() {
                           </span>
                         </m.h2>
                       </div>
-                      <m.button
-                        variants={fadeInUp}
-                        className="text-[10px] font-mono border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all text-neutral-300 uppercase tracking-widest flex items-center gap-2"
-                      >
-                        {messages.menu_nav_newsroom()} <ArrowRight size={14} />
-                      </m.button>
+                      <m.div variants={fadeInUp}>
+                        <Link
+                          href={ROUTES.SERVICES_PRODUCTS}
+                          onClick={closeMenu}
+                          prefetch
+                          className="text-[10px] font-mono border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all text-neutral-300 uppercase tracking-widest flex items-center gap-2"
+                        >
+                          Explore <ArrowRight size={14} />
+                        </Link>
+                      </m.div>
                     </div>
 
                     {/* Stats Section */}
@@ -634,12 +638,16 @@ export function MenuOverlay() {
                         className="text-[10px] font-mono text-blue-400 tracking-[0.2em]"
                         delay={0.8}
                       />
-                      <m.button
-                        variants={fadeInUp}
-                        className="text-[9px] font-mono text-gray-300 hover:text-gray-100 transition-colors uppercase tracking-widest flex items-center gap-2"
-                      >
-                        {messages.menu_view_all()} <ArrowRight size={12} />
-                      </m.button>
+                      <m.div variants={fadeInUp}>
+                        <Link
+                          href={ROUTES.NEWSROOM}
+                          onClick={closeMenu}
+                          prefetch
+                          className="text-[9px] font-mono text-gray-300 hover:text-gray-100 transition-colors uppercase tracking-widest flex items-center gap-2"
+                        >
+                          {messages.menu_view_all()} <ArrowRight size={12} />
+                        </Link>
+                      </m.div>
                     </div>
 
                     {/* News Cards */}
