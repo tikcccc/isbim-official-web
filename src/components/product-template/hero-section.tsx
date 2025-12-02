@@ -57,27 +57,35 @@ export function HeroSection({
 
   return (
     <header className="sticky top-0 h-screen z-0 overflow-hidden bg-product-dark">
-      {/* Video Background */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster={posterSrc}
-        preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover -z-10"
-        aria-label={`${productName} background video`}
+      {/* Background Video Layer - stays fixed (or slow parallax) */}
+      <div className="absolute inset-0 -z-10">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={posterSrc}
+          preload="metadata"
+          className="w-full h-full object-cover"
+          aria-label={`${productName} background video`}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+
+        {/* Gradient Overlay - enhanced for better depth and readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+      </div>
+
+      {/* Foreground Content Layer - moves with narrative track */}
+      <div
+        data-hero-foreground="true"
+        className="relative z-10 h-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col justify-end pb-10 md:pb-14 lg:pb-20 will-change-transform"
+        style={{
+          transition: "transform 0.18s ease-out",
+        }}
       >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
-
-      {/* Gradient Overlay - enhanced for better depth and readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-0" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-0" />
-
-      {/* Content Container */}
-      <div className="relative z-10 h-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col justify-end pb-10 md:pb-14 lg:pb-20">
         {/* Main content area */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-8">
           {/* Left: Product Name - Anchored bottom-left */}

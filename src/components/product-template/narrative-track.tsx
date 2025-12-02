@@ -177,6 +177,20 @@ export function NarrativeTrack({
       : { r: 30, g: 31, b: 43 }; // fallback to dark
   }, []);
 
+  /**
+   * Update hero foreground shift by directly manipulating the hero foreground element.
+   * Keeps background video untouched while foreground moves with narrative scroll.
+   */
+  const setHeroShift = useCallback((value: number) => {
+    if (typeof document === "undefined") return;
+
+    // Find hero foreground element by data attribute
+    const heroForeground = document.querySelector('[data-hero-foreground="true"]') as HTMLElement;
+    if (heroForeground) {
+      heroForeground.style.transform = `translateY(${-value}px)`;
+    }
+  }, []);
+
   useEffect(() => {
     const track = trackRef.current;
     const text1 = text1Ref.current;
@@ -261,6 +275,11 @@ export function NarrativeTrack({
         let progress = -rect.top / scrollDistance;
         progress = Math.max(0, Math.min(1, progress));
         const isScrollingDown = progress >= lastProgressRef.current;
+
+        // Sync hero foreground (title/metadata) upward shift with early scroll progress
+        const heroShiftMax = windowHeight * 0.45;
+        const heroShift = mapRange(progress, 0, thresholds.stage1Start, 0, heroShiftMax);
+        setHeroShift(heroShift);
 
         // Background color transition
         const bgFactor = mapRange(progress, thresholds.bgTransitionStart, thresholds.bgTransitionEnd, 0, 1);
@@ -408,8 +427,9 @@ export function NarrativeTrack({
     return () => {
       window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(rafId);
+      setHeroShift(0);
     };
-  }, [mapRange, interpolateColor, hexToRgb, stage2Gradient, thresholds]);
+  }, [mapRange, interpolateColor, hexToRgb, stage2Gradient, thresholds, setHeroShift]);
 
   /**
    * Render description with optional highlighted text
@@ -435,7 +455,7 @@ export function NarrativeTrack({
   return (
     <section
       ref={trackRef}
-      className="relative z-10 bg-product-dark"
+      className="relative z-20 bg-product-dark"
       style={{
         height: scrollHeight,
         boxShadow: "0 -50px 100px rgba(0,0,0,0.5)",

@@ -41,6 +41,8 @@
  */
 
 export { HeroSection } from "./hero-section";
+export { HeroBackground } from "./hero-background";
+export { HeroForeground } from "./hero-foreground";
 export { NarrativeTrack } from "./narrative-track";
 export { FeatureSection } from "./feature-section";
 export { ProductCTASection } from "./cta-section";

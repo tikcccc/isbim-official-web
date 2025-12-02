@@ -31,7 +31,8 @@
  */
 
 
-import { HeroSection } from "./hero-section";
+import { HeroBackground } from "./hero-background";
+import { HeroForeground } from "./hero-foreground";
 import { NarrativeTrack } from "./narrative-track";
 import { FeatureSection } from "./feature-section";
 import { ProductCTASection } from "./cta-section";
@@ -123,16 +124,24 @@ export function ProductPageLayout({
 }: ProductPageLayoutProps) {
   return (
     <div className="relative bg-product-light">
-      {/* Section A: Hero (Sticky Underlayer) */}
-      <HeroSection
-        productName={productName}
-        productSubtitle={productSubtitle}
+      {/* Section A1: Hero Background (Fixed) - z-0 */}
+      <HeroBackground
         videoSrc={videoSrc}
         posterSrc={posterSrc}
+        productName={productName}
+      />
+
+      {/* Section A2: Hero Foreground (Moves with scroll) - z-10 */}
+      <HeroForeground
+        productName={productName}
+        productSubtitle={productSubtitle}
         metadata={metadata}
       />
 
-      {/* Section B: Narrative Track (Scroll-driven Story) */}
+      {/* Spacer to prevent immediate overlap - matches hero height */}
+      <div className="relative h-screen z-5" aria-hidden="true" />
+
+      {/* Section B: Narrative Track (Scroll-driven Story) - z-20 */}
       <NarrativeTrack
         stage1Text={narrativeStage1}
         stage2Text={narrativeStage2}
