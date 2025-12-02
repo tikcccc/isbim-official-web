@@ -419,7 +419,7 @@ export function FeatureSection({
 
               {/* Title with Typewriter Animation or Static Display */}
               <h3
-                className="text-3xl sm:text-4xl md:text-[2.8rem] lg:text-[3.2rem] xl:text-[3.5rem] 2xl:text-[3.9rem] text-gray-900 leading-[1.08] tracking-tight break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
+                className="text-2xl sm:text-3xl md:text-[2.5rem] lg:text-[2.9rem] xl:text-[3.2rem] 2xl:text-[3.6rem] text-gray-900 leading-[1.08] tracking-tight break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
                 style={{ textWrap: "balance", wordBreak: "break-word" }}
               >
                 {/* Forward Typewriter mode */}

@@ -333,11 +333,11 @@ export function NarrativeTrack({
         className="sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden"
         style={{ perspective: "1000px" }}
       >
-        <div className="max-w-5xl mx-auto px-6 text-center z-10 flex flex-col items-center justify-center h-full">
+        <div className="max-w-7xl mx-auto px-6 text-center z-10 flex flex-col items-center justify-center h-full">
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1.1] tracking-tight mb-6 text-white max-w-4xl"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1.1] tracking-tight mb-6 text-white max-w-7xl"
             style={{ transition: "color 0.5s" }}
           >
             {stage1Text}
@@ -347,7 +347,7 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight pb-4 leading-[1.1] relative z-[1] max-w-5xl`}
+            className={`product-block-anim product-stage2-text text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight pb-4 leading-[1.1] relative z-[1] max-w-7xl`}
             style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
           >
             {stage2Text}
