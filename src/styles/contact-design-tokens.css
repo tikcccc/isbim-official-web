@@ -76,6 +76,38 @@
     -webkit-text-fill-color: transparent;
   }
 
+  /* Hero title with sweep color animation */
+  .contact-hero-title {
+    /* 初始状态：深色文字，和副标题一致 */
+    color: var(--contact-text);
+  }
+
+  .contact-hero-title.is-animating {
+    /* 渐变从深色过渡到主题渐变色 */
+    background: linear-gradient(
+      90deg,
+      var(--contact-accent-alt) 0%,
+      var(--contact-accent) 50%,
+      var(--contact-text) 50%,
+      var(--contact-text) 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: contact-color-sweep 0.6s ease-out forwards;
+  }
+
+  @keyframes contact-color-sweep {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: 0% 0;
+    }
+  }
+
   /* Gradient background */
   .contact-gradient-bg {
     background: var(--contact-gradient);
@@ -127,11 +159,38 @@
     @apply bottom-10 right-10 border-b-2 border-r-2;
   }
 
-  /* Info badge (Location Data, Digital Link, etc.) */
+  /* Info badge (Address, Digital Link, etc.) */
   .contact-badge {
     @apply text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-1 rounded;
     background: var(--contact-border-light);
     color: var(--contact-muted);
+  }
+
+  /* Text-only label with underline animation (location/connection) */
+  .contact-info-text {
+    @apply relative inline-flex items-center text-[10px] font-mono font-bold uppercase transition-all duration-300;
+    letter-spacing: 0.08em;
+    color: var(--contact-muted);
+  }
+
+  .contact-info-text::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 1px;
+    width: 0;
+    background: var(--contact-accent);
+    transition: width 0.35s ease;
+  }
+
+  .group:hover .contact-info-text {
+    color: var(--contact-text);
+    letter-spacing: 0.18em;
+  }
+
+  .group:hover .contact-info-text::after {
+    width: 100%;
   }
 
   /* Form input underline style */
@@ -143,6 +202,39 @@
 
   .contact-input:focus {
     border-color: var(--contact-accent);
+  }
+
+  /* Form select - aligned with underline inputs */
+  .contact-select {
+    @apply w-full py-3 pr-10 pl-0 text-lg border-b rounded-none transition-all duration-300 appearance-none bg-transparent;
+    border-color: var(--contact-muted-lighter);
+    color: var(--contact-text-light);
+  }
+
+  .contact-select:hover {
+    border-color: var(--contact-accent-alt);
+  }
+
+  .contact-select-content {
+    @apply rounded-sm border shadow-xl;
+    border-color: var(--contact-muted-lighter);
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .contact-select-item {
+    @apply text-base py-2 px-3 rounded-sm transition-colors cursor-pointer;
+    color: var(--contact-text-light);
+  }
+
+  .contact-select-item[data-state="checked"] {
+    background: rgba(14, 165, 233, 0.12);
+    color: var(--contact-text);
+  }
+
+  .contact-select:focus {
+    outline: none;
+    border-color: var(--contact-accent);
+    background: transparent;
   }
 
   /* Form label */
@@ -202,7 +294,9 @@
 
   /* Architectural hatching pattern */
   .contact-hatching {
-    @apply absolute opacity-20 pointer-events-none;
+    @apply absolute opacity-20;
+    pointer-events: none !important;
+    z-index: 0;
     background-image: repeating-linear-gradient(
       45deg,
       var(--contact-muted-light) 0,
@@ -228,6 +322,8 @@
   .contact-structural-border {
     @apply absolute left-0 top-0 bottom-0 w-2 transition-colors;
     background: var(--contact-border);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .group:hover .contact-structural-border {

@@ -21,6 +21,14 @@ import {
   contactFormSchema,
   type ContactFormInput,
 } from "@/schemas/contact-form.schema";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 // Service options for the dropdown
 const serviceOptions = [
@@ -54,10 +62,16 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [titleAnimating, setTitleAnimating] = useState(false);
   const locale = useLocale();
 
   useEffect(() => {
     setMounted(true);
+    // 滑入动画完成后立即开始上色 (delay 300ms + duration 1000ms = 1300ms)
+    const timer = setTimeout(() => {
+      setTitleAnimating(true);
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const {
@@ -70,6 +84,7 @@ export default function ContactPage() {
   } = useForm<ContactFormInput>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
+      service: "",
       marketingConsent: false,
     },
   });
@@ -143,18 +158,14 @@ export default function ContactPage() {
       <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-32 md:pt-40 pb-24">
         {/* Header Section */}
         <div className="mb-24 relative pl-4 border-l-4 border-[--contact-accent]/30 max-w-[1100px]">
-          <div className="overflow-visible">
+          <div className="overflow-hidden">
             <h1
-              className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] text-[--contact-text-light] transform transition-transform duration-1000 delay-300 ${mounted ? "translate-y-0" : "translate-y-[120%]"}`}
+              className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] transform transition-transform duration-1000 delay-300 contact-hero-title ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
             >
               {locale === "zh" ? "共建" : "Let's Build"}{" "}
               <br className="md:hidden" />
-              <span className="relative inline-block">
-                {locale === "zh" ? "" : "the "}
-                <span className="font-semibold contact-gradient-text">
-                  {locale === "zh" ? "未來" : "Future"}
-                </span>
-              </span>
+              {locale === "zh" ? "" : "the "}
+              <span className="font-semibold">{locale === "zh" ? "未來" : "Future"}</span>
             </h1>
           </div>
 
@@ -194,13 +205,13 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <MapPin size={18} />
-                <span className="contact-badge">
-                  {locale === "zh" ? "位置資料" : "Location Data"}
+                <span className="contact-info-text">
+                  {locale === "zh" ? "位置資料" : "Address"}
                 </span>
               </div>
               <div className="pl-2">
                 <h3 className="text-xl font-medium text-[--contact-text] mb-2">
-                  {locale === "zh" ? "香港總部" : "Hong Kong HQ"}
+                  {locale === "zh" ? "香港總部" : "Hong Kong"}
                 </h3>
                 <p className="text-[--contact-muted] leading-relaxed font-light">
                   {locale === "zh" ? (
@@ -230,7 +241,7 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <Globe size={18} />
-                <span className="contact-badge">
+                <span className="contact-info-text">
                   {locale === "zh" ? "數位連結" : "Digital Link"}
                 </span>
               </div>
@@ -380,7 +391,8 @@ export default function ContactPage() {
                         onChange={(value) =>
                           setValue(
                             "companyType",
-                            value as ContactFormInput["companyType"]
+                            value as ContactFormInput["companyType"],
+                            { shouldValidate: true, shouldDirty: true }
                           )
                         }
                         options={companyTypeOptions}
@@ -409,7 +421,12 @@ export default function ContactPage() {
                           locale === "zh" ? "所需服務" : "Required Solution"
                         }
                         value={selectedService || ""}
-                        onChange={(value) => setValue("service", value)}
+                        onChange={(value) =>
+                          setValue("service", value, {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          })
+                        }
                         options={serviceOptions}
                         placeholder={
                           locale === "zh" ? "選擇模組" : "Select Module"
@@ -442,28 +459,34 @@ export default function ContactPage() {
                     </div>
 
                     {/* Marketing Consent */}
-                    <div className="pt-4">
-                      <label className="flex items-start gap-4 cursor-pointer group/checkbox">
-                        <div className="relative pt-1">
-                          <input
-                            type="checkbox"
-                            className="peer sr-only"
-                            checked={marketingConsent ?? false}
-                            onChange={(e) =>
-                              setValue("marketingConsent", e.target.checked)
-                            }
-                          />
-                          <div className="w-5 h-5 border border-[--contact-muted-lighter] rounded-sm peer-checked:bg-[--contact-text] peer-checked:border-[--contact-text] transition-all" />
-                          <Check
-                            size={12}
-                            className="text-white absolute top-[7px] left-[4px] opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"
-                          />
+                    <div className="pt-4 relative z-20">
+                      <button
+                        type="button"
+                        className="flex items-start gap-4 cursor-pointer group/checkbox text-left"
+                        onClick={() =>
+                          setValue("marketingConsent", !marketingConsent, {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          })
+                        }
+                      >
+                        <div className="relative flex-shrink-0 mt-0.5">
+                          <div
+                            className="w-5 h-5 border rounded-sm transition-all flex items-center justify-center"
+                            style={{
+                              backgroundColor: marketingConsent ? "#111827" : "#ffffff",
+                              borderColor: marketingConsent ? "#111827" : "#d1d5db",
+                            }}
+                          >
+                            {marketingConsent && (
+                              <Check size={12} className="text-white" />
+                            )}
+                          </div>
                         </div>
-                        <span className="text-xs text-[--contact-muted] font-light group-hover/checkbox:text-[--contact-muted-light] transition-colors select-none leading-relaxed">
+                        <span className="text-xs text-[--contact-muted] font-light group-hover/checkbox:text-[--contact-muted-light] transition-colors leading-relaxed select-none">
                           {locale === "zh" ? (
                             <>
-                              我同意接收來自 isBIM
-                              的技術更新、產品資訊和活動通知。
+                              我同意接收來自 isBIM 的技術更新、產品資訊和活動通知。
                               <br />
                               <span className="text-[--contact-muted-lighter] text-[10px]">
                                 數據處理符合隱私政策。
@@ -481,7 +504,7 @@ export default function ContactPage() {
                             </>
                           )}
                         </span>
-                      </label>
+                      </button>
                     </div>
 
                     {/* Submit Button */}
@@ -489,9 +512,10 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="group/btn relative px-8 py-4 text-white font-medium text-sm tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed"
+                        style={{ backgroundColor: "var(--contact-accent, #0ea5e9)" }}
                       >
-                        <span className="relative z-10 flex items-center gap-3 group-hover:tracking-wider transition-all duration-300">
+                        <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
                           {isSubmitting ? (
                             <span className="font-mono text-xs animate-pulse">
                               {locale === "zh"
@@ -505,14 +529,15 @@ export default function ContactPage() {
                               </span>
                               <ArrowRight
                                 size={16}
-                                className="transition-transform duration-300 group-hover:translate-x-1"
+                                className="transition-transform duration-300 group-hover/btn:translate-x-1"
                               />
                             </>
                           )}
                         </span>
                         <div
                           aria-hidden="true"
-                          className="absolute inset-0 bg-neutral-900 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"
+                          className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"
+                          style={{ backgroundColor: "var(--contact-text, #111827)" }}
                         />
                       </button>
                     </div>
@@ -626,7 +651,7 @@ const FormSelect = ({
   placeholder,
   required,
   error,
-  accentColor = "primary",
+        accentColor = "primary",
 }: FormSelectProps) => {
   const focusColor =
     accentColor === "alt"
@@ -649,25 +674,43 @@ const FormSelect = ({
         {label}
         {required && " *"}
       </label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`contact-input appearance-none cursor-pointer group-hover:bg-[--contact-border-light]/50 ${focusColor}`}
+      <Select
+        value={value || ""}
+        onValueChange={(val) =>
+          onChange(val)
+        }
+      >
+        <SelectTrigger
+          className={cn(
+            "contact-select w-full justify-between items-center text-lg px-0 py-3 rounded-none border-0 border-b bg-transparent h-auto min-h-[52px]",
+            "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
+            focusColor,
+            hoverIconColor,
+            "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
+            "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]"
+          )}
         >
-          <option value="" disabled>
-            {placeholder}
-          </option>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent
+          side="bottom"
+          align="start"
+          position="popper"
+          sideOffset={6}
+          avoidCollisions={false}
+          className="contact-select-content"
+        >
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <SelectItem
+              key={option.value}
+              value={option.value}
+              className="contact-select-item"
+            >
               {option.label}
-            </option>
+            </SelectItem>
           ))}
-        </select>
-        <ChevronDown
-          className={`absolute right-0 top-1/2 -translate-y-1/2 text-[--contact-muted-lighter] w-5 h-5 pointer-events-none transition-colors ${hoverIconColor}`}
-        />
-      </div>
+        </SelectContent>
+      </Select>
       {error && (
         <p className="text-red-500 text-sm mt-1">{error}</p>
       )}
