@@ -49,8 +49,8 @@ export function NarrativeTrack({
   description,
   descriptionHighlight,
   scrollPromptText = "Scroll to explore",
-  mobileScrollHeight = "120vh",
-  desktopScrollHeight = "210vh",
+  mobileScrollHeight = "130vh",
+  desktopScrollHeight = "220vh",
 }: NarrativeTrackProps) {
   const trackRef = useRef<HTMLElement>(null);
   const text1Ref = useRef<HTMLHeadingElement>(null);
@@ -274,12 +274,25 @@ export function NarrativeTrack({
         // STAGE 1 ANIMATION (Unified - no part 1/part 2 split)
         // ============================================
         if (progress > thresholds.stage1Start) {
+          // Ensure exit class is cleared on any re-entry so direction stays consistent (left-to-right)
+          text1.classList.remove("stage1-exiting");
+
           if (!stage1StartedRef.current) {
             text1.classList.add("revealed");
             stage1StartedRef.current = true;
           }
-          if (isScrollingDown) {
-            text1.classList.remove("stage1-exiting");
+
+          // Idempotent check: if chars are already visible (e.g., coming back from another page), mark stage 1 complete and unblock stage 2.
+          const chars = text1.querySelectorAll(".product-char");
+          const allVisible =
+            chars.length > 0 &&
+            Array.from(chars).every((char) => getComputedStyle(char).opacity === "1");
+          if (allVisible && !stage1CompleteRef.current) {
+            stage1CompleteRef.current = true;
+            if (stage2ThresholdReachedRef.current && !stage2StartedRef.current) {
+              text2.classList.add("revealed");
+              stage2StartedRef.current = true;
+            }
           }
         } else {
           // Exiting Stage 1 - reset everything

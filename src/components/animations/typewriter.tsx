@@ -506,6 +506,7 @@ export function TypewriterLinesReverse({
 }: TypewriterLinesProps) {
   const completedCount = useRef(0);
   const [allLinesComplete, setAllLinesComplete] = useState(false);
+  const containerRef = useRef<HTMLSpanElement>(null);
 
   const handleLineComplete = () => {
     completedCount.current += 1;
@@ -517,16 +518,27 @@ export function TypewriterLinesReverse({
     }
   };
 
-  // Reverse the lines array so the last line is processed first
-  const reversedLines = [...lines].reverse();
+  // Freeze container dimensions on mount to prevent layout shift during reverse animation
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Measure and freeze dimensions before animation starts
+    const rect = container.getBoundingClientRect();
+    container.style.minWidth = `${rect.width}px`;
+    container.style.minHeight = `${rect.height}px`;
+
+    return () => {
+      // Clean up on unmount
+      container.style.minWidth = "";
+      container.style.minHeight = "";
+    };
+  }, []);
 
   return (
-    <span className={className}>
+    <span ref={containerRef} className={className}>
       {/* Map through original lines to maintain visual order */}
       {lines.map((line, visualIndex) => {
-        // Find the actual index in reversedLines for delay calculation
-        const actualIndex = reversedLines.findIndex(l => l === line);
-
         // Calculate cumulative delay: sum of all lines that should disappear before this one
         // Lines that appear later visually (higher index) should disappear first
         let cumulativeDelay = initialDelay;
