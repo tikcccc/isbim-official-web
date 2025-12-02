@@ -7,7 +7,7 @@
 - 规则简明扼要,关键时刻使用
 - 删除已过时或不再适用的规则
 
-**Last Updated**: 2025-11-29 | **Version**: 3.9
+**Last Updated**: 2025-12-02 | **Version**: 4.0
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -116,3 +116,12 @@
 - **Provider details**:
   - Resend: 3000 emails/month free, requires domain verification for production
   - Brevo: 9000 emails/month free, optional domain verification
+
+## Contact Page
+- **Architecture**: Client Component (`"use client"`) with `useLocale()` from `@/lib/i18n/locale-context`.
+- **i18n**: Inline locale conditionals (`locale === "zh"`); acceptable for form-heavy pages without Paraglide m.*() (similar to Product Template client pattern).
+- **Design tokens**: Uses `contact-design-tokens.css` with product template gradient system (purple→cyan: `#9881F3→#13C9BA`).
+- **Styling**: Light architectural theme (`bg-[#f8fafc]`), technical grid background, CAD corner markers, glass panel form.
+- **Form**: React Hook Form + Zod (`contactFormSchema`), submits via Server Action `submitContactForm`.
+- **Map**: OpenStreetMap iframe embed + Google Maps external link; coordinates for 430 Nathan Road, Yau Ma Tei.
+- **CSS utilities**: `.contact-page`, `.contact-panel`, `.contact-gradient-text`, `.contact-badge`, `.contact-input`, `.contact-label`, `.contact-btn-primary`.

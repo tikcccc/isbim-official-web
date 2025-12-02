@@ -20,7 +20,12 @@ export interface ContactFormData {
   email: string;
   phoneNumber?: string;
   companyName?: string;
-  companyType?: "Developer" | "Contractor" | "Gov" | "Consultant";
+  companyType?:
+    | "Architectural"
+    | "Engineering"
+    | "Contractor"
+    | "Developer"
+    | "Government";
   jobTitle?: string;
   service: string;
   marketingConsent?: boolean;

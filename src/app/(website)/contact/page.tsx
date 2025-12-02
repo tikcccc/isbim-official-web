@@ -1,42 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import {
+  MapPin,
+  Globe,
+  ChevronDown,
+  ExternalLink,
+  Layers,
+  Box,
+  Navigation,
+  ArrowRight,
+  Check,
+} from "lucide-react";
 import { useLocale } from "@/lib/i18n/locale-context";
 import { submitContactForm } from "@/app/actions/contact-form.action";
 import {
   contactFormSchema,
   type ContactFormInput,
 } from "@/schemas/contact-form.schema";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 
+// Service options for the dropdown
 const serviceOptions = [
+  { value: "BIM Consultancy", label: "BIM Consultancy" },
+  { value: "AI Solutions", label: "AI Construction Solutions" },
+  { value: "Software Training", label: "Software Training" },
+  { value: "3D Modeling", label: "3D Modeling & Coordination" },
   { value: "jarvis-desktop", label: "JARVIS Desktop" },
   { value: "jarvis-cloud", label: "JARVIS Cloud" },
-  { value: "jarvis-mobile", label: "JARVIS Mobile" },
-  { value: "jarvis-viewer", label: "JARVIS Viewer" },
-  { value: "jarvis-mesh", label: "JARVIS Mesh" },
-  { value: "consulting", label: "Consulting Services" },
-  { value: "training", label: "Training" },
   { value: "support", label: "Technical Support" },
   { value: "other", label: "Other" },
 ];
 
+// Company type options
+const companyTypeOptions = [
+  { value: "Architectural", label: "Architectural Firm" },
+  { value: "Engineering", label: "Engineering Consultant" },
+  { value: "Contractor", label: "Main Contractor" },
+  { value: "Developer", label: "Property Developer" },
+  { value: "Government", label: "Government / Public Sector" },
+];
+
+// Map coordinates for 430 Nathan Road, Yau Ma Tei
+const lat = 22.3117;
+const lon = 114.1715;
+const delta = 0.0025;
+const bbox = `${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}`;
+const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const locale = useLocale();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const {
     register,
@@ -53,6 +75,7 @@ export default function ContactPage() {
   });
 
   const selectedService = watch("service");
+  const selectedCompanyType = watch("companyType");
   const marketingConsent = watch("marketingConsent");
 
   const onSubmit = async (data: ContactFormInput) => {
@@ -60,9 +83,7 @@ export default function ContactPage() {
     try {
       const result = await submitContactForm(data, locale);
       if (result.success) {
-        toast.success("Success", {
-          description: result.message,
-        });
+        setIsSuccess(true);
         reset();
       } else {
         toast.error("Error", {
@@ -83,185 +104,573 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-[600px]">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2">Contact Us - Test Page</h1>
-          <p className="text-gray-600">
-            Simple contact form to test Resend email functionality
-          </p>
+    <div
+      className={`contact-page transition-opacity duration-1000 ${mounted ? "opacity-100" : "opacity-0"}`}
+    >
+      {/* Background Layers */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {/* Technical Grid */}
+        <div className="absolute inset-0 contact-grid-bg" />
+
+        {/* CAD Corner Markers */}
+        <div className="contact-cad-corner contact-cad-corner--tl" />
+        <div className="contact-cad-corner contact-cad-corner--tr" />
+        <div className="contact-cad-corner contact-cad-corner--bl" />
+        <div className="contact-cad-corner contact-cad-corner--br" />
+
+        {/* Coordinate Labels */}
+        <div className="absolute top-1/2 left-10 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest -rotate-90 origin-left">
+          COORD: 22.3117° N
+        </div>
+        <div className="absolute bottom-10 left-1/2 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest">
+          COORD: 114.1715° E
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* First Name */}
-          <div>
-            <Label htmlFor="firstName">
-              First Name <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="firstName"
-              {...register("firstName")}
-              placeholder="John"
-              className="mt-1"
-            />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.firstName.message}
-              </p>
-            )}
-          </div>
+        {/* Floating BIM Objects */}
+        <div className="absolute top-[10%] left-[15%] text-gray-200/50 animate-pulse">
+          <Box size={120} strokeWidth={0.5} />
+        </div>
+        <div className="absolute bottom-[20%] right-[10%] text-gray-200/50 animate-bounce duration-[3000ms]">
+          <Layers size={96} strokeWidth={0.5} />
+        </div>
 
-          {/* Last Name */}
-          <div>
-            <Label htmlFor="lastName">
-              Last Name <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="lastName"
-              {...register("lastName")}
-              placeholder="Doe"
-              className="mt-1"
-            />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.lastName.message}
-              </p>
-            )}
-          </div>
+        {/* Subtle radial accents to avoid tinting the whole canvas */}
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_70%_12%,rgba(15,23,42,0.08),transparent_55%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_75%,rgba(14,165,233,0.08),transparent_50%)]" />
+      </div>
 
-          {/* Email */}
-          <div>
-            <Label htmlFor="email">
-              Email <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              {...register("email")}
-              placeholder="john.doe@example.com"
-              className="mt-1"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-            )}
-          </div>
-
-          {/* Phone Number */}
-          <div>
-            <Label htmlFor="phoneNumber">Phone Number (optional)</Label>
-            <Input
-              id="phoneNumber"
-              {...register("phoneNumber")}
-              placeholder="+852 1234 5678"
-              className="mt-1"
-            />
-            {errors.phoneNumber && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.phoneNumber.message}
-              </p>
-            )}
-          </div>
-
-          {/* Company Name */}
-          <div>
-            <Label htmlFor="companyName">Company Name (optional)</Label>
-            <Input
-              id="companyName"
-              {...register("companyName")}
-              placeholder="Acme Inc."
-              className="mt-1"
-            />
-            {errors.companyName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.companyName.message}
-              </p>
-            )}
-          </div>
-
-          {/* Job Title */}
-          <div>
-            <Label htmlFor="jobTitle">Job Title (optional)</Label>
-            <Input
-              id="jobTitle"
-              {...register("jobTitle")}
-              placeholder="Project Manager"
-              className="mt-1"
-            />
-            {errors.jobTitle && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.jobTitle.message}
-              </p>
-            )}
-          </div>
-
-          {/* Service */}
-          <div>
-            <Label htmlFor="service">
-              What service are you looking for?{" "}
-              <span className="text-red-500">*</span>
-            </Label>
-            <Select
-              value={selectedService}
-              onValueChange={(value) => setValue("service", value)}
+      {/* Main Content */}
+      <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-32 md:pt-40 pb-24">
+        {/* Header Section */}
+        <div className="mb-24 relative pl-4 border-l-4 border-[--contact-accent]/30 max-w-[1100px]">
+          <div className="overflow-visible">
+            <h1
+              className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] text-[--contact-text-light] transform transition-transform duration-1000 delay-300 ${mounted ? "translate-y-0" : "translate-y-[120%]"}`}
             >
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Select a service" />
-              </SelectTrigger>
-              <SelectContent>
-                {serviceOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.service && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.service.message}
-              </p>
-            )}
+              {locale === "zh" ? "共建" : "Let's Build"}{" "}
+              <br className="md:hidden" />
+              <span className="relative inline-block">
+                {locale === "zh" ? "" : "the "}
+                <span className="font-semibold contact-gradient-text">
+                  {locale === "zh" ? "未來" : "Future"}
+                </span>
+              </span>
+            </h1>
           </div>
 
-          {/* Marketing Consent */}
-          <div className="flex items-start space-x-2">
-            <Checkbox
-              id="marketingConsent"
-              checked={marketingConsent ?? false}
-              onCheckedChange={(checked) =>
-                setValue("marketingConsent", Boolean(checked))
-              }
-            />
-            <Label
-              htmlFor="marketingConsent"
-              className="text-sm font-normal leading-relaxed cursor-pointer"
+          <div className="mt-8 max-w-3xl overflow-hidden">
+            <p
+              className={`text-lg md:text-xl text-[--contact-muted] font-light leading-relaxed transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
             >
-              Yes, I want to get emails from isBIM about products, promotions,
-              events, and featured content at the email address above.
-            </Label>
+              {locale === "zh" ? (
+                <>
+                  整合 <span className="font-medium text-[--contact-text-light]">AI</span> 和{" "}
+                  <span className="font-medium text-[--contact-text-light]">BIM技術</span>
+                  ，為您的工程專案注入數據驅動的數位靈魂。
+                </>
+              ) : (
+                <>
+                  Integrating{" "}
+                  <span className="font-medium text-[--contact-text-light]">AI</span> and{" "}
+                  <span className="font-medium text-[--contact-text-light]">
+                    BIM technology
+                  </span>{" "}
+                  to infuse your engineering projects with a data-driven digital
+                  soul.
+                </>
+              )}
+            </p>
           </div>
+        </div>
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full"
-            size="lg"
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+          {/* Left Column: Contact Info & Map */}
+          <div
+            className={`lg:col-span-4 space-y-12 transform transition-all duration-1000 delay-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
-            {isSubmitting ? "Sending..." : "Submit"}
-          </Button>
-        </form>
+            {/* Info Block 1: Address */}
+            <div className="group cursor-default relative">
+              <div className="contact-vertical-line" />
 
-        {/* Test Info */}
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h3 className="font-semibold mb-2">Test Information:</h3>
-          <ul className="text-sm text-gray-600 space-y-1">
-            <li>• Internal notification will be sent to solution@isbim.com.hk</li>
-            <li>• User confirmation email will be sent to your email address</li>
-            <li>• Rate limit: 3 submissions per 5 minutes per IP</li>
-            <li>• Check Resend dashboard for sent emails</li>
-          </ul>
+              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
+                <MapPin size={18} />
+                <span className="contact-badge">
+                  {locale === "zh" ? "位置資料" : "Location Data"}
+                </span>
+              </div>
+              <div className="pl-2">
+                <h3 className="text-xl font-medium text-[--contact-text] mb-2">
+                  {locale === "zh" ? "香港總部" : "Hong Kong HQ"}
+                </h3>
+                <p className="text-[--contact-muted] leading-relaxed font-light">
+                  {locale === "zh" ? (
+                    <>
+                      九龍油麻地
+                      <br />
+                      彌敦道430號
+                      <br />
+                      彌敦商業大廈19樓
+                    </>
+                  ) : (
+                    <>
+                      19/F, Nathan Commercial Building,
+                      <br />
+                      430 Nathan Road,
+                      <br />
+                      Yau Ma Tei, Kowloon
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+
+            {/* Info Block 2: Contact */}
+            <div className="group cursor-default relative">
+              <div className="contact-vertical-line" />
+
+              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
+                <Globe size={18} />
+                <span className="contact-badge">
+                  {locale === "zh" ? "數位連結" : "Digital Link"}
+                </span>
+              </div>
+              <div className="pl-2 space-y-4">
+                <div>
+                  <p className="text-xs font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
+                    {locale === "zh" ? "直線電話" : "Direct Line"}
+                  </p>
+                  <a
+                    href="tel:+85223828380"
+                    className="text-xl font-medium text-[--contact-text] font-mono tracking-tight hover:text-[--contact-accent] transition-colors cursor-pointer"
+                  >
+                    +852 2382 8380
+                  </a>
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
+                    {locale === "zh" ? "查詢郵箱" : "Inquiry Channel"}
+                  </p>
+                  <a
+                    href="mailto:solution@isbim.com.hk"
+                    className="text-xl font-medium text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
+                  >
+                    solution@isbim.com.hk
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Map Section */}
+            <div className="pt-4 relative">
+              {/* Decorative corners for map */}
+              <div className="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-[--contact-muted] z-10" />
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-[--contact-muted] z-10" />
+
+              <div className="contact-map-container group">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  scrolling="no"
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`}
+                  className="opacity-90 hover:opacity-100 transition-all duration-700"
+                  title="isBIM Office Location"
+                />
+
+                {/* Overlay noise texture */}
+                <div className="absolute inset-0 pointer-events-none bg-[url('/images/noise.svg')] opacity-10" />
+
+                {/* Overlay Button */}
+                <a
+                  href={googleMapsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20"
+                >
+                  <ExternalLink size={12} />
+                  {locale === "zh" ? "在 Google Maps 查看" : "Locate on Google Maps"}
+                </a>
+              </div>
+
+              <div className="flex justify-between items-center mt-2 px-1">
+                <p className="text-[10px] font-mono text-[--contact-muted]">
+                  LAT: {lat} | LON: {lon}
+                </p>
+                <div className="flex gap-2 items-center">
+                  <Navigation size={12} className="text-[--contact-muted]" />
+                  <span className="text-[10px] font-medium text-[--contact-muted] uppercase tracking-wider">
+                    {locale === "zh" ? "策略位置" : "Strategic Location"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Form Section */}
+          <div
+            className={`lg:col-span-8 transform transition-all duration-1000 delay-900 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+          >
+            <div className="contact-panel rounded-sm p-8 md:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group">
+              {/* Structural Border */}
+              <div className="contact-structural-border" />
+
+              {/* Architectural Hatching Patterns */}
+              <div className="contact-hatching contact-hatching--tr" />
+              <div className="contact-hatching contact-hatching--bl" />
+
+              {isSuccess ? (
+                <SuccessState
+                  locale={locale}
+                  onReset={() => setIsSuccess(false)}
+                />
+              ) : (
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-10 relative z-10 pl-6"
+                >
+                  {/* Form Header */}
+                  <div className="contact-section-divider">
+                    <h2 className="text-3xl font-light text-[--contact-text]">
+                      {locale === "zh" ? "啟動專案" : "Initialize Project"}
+                    </h2>
+                    <p className="text-sm text-[--contact-muted] mt-2 font-light">
+                      {locale === "zh"
+                        ? "告訴我們您的願景"
+                        : "Tell us about your vision"}
+                    </p>
+                  </div>
+
+                  {/* Section 1: Identity */}
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                      <FormInput
+                        label={locale === "zh" ? "名字" : "First Name"}
+                        required
+                        error={errors.firstName?.message}
+                        {...register("firstName")}
+                        placeholder={locale === "zh" ? "大明" : "John"}
+                      />
+                      <FormInput
+                        label={locale === "zh" ? "姓氏" : "Last Name"}
+                        required
+                        error={errors.lastName?.message}
+                        {...register("lastName")}
+                        placeholder={locale === "zh" ? "陳" : "Doe"}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Section 2: Organization */}
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                      <FormInput
+                        label={locale === "zh" ? "公司名稱" : "Company Name"}
+                        error={errors.companyName?.message}
+                        {...register("companyName")}
+                        placeholder={
+                          locale === "zh"
+                            ? "建築事務所有限公司"
+                            : "Architecture Studio Ltd."
+                        }
+                        accentColor="alt"
+                      />
+                      <FormSelect
+                        label={locale === "zh" ? "公司類型" : "Company Type"}
+                        value={selectedCompanyType || ""}
+                        onChange={(value) =>
+                          setValue(
+                            "companyType",
+                            value as ContactFormInput["companyType"]
+                          )
+                        }
+                        options={companyTypeOptions}
+                        placeholder={
+                          locale === "zh" ? "選擇結構" : "Select Structure"
+                        }
+                        accentColor="alt"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Section 3: Context */}
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                      <FormInput
+                        label={locale === "zh" ? "職位" : "Job Title"}
+                        error={errors.jobTitle?.message}
+                        {...register("jobTitle")}
+                        placeholder={
+                          locale === "zh" ? "例如：BIM經理" : "e.g. BIM Manager"
+                        }
+                        accentColor="alt"
+                      />
+                      <FormSelect
+                        label={
+                          locale === "zh" ? "所需服務" : "Required Solution"
+                        }
+                        value={selectedService || ""}
+                        onChange={(value) => setValue("service", value)}
+                        options={serviceOptions}
+                        placeholder={
+                          locale === "zh" ? "選擇模組" : "Select Module"
+                        }
+                        required
+                        error={errors.service?.message}
+                        accentColor="alt"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Section 4: Contact & Action */}
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                      <FormInput
+                        label={locale === "zh" ? "電郵" : "Email"}
+                        type="email"
+                        required
+                        error={errors.email?.message}
+                        {...register("email")}
+                        placeholder="email@example.com"
+                      />
+                      <FormInput
+                        label={locale === "zh" ? "電話" : "Phone"}
+                        type="tel"
+                        error={errors.phoneNumber?.message}
+                        {...register("phoneNumber")}
+                        placeholder="+852"
+                      />
+                    </div>
+
+                    {/* Marketing Consent */}
+                    <div className="pt-4">
+                      <label className="flex items-start gap-4 cursor-pointer group/checkbox">
+                        <div className="relative pt-1">
+                          <input
+                            type="checkbox"
+                            className="peer sr-only"
+                            checked={marketingConsent ?? false}
+                            onChange={(e) =>
+                              setValue("marketingConsent", e.target.checked)
+                            }
+                          />
+                          <div className="w-5 h-5 border border-[--contact-muted-lighter] rounded-sm peer-checked:bg-[--contact-text] peer-checked:border-[--contact-text] transition-all" />
+                          <Check
+                            size={12}
+                            className="text-white absolute top-[7px] left-[4px] opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"
+                          />
+                        </div>
+                        <span className="text-xs text-[--contact-muted] font-light group-hover/checkbox:text-[--contact-muted-light] transition-colors select-none leading-relaxed">
+                          {locale === "zh" ? (
+                            <>
+                              我同意接收來自 isBIM
+                              的技術更新、產品資訊和活動通知。
+                              <br />
+                              <span className="text-[--contact-muted-lighter] text-[10px]">
+                                數據處理符合隱私政策。
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              I agree to receive technical updates, product
+                              news, and events from isBIM.
+                              <br />
+                              <span className="text-[--contact-muted-lighter] text-[10px]">
+                                Data processed in accordance with privacy
+                                policy.
+                              </span>
+                            </>
+                          )}
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="pt-8 flex justify-end">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="group relative px-8 py-4 bg-blue-600 text-white font-medium text-sm tracking-wide uppercase overflow-hidden hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed"
+                      >
+                        <span className="relative z-10 flex items-center gap-3 group-hover:tracking-wider transition-all duration-300">
+                          {isSubmitting ? (
+                            <span className="font-mono text-xs animate-pulse">
+                              {locale === "zh"
+                                ? "上傳資料中..."
+                                : "UPLOADING_DATA..."}
+                            </span>
+                          ) : (
+                            <>
+                              <span className="text-xs font-bold tracking-widest uppercase">
+                                {locale === "zh" ? "提交查詢" : "Submit Inquiry"}
+                              </span>
+                              <ArrowRight
+                                size={16}
+                                className="transition-transform duration-300 group-hover:translate-x-1"
+                              />
+                            </>
+                          )}
+                        </span>
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-0 bg-neutral-900 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
+// Success State Component
+function SuccessState({
+  locale,
+  onReset,
+}: {
+  locale: string;
+  onReset: () => void;
+}) {
+  return (
+    <div className="min-h-[500px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-700">
+      <div className="relative">
+        <div className="absolute inset-0 bg-[--contact-accent] blur-xl opacity-30 animate-pulse" />
+        <div className="relative w-24 h-24 contact-gradient-bg rounded-full flex items-center justify-center mb-8 shadow-lg">
+          <Check className="w-10 h-10 text-white" />
+        </div>
+      </div>
+      <h3 className="text-4xl font-light text-[--contact-text] mb-4">
+        {locale === "zh" ? "傳輸完成" : "Transmission Received"}
+      </h3>
+      <p className="text-[--contact-muted] max-w-md text-lg font-light leading-relaxed">
+        {locale === "zh"
+          ? "我們的 AI 顧問正在分析您的請求。稍後將與您進行數位握手。"
+          : "Our AI consultants are analyzing your request. Expect a digital handshake shortly."}
+      </p>
+      <button
+        onClick={onReset}
+        className="mt-12 px-8 py-3 rounded-none border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] transition-all uppercase text-xs font-bold tracking-widest"
+      >
+        {locale === "zh" ? "重設表單" : "Reset Form"}
+      </button>
+    </div>
+  );
+}
+
+// Form Input Component
+interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  error?: string;
+  accentColor?: "primary" | "alt";
+}
+
+const FormInput = ({
+  label,
+  error,
+  required,
+  accentColor = "primary",
+  ...props
+}: FormInputProps) => {
+  const focusColor =
+    accentColor === "alt"
+      ? "focus:border-[--contact-accent-alt]"
+      : "focus:border-[--contact-accent]";
+  const labelFocusColor =
+    accentColor === "alt"
+      ? "group-focus-within:text-[--contact-accent-alt]"
+      : "group-focus-within:text-[--contact-accent]";
+
+  return (
+    <div className="group relative">
+      <label
+        className={`contact-label ${labelFocusColor}`}
+      >
+        {label}
+        {required && " *"}
+      </label>
+      <input
+        className={`contact-input ${focusColor}`}
+        {...props}
+      />
+      <div
+        className={`absolute bottom-0 left-0 h-[1px] w-0 group-focus-within:w-full transition-all duration-500 ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
+      />
+      {error && (
+        <p className="text-red-500 text-sm mt-1">{error}</p>
+      )}
+    </div>
+  );
+};
+
+// Form Select Component
+interface FormSelectProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+  placeholder: string;
+  required?: boolean;
+  error?: string;
+  accentColor?: "primary" | "alt";
+}
+
+const FormSelect = ({
+  label,
+  value,
+  onChange,
+  options,
+  placeholder,
+  required,
+  error,
+  accentColor = "primary",
+}: FormSelectProps) => {
+  const focusColor =
+    accentColor === "alt"
+      ? "focus:border-[--contact-accent-alt]"
+      : "focus:border-[--contact-accent]";
+  const labelFocusColor =
+    accentColor === "alt"
+      ? "group-focus-within:text-[--contact-accent-alt]"
+      : "group-focus-within:text-[--contact-accent]";
+  const hoverIconColor =
+    accentColor === "alt"
+      ? "group-hover:text-[--contact-accent-alt]"
+      : "group-hover:text-[--contact-accent]";
+
+  return (
+    <div className="group relative">
+      <label
+        className={`contact-label ${labelFocusColor}`}
+      >
+        {label}
+        {required && " *"}
+      </label>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`contact-input appearance-none cursor-pointer group-hover:bg-[--contact-border-light]/50 ${focusColor}`}
+        >
+          <option value="" disabled>
+            {placeholder}
+          </option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          className={`absolute right-0 top-1/2 -translate-y-1/2 text-[--contact-muted-lighter] w-5 h-5 pointer-events-none transition-colors ${hoverIconColor}`}
+        />
+      </div>
+      {error && (
+        <p className="text-red-500 text-sm mt-1">{error}</p>
+      )}
+    </div>
+  );
+};

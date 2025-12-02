@@ -7,7 +7,7 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2025-11-29
+**Last Updated**: 2025-12-02
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
@@ -223,14 +223,16 @@ src/schemas/
 
 ### Styles
 ```
-src/styles/
-  animations.css  # placeholder keyframes
-  typography.css  # placeholder typography utilities
-- home-design-tokens.css      # body base, containers, section spacing, hero/footer/HUD styles (home)
-- product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse
-- aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text)
-  ```
-  - globals.css: imports home/product/aboutus tokens; retains custom variant + shared shimmer (services/products hero)
+  src/styles/
+    animations.css  # placeholder keyframes
+    typography.css  # placeholder typography utilities
+  - home-design-tokens.css      # body base, containers, section spacing, hero/footer/HUD styles (home)
+  - product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse
+  - aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text)
+  - services-design-tokens.css  # services/products page palette (dark + emerald), selection, badge/border helpers
+  - contact-design-tokens.css   # contact page palette (light bg + product gradient), form/panel/badge utilities
+    ```
+    - globals.css: imports home/product/aboutus/services/contact tokens; retains custom variant + shared shimmer (services/products hero)
 
 ### SEO & ISR
 ```
@@ -340,6 +342,7 @@ public/
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
 - **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.
 - **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
+- **Contact page**: Light architectural theme (`bg-[#f8fafc]`, product template purple→cyan gradient accents); uses `contact-design-tokens.css` for panel/form/badge utilities. Client Component with `useLocale()` + inline i18n. Form uses Server Action (`submitContactForm`), Zod validation, OpenStreetMap embed + Google Maps link.
 
 ### Product Template - updated guardrails (2025-02)
 - Server wrapper (`page.tsx`): only `generateMetadata` may call `m.*()`. JSON-LD text should use static strings; build URLs with `getSiteUrl()` + `buildHref()` (no hand-crafted `/${locale}`).

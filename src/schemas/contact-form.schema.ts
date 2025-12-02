@@ -66,9 +66,18 @@ export const contactFormSchema = z.object({
 
   /** Company type - optional enum */
   companyType: z
-    .enum(["Developer", "Contractor", "Gov", "Consultant"], {
-      message: "Please select a valid company type",
-    })
+    .enum(
+      [
+        "Architectural",
+        "Engineering",
+        "Contractor",
+        "Developer",
+        "Government",
+      ],
+      {
+        message: "Please select a valid company type",
+      }
+    )
     .optional(),
 
   /** Job title - optional, max 100 characters */
