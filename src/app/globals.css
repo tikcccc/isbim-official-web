@@ -102,11 +102,11 @@
 
 /* Character-level reveal animation */
 .product-char {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.28s cubic-bezier(0.2, 0.65, 0.3, 0.9),
-              transform 0.32s cubic-bezier(0.2, 0.65, 0.3, 0.9);
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.22s cubic-bezier(0.2, 0.65, 0.3, 0.9),
+                transform 0.24s cubic-bezier(0.2, 0.65, 0.3, 0.9);
   transition-delay: var(--char-delay-in, 0ms);
   will-change: opacity, transform;
 }
@@ -115,35 +115,40 @@
   transition-delay: var(--char-delay-out, 0ms);
 }
 
-/* Standard reveal (all at once or staggered) */
+/* Standard reveal (unified - all characters at once) */
 .revealed .product-char {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Two-stage reveal support */
-.revealed-part-1 .product-char[data-part="1"] {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.revealed-part-2 .product-char[data-part="2"] {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Block-level fade animation */
+/* Block-level fade animation (simple fade-in for Stage 2) */
 .product-block-anim {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.3s cubic-bezier(0.25, 0.7, 0.3, 1),
-                transform 0.3s cubic-bezier(0.25, 0.7, 0.3, 1);
-    will-change: opacity, transform;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s cubic-bezier(0.25, 0.7, 0.3, 1),
+                  transform 0.4s cubic-bezier(0.25, 0.7, 0.3, 1);
+      will-change: opacity, transform;
   }
 
 .product-block-anim.revealed {
   opacity: 1;
   transform: translateY(0);
+  transition-delay: 0ms;
+}
+
+/* Bounce-up animation for Bottom section (description + scroll prompt) */
+.product-bounce-anim {
+      opacity: 0;
+      transform: translateY(60px) scale(0.95);
+      transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: opacity, transform;
+  }
+
+.product-bounce-anim.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0ms;
 }
 
 /* Stage 2 text with gradient overlay using ::before pseudo-element */
@@ -164,7 +169,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   opacity: 0;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
   pointer-events: none;
 }
 
@@ -429,5 +434,5 @@
 }
 
 .animate-bounce-slow {
-  animation: bounce-slow 2s infinite;
+  animation: bounce-slow 1.2s infinite;
 }

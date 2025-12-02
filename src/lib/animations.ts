@@ -283,13 +283,13 @@ export const PRODUCT_TEMPLATE_ANIMATIONS = {
   charReveal: {
     duration: 0.8,
     ease: "cubic-bezier(0.2, 0.65, 0.3, 0.9)",
-    stagger: 0.05, // 50ms per character - slower for more distinct reveal
+    stagger: 0.025, // 25ms per character - faster, more fluid reveal
   },
 
-  /** Block-level fade-in animation */
+  /** Block-level fade-in animation with elastic bounce-up */
   blockFadeIn: {
-    duration: 0.8,
-    ease: "cubic-bezier(0.2, 0.65, 0.3, 0.9)",
+    duration: 0.6,
+    ease: "cubic-bezier(0.34, 1.56, 0.64, 1)", // Elastic easing for bounce effect
   },
 
   /** Index line growth animation (reversible) */
@@ -313,7 +313,7 @@ export const PRODUCT_TEMPLATE_ANIMATIONS = {
 
   /** Gradient text reveal timing */
   gradientReveal: {
-    duration: 1.5,
+    duration: 0.5,
     ease: "ease-in-out",
   },
 

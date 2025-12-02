@@ -36,7 +36,7 @@ interface NarrativeTrackProps {
  * - Sticky inner stage (content stays centered)
  * - Background color transition (dark + light)
  * - Text color transition (white + dark)
- * - Character-by-character reveal animation
+ * - Character-by-character reveal animation (using transitionend events for sequencing)
  * - Gradient text overlay effect
  * - Reversible animations (scroll up/down)
  *
@@ -49,8 +49,8 @@ export function NarrativeTrack({
   description,
   descriptionHighlight,
   scrollPromptText = "Scroll to explore",
-  mobileScrollHeight = "250vh",
-  desktopScrollHeight = "350vh",
+  mobileScrollHeight = "120vh",
+  desktopScrollHeight = "210vh",
 }: NarrativeTrackProps) {
   const trackRef = useRef<HTMLElement>(null);
   const text1Ref = useRef<HTMLHeadingElement>(null);
@@ -58,6 +58,22 @@ export function NarrativeTrack({
   const bottomRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
   const lastProgressRef = useRef(0);
+
+  // Stage 1 state (complete text, no parts)
+  const stage1CompleteRef = useRef(false);
+  const stage1StartedRef = useRef(false);
+
+  // Stage 2 state
+  const stage2StartedRef = useRef(false);
+  const stage2ThresholdReachedRef = useRef(false);
+
+  // Gradient and bottom state
+  const gradientStartedRef = useRef(false);
+  const bottomRevealedRef = useRef(false);
+
+  // Animation completion state
+  const allAnimationsCompleteRef = useRef(false);
+  const scrollLockActiveRef = useRef(false);
 
   // Responsive scroll height for better mobile UX
   const isMobile = useIsMobile();
@@ -68,32 +84,26 @@ export function NarrativeTrack({
     () => ({
       bgTransitionStart: 0.05,
       bgTransitionEnd: 0.25, // Background fully white by 25%
-      stage1Start: 0.3, // Text 1 Part 1 starts appearing
-      stage1Part2: 0.38, // Text 1 Part 2 starts appearing (subtle delay)
-      stage2Start: 0.55, // Text 2 starts appearing
-      gradientActive: 0.65,
-      bottomReveal: 0.8,
+      stage1Start: 0.3, // Stage 1 text starts appearing (complete, no parts)
+      stage2Start: 0.45, // Stage 2 starts appearing (after Stage 1 completes)
+      gradientActive: 0.6, // Gradient starts shortly after Stage 2 appears
+      bottomReveal: 0.7, // Bottom reveals after a small scroll distance beyond gradient start
     }),
     []
   );
 
   /**
-   * Split text into individual character spans for animation
+   * Split text into individual character spans for animation (complete text, no parts)
    */
   const splitTextToChars = useCallback((element: HTMLElement) => {
     const text = element.textContent || "";
     element.innerHTML = "";
     const words = text.split(" ");
     const totalChars = text.replace(/\s/g, "").length;
-    const splitIndex = Math.floor(totalChars * 0.4); // Split at 40% for part 1
-
-    const part1Count = splitIndex + 1;
-    const part2Count = Math.max(totalChars - part1Count, 0);
     const baseDelayMs = PRODUCT_TEMPLATE_ANIMATIONS.charReveal.stagger * 1000;
 
     let charIndex = 0;
-    let part1Pos = 0;
-    let part2Pos = 0;
+
     words.forEach((word, wordIdx) => {
       const wordSpan = document.createElement("span");
       wordSpan.style.display = "inline-block";
@@ -103,16 +113,10 @@ export function NarrativeTrack({
         const charSpan = document.createElement("span");
         charSpan.className = "product-char";
         charSpan.textContent = char;
-        // Assign part 1 or 2 based on index
-        const isPart1 = charIndex <= splitIndex;
-        charSpan.setAttribute("data-part", isPart1 ? "1" : "2");
 
         // Stagger in normal order for enter; reverse order for exit
-        const localIndex = isPart1 ? part1Pos++ : part2Pos++;
-        const forwardDelay = localIndex * baseDelayMs;
-        const reverseDelay =
-          (isPart1 ? Math.max(part1Count - 1 - localIndex, 0) : Math.max(part2Count - 1 - localIndex, 0)) *
-          baseDelayMs;
+        const forwardDelay = charIndex * baseDelayMs;
+        const reverseDelay = (totalChars - 1 - charIndex) * baseDelayMs;
 
         charSpan.style.setProperty("--char-delay-in", `${forwardDelay}ms`);
         charSpan.style.setProperty("--char-delay-out", `${reverseDelay}ms`);
@@ -126,6 +130,8 @@ export function NarrativeTrack({
         element.appendChild(document.createTextNode(" "));
       }
     });
+
+    return { totalChars };
   }, []);
 
   /**
@@ -182,8 +188,58 @@ export function NarrativeTrack({
     // Initialize character splitting only once
     if (!hasInitialized.current) {
       splitTextToChars(text1);
+
+      // Set up transitionend listener for Stage 1 (complete text)
+      const handleStage1TransitionEnd = (e: TransitionEvent) => {
+        if (
+          e.target instanceof HTMLElement &&
+          e.target.classList.contains("product-char") &&
+          e.propertyName === "opacity"
+        ) {
+          const allChars = text1.querySelectorAll('.product-char');
+          const allRevealed = Array.from(allChars).every(
+            (char) => getComputedStyle(char).opacity === "1"
+          );
+
+          if (allRevealed && !stage1CompleteRef.current) {
+            stage1CompleteRef.current = true;
+
+            // If Stage 2 threshold was already reached, start Stage 2 immediately
+            if (stage2ThresholdReachedRef.current && !stage2StartedRef.current) {
+              text2.classList.add("revealed");
+              stage2StartedRef.current = true;
+            }
+          }
+        }
+      };
+
+      // Set up transitionend listener for Stage 2
+      const handleStage2TransitionEnd = (e: TransitionEvent) => {
+        if (e.target === text2 && e.propertyName === "opacity" && getComputedStyle(text2).opacity === "1") {
+          // Stage 2 is now fully visible, can activate gradient
+          // Gradient activation is still controlled by scroll threshold
+        }
+      };
+
+      text1.addEventListener("transitionend", handleStage1TransitionEnd);
+      text2.addEventListener("transitionend", handleStage2TransitionEnd);
+
       hasInitialized.current = true;
+
+      return () => {
+        text1.removeEventListener("transitionend", handleStage1TransitionEnd);
+        text2.removeEventListener("transitionend", handleStage2TransitionEnd);
+      };
     }
+  }, [splitTextToChars]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const text1 = text1Ref.current;
+    const text2 = text2Ref.current;
+    const bottom = bottomRef.current;
+
+    if (!track || !text1 || !text2 || !bottom) return;
 
     // Color values from design tokens
     const darkBg = hexToRgb(PRODUCT_TEMPLATE_COLORS.darkBg);
@@ -207,72 +263,125 @@ export function NarrativeTrack({
         const isScrollingDown = progress >= lastProgressRef.current;
 
         // Background color transition
-        const bgFactor = mapRange(
-          progress,
-          thresholds.bgTransitionStart,
-          thresholds.bgTransitionEnd,
-          0,
-          1
-        );
+        const bgFactor = mapRange(progress, thresholds.bgTransitionStart, thresholds.bgTransitionEnd, 0, 1);
         track.style.backgroundColor = interpolateColor(darkBg, lightBg, bgFactor);
 
         // Text color transition (stage 1 text)
-        // We want text to be dark when it appears (since bg is white),
-        // but if it was visible during transition it would need to change.
-        // Since we hide it until bg is white, we can just set it to dark or transition it quickly.
-        // Here we keep the transition logic but sync it with bg for smoothness in case of fast scroll.
-        const textFactor = mapRange(
-          progress,
-          thresholds.bgTransitionStart,
-          thresholds.bgTransitionEnd,
-          0,
-          1
-        );
+        const textFactor = mapRange(progress, thresholds.bgTransitionStart, thresholds.bgTransitionEnd, 0, 1);
         text1.style.color = interpolateColor(whiteText, darkText, textFactor);
 
-        // Animation triggers based on scroll progress
-        // Stage 1 Part 1
+        // ============================================
+        // STAGE 1 ANIMATION (Unified - no part 1/part 2 split)
+        // ============================================
         if (progress > thresholds.stage1Start) {
-          text1.classList.add("revealed-part-1");
+          if (!stage1StartedRef.current) {
+            text1.classList.add("revealed");
+            stage1StartedRef.current = true;
+          }
           if (isScrollingDown) {
             text1.classList.remove("stage1-exiting");
           }
         } else {
-          if (!isScrollingDown) {
+          // Exiting Stage 1 - reset everything
+          if (!isScrollingDown && stage1StartedRef.current) {
             text1.classList.add("stage1-exiting");
           }
-          text1.classList.remove("revealed-part-1");
-        }
+          text1.classList.remove("revealed");
+          stage1StartedRef.current = false;
+          stage1CompleteRef.current = false;
+          stage2StartedRef.current = false;
+          stage2ThresholdReachedRef.current = false;
+          gradientStartedRef.current = false;
+          bottomRevealedRef.current = false;
+          allAnimationsCompleteRef.current = false;
+          scrollLockActiveRef.current = false;
 
-        // Stage 1 Part 2
-        if (progress > thresholds.stage1Part2) {
-          text1.classList.add("revealed-part-2");
-          if (isScrollingDown) {
-            text1.classList.remove("stage1-exiting");
-          }
-        } else {
-          if (!isScrollingDown) {
-            text1.classList.add("stage1-exiting");
-          }
-          text1.classList.remove("revealed-part-2");
-        }
-
-        if (progress > thresholds.stage2Start) {
-          text2.classList.add("revealed");
-        } else {
           text2.classList.remove("revealed");
+          text2.classList.remove("gradient-active");
+          bottom.classList.remove("revealed");
         }
 
-        if (progress > thresholds.gradientActive && stage2Gradient) {
-          text2.classList.add("gradient-active");
+        // ============================================
+        // STAGE 2 THRESHOLD
+        // ============================================
+        if (progress > thresholds.stage2Start) {
+          stage2ThresholdReachedRef.current = true;
+
+          // Only start Stage 2 if Stage 1 is complete
+          if (stage1CompleteRef.current && !stage2StartedRef.current) {
+            text2.classList.add("revealed");
+            stage2StartedRef.current = true;
+          }
+        } else {
+          // Below Stage 2 threshold
+          stage2ThresholdReachedRef.current = false;
+          stage2StartedRef.current = false;
+          gradientStartedRef.current = false;
+          bottomRevealedRef.current = false;
+          allAnimationsCompleteRef.current = false;
+          scrollLockActiveRef.current = false;
+
+          text2.classList.remove("revealed");
+          text2.classList.remove("gradient-active");
+          bottom.classList.remove("revealed");
+        }
+
+        // ============================================
+        // GRADIENT ACTIVATION
+        // ============================================
+        if (progress > thresholds.gradientActive && stage2Gradient && stage2StartedRef.current) {
+          if (!gradientStartedRef.current) {
+            text2.classList.add("gradient-active");
+            gradientStartedRef.current = true;
+          }
         } else {
           text2.classList.remove("gradient-active");
+          gradientStartedRef.current = false;
+
+          // Reset bottom when gradient is removed
+          if (progress <= thresholds.gradientActive) {
+            bottomRevealedRef.current = false;
+            allAnimationsCompleteRef.current = false;
+            scrollLockActiveRef.current = false;
+            bottom.classList.remove("revealed");
+          }
         }
 
-        if (progress > thresholds.bottomReveal) {
-          bottom.classList.add("revealed");
-        } else {
+        // ============================================
+        // BOTTOM REVEAL (separate scroll trigger after gradient)
+        // ============================================
+        if (progress > thresholds.bottomReveal && gradientStartedRef.current) {
+          if (!bottomRevealedRef.current) {
+            bottom.classList.add("revealed");
+            bottomRevealedRef.current = true;
+
+            // Mark animations as complete after bottom fade-in completes (0.6s)
+            setTimeout(() => {
+              allAnimationsCompleteRef.current = true;
+              scrollLockActiveRef.current = false;
+            }, 600);
+          }
+        } else if (progress <= thresholds.bottomReveal) {
+          bottomRevealedRef.current = false;
+          allAnimationsCompleteRef.current = false;
+          scrollLockActiveRef.current = false;
           bottom.classList.remove("revealed");
+        }
+
+        // ============================================
+        // SCROLL LOCK - Prevent leaving section until animations complete
+        // ============================================
+        if (progress > 0.95 && !allAnimationsCompleteRef.current && !scrollLockActiveRef.current) {
+          scrollLockActiveRef.current = true;
+
+          // Calculate the scroll position for 95% progress
+          const lockPosition = track.offsetTop + scrollDistance * 0.95;
+
+          // Smoothly scroll back to lock position
+          window.scrollTo({
+            top: lockPosition,
+            behavior: "smooth",
+          });
         }
 
         lastProgressRef.current = progress;
@@ -287,14 +396,7 @@ export function NarrativeTrack({
       window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(rafId);
     };
-  }, [
-    splitTextToChars,
-    mapRange,
-    interpolateColor,
-    hexToRgb,
-    stage2Gradient,
-    thresholds,
-  ]);
+  }, [mapRange, interpolateColor, hexToRgb, stage2Gradient, thresholds]);
 
   /**
    * Render description with optional highlighted text
@@ -356,7 +458,7 @@ export function NarrativeTrack({
           {/* Bottom: Description + Scroll prompt */}
           <div
             ref={bottomRef}
-            className="product-block-anim mt-20 md:mt-28 flex flex-col items-center gap-8"
+            className="product-bounce-anim mt-20 md:mt-28 flex flex-col items-center gap-8"
           >
             <p className="text-gray-600 text-sm sm:text-base md:text-lg font-normal max-w-lg mx-auto leading-relaxed text-center tracking-wide">
               {renderDescription()}
