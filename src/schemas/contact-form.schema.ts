@@ -73,6 +73,8 @@ export const contactFormSchema = z.object({
         "Contractor",
         "Developer",
         "Government",
+        "IT",
+        "Other",
       ],
       {
         message: "Please select a valid company type",

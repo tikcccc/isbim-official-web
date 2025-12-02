@@ -49,6 +49,8 @@ const companyTypeOptions = [
   { value: "Contractor", label: "Main Contractor" },
   { value: "Developer", label: "Property Developer" },
   { value: "Government", label: "Government / Public Sector" },
+  { value: "IT", label: "IT Company" },
+  { value: "Other", label: "Other" },
 ];
 
 // Map coordinates for 430 Nathan Road, Yau Ma Tei
@@ -682,7 +684,7 @@ const FormSelect = ({
       >
         <SelectTrigger
           className={cn(
-            "contact-select w-full justify-between items-center text-lg px-0 py-3 rounded-none border-0 border-b bg-transparent h-auto min-h-[52px]",
+            "contact-select w-full justify-between items-center text-lg leading-tight px-0 py-3.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[56px]",
             "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
             focusColor,
             hoverIconColor,
