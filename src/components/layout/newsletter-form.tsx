@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Send, Loader2 } from "lucide-react";
-import { m } from "@/components/motion/lazy-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "@/lib/i18n";
+import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 
 const subscriptionSchema = z.object({
@@ -17,24 +18,24 @@ const subscriptionSchema = z.object({
 type SubscriptionFormValues = z.infer<typeof subscriptionSchema>;
 
 export function NewsletterForm() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<SubscriptionFormValues>({
     resolver: zodResolver(subscriptionSchema),
   });
 
   const onSubmit = async (data: SubscriptionFormValues) => {
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Subscription Data:", data);
-    setIsSubmitted(true);
-    reset();
-
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setIsRedirecting(true);
+    router.push(
+      `${ROUTES.CONTACT}?email=${encodeURIComponent(
+        data.email
+      )}#contact-form`
+    );
   };
 
   return (
@@ -48,7 +49,7 @@ export function NewsletterForm() {
         />
         <Button
           type="submit"
-          disabled={isSubmitting || isSubmitted}
+          disabled={isSubmitting || isRedirecting}
           className="px-4 h-10 shadow-sm transition-all duration-200 hover:-translate-y-[1px] hover:shadow-md focus:shadow-md disabled:translate-y-0 disabled:shadow-sm"
         >
           {isSubmitting ? (
@@ -61,16 +62,6 @@ export function NewsletterForm() {
 
       {errors.email && (
         <p className="text-xs text-red-500 pl-0.5">{errors.email.message}</p>
-      )}
-
-      {isSubmitted && (
-        <m.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-green-600 dark:text-green-400 pl-0.5"
-        >
-          {messages.footer_subscribe_success()}
-        </m.p>
       )}
     </form>
   );

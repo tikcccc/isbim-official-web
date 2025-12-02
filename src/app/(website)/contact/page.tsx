@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
   MapPin,
   Globe,
-  ChevronDown,
   ExternalLink,
   Layers,
   Box,
@@ -15,7 +14,9 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useLocale } from "@/lib/i18n/locale-context";
+import * as messages from "@/paraglide/messages";
 import { submitContactForm } from "@/app/actions/contact-form.action";
 import {
   contactFormSchema,
@@ -29,29 +30,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-
-// Service options for the dropdown
-const serviceOptions = [
-  { value: "BIM Consultancy", label: "BIM Consultancy" },
-  { value: "AI Solutions", label: "AI Construction Solutions" },
-  { value: "Software Training", label: "Software Training" },
-  { value: "3D Modeling", label: "3D Modeling & Coordination" },
-  { value: "jarvis-desktop", label: "JARVIS Desktop" },
-  { value: "jarvis-cloud", label: "JARVIS Cloud" },
-  { value: "support", label: "Technical Support" },
-  { value: "other", label: "Other" },
-];
-
-// Company type options
-const companyTypeOptions = [
-  { value: "Architectural", label: "Architectural Firm" },
-  { value: "Engineering", label: "Engineering Consultant" },
-  { value: "Contractor", label: "Main Contractor" },
-  { value: "Developer", label: "Property Developer" },
-  { value: "Government", label: "Government / Public Sector" },
-  { value: "IT", label: "IT Company" },
-  { value: "Other", label: "Other" },
-];
 
 // Map coordinates for 430 Nathan Road, Yau Ma Tei
 const lat = 22.30973871039109;
@@ -70,7 +48,73 @@ export default function ContactPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [titleAnimating, setTitleAnimating] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
+  const searchParams = useSearchParams();
+  const serviceOptions = [
+    {
+      value: "BIM Consultancy",
+      label: messages.contact_service_option_bim_consultancy(),
+    },
+    {
+      value: "AI Solutions",
+      label: messages.contact_service_option_ai_solutions(),
+    },
+    {
+      value: "Software Training",
+      label: messages.contact_service_option_training(),
+    },
+    {
+      value: "3D Modeling",
+      label: messages.contact_service_option_modeling(),
+    },
+    {
+      value: "jarvis-desktop",
+      label: messages.contact_service_option_jarvis_desktop(),
+    },
+    {
+      value: "jarvis-cloud",
+      label: messages.contact_service_option_jarvis_cloud(),
+    },
+    {
+      value: "support",
+      label: messages.contact_service_option_support(),
+    },
+    {
+      value: "other",
+      label: messages.contact_service_option_other(),
+    },
+  ];
+  const companyTypeOptions = [
+    {
+      value: "Architectural",
+      label: messages.contact_company_type_architectural(),
+    },
+    {
+      value: "Engineering",
+      label: messages.contact_company_type_engineering(),
+    },
+    {
+      value: "Contractor",
+      label: messages.contact_company_type_contractor(),
+    },
+    {
+      value: "Developer",
+      label: messages.contact_company_type_developer(),
+    },
+    {
+      value: "Government",
+      label: messages.contact_company_type_government(),
+    },
+    {
+      value: "IT",
+      label: messages.contact_company_type_it(),
+    },
+    {
+      value: "Other",
+      label: messages.contact_company_type_other(),
+    },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -99,6 +143,18 @@ export default function ContactPage() {
   const selectedService = watch("service");
   const selectedCompanyType = watch("companyType");
   const marketingConsent = watch("marketingConsent");
+  const prefillEmail =
+    searchParams.get("email") ?? searchParams.get("prefillEmail");
+
+  useEffect(() => {
+    if (prefillEmail) {
+      setValue("email", prefillEmail);
+      formRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [prefillEmail, setValue]);
 
   const onSubmit = async (data: ContactFormInput) => {
     setIsSubmitting(true);
@@ -108,17 +164,14 @@ export default function ContactPage() {
         setIsSuccess(true);
         reset();
       } else {
-        toast.error("Error", {
+        toast.error(messages.contact_error_title(), {
           description: result.error,
         });
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Error", {
-        description:
-          locale === "zh"
-            ? "發送失敗,請稍後再試。"
-            : "Failed to send message. Please try again later.",
+      toast.error(messages.contact_error_title(), {
+        description: messages.contact_error_generic(),
       });
     } finally {
       setIsSubmitting(false);
@@ -169,10 +222,11 @@ export default function ContactPage() {
             <h1
               className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] transform transition-transform duration-1000 delay-300 contact-hero-title ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
             >
-              {locale === "zh" ? "共建" : "Let's Build"}{" "}
+              {messages.contact_hero_title_prefix()}
               <br className="md:hidden" />
-              {locale === "zh" ? "" : "the "}
-              <span className="font-semibold">{locale === "zh" ? "未來" : "Future"}</span>
+              <span className="font-semibold">
+                {messages.contact_hero_title_highlight()}
+              </span>
             </h1>
           </div>
 
@@ -180,23 +234,17 @@ export default function ContactPage() {
             <p
               className={`text-lg md:text-xl text-[--contact-muted] font-light leading-relaxed transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
             >
-              {locale === "zh" ? (
-                <>
-                  整合 <span className="font-medium text-[--contact-text-light]">AI</span> 和{" "}
-                  <span className="font-medium text-[--contact-text-light]">BIM技術</span>
-                  ，為您的工程專案注入數據驅動的數位靈魂。
-                </>
-              ) : (
-                <>
-                  Integrating{" "}
-                  <span className="font-medium text-[--contact-text-light]">AI</span> and{" "}
-                  <span className="font-medium text-[--contact-text-light]">
-                    BIM technology
-                  </span>{" "}
-                  to infuse your engineering projects with a data-driven digital
-                  soul.
-                </>
-              )}
+              <>
+                {messages.contact_hero_body_prefix()}{" "}
+                <span className="font-medium text-[--contact-text-light]">
+                  {messages.contact_hero_body_ai()}
+                </span>{" "}
+                {messages.contact_hero_body_connector()}{" "}
+                <span className="font-medium text-[--contact-text-light]">
+                  {messages.contact_hero_body_bim()}
+                </span>
+                {messages.contact_hero_body_suffix()}
+              </>
             </p>
           </div>
         </div>
@@ -213,31 +261,21 @@ export default function ContactPage() {
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <MapPin size={18} />
                 <span className="contact-info-text">
-                  {locale === "zh" ? "位置資料" : "Office Location"}
+                  {messages.contact_label_address()}
                 </span>
               </div>
               <div className="pl-2">
                 <h3 className="text-xl font-medium text-[--contact-text] mb-2">
-                  {locale === "zh" ? "香港總部" : "Hong Kong"}
+                  {messages.contact_address_city()}
                 </h3>
                 <p className="text-[--contact-muted] leading-relaxed font-light">
-                  {locale === "zh" ? (
-                    <>
-                      九龍油麻地
-                      <br />
-                      彌敦道430號
-                      <br />
-                      彌敦商業大廈19樓
-                    </>
-                  ) : (
-                    <>
-                      19/F, Nathan Commercial Building,
-                      <br />
-                      430 Nathan Road,
-                      <br />
-                      Yau Ma Tei, Kowloon
-                    </>
-                  )}
+                  <>
+                    {messages.contact_address_line1()}
+                    <br />
+                    {messages.contact_address_line2()}
+                    <br />
+                    {messages.contact_address_line3()}
+                  </>
                 </p>
               </div>
             </div>
@@ -249,13 +287,13 @@ export default function ContactPage() {
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <Globe size={18} />
                 <span className="contact-info-text">
-                  {locale === "zh" ? "數位連結" : "Digital Link"}
+                  {messages.contact_label_digital_link()}
                 </span>
               </div>
               <div className="pl-2 space-y-4">
                 <div>
                   <p className="text-xs font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
-                    {locale === "zh" ? "直線電話" : "Direct Line"}
+                    {messages.contact_label_direct_line()}
                   </p>
                   <a
                     href="tel:+85223828380"
@@ -266,7 +304,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
-                    {locale === "zh" ? "查詢郵箱" : "Inquiry Channel"}
+                    {messages.contact_label_inquiry()}
                   </p>
                   <a
                     href="mailto:solution@isbim.com.hk"
@@ -292,7 +330,7 @@ export default function ContactPage() {
                   scrolling="no"
                   src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`}
                   className="opacity-90 hover:opacity-100 transition-all duration-700"
-                  title="isBIM Office Location"
+                  title={messages.contact_map_title()}
                 />
 
                 {/* Overlay noise texture */}
@@ -306,7 +344,7 @@ export default function ContactPage() {
                   className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20"
                 >
                   <ExternalLink size={12} />
-                  {locale === "zh" ? "在 Google Maps 查看" : "Locate on Google Maps"}
+                  {messages.contact_map_cta()}
                 </a>
               </div>
 
@@ -317,18 +355,21 @@ export default function ContactPage() {
                 <div className="flex gap-2 items-center">
                   <Navigation size={12} className="text-[--contact-muted]" />
                   <span className="text-[10px] font-medium text-[--contact-muted] uppercase tracking-wider">
-                    {locale === "zh" ? "策略位置" : "Strategic Location"}
+                    {messages.contact_map_tagline()}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-
           {/* Right Column: Form Section */}
           <div
             className={`lg:col-span-8 transform transition-all duration-1000 delay-900 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
-            <div className="contact-panel rounded-sm p-8 md:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group">
+            <div
+              id="contact-form"
+              ref={formRef}
+              className="contact-panel rounded-sm p-8 md:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group"
+            >
               {/* Structural Border */}
               <div className="contact-structural-border" />
 
@@ -337,10 +378,7 @@ export default function ContactPage() {
               <div className="contact-hatching contact-hatching--bl" />
 
               {isSuccess ? (
-                <SuccessState
-                  locale={locale}
-                  onReset={() => setIsSuccess(false)}
-                />
+                <SuccessState onReset={() => setIsSuccess(false)} />
               ) : (
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -349,12 +387,10 @@ export default function ContactPage() {
                   {/* Form Header */}
                   <div className="contact-section-divider">
                     <h2 className="text-3xl font-light text-[--contact-text]">
-                      {locale === "zh" ? "啟動專案" : "Initialize Project"}
+                      {messages.contact_form_heading()}
                     </h2>
                     <p className="text-sm text-[--contact-muted] mt-2 font-light">
-                      {locale === "zh"
-                        ? "告訴我們您的願景"
-                        : "Tell us about your vision"}
+                      {messages.contact_form_subheading()}
                     </p>
                   </div>
 
@@ -362,18 +398,18 @@ export default function ContactPage() {
                   <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                       <FormInput
-                        label={locale === "zh" ? "名字" : "First Name"}
+                        label={messages.contact_label_first_name()}
                         required
                         error={errors.firstName?.message}
                         {...register("firstName")}
-                        placeholder={locale === "zh" ? "大明" : "John"}
+                        placeholder={messages.contact_placeholder_first_name()}
                       />
                       <FormInput
-                        label={locale === "zh" ? "姓氏" : "Last Name"}
+                        label={messages.contact_label_last_name()}
                         required
                         error={errors.lastName?.message}
                         {...register("lastName")}
-                        placeholder={locale === "zh" ? "陳" : "Doe"}
+                        placeholder={messages.contact_placeholder_last_name()}
                       />
                     </div>
                   </div>
@@ -382,18 +418,14 @@ export default function ContactPage() {
                   <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                       <FormInput
-                        label={locale === "zh" ? "公司名稱" : "Company Name"}
+                        label={messages.contact_label_company_name()}
                         error={errors.companyName?.message}
                         {...register("companyName")}
-                        placeholder={
-                          locale === "zh"
-                            ? "建築事務所有限公司"
-                            : "Architecture Studio Ltd."
-                        }
+                        placeholder={messages.contact_placeholder_company_name()}
                         accentColor="alt"
                       />
                       <FormSelect
-                        label={locale === "zh" ? "公司類型" : "Company Type"}
+                        label={messages.contact_label_company_type()}
                         value={selectedCompanyType || ""}
                         onChange={(value) =>
                           setValue(
@@ -403,9 +435,7 @@ export default function ContactPage() {
                           )
                         }
                         options={companyTypeOptions}
-                        placeholder={
-                          locale === "zh" ? "選擇結構" : "Select Structure"
-                        }
+                        placeholder={messages.contact_placeholder_company_type()}
                         accentColor="alt"
                       />
                     </div>
@@ -415,18 +445,14 @@ export default function ContactPage() {
                   <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                       <FormInput
-                        label={locale === "zh" ? "職位" : "Job Title"}
+                        label={messages.contact_label_job_title()}
                         error={errors.jobTitle?.message}
                         {...register("jobTitle")}
-                        placeholder={
-                          locale === "zh" ? "例如：BIM經理" : "e.g. BIM Manager"
-                        }
+                        placeholder={messages.contact_placeholder_job_title()}
                         accentColor="alt"
                       />
                       <FormSelect
-                        label={
-                          locale === "zh" ? "所需服務" : "Required Solution"
-                        }
+                        label={messages.contact_label_service()}
                         value={selectedService || ""}
                         onChange={(value) =>
                           setValue("service", value, {
@@ -435,9 +461,7 @@ export default function ContactPage() {
                           })
                         }
                         options={serviceOptions}
-                        placeholder={
-                          locale === "zh" ? "選擇模組" : "Select Module"
-                        }
+                        placeholder={messages.contact_placeholder_service()}
                         required
                         error={errors.service?.message}
                         accentColor="alt"
@@ -449,7 +473,7 @@ export default function ContactPage() {
                   <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                       <FormInput
-                        label={locale === "zh" ? "電郵" : "Email"}
+                        label={messages.contact_label_email()}
                         type="email"
                         required
                         error={errors.email?.message}
@@ -457,11 +481,11 @@ export default function ContactPage() {
                         placeholder="email@example.com"
                       />
                       <FormInput
-                        label={locale === "zh" ? "電話" : "Phone"}
+                        label={messages.contact_label_phone()}
                         type="tel"
                         error={errors.phoneNumber?.message}
                         {...register("phoneNumber")}
-                        placeholder="+852"
+                        placeholder={messages.contact_placeholder_phone()}
                       />
                     </div>
 
@@ -491,25 +515,13 @@ export default function ContactPage() {
                           </div>
                         </div>
                         <span className="text-xs text-[--contact-muted] font-light group-hover/checkbox:text-[--contact-muted-light] transition-colors leading-relaxed select-none">
-                          {locale === "zh" ? (
-                            <>
-                              我同意接收來自 isBIM 的技術更新、產品資訊和活動通知。
-                              <br />
-                              <span className="text-[--contact-muted-lighter] text-[10px]">
-                                數據處理符合隱私政策。
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              I agree to receive technical updates, product
-                              news, and events from isBIM.
-                              <br />
-                              <span className="text-[--contact-muted-lighter] text-[10px]">
-                                Data processed in accordance with privacy
-                                policy.
-                              </span>
-                            </>
-                          )}
+                          <>
+                            {messages.contact_marketing_consent()}
+                            <br />
+                            <span className="text-[--contact-muted-lighter] text-[10px]">
+                              {messages.contact_marketing_privacy()}
+                            </span>
+                          </>
                         </span>
                       </button>
                     </div>
@@ -525,14 +537,12 @@ export default function ContactPage() {
                         <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
                           {isSubmitting ? (
                             <span className="font-mono text-xs animate-pulse">
-                              {locale === "zh"
-                                ? "上傳資料中..."
-                                : "UPLOADING_DATA..."}
+                              {messages.contact_submit_loading()}
                             </span>
                           ) : (
                             <>
                               <span className="text-xs font-bold tracking-widest uppercase">
-                                {locale === "zh" ? "提交查詢" : "Submit Inquiry"}
+                                {messages.contact_submit_label()}
                               </span>
                               <ArrowRight
                                 size={16}
@@ -561,10 +571,8 @@ export default function ContactPage() {
 
 // Success State Component
 function SuccessState({
-  locale,
   onReset,
 }: {
-  locale: string;
   onReset: () => void;
 }) {
   return (
@@ -576,23 +584,22 @@ function SuccessState({
         </div>
       </div>
       <h3 className="text-4xl font-light text-[--contact-text] mb-4">
-        {locale === "zh" ? "傳輸完成" : "Transmission Received"}
+        {messages.contact_success_title()}
       </h3>
       <p className="text-[--contact-muted] max-w-md text-lg font-light leading-relaxed">
-        {locale === "zh"
-          ? "我們的 AI 顧問正在分析您的請求。稍後將與您進行數位握手。"
-          : "Our AI consultants are analyzing your request. Expect a digital handshake shortly."}
+        {messages.contact_success_message()}
       </p>
       <button
         onClick={onReset}
         className="mt-12 px-8 py-3 rounded-none border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] transition-all uppercase text-xs font-bold tracking-widest"
       >
-        {locale === "zh" ? "重設表單" : "Reset Form"}
+        {messages.contact_reset_button()}
       </button>
     </div>
   );
 }
 
+// Form Input Component
 // Form Input Component
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;

@@ -119,7 +119,7 @@
 
 ## Contact Page
 - **Architecture**: Client Component (`"use client"`) with `useLocale()` from `@/lib/i18n/locale-context`.
-- **i18n**: Inline locale conditionals (`locale === "zh"`); acceptable for form-heavy pages without Paraglide m.*() (similar to Product Template client pattern).
+- **i18n**: All UI copy pulled from `messages/*.json` via `@/paraglide/messages` (no inline `locale === "zh"` conditionals). Service/company option labels also localized; keep values stable for backend.
 - **Design tokens**: Uses `contact-design-tokens.css` with product template gradient system (purple→cyan: `#9881F3→#13C9BA`).
 - **Styling**: Light architectural theme (`bg-[#f8fafc]`), technical grid background, CAD corner markers, glass panel form.
 - **Form**: React Hook Form + Zod (`contactFormSchema`), submits via Server Action `submitContactForm`.
