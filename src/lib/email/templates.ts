@@ -25,7 +25,9 @@ export interface ContactFormData {
     | "Engineering"
     | "Contractor"
     | "Developer"
-    | "Government";
+    | "Government"
+    | "IT"
+    | "Other";
   jobTitle?: string;
   service: string;
   marketingConsent?: boolean;

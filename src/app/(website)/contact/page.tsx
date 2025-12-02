@@ -54,11 +54,16 @@ const companyTypeOptions = [
 ];
 
 // Map coordinates for 430 Nathan Road, Yau Ma Tei
-const lat = 22.3117;
-const lon = 114.1715;
+const lat = 22.30973871039109;
+const lon = 114.17166002409992;
+const displayLat = lat.toFixed(2);
+const displayLon = lon.toFixed(2);
 const delta = 0.0025;
 const bbox = `${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}`;
-const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+const googleMapsQuery = encodeURIComponent(
+  "Hong Kong, 19/F, Nathan Commercial Building, 430 Nathan Road, Yau Ma Tei, Kowloon"
+);
+const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${googleMapsQuery}`;
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -137,10 +142,10 @@ export default function ContactPage() {
 
         {/* Coordinate Labels */}
         <div className="absolute top-1/2 left-10 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest -rotate-90 origin-left">
-          COORD: 22.3117° N
+          COORD: {displayLat}° N
         </div>
         <div className="absolute bottom-10 left-1/2 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest">
-          COORD: 114.1715° E
+          COORD: {displayLon}° E
         </div>
 
         {/* Floating BIM Objects */}
@@ -307,7 +312,7 @@ export default function ContactPage() {
 
               <div className="flex justify-between items-center mt-2 px-1">
                 <p className="text-[10px] font-mono text-[--contact-muted]">
-                  LAT: {lat} | LON: {lon}
+                  LAT: {displayLat} | LON: {displayLon}
                 </p>
                 <div className="flex gap-2 items-center">
                   <Navigation size={12} className="text-[--contact-muted]" />
