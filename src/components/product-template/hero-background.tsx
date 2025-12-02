@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * HeroBackground Props
@@ -16,6 +16,7 @@ interface HeroBackgroundProps {
  *
  * Fixed background layer with video that stays in place during scroll.
  * This is completely decoupled from the foreground content.
+ * Hides when scrolled past the narrative section to prevent covering footer.
  */
 export function HeroBackground({
   videoSrc,
@@ -23,6 +24,7 @@ export function HeroBackground({
   productName,
 }: HeroBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     // Ensure video plays on mount (Safari/iOS compatibility)
@@ -35,8 +37,32 @@ export function HeroBackground({
     }
   }, []);
 
+  useEffect(() => {
+    // Hide background when scrolled past hero + narrative sections
+    const handleScroll = () => {
+      // Hide when scrolled past ~2.5 viewport heights (hero + narrative)
+      const scrollThreshold = window.innerHeight * 2.5;
+      const shouldBeVisible = window.scrollY < scrollThreshold;
+
+      if (shouldBeVisible !== isVisible) {
+        setIsVisible(shouldBeVisible);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Check initial state
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isVisible]);
+
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-0 overflow-hidden bg-product-dark">
+    <div
+      className="fixed top-0 left-0 w-full h-screen z-0 overflow-hidden bg-product-dark transition-opacity duration-300"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        pointerEvents: isVisible ? "auto" : "none",
+      }}
+    >
       {/* Video Background */}
       <video
         ref={videoRef}
