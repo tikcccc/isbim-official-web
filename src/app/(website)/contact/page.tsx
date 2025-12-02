@@ -213,7 +213,7 @@ export default function ContactPage() {
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <MapPin size={18} />
                 <span className="contact-info-text">
-                  {locale === "zh" ? "位置資料" : "Address"}
+                  {locale === "zh" ? "位置資料" : "Office Location"}
                 </span>
               </div>
               <div className="pl-2">
