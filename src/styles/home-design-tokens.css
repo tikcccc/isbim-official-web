@@ -1,0 +1,122 @@
+@layer base {
+  body {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    overflow-x: hidden; /* prevent horizontal scroll when content overflows */
+    background: #ffffff;
+  }
+}
+
+/*
+ * Layout Container Utilities
+ * Centralized container system for consistent width management across all sections
+ * Reference: doc/claude-rules.md Section 15 - Container Width Guidelines
+ */
+@layer components {
+  /* Main page container - for <main> elements */
+  .container-page {
+    @apply relative w-full max-w-[1920px] mx-auto;
+  }
+
+  /* Content container - for major sections (90% ~ 85% on larger screens) */
+  .container-content {
+    @apply w-[92%] md:w-[88%] max-w-[1920px] mx-auto;
+  }
+
+  .container-content-wide {
+    @apply w-[92%] md:w-[88%] max-w-[1920px] mx-auto;
+  }
+
+  /* Narrow container - for focused content areas */
+  .container-narrow {
+    @apply w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-20;
+  }
+
+  /* Wide container - for expansive layouts */
+  .container-wide {
+    @apply w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 xl:px-24;
+  }
+
+  /* Unified vertical spacing for sections (48px ~ 88px using spacing tokens) */
+  .section-padding {
+    padding-block: clamp(3rem, 6vw, 5.5rem);
+  }
+}
+
+/* Hero Section 1 Styles */
+.hero-title {
+  font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-title .line-mask {
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-title .line-mask span {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+/* Footer Component Styles */
+.footer-brand-text {
+  font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+}
+
+.footer-alliance-font {
+  font-family: var(--font-alliance-1), system-ui, sans-serif;
+}
+
+/* HUD Flicker (Service cards index badge) */
+@keyframes hud-flicker {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0.2;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hud-flicker {
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+.group:hover .hud-flicker {
+  animation: hud-flicker 0.22s steps(3) 1;
+  filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.35));
+}
+
+/* Slow bounce animation for scroll indicator */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(-15%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 1.2s infinite;
+}

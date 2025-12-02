@@ -226,8 +226,11 @@ src/schemas/
 src/styles/
   animations.css  # placeholder keyframes
   typography.css  # placeholder typography utilities
-```
-- globals.css: shared utilities + text shimmer animation (services/products hero)
+- home-design-tokens.css      # body base, containers, section spacing, hero/footer/HUD styles (home)
+- product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse
+- aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text)
+  ```
+  - globals.css: imports home/product/aboutus tokens; retains custom variant + shared shimmer (services/products hero)
 
 ### SEO & ISR
 ```

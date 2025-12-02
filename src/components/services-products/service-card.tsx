@@ -63,45 +63,45 @@ export function ServiceCard({ item, index }: ServiceCardProps) {
       {/* Header Section - combined transitions */}
       <div className="absolute top-0 left-0 p-6 z-20 flex items-center gap-3 w-full justify-between">
         <div className="flex items-center gap-3">
-          <span className="hud-flicker font-mono text-sm text-white/40 tracking-widest transition-colors duration-300 group-hover:text-white">
+          <span className="hud-flicker font-mono text-sm text-[var(--services-text)]/40 tracking-widest transition-colors duration-300 group-hover:text-[var(--services-text)]">
             {displayIndex} /
           </span>
-          <span className="hud-flicker text-[10px] font-mono uppercase tracking-widest text-emerald-400/90 bg-emerald-950/30 px-2 py-1 backdrop-blur-md rounded border border-emerald-500/20 transition-[color,border-color] duration-300 group-hover:text-emerald-200 group-hover:border-emerald-400/40">
+          <span className="hud-flicker text-[10px] font-mono uppercase tracking-widest text-[var(--services-accent-strong)]/90 bg-[var(--services-badge-bg)] px-2 py-1 backdrop-blur-md rounded border border-[var(--services-badge-border)] transition-[color,border-color] duration-300 group-hover:text-[var(--services-muted-strong)] group-hover:border-[var(--services-accent-strong)]/40">
             {typeLabel}
           </span>
         </div>
-        <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="h-1 w-1 rounded-full bg-[var(--services-accent)] animate-pulse" />
       </div>
 
       {/* Content Section */}
       <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col items-start">
         {/* Icon + Title - GPU accelerated transform */}
         <div className="flex items-center gap-4 mb-2 will-change-transform transition-transform duration-500 group-hover:-translate-y-2">
-          <div className="p-2 border border-white/10 rounded-lg backdrop-blur-md bg-white/5 text-emerald-400">
+          <div className="p-2 border border-[var(--services-border)] rounded-lg backdrop-blur-md bg-white/5 text-[var(--services-accent-strong)]">
             <Icon className="w-5 h-5" />
           </div>
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-none transition-colors duration-300 group-hover:text-emerald-50">
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[var(--services-text)] tracking-tight leading-none transition-colors duration-300 group-hover:text-[var(--services-muted-strong)]">
             {title}
           </h3>
         </div>
 
         {/* Header Description */}
-        <p className="text-sm md:text-base text-gray-400 font-light max-w-lg mb-2 transition-colors duration-300 group-hover:text-gray-200 line-clamp-2 group-hover:line-clamp-none">
+        <p className="text-sm md:text-base text-[var(--services-muted)] font-light max-w-lg mb-2 transition-colors duration-300 group-hover:text-[var(--services-muted-strong)] line-clamp-2 group-hover:line-clamp-none">
           {headerDescription}
         </p>
 
         {/* Expandable Detail Section */}
         <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="overflow-hidden">
-            <div className="pt-4 border-l border-emerald-500/30 pl-4 mt-2">
-              <p className="text-gray-400 text-sm leading-relaxed mb-4 max-w-prose">
+            <div className="pt-4 border-l border-[var(--services-accent-muted)] pl-4 mt-2">
+              <p className="text-[var(--services-muted)] text-sm leading-relaxed mb-4 max-w-prose">
                 {description}
               </p>
               <LocalizedLink
                 href={item.href}
-                className="group/btn inline-flex items-center text-xs font-bold text-white uppercase tracking-widest transition-colors duration-300 hover:text-emerald-400"
+                className="group/btn inline-flex items-center text-xs font-bold text-[var(--services-text)] uppercase tracking-widest transition-colors duration-300 hover:text-[var(--services-accent-strong)]"
               >
-                <span className="border-b border-transparent transition-colors duration-300 group-hover/btn:border-emerald-400 pb-0.5">
+                <span className="border-b border-transparent transition-colors duration-300 group-hover/btn:border-[var(--services-accent-strong)] pb-0.5">
                   {ctaText}
                 </span>
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" />

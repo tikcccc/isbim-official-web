@@ -39,7 +39,7 @@ export default function ServicesProductsPage() {
   ]);
 
   return (
-    <main className="min-h-screen w-full bg-[#050505] text-white selection:bg-emerald-500/30 selection:text-emerald-200 relative overflow-x-hidden">
+    <main className="services-page selection:bg-[var(--services-accent-muted)] selection:text-[var(--services-selection-text)]">
       {/* SEO: Structured Data */}
       <JsonLd data={breadcrumbSchema} id="services-products-breadcrumb" />
 

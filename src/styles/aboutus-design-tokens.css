@@ -1,0 +1,44 @@
+@layer base {
+  :root {
+    /* About page specific palette */
+    --about-bg: #f7f7f9;
+    --about-text: #0f172a;
+    --about-secondary: #4b5563;
+    --about-accent: #2563eb;
+    --about-border: #e5e7eb;
+  }
+}
+
+@layer components {
+  /* Section wrapper for About page */
+  .about-section-shell {
+    @apply relative w-full;
+    background: var(--about-bg);
+  }
+
+  /* Optional noise overlay helper */
+  .about-noise-overlay {
+    @apply absolute inset-0 pointer-events-none;
+    background: url('/images/noise.svg');
+    opacity: 0.35;
+  }
+
+  /* About typography tokens */
+  .about-heading {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    color: var(--about-text);
+  }
+
+  .about-body {
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    line-height: 1.7;
+    color: var(--about-secondary);
+    font-weight: 400;
+  }
+
+  .about-divider {
+    @apply w-full h-px;
+    background: var(--about-border);
+  }
+}

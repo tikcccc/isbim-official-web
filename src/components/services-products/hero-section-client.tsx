@@ -51,12 +51,12 @@ export function HeroSectionClient() {
   return (
     <section className="container mx-auto px-6 pt-32 pb-16 relative z-10">
       <div className="max-w-5xl">
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-8 leading-[0.9]">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-[var(--services-text)] mb-8 leading-[0.9]">
           {/* First line - Services & */}
           <span className="tracking-normal">
             <TypewriterText
               text={title1}
-              className="text-white tracking-normal"
+              className="text-[var(--services-text)] tracking-normal"
               speed={40}
               delay={0}
             />
@@ -80,13 +80,13 @@ export function HeroSectionClient() {
         </h1>
         <p
           ref={subtitleRef}
-          className="text-xl md:text-2xl leading-relaxed text-gray-400 font-light max-w-2xl border-l-2 border-white/10 pl-6 opacity-0"
+          className="text-xl md:text-2xl leading-relaxed text-[var(--services-muted)] font-light max-w-2xl border-l-2 border-[var(--services-border)] pl-6 opacity-0"
         >
           {messages.services_products_subtitle_1
             ? messages.services_products_subtitle_1()
             : "Intelligent infrastructure for the next century."}{" "}
           <br />
-          <span className="text-white font-normal">
+          <span className="text-[var(--services-text)] font-normal">
             {messages.services_products_subtitle_2
               ? messages.services_products_subtitle_2()
               : "Seamless fusion of expertise and AI."}

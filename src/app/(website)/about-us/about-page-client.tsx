@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -49,25 +49,23 @@ const useNavStore = create<NavState>((set) => ({
 // TechDivider: Tech-style separator line
 const TechDivider = ({ className }: { className?: string }) => (
   <div className={cn("w-full h-[1px] relative overflow-visible", className)}>
-    <div className="absolute inset-0 bg-neutral-200"></div>
-    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-blue-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+    <div className="absolute inset-0 bg-[var(--about-border)]"></div>
+    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-[var(--about-accent)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
   </div>
 );
 
 // ArrowLink: Link with arrow and underline animation
 const ArrowLink = ({ label, href }: { label: string; href: string }) => (
   <LocalizedLink href={href} prefetchMode="hover" className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
-    <div className="flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-neutral-900">
+    <div className="flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-[var(--about-text)]">
       {label}
-      <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
+      <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">-&gt;</span>
     </div>
-    <div className="w-full h-[1px] bg-neutral-300 relative overflow-hidden">
-       <div className="absolute inset-0 bg-blue-600 transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out"></div>
+    <div className="w-full h-[1px] bg-[var(--about-border)] relative overflow-hidden">
+       <div className="absolute inset-0 bg-[var(--about-accent)] transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out"></div>
     </div>
   </LocalizedLink>
-);
-
-// RevealTitle: Cinematic blur reveal title (optimized with ScrollTrigger)
+);// RevealTitle: Cinematic blur reveal title (optimized with ScrollTrigger)
 const RevealTitle = ({
   text,
   className,
@@ -132,20 +130,20 @@ const FeatureRow = ({
   linkLabel: string;
   href: string;
 }) => (
-  <div className="group relative py-16 border-t border-neutral-200 first:border-t-0 px-6 -mx-6 rounded-sm isolate">
+  <div className="group relative py-16 border-t border-[var(--about-border)] first:border-t-0 px-6 -mx-6 rounded-sm isolate">
     {/* Background layer - separated from content to avoid repaint */}
-    <div className="absolute inset-0 bg-neutral-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 rounded-sm pointer-events-none" />
+    <div className="absolute inset-0 bg-[var(--about-bg)]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 rounded-sm pointer-events-none" />
     
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <div className="lg:col-span-5">
         <RevealTitle
           text={title}
-          className="text-3xl md:text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight transition-colors duration-500"
+          className="text-3xl md:text-4xl lg:text-5xl font-medium text-[var(--about-text)] leading-tight transition-colors duration-500"
         />
       </div>
 
       <div className="lg:col-span-7 flex flex-col justify-between h-full">
-        <p className="text-xl md:text-2xl text-neutral-600 leading-relaxed mb-6">
+        <p className="text-xl md:text-2xl text-[var(--about-secondary)] leading-relaxed mb-6">
           {content}
         </p>
         <div>
@@ -178,19 +176,19 @@ const StickyNav = () => {
           color: "#2563eb", opacity: 0, x: -3, duration: 0.06, ease: "steps(1)"
         })
         .to(textElements, {
-          color: "#171717", opacity: 1, x: 3, duration: 0.06, ease: "steps(1)"
+          color: "#0f172a", opacity: 1, x: 3, duration: 0.06, ease: "steps(1)"
         })
         .to(textElements, {
           color: "#2563eb", opacity: 0.2, x: 0, scale: 1.1, duration: 0.06, ease: "steps(1)"
         })
         .to(textElements, {
-          color: "#171717", opacity: 1, scale: 1, duration: 0.06, ease: "steps(1)"
+          color: "#0f172a", opacity: 1, scale: 1, duration: 0.06, ease: "steps(1)"
         });
     }
   }, [activeSection]);
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-50 flex flex-col gap-4 font-mono text-base tracking-widest text-neutral-900 pointer-events-auto mix-blend-darken">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-50 flex flex-col gap-4 font-mono text-base tracking-widest text-[var(--about-text)] pointer-events-auto mix-blend-darken">
       {[1, 2, 3].map((num) => (
         <div
           key={num}
@@ -208,7 +206,7 @@ const StickyNav = () => {
           )}>
             {num === 1 ? m.about_nav_section1() : num === 2 ? m.about_nav_section2() : m.about_nav_section3()}
           </span>
-          {activeSection === num && <div className="h-[1px] w-8 bg-neutral-900 animate-pulse" />}
+          {activeSection === num && <div className="h-[1px] w-8 bg-[var(--about-accent)] animate-pulse" />}
         </div>
       ))}
     </div>
@@ -270,7 +268,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     <section
       id={`section-${id}`}
       ref={sectionRef}
-      className="min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-20 xl:px-24 relative overflow-hidden py-40 lg:py-48 bg-neutral-50 will-change-auto"
+      className="min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-20 xl:px-24 relative overflow-hidden py-40 lg:py-48 bg-[var(--about-bg)] will-change-auto"
     >
       <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
 
@@ -278,17 +276,17 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start lg:items-center mb-12">
           <div className="lg:col-span-7">
-            <span className="block text-sm font-mono text-neutral-500 mb-6 font-semibold">
-              0{id} <span className="text-neutral-400">/ 03</span>
+            <span className="block text-sm font-mono text-[var(--about-secondary)] mb-6 font-semibold">
+              0{id} <span className="text-[var(--about-secondary)]/70">/ 03</span>
             </span>
 
             <TypewriterWidth
               text={title}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-neutral-900 uppercase"
+              className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-[var(--about-text)] uppercase"
               duration={1.5}
               steps={40}
               cursorVisible
-              cursorClassName="top-2 h-[80%] w-3 bg-blue-600 ml-1 md:ml-2"
+              cursorClassName="top-2 h-[80%] w-3 bg-[var(--about-accent)] ml-1 md:ml-2"
               scrollTrigger={{
                 trigger: `#section-${id}`,
                 start: "top 70%",
@@ -299,7 +297,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
           {subtitle && (
             <div className={`section-${id}-anim opacity-0 lg:col-span-5 flex items-start`}>
-               <p className="text-xl md:text-2xl font-light text-neutral-600 leading-snug md:leading-normal lg:leading-snug border-l-2 border-blue-600 pl-6">
+               <p className="text-xl md:text-2xl font-light text-[var(--about-secondary)] leading-snug md:leading-normal lg:leading-snug border-l-2 border-[var(--about-accent)] pl-6">
                  {subtitle}
                </p>
             </div>
@@ -314,7 +312,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
         <div className={`section-${id}-anim opacity-0`}>
           {children || (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-9 text-xl md:text-2xl text-neutral-600 leading-relaxed space-y-8">
+              <div className="lg:col-span-9 text-xl md:text-2xl text-[var(--about-secondary)] leading-relaxed space-y-8">
                 {content}
               </div>
               <div className="lg:col-span-3"></div>
@@ -324,7 +322,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
         {imageSrc && (
           <div className={`section-${id}-anim opacity-0 mt-16`}>
-             <div className="relative w-full aspect-video overflow-hidden bg-neutral-200 shadow-2xl border border-neutral-200 group">
+             <div className="relative w-full aspect-video overflow-hidden bg-[var(--about-border)]/40 shadow-2xl border border-[var(--about-border)] group">
                 <Image
                   src={imageSrc}
                   alt={title}
@@ -333,7 +331,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
                   className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105 filter grayscale hover:grayscale-0"
                   priority={id === 1}
                 />
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--about-accent)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
              </div>
           </div>
         )}
@@ -362,7 +360,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main className="bg-neutral-50 text-neutral-900 min-h-[300vh] selection:bg-blue-100 selection:text-blue-900 font-sans antialiased">
+    <main className="bg-[var(--about-bg)] text-[var(--about-text)] min-h-[300vh] selection:bg-[var(--about-accent)]/10 selection:text-[var(--about-accent)] font-sans antialiased">
 
       <StickyNav />
 
@@ -424,7 +422,7 @@ export default function AboutPage() {
           <>
             <p>{m.about_section3_content1()}</p>
             <p>{m.about_section3_content2()}</p>
-            <p className="text-blue-600 italic font-medium mt-4">
+            <p className="text-[var(--about-accent)] italic font-medium mt-4">
               {m.about_section3_content3()}
             </p>
           </>
@@ -441,3 +439,4 @@ export default function AboutPage() {
     </main>
   );
 }
+
