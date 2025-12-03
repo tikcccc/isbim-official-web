@@ -124,30 +124,161 @@ export const IMAGE_ASSET_BY_SLUG_QUERY = defineQuery(
  * News Queries
  */
 
-/** Fetch all news ordered by publish date (newest first) */
-export const NEWS_QUERY = defineQuery(
-  `*[_type == "news" && defined(slug.current)] | order(publishedAt desc) {
+/** Fetch all news categories */
+export const NEWS_CATEGORIES_QUERY = defineQuery(
+  `*[_type == "newsCategory"] | order(title asc) {
+    _id,
+    title,
+    slug,
+    description,
+    color
+  }`
+);
+
+/** Fetch featured news article (latest featured and published) */
+export const FEATURED_NEWS_QUERY = defineQuery(
+  `*[_type == "news" && status == "published" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {
     _id,
     _type,
     title,
     slug,
+    subtitle,
     publishedAt,
     excerpt,
-    coverImage
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      slug,
+      color
+    },
+    tags,
+    author,
+    readTime,
+    featured
   }`
 );
 
-/** Fetch a single news item by slug */
-export const NEWS_BY_SLUG_QUERY = defineQuery(
+/** Fetch news list with pagination (published only) */
+export const NEWS_LIST_QUERY = defineQuery(
+  `*[_type == "news" && status == "published" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
+    _id,
+    _type,
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    excerpt,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      slug,
+      color
+    },
+    tags,
+    author,
+    readTime,
+    featured
+  }`
+);
+
+/** Fetch news by category with pagination */
+export const NEWS_BY_CATEGORY_QUERY = defineQuery(
+  `*[_type == "news" && status == "published" && category._ref == $categoryId && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
+    _id,
+    _type,
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    excerpt,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      slug,
+      color
+    },
+    tags,
+    author,
+    readTime,
+    featured
+  }`
+);
+
+/** Fetch a single news article by slug with full details */
+export const NEWS_DETAIL_QUERY = defineQuery(
   `*[_type == "news" && slug.current == $slug][0] {
     _id,
     _type,
     title,
     slug,
+    subtitle,
     publishedAt,
     excerpt,
     body,
-    coverImage
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      slug,
+      color
+    },
+    tags,
+    author,
+    readTime,
+    featured,
+    status,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage {
+        asset,
+        alt
+      },
+      keywords
+    },
+    _createdAt,
+    _updatedAt
+  }`
+);
+
+/** Fetch related news articles by category (excluding current article) */
+export const RELATED_NEWS_QUERY = defineQuery(
+  `*[_type == "news" && status == "published" && category._ref == $categoryId && slug.current != $currentSlug && defined(slug.current)] | order(publishedAt desc) [0...3] {
+    _id,
+    _type,
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    excerpt,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      slug,
+      color
+    },
+    tags,
+    author,
+    readTime
   }`
 );
 
@@ -247,9 +378,17 @@ export const PRODUCT_METADATA_QUERY = defineQuery(
 export const NEWS_METADATA_QUERY = defineQuery(
   `*[_type == "news" && slug.current == $slug][0] {
     title,
+    subtitle,
     excerpt,
-    coverImage,
+    mainImage,
     publishedAt,
+    author,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage,
+      keywords
+    },
     _updatedAt
   }`
 );

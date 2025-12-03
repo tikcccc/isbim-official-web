@@ -7,7 +7,7 @@
 - 规则简明扼要,关键时刻使用
 - 删除已过时或不再适用的规则
 
-**Last Updated**: 2025-12-02 | **Version**: 4.0
+**Last Updated**: 2025-12-03 (Added Newsroom page architecture, design alignment, queries, and styling rules) | **Version**: 4.1
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -125,3 +125,35 @@
 - **Form**: React Hook Form + Zod (`contactFormSchema`), submits via Server Action `submitContactForm`.
 - **Map**: OpenStreetMap iframe embed + Google Maps external link; coordinates for 430 Nathan Road, Yau Ma Tei.
 - **CSS utilities**: `.contact-page`, `.contact-panel`, `.contact-gradient-text`, `.contact-badge`, `.contact-input`, `.contact-label`, `.contact-btn-primary`.
+
+## Newsroom Page
+- **Architecture**: Server Component + Client Component hybrid matching original prototype exactly.
+  - List page: `newsroom/page.tsx` (Server) fetches data, `newsroom-page-client.tsx` (Client) handles ALL interactivity
+  - Detail page: `newsroom/[slug]/page.tsx` (Server) for SEO, `news-detail-client.tsx` (Client) for display
+  - Client component handles: view switching (grid/magazine/feed), category filtering, pagination, internal routing to detail view
+  - Use `sanityFetch()` with cache tags (`sanity:news`, `sanity:newsCategory`) for ISR
+- **Design Alignment**: A-class content page aligned with Home page (white background #FDFDFD, NOT gray like About Us).
+  - Rationale: Home + Newsroom = A-class pages (white); About Us + Contact = B-class pages (gray/light)
+- **Design tokens**: Uses `newsroom-design-tokens.css` for magazine editorial styling.
+- **Styling**: White background (#FDFDFD), Alliance font family, transparent cards with white featured card, noise overlay texture.
+- **Data Schema**:
+  - `newsType`: title, slug, subtitle, mainImage (with alt), excerpt, body (rich text), category (reference), tags, author, readTime, publishedAt, featured, status (draft/published/archived), seo (metaTitle, metaDescription, openGraphImage, keywords)
+  - `newsCategoryType`: title, slug, description, color (hex for badges)
+- **Features**:
+  - Three layout modes: Grid (auto-fill cards), Magazine (12-col asymmetric), Feed (list view)
+  - Category filtering with dynamic color badges from `newsCategory.color`
+  - Featured article always displayed with white background and larger aspect ratio (21:9)
+  - Regular cards: transparent background, subtle white overlay on hover, 16:9 aspect ratio
+  - Framer Motion staggered fade-in animations (`.newsroom-animate-in` with delay classes)
+  - Noise overlay for editorial texture (`.newsroom-noise-overlay`)
+- **CSS utilities**: `.newsroom-container`, `.newsroom-content`, `.newsroom-article-container`, `.newsroom-title`, `.newsroom-article-title`, `.newsroom-card-title`, `.newsroom-card`, `.newsroom-card-featured`, `.newsroom-category-badge`, `.newsroom-filter-btn`, `.newsroom-layout-btn`, `.newsroom-image-cover`, `.newsroom-image-featured`, `.newsroom-grid`, `.newsroom-magazine`, `.newsroom-feed`.
+- **Queries**: Use typed queries from `queries.ts`:
+  - `NEWS_CATEGORIES_QUERY`: Fetch all categories (for filter UI)
+  - `FEATURED_NEWS_QUERY`: Single featured article (status=published, featured=true)
+  - `NEWS_LIST_QUERY`: Paginated news list with `$start` and `$end` params
+  - `NEWS_BY_CATEGORY_QUERY`: Filtered by category `$categoryId` with pagination
+  - `NEWS_DETAIL_QUERY`: Single article with full SEO and body content
+  - `RELATED_NEWS_QUERY`: 3 related articles from same category (excludes current)
+  - `NEWS_METADATA_QUERY`: SEO metadata only (for `generateMetadata`)
+- **SEO**: Use `generateNewsroomPageSEO()` for list page; build detail page metadata from `NEWS_METADATA_QUERY` with fallbacks (seo.metaTitle → title, seo.metaDescription → subtitle/excerpt).
+- **Design Reference**: `doc/reference-doc/pages/newsroom/newsroom-page.html` (original prototype).

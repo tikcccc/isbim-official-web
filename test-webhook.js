@@ -3,6 +3,7 @@
  * 模拟带 HMAC 签名的 webhook 请求
  */
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const crypto = require('crypto');
 
 // 配置

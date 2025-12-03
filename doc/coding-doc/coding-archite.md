@@ -1,4 +1,4 @@
-# isBIM Official Web Architecture (v3.9)
+# isBIM Official Web Architecture (v3.10)
 
 **文件说明:** 本文件记录 isBIM 官网的系统架构、技术栈分层、文件结构和模块关系。当添加/移除核心依赖、修改文件夹结构、增加新架构层(认证、支付、分析)或更新环境变量结构时需要更新此文件。
 
@@ -7,7 +7,7 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2025-12-02
+**Last Updated**: 2025-12-03 (Added Newsroom design tokens, comprehensive news schemas with categories, newsroom queries)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
@@ -95,6 +95,23 @@ src/components/services-products/
   cta-section.tsx         # final CTA with local grid background
 ```
 - services data: `src/data/services.ts` (5 services/products)
+
+### Newsroom Page
+```
+src/app/(website)/newsroom/
+  page.tsx                    # Server Component - SEO + data fetching from Sanity
+  newsroom-page-client.tsx    # Client Component - matches prototype with routing/filter/view logic
+  [slug]/
+    page.tsx                  # Server Component - news detail page with SEO
+    news-detail-client.tsx    # Client Component - detail view with related articles
+```
+- **Architecture Pattern**: Server Component + Client Component hybrid (matches prototype exactly)
+  - List page: Server fetches from Sanity, client handles all interactivity
+  - Detail page: Separate route with Server/Client split for SEO optimization
+- **Client Features**: View switching (grid/magazine/feed), category filtering, pagination, internal routing
+- **Design**: Original prototype style - white background (#FDFDFD), editorial magazine layout
+- **Data**: Sanity CMS (newsType with full schema, newsCategoryType with colors)
+- Reference: `doc/reference-doc/pages/newsroom/newsroom-page.html` (original prototype)
 
 ### Product Template (JARVIS Product Pages)
 ```
@@ -231,8 +248,9 @@ src/schemas/
   - aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text)
   - services-design-tokens.css  # services/products page palette (dark + emerald), selection, badge/border helpers
   - contact-design-tokens.css   # contact page palette (light bg + product gradient), form/panel/badge utilities
+  - newsroom-design-tokens.css  # newsroom page design (A-class content page aligned with Home: white #FDFDFD, Alliance fonts, magazine editorial style, transparent cards, noise overlay)
     ```
-    - globals.css: imports home/product/aboutus/services/contact tokens; retains custom variant + shared shimmer (services/products hero)
+    - globals.css: imports home/product/aboutus/services/contact/newsroom tokens; retains custom variant + shared shimmer (services/products hero)
 
 ### SEO & ISR
 ```
@@ -257,7 +275,7 @@ src/app/api/revalidate/route.ts    # webhook endpoint with SANITY_WEBHOOK_SECRET
 src/sanity/lib/
   client.ts            # Sanity clients (read/write) with env-based CDN
   fetch.ts             # Type-safe fetch wrapper with Next.js cache + tags
-  queries.ts           # Typed GROQ queries (defineQuery)
+  queries.ts           # Typed GROQ queries (defineQuery): NEWS_CATEGORIES_QUERY, FEATURED_NEWS_QUERY, NEWS_LIST_QUERY (with pagination), NEWS_BY_CATEGORY_QUERY, NEWS_DETAIL_QUERY, RELATED_NEWS_QUERY, NEWS_METADATA_QUERY, NEWS_SITEMAP_QUERY
   types.ts             # TypeScript types for all schemas
   image.ts             # Image URL builder
   index.ts             # Barrel export
@@ -267,7 +285,8 @@ src/sanity/lib/
 ### Sanity Schemas
 ```
 src/sanity/schemaTypes/
-  newsType.ts          # News posts (live)
+  newsType.ts          # News posts with comprehensive fields (title, slug, subtitle, mainImage, excerpt, body, category reference, tags, author, readTime, featured, status, SEO group)
+  newsCategoryType.ts  # News categories (title, slug, description, color for badges)
   careerType.ts        # Career positions (live)
   index.ts             # register schemas
 ```
@@ -275,10 +294,27 @@ src/sanity/schemaTypes/
 #### Sanity SEO/Media Fields (current)
 | Document | Field | Type | Notes | File |
 |---|---|---|---|---|
-| news | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/newsType.ts |
-| news | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/newsType.ts |
-| news | `openGraphImage` | image | recommended 1200x630 | src/sanity/schemaTypes/newsType.ts |
-| news | `keywords` | array<string> | optional list | src/sanity/schemaTypes/newsType.ts |
+| news | `title` | string | max 100 chars | src/sanity/schemaTypes/newsType.ts |
+| news | `slug` | slug | auto-generated from title | src/sanity/schemaTypes/newsType.ts |
+| news | `subtitle` | string | optional, max 200 chars | src/sanity/schemaTypes/newsType.ts |
+| news | `mainImage` | image | with alt text (required) | src/sanity/schemaTypes/newsType.ts |
+| news | `excerpt` | text | optional, falls back to subtitle | src/sanity/schemaTypes/newsType.ts |
+| news | `body` | array | rich text with images, H2/H3, quotes | src/sanity/schemaTypes/newsType.ts |
+| news | `category` | reference | to newsCategory (required) | src/sanity/schemaTypes/newsType.ts |
+| news | `tags` | array<string> | optional tags | src/sanity/schemaTypes/newsType.ts |
+| news | `author` | string | default: "isBIM Team" | src/sanity/schemaTypes/newsType.ts |
+| news | `readTime` | number | minutes (1-60) | src/sanity/schemaTypes/newsType.ts |
+| news | `publishedAt` | datetime | required | src/sanity/schemaTypes/newsType.ts |
+| news | `featured` | boolean | show as featured article | src/sanity/schemaTypes/newsType.ts |
+| news | `status` | string | draft/published/archived | src/sanity/schemaTypes/newsType.ts |
+| news | `seo.metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/newsType.ts |
+| news | `seo.metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/newsType.ts |
+| news | `seo.openGraphImage` | image | recommended 1200x630 | src/sanity/schemaTypes/newsType.ts |
+| news | `seo.keywords` | array<string> | optional list | src/sanity/schemaTypes/newsType.ts |
+| newsCategory | `title` | string | required | src/sanity/schemaTypes/newsCategoryType.ts |
+| newsCategory | `slug` | slug | auto-generated from title | src/sanity/schemaTypes/newsCategoryType.ts |
+| newsCategory | `description` | text | optional | src/sanity/schemaTypes/newsCategoryType.ts |
+| newsCategory | `color` | string | hex color for badges (e.g., #10b981) | src/sanity/schemaTypes/newsCategoryType.ts |
 | career | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/careerType.ts |
 | career | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/careerType.ts |
 
@@ -343,6 +379,7 @@ public/
 - **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.
 - **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
 - **Contact page**: Light architectural theme (`bg-[#f8fafc]`, product template purple→cyan gradient accents); uses `contact-design-tokens.css` for panel/form/badge utilities. Client Component with `useLocale()` + inline i18n. Form uses Server Action (`submitContactForm`), Zod validation, OpenStreetMap embed + Google Maps link.
+- **Newsroom page**: A-class content page aligned with Home (white background #FDFDFD); uses `newsroom-design-tokens.css` for magazine editorial styling. Server Component + Sanity CMS + ISR pattern (NOT Product Template client pattern). Architecture: List page (`newsroom/page.tsx`) fetches news via `NEWS_LIST_QUERY`/`NEWS_BY_CATEGORY_QUERY`/`FEATURED_NEWS_QUERY`/`NEWS_CATEGORIES_QUERY`; Detail page (`newsroom/[slug]/page.tsx`) uses `NEWS_DETAIL_QUERY` + `RELATED_NEWS_QUERY`. Features: Three layout modes (Grid/Magazine/Feed), category filtering with dynamic color badges, transparent cards with white featured card, Framer Motion staggered animations, noise overlay texture. Design reference: `doc/reference-doc/pages/newsroom/newsroom-redesign.html`. Data: Sanity newsType (title, slug, subtitle, mainImage, excerpt, body, category reference, tags, author, readTime, featured, status, SEO) + newsCategoryType (title, slug, description, color).
 
 ### Product Template - updated guardrails (2025-02)
 - Server wrapper (`page.tsx`): only `generateMetadata` may call `m.*()`. JSON-LD text should use static strings; build URLs with `getSiteUrl()` + `buildHref()` (no hand-crafted `/${locale}`).

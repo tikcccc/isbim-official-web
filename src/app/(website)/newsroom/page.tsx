@@ -1,9 +1,49 @@
 import type { Metadata } from "next";
 import { generateNewsroomPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import {
+  NEWS_LIST_QUERY,
+  NEWS_CATEGORIES_QUERY,
+  FEATURED_NEWS_QUERY,
+} from "@/sanity/lib/queries";
 import NewsroomPageClient from "./newsroom-page-client";
+import type { Image as SanityImage } from 'sanity';
 
-export const revalidate = 3600;
+export const revalidate = 3600; // Revalidate every hour
+
+// Types for Sanity data
+interface NewsItem {
+  _id: string;
+  _type: string;
+  title: string;
+  slug: { current: string };
+  subtitle?: string;
+  publishedAt: string;
+  excerpt?: string;
+  mainImage?: {
+    asset: SanityImage;
+    alt: string;
+  };
+  category: {
+    _id: string;
+    title: string;
+    slug: { current: string };
+    color: string;
+  };
+  tags?: string[];
+  author: string;
+  readTime: number;
+  featured?: boolean;
+}
+
+interface NewsCategory {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description?: string;
+  color: string;
+}
 
 /**
  * Newsroom Page Metadata
@@ -19,12 +59,34 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Newsroom Page (Server Component Wrapper)
+ * Newsroom Page (Server Component)
  *
- * Server component wrapper to provide metadata generation
- * The actual page content is in the client component
+ * Architecture: Server Component + Sanity CMS + ISR
+ * - Fetches news data from Sanity with cache tags
+ * - Passes data to client components for interactivity
+ * - Uses ISR for optimal performance
  */
-export default function NewsroomPage() {
+export default async function NewsroomPage() {
+  // Fetch data from Sanity CMS
+  const [newsList, categories, featuredNews] = await Promise.all([
+    sanityFetch<NewsItem[]>({
+      query: NEWS_LIST_QUERY,
+      params: { start: 0, end: 12 },
+      tags: ["sanity:news"],
+    }),
+    sanityFetch<NewsCategory[]>({
+      query: NEWS_CATEGORIES_QUERY,
+      tags: ["sanity:newsCategory"],
+    }),
+    sanityFetch<NewsItem | null>({
+      query: FEATURED_NEWS_QUERY,
+      tags: ["sanity:news"],
+    }),
+  ]).catch(() => {
+    // Fallback to empty data if Sanity fetch fails
+    return [[], [], null] as [NewsItem[], NewsCategory[], NewsItem | null];
+  });
+
   // Breadcrumb Schema for navigation
   const breadcrumbSchema = createBreadcrumbSchema([
     { name: "Home", url: "/" },
@@ -36,8 +98,15 @@ export default function NewsroomPage() {
       {/* SEO: Structured Data */}
       <JsonLd data={breadcrumbSchema} id="newsroom-breadcrumb" />
 
-      {/* Client component with all interactivity */}
-      <NewsroomPageClient />
+      {/* Main newsroom content - using client component matching prototype */}
+      <main className="newsroom-page min-h-screen">
+        {/* Client component handles all display, routing and interactivity */}
+        <NewsroomPageClient
+          initialNews={newsList}
+          categories={categories}
+          featuredNews={featuredNews}
+        />
+      </main>
     </>
   );
 }

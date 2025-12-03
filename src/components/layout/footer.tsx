@@ -114,9 +114,13 @@ export function Footer() {
 
           {/* Column 2: Solutions (JARVIS Products) */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+            <Link
+              href={ROUTES.JARVIS.SUITE}
+              prefetch
+              className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500 transition-all duration-200 w-fit hover:tracking-[0.22em]"
+            >
               {messages.footer_platforms()}
-            </h3>
+            </Link>
             <ul className="space-y-2.5 text-[15px] text-slate-600 dark:text-slate-400">
               {productLinks.map((link) => (
                 <m.li
@@ -138,9 +142,13 @@ export function Footer() {
 
           {/* Column 3: Company */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+            <Link
+              href={ROUTES.SERVICES_PRODUCTS}
+              prefetch
+              className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500 transition-all duration-200 w-fit hover:tracking-[0.22em]"
+            >
               {messages.footer_company()}
-            </h3>
+            </Link>
             <ul className="space-y-2.5 text-[15px] text-slate-600 dark:text-slate-400">
               {companyLinks.map((link) => (
                 <m.li
