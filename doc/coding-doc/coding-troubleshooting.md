@@ -28,3 +28,7 @@
 - Problem: Reverse typewriter flickers once before disappearing (TypewriterLinesReverse/TypewriterText).
   Root Cause: Not fully identified; width-freezing attempts reduce reflow but GSAP per-char reverse still shifts layout when opacity drops.
   Solution: Pending. Investigate keeping container layout stable (clone fixed-size container or fade wrapper instead of per-char) to remove the flicker.
+
+- Problem: Contact page scroll jank on desktop/mobile.
+  Root Cause: Heavy CSS costs (backdrop-filter blur on form panel, fixed background with many absolute children, continuous pulse/bounce animations, gradient grid repaint, transition-all everywhere); no mobile downgrades.
+  Solution: Plan to add will-change/GPU hints, mobile blur downgrade or solid fallback, pause non-critical animations via IntersectionObserver, lighten/sparsify the grid (or swap to static asset), replace transition-all with specific properties, and trim decorative elements/icons on small screens.

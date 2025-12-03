@@ -353,8 +353,9 @@ export function MenuOverlay() {
                             className={`text-xl transition-colors ${
                               child.isHighlight
                                 ? "text-white font-medium group-hover/child:text-blue-400"
-                                      : "text-neutral-500 group-hover/child:text-neutral-300"
-                                  }`}
+                                : "text-neutral-500 group-hover/child:text-neutral-300"
+                            }`}
+                            style={{ fontFamily: "var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif" }}
                                 >
                                   {child.title}
                                 </span>
@@ -387,6 +388,7 @@ export function MenuOverlay() {
                                       ? "text-white font-medium group-hover/child:text-blue-400"
                                       : "text-neutral-500 group-hover/child:text-neutral-300"
                                   }`}
+                                  style={{ fontFamily: "var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif" }}
                                 >
                                   {child.title}
                                 </span>

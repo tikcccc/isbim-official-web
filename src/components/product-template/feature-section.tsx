@@ -89,6 +89,7 @@ export function FeatureSection({
     visibility: "hidden",
     key: 0,
   });
+  const titleStateRef = useRef(titleState);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [lineActive, setLineActive] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -97,6 +98,10 @@ export function FeatureSection({
   const hasShownBefore = useRef(false); // Track if content has been shown before
   const ACTIVATION_THRESHOLD = 0.3; // Activation threshold at 30%
   const LINE_THRESHOLD = 0.1; // Line appears at 10%
+  const titleRef = useRef(title);
+
+  titleStateRef.current = titleState;
+  titleRef.current = title;
 
   // Flash helper: toggles CSS animation class without causing React re-render
   const flashIndex = useCallback((onComplete?: () => void) => {
@@ -173,7 +178,7 @@ export function FeatureSection({
                 setTitleState({
                   mode: "typewriter",
                   visibility: "visible",
-                  key: titleState.key + 1, // Increment key for new animation
+                  key: titleStateRef.current.key + 1, // Increment key for new animation
                 });
                 hasShownBefore.current = true;
               } else {
@@ -182,13 +187,13 @@ export function FeatureSection({
                   setTitleState({
                     mode: "static",
                     visibility: "visible",
-                    key: titleState.key,
+                    key: titleStateRef.current.key,
                   });
                 } else {
                   setTitleState({
                     mode: "typewriter",
                     visibility: "visible",
-                    key: titleState.key + 1,
+                    key: titleStateRef.current.key + 1,
                   });
                   hasShownBefore.current = true;
                 }
@@ -200,9 +205,12 @@ export function FeatureSection({
             isInActiveZone.current = false;
 
             // Start reverse typewriter exit animation
-            if (titleState.visibility === "visible") {
+            if (titleStateRef.current.visibility === "visible") {
               // Calculate reverse animation duration
-              const totalChars = title.reduce((sum, line) => sum + line.length, 0);
+              const totalChars = titleRef.current.reduce(
+                (sum, line) => sum + line.length,
+                0
+              );
               const reverseDuration = (totalChars * 30) / 1000 + 0.05; // 30ms per char + small initial delay
               const exitDuration = reverseDuration * 1000 + 100; // Add 100ms buffer
 
@@ -270,7 +278,7 @@ export function FeatureSection({
         clearTimeout(exitTimerRef.current);
       }
     };
-  }, [flashIndex, titleState.key]);
+  }, [flashIndex]);
 
   // Handle toggle click with parallelogram transition + rapid pulse animation
   const handleToggleClick = (view: "video" | "details") => {

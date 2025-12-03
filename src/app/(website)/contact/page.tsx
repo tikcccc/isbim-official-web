@@ -209,15 +209,13 @@ export default function ContactPage() {
           <Layers size={96} strokeWidth={0.5} />
         </div>
 
-        {/* Subtle radial accents to avoid tinting the whole canvas */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_70%_12%,rgba(15,23,42,0.08),transparent_55%)]" />
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_75%,rgba(14,165,233,0.08),transparent_50%)]" />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-32 md:pt-40 pb-24">
+      <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-28 md:pt-32 lg:pt-40 pb-20 md:pb-22 lg:pb-24 px-4 sm:px-6 lg:px-0">
         {/* Header Section */}
-        <div className="mb-24 relative pl-4 border-l-4 border-[--contact-accent]/30 max-w-[1100px]">
+        <div className="mb-24 relative pl-6 max-w-[1100px]">
+          <div className="contact-title-border" aria-hidden="true" />
           <div className="overflow-hidden">
             <h1
               className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] transform transition-transform duration-1000 delay-300 contact-hero-title ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
@@ -249,17 +247,17 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-24 items-start">
           {/* Left Column: Contact Info & Map */}
           <div
-            className={`lg:col-span-4 space-y-12 transform transition-all duration-1000 delay-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`lg:col-span-4 space-y-10 md:space-y-12 transform transition-all duration-1000 delay-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             {/* Info Block 1: Address */}
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
-                <MapPin size={18} />
+                <MapPin size={18} className="contact-icon" />
                 <span className="contact-info-text">
                   {messages.contact_label_address()}
                 </span>
@@ -285,7 +283,7 @@ export default function ContactPage() {
               <div className="contact-vertical-line" />
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
-                <Globe size={18} />
+                <Globe size={18} className="contact-icon" />
                 <span className="contact-info-text">
                   {messages.contact_label_digital_link()}
                 </span>
@@ -368,7 +366,7 @@ export default function ContactPage() {
             <div
               id="contact-form"
               ref={formRef}
-              className="contact-panel rounded-sm p-8 md:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group"
+              className="contact-panel rounded-sm p-6 sm:p-7 md:p-10 lg:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group"
             >
               {/* Structural Border */}
               <div className="contact-structural-border" />
@@ -382,7 +380,7 @@ export default function ContactPage() {
               ) : (
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                  className="space-y-10 relative z-10 pl-6"
+                  className="space-y-8 md:space-y-10 relative z-10 pl-2 md:pl-6"
                 >
                   {/* Form Header */}
                   <div className="contact-section-divider">
@@ -396,7 +394,7 @@ export default function ContactPage() {
 
                   {/* Section 1: Identity */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8">
                       <FormInput
                         label={messages.contact_label_first_name()}
                         required
@@ -416,7 +414,7 @@ export default function ContactPage() {
 
                   {/* Section 2: Organization */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8">
                       <FormInput
                         label={messages.contact_label_company_name()}
                         error={errors.companyName?.message}
@@ -443,7 +441,7 @@ export default function ContactPage() {
 
                   {/* Section 3: Context */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8">
                       <FormInput
                         label={messages.contact_label_job_title()}
                         error={errors.jobTitle?.message}
@@ -531,8 +529,8 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group/btn relative px-8 py-4 text-white font-medium text-sm tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed"
-                        style={{ backgroundColor: "var(--contact-accent, #0ea5e9)" }}
+                        className="group/btn relative px-8 py-4 text-white font-medium text-sm tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                        style={{ backgroundColor: "var(--contact-text, #111827)" }}
                       >
                         <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
                           {isSubmitting ? (
@@ -554,7 +552,7 @@ export default function ContactPage() {
                         <div
                           aria-hidden="true"
                           className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"
-                          style={{ backgroundColor: "var(--contact-text, #111827)" }}
+                          style={{ backgroundColor: "var(--contact-accent, #0ea5e9)" }}
                         />
                       </button>
                     </div>
@@ -696,7 +694,7 @@ const FormSelect = ({
       >
         <SelectTrigger
           className={cn(
-            "contact-select w-full justify-between items-center text-lg leading-tight px-0 py-3.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[56px]",
+            "contact-select w-full justify-between items-center text-lg leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
             "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
             focusColor,
             hoverIconColor,
@@ -712,6 +710,7 @@ const FormSelect = ({
           position="popper"
           sideOffset={6}
           avoidCollisions={false}
+          unconstrained
           className="contact-select-content"
         >
           {options.map((option) => (

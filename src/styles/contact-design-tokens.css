@@ -7,7 +7,7 @@
 @layer base {
   :root {
     /* Contact page palette - aligned with Product Template */
-    --contact-bg: #ffffff;           /* clean white background */
+    --contact-bg: #f7f7f9;           /* align with product light gray */
     --contact-text: #111827;         /* gray-900 */
     --contact-text-light: #1f2937;   /* gray-800 */
     --contact-muted: #6b7280;        /* gray-500 */
@@ -27,8 +27,8 @@
     --contact-panel-shadow: 0 25px 70px -30px rgba(15, 23, 42, 0.25);
 
     /* Grid/technical background */
-    --contact-grid-color: rgba(100, 116, 139, 0.04); /* slate-500/4 */
-    --contact-grid-size: 40px;
+    --contact-grid-color: rgba(100, 116, 139, 0.025); /* lighter grid for #f2f2f2 bg */
+    --contact-grid-size: 48px;
 
     /* Selection */
     --contact-selection-bg: #ccfbf1;  /* teal-100 */
@@ -226,6 +226,11 @@
     color: var(--contact-text-light);
   }
 
+  .contact-select-item:hover {
+    background: rgba(14, 165, 233, 0.08);
+    color: var(--contact-text);
+  }
+
   .contact-select-item[data-state="checked"] {
     background: rgba(14, 165, 233, 0.12);
     color: var(--contact-text);
@@ -294,7 +299,7 @@
 
   /* Architectural hatching pattern */
   .contact-hatching {
-    @apply absolute opacity-20;
+    @apply absolute opacity-10;
     pointer-events: none !important;
     z-index: 0;
     background-image: repeating-linear-gradient(
@@ -318,6 +323,11 @@
     -webkit-mask-image: linear-gradient(to top right, black, transparent);
   }
 
+  /* Icon tint for info column */
+  .contact-icon {
+    color: rgba(79, 89, 107, 0.55);
+  }
+
   /* Heavy structural border */
   .contact-structural-border {
     @apply absolute left-0 top-0 bottom-0 w-2 transition-colors;
@@ -335,4 +345,51 @@
     @apply border-b-2 pb-6;
     border-color: var(--contact-border);
   }
+
+  .contact-title-border {
+    @apply absolute;
+    left: 0;
+    top: 0;
+    bottom: 4px;
+    width: 3px;
+    background: linear-gradient(
+      180deg,
+      var(--contact-accent-alt) 0%,
+      rgba(14, 165, 233, 0.6) 50%,
+      rgba(14, 165, 233, 0) 100%
+    );
+    border-radius: 9999px;
+    box-shadow: 0 12px 30px -14px rgba(14, 165, 233, 0.5);
+    pointer-events: none;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-vertical-line {
+      left: 0;
+    }
+
+    .contact-hatching--tr,
+    .contact-hatching--bl {
+      width: 9rem;
+      height: 9rem;
+      opacity: 0.15;
+    }
+
+    .contact-hatching--tr {
+      right: 0.5rem;
+      top: 0.5rem;
+    }
+
+    .contact-hatching--bl {
+      left: 0.5rem;
+      bottom: 0.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-map-container {
+      height: 12rem;
+    }
+  }
+
 }
