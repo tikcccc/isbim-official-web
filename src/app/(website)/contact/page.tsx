@@ -195,10 +195,10 @@ export default function ContactPage() {
         <div className="contact-cad-corner contact-cad-corner--br" />
 
         {/* Coordinate Labels */}
-        <div className="absolute top-1/2 left-10 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest -rotate-90 origin-left">
+        <div className="absolute top-1/2 left-10 contact-label-sm text-[--contact-muted] hidden lg:block -rotate-90 origin-left">
           COORD: {displayLat}° N
         </div>
-        <div className="absolute bottom-10 left-1/2 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest">
+        <div className="absolute bottom-10 left-1/2 contact-label-sm text-[--contact-muted] hidden lg:block">
           COORD: {displayLon}° E
         </div>
 
@@ -219,7 +219,7 @@ export default function ContactPage() {
           <div className="contact-title-border" aria-hidden="true" />
           <div className="overflow-hidden">
             <h1
-              className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] transform transition-transform duration-1000 delay-300 contact-hero-title ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
+              className={`contact-hero-title transform transition-transform duration-1000 delay-300 ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
             >
               {messages.contact_hero_title_prefix()}
               <br className="md:hidden" />
@@ -231,7 +231,7 @@ export default function ContactPage() {
 
           <div className="mt-8 max-w-3xl overflow-hidden">
             <p
-              className={`text-lg md:text-xl text-[--contact-muted] font-light leading-relaxed transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
+              className={`contact-hero-subtitle text-[--contact-muted] transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
             >
               <>
                 {messages.contact_hero_body_prefix()}{" "}
@@ -259,15 +259,15 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <MapPin size={18} className="contact-icon" />
-                <span className="contact-info-text text-sm md:text-base">
+                <span className="contact-info-text">
                   {messages.contact_label_address()}
                 </span>
               </div>
               <div className="pl-2">
-                <h3 className="text-2xl font-medium text-[--contact-text] mb-2">
+                <h3 className="contact-location-title mb-2">
                   {messages.contact_address_city()}
                 </h3>
-                <p className="text-[--contact-muted] leading-relaxed font-light text-base md:text-lg">
+                <p className="contact-body text-[--contact-muted] leading-relaxed font-light">
                   <>
                     {messages.contact_address_line1()}
                     <br />
@@ -285,29 +285,29 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <Globe size={18} className="contact-icon" />
-                <span className="contact-info-text text-sm md:text-base">
+                <span className="contact-info-text">
                   {messages.contact_label_digital_link()}
                 </span>
               </div>
               <div className="pl-2 space-y-4">
                 <div>
-                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
+                  <p className="contact-label text-[--contact-muted] mb-1">
                     {messages.contact_label_direct_line()}
                   </p>
                   <a
                     href="tel:+85223828380"
-                    className="text-2xl font-medium text-[--contact-text] font-mono tracking-tight hover:text-[--contact-accent] transition-colors cursor-pointer"
+                    className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] transition-colors cursor-pointer"
                   >
                     +852 2382 8380
                   </a>
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
+                  <p className="contact-label text-[--contact-muted] mb-1">
                     {messages.contact_label_inquiry()}
                   </p>
                   <a
                     href="mailto:solution@isbim.com.hk"
-                    className="text-2xl font-medium text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
+                    className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
                   >
                     solution@isbim.com.hk
                   </a>
@@ -348,12 +348,12 @@ export default function ContactPage() {
               </div>
 
               <div className="flex justify-between items-center mt-2 px-1">
-                <p className="text-xs font-mono text-[--contact-muted]">
+                <p className="contact-label-sm text-[--contact-muted]">
                   LAT: {displayLat} | LON: {displayLon}
                 </p>
                 <div className="flex gap-2 items-center">
                   <Navigation size={12} className="text-[--contact-muted]" />
-                  <span className="text-xs font-mono text-[--contact-muted] uppercase tracking-wider">
+                  <span className="contact-label-sm text-[--contact-muted]">
                     {messages.contact_map_tagline()}
                   </span>
                 </div>
@@ -530,17 +530,17 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group/btn relative px-8 py-4 text-white font-medium text-base tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="group/btn relative px-5 py-2.5 text-white font-medium text-[11px] tracking-widest uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                         style={{ backgroundColor: "var(--contact-text, #111827)" }}
                       >
                         <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
                           {isSubmitting ? (
-                            <span className="font-mono text-sm animate-pulse">
+                            <span className="contact-label text-white animate-pulse">
                               {messages.contact_submit_loading()}
                             </span>
                           ) : (
                             <>
-                              <span className="text-sm font-bold tracking-widest uppercase">
+                              <span className="contact-button-label text-white">
                                 {messages.contact_submit_label()}
                               </span>
                               <ArrowRight

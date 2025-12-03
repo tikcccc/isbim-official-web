@@ -79,7 +79,7 @@ export default function Home() {
   });
 
   return (
-    <div className="w-full overflow-x-hidden bg-white">
+    <div className="home-page w-full overflow-x-hidden bg-white">
       {/* SEO: Structured Data for Search Engines */}
       <JsonLd data={organizationSchema} id="organization-schema" />
       <JsonLd data={jarvisSuiteSchema} id="jarvis-suite-schema" />

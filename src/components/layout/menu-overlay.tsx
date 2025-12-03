@@ -257,7 +257,7 @@ export function MenuOverlay() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed inset-0 z-40 bg-[#050505] text-white font-sans overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-track]:bg-transparent"
+          className="fixed inset-0 z-40 bg-[#050505] text-white layout-nav-link overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-track]:bg-transparent"
           style={{
             WebkitOverflowScrolling: 'touch',
           }}
@@ -272,7 +272,7 @@ export function MenuOverlay() {
               <div className="mb-8">
                 <TypewriterText
                   text="NAVIGATION_INDEX"
-                  className="text-[10px] font-mono text-blue-400 mb-8 tracking-[0.2em]"
+                  className="text-[10px] layout-nav-label text-blue-400 mb-8 tracking-[0.2em]"
                   delay={0.2}
                 />
 
@@ -296,7 +296,7 @@ export function MenuOverlay() {
                           prefetch
                           className="group flex items-center gap-4 cursor-pointer"
                         >
-                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
+                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight layout-nav-heading">
                             {item.title}
                           </span>
                         </Link>
@@ -307,13 +307,13 @@ export function MenuOverlay() {
                           prefetch
                           className="group flex items-center gap-4 cursor-pointer"
                         >
-                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
+                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight layout-nav-heading">
                             {item.title}
                           </span>
                         </Link>
                       ) : (
                         <div className="group flex items-center gap-4 cursor-pointer">
-                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight">
+                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight layout-nav-heading">
                             {item.title}
                           </span>
                         </div>
@@ -350,15 +350,14 @@ export function MenuOverlay() {
                             }`}
                           />
                           <span
-                            className={`text-xl transition-colors ${
+                            className={`text-xl transition-colors layout-nav-link ${
                               child.isHighlight
                                 ? "text-white font-medium group-hover/child:text-blue-400"
                                 : "text-neutral-500 group-hover/child:text-neutral-300"
                             }`}
-                            style={{ fontFamily: "var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif" }}
-                                >
-                                  {child.title}
-                                </span>
+                          >
+                            {child.title}
+                          </span>
 
                                 {/* Hover Indicator */}
                                 {child.action === "jarvis_suite" && (
@@ -383,12 +382,11 @@ export function MenuOverlay() {
                                   className="text-neutral-600 group-hover/child:text-blue-500 transition-colors"
                                 />
                                 <span
-                                  className={`text-xl transition-colors ${
+                                  className={`text-xl transition-colors layout-nav-link ${
                                     child.isHighlight
                                       ? "text-white font-medium group-hover/child:text-blue-400"
                                       : "text-neutral-500 group-hover/child:text-neutral-300"
                                   }`}
-                                  style={{ fontFamily: "var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif" }}
                                 >
                                   {child.title}
                                 </span>
@@ -588,11 +586,11 @@ export function MenuOverlay() {
                     >
                       {menuData.stats.map((stat, idx) => (
                         <div key={idx} className="text-center">
-                          <TypewriterText
-                            text={stat.label}
-                            className="text-[10px] font-mono text-blue-400 tracking-[0.15em] mb-3 block"
-                            delay={0.3 + idx * 0.1}
-                          />
+                        <TypewriterText
+                          text={stat.label}
+                          className="text-[10px] layout-nav-label text-blue-400 tracking-[0.15em] mb-3 block"
+                          delay={0.3 + idx * 0.1}
+                        />
                           <div className="text-3xl font-medium text-white mb-2">
                             <TypewriterText
                               text={stat.value}

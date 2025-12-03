@@ -378,10 +378,10 @@ export function FeatureSection({
           <div className="lg:col-span-5 xl:col-span-5 relative">
             <div className="sticky top-32 flex flex-col gap-6">
               {/* Index Animation */}
-              <div className="index-anim-container flex items-center w-full text-base md:text-lg lg:text-xl font-light text-gray-600 select-none">
+              <div className="index-anim-container flex items-center w-full product-body text-gray-600 select-none">
                 {/* Before indices */}
                 {beforeIndices.length > 0 && (
-                  <div className="flex items-center gap-2 opacity-50 text-sm md:text-lg mr-2">
+                <div className="flex items-center gap-2 opacity-50 product-body mr-2">
                     {beforeIndices.map((idx, i) => (
                       <span key={idx} className="flex items-center gap-2">
                         <span>{idx}</span>
@@ -412,7 +412,7 @@ export function FeatureSection({
 
                 {/* After indices */}
                 {afterIndices.length > 0 && (
-                  <div className="flex items-center gap-2 opacity-50 text-sm md:text-lg">
+                <div className="flex items-center gap-2 opacity-50 product-body">
                     {afterIndices.map((idx, i) => (
                       <span key={idx} className="flex items-center gap-2">
                         <span>{idx}</span>
@@ -427,7 +427,7 @@ export function FeatureSection({
 
               {/* Title with Typewriter Animation or Static Display */}
               <h3
-                className="text-2xl sm:text-3xl md:text-[2.5rem] lg:text-[2.9rem] xl:text-[3.2rem] 2xl:text-[3.6rem] text-gray-900 leading-[1.08] tracking-tight break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
+              className="product-feature-title text-gray-900 break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
                 style={{ textWrap: "balance", wordBreak: "break-word" }}
               >
                 {/* Forward Typewriter mode */}
@@ -494,7 +494,7 @@ export function FeatureSection({
 
           {/* Right Column: Content */}
           <div className="lg:col-span-7 xl:col-span-7 pt-6 md:pt-8 lg:pt-15 flex flex-col lg:self-start">
-            <p className="text-xl md:text-2xl text-gray-900 leading-relaxed font-medium tracking-tight mb-8 md:mb-10 w-full">
+            <p className="product-feature-body text-gray-900 mb-8 md:mb-10 w-full">
               {description}
             </p>
 
@@ -518,7 +518,7 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-colors duration-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 disabled:cursor-not-allowed ${
+                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 disabled:cursor-not-allowed ${
                       activeView === "video"
                         ? `bg-[#1a1a1a] text-white ${isFlashing ? "animate-rapid-pulse" : ""}`
                         : "text-gray-500 hover:text-gray-900"
@@ -542,7 +542,7 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-colors duration-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 disabled:cursor-not-allowed ${
+                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 disabled:cursor-not-allowed ${
                       activeView === "details"
                         ? `bg-[#1a1a1a] text-white ${isFlashing ? "animate-rapid-pulse" : ""}`
                         : "text-gray-500 hover:text-gray-900"
@@ -608,10 +608,10 @@ export function FeatureSection({
                       key={idx}
                       className="border-b border-gray-200/70 pb-6 md:pb-8 last:border-0 last:pb-0"
                     >
-                      <h4 className="text-xl md:text-2xl font-semibold text-[#1E1F2B] mb-3 tracking-tight">
+                      <h4 className="product-feature-title text-[#1E1F2B] mb-3">
                         {item.title}
                       </h4>
-                      <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+                      <p className="product-body text-gray-700">
                         {item.description}
                       </p>
                     </div>

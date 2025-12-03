@@ -61,7 +61,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="footer-default w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-t border-slate-200 dark:border-slate-800 font-sans">
+    <footer className="footer-default w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-t border-slate-200 dark:border-slate-800 layout-footer-text">
       <div className="container mx-auto px-6 py-14 lg:py-20">
         {/* Grid layout */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">

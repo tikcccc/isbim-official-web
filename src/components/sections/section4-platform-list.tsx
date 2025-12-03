@@ -265,7 +265,7 @@ export function Section4PlatformList() {
       className="w-full bg-white text-slate-900 section-padding flex flex-col gap-8"
     >
       <div className="container-content-wide">
-        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-medium mb-12 sm:mb-16 tracking-tight">
+        <h2 className="home-section-title mb-12 sm:mb-16 text-slate-900">
           {messages.section4_title()}
         </h2>
 
@@ -333,11 +333,11 @@ function PlatformRow({
         {/* 1. Left Section: Description Text */}
         <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] gap-4">
           <div className="z-10 pointer-events-none">
-            <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed font-light text-gray-600">
+            <p className="home-body-large text-gray-600">
               {platformDescs[item.descKey]()}
             </p>
           </div>
-          <span className="text-sm sm:text-base text-gray-400 font-mono block mt-auto">
+          <span className="home-label-sm text-gray-400 block mt-auto">
             {item.version}
           </span>
         </div>
@@ -375,7 +375,7 @@ function PlatformRow({
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="text-3xl sm:text-5xl lg:text-6xl xl:text-[88px] leading-[1.2] font-medium tracking-tighter text-slate-900 whitespace-nowrap will-change-transform"
+              className="home-platform-title leading-[1.2] text-slate-900 whitespace-nowrap will-change-transform"
             >
               {platformTitles[item.titleKey]()}
             </m.h3>

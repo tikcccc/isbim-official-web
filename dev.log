@@ -1,0 +1,168 @@
+
+> isbim-official-web@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 4000
+
+Using existing cloned repo
+   ▲ Next.js 15.5.6
+   - Local:        http://127.0.0.1:4000
+   - Network:      http://127.0.0.1:4000
+   - Environments: .env.local
+
+ ✓ Starting...
+[36mi[39m [1m[34m[paraglide] [39m[22mCompiling inlang project at "./project.inlang".
+Using existing cloned repo
+ ✓ Ready in 2.6s
+ ○ Compiling /newsroom ...
+ ✓ Compiled /newsroom in 4.8s (5061 modules)
+[Sanity Fetch] {
+  query: '*[_type == "news" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {\n' +
+    '    _id,\n' +
+    '   ...',
+  params: { start: 0, end: 12 },
+  tags: [ 'sanity:all', 'sanity:sanity:news' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '*[_type == "newsCategory"] | order(title asc) {\n' +
+    '    _id,\n' +
+    '    title,\n' +
+    '    slug,\n' +
+    '    description,\n' +
+    '    c...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:sanity:newsCategory' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '*[_type == "news" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {\n' +
+    '    _...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:sanity:news' ],
+  revalidate: false
+}
+ GET /newsroom 200 in 5685ms
+[Sanity Fetch] {
+  query: '*[_type == "news" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {\n' +
+    '    _id,\n' +
+    '   ...',
+  params: { start: 0, end: 12 },
+  tags: [ 'sanity:all', 'sanity:sanity:news' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '*[_type == "newsCategory"] | order(title asc) {\n' +
+    '    _id,\n' +
+    '    title,\n' +
+    '    slug,\n' +
+    '    description,\n' +
+    '    c...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:sanity:newsCategory' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '*[_type == "news" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {\n' +
+    '    _...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:sanity:news' ],
+  revalidate: false
+}
+ GET /newsroom 200 in 123ms
+ ✓ Compiled in 560ms (2085 modules)
+ ✓ Compiled in 924ms (2085 modules)
+[Sanity Fetch] {
+  query: '*[_type == "news" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {\n' +
+    '    _id,\n' +
+    '   ...',
+  params: { start: 0, end: 12 },
+  tags: [ 'sanity:all', 'sanity:sanity:news' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '*[_type == "newsCategory"] | order(title asc) {\n' +
+    '    _id,\n' +
+    '    title,\n' +
+    '    slug,\n' +
+    '    description,\n' +
+    '    c...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:sanity:newsCategory' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '*[_type == "news" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {\n' +
+    '    _...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:sanity:news' ],
+  revalidate: false
+}
+ GET /newsroom 200 in 228ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 544ms (2981 modules)
+ ✓ Compiled in 559ms (2085 modules)
+ ✓ Compiled in 449ms (2085 modules)
+ ✓ Compiled in 519ms (2085 modules)
+ ✓ Compiled in 689ms (2085 modules)
+ ✓ Compiled in 518ms (2085 modules)
+ ✓ Compiled in 503ms (2085 modules)
+ ✓ Compiled in 454ms (2085 modules)
+ ✓ Compiled in 463ms (2085 modules)
+ ✓ Compiled in 485ms (2085 modules)
+ ✓ Compiled in 467ms (2085 modules)
+ ✓ Compiled in 508ms (2085 modules)
+ ✓ Compiled in 707ms (2085 modules)
+ ✓ Compiled in 432ms (2085 modules)
+ ✓ Compiled in 471ms (2085 modules)
+ ✓ Compiled in 515ms (2085 modules)
+ ✓ Compiled in 444ms (2085 modules)
+ ✓ Compiled in 446ms (2085 modules)
+ ✓ Compiled in 533ms (2085 modules)
+ ✓ Compiled in 664ms (2085 modules)
+ ✓ Compiled in 550ms (2085 modules)
+ ✓ Compiled in 481ms (2085 modules)
+ ✓ Compiled in 557ms (2085 modules)
+ ✓ Compiled in 656ms (2085 modules)
+ ✓ Compiled in 463ms (2085 modules)
+ ✓ Compiled /middleware in 285ms (209 modules)
+ ✓ Compiled in 506ms (2085 modules)
+ ✓ Compiled in 500ms (2085 modules)
+ ✓ Compiled in 314ms (2085 modules)
+ ✓ Compiled in 459ms (2085 modules)
+ ✓ Compiled in 454ms (2085 modules)
+ ✓ Compiled in 639ms (2085 modules)
+ ✓ Compiled in 491ms (2085 modules)
+ ✓ Compiled in 505ms (2085 modules)
+ ✓ Compiled in 470ms (2085 modules)
+ ✓ Compiled in 496ms (2085 modules)
+ ✓ Compiled in 468ms (2085 modules)
+ ✓ Compiled in 578ms (2085 modules)
+ ✓ Compiled in 497ms (2085 modules)
+ ✓ Compiled in 491ms (2085 modules)
+ ✓ Compiled in 2.4s (2085 modules)
+ ✓ Compiled in 2.3s (2085 modules)
+ ✓ Compiled in 743ms (2085 modules)
+ ✓ Compiled in 357ms (2085 modules)
+ ✓ Compiled in 283ms (2085 modules)
+ ✓ Compiled in 881ms (2085 modules)
+ ✓ Compiled in 471ms (2085 modules)
+ ✓ Compiled in 389ms (2085 modules)
+ ✓ Compiled in 378ms (2085 modules)
+ ✓ Compiled in 1296ms (2085 modules)
+ ✓ Compiled in 1525ms (2085 modules)
+ ✓ Compiled in 2.5s (2085 modules)
+ ✓ Compiled in 593ms (2085 modules)
+ ✓ Compiled in 301ms (2085 modules)
+ ✓ Compiled in 342ms (2085 modules)
+ ✓ Compiled in 520ms (2085 modules)
+ ✓ Compiled in 423ms (2085 modules)
+ ✓ Compiled in 1584ms (2085 modules)
+ ✓ Compiled in 1524ms (2085 modules)
+ ✓ Compiled in 773ms (2085 modules)
+ ✓ Compiled in 391ms (2085 modules)
+ ✓ Compiled in 458ms (2085 modules)
+ ✓ Compiled in 1454ms (2085 modules)
+ ✓ Compiled in 765ms (2085 modules)
+ ✓ Compiled in 684ms (2085 modules)
+ ✓ Compiled in 374ms (2085 modules)
+ ✓ Compiled in 530ms (2085 modules)
+ ✓ Compiled in 821ms (2085 modules)

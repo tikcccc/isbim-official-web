@@ -37,6 +37,96 @@
 }
 
 @layer components {
+  /* ========================================
+   * TYPOGRAPHY
+   * ======================================== */
+
+  .contact-hero-title {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+
+  .contact-hero-subtitle {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .contact-heading {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .contact-location-title {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--contact-text-light);
+  }
+
+  .contact-body {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--contact-text-light);
+  }
+
+  .contact-body-small {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--contact-muted);
+  }
+
+  .contact-label {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--contact-muted);
+  }
+
+  .contact-label-sm {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--contact-muted);
+  }
+
+  .contact-emphasis {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5;
+    color: var(--contact-text-light);
+  }
+
+  .contact-button-label {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: #f8fafc;
+  }
+
   /* Page wrapper */
   .contact-page {
     @apply min-h-screen w-full relative overflow-x-hidden;
@@ -161,15 +251,24 @@
 
   /* Info badge (Address, Digital Link, etc.) */
   .contact-badge {
-    @apply text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-1 rounded;
+    @apply px-2 py-1 rounded;
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     background: var(--contact-border-light);
     color: var(--contact-muted);
   }
 
   /* Text-only label with underline animation (location/connection) */
   .contact-info-text {
-    @apply relative inline-flex items-center text-[10px] font-mono font-bold uppercase transition-all duration-300;
-    letter-spacing: 0.08em;
+    @apply relative inline-flex items-center transition-all duration-300;
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--contact-muted);
   }
 
@@ -195,7 +294,9 @@
 
   /* Form input underline style */
   .contact-input {
-    @apply w-full bg-transparent border-b py-3 text-lg placeholder-slate-300 focus:outline-none transition-colors rounded-none;
+    @apply w-full bg-transparent border-b py-3 placeholder-slate-300 focus:outline-none transition-colors rounded-none;
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 1.125rem;
     border-color: var(--contact-muted-lighter);
     color: var(--contact-text-light);
   }

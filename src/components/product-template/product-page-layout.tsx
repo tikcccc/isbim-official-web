@@ -123,7 +123,7 @@ export function ProductPageLayout({
   ctaButtonHref = "/contact",
 }: ProductPageLayoutProps) {
   return (
-    <div className="relative bg-product-light">
+    <div className="product-page relative bg-product-light">
       {/* Section A1: Hero Background (Fixed) - z-0 */}
       <HeroBackground
         videoSrc={videoSrc}

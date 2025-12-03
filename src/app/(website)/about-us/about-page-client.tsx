@@ -57,7 +57,7 @@ const TechDivider = ({ className }: { className?: string }) => (
 // ArrowLink: Link with arrow and underline animation
 const ArrowLink = ({ label, href }: { label: string; href: string }) => (
   <LocalizedLink href={href} prefetchMode="hover" className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
-    <div className="flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-[var(--about-text)]">
+    <div className="flex items-center gap-2 about-label text-[var(--about-text)]">
       {label}
       <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">-&gt;</span>
     </div>
@@ -138,12 +138,12 @@ const FeatureRow = ({
       <div className="lg:col-span-5">
         <RevealTitle
           text={title}
-          className="text-3xl md:text-4xl lg:text-5xl font-medium text-[var(--about-text)] leading-tight transition-colors duration-500"
+          className="about-feature-title leading-tight transition-colors duration-500"
         />
       </div>
 
       <div className="lg:col-span-7 flex flex-col justify-between h-full">
-        <p className="text-xl md:text-2xl text-[var(--about-secondary)] leading-relaxed mb-6">
+        <p className="about-body-large mb-6">
           {content}
         </p>
         <div>
@@ -188,7 +188,7 @@ const StickyNav = () => {
   }, [activeSection]);
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-50 flex flex-col gap-4 font-mono text-base tracking-widest text-[var(--about-text)] pointer-events-auto mix-blend-darken">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-50 flex flex-col gap-4 about-label-lg text-[var(--about-text)] pointer-events-auto mix-blend-darken">
       {[1, 2, 3].map((num) => (
         <div
           key={num}
@@ -276,13 +276,13 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start lg:items-center mb-12">
           <div className="lg:col-span-7">
-            <span className="block text-sm font-mono text-[var(--about-secondary)] mb-6 font-semibold">
+            <span className="block about-label text-[var(--about-secondary)] mb-6 font-semibold">
               0{id} <span className="text-[var(--about-secondary)]/70">/ 03</span>
             </span>
 
             <TypewriterWidth
               text={title}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none text-[var(--about-text)] uppercase"
+              className="about-hero-title leading-none"
               duration={1.5}
               steps={40}
               cursorVisible
@@ -297,7 +297,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
           {subtitle && (
             <div className={`section-${id}-anim opacity-0 lg:col-span-5 flex items-start`}>
-               <p className="text-xl md:text-2xl font-light text-[var(--about-secondary)] leading-snug md:leading-normal lg:leading-snug border-l-2 border-[var(--about-accent)] pl-6">
+               <p className="about-subtitle border-l-2 border-[var(--about-accent)] pl-6 leading-snug md:leading-normal lg:leading-snug">
                  {subtitle}
                </p>
             </div>
@@ -312,7 +312,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
         <div className={`section-${id}-anim opacity-0`}>
           {children || (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-9 text-xl md:text-2xl text-[var(--about-secondary)] leading-relaxed space-y-8">
+              <div className="lg:col-span-9 about-body-large space-y-8">
                 {content}
               </div>
               <div className="lg:col-span-3"></div>
@@ -360,7 +360,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main className="bg-[var(--about-bg)] text-[var(--about-text)] min-h-[300vh] selection:bg-[var(--about-accent)]/10 selection:text-[var(--about-accent)] font-sans antialiased">
+    <main className="about-page bg-[var(--about-bg)] text-[var(--about-text)] min-h-[300vh] selection:bg-[var(--about-accent)]/10 selection:text-[var(--about-accent)] antialiased">
 
       <StickyNav />
 

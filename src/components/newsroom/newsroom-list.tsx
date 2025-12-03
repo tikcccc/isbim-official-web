@@ -70,7 +70,7 @@ export default function NewsroomList({
         {/* Page Header with Title and Layout Toggle */}
         <div className="mb-8 border-b border-gray-900 pb-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">
+            <h1 className="newsroom-title text-gray-900">
               {m.newsroom_title()}
             </h1>
 
@@ -123,7 +123,7 @@ export default function NewsroomList({
             <button
               onClick={() => setSelectedCategory(null)}
               className={`
-                px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
+                px-3 py-1.5 newsroom-label-xs border transition-all duration-200
                 ${!selectedCategory
                   ? 'bg-black text-white border-black'
                   : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
@@ -137,7 +137,7 @@ export default function NewsroomList({
                 key={category._id}
                 onClick={() => setSelectedCategory(category._id)}
                 className={`
-                  px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
+                  px-3 py-1.5 newsroom-label-xs border transition-all duration-200
                   ${selectedCategory === category._id
                     ? 'bg-black text-white border-black'
                     : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}

@@ -7,7 +7,7 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2025-12-03 (Added Newsroom design tokens, comprehensive news schemas with categories, newsroom queries)
+**Last Updated**: 2025-12-03 (Design tokens centralized: page-level typography/font alignment, layout tokens for nav/footer)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
@@ -243,14 +243,15 @@ src/schemas/
   src/styles/
     animations.css  # placeholder keyframes
     typography.css  # placeholder typography utilities
-  - home-design-tokens.css      # body base, containers, section spacing, hero/footer/HUD styles (home)
-  - product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse
-  - aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text)
+  - home-design-tokens.css      # body base, containers, section spacing, hero/footer/HUD styles (home); AllianceNo1 body + AllianceNo2 titles
+  - product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse; AllianceNo2 titles + AllianceNo1 body/meta/CTA
+  - aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text); AllianceNo2 titles, AllianceNo1 body/labels
   - services-design-tokens.css  # services/products page palette (dark + emerald), selection, badge/border helpers
-  - contact-design-tokens.css   # contact page palette (light bg + product gradient), form/panel/badge utilities
+  - contact-design-tokens.css   # contact page palette (light bg + product gradient), form/panel/badge utilities; AllianceNo2 emphasis, AllianceNo1 labels/body
   - newsroom-design-tokens.css  # newsroom page design (A-class content page aligned with Home: white #FDFDFD, Alliance fonts, magazine editorial style, transparent cards, noise overlay)
+  - layout-design-tokens.css    # shared layout tokens for nav/menu/footer typography (AllianceNo2 headings, AllianceNo1 links/labels)
     ```
-    - globals.css: imports home/product/aboutus/services/contact/newsroom tokens; retains custom variant + shared shimmer (services/products hero)
+    - globals.css: imports home/product/aboutus/services/contact/newsroom/layout tokens; retains custom variant + shared shimmer (services/products hero)
 
 ### SEO & ISR
 ```

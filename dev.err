@@ -1,0 +1,36 @@
+Error: Route "/newsroom" used `headers().get('x-language-tag')`. `headers()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createHeadersAccessError (..\..\..\src\server\request\headers.ts:484:10)
+    at syncIODev (..\..\..\src\server\request\headers.ts:472:3)
+    at Promise.get (..\..\..\src\server\request\headers.ts:314:9)
+  482 | ) {
+  483 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 484 |   return new Error(
+      |          ^
+  485 |     `${prefix}used ${expression}. ` +
+  486 |       `\`headers()\` should be awaited before using its value. ` +
+  487 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/newsroom" used `headers().get('x-language-tag')`. `headers()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createHeadersAccessError (..\..\..\src\server\request\headers.ts:484:10)
+    at syncIODev (..\..\..\src\server\request\headers.ts:472:3)
+    at Promise.get (..\..\..\src\server\request\headers.ts:314:9)
+  482 | ) {
+  483 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 484 |   return new Error(
+      |          ^
+  485 |     `${prefix}used ${expression}. ` +
+  486 |       `\`headers()\` should be awaited before using its value. ` +
+  487 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/newsroom" used `headers().get('x-language-tag')`. `headers()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createHeadersAccessError (..\..\..\src\server\request\headers.ts:484:10)
+    at syncIODev (..\..\..\src\server\request\headers.ts:472:3)
+    at Promise.get (..\..\..\src\server\request\headers.ts:314:9)
+  482 | ) {
+  483 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 484 |   return new Error(
+      |          ^
+  485 |     `${prefix}used ${expression}. ` +
+  486 |       `\`headers()\` should be awaited before using its value. ` +
+  487 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+(node:13720) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, rename 'D:\Projects\isBIM_Offical_Web\isBIM_Offical_Web\isbim-official-web\.next\cache\webpack\client-development\1.pack.gz_' -> 'D:\Projects\isBIM_Offical_Web\isBIM_Offical_Web\isbim-official-web\.next\cache\webpack\client-development\1.pack.gz'

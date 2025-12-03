@@ -39,19 +39,19 @@ export function ProductCTASection({
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
         <div className="flex flex-col items-center text-center">
           {/* Title with gradient effect */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight mb-6">
+          <h2 className="product-cta-title text-white mb-6">
             <span className="text-product-gradient">{title}</span>
           </h2>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-white/80 font-light leading-relaxed max-w-3xl mb-12">
+          <p className="product-cta-subtitle text-white/80 max-w-3xl mb-12">
             {subtitle}
           </p>
 
           {/* CTA Button */}
           <Link
             href={buttonHref}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-[#1E1F2B] font-medium text-sm uppercase tracking-wider rounded-full transition-all duration-300 hover:bg-gradient-to-r hover:from-[#9881F3] hover:to-[#13C9BA] hover:text-white hover:scale-105"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-[#1E1F2B] product-cta-button rounded-full transition-all duration-300 hover:bg-gradient-to-r hover:from-[#9881F3] hover:to-[#13C9BA] hover:text-white hover:scale-105"
           >
             {buttonText}
             <svg

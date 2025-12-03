@@ -44,7 +44,7 @@ interface NewsDetailClientProps {
 
 // Utility component for mono labels
 const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <span className={`font-mono text-xs tracking-wider uppercase text-gray-500 ${className}`}>
+  <span className={`newsroom-label text-gray-500 ${className}`}>
     {children}
   </span>
 );
@@ -97,7 +97,7 @@ export default function NewsDetailClient({
         <div className="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
           <Link
             href="/newsroom"
-            className="group flex items-center gap-2 text-xs font-mono uppercase text-gray-500 hover:text-black transition-colors"
+            className="group flex items-center gap-2 newsroom-label text-gray-500 hover:text-black transition-colors"
           >
             <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
             Back to Feed
@@ -128,7 +128,7 @@ export default function NewsDetailClient({
               <MonoLabel className="block mb-1">Category</MonoLabel>
               <div className="flex flex-wrap gap-2">
                 <span
-                  className="text-xs font-mono uppercase tracking-wide text-black"
+                  className="newsroom-label text-black"
                   style={{ color: newsDetail.category.color }}
                 >
                   [{newsDetail.category.title}]
@@ -149,11 +149,11 @@ export default function NewsDetailClient({
 
           {/* Main Title & Subtitle */}
           <div>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6 leading-tight">
+            <h1 className="newsroom-article-title text-gray-900 mb-6 leading-tight">
               {newsDetail.title}
             </h1>
             {newsDetail.subtitle && (
-              <p className="text-xl text-gray-500 leading-relaxed font-light border-l-2 border-gray-900 pl-6">
+              <p className="newsroom-body text-gray-500 leading-relaxed font-light border-l-2 border-gray-900 pl-6">
                 {newsDetail.subtitle}
               </p>
             )}
@@ -200,7 +200,7 @@ export default function NewsDetailClient({
               {newsDetail.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-gray-100 text-xs font-mono uppercase tracking-wide text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer"
+                  className="px-3 py-1 bg-gray-100 newsroom-label-xs text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer"
                 >
                   {tag}
                 </span>
@@ -213,7 +213,7 @@ export default function NewsDetailClient({
       {/* Related Intelligence Section */}
       {relatedNews.length > 0 && (
         <div className="max-w-4xl mx-auto px-6 mt-20 pt-12 border-t border-gray-900">
-          <h3 className="text-sm font-mono uppercase tracking-widest text-gray-900 mb-8">
+          <h3 className="newsroom-label text-gray-900 mb-8">
             Related Intelligence
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -235,7 +235,7 @@ export default function NewsDetailClient({
         <Link href="/newsroom" className="p-2 text-gray-500 hover:text-black">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <Link href="/newsroom" className="flex items-center gap-2 font-mono text-xs uppercase font-bold tracking-widest text-black">
+        <Link href="/newsroom" className="flex items-center gap-2 newsroom-label text-black font-bold">
           <Home className="w-4 h-4" />
           News Feed
         </Link>
@@ -267,12 +267,12 @@ function RelatedCard({ post }: { post: NewsItem }) {
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="text-xl font-bold leading-tight text-gray-900 mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="newsroom-card-title text-gray-900 mb-3 group-hover:underline decoration-1 underline-offset-4">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="text-sm leading-relaxed text-gray-500 line-clamp-2 mb-4">
+          <p className="newsroom-body-small text-gray-500 line-clamp-2 mb-4">
             {post.subtitle}
           </p>
         )}
@@ -294,7 +294,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
         {!imageUrl && post.excerpt && (
           <div className="relative mt-2 mb-4 flex-1">
             <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-200 group-hover:bg-blue-500 transition-colors" />
-            <p className="text-xs text-gray-500 leading-relaxed pl-4 line-clamp-[10] font-mono">
+            <p className="newsroom-body-small text-gray-500 leading-relaxed pl-4 line-clamp-[10]">
               {post.excerpt}...
             </p>
           </div>
@@ -302,7 +302,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
       </div>
 
       <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between group-hover:bg-gray-50 -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
-        <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 group-hover:text-blue-700 transition-colors">
+        <span className="newsroom-cta-label text-gray-500 group-hover:text-blue-700 transition-colors">
           Read Briefing
         </span>
         <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />

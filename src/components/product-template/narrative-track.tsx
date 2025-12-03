@@ -472,7 +472,7 @@ export function NarrativeTrack({
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1.1] tracking-tight mb-6 text-white max-w-7xl"
+            className="product-stage-title-light mb-6 text-white max-w-7xl"
             style={{ transition: "color 0.5s" }}
           >
             {stage1Text}
@@ -482,7 +482,7 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight pb-4 leading-[1.1] relative z-[1] max-w-7xl`}
+            className={`product-block-anim product-stage2-text product-stage-title pb-4 relative z-[1] max-w-7xl`}
             style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
           >
             {stage2Text}
@@ -493,14 +493,14 @@ export function NarrativeTrack({
             ref={bottomRef}
             className="product-bounce-anim mt-20 md:mt-28 flex flex-col items-center gap-8"
           >
-            <p className="text-gray-600 text-sm sm:text-base md:text-lg font-normal max-w-lg mx-auto leading-relaxed text-center tracking-wide">
+            <p className="product-stage-desc text-gray-600 max-w-lg mx-auto text-center">
               {renderDescription()}
             </p>
 
             {/* Custom chevron scroll indicator */}
             <div className="flex flex-col items-center mt-4 animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity duration-300">
               <span
-                className="text-[10px] uppercase tracking-[0.25em] mb-3 font-medium"
+                className="product-label-sm mb-3"
                 style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
               >
                 {scrollPromptText}

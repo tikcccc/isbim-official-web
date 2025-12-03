@@ -10,6 +10,16 @@
 }
 
 @layer components {
+  /* ========================================
+   * BASE & TYPOGRAPHY TOKENS
+   * ======================================== */
+
+  /* About page base (applies when .about-page is present) */
+  body:has(.about-page) {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    background: var(--about-bg);
+  }
+
   /* Section wrapper for About page */
   .about-section-shell {
     @apply relative w-full;
@@ -26,15 +36,70 @@
   /* About typography tokens */
   .about-heading {
     font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--about-text);
   }
 
   .about-body {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
     font-size: clamp(1.05rem, 1.6vw, 1.3rem);
     line-height: 1.7;
     color: var(--about-secondary);
     font-weight: 400;
+  }
+
+  .about-hero-title {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    color: var(--about-text);
+  }
+
+  .about-feature-title {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1.875rem, 3vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--about-text);
+  }
+
+  .about-subtitle {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--about-secondary);
+  }
+
+  .about-body-large {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--about-secondary);
+  }
+
+  .about-label {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .about-label-lg {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 
   .about-divider {

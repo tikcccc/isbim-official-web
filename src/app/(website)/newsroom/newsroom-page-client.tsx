@@ -54,7 +54,7 @@ type CategoryFilter = string | 'All';
 // --- Utility Components ---
 
 const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <span className={`font-mono text-xs tracking-wider uppercase text-gray-500 ${className}`}>
+  <span className={`newsroom-label text-gray-500 ${className}`}>
     {children}
   </span>
 );
@@ -117,7 +117,7 @@ export default function NewsroomPageClient({
   const activePost = initialNews.find(p => p._id === activeRoute);
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-gray-900 font-sans selection:bg-black selection:text-white pt-24 md:pt-28 pb-24">
+    <div className="min-h-screen bg-[#FDFDFD] text-gray-900 selection:bg-black selection:text-white pt-24 md:pt-28 pb-24">
       <AnimatePresence mode="wait">
         {!activeRoute ? (
           <NewsListView
@@ -221,7 +221,7 @@ function NewsListView({
       {/* Header Area */}
       <div className="mb-8 border-b border-gray-900 pb-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">
+          <h1 className="newsroom-title text-gray-900">
             News Feed
           </h1>
 
@@ -256,7 +256,7 @@ function NewsListView({
           <button
             onClick={() => setFilter('All')}
             className={`
-              px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
+              px-3 py-1.5 newsroom-label-xs border transition-all duration-200
               ${filter === 'All'
                 ? 'bg-black text-white border-black'
                 : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
@@ -270,7 +270,7 @@ function NewsListView({
               key={cat._id}
               onClick={() => setFilter(cat.title)}
               className={`
-                px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
+                px-3 py-1.5 newsroom-label-xs border transition-all duration-200
                 ${filter === cat.title
                   ? 'bg-black text-white border-black'
                   : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
@@ -284,7 +284,7 @@ function NewsListView({
              <m.span
                initial={{ opacity: 0, x: -10 }}
                animate={{ opacity: 1, x: 0 }}
-               className="ml-auto text-xs font-mono text-gray-400 hidden md:inline-block"
+               className="ml-auto newsroom-label text-gray-400 hidden md:inline-block"
              >
                Showing {filteredData.length} Result{filteredData.length !== 1 ? 's' : ''}
              </m.span>
@@ -296,7 +296,7 @@ function NewsListView({
       <div className="min-h-[500px]">
         {filteredData.length === 0 ? (
           <div className="py-20 text-center border border-dashed border-gray-200 bg-gray-50">
-            <p className="text-sm font-mono text-gray-400 uppercase">No Intelligence Found</p>
+            <p className="newsroom-label text-gray-400 uppercase">No Intelligence Found</p>
           </div>
         ) : (
           <m.div
@@ -384,24 +384,24 @@ function FeaturedGridCard({ post, onClick }: { post: NewsPost; onClick: () => vo
            <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</MonoLabel>
         </div>
 
-        <h3 className="text-3xl md:text-5xl font-bold leading-tight text-gray-900 mb-6 group-hover:underline decoration-2 underline-offset-8">
+        <h3 className="newsroom-card-title-featured text-gray-900 mb-6 group-hover:underline decoration-2 underline-offset-8">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="text-xl text-gray-500 leading-relaxed font-light mb-8">
+          <p className="newsroom-body text-gray-500 leading-relaxed font-light mb-8">
             {post.subtitle}
           </p>
         )}
 
         {!hasImage && post.excerpt && (
-           <p className="text-gray-600 leading-relaxed line-clamp-4 font-mono text-sm mb-6 border-l-2 border-gray-200 pl-4">
+           <p className="newsroom-body-small text-gray-600 leading-relaxed line-clamp-4 mb-6 border-l-2 border-gray-200 pl-4">
              {post.excerpt}
            </p>
         )}
 
         <div className="mt-auto pt-4 flex items-center justify-between w-full border-t border-transparent group-hover:border-gray-100 transition-colors">
-          <span className="text-sm font-bold uppercase tracking-wide group-hover:text-blue-700 transition-colors">
+          <span className="newsroom-cta-label group-hover:text-blue-700 transition-colors">
              Read Featured Story
           </span>
           <ArrowRight className="w-4 h-4 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
@@ -427,12 +427,12 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="text-xl font-bold leading-tight text-gray-900 mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="newsroom-card-title text-gray-900 mb-3 group-hover:underline decoration-1 underline-offset-4">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="text-sm leading-relaxed text-gray-500 line-clamp-2 mb-4">
+          <p className="newsroom-body-small text-gray-500 line-clamp-2 mb-4">
             {post.subtitle}
           </p>
         )}
@@ -454,7 +454,7 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
         {!hasImage && post.excerpt && (
            <div className="relative mt-2 mb-4 flex-1">
              <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-200 group-hover:bg-blue-500 transition-colors" />
-             <p className="text-xs text-gray-500 leading-relaxed pl-4 line-clamp-[10] font-mono">
+             <p className="newsroom-body-small text-gray-500 leading-relaxed pl-4 line-clamp-[10]">
                {post.excerpt}...
              </p>
            </div>
@@ -462,7 +462,7 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
       </div>
 
       <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between group-hover:bg-gray-50 -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
-        <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 group-hover:text-blue-700 transition-colors">
+        <span className="newsroom-cta-label text-gray-500 group-hover:text-blue-700 transition-colors">
           Read Briefing
         </span>
         <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
@@ -504,15 +504,13 @@ function MagazineCard({ post, onClick }: { post: NewsPost; onClick: () => void }
             [{post.category.title}]
           </MonoLabel>
         </div>
-        <h3 className={`font-bold leading-tight text-gray-900 mb-4 group-hover:text-blue-700 transition-colors
-          ${hasImage ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'}
-        `}>
+        <h3 className="newsroom-card-title-featured text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
           {post.title}
         </h3>
-        <p className="text-gray-600 leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">
+        <p className="newsroom-body text-gray-600 leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">
           {post.excerpt ? post.excerpt.substring(0, hasImage ? 180 : 300) : post.subtitle}...
         </p>
-        <span className="flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-wide mt-auto group-hover:translate-x-2 transition-transform">
+        <span className="flex items-center gap-2 newsroom-cta-label mt-auto group-hover:translate-x-2 transition-transform">
           Read Full Briefing <ArrowRight className="w-3 h-3" />
         </span>
       </div>
@@ -529,12 +527,12 @@ function FeedRow({ post, onClick }: { post: NewsPost; onClick: () => void }) {
         </MonoLabel>
       </div>
       <div className="flex-1">
-         <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
+         <h3 className="newsroom-body font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
           {post.title}
          </h3>
       </div>
       <div className="w-auto hidden md:block shrink-0">
-          <span className="text-[10px] font-mono text-gray-400">
+          <span className="newsroom-label-xs text-gray-400">
             {post.category.title}
           </span>
       </div>
@@ -567,7 +565,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         <div className="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
           <button
             onClick={onBack}
-            className="group flex items-center gap-2 text-xs font-mono uppercase text-gray-500 hover:text-black transition-colors"
+            className="group flex items-center gap-2 newsroom-label text-gray-500 hover:text-black transition-colors"
           >
             <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
             Back to Feed
@@ -590,7 +588,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
             <div>
                <MonoLabel className="block mb-1">Category</MonoLabel>
                <div className="flex flex-wrap gap-2">
-                 <span className="text-xs font-mono uppercase tracking-wide text-black">
+                 <span className="newsroom-label text-black">
                    [{post.category.title}]
                  </span>
                </div>
@@ -602,11 +600,11 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
           </div>
 
           <div>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6 leading-tight">
+            <h1 className="newsroom-article-title text-gray-900 mb-6 leading-tight">
               {post.title}
             </h1>
             {post.subtitle && (
-              <p className="text-xl text-gray-500 leading-relaxed font-light border-l-2 border-gray-900 pl-6">
+              <p className="newsroom-body text-gray-500 leading-relaxed font-light border-l-2 border-gray-900 pl-6">
                 {post.subtitle}
               </p>
             )}
@@ -650,7 +648,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
       {/* Related Intelligence Section */}
       {relatedPosts.length > 0 && (
         <div className="max-w-4xl mx-auto px-6 mt-20 pt-12 border-t border-gray-900">
-           <h3 className="text-sm font-mono uppercase tracking-widest text-gray-900 mb-8">
+           <h3 className="newsroom-label text-gray-900 mb-8">
              Related Intelligence
            </h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -668,7 +666,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         <button onClick={onBack} className="p-2 text-gray-500 hover:text-black">
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <button onClick={onBack} className="flex items-center gap-2 font-mono text-xs uppercase font-bold tracking-widest text-black">
+        <button onClick={onBack} className="flex items-center gap-2 newsroom-label text-black font-bold">
           <Home className="w-4 h-4" />
           News Feed
         </button>

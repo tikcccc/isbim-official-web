@@ -91,14 +91,14 @@ export function HeroSection({
           {/* Left: Product Name - Anchored bottom-left */}
           <div className="flex flex-col gap-1 md:gap-3 max-w-4xl">
             {logoComponent || (
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[9rem] leading-[0.85] font-bold tracking-tighter text-white">
+              <h1 className="product-hero-title text-white">
                 {productName}
               </h1>
             )}
 
             {/* Optional subtitle */}
             {productSubtitle && (
-              <p className="text-white/80 text-lg md:text-xl lg:text-2xl font-light tracking-wide max-w-lg mt-2 md:pl-2">
+              <p className="product-hero-subtitle text-white/80 max-w-lg mt-2 md:pl-2">
                 {productSubtitle}
               </p>
             )}
@@ -106,7 +106,7 @@ export function HeroSection({
 
           {/* Right: Metadata - Bottom Right, Minimalist */}
           <div className="hidden md:flex flex-col items-end text-white">
-            <div className="relative flex flex-col items-end gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] leading-[1.8] pr-2 pl-8 text-white/80 before:content-[''] before:absolute before:left-0 before:top-1 before:bottom-1 before:w-px before:bg-gradient-to-b before:from-white/0 before:via-white/55 before:to-white/0 before:opacity-80">
+            <div className="relative flex flex-col items-end gap-3 product-meta pr-2 pl-8 text-white/80 before:content-[''] before:absolute before:left-0 before:top-1 before:bottom-1 before:w-px before:bg-gradient-to-b before:from-white/0 before:via-white/55 before:to-white/0 before:opacity-80">
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}
@@ -120,7 +120,7 @@ export function HeroSection({
         </div>
 
         {/* Mobile metadata - horizontal layout */}
-        <div className="flex md:hidden gap-2 mt-6 text-white/75 text-[10px] uppercase tracking-[0.2em] flex-wrap">
+        <div className="flex md:hidden gap-2 mt-6 text-white/75 product-meta-chip flex-wrap">
           {cleanedMetadata.slice(0, 4).map((item, i) => (
             <span
               key={i}

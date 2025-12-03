@@ -91,14 +91,14 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
           >
             <h2
               ref={titleRef}
-              className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-wide text-slate-900 leading-[1.1] text-balance mb-6"
+              className="home-cta-title text-slate-900 text-balance mb-6"
             >
               {messages.section5_cta_title()}
             </h2>
 
             <p
               ref={subtitleRef}
-              className="text-lg sm:text-xl lg:text-xl leading-relaxed font-normal text-gray-600 max-w-lg text-pretty mx-auto"
+              className="home-cta-subtitle text-gray-600 max-w-lg text-pretty mx-auto"
             >
               {messages.section5_cta_subtitle()}
             </p>
@@ -112,7 +112,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg transition-all duration-300 rounded-lg uppercase tracking-wider"
+                  className="home-cta-button border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 transition-all duration-300 rounded-lg"
                 >
                   <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">
                     {messages.section5_cta_button()}

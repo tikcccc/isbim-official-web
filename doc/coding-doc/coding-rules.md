@@ -7,7 +7,7 @@
 - 规则简明扼要,关键时刻使用
 - 删除已过时或不再适用的规则
 
-**Last Updated**: 2025-12-03 (Added Newsroom page architecture, design alignment, queries, and styling rules) | **Version**: 4.1
+**Last Updated**: 2025-12-03 (Centralized design tokens for pages/layout: Alliance fonts via per-page tokens + layout tokens) | **Version**: 4.1
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -45,8 +45,9 @@
 - **Lenis Integration**: `smooth-scroll-provider.tsx` connects Lenis to ScrollTrigger via `lenisInstance.on("scroll", ScrollTrigger.update)` and handles Edge browser image lazy-loading with staggered refresh (300ms/1000ms/window-load). Do not modify this integration.
 
 ## Styling & Tokens
-- Design tokens live in `design-tokens.ts`; no duplicate breakpoints/z-index/colors elsewhere; reuse shared container utilities from `globals.css`.
-- Tailwind v4 utilities; shimmer utility lives in `globals.css` (Services/Products hero).
+- Design tokens live在 `src/styles/*-design-tokens.css` + `design-tokens.ts`;不要重复定义 breakpoints/z-index/colors/fonts。页面/组件字体只用对应 token（home/product/aboutus/services/contact/newsroom/layout），不要再内联 `font-family` 或单独 `font-sans/font-mono`。
+- Layout 导航/页脚/Topbar/Menu 使用 `layout-design-tokens.css` (AllianceNo2 标题/AllianceNo1 链接/标签)；页面专属 token 负责各自字号/行高（保持现有大小）。
+- Tailwind v4 utilities；shimmer utility 仍在 `globals.css`（Services/Products hero）。
 
 ## Services & Products Page
 - Dark cyberpunk vibe: `bg-[#050505]`, emerald accents, `BackgroundLayers`, `ServicesGrid` -> `ServiceCard`/`SpotlightCard`/`CornerBrackets`, `CtaSection`, `FooterDark`.

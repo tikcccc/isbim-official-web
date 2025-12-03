@@ -108,7 +108,7 @@ export function Topbar() {
               <>
                 <TypewriterText
                   text="CLOSE"
-                  className="text-[10px] font-mono text-neutral-400 group-hover:text-white tracking-widest hidden md:block"
+                  className="text-[10px] layout-nav-label text-neutral-400 group-hover:text-white tracking-widest hidden md:block"
                 />
                 <X className="w-5 h-5" />
               </>

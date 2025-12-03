@@ -1,0 +1,38 @@
+@layer components {
+  /* Navigation (menu overlay) */
+  .layout-nav-link,
+  .layout-nav-link * {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+  }
+
+  .layout-nav-label,
+  .layout-nav-label * {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+  }
+
+  .layout-nav-heading,
+  .layout-nav-heading * {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+  }
+
+  /* Footers */
+  .layout-footer-brand,
+  .layout-footer-brand * {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+  }
+
+  .layout-footer-heading,
+  .layout-footer-heading * {
+    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+  }
+
+  .layout-footer-text,
+  .layout-footer-text * {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+  }
+
+  .layout-footer-label,
+  .layout-footer-label * {
+    font-family: var(--font-alliance-1), system-ui, sans-serif;
+  }
+}

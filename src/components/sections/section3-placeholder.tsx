@@ -56,7 +56,7 @@ export function Section3Placeholder() {
         {/* Text content that animates */}
         <h1
           ref={textRef}
-          className="container-content text-4xl md:text-7xl font-semibold text-center text-black leading-tight"
+          className="container-content home-narrative-title text-center text-black"
           style={{
             willChange: "line-height, opacity, transform",
             opacity: 0.5,

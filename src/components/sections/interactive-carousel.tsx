@@ -340,7 +340,7 @@ export function InteractiveCarousel() {
                 type="button"
                 onClick={() => jumpToSlide(index)}
                 className={cn(
-                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center text-[10px] md:text-[11px] uppercase tracking-wider border transition-all duration-300",
+                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all duration-300",
                   "w-full bg-white border-zinc-300 text-zinc-600",
                   isActive
                     ? "border-zinc-900 text-zinc-900"
@@ -363,7 +363,7 @@ export function InteractiveCarousel() {
                 )}
 
                 {/* 文字層 */}
-                <span className="relative z-10 font-medium truncate px-2">
+                <span className="relative z-10 truncate px-2">
                   {slide.tabTitle}
                 </span>
               </button>
@@ -376,7 +376,7 @@ export function InteractiveCarousel() {
           <LocalizedLink
             href={ROUTES.JARVIS.SUITE}
             prefetchMode="hover"
-            className="inline-flex h-10 items-center justify-center px-6 text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider border border-zinc-900"
+            className="inline-flex h-10 items-center justify-center px-6 home-label-sm bg-zinc-900 text-white hover:bg-zinc-800 transition-colors border border-zinc-900"
           >
             See All
           </LocalizedLink>
@@ -385,7 +385,7 @@ export function InteractiveCarousel() {
           <LocalizedLink
             href={ROUTES.JARVIS.SUITE}
             prefetchMode="hover"
-            className="w-full h-10 flex items-center justify-center text-[11px] font-bold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-wider"
+            className="w-full h-10 flex items-center justify-center home-label-sm bg-zinc-900 text-white hover:bg-zinc-800 transition-colors"
           >
             See All
           </LocalizedLink>
@@ -463,11 +463,11 @@ export function InteractiveCarousel() {
               <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between text-white">
                 <div className="max-w-2xl">
                   <div className="inline-flex items-center gap-2 mb-4">
-                    <span className="text-xs font-bold tracking-[0.15em] uppercase text-white/70">
+                    <span className="home-label-sm text-white/70">
                       {slide.category}
                     </span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-light leading-tight tracking-tight mb-6">
+                  <h2 className="home-carousel-title text-white mb-6">
                     {slide.title}
                     <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 opacity-50" />
                   </h2>
@@ -476,12 +476,12 @@ export function InteractiveCarousel() {
                 {/* Bottom Section */}
                 <div className="relative">
                   <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
-                    <h1 className="text-[10vw] sm:text-[11vw] md:text-[7rem] font-medium leading-[0.8] tracking-tighter text-white select-none">
+                    <h1 className="home-carousel-bigtext text-white select-none">
                       {slide.bigText}
                     </h1>
 
-                    <div className="hidden md:block max-w-xs text-[10px] leading-relaxed text-white/60 uppercase tracking-wider mb-4">
-                      <div className="flex gap-4 mb-2 text-white">
+                    <div className="hidden md:block max-w-xs text-white/60 mb-4 leading-relaxed">
+                      <div className="flex gap-4 mb-2 text-white home-label-sm">
                         <span>Built on:</span>
                         <div className="flex flex-col">
                           {slide.meta.map((m) => (
@@ -489,7 +489,7 @@ export function InteractiveCarousel() {
                           ))}
                         </div>
                       </div>
-                      <p>{slide.description}</p>
+                      <p className="home-body text-sm text-white/70">{slide.description}</p>
                     </div>
                   </div>
                 </div>

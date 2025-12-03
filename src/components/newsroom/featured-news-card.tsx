@@ -65,37 +65,37 @@ export default function FeaturedNewsCard({ news }: FeaturedNewsCardProps) {
         {/* Header: Category and Date */}
         <div className="flex justify-between items-start mb-6">
           <div className="flex gap-2">
-            <span className="font-mono text-xs tracking-wider uppercase text-gray-400 group-hover:text-black transition-colors">
+            <span className="newsroom-label text-gray-400 group-hover:text-black transition-colors">
               [{news.category.title}]
             </span>
           </div>
-          <span className="font-mono text-xs tracking-wider uppercase text-gray-500">
+          <span className="newsroom-label text-gray-500">
             {news.publishedAt}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-3xl md:text-5xl font-bold leading-tight text-gray-900 mb-6 group-hover:underline decoration-2 underline-offset-8">
+        <h3 className="newsroom-card-title-featured text-gray-900 mb-6 group-hover:underline decoration-2 underline-offset-8">
           {news.title}
         </h3>
 
         {/* Subtitle */}
         {news.subtitle && (
-          <p className="text-xl text-gray-500 leading-relaxed font-light mb-8">
+          <p className="newsroom-body text-gray-500 leading-relaxed font-light mb-8">
             {news.subtitle}
           </p>
         )}
 
         {/* Excerpt (for non-image cards) */}
         {!hasImage && news.excerpt && (
-          <p className="text-gray-600 leading-relaxed line-clamp-4 font-mono text-sm mb-6 border-l-2 border-gray-200 pl-4">
+          <p className="newsroom-body-small text-gray-600 leading-relaxed line-clamp-4 mb-6 border-l-2 border-gray-200 pl-4">
             {news.excerpt}
           </p>
         )}
 
         {/* Footer: Read Button */}
         <div className="mt-auto pt-4 flex items-center justify-between w-full border-t border-transparent group-hover:border-gray-100 transition-colors">
-          <span className="text-sm font-bold uppercase tracking-wide group-hover:text-blue-700 transition-colors">
+          <span className="newsroom-cta-label group-hover:text-blue-700 transition-colors">
             Read Featured Story
           </span>
           <ArrowRight className="w-4 h-4 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
