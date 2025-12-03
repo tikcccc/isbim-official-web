@@ -65,13 +65,13 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
   return (
     <section
       ref={containerRef}
-      className="w-full bg-zinc-50 text-slate-900 section-padding flex flex-col"
+      className="w-full home-cta-section section-padding flex flex-col"
     >
       <div className="container-content">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-1 items-center">
           <div
             ref={imageRef}
-            className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden rounded-lg shadow-2xl bg-zinc-200 md:ml-auto lg:-translate-x-25"
+            className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden rounded-lg shadow-2xl home-cta-media-bg md:ml-auto lg:-translate-x-25"
           >
             <Image
               src={imageUrl ?? "/images/cta.png"}
@@ -91,14 +91,14 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
           >
             <h2
               ref={titleRef}
-              className="home-cta-title text-slate-900 text-balance mb-6"
+              className="home-cta-title text-balance mb-6"
             >
               {messages.section5_cta_title()}
             </h2>
 
             <p
               ref={subtitleRef}
-              className="home-cta-subtitle text-gray-600 max-w-lg text-pretty mx-auto"
+              className="home-cta-subtitle max-w-lg text-pretty mx-auto"
             >
               {messages.section5_cta_subtitle()}
             </p>
@@ -112,7 +112,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                 <Button
                   asChild
                   variant="outline"
-                  className="home-cta-button border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white h-12 sm:h-14 px-8 sm:px-10 transition-all duration-300 rounded-lg"
+                  className="home-cta-button home-cta-button-variant h-12 sm:h-14 px-8 sm:px-10 transition-all duration-300 rounded-lg"
                 >
                   <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">
                     {messages.section5_cta_button()}

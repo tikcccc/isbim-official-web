@@ -440,22 +440,22 @@ export function NarrativeTrack({
     }
 
     const parts = description.split(descriptionHighlight);
-    return parts.map((part, i, arr) =>
-      i < arr.length - 1 ? (
-        <span key={i}>
-          {part}
-          <span className="text-gray-800 font-medium">{descriptionHighlight}</span>
-        </span>
-      ) : (
-        part
-      )
-    );
+      return parts.map((part, i, arr) =>
+        i < arr.length - 1 ? (
+          <span key={i}>
+            {part}
+            <span className="product-text-body font-medium">{descriptionHighlight}</span>
+          </span>
+        ) : (
+          part
+        )
+      );
   };
 
   return (
     <section
       ref={trackRef}
-      className="relative z-20 bg-product-dark"
+      className="relative z-20 product-surface-dark"
       style={{
         height: scrollHeight,
         boxShadow: "0 -50px 100px rgba(0,0,0,0.5)",
@@ -472,7 +472,7 @@ export function NarrativeTrack({
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}
-            className="product-stage-title-light mb-6 text-white max-w-7xl"
+            className="product-stage-title-light mb-6 product-text-inverse max-w-7xl"
             style={{ transition: "color 0.5s" }}
           >
             {stage1Text}
@@ -493,7 +493,7 @@ export function NarrativeTrack({
             ref={bottomRef}
             className="product-bounce-anim mt-20 md:mt-28 flex flex-col items-center gap-8"
           >
-            <p className="product-stage-desc text-gray-600 max-w-lg mx-auto text-center">
+            <p className="product-stage-desc product-text-muted max-w-lg mx-auto text-center">
               {renderDescription()}
             </p>
 

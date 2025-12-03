@@ -59,11 +59,11 @@ export function HeroSection1() {
   }, []);
 
   return (
-    <section className="hero-section relative w-full overflow-hidden bg-black min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
+    <section className="hero-section relative w-full overflow-hidden home-hero-surface min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
       {/* Video Background (absolute position within section) */}
       <div className="absolute inset-0 z-[1]">
         {/* Gradient placeholder background - shows before video loads */}
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black" />
+        <div className="absolute inset-0 home-hero-gradient" />
 
         <video
           className="hero-video w-full h-full object-cover object-center relative z-10"
@@ -77,11 +77,11 @@ export function HeroSection1() {
           <source src={JARVIS_VIDEOS.banner} type="video/mp4" />
         </video>
         {/* Dark overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/50 z-20" />
+        <div className="absolute inset-0 home-hero-overlay z-20" />
       </div>
 
       {/* Hero Content - Inner Container */}
-      <header className="relative z-10 container-page grid place-items-center text-white text-center px-6 sm:px-10 flex-1">
+      <header className="relative z-10 container-page grid place-items-center home-hero-text text-center px-6 sm:px-10 flex-1">
         <div className="hero-content">
           {/* Animated Title */}
           <h1 ref={titleRef} className="home-hero-title hero-title overflow-hidden">
@@ -95,7 +95,7 @@ export function HeroSection1() {
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="home-hero-subtitle mt-6 opacity-0 translate-y-4 text-zinc-300 max-w-3xl mx-auto"
+            className="home-hero-subtitle mt-6 opacity-0 translate-y-4 max-w-3xl mx-auto"
           >
             {m.homepage_hero_subtitle()}
           </p>
@@ -103,7 +103,7 @@ export function HeroSection1() {
           {/* Scroll Prompt */}
           <div className="scroll-prompt absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70">
             <ChevronDown className="w-6 h-6 mb-2 animate-bounce" />
-            <p className="home-label text-white">{m.homepage_scroll_prompt()}</p>
+            <p className="home-label home-label-inverse">{m.homepage_scroll_prompt()}</p>
           </div>
         </div>
       </header>

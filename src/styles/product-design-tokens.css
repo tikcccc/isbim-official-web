@@ -10,6 +10,157 @@
 }
 
 @layer components {
+  :root {
+    /* Text tokens */
+    --product-text-strong: #111827; /* tailwind gray-900 */
+    --product-text-body: #1f2937;   /* tailwind gray-800 / aligns with product dark tone */
+    --product-text-muted: #4b5563;  /* tailwind gray-600 */
+    --product-text-subtle: #6b7280; /* tailwind gray-500 */
+    --product-text-inverse: #ffffff;
+    --product-text-inverse-muted: rgba(255, 255, 255, 0.8);
+    --product-text-inverse-subtle: rgba(255, 255, 255, 0.65);
+
+    /* Surfaces */
+    --product-surface-dark: #1e1f2b;
+    --product-surface-light: #f2f2f2;
+    --product-surface-panel: #f5f5f5;
+    --product-surface-card: #ffffff;
+
+    /* Borders */
+    --product-border-subtle: #e5e7eb; /* gray-200 */
+    --product-border-soft: rgba(229, 231, 235, 0.6); /* gray-200/60 */
+    --product-border-strong: #d1d5db; /* gray-300 */
+    --product-border-inverse: rgba(255, 255, 255, 0.1);
+
+    /* Accents & gradients */
+    --product-accent-from: #9881f3;
+    --product-accent-to: #13c9ba;
+    --product-accent-gradient: linear-gradient(93deg, var(--product-accent-from) 0%, var(--product-accent-to) 100%);
+    --product-meta-line: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 100%);
+    --product-hero-overlay-vertical: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
+    --product-hero-overlay-horizontal: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent, transparent);
+    --product-accent-ring: #9881f3;
+    --product-accent-soft: rgba(152, 129, 243, 0.5);
+
+    /* Buttons / toggles */
+    --product-cta-button-bg: #ffffff;
+    --product-cta-button-text: #1e1f2b;
+    --product-cta-button-hover-text: #ffffff;
+    --product-toggle-active-bg: #1a1a1a;
+    --product-toggle-hover-text: #1f2937;
+
+    /* Misc */
+    --product-mask-color: #767676;
+    --product-chip-bg: rgba(255, 255, 255, 0.05);
+    --product-chip-border: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Color utilities */
+  .product-text-strong { color: var(--product-text-strong); }
+  .product-text-body { color: var(--product-text-body); }
+  .product-text-muted { color: var(--product-text-muted); }
+  .product-text-subtle { color: var(--product-text-subtle); }
+  .product-text-inverse { color: var(--product-text-inverse); }
+  .product-text-inverse-muted { color: var(--product-text-inverse-muted); }
+  .product-text-inverse-subtle { color: var(--product-text-inverse-subtle); }
+
+  /* Surface utilities */
+  .product-surface-dark { background: var(--product-surface-dark); }
+  .product-surface-light { background: var(--product-surface-light); }
+  .product-surface-panel { background: var(--product-surface-panel); }
+  .product-surface-card {
+    background: var(--product-surface-card);
+    border-color: var(--product-border-subtle);
+  }
+
+  /* Borders */
+  .product-border-subtle { border-color: var(--product-border-subtle); }
+  .product-border-soft { border-color: var(--product-border-soft); }
+  .product-border-strong { border-color: var(--product-border-strong); }
+  .product-border-inverse { border-color: var(--product-border-inverse); }
+
+  /* Gradients */
+  .product-text-gradient {
+    background: var(--product-accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .product-gradient-bg {
+    background: var(--product-accent-gradient);
+  }
+
+  .product-hero-overlay-vertical {
+    background: var(--product-hero-overlay-vertical);
+  }
+
+  .product-hero-overlay-horizontal {
+    background: var(--product-hero-overlay-horizontal);
+  }
+
+  /* CTA / buttons */
+  .product-cta-button-strong {
+    background: var(--product-cta-button-bg);
+    color: var(--product-cta-button-text);
+    border-color: transparent;
+  }
+  .product-cta-button-strong:hover {
+    background: var(--product-accent-gradient);
+    color: var(--product-cta-button-hover-text);
+  }
+
+  /* Toggle pills */
+  .product-toggle-shell {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(2px);
+    border-color: var(--product-border-strong);
+  }
+
+  .product-toggle-active {
+    background: var(--product-toggle-active-bg);
+    color: var(--product-text-inverse);
+  }
+
+  .product-toggle-inactive {
+    color: var(--product-text-subtle);
+  }
+  .product-toggle-inactive:hover {
+    color: var(--product-text-body);
+  }
+
+  /* Focus ring helper */
+  .product-focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--product-accent-ring), 0 0 0 4px rgba(255, 255, 255, 0.5);
+  }
+
+  /* Accent dots */
+  .product-accent-dot {
+    background: var(--product-accent-soft);
+  }
+
+  /* Meta line helper */
+  .product-meta-line {
+    position: relative;
+  }
+  .product-meta-line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 1px;
+    background: var(--product-meta-line);
+    opacity: 0.8;
+  }
+
+  /* Chips */
+  .product-chip {
+    background: var(--product-chip-bg);
+    border-color: var(--product-chip-border);
+  }
+
   /* Typography tokens */
   .product-hero-title {
     font-family: var(--font-heading-en);

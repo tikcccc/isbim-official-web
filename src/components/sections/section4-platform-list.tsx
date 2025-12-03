@@ -262,10 +262,10 @@ export function Section4PlatformList() {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-white text-slate-900 section-padding flex flex-col gap-8"
+      className="w-full home-surface-base section-padding flex flex-col gap-8 home-text-primary"
     >
       <div className="container-content-wide">
-        <h2 className="home-section-title mb-12 sm:mb-16 text-slate-900">
+        <h2 className="home-section-title mb-12 sm:mb-16">
           {messages.section4_title()}
         </h2>
 
@@ -320,7 +320,7 @@ function PlatformRow({
     <Link
       href={href}
       prefetch
-      className="relative block border-t border-gray-200 py-6 sm:py-10 group cursor-pointer"
+      className="relative block border-t home-border-subtle py-6 sm:py-10 group cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onLeave}
       onFocus={onHover}
@@ -333,11 +333,11 @@ function PlatformRow({
         {/* 1. Left Section: Description Text */}
         <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] gap-4">
           <div className="z-10 pointer-events-none">
-            <p className="home-body-large text-gray-600">
+            <p className="home-body-large">
               {platformDescs[item.descKey]()}
             </p>
           </div>
-          <span className="home-label-sm text-gray-400 block mt-auto">
+          <span className="home-label-sm home-text-subtle block mt-auto">
             {item.version}
           </span>
         </div>
@@ -375,7 +375,7 @@ function PlatformRow({
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="home-platform-title leading-[1.2] text-slate-900 whitespace-nowrap will-change-transform"
+              className="home-platform-title leading-[1.2] whitespace-nowrap will-change-transform"
             >
               {platformTitles[item.titleKey]()}
             </m.h3>
@@ -385,9 +385,9 @@ function PlatformRow({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? -10 : -20 }}
             transition={{ duration: 0.3 }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 will-change-transform"
+            className="absolute left-0 top-1/2 -translate-y-1/2 will-change-transform home-icon-subtle"
           >
-             <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" />
+             <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
           </m.div>
         </div>
 

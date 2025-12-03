@@ -1,4 +1,56 @@
 @layer components {
+  /* Footer newsletter CTA tokens */
+  :root {
+    --layout-footer-cta-bg: #1e2124;
+    --layout-footer-cta-bg-hover: #111827;
+    --layout-footer-cta-text: #f8fafc;
+    --layout-footer-cta-border: #111827;
+  }
+
+  .footer-dark {
+    --layout-footer-cta-bg: #f6f7fb;
+    --layout-footer-cta-bg-hover: #e8eaef;
+    --layout-footer-cta-text: #0f172a;
+    --layout-footer-cta-border: rgba(255, 255, 255, 0.18);
+  }
+  .footer-dark .layout-footer-newsletter-button {
+    background: #f6f7fb !important;
+    color: #0f172a !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+  }
+  .footer-dark .layout-footer-newsletter-button:hover {
+    background: #e8eaef !important;
+    color: #0f172a !important;
+  }
+
+  .footer-charcoal {
+    --layout-footer-cta-bg: #eef0f4;
+    --layout-footer-cta-bg-hover: #dadee5;
+    --layout-footer-cta-text: #0f172a;
+    --layout-footer-cta-border: rgba(255, 255, 255, 0.16);
+  }
+  .footer-charcoal .layout-footer-newsletter-button {
+    background: #eef0f4 !important;
+    color: #0f172a !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+  }
+  .footer-charcoal .layout-footer-newsletter-button:hover {
+    background: #dadee5 !important;
+    color: #0f172a !important;
+  }
+
+  .layout-footer-newsletter-button {
+    font-family: var(--font-body-en);
+    background: var(--layout-footer-cta-bg) !important;
+    color: var(--layout-footer-cta-text) !important;
+    border: 1px solid var(--layout-footer-cta-border) !important;
+  }
+
+  .layout-footer-newsletter-button:hover {
+    background: var(--layout-footer-cta-bg-hover) !important;
+    color: var(--layout-footer-cta-text) !important;
+  }
+
   /* Navigation (menu overlay) */
   .layout-nav-link,
   .layout-nav-link * {

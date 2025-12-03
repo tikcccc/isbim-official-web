@@ -47,7 +47,7 @@ export function Section3Placeholder() {
   }, []);
 
   return (
-    <section className="relative z-10 bg-white section-padding">
+    <section className="relative z-10 home-surface-base section-padding">
       {/* Trigger zone with auto height */}
       <div
         ref={triggerRef}
@@ -56,7 +56,7 @@ export function Section3Placeholder() {
         {/* Text content that animates */}
         <h1
           ref={textRef}
-          className="container-content home-narrative-title text-center text-black"
+          className="container-content home-narrative-title text-center"
           style={{
             willChange: "line-height, opacity, transform",
             opacity: 0.5,
@@ -64,14 +64,14 @@ export function Section3Placeholder() {
           }}
         >
           {m.section3_narrative_prefix()}
-          <span className="text-gray-300">{m.section3_narrative_faster()}</span>
-          <span className="text-gray-300">{m.section3_narrative_comma1()}</span>
-          <span className="text-gray-300">{m.section3_narrative_cheaper()}</span>
-          <span className="text-gray-300">{m.section3_narrative_comma2()}</span>
-          <span className="text-gray-300">{m.section3_narrative_safer()}</span>
-          <span className="text-gray-300">{m.section3_narrative_and()}</span>
-          <span className="text-gray-300">{m.section3_narrative_greener()}</span>
-          <span className="text-gray-300">{m.section3_narrative_suffix()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_faster()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_comma1()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_cheaper()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_comma2()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_safer()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_and()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_greener()}</span>
+          <span className="home-narrative-title home-text-soft">{m.section3_narrative_suffix()}</span>
         </h1>
       </div>
     </section>

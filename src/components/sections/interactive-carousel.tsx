@@ -323,7 +323,7 @@ export function InteractiveCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-zinc-100 overflow-visible flex flex-col items-center gap-8 sm:gap-10 lg:gap-12 section-padding pb-0 sm:pb-6"
+      className="relative w-full home-surface-panel overflow-visible flex flex-col items-center gap-8 sm:gap-10 lg:gap-12 section-padding pb-0 sm:pb-6"
     >
       {/* --- 導航區域 (Tabs + See All) --- */}
       <div className="relative z-30 container-content flex flex-col md:flex-row gap-4 mb-4 sm:mb-6 items-stretch md:items-center">
@@ -340,11 +340,9 @@ export function InteractiveCarousel() {
                 type="button"
                 onClick={() => jumpToSlide(index)}
                 className={cn(
-                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all duration-300",
-                  "w-full bg-white border-zinc-300 text-zinc-600",
-                  isActive
-                    ? "border-zinc-900 text-zinc-900"
-                    : "hover:bg-zinc-50 hover:text-zinc-900"
+                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all duration-300 home-carousel-tab",
+                  "w-full",
+                  isActive ? "home-carousel-tab-active" : ""
                 )}
               >
                 {/* 進度填充層 */}
@@ -357,7 +355,7 @@ export function InteractiveCarousel() {
                       duration: AUTOPLAY_DURATION / 1000,
                       ease: "linear",
                     }}
-                    className="absolute inset-0 bg-zinc-900/20 z-0"
+                    className="absolute inset-0 home-carousel-progress z-0"
                     style={{ transformOrigin: "left" }}
                   />
                 )}
@@ -376,7 +374,7 @@ export function InteractiveCarousel() {
           <LocalizedLink
             href={ROUTES.JARVIS.SUITE}
             prefetchMode="hover"
-            className="inline-flex h-10 items-center justify-center px-6 home-label-sm bg-zinc-900 text-white hover:bg-zinc-800 transition-colors border border-zinc-900"
+            className="inline-flex h-10 items-center justify-center px-6 home-label-sm border transition-colors home-button-strong"
           >
             See All
           </LocalizedLink>
@@ -385,7 +383,7 @@ export function InteractiveCarousel() {
           <LocalizedLink
             href={ROUTES.JARVIS.SUITE}
             prefetchMode="hover"
-            className="w-full h-10 flex items-center justify-center home-label-sm bg-zinc-900 text-white hover:bg-zinc-800 transition-colors"
+            className="w-full h-10 flex items-center justify-center home-label-sm transition-colors border home-button-strong"
           >
             See All
           </LocalizedLink>
@@ -411,7 +409,7 @@ export function InteractiveCarousel() {
                 variants={cardVariants}
                 initial="hidden"
                 animate="hidden"
-                className="absolute w-full h-full bg-zinc-950 border border-white/10 min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
+                className="absolute w-full h-full border home-carousel-card min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
               />
             );
           }
@@ -422,7 +420,7 @@ export function InteractiveCarousel() {
               variants={cardVariants}
               initial="hidden"
               animate={variant}
-              className="absolute w-full h-full bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
+              className="absolute w-full h-full border home-carousel-card shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
             >
               {/* Background Video/Image */}
               <div className="absolute inset-0 z-0">
@@ -456,32 +454,32 @@ export function InteractiveCarousel() {
                     priority={isCenter}
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+                <div className="absolute inset-0 home-carousel-overlay" />
               </div>
 
               {/* Content Overlay */}
-              <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between text-white">
+              <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between home-text-inverse">
                 <div className="max-w-2xl">
                   <div className="inline-flex items-center gap-2 mb-4">
-                    <span className="home-label-sm text-white/70">
+                    <span className="home-label-sm home-text-inverse-muted">
                       {slide.category}
                     </span>
                   </div>
-                  <h2 className="home-carousel-title text-white mb-6">
+                  <h2 className="home-carousel-title home-text-inverse mb-6">
                     {slide.title}
-                    <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 opacity-50" />
+                    <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 home-text-inverse-subtle" />
                   </h2>
                 </div>
 
                 {/* Bottom Section */}
                 <div className="relative">
-                  <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
-                    <h1 className="home-carousel-bigtext text-white select-none">
+                  <div className="border-t home-carousel-border-strong pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
+                    <h1 className="home-carousel-bigtext home-text-inverse select-none">
                       {slide.bigText}
                     </h1>
 
-                    <div className="hidden md:block max-w-xs text-white/60 mb-4 leading-relaxed">
-                      <div className="flex gap-4 mb-2 text-white home-label-sm">
+                    <div className="hidden md:block max-w-xs home-text-inverse-subtle mb-4 leading-relaxed">
+                      <div className="flex gap-4 mb-2 home-label-sm home-text-inverse">
                         <span>Built on:</span>
                         <div className="flex flex-col">
                           {slide.meta.map((m) => (
@@ -489,7 +487,7 @@ export function InteractiveCarousel() {
                           ))}
                         </div>
                       </div>
-                      <p className="home-body text-sm text-white/70">{slide.description}</p>
+                      <p className="home-body text-sm home-text-inverse-muted">{slide.description}</p>
                     </div>
                   </div>
                 </div>
@@ -508,7 +506,7 @@ export function InteractiveCarousel() {
                     e.stopPropagation();
                     prevSlide();
                   }}
-                  className="pointer-events-auto w-16 h-16 bg-zinc-900/90 hover:bg-zinc-800 flex items-center justify-center transition-colors text-white border-r border-y border-white/10"
+                  className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-r border-y"
                   aria-label="Previous slide"
                 >
                   <ArrowLeft className="w-5 h-5" />
@@ -519,7 +517,7 @@ export function InteractiveCarousel() {
                     e.stopPropagation();
                     nextSlide();
                   }}
-                  className="pointer-events-auto w-16 h-16 bg-zinc-900/90 hover:bg-zinc-800 flex items-center justify-center transition-colors text-white border-l border-y border-white/10"
+                  className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-l border-y"
                   aria-label="Next slide"
                 >
                   <ArrowRight className="w-5 h-5" />
@@ -537,17 +535,17 @@ export function InteractiveCarousel() {
           const activeIdx = (page % total + total) % total;
 
           return (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => jumpToSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                activeIdx === index
-                  ? "w-12 bg-zinc-900"
-                  : "w-2 bg-zinc-400 hover:bg-zinc-600"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => jumpToSlide(index)}
+                className={`h-2 rounded-full transition-all ${
+                  activeIdx === index
+                  ? "w-12 home-carousel-dot-active"
+                  : "w-2 home-carousel-dot"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
           );
         })}
       </div>

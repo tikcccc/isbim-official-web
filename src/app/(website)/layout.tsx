@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { LanguageProvider } from "@inlang/paraglide-next";
 import { sourceLanguageTag, setLanguageTag } from "@/paraglide/runtime";
 import type { AvailableLanguageTag } from "@/paraglide/runtime";
@@ -9,8 +8,8 @@ import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/sonner";
 
 export default async function WebsiteLayout({ children }: { children: React.ReactNode }) {
-  const headersList = await headers();
-  const locale = (headersList.get("x-language-tag") ?? sourceLanguageTag) as AvailableLanguageTag;
+  // Use default locale; avoid runtime headers() access to keep route static-friendly
+  const locale = sourceLanguageTag as AvailableLanguageTag;
 
   // Sync paraglide locale for downstream translations.
   setLanguageTag(() => locale);

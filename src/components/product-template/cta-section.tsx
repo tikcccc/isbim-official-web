@@ -35,23 +35,23 @@ export function ProductCTASection({
   buttonHref = "/contact",
 }: ProductCTASectionProps) {
   return (
-    <section className="relative z-10 bg-product-dark py-24 md:py-32 lg:py-40">
+    <section className="relative z-10 product-surface-dark py-24 md:py-32 lg:py-40">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
         <div className="flex flex-col items-center text-center">
           {/* Title with gradient effect */}
-          <h2 className="product-cta-title text-white mb-6">
-            <span className="text-product-gradient">{title}</span>
+          <h2 className="product-cta-title product-text-inverse mb-6">
+            <span className="product-text-gradient">{title}</span>
           </h2>
 
           {/* Subtitle */}
-          <p className="product-cta-subtitle text-white/80 max-w-3xl mb-12">
+          <p className="product-cta-subtitle product-text-inverse-muted max-w-3xl mb-12">
             {subtitle}
           </p>
 
           {/* CTA Button */}
           <Link
             href={buttonHref}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-[#1E1F2B] product-cta-button rounded-full transition-all duration-300 hover:bg-gradient-to-r hover:from-[#9881F3] hover:to-[#13C9BA] hover:text-white hover:scale-105"
+            className="group inline-flex items-center gap-3 px-8 py-4 product-cta-button product-cta-button-strong rounded-full transition-all duration-300 hover:scale-105"
           >
             {buttonText}
             <svg
@@ -72,8 +72,8 @@ export function ProductCTASection({
           {/* Decorative elements */}
           <div className="mt-16 flex items-center gap-4">
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <div className="w-2 h-2 rounded-full bg-[#9881F3]/50" />
-            <div className="w-2 h-2 rounded-full bg-[#9881F3]/50" />
+            <div className="w-2 h-2 rounded-full product-accent-dot" />
+            <div className="w-2 h-2 rounded-full product-accent-dot" />
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
         </div>

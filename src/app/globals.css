@@ -10,3 +10,11 @@
 @import "../styles/layout-design-tokens.css";
 
 @custom-variant dark (&:is(.dark *));
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+}

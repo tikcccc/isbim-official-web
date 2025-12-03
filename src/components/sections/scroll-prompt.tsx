@@ -93,7 +93,7 @@ export function ScrollPrompt({
       }}
     >
       {/* Text */}
-      <span className="text-sm italic text-muted-foreground tracking-wide">
+      <span className="text-sm italic home-text-muted tracking-wide">
         {text}
       </span>
 
@@ -108,7 +108,7 @@ export function ScrollPrompt({
           ease: "easeInOut",
         }}
       >
-        <ChevronDown className="w-5 h-5 text-muted-foreground" />
+        <ChevronDown className="w-5 h-5 home-text-subtle" />
       </m.div>
     </m.div>
   );

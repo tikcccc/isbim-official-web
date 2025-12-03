@@ -4,11 +4,6 @@
  * 用途：
  * - 展示數據指標、統計數字、成果展示
  * - 用數字說話，增強說服力
- *
- * 使用場景：
- * - JPM頁面的"By the Numbers"
- * - About Us頁的公司數據
- * - 產品頁的效能指標
  */
 
 "use client";
@@ -159,7 +154,7 @@ export function StatisticsSection({
             variants={fadeInUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="text-3xl md:text-4xl font-light text-center mb-12"
+            className="home-stat-heading text-foreground text-center mb-12"
           >
             {title}
           </m.h2>
@@ -194,7 +189,7 @@ export function StatisticsSection({
               {/* Value */}
               <div
                 className={cn(
-                  "text-4xl md:text-5xl font-bold mb-2",
+                  "home-stat-value mb-2",
                   stat.highlight ? "text-primary" : "text-foreground"
                 )}
               >
@@ -210,13 +205,13 @@ export function StatisticsSection({
               </div>
 
               {/* Label */}
-              <div className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-wider mb-2">
+              <div className="home-stat-label text-muted-foreground mb-2">
                 {stat.label}
               </div>
 
               {/* Description */}
               {stat.description && (
-                <p className="text-xs md:text-sm text-muted-foreground/70">
+                <p className="home-stat-desc text-muted-foreground/70">
                   {stat.description}
                 </p>
               )}

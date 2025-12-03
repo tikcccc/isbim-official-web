@@ -369,7 +369,7 @@ export function FeatureSection({
     <div
       ref={sectionRef}
       className={`feature-block py-16 md:py-24 px-6 md:px-12 lg:px-24 min-h-screen flex items-center ${
-        !isLast ? "border-b border-neutral-200/50" : ""
+        !isLast ? "border-b product-border-soft" : ""
       }`}
     >
       <div className="container-product w-full">
@@ -378,7 +378,7 @@ export function FeatureSection({
           <div className="lg:col-span-5 xl:col-span-5 relative">
             <div className="sticky top-32 flex flex-col gap-6">
               {/* Index Animation */}
-              <div className="index-anim-container flex items-center w-full product-body text-gray-600 select-none">
+              <div className="index-anim-container flex items-center w-full product-body product-text-muted select-none">
                 {/* Before indices */}
                 {beforeIndices.length > 0 && (
                 <div className="flex items-center gap-2 opacity-50 product-body mr-2">
@@ -397,14 +397,15 @@ export function FeatureSection({
                 {/* Current index (highlighted with flash animation) */}
                 <span
                   ref={indexSpanRef}
-                  className="text-gray-900 font-medium mr-4 inline-block"
+                  className="product-text-strong font-medium mr-4 inline-block"
                 >
                   [{index}]
                 </span>
 
                 {/* Animated line */}
                 <m.div
-                  className="index-line h-px bg-gray-900 flex-grow mx-4 origin-left"
+                  className="index-line h-px flex-grow mx-4 origin-left"
+                  style={{ backgroundColor: "var(--product-text-body)" }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: lineActive ? 1 : 0 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
@@ -427,7 +428,7 @@ export function FeatureSection({
 
               {/* Title with Typewriter Animation or Static Display */}
               <h3
-              className="product-feature-title text-gray-900 break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
+              className="product-feature-title product-text-strong break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
                 style={{ textWrap: "balance", wordBreak: "break-word" }}
               >
                 {/* Forward Typewriter mode */}
@@ -494,14 +495,14 @@ export function FeatureSection({
 
           {/* Right Column: Content */}
           <div className="lg:col-span-7 xl:col-span-7 pt-6 md:pt-8 lg:pt-15 flex flex-col lg:self-start">
-            <p className="product-feature-body text-gray-900 mb-8 md:mb-10 w-full">
+            <p className="product-feature-body product-text-body mb-8 md:mb-10 w-full">
               {description}
             </p>
 
             {/* Toggle Pill - accessible tablist with keyboard navigation */}
             {details && details.length > 0 && (
               <div className="mb-10" role="tablist" aria-label="View options">
-                <div className="toggle-pill inline-flex h-14 border border-gray-300 rounded-full bg-white/50 backdrop-blur-sm p-1 shadow-sm">
+                <div className="toggle-pill inline-flex h-14 border product-toggle-shell rounded-full p-1 shadow-sm">
                   <button
                     role="tab"
                     aria-selected={activeView === "video"}
@@ -518,10 +519,10 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 disabled:cursor-not-allowed ${
+                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
                       activeView === "video"
-                        ? `bg-[#1a1a1a] text-white ${isFlashing ? "animate-rapid-pulse" : ""}`
-                        : "text-gray-500 hover:text-gray-900"
+                        ? `product-toggle-active ${isFlashing ? "animate-rapid-pulse" : ""}`
+                        : "product-toggle-inactive"
                     }`}
                   >
                     {videoLabel.toUpperCase()}
@@ -542,10 +543,10 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9881F3] focus-visible:ring-offset-2 disabled:cursor-not-allowed ${
+                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
                       activeView === "details"
-                        ? `bg-[#1a1a1a] text-white ${isFlashing ? "animate-rapid-pulse" : ""}`
-                        : "text-gray-500 hover:text-gray-900"
+                        ? `product-toggle-active ${isFlashing ? "animate-rapid-pulse" : ""}`
+                        : "product-toggle-inactive"
                     }`}
                   >
                     {detailsLabel.toUpperCase()}
@@ -555,7 +556,7 @@ export function FeatureSection({
             )}
 
             {/* Media Card / Details View - with tabpanel roles for accessibility */}
-            <div className="w-full h-[563px] max-w-full bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden relative">
+            <div className="w-full h-[563px] max-w-full product-surface-card border rounded-xl shadow-xl overflow-hidden relative">
               {/* Video/Image Panel */}
               <div
                 role="tabpanel"
@@ -598,7 +599,7 @@ export function FeatureSection({
                 id={`panel-details-${index}`}
                 aria-labelledby={`tab-details-${index}`}
                 hidden={displayedView !== "details"}
-                className={`absolute inset-0 bg-[#F5F5F5] p-8 md:p-12 overflow-y-auto ${
+                className={`absolute inset-0 product-surface-panel p-8 md:p-12 overflow-y-auto ${
                   displayedView !== "details" ? "hidden" : ""
                 }`}
               >
@@ -606,12 +607,12 @@ export function FeatureSection({
                   {details?.map((item, idx) => (
                     <div
                       key={idx}
-                      className="border-b border-gray-200/70 pb-6 md:pb-8 last:border-0 last:pb-0"
+                      className="border-b product-border-subtle pb-6 md:pb-8 last:border-0 last:pb-0"
                     >
-                      <h4 className="product-feature-title text-[#1E1F2B] mb-3">
+                      <h4 className="product-feature-title product-text-strong mb-3">
                         {item.title}
                       </h4>
-                      <p className="product-body text-gray-700">
+                      <p className="product-body product-text-muted">
                         {item.description}
                       </p>
                     </div>
@@ -635,10 +636,11 @@ export function FeatureSection({
                     }}
                   >
                     <div
-                      className="h-full w-[250%] flex-none bg-[#767676] shadow-2xl"
+                      className="h-full w-[250%] flex-none shadow-2xl"
                       style={{
                         transform: "skewX(-25deg)",
                         transformOrigin: "center",
+                        background: "var(--product-mask-color)",
                       }}
                     />
                   </m.div>
