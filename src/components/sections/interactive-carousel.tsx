@@ -112,14 +112,14 @@ const getTranslatedProduct = (product: CarouselProduct): CarouselProduct => {
 };
 
 // --- 卡片動畫狀態 ---
-const cardVariants = {
+const createCardVariants = (transitionDuration: number, hiddenDuration: number) => ({
   center: {
     x: "0%",
     scale: 1,
     zIndex: 10,
     opacity: 1,
     filter: "brightness(1)",
-    transition: { duration: 0.6, type: "spring" as const, stiffness: 80, damping: 20 },
+    transition: { duration: transitionDuration, type: "spring" as const, stiffness: 80, damping: 20 },
   },
   left: {
     x: "-105%",
@@ -127,7 +127,7 @@ const cardVariants = {
     zIndex: 5,
     opacity: 0.6,
     filter: "brightness(0.4)",
-    transition: { duration: 0.6, type: "spring" as const, stiffness: 80, damping: 20 },
+    transition: { duration: transitionDuration, type: "spring" as const, stiffness: 80, damping: 20 },
   },
   right: {
     x: "105%",
@@ -135,16 +135,16 @@ const cardVariants = {
     zIndex: 5,
     opacity: 0.6,
     filter: "brightness(0.4)",
-    transition: { duration: 0.6, type: "spring" as const, stiffness: 80, damping: 20 },
+    transition: { duration: transitionDuration, type: "spring" as const, stiffness: 80, damping: 20 },
   },
   hidden: {
     x: "0%",
     scale: 0.8,
     zIndex: 0,
     opacity: 0,
-    transition: { duration: 0.5 },
+    transition: { duration: hiddenDuration },
   },
-};
+});
 
 export function InteractiveCarousel() {
   const [page, setPage] = useState(0);

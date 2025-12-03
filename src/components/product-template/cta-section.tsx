@@ -35,8 +35,8 @@ export function ProductCTASection({
   buttonHref = "/contact",
 }: ProductCTASectionProps) {
   return (
-    <section className="relative z-10 product-surface-dark py-24 md:py-32 lg:py-40">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+    <section className="relative z-10 product-surface-dark product-section-padding">
+      <div className="product-container">
         <div className="flex flex-col items-center text-center">
           {/* Title with gradient effect */}
           <h2 className="product-cta-title product-text-inverse mb-6">
@@ -51,7 +51,7 @@ export function ProductCTASection({
           {/* CTA Button */}
           <Link
             href={buttonHref}
-            className="group inline-flex items-center gap-3 px-8 py-4 product-cta-button product-cta-button-strong rounded-full transition-all duration-300 hover:scale-105"
+            className="group inline-flex items-center gap-3 px-8 py-4 product-cta-button product-cta-button-strong rounded-full transition-all product-transition-fast hover:scale-105"
           >
             {buttonText}
             <svg

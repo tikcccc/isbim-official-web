@@ -473,7 +473,7 @@ export function NarrativeTrack({
           <h2
             ref={text1Ref}
             className="product-stage-title-light mb-6 product-text-inverse max-w-7xl"
-            style={{ transition: "color 0.5s" }}
+            style={{ transition: "color var(--product-motion-base, 0.5s) var(--product-motion-ease, ease-out)" }}
           >
             {stage1Text}
           </h2>
@@ -498,7 +498,7 @@ export function NarrativeTrack({
             </p>
 
             {/* Custom chevron scroll indicator */}
-            <div className="flex flex-col items-center mt-4 animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity duration-300">
+            <div className="flex flex-col items-center mt-4 animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity product-transition-fast">
               <span
                 className="product-label-sm mb-3"
                 style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}

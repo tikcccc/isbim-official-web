@@ -29,20 +29,29 @@ export function HeroSection1() {
 
     hasAnimatedRef.current = true;
 
+    const readVar = (name: string, fallback: number) => {
+      const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+      return Number.isFinite(val) ? val : fallback;
+    };
+    const titleDuration = readVar("--home-hero-title-duration", 1.2);
+    const titleStagger = readVar("--home-hero-title-stagger", 0.2);
+    const subtitleDuration = readVar("--home-hero-subtitle-duration", 1);
+    const subtitleDelay = readVar("--home-hero-subtitle-delay", 1);
+
     gsap.to(titleSpans, {
       y: 0,
-      duration: 1.2,
+      duration: titleDuration,
       ease: "expo.out",
-      stagger: 0.2,
+      stagger: titleStagger,
       delay: 0.2,
     });
 
     gsap.to(subtitle, {
       opacity: 1,
       y: 0,
-      duration: 1,
+      duration: subtitleDuration,
       ease: "expo.out",
-      delay: 1,
+      delay: subtitleDelay,
     });
   }, []);
 

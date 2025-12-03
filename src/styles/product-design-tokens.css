@@ -53,6 +53,31 @@
     --product-mask-color: #767676;
     --product-chip-bg: rgba(255, 255, 255, 0.05);
     --product-chip-border: rgba(255, 255, 255, 0.1);
+
+    /* Layout & spacing */
+    --product-container-max: 1800px;
+    --product-container-padding: 1.5rem;
+    --product-container-padding-md: 3rem;
+    --product-container-padding-lg: 4rem;
+    --product-container-padding-xl: 5rem;
+    --product-section-padding: 4rem;
+    --product-section-padding-lg: 6rem;
+    --product-gap: 2rem;
+    --product-gap-lg: 3.5rem;
+
+    /* Shape & depth */
+    --product-radius-card: 0.75rem;
+    --product-radius-lg: 1rem;
+    --product-shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --product-shadow-soft: 0 15px 30px rgba(0, 0, 0, 0.15);
+
+    /* Motion */
+    --product-motion-fast: var(--motion-duration-fast, 0.3s);
+    --product-motion-base: var(--motion-duration-base, 0.5s);
+    --product-motion-slow: var(--motion-duration-slow, 0.8s);
+    --product-motion-overlay: 0.9s;
+    --product-motion-ease: var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+    --product-motion-stagger: var(--motion-stagger-base, 0.12s);
   }
 
   /* Color utilities */
@@ -159,6 +184,48 @@
   .product-chip {
     background: var(--product-chip-bg);
     border-color: var(--product-chip-border);
+  }
+
+  /* Layout utilities */
+  .product-container {
+    width: 92%;
+    max-width: var(--product-container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-inline: var(--product-container-padding);
+  }
+  .product-section-padding {
+    padding-block: var(--product-section-padding);
+  }
+  .product-gap {
+    gap: var(--product-gap);
+  }
+  @media (min-width: 768px) {
+    .product-container { padding-inline: var(--product-container-padding-md); }
+  }
+  @media (min-width: 1024px) {
+    .product-container { padding-inline: var(--product-container-padding-lg); }
+    .product-section-padding { padding-block: var(--product-section-padding-lg); }
+    .product-gap { gap: var(--product-gap-lg); }
+  }
+  @media (min-width: 1280px) {
+    .product-container { padding-inline: var(--product-container-padding-xl); }
+  }
+
+  /* Shape & depth utilities */
+  .product-radius-card { border-radius: var(--product-radius-card); }
+  .product-radius-lg { border-radius: var(--product-radius-lg); }
+  .product-shadow-card { box-shadow: var(--product-shadow-card); }
+  .product-shadow-soft { box-shadow: var(--product-shadow-soft); }
+
+  /* Motion utilities */
+  .product-transition-base {
+    transition-duration: var(--product-motion-base);
+    transition-timing-function: var(--product-motion-ease);
+  }
+  .product-transition-fast {
+    transition-duration: var(--product-motion-fast);
+    transition-timing-function: var(--product-motion-ease);
   }
 
   /* Typography tokens */

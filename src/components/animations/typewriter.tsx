@@ -61,8 +61,8 @@ export interface TypewriterTextProps {
 export function TypewriterText({
   text,
   className = "",
-  speed = 50,
-  delay = 0,
+  speed,
+  delay,
   onComplete,
   cursorVisible = false,
   cursorChar = "|",
@@ -78,6 +78,15 @@ export function TypewriterText({
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
+
+  const readMotion = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const charSpeed = speed ?? readMotion("--motion-typewriter-char-ms", 50);
+  const baseDelay = delay ?? readMotion("--motion-typewriter-delay", 0);
+  const blinkDuration = readMotion("--motion-typewriter-blink", 0.5);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -142,11 +151,11 @@ export function TypewriterText({
       }
 
       // Calculate stagger time (convert ms to seconds)
-      const staggerTime = speed / 1000;
+      const staggerTime = charSpeed / 1000;
 
       // Create timeline
       timeline = gsap.timeline({
-        delay,
+        delay: baseDelay,
         onComplete: () => {
           if (reverse && revertWidth) {
             revertWidth();
@@ -182,7 +191,7 @@ export function TypewriterText({
           opacity: 0,
           repeat: -1,
           yoyo: true,
-          duration: 0.5,
+          duration: blinkDuration,
           ease: "steps(1)",
         });
       }
@@ -267,8 +276,8 @@ export interface TypewriterWidthProps {
 export function TypewriterWidth({
   text,
   className = "",
-  duration = 1.5,
-  steps = 40,
+  duration,
+  steps,
   cursorVisible = false,
   cursorClassName = "",
   scrollTrigger,
@@ -299,6 +308,15 @@ export function TypewriterWidth({
     }
 
     // Create timeline with optional ScrollTrigger
+    const readMotion = (name: string, fallback: number) => {
+      if (typeof window === "undefined") return fallback;
+      const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+      return Number.isFinite(val) ? val : fallback;
+    };
+    const widthDuration = duration ?? readMotion("--motion-typewriter-width-duration", 1.5);
+    const widthSteps = steps ?? readMotion("--motion-typewriter-width-steps", 40);
+    const blinkDuration = readMotion("--motion-typewriter-blink", 0.5);
+
     const tl = gsap.timeline({
       scrollTrigger: scrollTrigger
         ? {
@@ -316,8 +334,8 @@ export function TypewriterWidth({
     // Animate title width
     tl.to(titleEl, {
       width: "100%",
-      duration,
-      ease: `steps(${steps})`,
+      duration: widthDuration,
+      ease: `steps(${widthSteps})`,
     });
 
     // Animate cursor position
@@ -326,8 +344,8 @@ export function TypewriterWidth({
         cursorEl,
         {
           left: "100%",
-          duration,
-          ease: `steps(${steps})`,
+          duration: widthDuration,
+          ease: `steps(${widthSteps})`,
         },
         "<"
       );
@@ -340,7 +358,7 @@ export function TypewriterWidth({
         opacity: 0,
         repeat: -1,
         yoyo: true,
-        duration: 0.5,
+        duration: blinkDuration,
         ease: "steps(1)",
       });
     }
@@ -428,15 +446,24 @@ export interface TypewriterLinesProps {
 
 export function TypewriterLines({
   lines,
-  speed = 50,
-  initialDelay = 0,
-  lineGap = 0.1,
+  speed,
+  initialDelay,
+  lineGap,
   className = "",
   onComplete,
   wrapDuringTyping = false,
 }: TypewriterLinesProps) {
   const completedCount = useRef(0);
   const [allLinesComplete, setAllLinesComplete] = useState(false);
+
+  const readMotion = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const charSpeed = speed ?? readMotion("--motion-typewriter-char-ms", 50);
+  const baseDelay = initialDelay ?? readMotion("--motion-typewriter-delay", 0);
+  const gap = lineGap ?? readMotion("--motion-typewriter-line-gap", 0.1);
 
   const handleLineComplete = () => {
     completedCount.current += 1;
@@ -456,8 +483,8 @@ export function TypewriterLines({
           .slice(0, index)
           .reduce((acc, prevLine) => {
             const charCount = prevLine.text.length;
-            return acc + (charCount * speed) / 1000 + lineGap;
-      }, initialDelay);
+            return acc + (charCount * charSpeed) / 1000 + gap;
+      }, baseDelay);
 
         return (
           <span key={index} className="block">
@@ -497,9 +524,9 @@ export function TypewriterLines({
  */
 export function TypewriterLinesReverse({
   lines,
-  speed = 50,
-  initialDelay = 0,
-  lineGap = 0.1,
+  speed,
+  initialDelay,
+  lineGap,
   className = "",
   onComplete,
   wrapDuringTyping = false,
@@ -507,6 +534,15 @@ export function TypewriterLinesReverse({
   const completedCount = useRef(0);
   const [allLinesComplete, setAllLinesComplete] = useState(false);
   const containerRef = useRef<HTMLSpanElement>(null);
+
+  const readMotion = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const charSpeed = speed ?? readMotion("--motion-typewriter-char-ms", 50);
+  const baseDelay = initialDelay ?? readMotion("--motion-typewriter-delay", 0);
+  const gap = lineGap ?? readMotion("--motion-typewriter-line-gap", 0.1);
 
   const handleLineComplete = () => {
     completedCount.current += 1;
@@ -541,14 +577,14 @@ export function TypewriterLinesReverse({
       {lines.map((line, visualIndex) => {
         // Calculate cumulative delay: sum of all lines that should disappear before this one
         // Lines that appear later visually (higher index) should disappear first
-        let cumulativeDelay = initialDelay;
+        let cumulativeDelay = baseDelay;
 
         // For the last line (visualIndex === lines.length - 1), delay = initialDelay
         // For the second to last line, delay = initialDelay + last line's duration
         // And so on...
         for (let i = lines.length - 1; i > visualIndex; i--) {
           const lineChars = lines[i].text.length;
-          cumulativeDelay += (lineChars * speed) / 1000 + lineGap;
+          cumulativeDelay += (lineChars * charSpeed) / 1000 + gap;
         }
 
         return (

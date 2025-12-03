@@ -74,8 +74,8 @@ export function HeroSection({
         </video>
 
         {/* Gradient Overlay - enhanced for better depth and readability */}
-        <div className="absolute inset-0 product-hero-overlay-vertical" />
-        <div className="absolute inset-0 product-hero-overlay-horizontal" />
+        <div className="absolute inset-0 product-hero-overlay-vertical transition-opacity product-transition-base" />
+        <div className="absolute inset-0 product-hero-overlay-horizontal transition-opacity product-transition-base" />
       </div>
 
       {/* Foreground Content Layer - moves with narrative track */}
@@ -106,11 +106,11 @@ export function HeroSection({
 
           {/* Right: Metadata - Bottom Right, Minimalist */}
           <div className="hidden md:flex flex-col items-end product-text-inverse">
-            <div className="relative flex flex-col items-end gap-3 product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line">
+            <div className="relative flex flex-col items-end gap-3 product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line transition-colors product-transition-base">
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}
-                  className="max-w-[240px] text-right leading-tight product-text-inverse-subtle hover:text-white transition-colors duration-200"
+                  className="max-w-[240px] text-right leading-tight product-text-inverse-subtle hover:text-white transition-colors product-transition-fast"
                 >
                   {item}
                 </span>

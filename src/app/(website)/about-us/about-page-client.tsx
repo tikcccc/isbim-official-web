@@ -80,6 +80,10 @@ const RevealTitle = ({
   // Split words only once during render
   const words = text.split(' ');
 
+  const motionFast = typeof window !== 'undefined'
+    ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-fast')) || 0.75
+    : 0.75;
+
   useEffect(() => {
     const el = elementRef.current;
     if (!el) return;
@@ -95,7 +99,7 @@ const RevealTitle = ({
       gsap.to(wordElements, {
         x: 0,
         opacity: 1,
-        duration: 0.75,
+        duration: motionFast,
         stagger: 0.04,
         ease: "power2.out",
         scrollTrigger: {
@@ -107,7 +111,7 @@ const RevealTitle = ({
     }, elementRef);
 
     return () => ctx.revert(); // Clean up all GSAP animations when component unmounts
-  }, [text]);
+  }, [text, motionFast]);
 
   return (
     <h3 ref={elementRef} className={cn("cursor-default flex flex-wrap gap-x-[0.3em]", className)}>
@@ -132,9 +136,9 @@ const FeatureRow = ({
   linkLabel: string;
   href: string;
 }) => (
-  <div className="group relative py-16 border-t about-border first:border-t-0 px-6 -mx-6 rounded-sm isolate">
+  <div className="group relative about-feature-padding border-t about-border first:border-t-0 rounded-sm isolate">
     {/* Background layer - separated from content to avoid repaint */}
-    <div className="absolute inset-0 about-surface-base opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 rounded-sm pointer-events-none" />
+    <div className="absolute inset-0 about-surface-base opacity-0 group-hover:opacity-100 transition-opacity -z-10 rounded-sm pointer-events-none" />
     
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <div className="lg:col-span-5">
@@ -169,6 +173,9 @@ const StickyNav = () => {
     const target = document.getElementById(`nav-item-${activeSection}`);
     const accentColor = "var(--about-accent)";
     const primaryColor = "var(--about-text-primary)";
+    const glitchStep = typeof window !== 'undefined'
+      ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-snappy')) || 0.06
+      : 0.06;
 
     if (target) {
       const textElements = target.querySelectorAll('span');
@@ -177,16 +184,16 @@ const StickyNav = () => {
       const tl = gsap.timeline();
 
       tl.to(textElements, {
-          color: accentColor, opacity: 0, x: -3, duration: 0.06, ease: "steps(1)"
+          color: accentColor, opacity: 0, x: -3, duration: glitchStep, ease: "steps(1)"
         })
         .to(textElements, {
-          color: primaryColor, opacity: 1, x: 3, duration: 0.06, ease: "steps(1)"
+          color: primaryColor, opacity: 1, x: 3, duration: glitchStep, ease: "steps(1)"
         })
         .to(textElements, {
-          color: accentColor, opacity: 0.2, x: 0, scale: 1.1, duration: 0.06, ease: "steps(1)"
+          color: accentColor, opacity: 0.2, x: 0, scale: 1.1, duration: glitchStep, ease: "steps(1)"
         })
         .to(textElements, {
-          color: primaryColor, opacity: 1, scale: 1, duration: 0.06, ease: "steps(1)"
+          color: primaryColor, opacity: 1, scale: 1, duration: glitchStep, ease: "steps(1)"
         });
     }
   }, [activeSection]);
@@ -246,6 +253,13 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     });
 
     // Animation - one-time ScrollTrigger for other elements
+    const motionSlow = typeof window !== 'undefined'
+      ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-slow')) || 0.8
+      : 0.8;
+    const motionStagger = typeof window !== 'undefined'
+      ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-stagger')) || 0.1
+      : 0.1;
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
@@ -258,7 +272,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
     tl.fromTo(`.section-${id}-anim`,
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", stagger: 0.1 },
+      { y: 0, opacity: 1, duration: motionSlow, ease: "power2.out", stagger: motionStagger },
       "+=1.0" // Delay to allow typewriter to finish
     );
 
@@ -272,11 +286,11 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     <section
       id={`section-${id}`}
       ref={sectionRef}
-      className="min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-20 xl:px-24 relative overflow-hidden py-40 lg:py-48 about-surface-base will-change-auto"
+      className="min-h-screen w-full flex flex-col justify-center relative overflow-hidden about-section-padding about-surface-base will-change-auto"
     >
       <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
 
-      <div className="max-w-[1600px] z-10 w-full mx-auto">
+      <div className="about-container z-10 w-full">
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start lg:items-center mb-12">
           <div className="lg:col-span-7">

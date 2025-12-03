@@ -8,6 +8,7 @@
 @import "../styles/newsroom-design-tokens.css";
 @import "../styles/font-design-tokens.css";
 @import "../styles/layout-design-tokens.css";
+@import "../styles/animation-design-tokens.css";
 
 @custom-variant dark (&:is(.dark *));
 

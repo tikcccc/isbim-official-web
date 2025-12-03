@@ -100,6 +100,17 @@ export function FeatureSection({
   const LINE_THRESHOLD = 0.1; // Line appears at 10%
   const titleRef = useRef(title);
 
+  const readMotion = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const motionFast = readMotion("--product-motion-fast", 0.3);
+  const motionBase = readMotion("--product-motion-base", 0.5);
+  const motionSlow = readMotion("--product-motion-slow", 0.8);
+  const motionOverlay = readMotion("--product-motion-overlay", 0.9);
+  const motionStagger = readMotion("--product-motion-stagger", 0.1);
+
   titleStateRef.current = titleState;
   titleRef.current = title;
 
@@ -368,12 +379,12 @@ export function FeatureSection({
   return (
     <div
       ref={sectionRef}
-      className={`feature-block py-16 md:py-24 px-6 md:px-12 lg:px-24 min-h-screen flex items-center ${
+      className={`feature-block product-section-padding product-container min-h-screen flex items-center ${
         !isLast ? "border-b product-border-soft" : ""
       }`}
     >
-      <div className="container-product w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+      <div className="w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 product-gap">
           {/* Left Column: Sticky Header */}
           <div className="lg:col-span-5 xl:col-span-5 relative">
             <div className="sticky top-32 flex flex-col gap-6">
@@ -408,7 +419,7 @@ export function FeatureSection({
                   style={{ backgroundColor: "var(--product-text-body)" }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: lineActive ? 1 : 0 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  transition={{ duration: motionBase, ease: "easeOut" }}
                 />
 
                 {/* After indices */}
@@ -440,7 +451,7 @@ export function FeatureSection({
                       opacity: titleState.visibility === "exiting" ? 0 : 1,
                       y: titleState.visibility === "exiting" ? -6 : 0,
                     }}
-                    transition={{ duration: 0.32, ease: "easeOut" }}
+                    transition={{ duration: motionFast, ease: "easeOut" }}
                   >
                     <TypewriterLines
                       lines={title.map((line) => ({
@@ -480,7 +491,7 @@ export function FeatureSection({
                       opacity: titleState.visibility === "exiting" ? 0 : 1,
                       y: titleState.visibility === "exiting" ? -6 : 0,
                     }}
-                    transition={{ duration: 0.32, ease: "easeOut" }}
+                    transition={{ duration: motionFast, ease: "easeOut" }}
                   >
                     {title.map((line, index) => (
                       <span key={index} className="block">
@@ -502,7 +513,7 @@ export function FeatureSection({
             {/* Toggle Pill - accessible tablist with keyboard navigation */}
             {details && details.length > 0 && (
               <div className="mb-10" role="tablist" aria-label="View options">
-                <div className="toggle-pill inline-flex h-14 border product-toggle-shell rounded-full p-1 shadow-sm">
+            <div className="toggle-pill inline-flex h-14 border product-toggle-shell rounded-full p-1 shadow-sm">
                   <button
                     role="tab"
                     aria-selected={activeView === "video"}
@@ -556,7 +567,7 @@ export function FeatureSection({
             )}
 
             {/* Media Card / Details View - with tabpanel roles for accessibility */}
-            <div className="w-full h-[563px] max-w-full product-surface-card border rounded-xl shadow-xl overflow-hidden relative">
+            <div className="w-full h-[563px] max-w-full product-surface-card border product-radius-lg product-shadow-card overflow-hidden relative">
               {/* Video/Image Panel */}
               <div
                 role="tabpanel"
@@ -630,7 +641,7 @@ export function FeatureSection({
                       x: ["-200%", "0%", "0%", "200%"],
                     }}
                     transition={{
-                      duration: 0.9,
+                      duration: motionOverlay,
                       times: [0, 0.4, 0.55, 1],
                       ease: ["circOut", "linear", "linear", "circIn"],
                     }}

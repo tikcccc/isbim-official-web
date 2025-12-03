@@ -72,6 +72,14 @@ export function ScrollPrompt({
   // Don't render if fully faded
   if (opacity <= 0) return null;
 
+  const readVar = (name: string, fallback: number) => {
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const appearDuration = readVar("--home-scrollprompt-appear", 0.6);
+  const appearDelay = readVar("--home-scrollprompt-delay", 1.5);
+  const bounceDuration = readVar("--home-scrollprompt-bounce", 1.5);
+
   return (
     <m.div
       className={cn(
@@ -82,7 +90,7 @@ export function ScrollPrompt({
       onClick={handleClick}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 1.5 }}
+      transition={{ duration: appearDuration, delay: appearDelay }}
       aria-label={text}
       role="button"
       tabIndex={0}
@@ -103,7 +111,7 @@ export function ScrollPrompt({
           y: [0, 8, 0],
         }}
         transition={{
-          duration: 1.5,
+          duration: bounceDuration,
           repeat: Infinity,
           ease: "easeInOut",
         }}
