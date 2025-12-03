@@ -1,7 +1,7 @@
 @layer base {
   /* Apply Alliance No1 + base background when home page is active */
   body:has(.home-page) {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     overflow-x: hidden; /* prevent horizontal scroll when content overflows */
     background: #ffffff;
   }
@@ -18,7 +18,7 @@
    * ======================================== */
 
   .home-hero-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2rem, 6vw, 4.5rem);
     font-weight: 800;
     line-height: 1.1;
@@ -26,14 +26,14 @@
   }
 
   .home-hero-subtitle {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.125rem, 2vw, 1.5rem);
     font-weight: 400;
     line-height: 1.6;
   }
 
   .home-section-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.75rem, 5vw, 4.5rem);
     font-weight: 600;
     line-height: 1.08;
@@ -41,7 +41,7 @@
   }
 
   .home-platform-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.5rem, 6vw, 5.5rem);
     font-weight: 600;
     line-height: 1.1;
@@ -49,7 +49,7 @@
   }
 
   .home-narrative-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.75rem, 7vw, 4.5rem);
     font-weight: 600;
     line-height: 1.15;
@@ -57,21 +57,21 @@
   }
 
   .home-body {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     font-weight: 400;
     line-height: 1.7;
   }
 
   .home-body-large {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.125rem, 2vw, 1.375rem);
     font-weight: 400;
     line-height: 1.7;
   }
 
   .home-label {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -80,7 +80,7 @@
   }
 
   .home-label-sm {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -89,7 +89,7 @@
   }
 
   .home-cta-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 600;
     line-height: 1.1;
@@ -97,14 +97,14 @@
   }
 
   .home-cta-subtitle {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
     font-weight: 400;
     line-height: 1.6;
   }
 
   .home-cta-button {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -112,7 +112,7 @@
   }
 
   .home-carousel-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(1.75rem, 4vw, 3.25rem);
     font-weight: 400;
     line-height: 1.1;
@@ -120,7 +120,7 @@
   }
 
   .home-carousel-bigtext {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(4rem, 12vw, 7rem);
     font-weight: 600;
     line-height: 0.85;
@@ -128,7 +128,7 @@
   }
 
   .home-carousel-body {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.16em;
@@ -168,7 +168,7 @@
 
 /* Hero Section 1 Styles */
 .hero-title {
-  font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+  font-family: var(--font-heading-en);
   font-size: clamp(2rem, 6vw, 4.5rem);
   font-weight: 800;
   line-height: 1.1;
@@ -191,11 +191,11 @@
 
 /* Footer Component Styles */
 .footer-brand-text {
-  font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+  font-family: var(--font-heading-en);
 }
 
 .footer-alliance-font {
-  font-family: var(--font-alliance-1), system-ui, sans-serif;
+  font-family: var(--font-body-en);
 }
 
 /* HUD Flicker (Service cards index badge) */

@@ -5,14 +5,14 @@
 
 @layer base {
   body:has(.product-page) {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
   }
 }
 
 @layer components {
   /* Typography tokens */
   .product-hero-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(3.5rem, 8vw, 9rem);
     font-weight: 700;
     line-height: 0.9;
@@ -20,14 +20,14 @@
   }
 
   .product-hero-subtitle {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.125rem, 2.4vw, 1.75rem);
     font-weight: 300;
     line-height: 1.6;
   }
 
   .product-meta {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.28em;
@@ -36,7 +36,7 @@
   }
 
   .product-meta-chip {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -44,7 +44,7 @@
   }
 
   .product-stage-title-light {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.5rem, 6vw, 6rem);
     font-weight: 400;
     line-height: 1.1;
@@ -52,7 +52,7 @@
   }
 
   .product-stage-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.5rem, 6vw, 6rem);
     font-weight: 600;
     line-height: 1.1;
@@ -60,14 +60,14 @@
   }
 
   .product-stage-desc {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
     font-weight: 300;
     line-height: 1.7;
   }
 
   .product-feature-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2rem, 4vw, 3.6rem);
     font-weight: 600;
     line-height: 1.08;
@@ -75,21 +75,21 @@
   }
 
   .product-feature-body {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.1rem, 2vw, 1.5rem);
     font-weight: 500;
     line-height: 1.6;
   }
 
   .product-body {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1rem, 1.6vw, 1.25rem);
     font-weight: 400;
     line-height: 1.6;
   }
 
   .product-label {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -98,7 +98,7 @@
   }
 
   .product-label-sm {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -107,7 +107,7 @@
   }
 
   .product-cta-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 400;
     line-height: 1.1;
@@ -115,14 +115,14 @@
   }
 
   .product-cta-subtitle {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.125rem, 2vw, 1.5rem);
     font-weight: 300;
     line-height: 1.6;
   }
 
   .product-cta-button {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.9375rem;
     font-weight: 700;
     letter-spacing: 0.18em;

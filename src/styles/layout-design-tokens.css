@@ -2,37 +2,41 @@
   /* Navigation (menu overlay) */
   .layout-nav-link,
   .layout-nav-link * {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
   }
 
   .layout-nav-label,
   .layout-nav-label * {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
   }
 
   .layout-nav-heading,
   .layout-nav-heading * {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
   }
 
   /* Footers */
   .layout-footer-brand,
   .layout-footer-brand * {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
+    color: var(--text-primary);
   }
 
   .layout-footer-heading,
   .layout-footer-heading * {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
+    color: var(--text-primary);
   }
 
   .layout-footer-text,
   .layout-footer-text * {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
+    color: var(--text-primary);
   }
 
   .layout-footer-label,
   .layout-footer-label * {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
+    color: var(--text-primary);
   }
 }

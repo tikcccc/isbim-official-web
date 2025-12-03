@@ -6,6 +6,7 @@
 @import "../styles/services-design-tokens.css";
 @import "../styles/contact-design-tokens.css";
 @import "../styles/newsroom-design-tokens.css";
+@import "../styles/font-design-tokens.css";
 @import "../styles/layout-design-tokens.css";
 
 @custom-variant dark (&:is(.dark *));

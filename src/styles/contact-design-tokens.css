@@ -8,8 +8,8 @@
   :root {
     /* Contact page palette - aligned with Product Template */
     --contact-bg: #f7f7f9;           /* align with product light gray */
-    --contact-text: #111827;         /* gray-900 */
-    --contact-text-light: #1f2937;   /* gray-800 */
+    --contact-text: var(--text-primary);         /* unified dark text */
+    --contact-text-light: var(--text-primary);   /* unify to same dark tone */
     --contact-muted: #6b7280;        /* gray-500 */
     --contact-muted-light: #9ca3af;  /* gray-400 */
     --contact-muted-lighter: #d1d5db; /* gray-300 */
@@ -42,7 +42,7 @@
    * ======================================== */
 
   .contact-hero-title {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(3rem, 6vw, 6rem);
     font-weight: 300;
     line-height: 0.95;
@@ -50,14 +50,14 @@
   }
 
   .contact-hero-subtitle {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1.125rem, 2vw, 1.5rem);
     font-weight: 300;
     line-height: 1.6;
   }
 
   .contact-heading {
-    font-family: var(--font-alliance-2), var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-heading-en);
     font-size: clamp(1.5rem, 2.5vw, 2.5rem);
     font-weight: 600;
     line-height: 1.2;
@@ -65,7 +65,7 @@
   }
 
   .contact-location-title {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(0.95rem, 1.3vw, 1.1rem);
     font-weight: 500;
     line-height: 1.4;
@@ -73,7 +73,7 @@
   }
 
   .contact-body {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     font-weight: 300;
     line-height: 1.7;
@@ -81,7 +81,7 @@
   }
 
   .contact-body-small {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.95rem;
     font-weight: 300;
     line-height: 1.6;
@@ -89,7 +89,7 @@
   }
 
   .contact-label {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -99,7 +99,7 @@
   }
 
   .contact-label-sm {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -109,7 +109,7 @@
   }
 
   .contact-emphasis {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: clamp(1rem, 1.4vw, 1.125rem);
     font-weight: 500;
     letter-spacing: 0;
@@ -118,7 +118,7 @@
   }
 
   .contact-button-label {
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -132,7 +132,7 @@
     @apply min-h-screen w-full relative overflow-x-hidden;
     background: var(--contact-bg);
     color: var(--contact-text);
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
   }
 
   .contact-page::selection,
@@ -252,7 +252,7 @@
   /* Info badge (Address, Digital Link, etc.) */
   .contact-badge {
     @apply px-2 py-1 rounded;
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -264,7 +264,7 @@
   /* Text-only label with underline animation (location/connection) */
   .contact-info-text {
     @apply relative inline-flex items-center transition-all duration-300;
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -295,7 +295,7 @@
   /* Form input underline style */
   .contact-input {
     @apply w-full bg-transparent border-b py-3 placeholder-slate-300 focus:outline-none transition-colors rounded-none;
-    font-family: var(--font-alliance-1), system-ui, sans-serif;
+    font-family: var(--font-body-en);
     font-size: 1.125rem;
     border-color: var(--contact-muted-lighter);
     color: var(--contact-text-light);

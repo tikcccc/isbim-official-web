@@ -1,0 +1,17 @@
+@layer base {
+  :root {
+    --font-fallback: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-heading-en: var(--font-alliance-2), var(--font-alliance-1), var(--font-fallback);
+    --font-body-en: var(--font-alliance-1), var(--font-fallback);
+    --font-cn: var(--font-alliance-zh), var(--font-alliance-1), var(--font-alliance-2), var(--font-fallback);
+    --text-primary: #1e2124;
+  }
+
+  /* Language-aware font swap: Chinese locales first, then fallback to Alliance */
+  :lang(zh),
+  :lang(zh-HK),
+  :lang(zh-CN),
+  :lang(zh-TW) {
+    font-family: var(--font-cn);
+  }
+}
