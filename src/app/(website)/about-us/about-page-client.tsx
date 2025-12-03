@@ -83,6 +83,9 @@ const RevealTitle = ({
   const motionFast = typeof window !== 'undefined'
     ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-fast')) || 0.75
     : 0.75;
+  const easingStrong = typeof window !== 'undefined'
+    ? getComputedStyle(document.documentElement).getPropertyValue('--about-motion-ease-strong').trim() || "power2.out"
+    : "power2.out";
 
   useEffect(() => {
     const el = elementRef.current;
@@ -101,7 +104,7 @@ const RevealTitle = ({
         opacity: 1,
         duration: motionFast,
         stagger: 0.04,
-        ease: "power2.out",
+        ease: easingStrong,
         scrollTrigger: {
           trigger: el,
           start: "top 85%", // Trigger when top of text hits 85% of viewport height
@@ -136,9 +139,9 @@ const FeatureRow = ({
   linkLabel: string;
   href: string;
 }) => (
-  <div className="group relative about-feature-padding border-t about-border first:border-t-0 rounded-sm isolate">
+  <div className="group relative about-feature-padding border-t about-border first:border-t-0 about-radius-md about-shadow-soft isolate">
     {/* Background layer - separated from content to avoid repaint */}
-    <div className="absolute inset-0 about-surface-base opacity-0 group-hover:opacity-100 transition-opacity -z-10 rounded-sm pointer-events-none" />
+    <div className="absolute inset-0 about-surface-base opacity-0 group-hover:opacity-100 transition-opacity -z-10 about-radius-md pointer-events-none" />
     
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <div className="lg:col-span-5">
@@ -176,6 +179,7 @@ const StickyNav = () => {
     const glitchStep = typeof window !== 'undefined'
       ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-snappy')) || 0.06
       : 0.06;
+    const glitchEase = "steps(1)";
 
     if (target) {
       const textElements = target.querySelectorAll('span');
@@ -184,16 +188,16 @@ const StickyNav = () => {
       const tl = gsap.timeline();
 
       tl.to(textElements, {
-          color: accentColor, opacity: 0, x: -3, duration: glitchStep, ease: "steps(1)"
+          color: accentColor, opacity: 0, x: -3, duration: glitchStep, ease: glitchEase
         })
         .to(textElements, {
-          color: primaryColor, opacity: 1, x: 3, duration: glitchStep, ease: "steps(1)"
+          color: primaryColor, opacity: 1, x: 3, duration: glitchStep, ease: glitchEase
         })
         .to(textElements, {
-          color: accentColor, opacity: 0.2, x: 0, scale: 1.1, duration: glitchStep, ease: "steps(1)"
+          color: accentColor, opacity: 0.2, x: 0, scale: 1.1, duration: glitchStep, ease: glitchEase
         })
         .to(textElements, {
-          color: primaryColor, opacity: 1, scale: 1, duration: glitchStep, ease: "steps(1)"
+          color: primaryColor, opacity: 1, scale: 1, duration: glitchStep, ease: glitchEase
         });
     }
   }, [activeSection]);
@@ -259,6 +263,9 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     const motionStagger = typeof window !== 'undefined'
       ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--about-motion-stagger')) || 0.1
       : 0.1;
+    const easingStrong = typeof window !== 'undefined'
+      ? getComputedStyle(document.documentElement).getPropertyValue('--about-motion-ease-strong').trim() || "power2.out"
+      : "power2.out";
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -272,7 +279,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
     tl.fromTo(`.section-${id}-anim`,
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: motionSlow, ease: "power2.out", stagger: motionStagger },
+      { y: 0, opacity: 1, duration: motionSlow, ease: easingStrong, stagger: motionStagger },
       "+=1.0" // Delay to allow typewriter to finish
     );
 
@@ -340,7 +347,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
         {imageSrc && (
           <div className={`section-${id}-anim opacity-0 mt-16`}>
-             <div className="relative w-full aspect-video overflow-hidden bg-[var(--about-border)]/40 shadow-2xl border about-border group">
+             <div className="relative w-full aspect-video overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
                 <Image
                   src={imageSrc}
                   alt={title}

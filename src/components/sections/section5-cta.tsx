@@ -31,6 +31,14 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      const readVar = (name: string, fallback: number) => {
+        const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+        return Number.isFinite(val) ? val : fallback;
+      };
+      const imageDuration = readVar("--home-cta-image-duration", 1.2);
+      const textDuration = readVar("--home-cta-text-duration", 0.8);
+      const textStagger = readVar("--home-cta-text-stagger", 0.15);
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -42,7 +50,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
       tl.from(imageRef.current, {
         x: -80,
         opacity: 0,
-        duration: 1.2,
+        duration: imageDuration,
         ease: "power3.out",
       });
 
@@ -51,8 +59,8 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
         {
           y: 40,
           opacity: 0,
-          duration: 0.8,
-          stagger: 0.15,
+          duration: textDuration,
+          stagger: textStagger,
           ease: "power3.out",
         },
         "-=0.8"
@@ -71,7 +79,8 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-1 items-center">
           <div
             ref={imageRef}
-            className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden rounded-lg shadow-2xl home-cta-media-bg md:ml-auto lg:-translate-x-25"
+            className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden home-radius-lg home-cta-media-bg md:ml-auto lg:-translate-x-25"
+            style={{ boxShadow: "var(--home-shadow-strong)" }}
           >
             <Image
               src={imageUrl ?? "/images/cta.png"}
@@ -112,7 +121,8 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                 <Button
                   asChild
                   variant="outline"
-                  className="home-cta-button home-cta-button-variant h-12 sm:h-14 px-8 sm:px-10 transition-all duration-300 rounded-lg"
+                  className="home-cta-button home-cta-button-variant h-12 sm:h-14 px-8 sm:px-10 transition-all home-radius-md"
+                  style={{ transitionDuration: "var(--home-cta-button-transition, 0.3s)" }}
                 >
                   <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">
                     {messages.section5_cta_button()}

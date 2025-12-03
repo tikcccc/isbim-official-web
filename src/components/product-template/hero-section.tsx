@@ -81,7 +81,7 @@ export function HeroSection({
       {/* Foreground Content Layer - moves with narrative track */}
       <div
         data-hero-foreground="true"
-        className="relative z-10 h-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col justify-end pb-10 md:pb-14 lg:pb-20 will-change-transform"
+        className="relative z-10 h-full max-w-[1800px] mx-auto product-hero-padding flex flex-col justify-end will-change-transform"
         style={{
           transition: "transform 0.18s ease-out",
         }}

@@ -25,6 +25,8 @@
     /* Shape & depth */
     --about-radius-sm: 0.125rem;
     --about-radius-md: 0.5rem;
+    --about-radius-lg: 0.75rem;
+    --about-radius-pill: 9999px;
     --about-shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     --about-shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
 
@@ -35,6 +37,8 @@
     --about-motion-ease: var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
     --about-motion-stagger: var(--motion-stagger-base, 0.12s);
     --about-motion-snappy: 0.06s;
+    --about-motion-ease-strong: cubic-bezier(0.22, 1, 0.36, 1);
+    --about-motion-ease-soft: cubic-bezier(0.2, 0.65, 0.3, 0.9);
   }
 }
 
@@ -195,6 +199,8 @@
   /* Shape & depth utilities */
   .about-radius-sm { border-radius: var(--about-radius-sm); }
   .about-radius-md { border-radius: var(--about-radius-md); }
+  .about-radius-lg { border-radius: var(--about-radius-lg); }
+  .about-radius-pill { border-radius: var(--about-radius-pill); }
   .about-shadow-card { box-shadow: var(--about-shadow-card); }
   .about-shadow-soft { box-shadow: var(--about-shadow-soft); }
 

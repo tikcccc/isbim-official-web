@@ -196,6 +196,15 @@ export function Section4PlatformList() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const posterUrls = platforms.map((p) => p.posterUrl).filter(Boolean) as string[];
+  const readVar = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const motionFast = readVar("--home-motion-fast", 0.3);
+  const motionBase = readVar("--home-motion-base", 0.5);
+  const springStiffness = readVar("--home-spring-stiffness", 200);
+  const springDamping = readVar("--home-spring-damping", 20);
 
   const { preloadRange } = useSmartVideoPreloader(videoRefs, isInViewport);
 
@@ -282,6 +291,10 @@ export function Section4PlatformList() {
               onHover={() => handleHover(index)}
               onLeave={handleLeave}
               onTouchStart={() => handleTouchStart(index)}
+              motionFast={motionFast}
+              motionBase={motionBase}
+              springStiffness={springStiffness}
+              springDamping={springDamping}
             />
           ))}
         </div>
@@ -298,7 +311,11 @@ function PlatformRow({
   videoRef,
   onHover,
   onLeave,
-  onTouchStart
+  onTouchStart,
+  motionFast,
+  motionBase,
+  springStiffness,
+  springDamping,
 }: {
   item: PlatformItem;
   href: string;
@@ -309,6 +326,10 @@ function PlatformRow({
   onHover: () => void;
   onLeave: () => void;
   onTouchStart: () => void;
+  motionFast: number;
+  motionBase: number;
+  springStiffness: number;
+  springDamping: number;
 }) {
   const handleMouseEnter = () => {
     if (isInViewport) {
@@ -350,11 +371,11 @@ function PlatformRow({
               opacity: isHovered && isInViewport ? 1 : 0,
               scale: isHovered && isInViewport ? 1 : 0.95
             }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={{ duration: motionFast, ease: "easeOut" }}
             className="w-full flex items-center justify-center z-20"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <div className="overflow-hidden rounded-lg shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
+            <div className="overflow-hidden home-radius-lg shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
               <video
                 ref={videoRef}
                 src={item.videoUrl}
@@ -374,7 +395,7 @@ function PlatformRow({
           <div className="w-full lg:pl-8 overflow-visible">
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              transition={{ type: "spring", stiffness: springStiffness, damping: springDamping, duration: motionBase }}
               className="home-platform-title leading-[1.2] whitespace-nowrap will-change-transform"
             >
               {platformTitles[item.titleKey]()}
@@ -384,7 +405,7 @@ function PlatformRow({
           <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? -10 : -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: motionBase }}
             className="absolute left-0 top-1/2 -translate-y-1/2 will-change-transform home-icon-subtle"
           >
              <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />

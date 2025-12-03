@@ -513,7 +513,7 @@ export function FeatureSection({
             {/* Toggle Pill - accessible tablist with keyboard navigation */}
             {details && details.length > 0 && (
               <div className="mb-10" role="tablist" aria-label="View options">
-            <div className="toggle-pill inline-flex h-14 border product-toggle-shell rounded-full p-1 shadow-sm">
+            <div className="toggle-pill inline-flex h-14 border product-toggle-shell product-radius-pill p-1 shadow-sm overflow-hidden">
                   <button
                     role="tab"
                     aria-selected={activeView === "video"}
@@ -530,7 +530,7 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
+                    className={`w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
                       activeView === "video"
                         ? `product-toggle-active ${isFlashing ? "animate-rapid-pulse" : ""}`
                         : "product-toggle-inactive"
@@ -554,7 +554,7 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 rounded-full product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
+                    className={`w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
                       activeView === "details"
                         ? `product-toggle-active ${isFlashing ? "animate-rapid-pulse" : ""}`
                         : "product-toggle-inactive"
@@ -632,8 +632,8 @@ export function FeatureSection({
               </div>
 
               {/* Parallelogram Transition Overlay */}
-              {isTransitioning && (
-                <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden rounded-xl">
+                {isTransitioning && (
+                <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden" style={{ borderRadius: "var(--product-radius-overlay)" }}>
                   <m.div
                     className="absolute inset-y-0 left-0 w-full h-full flex items-center justify-center"
                     initial={{ x: "-200%" }}

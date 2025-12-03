@@ -29,7 +29,7 @@ export function HeroForeground({
       data-hero-foreground="true"
       className="absolute top-0 left-0 w-full h-screen z-10 pointer-events-none"
     >
-      <div className="relative h-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col justify-end pb-10 md:pb-14 lg:pb-20 will-change-transform transition-transform duration-[180ms] ease-out">
+      <div className="relative h-full max-w-[1800px] mx-auto product-hero-padding flex flex-col justify-end will-change-transform transition-transform duration-[180ms] ease-out">
         {/* Main content area */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-8 pointer-events-auto">
           {/* Left: Product Name - Anchored bottom-left */}
@@ -68,7 +68,8 @@ export function HeroForeground({
           {cleanedMetadata.slice(0, 4).map((item, i) => (
             <span
               key={i}
-              className="px-3 py-1 rounded-full border product-border-inverse product-chip backdrop-blur-[1px]"
+              className="px-3 py-1 border product-border-inverse product-chip backdrop-blur-[1px]"
+              style={{ borderRadius: "var(--product-radius-pill)" }}
             >
               {item}
             </span>

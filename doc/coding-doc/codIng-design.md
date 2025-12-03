@@ -50,3 +50,4 @@ Follow this blueprint: create/extend each page’s design-tokens.css to map sema
 - Shape — border-radius, border-width — Align geometric character: shared corner/border rules ensure buttons/cards/inputs share the same visual DNA.
 - Elevation — box-shadow, z-index, opacity — Build Z-axis depth: shadows/occlusion communicate layering, hover, and focus prominence.
 - Motion — duration, easing — Guide attention & smooth transitions: physics-aligned feedback directs gaze and eases state changes without abruptness.
+- animation - gsap animation

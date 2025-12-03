@@ -135,12 +135,18 @@ export function StatisticsSection({
   title,
   className,
   animate = true,
-  animationDuration = 2000,
+  animationDuration = undefined,
 }: StatisticsSectionProps) {
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true,
   });
+
+  const readVar = (name: string, fallback: number) => {
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const durationMs = animationDuration ?? readVar("--home-stat-duration", 2000);
 
   return (
     <section
@@ -183,7 +189,7 @@ export function StatisticsSection({
             >
               {/* Highlight indicator */}
               {stat.highlight && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-full" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary" style={{ borderRadius: "var(--home-pill-radius)" }} />
               )}
 
               {/* Value */}
@@ -196,7 +202,7 @@ export function StatisticsSection({
                 {animate ? (
                   <CountUpValue
                     value={stat.value}
-                    duration={animationDuration}
+                    duration={durationMs}
                     inView={inView}
                   />
                 ) : (

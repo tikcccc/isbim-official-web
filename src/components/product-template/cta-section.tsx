@@ -51,7 +51,8 @@ export function ProductCTASection({
           {/* CTA Button */}
           <Link
             href={buttonHref}
-            className="group inline-flex items-center gap-3 px-8 py-4 product-cta-button product-cta-button-strong rounded-full transition-all product-transition-fast hover:scale-105"
+            className="group inline-flex items-center gap-3 px-8 py-4 product-cta-button product-cta-button-strong transition-all product-transition-fast hover:scale-105"
+            style={{ borderRadius: "var(--product-radius-pill)" }}
           >
             {buttonText}
             <svg
@@ -72,8 +73,8 @@ export function ProductCTASection({
           {/* Decorative elements */}
           <div className="mt-16 flex items-center gap-4">
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <div className="w-2 h-2 rounded-full product-accent-dot" />
-            <div className="w-2 h-2 rounded-full product-accent-dot" />
+            <div className="w-2 h-2 product-accent-dot" style={{ borderRadius: "var(--product-radius-pill)" }} />
+            <div className="w-2 h-2 product-accent-dot" style={{ borderRadius: "var(--product-radius-pill)" }} />
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
         </div>

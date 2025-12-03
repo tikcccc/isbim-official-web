@@ -112,14 +112,14 @@ const getTranslatedProduct = (product: CarouselProduct): CarouselProduct => {
 };
 
 // --- 卡片動畫狀態 ---
-const createCardVariants = (transitionDuration: number, hiddenDuration: number) => ({
+const createCardVariants = (transitionDuration: number, hiddenDuration: number, stiffness: number, damping: number) => ({
   center: {
     x: "0%",
     scale: 1,
     zIndex: 10,
     opacity: 1,
     filter: "brightness(1)",
-    transition: { duration: transitionDuration, type: "spring" as const, stiffness: 80, damping: 20 },
+    transition: { duration: transitionDuration, type: "spring" as const, stiffness, damping },
   },
   left: {
     x: "-105%",
@@ -127,7 +127,7 @@ const createCardVariants = (transitionDuration: number, hiddenDuration: number) 
     zIndex: 5,
     opacity: 0.6,
     filter: "brightness(0.4)",
-    transition: { duration: transitionDuration, type: "spring" as const, stiffness: 80, damping: 20 },
+    transition: { duration: transitionDuration, type: "spring" as const, stiffness, damping },
   },
   right: {
     x: "105%",
@@ -135,7 +135,7 @@ const createCardVariants = (transitionDuration: number, hiddenDuration: number) 
     zIndex: 5,
     opacity: 0.6,
     filter: "brightness(0.4)",
-    transition: { duration: transitionDuration, type: "spring" as const, stiffness: 80, damping: 20 },
+    transition: { duration: transitionDuration, type: "spring" as const, stiffness, damping },
   },
   hidden: {
     x: "0%",
@@ -154,6 +154,21 @@ export function InteractiveCarousel() {
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const posterFallback = "/images/post/banner-poster.jpg";
+  const readVar = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const cardTransitionDuration = readVar("--home-carousel-transition", 0.6);
+  const cardHiddenDuration = readVar("--home-carousel-hidden-duration", 0.5);
+  const arrowFadeDuration = readVar("--home-carousel-arrow-fade", 0.3);
+  const cardStiffness = readVar("--home-carousel-stiffness", 80);
+  const cardDamping = readVar("--home-carousel-damping", 20);
+  const labelTransition = readVar("--home-motion-base", 0.5);
+  const cardVariants = useMemo(
+    () => createCardVariants(cardTransitionDuration, cardHiddenDuration, cardStiffness, cardDamping),
+    [cardTransitionDuration, cardHiddenDuration, cardStiffness, cardDamping]
+  );
 
   // Get translated product data using i18n messages
   const SLIDES = useMemo(() =>
@@ -340,10 +355,11 @@ export function InteractiveCarousel() {
                 type="button"
                 onClick={() => jumpToSlide(index)}
                 className={cn(
-                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all duration-300 home-carousel-tab",
+                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all home-carousel-tab",
                   "w-full",
                   isActive ? "home-carousel-tab-active" : ""
                 )}
+                style={{ transitionDuration: `${labelTransition}s` }}
               >
                 {/* 進度填充層 */}
                 {isActive && !hovered && (
@@ -410,6 +426,7 @@ export function InteractiveCarousel() {
                 initial="hidden"
                 animate="hidden"
                 className="absolute w-full h-full border home-carousel-card min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
+                style={{ borderRadius: "var(--home-card-radius)" }}
               />
             );
           }
@@ -421,6 +438,7 @@ export function InteractiveCarousel() {
               initial="hidden"
               animate={variant}
               className="absolute w-full h-full border home-carousel-card shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
+              style={{ borderRadius: "var(--home-card-radius)" }}
             >
               {/* Background Video/Image */}
               <div className="absolute inset-0 z-0">
@@ -496,9 +514,10 @@ export function InteractiveCarousel() {
               {/* Navigation Arrows (只在中心卡片 hover 時顯示) */}
               <div
                 className={cn(
-                  "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity duration-300",
+                  "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity",
                   isCenter && hovered ? "opacity-100" : "opacity-0"
                 )}
+                style={{ transitionDuration: `${arrowFadeDuration}s` }}
               >
                 <button
                   type="button"
@@ -539,11 +558,12 @@ export function InteractiveCarousel() {
                 key={slide.id}
                 type="button"
                 onClick={() => jumpToSlide(index)}
-                className={`h-2 rounded-full transition-all ${
+                className={`h-2 transition-all ${
                   activeIdx === index
                   ? "w-12 home-carousel-dot-active"
                   : "w-2 home-carousel-dot"
                 }`}
+                style={{ borderRadius: "var(--home-pill-radius)" }}
                 aria-label={`Go to slide ${index + 1}`}
               />
           );

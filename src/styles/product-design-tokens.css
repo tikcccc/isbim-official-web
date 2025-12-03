@@ -60,6 +60,12 @@
     --product-container-padding-md: 3rem;
     --product-container-padding-lg: 4rem;
     --product-container-padding-xl: 5rem;
+    --product-hero-padding-y: 2.5rem;
+    --product-hero-padding-y-lg: 5rem;
+    --product-hero-max: 1800px;
+    --product-track-padding: 1.5rem;
+    --product-track-padding-md: 3rem;
+    --product-track-padding-lg: 4rem;
     --product-section-padding: 4rem;
     --product-section-padding-lg: 6rem;
     --product-gap: 2rem;
@@ -68,6 +74,8 @@
     /* Shape & depth */
     --product-radius-card: 0.75rem;
     --product-radius-lg: 1rem;
+    --product-radius-pill: 9999px;
+    --product-radius-overlay: 1.25rem;
     --product-shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     --product-shadow-soft: 0 15px 30px rgba(0, 0, 0, 0.15);
 
@@ -78,6 +86,20 @@
     --product-motion-overlay: 0.9s;
     --product-motion-ease: var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
     --product-motion-stagger: var(--motion-stagger-base, 0.12s);
+    --product-motion-spring-stiffness: 80;
+    --product-motion-spring-damping: 20;
+    --product-motion-parallax: 0.4s;
+    /* Narrative thresholds (fraction of scroll) */
+    --product-track-bg-start: 0.05;
+    --product-track-bg-end: 0.25;
+    --product-track-stage1: 0.3;
+    --product-track-stage2: 0.45;
+    --product-track-gradient: 0.6;
+    --product-track-bottom: 0.7;
+    --product-track-scroll-lock: 0.95;
+    --product-track-shadow: 0 -50px 100px rgba(0,0,0,0.5);
+    --product-track-color-ease: 0.5s;
+    --product-motion-ease-strong: power2.out;
   }
 
   /* Color utilities */
@@ -197,24 +219,46 @@
   .product-section-padding {
     padding-block: var(--product-section-padding);
   }
+  .product-hero-padding {
+    padding-inline: var(--product-container-padding);
+    padding-bottom: var(--product-hero-padding-y);
+  }
   .product-gap {
     gap: var(--product-gap);
   }
   @media (min-width: 768px) {
     .product-container { padding-inline: var(--product-container-padding-md); }
+    .product-hero-padding { padding-inline: var(--product-container-padding-md); }
   }
   @media (min-width: 1024px) {
     .product-container { padding-inline: var(--product-container-padding-lg); }
     .product-section-padding { padding-block: var(--product-section-padding-lg); }
     .product-gap { gap: var(--product-gap-lg); }
+    .product-hero-padding { padding-inline: var(--product-container-padding-lg); padding-bottom: var(--product-hero-padding-y-lg); }
   }
   @media (min-width: 1280px) {
     .product-container { padding-inline: var(--product-container-padding-xl); }
+    .product-hero-padding { padding-inline: var(--product-container-padding-xl); }
+  }
+
+  .product-track-container {
+    max-width: var(--product-hero-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-inline: var(--product-track-padding);
+  }
+  @media (min-width: 768px) {
+    .product-track-container { padding-inline: var(--product-track-padding-md); }
+  }
+  @media (min-width: 1024px) {
+    .product-track-container { padding-inline: var(--product-track-padding-lg); }
   }
 
   /* Shape & depth utilities */
   .product-radius-card { border-radius: var(--product-radius-card); }
   .product-radius-lg { border-radius: var(--product-radius-lg); }
+  .product-radius-pill { border-radius: var(--product-radius-pill); }
+  .product-radius-overlay { border-radius: var(--product-radius-overlay); }
   .product-shadow-card { box-shadow: var(--product-shadow-card); }
   .product-shadow-soft { box-shadow: var(--product-shadow-soft); }
 

@@ -78,19 +78,30 @@ export function NarrativeTrack({
   // Responsive scroll height for better mobile UX
   const isMobile = useIsMobile();
   const scrollHeight = isMobile ? mobileScrollHeight : desktopScrollHeight;
+  const readVarNumber = (name: string, fallback: number) => {
+    if (typeof window === "undefined") return fallback;
+    const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(val) ? val : fallback;
+  };
+  const readVarString = (name: string, fallback: string) => {
+    if (typeof window === "undefined") return fallback;
+    const val = getComputedStyle(document.documentElement).getPropertyValue(name);
+    return val && val.trim().length ? val : fallback;
+  };
+  const springStiffness = readVarNumber("--product-motion-spring-stiffness", 80);
+  const springDamping = readVarNumber("--product-motion-spring-damping", 20);
+  const trackShadow = readVarString("--product-track-shadow", "0 -50px 100px rgba(0,0,0,0.5)");
+  const colorEase = readVarString("--product-track-color-ease", "0.5s");
 
   // Custom thresholds to ensure background turns white BEFORE text appears
-  const thresholds = useMemo(
-    () => ({
-      bgTransitionStart: 0.05,
-      bgTransitionEnd: 0.25, // Background fully white by 25%
-      stage1Start: 0.3, // Stage 1 text starts appearing (complete, no parts)
-      stage2Start: 0.45, // Stage 2 starts appearing (after Stage 1 completes)
-      gradientActive: 0.6, // Gradient starts shortly after Stage 2 appears
-      bottomReveal: 0.7, // Bottom reveals after a small scroll distance beyond gradient start
-    }),
-    []
-  );
+  const thresholds = useMemo(() => ({
+    bgTransitionStart: readVarNumber("--product-track-bg-start", 0.05),
+    bgTransitionEnd: readVarNumber("--product-track-bg-end", 0.25),
+    stage1Start: readVarNumber("--product-track-stage1", 0.3),
+    stage2Start: readVarNumber("--product-track-stage2", 0.45),
+    gradientActive: readVarNumber("--product-track-gradient", 0.6),
+    bottomReveal: readVarNumber("--product-track-bottom", 0.7),
+  }), []);
 
   /**
    * Split text into individual character spans for animation (complete text, no parts)
@@ -260,9 +271,13 @@ export function NarrativeTrack({
     const lightBg = hexToRgb(PRODUCT_TEMPLATE_COLORS.lightBg);
     const whiteText = { r: 255, g: 255, b: 255 };
     const darkText = hexToRgb(PRODUCT_TEMPLATE_COLORS.textMain);
+    const scrollLockThreshold = thresholds.bottomReveal + (readVarNumber("--product-track-scroll-lock", 0.95) - thresholds.bottomReveal);
+    const trackShadow = readVarString("--product-track-shadow", "0 -50px 100px rgba(0,0,0,0.5)");
+    const colorEase = readVarString("--product-track-color-ease", "0.5s");
 
     let rafId: number;
 
+    const easing = readVarString("--product-track-color-ease", "0.5s");
     const handleScroll = () => {
       rafId = requestAnimationFrame(() => {
         if (!track || !text1 || !text2 || !bottom) return;
@@ -284,6 +299,7 @@ export function NarrativeTrack({
         // Background color transition
         const bgFactor = mapRange(progress, thresholds.bgTransitionStart, thresholds.bgTransitionEnd, 0, 1);
         track.style.backgroundColor = interpolateColor(darkBg, lightBg, bgFactor);
+        track.style.transition = `background-color ${easing} linear`;
 
         // Text color transition (stage 1 text)
         const textFactor = mapRange(progress, thresholds.bgTransitionStart, thresholds.bgTransitionEnd, 0, 1);
@@ -403,11 +419,11 @@ export function NarrativeTrack({
         // ============================================
         // SCROLL LOCK - Prevent leaving section until animations complete
         // ============================================
-        if (progress > 0.95 && !allAnimationsCompleteRef.current && !scrollLockActiveRef.current) {
+        if (progress > scrollLockThreshold && !allAnimationsCompleteRef.current && !scrollLockActiveRef.current) {
           scrollLockActiveRef.current = true;
 
           // Calculate the scroll position for 95% progress
-          const lockPosition = track.offsetTop + scrollDistance * 0.95;
+          const lockPosition = track.offsetTop + scrollDistance * scrollLockThreshold;
 
           // Smoothly scroll back to lock position
           window.scrollTo({
@@ -458,17 +474,17 @@ export function NarrativeTrack({
       className="relative z-20 product-surface-dark"
       style={{
         height: scrollHeight,
-        boxShadow: "0 -50px 100px rgba(0,0,0,0.5)",
+        boxShadow: trackShadow.trim() || "0 -50px 100px rgba(0,0,0,0.5)",
         marginTop: "-1px",
         transition: "background-color 0.3s linear",
       }}
     >
       {/* Sticky Stage - Centers content while scrolling */}
       <div
-        className="sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden"
+      className="sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden"
         style={{ perspective: "1000px" }}
       >
-        <div className="max-w-7xl mx-auto px-6 text-center z-10 flex flex-col items-center justify-center h-full">
+        <div className="product-track-container text-center z-10 flex flex-col items-center justify-center h-full">
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}

@@ -39,6 +39,8 @@
     --home-hero-overlay: rgba(0, 0, 0, 0.5);
     --home-cta-overlay: linear-gradient(to top right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
     --home-card-radius: 0.75rem;
+    --home-radius-md: 0.5rem;
+    --home-radius-lg: 0.75rem;
     --home-card-shadow: 0 25px 50px -25px rgba(0, 0, 0, 0.35);
     --home-gap: 2rem;
     --home-button-strong-bg: #18181b;
@@ -76,6 +78,18 @@
     --home-carousel-transition: 0.6s;
     --home-carousel-hidden-duration: 0.5s;
     --home-carousel-arrow-fade: 0.3s;
+    --home-cta-image-duration: 1.2s;
+    --home-cta-text-duration: 0.8s;
+    --home-cta-text-stagger: 0.15s;
+    --home-cta-button-transition: 0.3s;
+    --home-spring-stiffness: 200;
+    --home-spring-damping: 20;
+    --home-carousel-stiffness: 80;
+    --home-carousel-damping: 20;
+    --home-stat-duration: 2000ms;
+    --home-pill-radius: 9999px;
+    --home-media-radius: 0.75rem;
+    --home-shadow-strong: 0 20px 40px -18px rgba(0, 0, 0, 0.35);
   }
 
   .home-hero-title {
@@ -270,6 +284,9 @@
     box-shadow: var(--home-card-shadow);
     overflow: hidden;
   }
+
+  .home-radius-md { border-radius: var(--home-radius-md); }
+  .home-radius-lg { border-radius: var(--home-radius-lg); }
 
   .home-gap {
     gap: var(--home-gap);
