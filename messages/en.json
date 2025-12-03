@@ -182,7 +182,7 @@
   "contact_submit_loading": "UPLOADING_DATA...",
   "contact_submit_label": "Submit Inquiry",
   "contact_success_title": "Transmission Received",
-  "contact_success_message": "Our AI consultants are analyzing your request. Expect a digital handshake shortly.",
+  "contact_success_message": "Our consultants are analyzing your request. Expect a digital handshake shortly.",
   "contact_reset_button": "Reset Form",
   "contact_error_title": "Error",
   "contact_error_generic": "Failed to send message. Please try again later.",

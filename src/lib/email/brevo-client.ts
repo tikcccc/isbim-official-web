@@ -26,7 +26,7 @@ let brevoInstance: brevo.TransactionalEmailsApi | null = null;
 /**
  * Get or create Brevo client instance
  */
-function getBrevoClient(): brevo.TransactionalEmailsApi {
+export function getBrevoClient(): brevo.TransactionalEmailsApi {
   // Ensure server-side only
   if (!isServer()) {
     throw new Error(
@@ -57,8 +57,3 @@ function getBrevoClient(): brevo.TransactionalEmailsApi {
   return brevoInstance;
 }
 
-/**
- * Exported Brevo client
- * Use this for all email operations when EMAIL_PROVIDER=brevo
- */
-export const brevoClient = getBrevoClient();

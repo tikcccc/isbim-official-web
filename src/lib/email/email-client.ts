@@ -24,7 +24,7 @@
  */
 
 import { resend } from "./resend-client";
-import { brevoClient } from "./brevo-client";
+import { getBrevoClient } from "./brevo-client";
 
 /**
  * Email provider type
@@ -96,6 +96,7 @@ export async function sendEmail(params: EmailParams): Promise<EmailResult> {
     if (provider === "brevo") {
       // Parse sender email (Brevo requires separate name and email)
       const sender = parseEmailAddress(params.from);
+      const brevoClient = getBrevoClient();
 
       // Use Brevo
       await brevoClient.sendTransacEmail({
