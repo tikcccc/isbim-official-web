@@ -36,8 +36,9 @@ const lat = 22.30973871039109;
 const lon = 114.17166002409992;
 const displayLat = lat.toFixed(2);
 const displayLon = lon.toFixed(2);
-const delta = 0.0025;
-const bbox = `${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}`;
+// Expand the bounding box so the embed shows a broader, almost continental view around Hong Kong
+const mapViewDelta = 50;
+const bbox = `${Math.max(-180, lon - mapViewDelta)}%2C${Math.max(-85, lat - mapViewDelta)}%2C${Math.min(180, lon + mapViewDelta)}%2C${Math.min(85, lat + mapViewDelta)}`;
 const googleMapsQuery = encodeURIComponent(
   "Hong Kong, 19/F, Nathan Commercial Building, 430 Nathan Road, Yau Ma Tei, Kowloon"
 );
@@ -258,15 +259,15 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <MapPin size={18} className="contact-icon" />
-                <span className="contact-info-text">
+                <span className="contact-info-text text-sm md:text-base">
                   {messages.contact_label_address()}
                 </span>
               </div>
               <div className="pl-2">
-                <h3 className="text-xl font-medium text-[--contact-text] mb-2">
+                <h3 className="text-2xl font-medium text-[--contact-text] mb-2">
                   {messages.contact_address_city()}
                 </h3>
-                <p className="text-[--contact-muted] leading-relaxed font-light">
+                <p className="text-[--contact-muted] leading-relaxed font-light text-base md:text-lg">
                   <>
                     {messages.contact_address_line1()}
                     <br />
@@ -284,29 +285,29 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <Globe size={18} className="contact-icon" />
-                <span className="contact-info-text">
+                <span className="contact-info-text text-sm md:text-base">
                   {messages.contact_label_digital_link()}
                 </span>
               </div>
               <div className="pl-2 space-y-4">
                 <div>
-                  <p className="text-xs font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
+                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
                     {messages.contact_label_direct_line()}
                   </p>
                   <a
                     href="tel:+85223828380"
-                    className="text-xl font-medium text-[--contact-text] font-mono tracking-tight hover:text-[--contact-accent] transition-colors cursor-pointer"
+                    className="text-2xl font-medium text-[--contact-text] font-mono tracking-tight hover:text-[--contact-accent] transition-colors cursor-pointer"
                   >
                     +852 2382 8380
                   </a>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
+                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
                     {messages.contact_label_inquiry()}
                   </p>
                   <a
                     href="mailto:solution@isbim.com.hk"
-                    className="text-xl font-medium text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
+                    className="text-2xl font-medium text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
                   >
                     solution@isbim.com.hk
                   </a>
@@ -347,12 +348,12 @@ export default function ContactPage() {
               </div>
 
               <div className="flex justify-between items-center mt-2 px-1">
-                <p className="text-[10px] font-mono text-[--contact-muted]">
+                <p className="text-xs font-mono text-[--contact-muted]">
                   LAT: {displayLat} | LON: {displayLon}
                 </p>
                 <div className="flex gap-2 items-center">
                   <Navigation size={12} className="text-[--contact-muted]" />
-                  <span className="text-[10px] font-medium text-[--contact-muted] uppercase tracking-wider">
+                  <span className="text-xs font-mono text-[--contact-muted] uppercase tracking-wider">
                     {messages.contact_map_tagline()}
                   </span>
                 </div>
@@ -384,17 +385,17 @@ export default function ContactPage() {
                 >
                   {/* Form Header */}
                   <div className="contact-section-divider">
-                    <h2 className="text-3xl font-light text-[--contact-text]">
+                    <h2 className="text-4xl font-light text-[--contact-text]">
                       {messages.contact_form_heading()}
                     </h2>
-                    <p className="text-sm text-[--contact-muted] mt-2 font-light">
+                    <p className="text-base text-[--contact-muted] mt-2 font-light">
                       {messages.contact_form_subheading()}
                     </p>
                   </div>
 
                   {/* Section 1: Identity */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_first_name()}
                         required
@@ -414,7 +415,7 @@ export default function ContactPage() {
 
                   {/* Section 2: Organization */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_company_name()}
                         error={errors.companyName?.message}
@@ -441,7 +442,7 @@ export default function ContactPage() {
 
                   {/* Section 3: Context */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_job_title()}
                         error={errors.jobTitle?.message}
@@ -469,7 +470,7 @@ export default function ContactPage() {
 
                   {/* Section 4: Contact & Action */}
                   <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_email()}
                         type="email"
@@ -512,11 +513,11 @@ export default function ContactPage() {
                             )}
                           </div>
                         </div>
-                        <span className="text-xs text-[--contact-muted] font-light group-hover/checkbox:text-[--contact-muted-light] transition-colors leading-relaxed select-none">
+                        <span className="text-lg text-[--contact-text] font-normal group-hover/checkbox:text-[--contact-accent] transition-colors leading-relaxed select-none">
                           <>
                             {messages.contact_marketing_consent()}
                             <br />
-                            <span className="text-[--contact-muted-lighter] text-[10px]">
+                            <span className="text-[--contact-muted] text-base font-light tracking-wide">
                               {messages.contact_marketing_privacy()}
                             </span>
                           </>
@@ -529,17 +530,17 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group/btn relative px-8 py-4 text-white font-medium text-sm tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="group/btn relative px-8 py-4 text-white font-medium text-base tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                         style={{ backgroundColor: "var(--contact-text, #111827)" }}
                       >
                         <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
                           {isSubmitting ? (
-                            <span className="font-mono text-xs animate-pulse">
+                            <span className="font-mono text-sm animate-pulse">
                               {messages.contact_submit_loading()}
                             </span>
                           ) : (
                             <>
-                              <span className="text-xs font-bold tracking-widest uppercase">
+                              <span className="text-sm font-bold tracking-widest uppercase">
                                 {messages.contact_submit_label()}
                               </span>
                               <ArrowRight
@@ -624,20 +625,20 @@ const FormInput = ({
   return (
     <div className="group relative">
       <label
-        className={`contact-label ${labelFocusColor}`}
+        className={`contact-label text-xs md:text-sm ${labelFocusColor}`}
       >
         {label}
         {required && " *"}
       </label>
       <input
-        className={`contact-input ${focusColor}`}
+        className={`contact-input text-lg md:text-xl ${focusColor}`}
         {...props}
       />
       <div
         className={`absolute bottom-0 left-0 h-[1px] w-0 group-focus-within:w-full transition-all duration-500 ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
       />
       {error && (
-        <p className="text-red-500 text-sm mt-1">{error}</p>
+        <p className="text-red-500 text-base mt-1">{error}</p>
       )}
     </div>
   );
@@ -681,7 +682,7 @@ const FormSelect = ({
   return (
     <div className="group relative">
       <label
-        className={`contact-label ${labelFocusColor}`}
+        className={`contact-label text-xs md:text-sm ${labelFocusColor}`}
       >
         {label}
         {required && " *"}
@@ -694,7 +695,7 @@ const FormSelect = ({
       >
         <SelectTrigger
           className={cn(
-            "contact-select w-full justify-between items-center text-lg leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
+            "contact-select w-full justify-between items-center text-xl leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
             "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
             focusColor,
             hoverIconColor,
@@ -725,7 +726,7 @@ const FormSelect = ({
         </SelectContent>
       </Select>
       {error && (
-        <p className="text-red-500 text-sm mt-1">{error}</p>
+        <p className="text-red-500 text-base mt-1">{error}</p>
       )}
     </div>
   );

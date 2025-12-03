@@ -553,7 +553,7 @@ export function MenuOverlay() {
                     exit="exit"
                     className="z-10 flex flex-col"
                   >
-                    <div className="flex justify-between items-start mb-10">
+                    <div className="flex justify-between items-start mb-[2.75rem]">
                       <div>
                         <TypewriterText
                           text="LATEST_INTELLIGENCE"
@@ -584,7 +584,7 @@ export function MenuOverlay() {
                     {/* Stats Section */}
                     <m.div
                       variants={fadeInUp}
-                      className="grid grid-cols-4 gap-6 py-6 border-y border-white/10 mb-6"
+                      className="grid grid-cols-4 gap-6 py-7 border-y border-white/10 mb-7"
                     >
                       {menuData.stats.map((stat, idx) => (
                         <div key={idx} className="text-center">
@@ -612,7 +612,7 @@ export function MenuOverlay() {
                     {/* Impact Metrics */}
                     <m.div
                       variants={fadeInUp}
-                      className="flex justify-between items-center mb-10 px-4"
+                      className="flex justify-between items-center mb-[2.75rem] px-4"
                     >
                       {menuData.impact.map((item, idx) => (
                         <div key={idx} className="flex items-center gap-3">
@@ -634,7 +634,7 @@ export function MenuOverlay() {
                     </m.div>
 
                     {/* News Section Header */}
-                    <div className="flex justify-between items-center mb-6 pt-6 border-t border-white/10">
+                    <div className="flex justify-between items-center mb-7 pt-7 border-t border-white/10">
                       <TypewriterText
                         text="NEWSROOM_FEED"
                         className="text-[10px] font-mono text-blue-400 tracking-[0.2em]"
