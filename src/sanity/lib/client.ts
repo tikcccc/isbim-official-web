@@ -26,7 +26,7 @@
 import { createClient } from "next-sanity";
 import { sanityConfig, isProduction } from "@/lib/env";
 
-export const projectId = sanityConfig.projectId || "4y8vgu6z";
+export const projectId = sanityConfig.projectId;
 export const dataset = sanityConfig.dataset;
 export const apiVersion = sanityConfig.apiVersion;
 

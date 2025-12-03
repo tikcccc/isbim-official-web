@@ -135,9 +135,9 @@ export const NEWS_CATEGORIES_QUERY = defineQuery(
   }`
 );
 
-/** Fetch featured news article (latest featured and published) */
+/** Fetch featured news article (latest featured) */
 export const FEATURED_NEWS_QUERY = defineQuery(
-  `*[_type == "news" && status == "published" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {
+  `*[_type == "news" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {
     _id,
     _type,
     title,
@@ -145,6 +145,7 @@ export const FEATURED_NEWS_QUERY = defineQuery(
     subtitle,
     publishedAt,
     excerpt,
+    body,
     mainImage {
       asset,
       alt
@@ -162,9 +163,9 @@ export const FEATURED_NEWS_QUERY = defineQuery(
   }`
 );
 
-/** Fetch news list with pagination (published only) */
+/** Fetch news list with pagination */
 export const NEWS_LIST_QUERY = defineQuery(
-  `*[_type == "news" && status == "published" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
+  `*[_type == "news" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
     _id,
     _type,
     title,
@@ -172,6 +173,7 @@ export const NEWS_LIST_QUERY = defineQuery(
     subtitle,
     publishedAt,
     excerpt,
+    body,
     mainImage {
       asset,
       alt
@@ -191,7 +193,7 @@ export const NEWS_LIST_QUERY = defineQuery(
 
 /** Fetch news by category with pagination */
 export const NEWS_BY_CATEGORY_QUERY = defineQuery(
-  `*[_type == "news" && status == "published" && category._ref == $categoryId && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
+  `*[_type == "news" && category._ref == $categoryId && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
     _id,
     _type,
     title,
@@ -258,7 +260,7 @@ export const NEWS_DETAIL_QUERY = defineQuery(
 
 /** Fetch related news articles by category (excluding current article) */
 export const RELATED_NEWS_QUERY = defineQuery(
-  `*[_type == "news" && status == "published" && category._ref == $categoryId && slug.current != $currentSlug && defined(slug.current)] | order(publishedAt desc) [0...3] {
+  `*[_type == "news" && category._ref == $categoryId && slug.current != $currentSlug && defined(slug.current)] | order(publishedAt desc) [0...3] {
     _id,
     _type,
     title,
@@ -457,4 +459,3 @@ export const PROJECTS_SITEMAP_QUERY = defineQuery(
     _updatedAt
   }`
 );
-

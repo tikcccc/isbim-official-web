@@ -185,18 +185,10 @@ export default function NewsDetailClient({
           </div>
 
           <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-700">
-            {newsDetail.body ? (
-              <PortableText value={newsDetail.body} components={portableTextComponents} />
-            ) : (
-              <>
-                <p className="lead">
-                  {newsDetail.excerpt || newsDetail.subtitle || 'No content available.'}
-                </p>
-                <p>
-                  In a data-driven environment, the integration of these systems is not merely an operational upgrade but a fundamental restructuring of how infrastructure assets are conceived, financed, and maintained. The <strong>JARVIS</strong> ecosystem represents a paradigm shift from reactive management to predictive orchestration.
-                </p>
-              </>
-            )}
+            <PortableText
+              value={newsDetail.body || []}
+              components={portableTextComponents}
+            />
           </div>
         </div>
 

@@ -5,10 +5,14 @@ import { AnimatePresence } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
 import {
   ArrowLeft, ArrowRight, Share2,
-  LayoutGrid, List, AlignJustify, Loader2, Home
+  LayoutGrid, List, AlignJustify, Home
 } from 'lucide-react';
 import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
+import { PortableText } from '@portabletext/react';
+import type { PortableTextComponents } from '@portabletext/react';
+import type { PortableTextBlock } from '@portabletext/types';
+import type { ReactNode } from 'react';
 import type { Image as SanityImage } from 'sanity';
 
 // --- Types ---
@@ -23,7 +27,7 @@ interface NewsPost {
   };
   publishedAt: string;
   excerpt?: string;
-  body?: string;
+  body?: PortableTextBlock[];
   readTime: number;
   tags?: string[];
   category: {
@@ -137,6 +141,36 @@ export default function NewsroomPageClient({
   );
 }
 
+// Portable Text components for detail view
+const portableTextComponents: PortableTextComponents = {
+  marks: {
+    strong: ({ children }: { children?: ReactNode }) => <strong className="font-bold">{children}</strong>,
+    em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
+    link: ({ value, children }: { value?: { href?: string }; children?: ReactNode }) => {
+      const target = (value?.href || '').startsWith('http') ? '_blank' : undefined;
+      return (
+        <a
+          href={value?.href}
+          target={target}
+          rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+          className="text-blue-600 hover:underline"
+        >
+          {children}
+        </a>
+      );
+    },
+  },
+  block: {
+    h2: ({ children }: { children?: ReactNode }) => <h2 className="text-2xl font-bold mt-8 mb-4">{children}</h2>,
+    h3: ({ children }: { children?: ReactNode }) => <h3 className="text-xl font-bold mt-6 mb-3">{children}</h3>,
+    blockquote: ({ children }: { children?: ReactNode }) => (
+      <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic">
+        {children}
+      </blockquote>
+    ),
+  },
+};
+
 // --- List View Container ---
 
 function NewsListView({
@@ -152,33 +186,30 @@ function NewsListView({
 }) {
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [filter, setFilter] = useState<CategoryFilter>('All');
-  const [loading, setLoading] = useState(false);
-  const [displayCount, setDisplayCount] = useState(6); // Pagination start count
 
-  // Simulate Network Request when filter changes
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-      setDisplayCount(6); // Reset pagination on filter change
-    }, 600);
-    return () => clearTimeout(timer);
-  }, [filter]);
+  const derivedCategories: NewsCategory[] =
+    categories.length > 0
+      ? categories
+      : Array.from(
+          new Map(
+            newsData.map((post) => [
+              post.category._id,
+              {
+                _id: post.category._id,
+                title: post.category.title,
+                slug: post.category.slug,
+                description: "",
+                color: post.category.color,
+              } as NewsCategory,
+            ])
+          ).values()
+        );
 
   const filteredData = filter === 'All'
     ? newsData
     : newsData.filter(post => post.category.title === filter);
 
-  const paginatedData = filteredData.slice(0, displayCount);
-  const hasMore = paginatedData.length < filteredData.length;
-
-  const handleLoadMore = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setDisplayCount(prev => prev + 3);
-      setLoading(false);
-    }, 500);
-  };
+  const effectiveData = filteredData;
 
   return (
     <m.div
@@ -234,7 +265,7 @@ function NewsListView({
             View All
           </button>
 
-          {categories.map((cat) => (
+          {derivedCategories.map((cat) => (
             <button
               key={cat._id}
               onClick={() => setFilter(cat.title)}
@@ -249,7 +280,7 @@ function NewsListView({
             </button>
           ))}
 
-          {filter !== 'All' && !loading && (
+          {filter !== 'All' && (
              <m.span
                initial={{ opacity: 0, x: -10 }}
                animate={{ opacity: 1, x: 0 }}
@@ -263,12 +294,7 @@ function NewsListView({
 
       {/* Layout Renderer with Staggered Animation & Skeleton */}
       <div className="min-h-[500px]">
-        {loading && filteredData.length > 0 && paginatedData.length === 0 ? (
-          // Initial Loading State Skeleton
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => <SkeletonCard key={i} />)}
-          </div>
-        ) : filteredData.length === 0 && !loading ? (
+        {filteredData.length === 0 ? (
           <div className="py-20 text-center border border-dashed border-gray-200 bg-gray-50">
             <p className="text-sm font-mono text-gray-400 uppercase">No Intelligence Found</p>
           </div>
@@ -280,7 +306,7 @@ function NewsListView({
           >
             {layout === 'grid' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                {paginatedData.map((post, index) => {
+                {effectiveData.map((post, index) => {
                   if (index === 0 && featuredNews && post._id === featuredNews._id) {
                     return (
                       <m.div variants={itemVariants} key={post._id} className="col-span-1 md:col-span-2 lg:col-span-3">
@@ -299,7 +325,7 @@ function NewsListView({
 
             {layout === 'magazine' && (
               <div className="flex flex-col gap-12 max-w-5xl">
-                {paginatedData.map((post) => (
+                {effectiveData.map((post) => (
                   <m.div variants={itemVariants} key={post._id}>
                     <MagazineCard post={post} onClick={() => onNavigate(post._id)} />
                   </m.div>
@@ -309,7 +335,7 @@ function NewsListView({
 
             {layout === 'feed' && (
               <div className="border-t border-gray-200">
-                {paginatedData.map((post) => (
+                {effectiveData.map((post) => (
                   <m.div variants={itemVariants} key={post._id}>
                     <FeedRow post={post} onClick={() => onNavigate(post._id)} />
                   </m.div>
@@ -317,25 +343,6 @@ function NewsListView({
               </div>
             )}
           </m.div>
-        )}
-
-        {/* Load More Button */}
-        {hasMore && !loading && (
-          <div className="mt-16 text-center">
-            <button
-              onClick={handleLoadMore}
-              className="inline-flex items-center gap-2 px-8 py-3 bg-gray-900 text-white text-xs font-mono uppercase tracking-widest hover:bg-gray-800 transition-colors"
-            >
-              Load More Intelligence
-            </button>
-          </div>
-        )}
-
-        {/* Loading Spinner for Pagination */}
-        {loading && paginatedData.length > 0 && (
-          <div className="mt-12 flex justify-center">
-            <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-          </div>
         )}
       </div>
     </m.div>
@@ -412,7 +419,7 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
 
   return (
     <div onClick={onClick} className="group cursor-pointer flex flex-col h-full border-t border-gray-200 pt-6 hover:border-black transition-colors duration-300 relative bg-white">
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify_between items-start mb-4">
         <div className="flex gap-2">
           <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">[{post.category.title}]</MonoLabel>
         </div>
@@ -629,12 +636,13 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
            </div>
 
            <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-700">
-             <p className="lead">
-               {post.excerpt || post.subtitle || 'No content available.'}
-             </p>
-             <p>
-               In a data-driven environment, the integration of these systems is not merely an operational upgrade but a fundamental restructuring of how infrastructure assets are conceived, financed, and maintained. The <strong>JARVIS</strong> ecosystem represents a paradigm shift from reactive management to predictive orchestration.
-             </p>
+             {post.body && post.body.length > 0 ? (
+               <PortableText value={post.body} components={portableTextComponents} />
+             ) : (
+               <p className="lead">
+                 {post.excerpt || post.subtitle || 'No content available.'}
+               </p>
+             )}
            </div>
         </div>
       </article>
