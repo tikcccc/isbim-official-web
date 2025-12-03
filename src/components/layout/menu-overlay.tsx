@@ -412,7 +412,7 @@ export function MenuOverlay() {
 
               {/* Footer Links */}
               <m.div
-                className="mt-20 lg:mt-24 pt-10 pb-6 border-t border-white/10"
+                className="mt-12 lg:mt-16 pt-6 pb-4 border-t border-white/10"
                 variants={fadeInUp}
                 initial="hidden"
                 animate="visible"
@@ -553,7 +553,7 @@ export function MenuOverlay() {
                     exit="exit"
                     className="z-10 flex flex-col"
                   >
-                    <div className="flex justify-between items-start mb-8">
+                    <div className="flex justify-between items-start mb-10">
                       <div>
                         <TypewriterText
                           text="LATEST_INTELLIGENCE"
@@ -584,7 +584,7 @@ export function MenuOverlay() {
                     {/* Stats Section */}
                     <m.div
                       variants={fadeInUp}
-                      className="grid grid-cols-4 gap-6 py-8 border-y border-white/10 mb-8"
+                      className="grid grid-cols-4 gap-6 py-6 border-y border-white/10 mb-6"
                     >
                       {menuData.stats.map((stat, idx) => (
                         <div key={idx} className="text-center">
@@ -625,7 +625,7 @@ export function MenuOverlay() {
                             />
                             <TypewriterText
                               text={item.label}
-                              className="text-[10px] text-neutral-300 uppercase tracking-wider"
+                              className="text-[10px] text-neutral-300 uppercase tracking-wider inline-block ml-2"
                               delay={0.7 + idx * 0.08}
                             />
                           </div>
