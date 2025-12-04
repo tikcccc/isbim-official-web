@@ -44,12 +44,16 @@
     --contact-stack-lg: clamp(2.5rem, 3vw, 3rem);
     --contact-stack-md: clamp(1.75rem, 2.5vw, 2.25rem);
     --contact-stack-sm: clamp(1rem, 1.5vw, 1.25rem);
+    --contact-stack-xs: 0.5rem;
     --contact-form-gap-x: clamp(2.5rem, 3vw, 3rem);
     --contact-form-gap-y: clamp(1.5rem, 2vw, 2rem);
     --contact-form-padding: clamp(1.75rem, 3vw, 3rem);
     --contact-input-padding-y: 0.85rem;
     --contact-underline-duration: 0.5s;
     --contact-underline-height: 1px;
+    --contact-inline-tight: 0.25rem;
+    --contact-btn-secondary-x: 2rem;
+    --contact-btn-secondary-y: 0.75rem;
 
     /* Shape / elevation */
     --contact-radius-md: 12px;

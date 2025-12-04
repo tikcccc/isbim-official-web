@@ -45,8 +45,10 @@
     --newsroom-card-padding: clamp(1.5rem, 3vw, 2.25rem);
     --newsroom-card-padding-lg: clamp(2rem, 3.5vw, 3rem);
     --newsroom-card-gap: clamp(1.25rem, 2vw, 1.75rem);
+    --newsroom-stack-xs: 0.5rem;
     --newsroom-stack: clamp(1rem, 2vw, 1.5rem);
     --newsroom-stack-lg: clamp(1.5rem, 3vw, 2.5rem);
+    --newsroom-stack-xl: clamp(2rem, 4vw, 3rem);
     --newsroom-grid-gap: clamp(1.5rem, 3vw, 2.5rem);
     --newsroom-footer-padding-x: 0.5rem;
     --newsroom-footer-padding-y: 0.75rem;
@@ -150,6 +152,12 @@
   .newsroom-gap {
     gap: var(--newsroom-card-gap);
   }
+  .newsroom-mb-xs { margin-bottom: var(--newsroom-stack-xs); }
+  .newsroom-mb { margin-bottom: var(--newsroom-stack); }
+  .newsroom-mb-lg { margin-bottom: var(--newsroom-stack-lg); }
+  .newsroom-mb-xl { margin-bottom: var(--newsroom-stack-xl); }
+  .newsroom-mt { margin-top: var(--newsroom-stack); }
+  .newsroom-mt-lg { margin-top: var(--newsroom-stack-lg); }
 
   /* ========================================
    * TYPOGRAPHY

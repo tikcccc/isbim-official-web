@@ -216,7 +216,13 @@ export default function ContactPage() {
       {/* Main Content */}
       <div className="relative z-10 contact-container contact-section-padding contact-hero-padding">
         {/* Header Section */}
-        <div className="mb-24 relative pl-6 max-w-[1100px]">
+        <div
+          className="relative max-w-[1100px]"
+          style={{
+            marginBottom: "var(--contact-stack-lg)",
+            paddingLeft: "var(--contact-container-padding)",
+          }}
+        >
           <div className="contact-title-border" aria-hidden="true" />
           <div className="overflow-hidden">
             <h1
@@ -235,7 +241,10 @@ export default function ContactPage() {
             </h1>
           </div>
 
-          <div className="mt-8 max-w-3xl overflow-hidden">
+          <div
+            className="max-w-3xl overflow-hidden"
+            style={{ marginTop: "var(--contact-stack-md)" }}
+          >
             <p
               className={`contact-hero-subtitle text-[--contact-muted] transform ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
               style={{
@@ -269,14 +278,17 @@ export default function ContactPage() {
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
-              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
+              <div className="flex items-center contact-gap-sm contact-stack-sm text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
                 <MapPin size={18} className="contact-icon" />
                 <span className="contact-info-text">
                   {messages.contact_label_address()}
                 </span>
               </div>
               <div className="pl-2 contact-stack-sm">
-                <h3 className="contact-location-title mb-2">
+                <h3
+                  className="contact-location-title"
+                  style={{ marginBottom: "var(--contact-stack-sm)" }}
+                >
                   {messages.contact_address_city()}
                 </h3>
                 <p className="contact-body text-[--contact-muted] leading-relaxed font-light">
@@ -295,15 +307,18 @@ export default function ContactPage() {
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
-              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
+              <div className="flex items-center contact-gap-sm contact-stack-sm text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
                 <Globe size={18} className="contact-icon" />
                 <span className="contact-info-text">
                   {messages.contact_label_digital_link()}
                 </span>
               </div>
               <div className="pl-2 contact-stack-sm">
-                <div>
-                  <p className="contact-label text-[--contact-muted] mb-1">
+                <div className="contact-stack-sm">
+                  <p
+                    className="contact-label text-[--contact-muted]"
+                    style={{ marginBottom: "var(--contact-stack-sm)" }}
+                  >
                     {messages.contact_label_direct_line()}
                   </p>
                   <a
@@ -313,8 +328,11 @@ export default function ContactPage() {
                     +852 2382 8380
                   </a>
                 </div>
-                <div>
-                  <p className="contact-label text-[--contact-muted] mb-1">
+                <div className="contact-stack-sm">
+                  <p
+                    className="contact-label text-[--contact-muted]"
+                    style={{ marginBottom: "var(--contact-stack-sm)" }}
+                  >
                     {messages.contact_label_inquiry()}
                   </p>
                   <a
@@ -328,7 +346,7 @@ export default function ContactPage() {
             </div>
 
             {/* Map Section */}
-            <div className="pt-4 relative">
+            <div className="relative" style={{ paddingTop: "var(--contact-stack-sm)" }}>
               {/* Decorative corners for map */}
               <div className="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-[--contact-muted] z-10" />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-[--contact-muted] z-10" />
@@ -360,11 +378,14 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              <div className="flex justify-between items-center mt-2 px-1">
+              <div
+                className="flex justify-between items-center"
+                style={{ marginTop: "var(--contact-stack-sm)", paddingInline: "0.25rem" }}
+              >
                 <p className="contact-label-sm text-[--contact-muted]">
                   LAT: {displayLat} | LON: {displayLon}
                 </p>
-                <div className="flex gap-2 items-center">
+                <div className="flex contact-gap-sm items-center">
                   <Navigation size={12} className="text-[--contact-muted]" />
                   <span className="contact-label-sm text-[--contact-muted]">
                     {messages.contact_map_tagline()}
@@ -402,7 +423,7 @@ export default function ContactPage() {
                     <h2 className="text-4xl font-light text-[--contact-text]">
                       {messages.contact_form_heading()}
                     </h2>
-                    <p className="text-base text-[--contact-muted] mt-2 font-light">
+                  <p className="text-base text-[--contact-muted] font-light" style={{ marginTop: "var(--contact-stack-sm)" }}>
                       {messages.contact_form_subheading()}
                     </p>
                   </div>
@@ -503,10 +524,10 @@ export default function ContactPage() {
                     </div>
 
                     {/* Marketing Consent */}
-                    <div className="pt-4 relative z-20">
+                    <div className="relative z-20" style={{ paddingTop: "var(--contact-stack-sm)" }}>
                       <button
                         type="button"
-                        className="flex items-start gap-4 cursor-pointer group/checkbox text-left"
+                        className="flex items-start contact-gap-sm cursor-pointer group/checkbox text-left"
                         onClick={() =>
                           setValue("marketingConsent", !marketingConsent, {
                             shouldDirty: true,
@@ -514,7 +535,7 @@ export default function ContactPage() {
                           })
                         }
                       >
-                        <div className="relative flex-shrink-0 mt-0.5">
+                        <div className="relative flex-shrink-0" style={{ marginTop: "var(--contact-stack-xs)" }}>
                           <div
                             className="w-5 h-5 border rounded-sm transition-all flex items-center justify-center"
                             style={{
@@ -540,7 +561,7 @@ export default function ContactPage() {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="pt-8 flex justify-end">
+                    <div className="flex justify-end" style={{ paddingTop: "var(--contact-stack-md)" }}>
                       <button
                         type="submit"
                         disabled={isSubmitting}
@@ -597,11 +618,17 @@ function SuccessState({
     <div className="min-h-[500px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-700">
       <div className="relative">
         <div className="absolute inset-0 bg-[--contact-accent] blur-xl opacity-30 animate-pulse" />
-        <div className="relative w-24 h-24 contact-gradient-bg rounded-full flex items-center justify-center mb-8 shadow-lg">
+        <div
+          className="relative w-24 h-24 contact-gradient-bg rounded-full flex items-center justify-center shadow-lg"
+          style={{ marginBottom: "var(--contact-stack-lg)" }}
+        >
           <Check className="w-10 h-10 text-white" />
         </div>
       </div>
-      <h3 className="text-4xl font-light text-[--contact-text] mb-4">
+      <h3
+        className="text-4xl font-light text-[--contact-text]"
+        style={{ marginBottom: "var(--contact-stack-sm)" }}
+      >
         {messages.contact_success_title()}
       </h3>
       <p className="text-[--contact-muted] max-w-md text-lg font-light leading-relaxed">
@@ -609,7 +636,12 @@ function SuccessState({
       </p>
       <button
         onClick={onReset}
-        className="mt-12 px-8 py-3 contact-radius-md border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] contact-transition-base uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
+        className="contact-radius-md border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] contact-transition-base uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
+        style={{
+          marginTop: "var(--contact-stack-lg)",
+          paddingInline: "var(--contact-btn-secondary-x)",
+          paddingBlock: "var(--contact-btn-secondary-y)",
+        }}
       >
         {messages.contact_reset_button()}
       </button>
@@ -719,7 +751,7 @@ const FormSelect = ({
           >
             <SelectTrigger
               className={cn(
-                "contact-select w-full justify-between items-center text-xl leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
+                "contact-select w-full justify-between items-center text-xl leading-tight px-0 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
             "transition-all focus-visible:ring-0 focus-visible:ring-offset-0",
             focusColor,
             hoverIconColor,
@@ -727,6 +759,7 @@ const FormSelect = ({
             "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]"
               )}
               style={{
+                paddingBlock: "var(--contact-input-padding-y)",
                 transitionDuration: "var(--contact-motion-base)",
                 transitionTimingFunction: "var(--contact-motion-ease)",
               }}

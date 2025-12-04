@@ -65,14 +65,14 @@ const SkeletonCard = () => (
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-24 rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-16 rounded"></div>
     </div>
-    <div className="h-6 bg-[var(--newsroom-border-soft)] w-3/4 mb-4 rounded"></div>
-    <div className="h-6 bg-[var(--newsroom-border-soft)] w-1/2 mb-6 rounded"></div>
+    <div className="h-6 bg-[var(--newsroom-border-soft)] w-3/4 newsroom-mb rounded"></div>
+    <div className="h-6 bg-[var(--newsroom-border-soft)] w-1/2 newsroom-mb-lg rounded"></div>
     <div className="flex-1 newsroom-stack">
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-full rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-full rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-5/6 rounded"></div>
     </div>
-    <div className="mt-6 pt-4 border-t newsroom-border-subtle flex justify-between">
+    <div className="newsroom-mt border-t newsroom-border-subtle flex justify-between" style={{ paddingTop: "var(--newsroom-stack)" }}>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-20 rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-3 rounded"></div>
     </div>
@@ -169,8 +169,8 @@ const portableTextComponents: PortableTextComponents = {
         },
   },
   block: {
-    h2: ({ children }: { children?: ReactNode }) => <h2 className="text-2xl font-bold mt-8 mb-4">{children}</h2>,
-    h3: ({ children }: { children?: ReactNode }) => <h3 className="text-xl font-bold mt-6 mb-3">{children}</h3>,
+    h2: ({ children }: { children?: ReactNode }) => <h2 className="text-2xl font-bold newsroom-mt-lg newsroom-mb">{children}</h2>,
+    h3: ({ children }: { children?: ReactNode }) => <h3 className="text-xl font-bold newsroom-mt newsroom-mb">{children}</h3>,
     blockquote: ({ children }: { children?: ReactNode }) => (
       <blockquote className="border-l-4 newsroom-border-subtle pl-4 my-6 italic">
         {children}
@@ -227,14 +227,17 @@ function NewsListView({
       className="newsroom-content newsroom-section"
     >
       {/* Header Area */}
-      <div className="mb-8 border-b newsroom-border-strong newsroom-stack-lg">
+      <div className="newsroom-mb-lg border-b newsroom-border-strong newsroom-stack-lg">
         <div className="flex flex-col md:flex-row md:items-end justify-between newsroom-gap">
           <h1 className="newsroom-title">
             News Feed
           </h1>
 
           {/* Layout Controls */}
-          <div className="flex items-center gap-2 border newsroom-border-subtle p-1 newsroom-surface-card">
+          <div
+            className="flex items-center gap-2 border newsroom-border-subtle newsroom-surface-card"
+            style={{ padding: "var(--newsroom-stack-xs)" }}
+          >
             <button
               onClick={() => setLayout('grid')}
               className={`newsroom-layout-btn ${layout === 'grid' ? 'active' : ''}`}
@@ -293,7 +296,10 @@ function NewsListView({
       {/* Layout Renderer with Staggered Animation & Skeleton */}
       <div className="min-h-[500px]">
         {filteredData.length === 0 ? (
-          <div className="py-20 text-center border border-dashed newsroom-border-subtle newsroom-surface-quiet">
+          <div
+            className="text-center border border-dashed newsroom-border-subtle newsroom-surface-quiet"
+            style={{ paddingBlock: "var(--newsroom-section-padding)" }}
+          >
             <p className="newsroom-label newsroom-text-soft uppercase">No Intelligence Found</p>
           </div>
         ) : (
@@ -373,7 +379,7 @@ function FeaturedGridCard({ post, onClick }: { post: NewsPost; onClick: () => vo
       )}
 
       <div className={`newsroom-card-padding-lg flex flex-col justify-center ${hasImage ? 'w-full md:w-1/2' : 'w-full'}`}>
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex justify-between items-start newsroom-mb-lg">
            <div className="flex gap-2">
              <MonoLabel className="group-hover:text-[var(--newsroom-text-primary)] transition-colors">
                [{post.category.title}]
@@ -382,23 +388,29 @@ function FeaturedGridCard({ post, onClick }: { post: NewsPost; onClick: () => vo
            <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</MonoLabel>
         </div>
 
-        <h3 className="newsroom-card-title-featured mb-6 group-hover:underline decoration-2 underline-offset-8">
+        <h3 className="newsroom-card-title-featured newsroom-mb-lg group-hover:underline decoration-2 underline-offset-8">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="newsroom-body leading-relaxed font-light mb-8">
+          <p className="newsroom-body leading-relaxed font-light newsroom-mb-lg">
             {post.subtitle}
           </p>
         )}
 
         {!hasImage && post.excerpt && (
-           <p className="newsroom-body-small leading-relaxed line-clamp-4 mb-6 border-l-2 newsroom-border-subtle pl-4">
+           <p
+             className="newsroom-body-small leading-relaxed line-clamp-4 newsroom-mb-lg border-l-2 newsroom-border-subtle"
+             style={{ paddingLeft: "var(--newsroom-card-gap)" }}
+           >
              {post.excerpt}
            </p>
         )}
 
-        <div className="newsroom-card-footer mt-auto pt-4 flex items-center justify-between w-full border-t border-transparent">
+        <div
+          className="newsroom-card-footer mt-auto flex items-center justify-between w-full border-t border-transparent"
+          style={{ paddingTop: "var(--newsroom-stack)" }}
+        >
           <span className="newsroom-cta-label newsroom-cta-link">
              Read Featured Story
           </span>
@@ -417,7 +429,7 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
 
   return (
     <div onClick={onClick} className="group cursor-pointer flex flex-col h-full relative newsroom-card-shell">
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between items-start newsroom-mb">
         <div className="flex gap-2">
           <MonoLabel className="group-hover:text-[var(--newsroom-text-primary)] transition-colors">[{post.category.title}]</MonoLabel>
         </div>
@@ -425,18 +437,18 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="newsroom-card-title mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="newsroom-card-title newsroom-mb group-hover:underline decoration-1 underline-offset-4">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="newsroom-body-small line-clamp-2 mb-4">
+          <p className="newsroom-body-small line-clamp-2 newsroom-mb">
             {post.subtitle}
           </p>
         )}
 
         {hasImage && (
-           <div className="mt-auto mb-4">
+           <div className="mt-auto newsroom-mb">
              <div className="newsroom-media-frame relative w-full aspect-[3/2]">
                <Image
                  src={imageUrl}
@@ -450,7 +462,7 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
         )}
 
         {!hasImage && post.excerpt && (
-           <div className="relative mt-2 mb-4 flex-1">
+           <div className="relative newsroom-mt newsroom-mb flex-1">
              <div className="newsroom-excerpt-bar absolute left-0 top-0 bottom-0 w-px" />
              <p className="newsroom-body-small leading-relaxed pl-4 line-clamp-[10]">
                {post.excerpt}...
@@ -495,17 +507,17 @@ function MagazineCard({ post, onClick }: { post: NewsPost; onClick: () => void }
       )}
 
       <div className="flex flex-col h-full justify-center">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-4 newsroom-mb">
           <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</MonoLabel>
           <div className="h-px w-8 bg-[var(--newsroom-border-subtle)]"></div>
           <MonoLabel className="group-hover:text-[var(--newsroom-text-primary)] transition-colors">
             [{post.category.title}]
           </MonoLabel>
         </div>
-        <h3 className="newsroom-card-title-featured mb-4 group-hover:text-[var(--newsroom-accent-cta)] transition-colors">
+        <h3 className="newsroom-card-title-featured newsroom-mb group-hover:text-[var(--newsroom-accent-cta)] transition-colors">
           {post.title}
         </h3>
-        <p className="newsroom-body leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">
+        <p className="newsroom-body leading-relaxed newsroom-mb-lg line-clamp-3 md:line-clamp-none">
           {post.excerpt ? post.excerpt.substring(0, hasImage ? 180 : 300) : post.subtitle}...
         </p>
         <span className="flex items-center gap-2 newsroom-cta-label newsroom-cta-link mt-auto group-hover:translate-x-2 transition-transform">
@@ -518,7 +530,11 @@ function MagazineCard({ post, onClick }: { post: NewsPost; onClick: () => void }
 
 function FeedRow({ post, onClick }: { post: NewsPost; onClick: () => void }) {
   return (
-    <div onClick={onClick} className="group cursor-pointer flex flex-col md:flex-row items-baseline gap-4 md:gap-12 py-4 border-b newsroom-border-subtle hover:bg-[var(--newsroom-surface-quiet)] transition-colors">
+    <div
+      onClick={onClick}
+      className="group cursor-pointer flex flex-col md:flex-row items-baseline newsroom-gap md:gap-12 border-b newsroom-border-subtle hover:bg-[var(--newsroom-surface-quiet)] transition-colors"
+      style={{ paddingBlock: "var(--newsroom-stack)" }}
+    >
       <div className="w-32 shrink-0">
         <MonoLabel className="group-hover:text-[var(--newsroom-text-primary)] transition-colors">
           {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
@@ -585,16 +601,16 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         className="newsroom-article-container"
         style={{ paddingBlock: "var(--newsroom-section-padding)" }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] newsroom-gap mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] newsroom-gap newsroom-mb-xl">
           <div className="newsroom-stack-lg pt-2">
             <div>
-              <MonoLabel className="block mb-1">Published</MonoLabel>
+              <MonoLabel className="block newsroom-mb-xs">Published</MonoLabel>
               <div className="text-sm font-medium">
                 {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </div>
             </div>
             <div>
-               <MonoLabel className="block mb-1">Category</MonoLabel>
+               <MonoLabel className="block newsroom-mb-xs">Category</MonoLabel>
                <div className="flex flex-wrap gap-2">
                  <span className="newsroom-label newsroom-text-primary">
                    [{post.category.title}]
@@ -602,17 +618,20 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
                </div>
             </div>
              <div>
-              <MonoLabel className="block mb-1">Read Time</MonoLabel>
+              <MonoLabel className="block newsroom-mb-xs">Read Time</MonoLabel>
               <div className="text-sm font-medium newsroom-text-soft">{post.readTime} MIN READ</div>
             </div>
           </div>
 
           <div>
-            <h1 className="newsroom-article-title mb-6 leading-tight">
+            <h1 className="newsroom-article-title newsroom-mb-lg leading-tight">
               {post.title}
             </h1>
             {post.subtitle && (
-              <p className="newsroom-body leading-relaxed font-light border-l-2 newsroom-border-strong pl-6">
+              <p
+                className="newsroom-body leading-relaxed font-light border-l-2 newsroom-border-strong"
+                style={{ paddingLeft: "var(--newsroom-card-gap)" }}
+              >
                 {post.subtitle}
               </p>
             )}
@@ -620,7 +639,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         </div>
 
         {imageUrl ? (
-           <div className="newsroom-media-frame newsroom-media-featured relative aspect-[21/9] w-full mb-16 overflow-hidden">
+           <div className="newsroom-media-frame newsroom-media-featured relative aspect-[21/9] w-full newsroom-mb-xl overflow-hidden">
              <Image
                src={imageUrl}
                alt={post.mainImage?.alt || post.title}
@@ -630,13 +649,13 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
              />
            </div>
         ) : (
-           <div className="w-full h-px bg-[var(--newsroom-border-subtle)] mb-16" />
+           <div className="w-full h-px bg-[var(--newsroom-border-subtle)] newsroom-mb-xl" />
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] newsroom-gap">
            <div className="hidden md:block">
               <div className="sticky top-32">
-                 <div className="w-8 h-px bg-[var(--newsroom-text-primary)] mb-4"></div>
+                 <div className="w-8 h-px bg-[var(--newsroom-text-primary)] newsroom-mb"></div>
                  <MonoLabel>Section 01</MonoLabel>
               </div>
            </div>
@@ -662,7 +681,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
             paddingTop: "var(--newsroom-stack-lg)",
           }}
         >
-           <h3 className="newsroom-label newsroom-text-primary mb-8">
+           <h3 className="newsroom-label newsroom-text-primary newsroom-mb-lg">
              Related Intelligence
            </h3>
            <div className="grid grid-cols-1 md:grid-cols-2 newsroom-gap">
@@ -677,20 +696,33 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
 
       {/* Mobile Sticky Bottom Bar */}
       <div
-        className="fixed bottom-0 left-0 right-0 border-t newsroom-border-subtle p-4 md:hidden z-50 flex items-center justify-between pb-8"
-        style={{ backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.96)' }}
+        className="fixed bottom-0 left-0 right-0 border-t newsroom-border-subtle md:hidden z-50 flex items-center justify-between"
+        style={{
+          backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.96)',
+          padding: "var(--newsroom-stack)",
+          paddingBottom: "var(--newsroom-stack-lg)",
+        }}
       >
-        <button onClick={onBack} className="p-2 newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]">
+        <button
+          onClick={onBack}
+          className="newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]"
+          style={{ padding: "var(--newsroom-stack-xs)" }}
+        >
           <ArrowLeft className="w-5 h-5" />
         </button>
         <button onClick={onBack} className="flex items-center gap-2 newsroom-label newsroom-text-primary font-bold">
           <Home className="w-4 h-4" />
           News Feed
         </button>
-        <button className="p-2 newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]">
+        <button
+          className="newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]"
+          style={{ padding: "var(--newsroom-stack-xs)" }}
+        >
           <Share2 className="w-5 h-5" />
         </button>
       </div>
     </m.div>
   );
 }
+
+
