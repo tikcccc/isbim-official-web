@@ -67,11 +67,14 @@
   --h-contain: max(calc((100% - var(--max-width)) / 2), var(--h-spacing));
   --h-contain-no-bleed: max(calc((100% - var(--max-width)) / 2), 0px);
 
-  /* Motion */
-  --motion-fast: 0.3s;
-  --motion-base: 0.5s;
-  --motion-slow: 0.8s;
-  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Motion tokens (global) */
+  --motion-duration-fast: 0.3s;
+  --motion-duration-base: 0.5s;
+  --motion-duration-slow: 0.8s;
+  --motion-ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-stagger-base: 0.12s;
+
 
   /* Elevation */
   --shadow-strong: 0 20px 40px -18px rgba(0, 0, 0, 0.35);

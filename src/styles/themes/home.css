@@ -76,4 +76,9 @@
   --home-pill-radius: 9999px;
   --home-media-radius: var(--home-radius-md);
   --home-shadow-strong: 0 20px 40px -18px rgba(0, 0, 0, 0.35);
+
+  /* Home-specific base overrides */
+  font-family: var(--font-body-en);
+  overflow-x: hidden;
+  background: var(--bg-page);
 }
