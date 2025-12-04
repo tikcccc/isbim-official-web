@@ -1,19 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { m } from "@/components/motion/lazy-motion";
 import { useLocale } from "@/lib/i18n/index";
 import { useRouter, usePathname } from "@/lib/i18n";
 import { type AvailableLanguageTag } from "@/paraglide/runtime";
-import { m } from "@/components/motion/lazy-motion";
-
-/**
- * LocaleSwitcher Component
- *
- * Toggle switch design for EN/ZH language switching
- * - Clear visual metaphor for binary state selection
- * - Larger touch targets for better mobile UX
- * - Enhanced hover effects for desktop interaction
- * Uses LocaleContext to get current locale (Level 3 implementation)
- */
+import { setLanguageTag } from "@/paraglide/runtime";
 
 const localeLabels: Record<AvailableLanguageTag, string> = {
   en: "EN",
@@ -22,28 +14,42 @@ const localeLabels: Record<AvailableLanguageTag, string> = {
 
 export function LocaleSwitcher() {
   const router = useRouter();
-  const pathname = usePathname();
-  const currentLocale = useLocale(); // Use Context instead of languageTag()
+  const pathname = usePathname(); // Returns canonical pathname WITHOUT locale prefix
+  const currentLocale = useLocale();
+  const [activeLocale, setActiveLocale] =
+    useState<AvailableLanguageTag>(currentLocale);
+
+  // Sync activeLocale with currentLocale from context
+  useEffect(() => {
+    setActiveLocale(currentLocale);
+  }, [currentLocale]);
 
   const switchLocale = (newLocale: AvailableLanguageTag) => {
-    if (newLocale === currentLocale) return;
+    if (newLocale === activeLocale) return;
 
-    // Use router.replace to switch locale
-    // - replace: Updates URL without adding to history (cleaner navigation)
-    // - scroll: false - Maintains user's scroll position during language switch
-    // Note: This will trigger the page transition animation as part of the branded experience
-    router.replace(pathname, { locale: newLocale, scroll: false });
+    // Optimistically update UI
+    setActiveLocale(newLocale);
+
+    // Update Paraglide language tag
+    setLanguageTag(newLocale);
+
+    // Get current search params
+    const search =
+      typeof window !== "undefined" ? window.location.search : "";
+
+    // Paraglide's router.replace automatically handles locale prefixing
+    // pathname is already canonical (without locale), so we just pass it directly
+    router.replace(`${pathname}${search}`, { scroll: false });
   };
 
   return (
     <div className="relative inline-flex items-center w-[100px] h-10 bg-white/5 border border-white/10 rounded-lg p-1 backdrop-blur-sm">
-      {/* Sliding background indicator - occupies 50% of container width */}
       <m.div
         className="absolute left-1 top-1 bottom-1 bg-white/20 rounded-md shadow-sm"
         style={{ width: "calc(50% - 4px)" }}
         initial={false}
         animate={{
-          x: currentLocale === "en" ? 0 : "100%",
+          x: activeLocale === "en" ? 0 : "100%",
         }}
         transition={{
           type: "spring",
@@ -52,44 +58,42 @@ export function LocaleSwitcher() {
         }}
       />
 
-      {/* EN Button */}
       <m.button
         onClick={() => switchLocale("en")}
-        whileHover={{}}
+        whileHover={{ scale: activeLocale === "en" ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
         className={`
           relative z-10 w-1/2 h-full flex items-center justify-center
           text-xs font-medium rounded-md
           transition-all duration-300
           ${
-            currentLocale === "en"
+            activeLocale === "en"
               ? "text-white font-bold"
-              : "text-white/50 hover:bg-white/10"
+              : "text-white/50 hover:text-white/70"
           }
         `}
         aria-label="Switch to English"
-        aria-pressed={currentLocale === "en"}
+        aria-pressed={activeLocale === "en"}
       >
         {localeLabels.en}
       </m.button>
 
-      {/* ZH Button */}
       <m.button
         onClick={() => switchLocale("zh")}
-        whileHover={{}}
+        whileHover={{ scale: activeLocale === "zh" ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
         className={`
           relative z-10 w-1/2 h-full flex items-center justify-center
           text-xs font-medium rounded-md
           transition-all duration-300
           ${
-            currentLocale === "zh"
+            activeLocale === "zh"
               ? "text-white font-bold"
-              : "text-white/50 hover:bg-white/10"
+              : "text-white/50 hover:text-white/70"
           }
         `}
         aria-label="切換至中文"
-        aria-pressed={currentLocale === "zh"}
+        aria-pressed={activeLocale === "zh"}
       >
         {localeLabels.zh}
       </m.button>

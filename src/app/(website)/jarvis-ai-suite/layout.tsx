@@ -5,7 +5,7 @@
  * Hides the default white Footer and renders FooterDark instead.
  */
 
-import { FooterDark } from "@/components/layout/footer-dark";
+import { Footer } from "@/components/layout/footer";
 import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
 
 export default function JarvisAiSuiteLayout({
@@ -17,7 +17,7 @@ export default function JarvisAiSuiteLayout({
     <>
       <HideDefaultFooter />
       {children}
-      <FooterDark />
+      <Footer />
     </>
   );
 }

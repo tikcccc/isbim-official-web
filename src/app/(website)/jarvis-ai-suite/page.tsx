@@ -1,16 +1,5 @@
 'use client';
 
-import {
-  BackgroundEffects,
-  HeroSection,
-  NarrativeTrack,
-  NarrativeInterlude,
-  AcceleratorZone,
-  ParallaxBreaker,
-  MonitorZone,
-  CtaSection
-} from '@/components/jarvis-ai-suite';
-
 /**
  * JARVIS AI Suite Page
  * Premium scroll-driven marketing page featuring:
@@ -23,25 +12,10 @@ import {
  */
 export default function JarvisAiSuitePage() {
   return (
-    <div className="bg-[#0A0A0A] min-h-screen font-sans selection:bg-emerald-500/30 text-white relative">
-      <style>{`body { overflow-x: hidden; }`}</style>
-
-      {/* Global Background Effects */}
-      <BackgroundEffects />
-
-      {/* Hero (Fixed Background) */}
-      <HeroSection />
-
-      {/* Narrative Track (Dynamic Background) */}
-      <NarrativeTrack />
-
-      {/* Rest of the Page */}
-      <div className="relative z-20">
-        <NarrativeInterlude />
-        <AcceleratorZone />
-        <ParallaxBreaker />
-        <MonitorZone />
-        <CtaSection />
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Jarvis AI SUITE</h1>
+        <p className="text-gray-600">Page under construction</p>
       </div>
     </div>
   );
