@@ -43,6 +43,14 @@
     --home-radius-lg: 0.75rem;
     --home-card-shadow: 0 25px 50px -25px rgba(0, 0, 0, 0.35);
     --home-gap: 2rem;
+    --home-gap-sm: clamp(1rem, 2vw, 1.5rem);
+    --home-gap-md: clamp(1.5rem, 3vw, 2.5rem);
+    --home-gap-lg: clamp(2rem, 4vw, 3rem);
+    --home-stack-sm: clamp(1rem, 2vw, 1.5rem);
+    --home-stack-md: clamp(1.5rem, 3vw, 2.25rem);
+    --home-stack-lg: clamp(2.25rem, 4vw, 3rem);
+    --home-padding-inline: clamp(1.5rem, 3vw, 2.5rem);
+    --home-padding-inline-lg: clamp(2rem, 4vw, 3rem);
     --home-button-strong-bg: #18181b;
     --home-button-strong-hover: #27272a;
     --home-button-strong-border: #18181b;
@@ -469,6 +477,15 @@
   .section-padding {
     padding-block: clamp(3rem, 6vw, 5.5rem);
   }
+
+  .home-gap-sm { gap: var(--home-gap-sm); }
+  .home-gap-md { gap: var(--home-gap-md); }
+  .home-gap-lg { gap: var(--home-gap-lg); }
+  .home-stack-sm > :not([hidden]) ~ :not([hidden]) { margin-top: var(--home-stack-sm); }
+  .home-stack-md > :not([hidden]) ~ :not([hidden]) { margin-top: var(--home-stack-md); }
+  .home-stack-lg > :not([hidden]) ~ :not([hidden]) { margin-top: var(--home-stack-lg); }
+  .home-padding-inline { padding-inline: var(--home-padding-inline); }
+  .home-padding-inline-lg { padding-inline: var(--home-padding-inline-lg); }
 }
 
 /* Hero Section 1 Styles */

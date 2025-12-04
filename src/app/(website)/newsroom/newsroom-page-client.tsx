@@ -60,14 +60,14 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
 );
 
 const SkeletonCard = () => (
-  <div className="flex flex-col h-full border newsroom-border-subtle newsroom-surface-card p-6 animate-pulse">
-    <div className="flex justify-between mb-6 gap-3">
+  <div className="flex flex-col h-full border newsroom-border-subtle newsroom-surface-card newsroom-card-padding animate-pulse">
+    <div className="flex justify-between newsroom-stack-lg newsroom-gap">
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-24 rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-16 rounded"></div>
     </div>
     <div className="h-6 bg-[var(--newsroom-border-soft)] w-3/4 mb-4 rounded"></div>
     <div className="h-6 bg-[var(--newsroom-border-soft)] w-1/2 mb-6 rounded"></div>
-    <div className="flex-1 space-y-3">
+    <div className="flex-1 newsroom-stack">
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-full rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-full rounded"></div>
       <div className="h-3 bg-[var(--newsroom-border-soft)] w-5/6 rounded"></div>
@@ -227,8 +227,8 @@ function NewsListView({
       className="newsroom-content newsroom-section"
     >
       {/* Header Area */}
-      <div className="mb-8 border-b newsroom-border-strong pb-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="mb-8 border-b newsroom-border-strong newsroom-stack-lg">
+        <div className="flex flex-col md:flex-row md:items-end justify-between newsroom-gap">
           <h1 className="newsroom-title">
             News Feed
           </h1>
@@ -260,7 +260,7 @@ function NewsListView({
         </div>
 
         {/* Intelligence Filter */}
-        <div className="mt-8 flex flex-wrap items-center gap-2">
+        <div className="newsroom-stack flex flex-wrap items-center newsroom-gap">
           <button
             onClick={() => setFilter('All')}
             className={`newsroom-filter-btn ${filter === 'All' ? 'active' : ''}`}
@@ -478,7 +478,7 @@ function MagazineCard({ post, onClick }: { post: NewsPost; onClick: () => void }
   return (
     <div
       onClick={onClick}
-      className={`group cursor-pointer grid gap-8 items-start newsroom-card-shell newsroom-stack-lg
+      className={`group cursor-pointer grid newsroom-gap items-start newsroom-card-shell newsroom-stack-lg
         ${hasImage ? 'grid-cols-1 md:grid-cols-[2fr_3fr]' : 'grid-cols-1'}
       `}
     >
@@ -567,7 +567,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         className="border-b newsroom-border-subtle sticky top-0 backdrop-blur-md z-40 transition-all"
         style={{ backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.95)' }}
       >
-        <div className="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto newsroom-padding-inline h-12 flex items-center justify-between">
           <button
             onClick={onBack}
             className="group flex items-center gap-2 newsroom-label newsroom-text-subtle hover:text-[var(--newsroom-text-primary)] transition-colors"
@@ -585,8 +585,8 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         className="newsroom-article-container"
         style={{ paddingBlock: "var(--newsroom-section-padding)" }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 mb-12">
-          <div className="space-y-6 pt-2">
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] newsroom-gap mb-12">
+          <div className="newsroom-stack-lg pt-2">
             <div>
               <MonoLabel className="block mb-1">Published</MonoLabel>
               <div className="text-sm font-medium">
@@ -633,7 +633,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
            <div className="w-full h-px bg-[var(--newsroom-border-subtle)] mb-16" />
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] newsroom-gap">
            <div className="hidden md:block">
               <div className="sticky top-32">
                  <div className="w-8 h-px bg-[var(--newsroom-text-primary)] mb-4"></div>
@@ -641,7 +641,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
               </div>
            </div>
 
-           <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-[var(--newsroom-text-muted)]">
+           <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-[var(--newsroom-text-muted)] newsroom-stack-lg">
              {post.body && post.body.length > 0 ? (
                <PortableText value={post.body} components={portableTextComponents} />
              ) : (
@@ -665,7 +665,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
            <h3 className="newsroom-label newsroom-text-primary mb-8">
              Related Intelligence
            </h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 newsroom-gap">
              {relatedPosts.map(related => (
                <div key={related._id} className="h-96">
                  <GridCard post={related} onClick={() => onNavigate(related._id)} />

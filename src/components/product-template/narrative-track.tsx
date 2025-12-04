@@ -498,7 +498,7 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text product-stage-title pb-4 relative z-[1] max-w-7xl`}
+            className={`product-block-anim product-stage2-text product-stage-title product-stack-sm relative z-[1] max-w-7xl`}
             style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
           >
             {stage2Text}
@@ -507,7 +507,7 @@ export function NarrativeTrack({
           {/* Bottom: Description + Scroll prompt */}
           <div
             ref={bottomRef}
-            className="product-bounce-anim mt-20 md:mt-28 flex flex-col items-center gap-8"
+            className="product-bounce-anim flex flex-col items-center product-gap lg:product-gap-lg"
           >
             <p className="product-stage-desc product-text-muted max-w-lg mx-auto text-center">
               {renderDescription()}

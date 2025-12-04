@@ -94,6 +94,10 @@
     padding-inline: var(--newsroom-container-padding);
   }
 
+  .newsroom-padding-inline {
+    padding-inline: var(--newsroom-container-padding);
+  }
+
   .newsroom-article-container {
     width: 100%;
     max-width: var(--newsroom-article-max);

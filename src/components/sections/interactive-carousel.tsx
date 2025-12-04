@@ -338,10 +338,10 @@ export function InteractiveCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full home-surface-panel overflow-visible flex flex-col items-center gap-8 sm:gap-10 lg:gap-12 section-padding pb-0 sm:pb-6"
+      className="relative w-full home-surface-panel overflow-visible flex flex-col items-center home-gap-lg section-padding pb-0"
     >
       {/* --- 導航區域 (Tabs + See All) --- */}
-      <div className="relative z-30 container-content flex flex-col md:flex-row gap-4 mb-4 sm:mb-6 items-stretch md:items-center">
+      <div className="relative z-30 container-content flex flex-col md:flex-row home-gap-sm items-stretch md:items-center home-stack-sm">
         {/* Tabs 容器：Grid 佈局自動均分寬度 */}
         <div className="flex-1 grid grid-cols-4 md:grid-cols-8 gap-2">
           {SLIDES.map((slide, index) => {
@@ -548,7 +548,7 @@ export function InteractiveCarousel() {
       </div>
 
       {/* Slide Indicators (Dots) */}
-      <div className="flex justify-center gap-3 z-30 w-full px-4 md:px-8">
+    <div className="flex justify-center home-gap-sm z-30 w-full home-padding-inline">
         {SLIDES.map((slide, index) => {
           const total = SLIDES.length;
           const activeIdx = (page % total + total) % total;

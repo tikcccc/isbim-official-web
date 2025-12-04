@@ -76,7 +76,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
       className="w-full home-cta-section section-padding flex flex-col"
     >
       <div className="container-content">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-1 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 home-gap-md items-center">
           <div
             ref={imageRef}
             className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden home-radius-lg home-cta-media-bg md:ml-auto lg:-translate-x-25"
@@ -112,7 +112,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               {messages.section5_cta_subtitle()}
             </p>
 
-            <div ref={buttonRef} className="pt-10">
+            <div ref={buttonRef} className="home-stack-lg">
               <m.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

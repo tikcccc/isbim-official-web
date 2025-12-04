@@ -387,7 +387,7 @@ export function FeatureSection({
         <div className="grid grid-cols-1 lg:grid-cols-12 product-gap">
           {/* Left Column: Sticky Header */}
           <div className="lg:col-span-5 xl:col-span-5 relative">
-            <div className="sticky top-32 flex flex-col gap-6">
+            <div className="sticky top-32 flex flex-col product-gap-sm">
               {/* Index Animation */}
               <div className="index-anim-container flex items-center w-full product-body product-text-muted select-none">
                 {/* Before indices */}
@@ -505,7 +505,7 @@ export function FeatureSection({
           </div>
 
           {/* Right Column: Content */}
-          <div className="lg:col-span-7 xl:col-span-7 pt-6 md:pt-8 lg:pt-15 flex flex-col lg:self-start">
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col lg:self-start product-stack-lg">
             <p className="product-feature-body product-text-body mb-8 md:mb-10 w-full">
               {description}
             </p>
@@ -614,11 +614,12 @@ export function FeatureSection({
                   displayedView !== "details" ? "hidden" : ""
                 }`}
               >
-                <div className="space-y-8 md:space-y-10 max-w-5xl">
+                <div className="product-stack-lg max-w-5xl">
                   {details?.map((item, idx) => (
                     <div
                       key={idx}
-                      className="border-b product-border-subtle pb-6 md:pb-8 last:border-0 last:pb-0"
+                      className="border-b product-border-subtle last:border-0"
+                      style={{ paddingBottom: "var(--product-stack-md)" }}
                     >
                       <h4 className="product-feature-title product-text-strong mb-3">
                         {item.title}

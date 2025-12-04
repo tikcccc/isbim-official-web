@@ -31,9 +31,9 @@ export function HeroForeground({
     >
       <div className="relative h-full max-w-[1800px] mx-auto product-hero-padding flex flex-col justify-end will-change-transform transition-transform duration-[180ms] ease-out">
         {/* Main content area */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-8 pointer-events-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full product-gap pointer-events-auto">
           {/* Left: Product Name - Anchored bottom-left */}
-          <div className="flex flex-col gap-1 md:gap-3 max-w-4xl">
+          <div className="flex flex-col product-gap-sm max-w-4xl">
             {logoComponent || (
               <h1 className="product-hero-title product-text-inverse">
                 {productName}
@@ -50,7 +50,7 @@ export function HeroForeground({
 
           {/* Right: Metadata - Bottom Right, Minimalist */}
           <div className="hidden md:flex flex-col items-end product-text-inverse">
-            <div className="relative flex flex-col items-end gap-3 product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line transition-colors product-transition-base">
+            <div className="relative flex flex-col items-end product-gap-sm product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line transition-colors product-transition-base">
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}
@@ -64,7 +64,7 @@ export function HeroForeground({
         </div>
 
         {/* Mobile metadata - horizontal layout */}
-        <div className="flex md:hidden gap-2 mt-6 product-text-inverse-muted product-meta-chip flex-wrap pointer-events-auto">
+        <div className="flex md:hidden product-gap-sm mt-6 product-text-inverse-muted product-meta-chip flex-wrap pointer-events-auto">
           {cleanedMetadata.slice(0, 4).map((item, i) => (
             <span
               key={i}

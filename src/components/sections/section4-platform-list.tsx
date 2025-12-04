@@ -271,7 +271,7 @@ export function Section4PlatformList() {
   return (
     <section
       ref={sectionRef}
-      className="w-full home-surface-base section-padding flex flex-col gap-8 home-text-primary"
+      className="w-full home-surface-base section-padding flex flex-col home-gap-lg home-text-primary"
     >
       <div className="container-content-wide">
         <h2 className="home-section-title mb-12 sm:mb-16">
@@ -349,10 +349,10 @@ function PlatformRow({
       onTouchStart={onTouchStart}
     >
       {/* Grid Layout: Left (Text) - Middle (Video) - Right (Title) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 home-gap-md items-center">
 
         {/* 1. Left Section: Description Text */}
-        <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] gap-4">
+        <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] home-gap-sm">
           <div className="z-10 pointer-events-none">
             <p className="home-body-large">
               {platformDescs[item.descKey]()}
@@ -392,7 +392,7 @@ function PlatformRow({
 
         {/* 3. Right Section: Large Title (with shift animation) */}
         <div className="lg:col-span-5 flex items-center justify-start relative min-h-[220px] lg:min-h-[240px]">
-          <div className="w-full lg:pl-8 overflow-visible">
+          <div className="w-full home-padding-inline-lg overflow-visible">
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: springStiffness, damping: springDamping, duration: motionBase }}

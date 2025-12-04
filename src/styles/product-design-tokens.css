@@ -70,6 +70,12 @@
     --product-section-padding-lg: 6rem;
     --product-gap: 2rem;
     --product-gap-lg: 3.5rem;
+    --product-gap-sm: 1.25rem;
+    --product-stack-sm: 1.25rem;
+    --product-stack-md: 2rem;
+    --product-stack-lg: 3rem;
+    --product-cta-padding-x: 2rem;
+    --product-cta-padding-y: 1rem;
 
     /* Shape & depth */
     --product-radius-card: 0.75rem;
@@ -226,6 +232,11 @@
   .product-gap {
     gap: var(--product-gap);
   }
+  .product-gap-sm { gap: var(--product-gap-sm); }
+  .product-gap-lg { gap: var(--product-gap-lg); }
+  .product-stack-sm > :not([hidden]) ~ :not([hidden]) { margin-top: var(--product-stack-sm); }
+  .product-stack-md > :not([hidden]) ~ :not([hidden]) { margin-top: var(--product-stack-md); }
+  .product-stack-lg > :not([hidden]) ~ :not([hidden]) { margin-top: var(--product-stack-lg); }
   @media (min-width: 768px) {
     .product-container { padding-inline: var(--product-container-padding-md); }
     .product-hero-padding { padding-inline: var(--product-container-padding-md); }
