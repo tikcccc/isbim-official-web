@@ -88,10 +88,7 @@ export function NarrativeTrack({
     const val = getComputedStyle(document.documentElement).getPropertyValue(name);
     return val && val.trim().length ? val : fallback;
   };
-  const springStiffness = readVarNumber("--product-motion-spring-stiffness", 80);
-  const springDamping = readVarNumber("--product-motion-spring-damping", 20);
   const trackShadow = readVarString("--product-track-shadow", "0 -50px 100px rgba(0,0,0,0.5)");
-  const colorEase = readVarString("--product-track-color-ease", "0.5s");
 
   // Custom thresholds to ensure background turns white BEFORE text appears
   const thresholds = useMemo(() => ({
@@ -272,8 +269,6 @@ export function NarrativeTrack({
     const whiteText = { r: 255, g: 255, b: 255 };
     const darkText = hexToRgb(PRODUCT_TEMPLATE_COLORS.textMain);
     const scrollLockThreshold = thresholds.bottomReveal + (readVarNumber("--product-track-scroll-lock", 0.95) - thresholds.bottomReveal);
-    const trackShadow = readVarString("--product-track-shadow", "0 -50px 100px rgba(0,0,0,0.5)");
-    const colorEase = readVarString("--product-track-color-ease", "0.5s");
 
     let rafId: number;
 

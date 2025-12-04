@@ -107,9 +107,7 @@ export function FeatureSection({
   };
   const motionFast = readMotion("--product-motion-fast", 0.3);
   const motionBase = readMotion("--product-motion-base", 0.5);
-  const motionSlow = readMotion("--product-motion-slow", 0.8);
   const motionOverlay = readMotion("--product-motion-overlay", 0.9);
-  const motionStagger = readMotion("--product-motion-stagger", 0.1);
 
   titleStateRef.current = titleState;
   titleRef.current = title;

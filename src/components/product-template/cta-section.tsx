@@ -55,8 +55,8 @@ export function ProductCTASection({
             style={{
               paddingInline: "var(--product-cta-padding-x)",
               paddingBlock: "var(--product-cta-padding-y)",
+              borderRadius: "var(--product-radius-pill)",
             }}
-            style={{ borderRadius: "var(--product-radius-pill)" }}
           >
             {buttonText}
             <svg

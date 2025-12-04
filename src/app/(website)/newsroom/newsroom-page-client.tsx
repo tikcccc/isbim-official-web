@@ -59,26 +59,6 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
   </span>
 );
 
-const SkeletonCard = () => (
-  <div className="flex flex-col h-full border newsroom-border-subtle newsroom-surface-card newsroom-card-padding animate-pulse">
-    <div className="flex justify-between newsroom-stack-lg newsroom-gap">
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-24 rounded"></div>
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-16 rounded"></div>
-    </div>
-    <div className="h-6 bg-[var(--newsroom-border-soft)] w-3/4 newsroom-mb rounded"></div>
-    <div className="h-6 bg-[var(--newsroom-border-soft)] w-1/2 newsroom-mb-lg rounded"></div>
-    <div className="flex-1 newsroom-stack">
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-full rounded"></div>
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-full rounded"></div>
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-5/6 rounded"></div>
-    </div>
-    <div className="newsroom-mt border-t newsroom-border-subtle flex justify-between" style={{ paddingTop: "var(--newsroom-stack)" }}>
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-20 rounded"></div>
-      <div className="h-3 bg-[var(--newsroom-border-soft)] w-3 rounded"></div>
-    </div>
-  </div>
-);
-
 // --- Motion Tokens (match newsroom-design-tokens) ---
 const MOTION = {
   fast: 0.2,

@@ -114,7 +114,7 @@ const RevealTitle = ({
     }, elementRef);
 
     return () => ctx.revert(); // Clean up all GSAP animations when component unmounts
-  }, [text, motionFast]);
+  }, [text, motionFast, easingStrong]);
 
   return (
     <h3 ref={elementRef} className={cn("cursor-default flex flex-wrap gap-x-[0.3em]", className)}>
