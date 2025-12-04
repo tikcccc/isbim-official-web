@@ -602,7 +602,7 @@ function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; all
         style={{ paddingBlock: "var(--newsroom-section-padding)" }}
       >
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] newsroom-gap newsroom-mb-xl">
-          <div className="newsroom-stack-lg pt-2">
+          <div className="newsroom-stack-lg" style={{ paddingTop: "var(--newsroom-stack-xs)" }}>
             <div>
               <MonoLabel className="block newsroom-mb-xs">Published</MonoLabel>
               <div className="text-sm font-medium">
