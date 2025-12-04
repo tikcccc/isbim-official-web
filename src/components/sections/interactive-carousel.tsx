@@ -338,234 +338,234 @@ export function InteractiveCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full home-surface-panel overflow-visible flex flex-col items-center home-gap-lg section-padding pb-0"
+      className="relative w-full home-surface-panel overflow-visible flex flex-col items-center home-gap-lg section-padding pb-12 md:pb-16"
     >
-      {/* --- 導航區域 (Tabs + See All) --- */}
-      <div className="relative z-30 container-content flex flex-col md:flex-row home-gap-sm items-stretch md:items-center home-stack-sm">
-        {/* Tabs 容器：Grid 佈局自動均分寬度 */}
-        <div className="flex-1 grid grid-cols-4 md:grid-cols-8 gap-2">
+      <div className="w-full max-w-[1800px] mx-auto px-4 md:px-8">
+        {/* --- 導航區域 (Tabs + See All) --- */}
+        <div className="relative z-30 flex flex-col md:flex-row home-gap-sm items-center mb-4 md:mb-6">
+          {/* Tabs 容器：Grid 佈局自動均分寬度 */}
+          <div className="flex-1 grid grid-cols-4 md:grid-cols-8 gap-2">
+            {SLIDES.map((slide, index) => {
+              const total = SLIDES.length;
+              const activeIdx = (page % total + total) % total;
+              const isActive = index === activeIdx;
+
+              return (
+                <button
+                  key={slide.id}
+                  type="button"
+                  onClick={() => jumpToSlide(index)}
+                  className={cn(
+                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all home-carousel-tab",
+                    "w-full",
+                    isActive ? "home-carousel-tab-active" : ""
+                  )}
+                  style={{ transitionDuration: `${labelTransition}s` }}
+                >
+                  {/* 進度填充層 */}
+                  {isActive && !hovered && (
+                    <m.div
+                      key={`progress-${page}`}
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{
+                        duration: AUTOPLAY_DURATION / 1000,
+                        ease: "linear",
+                      }}
+                      className="absolute inset-0 home-carousel-progress z-0"
+                      style={{ transformOrigin: "left" }}
+                    />
+                  )}
+
+                  {/* 文字層 */}
+                  <span className="relative z-10 truncate px-2">
+                    {slide.tabTitle}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* See All 按鈕 */}
+          <div className="hidden md:block w-auto shrink-0">
+            <LocalizedLink
+              href={ROUTES.JARVIS.SUITE}
+              prefetchMode="hover"
+              className="inline-flex h-10 items-center justify-center px-6 home-label-sm border transition-colors home-button-strong"
+            >
+              See All
+            </LocalizedLink>
+          </div>
+          <div className="md:hidden w-full">
+            <LocalizedLink
+              href={ROUTES.JARVIS.SUITE}
+              prefetchMode="hover"
+              className="w-full h-10 flex items-center justify-center home-label-sm transition-colors border home-button-strong"
+            >
+              See All
+            </LocalizedLink>
+          </div>
+        </div>
+
+        {/* Slider Track */}
+        <div
+          className="relative w-full flex items-center justify-center min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] overflow-visible"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
           {SLIDES.map((slide, index) => {
-            const total = SLIDES.length;
-            const activeIdx = (page % total + total) % total;
-            const isActive = index === activeIdx;
+            const variant = getVariant(index);
+            const isCenter = variant === "center";
+            const shouldRender = shouldRenderSlide(index);
 
-            return (
-              <button
-                key={slide.id}
-                type="button"
-                onClick={() => jumpToSlide(index)}
-                className={cn(
-                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all home-carousel-tab",
-                  "w-full",
-                  isActive ? "home-carousel-tab-active" : ""
-                )}
-                style={{ transitionDuration: `${labelTransition}s` }}
-              >
-                {/* 進度填充層 */}
-                {isActive && !hovered && (
-                  <m.div
-                    key={`progress-${page}`}
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{
-                      duration: AUTOPLAY_DURATION / 1000,
-                      ease: "linear",
-                    }}
-                    className="absolute inset-0 home-carousel-progress z-0"
-                    style={{ transformOrigin: "left" }}
-                  />
-                )}
+            // 懶載入：非必要 slide 不渲染內容
+            if (!shouldRender) {
+              return (
+                <m.div
+                  key={slide.id}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="hidden"
+                  className="absolute w-full h-full border home-carousel-card min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard"
+                />
+              );
+            }
 
-                {/* 文字層 */}
-                <span className="relative z-10 truncate px-2">
-                  {slide.tabTitle}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* See All 按鈕 */}
-        <div className="hidden md:block w-auto shrink-0">
-          <LocalizedLink
-            href={ROUTES.JARVIS.SUITE}
-            prefetchMode="hover"
-            className="inline-flex h-10 items-center justify-center px-6 home-label-sm border transition-colors home-button-strong"
-          >
-            See All
-          </LocalizedLink>
-        </div>
-        <div className="md:hidden w-full">
-          <LocalizedLink
-            href={ROUTES.JARVIS.SUITE}
-            prefetchMode="hover"
-            className="w-full h-10 flex items-center justify-center home-label-sm transition-colors border home-button-strong"
-          >
-            See All
-          </LocalizedLink>
-        </div>
-      </div>
-
-      {/* Slider Track */}
-      <div
-        className="relative w-full px-4 md:px-8 max-w-[1800px] mx-auto flex items-center justify-center min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] overflow-visible"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {SLIDES.map((slide, index) => {
-          const variant = getVariant(index);
-          const isCenter = variant === "center";
-          const shouldRender = shouldRenderSlide(index);
-
-          // 懶載入：非必要 slide 不渲染內容
-          if (!shouldRender) {
             return (
               <m.div
                 key={slide.id}
                 variants={cardVariants}
                 initial="hidden"
-                animate="hidden"
-                className="absolute w-full h-full border home-carousel-card min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
-                style={{ borderRadius: "var(--home-card-radius)" }}
-              />
-            );
-          }
-
-          return (
-            <m.div
-              key={slide.id}
-              variants={cardVariants}
-              initial="hidden"
-              animate={variant}
-              className="absolute w-full h-full border home-carousel-card shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px]"
-              style={{ borderRadius: "var(--home-card-radius)" }}
-            >
-              {/* Background Video/Image */}
-              <div className="absolute inset-0 z-0">
-                {isCenter && slide.imageUrl.endsWith(".mp4") ? (
-                  <video
-                    ref={(el) => {
-                      if (el) {
-                        videoRefs.current.set(index, el);
-                      } else {
-                        videoRefs.current.delete(index);
-                      }
-                    }}
-                    src={slide.imageUrl}
-                    poster={slide.posterUrl}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-full object-cover opacity-80 mix-blend-overlay"
-                  />
-                ) : (
-                  <Image
-                    src={slide.posterUrl || posterFallback}
-                    alt={slide.title || "JARVIS product"}
-                    fill
-                    loading="eager"
-                    sizes="(max-width: 768px) 90vw, 85vw"
-                    className="object-cover opacity-80 mix-blend-overlay"
-                    quality={85}
-                    priority={isCenter}
-                  />
-                )}
-                <div className="absolute inset-0 home-carousel-overlay" />
-              </div>
-
-              {/* Content Overlay */}
-              <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between home-text-inverse">
-                <div className="max-w-2xl">
-                  <div className="inline-flex items-center gap-2 mb-4">
-                    <span className="home-label-sm home-text-inverse-muted">
-                      {slide.category}
-                    </span>
-                  </div>
-                  <h2 className="home-carousel-title home-text-inverse mb-6">
-                    {slide.title}
-                    <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 home-text-inverse-subtle" />
-                  </h2>
+                animate={variant}
+                className="absolute w-full h-full border home-carousel-card shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard"
+              >
+                {/* Background Video/Image */}
+                <div className="absolute inset-0 z-0">
+                  {isCenter && slide.imageUrl.endsWith(".mp4") ? (
+                    <video
+                      ref={(el) => {
+                        if (el) {
+                          videoRefs.current.set(index, el);
+                        } else {
+                          videoRefs.current.delete(index);
+                        }
+                      }}
+                      src={slide.imageUrl}
+                      poster={slide.posterUrl}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-cover opacity-80 mix-blend-overlay"
+                    />
+                  ) : (
+                    <Image
+                      src={slide.posterUrl || posterFallback}
+                      alt={slide.title || "JARVIS product"}
+                      fill
+                      loading="eager"
+                      sizes="(max-width: 768px) 90vw, 85vw"
+                      className="object-cover opacity-80 mix-blend-overlay"
+                      quality={85}
+                      priority={isCenter}
+                    />
+                  )}
+                  <div className="absolute inset-0 home-carousel-overlay" />
                 </div>
 
-                {/* Bottom Section */}
-                <div className="relative">
-                  <div className="border-t home-carousel-border-strong pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
-                    <h1 className="home-carousel-bigtext home-text-inverse select-none">
-                      {slide.bigText}
-                    </h1>
+                {/* Content Overlay */}
+                <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between home-text-inverse">
+                  <div className="max-w-2xl">
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <span className="home-label-sm home-text-inverse-muted">
+                        {slide.category}
+                      </span>
+                    </div>
+                    <h2 className="home-carousel-title home-text-inverse mb-6">
+                      {slide.title}
+                      <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 home-text-inverse-subtle" />
+                    </h2>
+                  </div>
 
-                    <div className="hidden md:block max-w-xs home-text-inverse-subtle mb-4 leading-relaxed">
-                      <div className="flex gap-4 mb-2 home-label-sm home-text-inverse">
-                        <span>Built on:</span>
-                        <div className="flex flex-col">
-                          {slide.meta.map((m) => (
-                            <span key={m}>→ {m}</span>
-                          ))}
+                  {/* Bottom Section */}
+                  <div className="relative">
+                    <div className="border-t home-carousel-border-strong pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
+                      <h1 className="home-carousel-bigtext home-text-inverse select-none">
+                        {slide.bigText}
+                      </h1>
+
+                      <div className="hidden md:block max-w-xs home-text-inverse-subtle mb-4 leading-relaxed">
+                        <div className="flex gap-4 mb-2 home-label-sm home-text-inverse">
+                          <span>Built on:</span>
+                          <div className="flex flex-col">
+                            {slide.meta.map((m) => (
+                              <span key={m}>→ {m}</span>
+                            ))}
+                          </div>
                         </div>
+                        <p className="home-body text-sm home-text-inverse-muted">{slide.description}</p>
                       </div>
-                      <p className="home-body text-sm home-text-inverse-muted">{slide.description}</p>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Navigation Arrows (只在中心卡片 hover 時顯示) */}
-              <div
-                className={cn(
-                  "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity",
-                  isCenter && hovered ? "opacity-100" : "opacity-0"
-                )}
-                style={{ transitionDuration: `${arrowFadeDuration}s` }}
-              >
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prevSlide();
-                  }}
-                  className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-r border-y"
-                  aria-label="Previous slide"
+                {/* Navigation Arrows (只在中心卡片 hover 時顯示) */}
+                <div
+                  className={cn(
+                    "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity",
+                    isCenter && hovered ? "opacity-100" : "opacity-0"
+                  )}
+                  style={{ transitionDuration: `${arrowFadeDuration}s` }}
                 >
-                  <ArrowLeft className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nextSlide();
-                  }}
-                  className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-l border-y"
-                  aria-label="Next slide"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </div>
-            </m.div>
-          );
-        })}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevSlide();
+                    }}
+                    className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-r border-y"
+                    aria-label="Previous slide"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextSlide();
+                    }}
+                    className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-l border-y"
+                    aria-label="Next slide"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </m.div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Slide Indicators (Dots) */}
-    <div className="flex justify-center home-gap-sm z-30 w-full home-padding-inline">
+      <div className="flex justify-center home-gap-sm z-30 w-full home-padding-inline mt-8">
         {SLIDES.map((slide, index) => {
           const total = SLIDES.length;
           const activeIdx = (page % total + total) % total;
 
           return (
-              <button
-                key={slide.id}
-                type="button"
-                onClick={() => jumpToSlide(index)}
-                className={`h-2 transition-all ${
-                  activeIdx === index
+            <button
+              key={slide.id}
+              type="button"
+              onClick={() => jumpToSlide(index)}
+              className={`h-2 transition-all ${
+                activeIdx === index
                   ? "w-12 home-carousel-dot-active"
                   : "w-2 home-carousel-dot"
-                }`}
-                style={{ borderRadius: "var(--home-pill-radius)" }}
-                aria-label={`Go to slide ${index + 1}`}
-              />
+              }`}
+              style={{ borderRadius: "var(--home-pill-radius)" }}
+              aria-label={`Go to slide ${index + 1}`}
+            />
           );
         })}
       </div>

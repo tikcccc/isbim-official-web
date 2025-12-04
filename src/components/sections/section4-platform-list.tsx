@@ -375,7 +375,7 @@ function PlatformRow({
             className="w-full flex items-center justify-center z-20"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <div className="overflow-hidden home-radius-lg shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
+            <div className="overflow-hidden home-radius-hard shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
               <video
                 ref={videoRef}
                 src={item.videoUrl}

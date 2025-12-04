@@ -39,7 +39,8 @@
     --home-hero-overlay: rgba(0, 0, 0, 0.5);
     --home-cta-overlay: linear-gradient(to top right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
     --home-card-radius: 0.75rem;
-    --home-radius-md: 0.5rem;
+    --home-radius-hard: 0rem;
+    --home-radius-md: 0.25rem;
     --home-radius-lg: 0.75rem;
     --home-card-shadow: 0 25px 50px -25px rgba(0, 0, 0, 0.35);
     --home-gap: 2rem;
@@ -90,13 +91,15 @@
     --home-cta-text-duration: 0.8s;
     --home-cta-text-stagger: 0.15s;
     --home-cta-button-transition: 0.3s;
+    --home-cta-media-radius: var(--home-radius-md);
+    --home-cta-media-shadow: var(--home-shadow-strong);
     --home-spring-stiffness: 200;
     --home-spring-damping: 20;
     --home-carousel-stiffness: 80;
     --home-carousel-damping: 20;
     --home-stat-duration: 2000ms;
     --home-pill-radius: 9999px;
-    --home-media-radius: 0.75rem;
+    --home-media-radius: var(--home-radius-md);
     --home-shadow-strong: 0 20px 40px -18px rgba(0, 0, 0, 0.35);
   }
 
@@ -293,6 +296,7 @@
     overflow: hidden;
   }
 
+  .home-radius-hard { border-radius: var(--home-radius-hard); }
   .home-radius-md { border-radius: var(--home-radius-md); }
   .home-radius-lg { border-radius: var(--home-radius-lg); }
 
@@ -310,6 +314,11 @@
 
   .home-cta-overlay {
     background: var(--home-cta-overlay);
+  }
+
+  .home-cta-media {
+    border-radius: var(--home-cta-media-radius);
+    box-shadow: var(--home-cta-media-shadow);
   }
 
   /* CTA section helpers */
