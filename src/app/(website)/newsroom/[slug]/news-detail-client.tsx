@@ -44,7 +44,7 @@ interface NewsDetailClientProps {
 
 // Utility component for mono labels
 const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <span className={`newsroom-label text-gray-500 ${className}`}>
+  <span className={`newsroom-label newsroom-text-subtle ${className}`}>
     {children}
   </span>
 );
@@ -90,14 +90,17 @@ export default function NewsDetailClient({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white pt-6 pb-20 relative"
+      className="newsroom-surface-card pt-6 pb-20 relative"
     >
       {/* Top Navigation Bar */}
-      <div className="border-b border-gray-100 sticky top-0 bg-white/95 backdrop-blur-md z-40 transition-all">
+      <div
+        className="border-b newsroom-border-subtle sticky top-0 backdrop-blur-md z-40 transition-all"
+        style={{ backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.95)' }}
+      >
         <div className="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
           <Link
             href="/newsroom"
-            className="group flex items-center gap-2 newsroom-label text-gray-500 hover:text-black transition-colors"
+            className="group flex items-center gap-2 newsroom-label newsroom-text-subtle hover:text-[var(--newsroom-text-primary)] transition-colors"
           >
             <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
             Back to Feed
@@ -105,7 +108,7 @@ export default function NewsDetailClient({
           <div className="flex gap-4">
             <button
               onClick={handleShare}
-              className="text-gray-400 hover:text-black transition-colors"
+              className="newsroom-text-soft hover:text-[var(--newsroom-text-primary)] transition-colors"
               title="Share article"
             >
               <Share2 className="w-4 h-4" />
@@ -115,7 +118,7 @@ export default function NewsDetailClient({
       </div>
 
       {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-6 py-12">
+      <article className="newsroom-article-container py-12">
         {/* Article Header */}
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 mb-12">
           {/* Sidebar Metadata */}
@@ -128,7 +131,7 @@ export default function NewsDetailClient({
               <MonoLabel className="block mb-1">Category</MonoLabel>
               <div className="flex flex-wrap gap-2">
                 <span
-                  className="newsroom-label text-black"
+                  className="newsroom-label newsroom-text-primary"
                   style={{ color: newsDetail.category.color }}
                 >
                   [{newsDetail.category.title}]
@@ -137,7 +140,7 @@ export default function NewsDetailClient({
             </div>
             <div>
               <MonoLabel className="block mb-1">Read Time</MonoLabel>
-              <div className="text-sm font-medium text-gray-400">{newsDetail.readTime} MIN READ</div>
+              <div className="text-sm font-medium newsroom-text-soft">{newsDetail.readTime} MIN READ</div>
             </div>
             {newsDetail.author && (
               <div>
@@ -149,11 +152,11 @@ export default function NewsDetailClient({
 
           {/* Main Title & Subtitle */}
           <div>
-            <h1 className="newsroom-article-title text-gray-900 mb-6 leading-tight">
+            <h1 className="newsroom-article-title mb-6 leading-tight">
               {newsDetail.title}
             </h1>
             {newsDetail.subtitle && (
-              <p className="newsroom-body text-gray-500 leading-relaxed font-light border-l-2 border-gray-900 pl-6">
+              <p className="newsroom-body leading-relaxed font-light border-l-2 newsroom-border-strong pl-6">
                 {newsDetail.subtitle}
               </p>
             )}
@@ -162,29 +165,29 @@ export default function NewsDetailClient({
 
         {/* Featured Image */}
         {imageUrl ? (
-          <div className="relative aspect-[21/9] w-full bg-gray-100 mb-16 overflow-hidden border border-gray-200">
+          <div className="newsroom-media-frame newsroom-media-featured relative aspect-[21/9] w-full mb-16 overflow-hidden">
             <Image
               src={imageUrl}
               alt={newsDetail.mainImage?.alt || newsDetail.title}
               fill
               sizes="100vw"
-              className="object-cover transition-all duration-700"
+              className="newsroom-media-img object-cover"
             />
           </div>
         ) : (
-          <div className="w-full h-px bg-gray-200 mb-16" />
+          <div className="w-full h-px bg-[var(--newsroom-border-subtle)] mb-16" />
         )}
 
         {/* Article Body */}
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
           <div className="hidden md:block">
             <div className="sticky top-32">
-              <div className="w-8 h-px bg-black mb-4"></div>
+              <div className="w-8 h-px bg-[var(--newsroom-text-primary)] mb-4"></div>
               <MonoLabel>Section 01</MonoLabel>
             </div>
           </div>
 
-          <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-700">
+          <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-[var(--newsroom-text-muted)]">
             <PortableText
               value={newsDetail.body || []}
               components={portableTextComponents}
@@ -194,13 +197,13 @@ export default function NewsDetailClient({
 
         {/* Tags Section */}
         {newsDetail.tags && newsDetail.tags.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          <div className="mt-12 pt-8 border-t newsroom-border-subtle">
             <div className="flex items-center gap-3 flex-wrap">
-              <Tag className="w-4 h-4 text-gray-400" />
+              <Tag className="w-4 h-4 newsroom-text-soft" />
               {newsDetail.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-gray-100 newsroom-label-xs text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer"
+                  className="px-3 py-1 newsroom-label-xs newsroom-surface-muted newsroom-text-muted hover:bg-[var(--newsroom-surface-quiet)] transition-colors cursor-pointer"
                 >
                   {tag}
                 </span>
@@ -212,8 +215,8 @@ export default function NewsDetailClient({
 
       {/* Related Intelligence Section */}
       {relatedNews.length > 0 && (
-        <div className="max-w-4xl mx-auto px-6 mt-20 pt-12 border-t border-gray-900">
-          <h3 className="newsroom-label text-gray-900 mb-8">
+        <div className="newsroom-article-container mt-20 pt-12 border-t newsroom-border-strong">
+          <h3 className="newsroom-label newsroom-text-primary mb-8">
             Related Intelligence
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -231,15 +234,18 @@ export default function NewsDetailClient({
       )}
 
       {/* Mobile Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden z-50 flex items-center justify-between pb-8">
-        <Link href="/newsroom" className="p-2 text-gray-500 hover:text-black">
+      <div
+        className="fixed bottom-0 left-0 right-0 border-t newsroom-border-subtle p-4 md:hidden z-50 flex items-center justify-between pb-8"
+        style={{ backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.96)' }}
+      >
+        <Link href="/newsroom" className="p-2 newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <Link href="/newsroom" className="flex items-center gap-2 newsroom-label text-black font-bold">
+        <Link href="/newsroom" className="flex items-center gap-2 newsroom-label newsroom-text-primary font-bold">
           <Home className="w-4 h-4" />
           News Feed
         </Link>
-        <button onClick={handleShare} className="p-2 text-gray-500 hover:text-black">
+        <button onClick={handleShare} className="p-2 newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]">
           <Share2 className="w-5 h-5" />
         </button>
       </div>
@@ -254,10 +260,10 @@ function RelatedCard({ post }: { post: NewsItem }) {
     : null;
 
   return (
-    <div className="group cursor-pointer flex flex-col h-full border-t border-gray-200 pt-6 hover:border-black transition-colors duration-300 relative bg-white">
+    <div className="group cursor-pointer flex flex-col h-full relative newsroom-card-shell">
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
-          <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">
+          <MonoLabel className="group-hover:text-[var(--newsroom-text-primary)] transition-colors">
             [{post.category.title}]
           </MonoLabel>
         </div>
@@ -267,25 +273,25 @@ function RelatedCard({ post }: { post: NewsItem }) {
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="newsroom-card-title text-gray-900 mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="newsroom-card-title mb-3 group-hover:underline decoration-1 underline-offset-4">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="newsroom-body-small text-gray-500 line-clamp-2 mb-4">
+          <p className="newsroom-body-small line-clamp-2 mb-4">
             {post.subtitle}
           </p>
         )}
 
         {imageUrl && (
           <div className="mt-auto mb-4">
-            <div className="relative w-full aspect-[3/2] bg-gray-100 overflow-hidden border border-gray-100">
+            <div className="newsroom-media-frame relative w-full aspect-[3/2]">
               <Image
                 src={imageUrl}
                 alt={post.mainImage?.alt || post.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover transition-all duration-500 group-hover:scale-105"
+                className="newsroom-media-img object-cover"
               />
             </div>
           </div>
@@ -293,19 +299,19 @@ function RelatedCard({ post }: { post: NewsItem }) {
 
         {!imageUrl && post.excerpt && (
           <div className="relative mt-2 mb-4 flex-1">
-            <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-200 group-hover:bg-blue-500 transition-colors" />
-            <p className="newsroom-body-small text-gray-500 leading-relaxed pl-4 line-clamp-[10]">
+            <div className="newsroom-excerpt-bar absolute left-0 top-0 bottom-0 w-px" />
+            <p className="newsroom-body-small leading-relaxed pl-4 line-clamp-[10]">
               {post.excerpt}...
             </p>
           </div>
         )}
       </div>
 
-      <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between group-hover:bg-gray-50 -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
-        <span className="newsroom-cta-label text-gray-500 group-hover:text-blue-700 transition-colors">
+      <div className="newsroom-card-footer mt-auto flex items-center justify-between -mx-0">
+        <span className="newsroom-cta-label newsroom-cta-link">
           Read Briefing
         </span>
-        <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
+        <ArrowRight className="w-3 h-3 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />
       </div>
     </div>
   );
@@ -323,7 +329,7 @@ const portableTextComponents: PortableTextComponents = {
           href={value?.href}
           target={target}
           rel={target === '_blank' ? 'noopener noreferrer' : undefined}
-          className="text-blue-600 hover:underline"
+          className="text-[var(--newsroom-accent-cta)] hover:underline"
         >
           {children}
         </a>
@@ -334,7 +340,7 @@ const portableTextComponents: PortableTextComponents = {
     h2: ({ children }: { children?: ReactNode }) => <h2 className="text-2xl font-bold mt-8 mb-4">{children}</h2>,
     h3: ({ children }: { children?: ReactNode }) => <h3 className="text-xl font-bold mt-6 mb-3">{children}</h3>,
     blockquote: ({ children }: { children?: ReactNode }) => (
-      <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic">
+      <blockquote className="border-l-4 newsroom-border-subtle pl-4 my-6 italic">
         {children}
       </blockquote>
     ),

@@ -44,61 +44,61 @@ export default function FeaturedNewsCard({ news }: FeaturedNewsCardProps) {
   return (
     <Link
       href={`/newsroom/${news.slug.current}`}
-      className="group cursor-pointer border border-gray-200 bg-white hover:border-black transition-colors duration-300 overflow-hidden flex flex-col md:flex-row h-full"
+      className="group cursor-pointer newsroom-card-featured flex flex-col md:flex-row h-full"
     >
       {/* Image Section */}
       {hasImage && (
-        <div className="w-full md:w-1/2 aspect-[16/9] md:aspect-auto bg-gray-100 overflow-hidden relative border-b md:border-b-0 md:border-r border-gray-200">
+        <div className="newsroom-media-frame newsroom-media-featured w-full md:w-1/2 aspect-[16/9] md:aspect-auto relative border-b md:border-b-0 md:border-r newsroom-border-subtle">
           <Image
             src={imageUrl}
             alt={news.mainImage?.alt || news.title}
             width={1400}
             height={600}
-            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+            className="newsroom-media-img w-full h-full object-cover"
             priority
           />
         </div>
       )}
 
       {/* Content Section */}
-      <div className={`p-8 md:p-12 flex flex-col justify-center ${hasImage ? 'w-full md:w-1/2' : 'w-full'}`}>
+      <div className={`newsroom-card-padding-lg flex flex-col justify-center ${hasImage ? 'w-full md:w-1/2' : 'w-full'}`}>
         {/* Header: Category and Date */}
         <div className="flex justify-between items-start mb-6">
           <div className="flex gap-2">
-            <span className="newsroom-label text-gray-400 group-hover:text-black transition-colors">
+            <span className="newsroom-label newsroom-text-soft group-hover:text-[var(--newsroom-text-primary)] transition-colors">
               [{news.category.title}]
             </span>
           </div>
-          <span className="newsroom-label text-gray-500">
+          <span className="newsroom-label newsroom-text-subtle">
             {news.publishedAt}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="newsroom-card-title-featured text-gray-900 mb-6 group-hover:underline decoration-2 underline-offset-8">
+        <h3 className="newsroom-card-title-featured mb-6 group-hover:underline decoration-2 underline-offset-8">
           {news.title}
         </h3>
 
         {/* Subtitle */}
         {news.subtitle && (
-          <p className="newsroom-body text-gray-500 leading-relaxed font-light mb-8">
+          <p className="newsroom-body leading-relaxed font-light mb-8">
             {news.subtitle}
           </p>
         )}
 
         {/* Excerpt (for non-image cards) */}
         {!hasImage && news.excerpt && (
-          <p className="newsroom-body-small text-gray-600 leading-relaxed line-clamp-4 mb-6 border-l-2 border-gray-200 pl-4">
+          <p className="newsroom-body-small leading-relaxed line-clamp-4 mb-6 border-l-2 newsroom-border-subtle pl-4">
             {news.excerpt}
           </p>
         )}
 
         {/* Footer: Read Button */}
-        <div className="mt-auto pt-4 flex items-center justify-between w-full border-t border-transparent group-hover:border-gray-100 transition-colors">
-          <span className="newsroom-cta-label group-hover:text-blue-700 transition-colors">
+        <div className="newsroom-card-footer mt-auto pt-4 flex items-center justify-between w-full border-t border-transparent">
+          <span className="newsroom-cta-label newsroom-cta-link">
             Read Featured Story
           </span>
-          <ArrowRight className="w-4 h-4 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
+          <ArrowRight className="w-4 h-4 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />
         </div>
       </div>
     </Link>

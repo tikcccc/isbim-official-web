@@ -1,13 +1,13 @@
 # Coding Rules - isBIM Official Web
 
-**文件说明:** 本文件定义代码风格规则、命名约定、反模式和最佳实践。当建立新的编码模式(动画时序、组件结构)、定义新库的导入/导出规则、添加 TypeScript 类型安全要求或设置动画协调规则时需要更新此文件。
+**文件说明:** 本文件定义代码风格规则、命名约定、反模式和最佳实践。当建立新的编码模式(动画时序、组件结�?、定义新库的导入/导出规则、添�?TypeScript 类型安全要求或设置动画协调规则时需要更新此文件�?
 
 **更新原则:**
-- 使用简洁的要点和代码片段,避免长篇解释
-- 规则简明扼要,关键时刻使用
-- 删除已过时或不再适用的规则
+- 使用简洁的要点和代码片�?避免长篇解释
+- 规则简明扼�?关键时刻使用
+- 删除已过时或不再适用的规�?
 
-**Last Updated**: 2025-12-03 (Centralized design tokens for pages/layout: Alliance fonts via per-page tokens + layout tokens) | **Version**: 4.1
+**Last Updated**: 2025-12-04 (Contact/Newsroom spacing+shape+motion tokens applied; motion params aligned to tokens) | **Version**: 4.2
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -31,8 +31,8 @@
 
 ## Media & Assets
 - Videos via CDN links using `media-config` (`getVideoUrl`/`JARVIS_VIDEOS`); avoid hardcoded `/videos/*`.
-- Images優先使用本地 `/public` 資源。
-- 動態內容頁（Newsroom、Careers）使用 Sanity 管理資料；其他頁面不依賴 Sanity。
+- Images優先使用本地 `/public` 資源�?
+- 動態內容頁（Newsroom、Careers）使�?Sanity 管理資料；其他頁面不依賴 Sanity�?
 - `NEXT_PUBLIC_VIDEO_CDN_URL` can override video base; keep filenames consistent.
 - When embedding any video, extract the first frame with `ffmpeg` as a poster (store under `public/images/post` via `ffmpeg -i <video> -frames:v 1 -q:v 2 <poster>`), set it as `poster`, and preload `metadata` for buffering fallback.
 - **Next.js Images**: Declare all quality values in `next.config.ts` `images.qualities` array (currently: [75, 85, 90, 100]) to avoid warnings in Next.js 15+ and prepare for Next.js 16 requirement.
@@ -45,9 +45,11 @@
 - **Lenis Integration**: `smooth-scroll-provider.tsx` connects Lenis to ScrollTrigger via `lenisInstance.on("scroll", ScrollTrigger.update)` and handles Edge browser image lazy-loading with staggered refresh (300ms/1000ms/window-load). Do not modify this integration.
 
 ## Styling & Tokens
-- Design tokens live在 `src/styles/*-design-tokens.css` + `design-tokens.ts`;不要重复定义 breakpoints/z-index/colors/fonts。页面/组件字体只用对应 token（home/product/aboutus/services/contact/newsroom/layout），不要再内联 `font-family` 或单独 `font-sans/font-mono`。
-- Layout 导航/页脚/Topbar/Menu 使用 `layout-design-tokens.css` (AllianceNo2 标题/AllianceNo1 链接/标签)；页面专属 token 负责各自字号/行高（保持现有大小）。
-- Tailwind v4 utilities；shimmer utility 仍在 `globals.css`（Services/Products hero）。
+- Design tokens λ�� `src/styles/*-design-tokens.css` + `design-tokens.ts`����Ҫ�ظ����� breakpoints/z-index/colors/fonts��ҳ��/�������ֻ�ö�Ӧ token��home/product/aboutus/services/contact/newsroom/layout����������д `font-sans/font-mono`��
+- Layout ����/ҳ��/Topbar/Menu ʹ�� `layout-design-tokens.css` (AllianceNo2 ����/AllianceNo1 ����/��ǩ)��ҳ�� token ����ҳ�ֺ�/�иߣ��������д�С����
+- Spacing/shape/motion��Home/Product/About/Contact/Newsroom ���ṩ container/section/stack/grid��radius/shadow��motion (duration/easing/stagger) token����ֹ��д��ɢ `pt-28`/`gap-12`/`rounded-lg`/`duration-300`�����ö�Ӧ utility���� `home-section-padding`��`product-radius-card`��`about-section-padding`��`contact-form-grid`��`newsroom-section`����
+- ��Ч��ͳһ��ȫ�� `animation-design-tokens.css` + ҳ�� motion token��typewriter/GSAP/Framer ������ token������Ӳ���� easing/ʱ����
+- Tailwind v4 utilities��shimmer utility ���� `globals.css`��Services/Products hero����
 
 ## Services & Products Page
 - Dark cyberpunk vibe: `bg-[#050505]`, emerald accents, `BackgroundLayers`, `ServicesGrid` -> `ServiceCard`/`SpotlightCard`/`CornerBrackets`, `CtaSection`, `FooterDark`.
@@ -60,9 +62,9 @@
   - `{product}-client.tsx` (Client Component): ALL m.*() translations executed client-side
   - Benefits: Single page refresh, no `dynamic = "force-dynamic"`, automatic locale responsiveness
 - **CRITICAL i18n Rule**:
-  - ❌ NEVER call m.*() in Server Component and pass as props (pre-renders as static strings → locale mismatch)
-  - ✅ ALWAYS create dedicated `{product}-client.tsx` marked `"use client"` with all m.*() calls inside
-  - Example: `jarvis-pay/page.tsx` (Server) → `jarvis-pay/jarvis-pay-client.tsx` (Client with m.*())
+  - �?NEVER call m.*() in Server Component and pass as props (pre-renders as static strings �?locale mismatch)
+  - �?ALWAYS create dedicated `{product}-client.tsx` marked `"use client"` with all m.*() calls inside
+  - Example: `jarvis-pay/page.tsx` (Server) �?`jarvis-pay/jarvis-pay-client.tsx` (Client with m.*())
 - **Data Source Rule**: Static resources ONLY (Paraglide m.* translations). NOT for Sanity-based pages (Newsroom/Careers use Server Component + ISR).
 - Palantir-inspired design: sticky video hero, scroll-driven narrative, feature sections with Video/Details toggle.
 - Components: `HeroSection`, `NarrativeTrack`, `FeatureSection`, `ProductCTASection`, `ProductPageLayout` (composite) - ALL marked `"use client"`.
@@ -121,7 +123,7 @@
 ## Contact Page
 - **Architecture**: Client Component (`"use client"`) with `useLocale()` from `@/lib/i18n/locale-context`.
 - **i18n**: All UI copy pulled from `messages/*.json` via `@/paraglide/messages` (no inline `locale === "zh"` conditionals). Service/company option labels also localized; keep values stable for backend.
-- **Design tokens**: Uses `contact-design-tokens.css` with product template gradient system (purple→cyan: `#9881F3→#13C9BA`).
+- **Design tokens**: Uses `contact-design-tokens.css` with product template gradient system (purple→cyan: `#9881F3�?13C9BA`).
 - **Styling**: Light architectural theme (`bg-[#f8fafc]`), technical grid background, CAD corner markers, glass panel form.
 - **Form**: React Hook Form + Zod (`contactFormSchema`), submits via Server Action `submitContactForm`.
 - **Map**: OpenStreetMap iframe embed + Google Maps external link; coordinates for 430 Nathan Road, Yau Ma Tei.
@@ -156,5 +158,8 @@
   - `NEWS_DETAIL_QUERY`: Single article with full SEO and body content
   - `RELATED_NEWS_QUERY`: 3 related articles from same category (excludes current)
   - `NEWS_METADATA_QUERY`: SEO metadata only (for `generateMetadata`)
-- **SEO**: Use `generateNewsroomPageSEO()` for list page; build detail page metadata from `NEWS_METADATA_QUERY` with fallbacks (seo.metaTitle → title, seo.metaDescription → subtitle/excerpt).
+- **SEO**: Use `generateNewsroomPageSEO()` for list page; build detail page metadata from `NEWS_METADATA_QUERY` with fallbacks (seo.metaTitle �?title, seo.metaDescription �?subtitle/excerpt).
 - **Design Reference**: `doc/reference-doc/pages/newsroom/newsroom-page.html` (original prototype).
+
+
+

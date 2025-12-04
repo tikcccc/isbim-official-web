@@ -173,7 +173,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
       <JsonLd data={articleSchema} id="newsroom-detail-article" />
 
       {/* Main news detail content */}
-      <main className="newsroom-page min-h-screen bg-[#fdfdfd]">
+      <main className="newsroom-page min-h-screen">
         {/* Noise overlay for editorial texture */}
         <div className="newsroom-noise-overlay" />
 

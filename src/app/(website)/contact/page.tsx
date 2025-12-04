@@ -181,7 +181,8 @@ export default function ContactPage() {
 
   return (
     <div
-      className={`contact-page transition-opacity duration-1000 ${mounted ? "opacity-100" : "opacity-0"}`}
+      className={`contact-page contact-transition-base ${mounted ? "opacity-100" : "opacity-0"}`}
+      style={{ transitionDuration: "var(--contact-motion-slow)" }}
     >
       {/* Background Layers */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -213,14 +214,19 @@ export default function ContactPage() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-28 md:pt-32 lg:pt-40 pb-20 md:pb-22 lg:pb-24 px-4 sm:px-6 lg:px-0">
+      <div className="relative z-10 contact-container contact-section-padding contact-hero-padding">
         {/* Header Section */}
         <div className="mb-24 relative pl-6 max-w-[1100px]">
           <div className="contact-title-border" aria-hidden="true" />
           <div className="overflow-hidden">
             <h1
-              className={`contact-hero-title transform transition-transform duration-1000 delay-300 ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
-            >
+            className={`contact-hero-title transform ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
+            style={{
+              transitionDuration: "var(--contact-motion-slow)",
+              transitionTimingFunction: "var(--contact-motion-ease)",
+              transitionDelay: "var(--contact-motion-delay-hero)",
+            }}
+          >
               {messages.contact_hero_title_prefix()}
               <br className="md:hidden" />
               <span className="font-semibold">
@@ -231,7 +237,12 @@ export default function ContactPage() {
 
           <div className="mt-8 max-w-3xl overflow-hidden">
             <p
-              className={`contact-hero-subtitle text-[--contact-muted] transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
+              className={`contact-hero-subtitle text-[--contact-muted] transform ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
+              style={{
+                transitionDuration: "var(--contact-motion-slow)",
+                transitionTimingFunction: "var(--contact-motion-ease)",
+                transitionDelay: "var(--contact-motion-delay-sub)",
+              }}
             >
               <>
                 {messages.contact_hero_body_prefix()}{" "}
@@ -248,22 +259,23 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-24 items-start">
+        <div className="contact-layout-grid items-start">
           {/* Left Column: Contact Info & Map */}
           <div
-            className={`lg:col-span-4 space-y-10 md:space-y-12 transform transition-all duration-1000 delay-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`lg:col-span-4 contact-stack-lg transform contact-transition-base ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            style={{ transitionDuration: "var(--contact-motion-slow)", transitionDelay: "var(--contact-motion-delay-sub)" }}
           >
             {/* Info Block 1: Address */}
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
-              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
+              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
                 <MapPin size={18} className="contact-icon" />
                 <span className="contact-info-text">
                   {messages.contact_label_address()}
                 </span>
               </div>
-              <div className="pl-2">
+              <div className="pl-2 contact-stack-sm">
                 <h3 className="contact-location-title mb-2">
                   {messages.contact_address_city()}
                 </h3>
@@ -283,21 +295,21 @@ export default function ContactPage() {
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
-              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
+              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
                 <Globe size={18} className="contact-icon" />
                 <span className="contact-info-text">
                   {messages.contact_label_digital_link()}
                 </span>
               </div>
-              <div className="pl-2 space-y-4">
+              <div className="pl-2 contact-stack-sm">
                 <div>
                   <p className="contact-label text-[--contact-muted] mb-1">
                     {messages.contact_label_direct_line()}
                   </p>
                   <a
                     href="tel:+85223828380"
-                    className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] transition-colors cursor-pointer"
-                  >
+                  className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] contact-transition-base cursor-pointer"
+                >
                     +852 2382 8380
                   </a>
                 </div>
@@ -307,8 +319,8 @@ export default function ContactPage() {
                   </p>
                   <a
                     href="mailto:solution@isbim.com.hk"
-                    className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
-                  >
+                  className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] contact-transition-base contact-accent-underline"
+                >
                     solution@isbim.com.hk
                   </a>
                 </div>
@@ -321,14 +333,15 @@ export default function ContactPage() {
               <div className="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-[--contact-muted] z-10" />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-[--contact-muted] z-10" />
 
-              <div className="contact-map-container group">
+              <div className="contact-map-container group contact-radius-md contact-shadow-soft">
                 <iframe
                   width="100%"
                   height="100%"
                   frameBorder="0"
                   scrolling="no"
                   src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`}
-                  className="opacity-90 hover:opacity-100 transition-all duration-700"
+                  className="opacity-90 hover:opacity-100 transition-all"
+                  style={{ transitionDuration: "var(--contact-motion-slow)" }}
                   title={messages.contact_map_title()}
                 />
 
@@ -340,7 +353,7 @@ export default function ContactPage() {
                   href={googleMapsLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20"
+                  className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20 contact-radius-pill contact-transition-base"
                 >
                   <ExternalLink size={12} />
                   {messages.contact_map_cta()}
@@ -362,13 +375,14 @@ export default function ContactPage() {
           </div>
           {/* Right Column: Form Section */}
           <div
-            className={`lg:col-span-8 transform transition-all duration-1000 delay-900 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`lg:col-span-8 transform contact-transition-base ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            style={{ transitionDuration: "var(--contact-motion-slow)", transitionDelay: "var(--contact-motion-delay-sub)" }}
           >
             <div
               id="contact-form"
               ref={formRef}
-              className="contact-panel rounded-sm p-6 sm:p-7 md:p-10 lg:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group"
-            >
+              className="contact-panel contact-radius-md contact-panel-padding hover:shadow-2xl contact-transition-base relative overflow-hidden group"
+              >
               {/* Structural Border */}
               <div className="contact-structural-border" />
 
@@ -381,7 +395,7 @@ export default function ContactPage() {
               ) : (
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                  className="space-y-8 md:space-y-10 relative z-10 pl-2 md:pl-6"
+                    className="contact-stack-md relative z-10 pl-2 md:pl-6"
                 >
                   {/* Form Header */}
                   <div className="contact-section-divider">
@@ -394,8 +408,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 1: Identity */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
+                  <div className="contact-stack-md">
+                    <div className="contact-form-grid text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_first_name()}
                         required
@@ -414,8 +428,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 2: Organization */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
+                  <div className="contact-stack-md">
+                    <div className="contact-form-grid text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_company_name()}
                         error={errors.companyName?.message}
@@ -441,8 +455,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 3: Context */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
+                  <div className="contact-stack-md">
+                      <div className="contact-form-grid text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_job_title()}
                         error={errors.jobTitle?.message}
@@ -469,8 +483,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 4: Contact & Action */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base md:text-lg">
+                  <div className="contact-stack-md">
+                      <div className="contact-form-grid text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_email()}
                         type="email"
@@ -530,10 +544,11 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group/btn relative px-5 py-2.5 text-white font-medium text-[11px] tracking-widest uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="group/btn contact-btn-primary text-[11px] uppercase cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                         style={{ backgroundColor: "var(--contact-text, #111827)" }}
                       >
-                        <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
+                        <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all"
+                          style={{ transitionDuration: "var(--contact-motion-base)", transitionTimingFunction: "var(--contact-motion-ease)" }}>
                           {isSubmitting ? (
                             <span className="contact-label text-white animate-pulse">
                               {messages.contact_submit_loading()}
@@ -552,8 +567,12 @@ export default function ContactPage() {
                         </span>
                         <div
                           aria-hidden="true"
-                          className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"
-                          style={{ backgroundColor: "var(--contact-accent, #0ea5e9)" }}
+                          className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform"
+                          style={{
+                            backgroundColor: "var(--contact-accent, #0ea5e9)",
+                            transitionDuration: "var(--contact-motion-slow)",
+                            transitionTimingFunction: "var(--contact-motion-ease-soft)",
+                          }}
                         />
                       </button>
                     </div>
@@ -590,7 +609,7 @@ function SuccessState({
       </p>
       <button
         onClick={onReset}
-        className="mt-12 px-8 py-3 rounded-none border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] transition-all uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
+        className="mt-12 px-8 py-3 contact-radius-md border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] contact-transition-base uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
       >
         {messages.contact_reset_button()}
       </button>
@@ -635,7 +654,12 @@ const FormInput = ({
         {...props}
       />
       <div
-        className={`absolute bottom-0 left-0 h-[1px] w-0 group-focus-within:w-full transition-all duration-500 ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
+        className={`absolute bottom-0 left-0 w-0 group-focus-within:w-full transition-all ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
+        style={{
+          height: "var(--contact-underline-height)",
+          transitionDuration: "var(--contact-underline-duration)",
+          transitionTimingFunction: "var(--contact-motion-ease)",
+        }}
       />
       {error && (
         <p className="text-red-500 text-base mt-1">{error}</p>
@@ -687,22 +711,26 @@ const FormSelect = ({
         {label}
         {required && " *"}
       </label>
-      <Select
-        value={value || ""}
-        onValueChange={(val) =>
-          onChange(val)
-        }
-      >
-        <SelectTrigger
-          className={cn(
-            "contact-select w-full justify-between items-center text-xl leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
-            "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
+          <Select
+            value={value || ""}
+            onValueChange={(val) =>
+              onChange(val)
+            }
+          >
+            <SelectTrigger
+              className={cn(
+                "contact-select w-full justify-between items-center text-xl leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
+            "transition-all focus-visible:ring-0 focus-visible:ring-offset-0",
             focusColor,
             hoverIconColor,
             "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
             "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]"
-          )}
-        >
+              )}
+              style={{
+                transitionDuration: "var(--contact-motion-base)",
+                transitionTimingFunction: "var(--contact-motion-ease)",
+              }}
+            >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent

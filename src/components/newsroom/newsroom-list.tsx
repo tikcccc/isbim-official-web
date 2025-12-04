@@ -68,17 +68,17 @@ export default function NewsroomList({
     <div className="newsroom-container">
       <div className="newsroom-content newsroom-section">
         {/* Page Header with Title and Layout Toggle */}
-        <div className="mb-8 border-b border-gray-900 pb-8">
+        <div className="mb-8 border-b newsroom-border-strong pb-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <h1 className="newsroom-title text-gray-900">
+            <h1 className="newsroom-title">
               {m.newsroom_title()}
             </h1>
 
             {/* Layout Controls */}
-            <div className="flex items-center gap-2 border border-gray-200 p-1 bg-white">
+            <div className="flex items-center gap-2 border newsroom-border-subtle p-1 newsroom-surface-card">
               <button
                 onClick={() => setLayoutMode('grid')}
-                className={`p-2 transition-colors ${layoutMode === 'grid' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+                className={`newsroom-layout-btn ${layoutMode === 'grid' ? 'active' : ''}`}
                 title="Grid layout"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +91,7 @@ export default function NewsroomList({
 
               <button
                 onClick={() => setLayoutMode('magazine')}
-                className={`p-2 transition-colors ${layoutMode === 'magazine' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+                className={`newsroom-layout-btn ${layoutMode === 'magazine' ? 'active' : ''}`}
                 title="Magazine layout"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@ export default function NewsroomList({
 
               <button
                 onClick={() => setLayoutMode('feed')}
-                className={`p-2 transition-colors ${layoutMode === 'feed' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+                className={`newsroom-layout-btn ${layoutMode === 'feed' ? 'active' : ''}`}
                 title="Feed layout"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,12 +122,7 @@ export default function NewsroomList({
           <div className="mt-8 flex flex-wrap items-center gap-2">
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`
-                px-3 py-1.5 newsroom-label-xs border transition-all duration-200
-                ${!selectedCategory
-                  ? 'bg-black text-white border-black'
-                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
-              `}
+              className={`newsroom-filter-btn ${!selectedCategory ? 'active' : ''}`}
             >
               {m.newsroom_all_categories()}
             </button>
@@ -136,12 +131,7 @@ export default function NewsroomList({
               <button
                 key={category._id}
                 onClick={() => setSelectedCategory(category._id)}
-                className={`
-                  px-3 py-1.5 newsroom-label-xs border transition-all duration-200
-                  ${selectedCategory === category._id
-                    ? 'bg-black text-white border-black'
-                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
-                `}
+                className={`newsroom-filter-btn ${selectedCategory === category._id ? 'active' : ''}`}
               >
                 {category.title}
               </button>
@@ -182,7 +172,7 @@ export default function NewsroomList({
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="newsroom-body text-gray-500">
+            <p className="newsroom-body">
               {selectedCategory
                 ? m.newsroom_no_articles_in_category()
                 : m.newsroom_no_articles()}
@@ -194,7 +184,7 @@ export default function NewsroomList({
         {regularNews.length >= 12 && (
           <div className="mt-12 text-center">
             <button
-              className="newsroom-filter-btn hover:bg-gray-100 px-8 py-3"
+              className="newsroom-filter-btn newsroom-filter-btn-wide"
               onClick={() => {
                 // TODO: Implement load more functionality
                 console.log('Load more articles');
