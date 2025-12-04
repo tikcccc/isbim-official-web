@@ -40,6 +40,15 @@
   .home-radius-md { border-radius: var(--home-radius-md); }
   .home-radius-lg { border-radius: var(--home-radius-lg); }
 
+  /* Text colors */
+  .home-text-primary { color: var(--home-text-primary); }
+  .home-text-muted { color: var(--home-text-muted); }
+  .home-text-subtle { color: var(--home-text-subtle); }
+  .home-text-soft { color: var(--home-text-soft); }
+  .home-text-inverse { color: var(--home-text-inverse); }
+  .home-text-inverse-muted { color: var(--home-text-inverse-muted); }
+  .home-text-inverse-subtle { color: var(--home-text-inverse-subtle); }
+
   /* Labels */
   .home-label {
     font-family: var(--font-body-en);

@@ -21,6 +21,17 @@
   --color-slate-200: #d1d5db;
   --color-slate-50: #f4f4f5;
 
+  /* Product primitives (for product theme use) */
+  --ink-900: #0a0a0b;
+  --ink-800: #121218;
+  --surface-dark: #111827;
+  --surface-deep: #0b0c10;
+  --accent-cyan: #13c9ba;
+  --accent-violet: #9881f3;
+  --accent-violet-soft: rgba(152, 129, 243, 0.5);
+  --border-inverse-soft: rgba(255, 255, 255, 0.1);
+
+
   /* Legacy palette (ref snippet) */
   --nhs-black: #202426;
   --nhs-black-rgb: 32 36 38;
@@ -83,17 +94,17 @@
   --headline-100-size: 1.8888888889rem;
   --headline-100-line: 1;
   --headline-100-letter: normal;
-  --headline-100-family: "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --headline-100-family: var(--font-heading-en);
 
   --headline-200-size: 1.8888888889rem;
   --headline-200-line: 1.1765;
   --headline-200-letter: normal;
-  --headline-200-family: "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --headline-200-family: var(--font-heading-en);
 
   --headline-300-size: 1.8888888889rem;
   --headline-300-line: 1.1765;
   --headline-300-letter: normal;
-  --headline-300-family: "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --headline-300-family: var(--font-heading-en);
 
   --body-100-size: 0.8888888889rem;
   --body-100-line: 1.4286;
@@ -106,8 +117,8 @@
   --details-captions-size: 0.5555555556rem;
   --details-captions-line: 1.6;
   --details-captions-letter: 0.05em;
-  --details-captions-family: "Alliance No.2", "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --details-earmark-family: "Alliance No.2", "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --details-captions-family: var(--font-heading-en);
+  --details-earmark-family: var(--font-heading-en);
   --form-placeholder-size: 0.7777777778rem;
 }
 
@@ -120,12 +131,12 @@
     --headline-100-size: 2.2222222222rem;
     --headline-100-line: 1;
     --headline-100-letter: -0.02em;
-    --headline-100-family: "Alliance No.2", "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --headline-100-family: var(--font-heading-en);
 
     --headline-300-size: 2.7777777778rem;
     --headline-300-line: 1.2;
     --headline-300-letter: -0.02em;
-    --headline-300-family: "Alliance No.2", "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --headline-300-family: var(--font-heading-en);
 
     --body-300-size: 1.1111111111rem;
     --body-300-line: 1.3;
@@ -142,11 +153,11 @@
     --headline-200-size: 4rem;
     --headline-200-line: 1.1944;
     --headline-200-letter: -0.02em;
-    --headline-200-family: "Alliance No.2", "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --headline-200-family: var(--font-heading-en);
     --headline-300-size: 5.5555555556rem;
     --headline-300-line: 1.15;
     --headline-300-letter: -0.02em;
-    --headline-300-family: "Alliance No.2", "Alliance No.1", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --headline-300-family: var(--font-heading-en);
 
     --body-400-size: 1.8888888889rem;
     --body-400-line: 1.1765;

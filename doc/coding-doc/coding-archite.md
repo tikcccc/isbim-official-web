@@ -243,7 +243,11 @@ src/schemas/
   src/styles/
     animations.css  # placeholder keyframes
     typography.css  # placeholder typography utilities
-  - home-design-tokens.css      # body base, containers, section spacing, hero/footer/HUD styles (home); AllianceNo1 body + AllianceNo2 titles
+    home-utilities.css          # home containers/spacing/labels/buttons/radius (utilities)
+    home-animations.css         # home-scoped keyframes (hud flicker, bounce) under .home-page
+    themes/home.css             # .home-page scoped var overrides + base overrides (font/background/overflow)
+    tokens.css                  # global primitives + semantics + responsive overrides (values only)
+  - home-design-tokens.css      # removed from imports; legacy file deleted after migration
   - product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse; AllianceNo2 titles + AllianceNo1 body/meta/CTA
   - aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text); AllianceNo2 titles, AllianceNo1 body/labels
   - services-design-tokens.css  # services/products page palette (dark + emerald), selection, badge/border helpers

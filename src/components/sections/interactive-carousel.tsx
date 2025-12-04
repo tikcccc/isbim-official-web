@@ -374,11 +374,10 @@ export function InteractiveCarousel() {
                         duration: AUTOPLAY_DURATION / 1000,
                         ease: "linear",
                       }}
-                    className="absolute inset-0 home-carousel-progress z-0"
-                    className={cn("absolute inset-0 z-0", styles.progress)}
-                    style={{ transformOrigin: "left" }}
-                  />
-                )}
+                      className={cn("absolute inset-0 z-0 home-carousel-progress", styles.progress)}
+                      style={{ transformOrigin: "left" }}
+                    />
+                  )}
 
                   {/* 文字層 */}
                   <span className="relative z-10 truncate px-2">
@@ -491,7 +490,7 @@ export function InteractiveCarousel() {
                         {slide.category}
                       </span>
                     </div>
-                    <h2 className="home-carousel-title home-text-inverse mb-6">
+                    <h2 className={cn(styles.carouselTitle, "home-text-inverse mb-6")}>
                       {slide.title}
                       <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 home-text-inverse-subtle" />
                     </h2>
@@ -500,7 +499,7 @@ export function InteractiveCarousel() {
                   {/* Bottom Section */}
                   <div className="relative">
                   <div className={cn("border-t pt-6 flex flex-col md:flex-row items-end justify-between gap-8", styles.borderStrong)}>
-                      <h1 className="home-carousel-bigtext home-text-inverse select-none">
+                      <h1 className={cn(styles.carouselBigtext, "home-text-inverse select-none")}>
                         {slide.bigText}
                       </h1>
 
@@ -513,7 +512,7 @@ export function InteractiveCarousel() {
                             ))}
                           </div>
                         </div>
-                        <p className="home-body text-sm home-text-inverse-muted">{slide.description}</p>
+                        <p className={cn(styles.carouselBody, "home-text-inverse-muted")}>{slide.description}</p>
                       </div>
                     </div>
                   </div>

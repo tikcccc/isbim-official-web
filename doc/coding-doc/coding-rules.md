@@ -1,11 +1,11 @@
-# Coding Rules - isBIM Official Web
+﻿# Coding Rules - isBIM Official Web
 
-**文件说明:** 本文件定义代码风格规则、命名约定、反模式和最佳实践。当建立新的编码模式(动画时序、组件结�?、定义新库的导入/导出规则、添�?TypeScript 类型安全要求或设置动画协调规则时需要更新此文件�?
+**鏂囦欢璇存槑:** 鏈枃浠跺畾涔変唬鐮侀鏍艰鍒欍€佸懡鍚嶇害瀹氥€佸弽妯″紡鍜屾渶浣冲疄璺点€傚綋寤虹珛鏂扮殑缂栫爜妯″紡(鍔ㄧ敾鏃跺簭銆佺粍浠剁粨鏋?銆佸畾涔夋柊搴撶殑瀵煎叆/瀵煎嚭瑙勫垯銆佹坊鍔?TypeScript 绫诲瀷瀹夊叏瑕佹眰鎴栬缃姩鐢诲崗璋冭鍒欐椂闇€瑕佹洿鏂版鏂囦欢銆?
 
-**更新原则:**
-- 使用简洁的要点和代码片�?避免长篇解释
-- 规则简明扼�?关键时刻使用
-- 删除已过时或不再适用的规�?
+**鏇存柊鍘熷垯:**
+- 浣跨敤绠€娲佺殑瑕佺偣鍜屼唬鐮佺墖娈?閬垮厤闀跨瘒瑙ｉ噴
+- 瑙勫垯绠€鏄庢壖瑕?鍏抽敭鏃跺埢浣跨敤
+- 鍒犻櫎宸茶繃鏃舵垨涓嶅啀閫傜敤鐨勮鍒?
 
 **Last Updated**: 2025-12-04 (Contact/Newsroom spacing+shape+motion tokens applied; motion params aligned to tokens) | **Version**: 4.2
 
@@ -31,8 +31,8 @@
 
 ## Media & Assets
 - Videos via CDN links using `media-config` (`getVideoUrl`/`JARVIS_VIDEOS`); avoid hardcoded `/videos/*`.
-- Images優先使用本地 `/public` 資源�?
-- 動態內容頁（Newsroom、Careers）使�?Sanity 管理資料；其他頁面不依賴 Sanity�?
+- Images鍎厛浣跨敤鏈湴 `/public` 璩囨簮銆?
+- 鍕曟厠鍏у闋侊紙Newsroom銆丆areers锛変娇鐢?Sanity 绠＄悊璩囨枡锛涘叾浠栭爜闈笉渚濊炒 Sanity銆?
 - `NEXT_PUBLIC_VIDEO_CDN_URL` can override video base; keep filenames consistent.
 - When embedding any video, extract the first frame with `ffmpeg` as a poster (store under `public/images/post` via `ffmpeg -i <video> -frames:v 1 -q:v 2 <poster>`), set it as `poster`, and preload `metadata` for buffering fallback.
 - **Next.js Images**: Declare all quality values in `next.config.ts` `images.qualities` array (currently: [75, 85, 90, 100]) to avoid warnings in Next.js 15+ and prepare for Next.js 16 requirement.
@@ -45,11 +45,11 @@
 - **Lenis Integration**: `smooth-scroll-provider.tsx` connects Lenis to ScrollTrigger via `lenisInstance.on("scroll", ScrollTrigger.update)` and handles Edge browser image lazy-loading with staggered refresh (300ms/1000ms/window-load). Do not modify this integration.
 
 ## Styling & Tokens
-- Design tokens λ�� `src/styles/*-design-tokens.css` + `design-tokens.ts`����Ҫ�ظ����� breakpoints/z-index/colors/fonts��ҳ��/�������ֻ�ö�Ӧ token��home/product/aboutus/services/contact/newsroom/layout����������д `font-sans/font-mono`��
-- Layout ����/ҳ��/Topbar/Menu ʹ�� `layout-design-tokens.css` (AllianceNo2 ����/AllianceNo1 ����/��ǩ)��ҳ�� token ����ҳ�ֺ�/�иߣ��������д�С����
-- Spacing/shape/motion��Home/Product/About/Contact/Newsroom ���ṩ container/section/stack/grid��radius/shadow��motion (duration/easing/stagger) token����ֹ��д��ɢ `pt-28`/`gap-12`/`rounded-lg`/`duration-300`�����ö�Ӧ utility���� `home-section-padding`��`product-radius-card`��`about-section-padding`��`contact-form-grid`��`newsroom-section`����
-- ��Ч��ͳһ��ȫ�� `animation-design-tokens.css` + ҳ�� motion token��typewriter/GSAP/Framer ������ token������Ӳ���� easing/ʱ����
-- Tailwind v4 utilities��shimmer utility ���� `globals.css`��Services/Products hero����
+- Design tokens 位于 `src/styles/*-design-tokens.css` + `design-tokens.ts`；不要重复定义 breakpoints/z-index/colors/fonts。页面/组件字体只用对应 token（home/product/aboutus/services/contact/newsroom/layout），避免再写 `font-sans/font-mono`。
+- Layout 导航/页脚/Topbar/Menu 使用 `layout-design-tokens.css` (AllianceNo2 标题/AllianceNo1 链接/标签)；页面 token 负责本页字号/行高（保持现有大小）。
+- Spacing/shape/motion：Home/Product/About/Contact/Newsroom 已提供 container/section/stack/grid、radius/shadow、motion (duration/easing/stagger) token；禁止再写零散 `pt-28`/`gap-12`/`rounded-lg`/`duration-300`，改用对应 utility（如 `home-section-padding`、`product-radius-card`、`about-section-padding`、`contact-form-grid`、`newsroom-section`）。
+- 动效：统一用全局 `animation-design-tokens.css` + 页级 motion token；typewriter/GSAP/Framer 参数读 token，避免硬编码 easing/时长。
+- Tailwind v4 utilities；shimmer utility 仍在 `globals.css`（Services/Products hero）。
 
 ## Services & Products Page
 - Dark cyberpunk vibe: `bg-[#050505]`, emerald accents, `BackgroundLayers`, `ServicesGrid` -> `ServiceCard`/`SpotlightCard`/`CornerBrackets`, `CtaSection`, `FooterDark`.
@@ -62,9 +62,9 @@
   - `{product}-client.tsx` (Client Component): ALL m.*() translations executed client-side
   - Benefits: Single page refresh, no `dynamic = "force-dynamic"`, automatic locale responsiveness
 - **CRITICAL i18n Rule**:
-  - �?NEVER call m.*() in Server Component and pass as props (pre-renders as static strings �?locale mismatch)
-  - �?ALWAYS create dedicated `{product}-client.tsx` marked `"use client"` with all m.*() calls inside
-  - Example: `jarvis-pay/page.tsx` (Server) �?`jarvis-pay/jarvis-pay-client.tsx` (Client with m.*())
+  - 鉂?NEVER call m.*() in Server Component and pass as props (pre-renders as static strings 鈫?locale mismatch)
+  - 鉁?ALWAYS create dedicated `{product}-client.tsx` marked `"use client"` with all m.*() calls inside
+  - Example: `jarvis-pay/page.tsx` (Server) 鈫?`jarvis-pay/jarvis-pay-client.tsx` (Client with m.*())
 - **Data Source Rule**: Static resources ONLY (Paraglide m.* translations). NOT for Sanity-based pages (Newsroom/Careers use Server Component + ISR).
 - Palantir-inspired design: sticky video hero, scroll-driven narrative, feature sections with Video/Details toggle.
 - Components: `HeroSection`, `NarrativeTrack`, `FeatureSection`, `ProductCTASection`, `ProductPageLayout` (composite) - ALL marked `"use client"`.
@@ -94,7 +94,7 @@
   - Services overview: `generateServicesPageSEO(locale)`
   - Newsroom: `generateNewsroomPageSEO(locale)`
   - Careers: `generateCareersPageSEO(locale)`
-- **Critical keywords**: All pages MUST include isBIM + Hong Kong/香港 + dual identity (AI + Construction tech). Generators enforce this automatically via `composeKeywords()`.
+- **Critical keywords**: All pages MUST include isBIM + Hong Kong/棣欐腐 + dual identity (AI + Construction tech). Generators enforce this automatically via `composeKeywords()`.
 - **Structured data**: Use helpers from `json-ld.tsx`:
   - Organization: `createOrganizationSchema()` (company info)
   - Software: `createSoftwareApplicationSchema()` (JARVIS products)
@@ -123,7 +123,7 @@
 ## Contact Page
 - **Architecture**: Client Component (`"use client"`) with `useLocale()` from `@/lib/i18n/locale-context`.
 - **i18n**: All UI copy pulled from `messages/*.json` via `@/paraglide/messages` (no inline `locale === "zh"` conditionals). Service/company option labels also localized; keep values stable for backend.
-- **Design tokens**: Uses `contact-design-tokens.css` with product template gradient system (purple→cyan: `#9881F3�?13C9BA`).
+- **Design tokens**: Uses `contact-design-tokens.css` with product template gradient system (purple鈫抍yan: `#9881F3鈫?13C9BA`).
 - **Styling**: Light architectural theme (`bg-[#f8fafc]`), technical grid background, CAD corner markers, glass panel form.
 - **Form**: React Hook Form + Zod (`contactFormSchema`), submits via Server Action `submitContactForm`.
 - **Map**: OpenStreetMap iframe embed + Google Maps external link; coordinates for 430 Nathan Road, Yau Ma Tei.
@@ -158,8 +158,12 @@
   - `NEWS_DETAIL_QUERY`: Single article with full SEO and body content
   - `RELATED_NEWS_QUERY`: 3 related articles from same category (excludes current)
   - `NEWS_METADATA_QUERY`: SEO metadata only (for `generateMetadata`)
-- **SEO**: Use `generateNewsroomPageSEO()` for list page; build detail page metadata from `NEWS_METADATA_QUERY` with fallbacks (seo.metaTitle �?title, seo.metaDescription �?subtitle/excerpt).
+- **SEO**: Use `generateNewsroomPageSEO()` for list page; build detail page metadata from `NEWS_METADATA_QUERY` with fallbacks (seo.metaTitle 鈫?title, seo.metaDescription 鈫?subtitle/excerpt).
 - **Design Reference**: `doc/reference-doc/pages/newsroom/newsroom-page.html` (original prototype).
-
-
+- Styles:
+  - Layering顺序：tokens（值）→ globals（reset/base）→ themes/{page}（作用域变量）→ {page}-utilities（容器/间距/labels/buttons 等，可作用域到页面）→ {page}-animations（作用域 keyframes）→ 组件 module CSS。
+  - Tokens：值放 `tokens.css`，响应式仅在 tokens (:root media) 中定义；主题覆盖在 `themes/{page}.css`，不写类。
+  - 组件：使用 CSS Modules，颜色/间距/圆角/动效参数用 `var(--token)`，数值响应式用 clamp token；布局方向类可用 media query。
+  - Keyframes：通用的放页面动画文件并作用域（如 `.home-page`），专用的放组件 module。
+  - Tailwind bridge：在 `tailwind.config.js` 把需要的 colors/spacing/radius/shadow 映射到 CSS vars。
 

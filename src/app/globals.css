@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "../styles/tokens.css";
 @import "../styles/themes/home.css";
+@import "../styles/themes/product.css";
 @import "../styles/home-utilities.css";
 @import "../styles/home-animations.css";
 @import "../styles/product-design-tokens.css";
