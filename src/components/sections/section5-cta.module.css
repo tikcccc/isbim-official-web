@@ -1,0 +1,51 @@
+﻿.section {
+  background: var(--home-cta-bg);
+  color: var(--home-text-primary);
+}
+
+.media {
+  border-radius: var(--home-cta-media-radius);
+  box-shadow: var(--home-cta-media-shadow);
+}
+
+.mediaBg {
+  background: var(--home-media-muted);
+}
+
+.title {
+  font-family: var(--font-heading-en);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--home-text-primary);
+}
+
+.subtitle {
+  font-family: var(--font-body-en);
+  font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--home-text-muted);
+}
+
+.buttonText {
+  font-family: var(--font-body-en);
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--home-text-primary);
+}
+
+.buttonVariant {
+  border-color: var(--home-cta-border);
+  color: var(--home-text-primary);
+  background: transparent;
+  border-radius: var(--home-radius-md);
+}
+
+.buttonVariant:hover {
+  background: var(--home-cta-hover-bg);
+  color: var(--home-cta-hover-text);
+}

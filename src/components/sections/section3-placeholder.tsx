@@ -4,6 +4,8 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as m from "@/paraglide/messages";
+import { cn } from "@/lib/utils";
+import styles from "./section3-placeholder.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,7 +58,7 @@ export function Section3Placeholder() {
         {/* Text content that animates */}
         <h1
           ref={textRef}
-          className="container-content home-narrative-title text-center"
+          className={cn("container-content text-center", styles.title)}
           style={{
             willChange: "line-height, opacity, transform",
             opacity: 0.5,
@@ -64,14 +66,14 @@ export function Section3Placeholder() {
           }}
         >
           {m.section3_narrative_prefix()}
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_faster()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_comma1()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_cheaper()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_comma2()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_safer()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_and()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_greener()}</span>
-          <span className="home-narrative-title home-text-soft">{m.section3_narrative_suffix()}</span>
+          <span className={styles.soft}>{m.section3_narrative_faster()}</span>
+          <span className={styles.soft}>{m.section3_narrative_comma1()}</span>
+          <span className={styles.soft}>{m.section3_narrative_cheaper()}</span>
+          <span className={styles.soft}>{m.section3_narrative_comma2()}</span>
+          <span className={styles.soft}>{m.section3_narrative_safer()}</span>
+          <span className={styles.soft}>{m.section3_narrative_and()}</span>
+          <span className={styles.soft}>{m.section3_narrative_greener()}</span>
+          <span className={styles.soft}>{m.section3_narrative_suffix()}</span>
         </h1>
       </div>
     </section>

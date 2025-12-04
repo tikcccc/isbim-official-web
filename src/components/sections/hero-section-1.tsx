@@ -5,6 +5,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown } from "lucide-react";
 import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
+import { cn } from "@/lib/utils";
+import styles from "./hero-section-1.module.css";
 
 /**
  * Hero Section 1
@@ -68,11 +70,11 @@ export function HeroSection1() {
   }, []);
 
   return (
-    <section className="hero-section relative w-full overflow-hidden home-hero-surface min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex">
+    <section className={cn("hero-section relative w-full overflow-hidden min-h-[92svh] sm:min-h-screen lg:min-h-[120vh] flex", styles.section)}>
       {/* Video Background (absolute position within section) */}
       <div className="absolute inset-0 z-[1]">
         {/* Gradient placeholder background - shows before video loads */}
-        <div className="absolute inset-0 home-hero-gradient" />
+        <div className={cn("absolute inset-0", styles.gradient)} />
 
         <video
           className="hero-video w-full h-full object-cover object-center relative z-10"
@@ -86,14 +88,14 @@ export function HeroSection1() {
           <source src={JARVIS_VIDEOS.banner} type="video/mp4" />
         </video>
         {/* Dark overlay for better text contrast */}
-        <div className="absolute inset-0 home-hero-overlay z-20" />
+        <div className={cn("absolute inset-0 z-20", styles.overlay)} />
       </div>
 
       {/* Hero Content - Inner Container */}
-      <header className="relative z-10 container-page grid place-items-center home-hero-text text-center px-6 sm:px-10 flex-1">
+      <header className={cn("relative z-10 container-page grid place-items-center text-center px-6 sm:px-10 flex-1", styles.heroText)}>
         <div className="hero-content">
           {/* Animated Title */}
-          <h1 ref={titleRef} className="home-hero-title hero-title overflow-hidden">
+          <h1 ref={titleRef} className={cn("hero-title overflow-hidden", styles.title)}>
             <div className="line-mask block overflow-hidden my-2">
               <span className="inline-block translate-y-full">
                 {m.homepage_hero_title()}
@@ -104,7 +106,7 @@ export function HeroSection1() {
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="home-hero-subtitle mt-6 opacity-0 translate-y-4 max-w-3xl mx-auto"
+            className={cn("mt-6 opacity-0 translate-y-4 max-w-3xl mx-auto", styles.subtitle)}
           >
             {m.homepage_hero_subtitle()}
           </p>

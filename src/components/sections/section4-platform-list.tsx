@@ -7,6 +7,8 @@ import { ArrowRight } from "lucide-react";
 import * as messages from "@/paraglide/messages";
 import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
 import { ROUTES } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import styles from "./section4-platform-list.module.css";
 
 // Platform data structure
 interface PlatformItem {
@@ -271,10 +273,10 @@ export function Section4PlatformList() {
   return (
     <section
       ref={sectionRef}
-      className="w-full home-surface-base section-padding flex flex-col home-gap-lg home-text-primary"
+      className={cn("w-full section-padding flex flex-col home-gap-lg", styles.section)}
     >
       <div className="container-content-wide">
-        <h2 className="home-section-title mb-12 sm:mb-16">
+        <h2 className={cn("mb-12 sm:mb-16", styles.title)}>
           {messages.section4_title()}
         </h2>
 
@@ -341,7 +343,7 @@ function PlatformRow({
     <Link
       href={href}
       prefetch
-      className="relative block border-t home-border-subtle py-6 sm:py-10 group cursor-pointer"
+      className={cn("relative block border-t py-6 sm:py-10 group cursor-pointer", styles.divider)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onLeave}
       onFocus={onHover}
@@ -354,11 +356,11 @@ function PlatformRow({
         {/* 1. Left Section: Description Text */}
         <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] home-gap-sm">
           <div className="z-10 pointer-events-none">
-            <p className="home-body-large">
+            <p className={styles.bodyLarge}>
               {platformDescs[item.descKey]()}
             </p>
           </div>
-          <span className="home-label-sm home-text-subtle block mt-auto">
+          <span className={cn(styles.labelSm, "home-text-subtle block mt-auto")}>
             {item.version}
           </span>
         </div>
@@ -375,7 +377,7 @@ function PlatformRow({
             className="w-full flex items-center justify-center z-20"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <div className="overflow-hidden home-radius-hard shadow-2xl bg-black aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]">
+            <div className={cn("aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px] shadow-2xl", styles.videoFrame)}>
               <video
                 ref={videoRef}
                 src={item.videoUrl}
@@ -396,7 +398,7 @@ function PlatformRow({
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: springStiffness, damping: springDamping, duration: motionBase }}
-              className="home-platform-title leading-[1.2] whitespace-nowrap will-change-transform"
+              className={cn(styles.platformTitle, "leading-[1.2] whitespace-nowrap will-change-transform")}
             >
               {platformTitles[item.titleKey]()}
             </m.h3>

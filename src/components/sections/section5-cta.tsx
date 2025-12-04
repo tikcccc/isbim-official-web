@@ -10,6 +10,8 @@ import * as messages from "@/paraglide/messages";
 import Image from "next/image";
 import { ROUTES } from "@/lib/constants";
 import { LocalizedLink } from "@/components/ui/localized-link";
+import { cn } from "@/lib/utils";
+import styles from "./section5-cta.module.css";
 
 interface Section5CTAProps {
   imageUrl?: string;
@@ -73,13 +75,17 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
   return (
     <section
       ref={containerRef}
-      className="w-full home-cta-section section-padding flex flex-col"
+      className={cn("w-full section-padding flex flex-col", styles.section)}
     >
       <div className="container-content">
         <div className="grid grid-cols-1 md:grid-cols-2 home-gap-md items-center">
           <div
             ref={imageRef}
-            className="relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden home-cta-media home-cta-media-bg md:ml-auto lg:-translate-x-25"
+            className={cn(
+              "relative aspect-[4/3] w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[600px] xl:max-w-[640px] overflow-hidden md:ml-auto lg:-translate-x-25",
+              styles.media,
+              styles.mediaBg
+            )}
           >
             <Image
               src={imageUrl ?? "/images/cta.png"}
@@ -99,14 +105,14 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
           >
             <h2
               ref={titleRef}
-              className="home-cta-title text-balance mb-6"
+              className={cn("text-balance mb-6", styles.title)}
             >
               {messages.section5_cta_title()}
             </h2>
 
             <p
               ref={subtitleRef}
-              className="home-cta-subtitle max-w-lg text-pretty mx-auto"
+              className={cn("max-w-lg text-pretty mx-auto", styles.subtitle)}
             >
               {messages.section5_cta_subtitle()}
             </p>
@@ -120,7 +126,11 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                 <Button
                   asChild
                   variant="outline"
-                  className="home-cta-button home-cta-button-variant h-12 sm:h-14 px-8 sm:px-10 transition-all home-radius-md"
+                  className={cn(
+                    "h-12 sm:h-14 px-8 sm:px-10 transition-all",
+                    styles.buttonText,
+                    styles.buttonVariant
+                  )}
                   style={{ transitionDuration: "var(--home-cta-button-transition, 0.3s)" }}
                 >
                   <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../styles/tokens.css";
+@import "../styles/themes/home.css";
 @import "../styles/home-design-tokens.css";
 @import "../styles/product-design-tokens.css";
 @import "../styles/aboutus-design-tokens.css";
@@ -13,6 +15,30 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-primary, system-ui, -apple-system, "Segoe UI", sans-serif);
+    color: var(--text-main, inherit);
+    background: var(--bg-page, transparent);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

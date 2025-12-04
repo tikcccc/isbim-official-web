@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { ROUTES } from "@/lib/constants";
 import { LocalizedLink } from "@/components/ui/localized-link";
+import styles from "./interactive-carousel.module.css";
 
 // --- 常數定義 ---
 const AUTOPLAY_DURATION = 5000; // 5 seconds per slide
@@ -355,13 +356,14 @@ export function InteractiveCarousel() {
                   key={slide.id}
                   type="button"
                   onClick={() => jumpToSlide(index)}
-                  className={cn(
-                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all home-carousel-tab",
-                    "w-full",
-                    isActive ? "home-carousel-tab-active" : ""
-                  )}
-                  style={{ transitionDuration: `${labelTransition}s` }}
-                >
+                className={cn(
+                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all",
+                  styles.tab,
+                  "w-full",
+                  isActive ? styles.tabActive : ""
+                )}
+                style={{ transitionDuration: `${labelTransition}s` }}
+              >
                   {/* 進度填充層 */}
                   {isActive && !hovered && (
                     <m.div
@@ -372,10 +374,11 @@ export function InteractiveCarousel() {
                         duration: AUTOPLAY_DURATION / 1000,
                         ease: "linear",
                       }}
-                      className="absolute inset-0 home-carousel-progress z-0"
-                      style={{ transformOrigin: "left" }}
-                    />
-                  )}
+                    className="absolute inset-0 home-carousel-progress z-0"
+                    className={cn("absolute inset-0 z-0", styles.progress)}
+                    style={{ transformOrigin: "left" }}
+                  />
+                )}
 
                   {/* 文字層 */}
                   <span className="relative z-10 truncate px-2">
@@ -426,10 +429,13 @@ export function InteractiveCarousel() {
                   variants={cardVariants}
                   initial="hidden"
                   animate="hidden"
-                  className="absolute w-full h-full border home-carousel-card min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard"
-                />
-              );
-            }
+                className={cn(
+                  "absolute w-full h-full border min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard",
+                  styles.card
+                )}
+              />
+            );
+          }
 
             return (
               <m.div
@@ -437,8 +443,11 @@ export function InteractiveCarousel() {
                 variants={cardVariants}
                 initial="hidden"
                 animate={variant}
-                className="absolute w-full h-full border home-carousel-card shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard"
-              >
+              className={cn(
+                "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard",
+                styles.card
+              )}
+            >
                 {/* Background Video/Image */}
                 <div className="absolute inset-0 z-0">
                   {isCenter && slide.imageUrl.endsWith(".mp4") ? (
@@ -471,8 +480,8 @@ export function InteractiveCarousel() {
                       priority={isCenter}
                     />
                   )}
-                  <div className="absolute inset-0 home-carousel-overlay" />
-                </div>
+                <div className={cn("absolute inset-0", styles.overlay)} />
+              </div>
 
                 {/* Content Overlay */}
                 <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between home-text-inverse">
@@ -490,7 +499,7 @@ export function InteractiveCarousel() {
 
                   {/* Bottom Section */}
                   <div className="relative">
-                    <div className="border-t home-carousel-border-strong pt-6 flex flex-col md:flex-row items-end justify-between gap-8">
+                  <div className={cn("border-t pt-6 flex flex-col md:flex-row items-end justify-between gap-8", styles.borderStrong)}>
                       <h1 className="home-carousel-bigtext home-text-inverse select-none">
                         {slide.bigText}
                       </h1>
@@ -513,20 +522,23 @@ export function InteractiveCarousel() {
                 {/* Navigation Arrows (只在中心卡片 hover 時顯示) */}
                 <div
                   className={cn(
-                    "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity",
-                    isCenter && hovered ? "opacity-100" : "opacity-0"
-                  )}
-                  style={{ transitionDuration: `${arrowFadeDuration}s` }}
-                >
-                  <button
+                  "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity",
+                  isCenter && hovered ? "opacity-100" : "opacity-0"
+                )}
+                style={{ transitionDuration: `${arrowFadeDuration}s` }}
+              >
+                <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       prevSlide();
                     }}
-                    className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-r border-y"
-                    aria-label="Previous slide"
-                  >
+                  className={cn(
+                    "pointer-events-auto w-16 h-16 flex items-center justify-center transition-colors border-r border-y",
+                    styles.arrow
+                  )}
+                  aria-label="Previous slide"
+                >
                     <ArrowLeft className="w-5 h-5" />
                   </button>
                   <button
@@ -535,12 +547,15 @@ export function InteractiveCarousel() {
                       e.stopPropagation();
                       nextSlide();
                     }}
-                    className="pointer-events-auto w-16 h-16 home-carousel-arrow flex items-center justify-center transition-colors border-l border-y"
-                    aria-label="Next slide"
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                </div>
+                  className={cn(
+                    "pointer-events-auto w-16 h-16 flex items-center justify-center transition-colors border-l border-y",
+                    styles.arrow
+                  )}
+                  aria-label="Next slide"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
               </m.div>
             );
           })}
@@ -558,11 +573,11 @@ export function InteractiveCarousel() {
               key={slide.id}
               type="button"
               onClick={() => jumpToSlide(index)}
-              className={`h-2 transition-all ${
-                activeIdx === index
-                  ? "w-12 home-carousel-dot-active"
-                  : "w-2 home-carousel-dot"
-              }`}
+              className={cn(
+                "h-2 transition-all",
+                activeIdx === index ? "w-12" : "w-2",
+                activeIdx === index ? styles.dotActive : styles.dot
+              )}
               style={{ borderRadius: "var(--home-pill-radius)" }}
               aria-label={`Go to slide ${index + 1}`}
             />

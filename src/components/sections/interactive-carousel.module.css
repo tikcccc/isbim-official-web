@@ -1,0 +1,59 @@
+﻿.tab {
+  background: var(--home-carousel-tab-bg);
+  border-color: var(--home-carousel-tab-border);
+  color: var(--home-carousel-tab-text);
+}
+
+.tab:hover {
+  background: var(--home-carousel-tab-bg-hover);
+  color: var(--home-carousel-tab-text-active);
+}
+
+.tabActive {
+  border-color: var(--home-carousel-tab-text-active);
+  color: var(--home-carousel-tab-text-active);
+}
+
+.tabActive:hover {
+  background: var(--home-carousel-tab-bg);
+  color: var(--home-carousel-tab-text-active);
+}
+
+.progress {
+  background: var(--home-carousel-progress);
+}
+
+.card {
+  background: var(--home-carousel-card-bg);
+  border-color: var(--home-carousel-card-border);
+}
+
+.overlay {
+  background: var(--home-carousel-overlay);
+}
+
+.borderStrong {
+  border-color: var(--home-carousel-border-strong);
+}
+
+.arrow {
+  background: var(--home-carousel-arrow-bg);
+  color: var(--home-text-inverse);
+  border-color: var(--home-carousel-card-border);
+}
+
+.arrow:hover {
+  background: var(--home-carousel-arrow-hover);
+}
+
+.dot {
+  background: var(--home-carousel-dot);
+}
+
+.dot:hover {
+  background: var(--home-carousel-dot-hover);
+}
+
+.dotActive {
+  background: var(--home-carousel-dot-active);
+}

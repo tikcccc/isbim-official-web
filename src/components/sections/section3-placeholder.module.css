@@ -1,0 +1,12 @@
+﻿.title {
+  font-family: var(--font-heading-en);
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--home-text-primary);
+}
+
+.soft {
+  color: var(--home-text-soft);
+}
