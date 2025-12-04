@@ -151,6 +151,9 @@ export function ProductPageLayout({
         scrollPromptText={scrollPrompt}
       />
 
+      {/* Seamless handoff to features (covers hero background bleed) */}
+      <div className="relative z-10 bg-product-light h-16 -mt-6" aria-hidden="true" />
+
       {/* Section C: Feature Sections */}
       <main className="relative z-10 bg-product-light">
         {features.map((feature, idx) => (

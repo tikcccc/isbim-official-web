@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
+import styles from "./hero-section.module.css";
 
 /**
  * HeroSection Props
@@ -56,7 +58,7 @@ export function HeroSection({
   }, []);
 
   return (
-    <header className="sticky top-0 h-screen z-0 overflow-hidden product-surface-dark">
+    <header className={cn("sticky top-0 h-screen z-0 overflow-hidden product-surface-dark", styles.hero)}>
       {/* Background Video Layer - stays fixed (or slow parallax) */}
       <div className="absolute inset-0 -z-10">
         <video
@@ -74,14 +76,14 @@ export function HeroSection({
         </video>
 
         {/* Gradient Overlay - enhanced for better depth and readability */}
-        <div className="absolute inset-0 product-hero-overlay-vertical transition-opacity product-transition-base" />
-        <div className="absolute inset-0 product-hero-overlay-horizontal transition-opacity product-transition-base" />
+        <div className={cn("absolute inset-0 product-hero-overlay-vertical transition-opacity product-transition-base", styles.overlayVertical)} />
+        <div className={cn("absolute inset-0 product-hero-overlay-horizontal transition-opacity product-transition-base", styles.overlayHorizontal)} />
       </div>
 
       {/* Foreground Content Layer - moves with narrative track */}
       <div
         data-hero-foreground="true"
-        className="relative z-10 h-full max-w-[1800px] mx-auto product-hero-padding flex flex-col justify-end will-change-transform"
+        className={cn("relative z-10 h-full max-w-[1800px] mx-auto product-hero-padding flex flex-col justify-end will-change-transform", styles.foreground)}
         style={{
           transition: "transform 0.18s ease-out",
         }}
@@ -106,7 +108,7 @@ export function HeroSection({
 
           {/* Right: Metadata - Bottom Right, Minimalist */}
           <div className="hidden md:flex flex-col items-end product-text-inverse">
-            <div className="relative flex flex-col items-end product-gap-sm product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line transition-colors product-transition-base">
+            <div className={cn("relative flex flex-col items-end product-gap-sm product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line transition-colors product-transition-base", styles.metadataLine)}>
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}

@@ -3,78 +3,89 @@
   font-family: var(--font-body-en);
 
   /* Text tokens */
-  --product-text-strong: #111827;
-  --product-text-body: #1f2937;
-  --product-text-muted: #4b5563;
-  --product-text-subtle: #6b7280;
-  --product-text-inverse: #ffffff;
-  --product-text-inverse-muted: rgba(255, 255, 255, 0.8);
-  --product-text-inverse-subtle: rgba(255, 255, 255, 0.65);
+  --product-text-strong: var(--ink-900);
+  --product-text-body: var(--color-slate-850);
+  --product-text-muted: var(--color-slate-600);
+  --product-text-subtle: var(--color-slate-400);
+  --product-text-inverse: var(--color-white);
+  --product-text-inverse-muted: rgba(var(--nhs-white-rgb) / 0.8);
+  --product-text-inverse-subtle: rgba(var(--nhs-white-rgb) / 0.65);
 
   /* Surfaces */
-  --product-surface-dark: #1e1f2b;
-  --product-surface-light: #f2f2f2;
-  --product-surface-panel: #f5f5f5;
-  --product-surface-card: #ffffff;
+  --product-surface-dark: var(--surface-dark);
+  --product-surface-deep: var(--surface-deep);
+  --product-surface-light: var(--body-color-medium);
+  --product-surface-panel: var(--body-color-light);
+  --product-surface-card: var(--color-white);
 
   /* Borders */
-  --product-border-subtle: #e5e7eb;
-  --product-border-soft: rgba(229, 231, 235, 0.6);
-  --product-border-strong: #d1d5db;
-  --product-border-inverse: rgba(255, 255, 255, 0.1);
+  --product-border-subtle: var(--color-slate-200);
+  --product-border-soft: color-mix(in srgb, var(--product-border-subtle) 60%, transparent);
+  --product-border-strong: var(--color-slate-200);
+  --product-border-inverse: rgba(var(--nhs-white-rgb) / 0.1);
 
   /* Accents & gradients */
-  --product-accent-from: #9881f3;
-  --product-accent-to: #13c9ba;
+  --product-accent-from: var(--accent-violet);
+  --product-accent-to: var(--accent-cyan);
   --product-accent-gradient: linear-gradient(93deg, var(--product-accent-from) 0%, var(--product-accent-to) 100%);
   --product-meta-line: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 100%);
-  --product-hero-overlay-vertical: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
-  --product-hero-overlay-horizontal: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent, transparent);
-  --product-accent-ring: #9881f3;
-  --product-accent-soft: rgba(152, 129, 243, 0.5);
+  --product-hero-overlay-vertical: linear-gradient(
+    to top,
+    rgba(var(--nhs-black-rgb) / 0.8),
+    rgba(var(--nhs-black-rgb) / 0.2),
+    transparent
+  );
+  --product-hero-overlay-horizontal: linear-gradient(
+    to right,
+    rgba(var(--nhs-black-rgb) / 0.4),
+    transparent,
+    transparent
+  );
+  --product-accent-ring: var(--accent-violet);
+  --product-accent-soft: var(--accent-violet-soft);
 
   /* Buttons / toggles */
-  --product-cta-button-bg: #ffffff;
-  --product-cta-button-text: #1e1f2b;
-  --product-cta-button-hover-text: #ffffff;
-  --product-toggle-active-bg: #1a1a1a;
-  --product-toggle-hover-text: #1f2937;
+  --product-cta-button-bg: var(--color-white);
+  --product-cta-button-text: var(--ink-900);
+  --product-cta-button-hover-text: var(--color-white);
+  --product-toggle-active-bg: var(--ink-800);
+  --product-toggle-hover-text: var(--product-text-body);
 
   /* Misc */
-  --product-mask-color: #767676;
-  --product-chip-bg: rgba(255, 255, 255, 0.05);
-  --product-chip-border: rgba(255, 255, 255, 0.1);
+  --product-mask-color: var(--text-color-light);
+  --product-chip-bg: rgba(var(--nhs-white-rgb) / 0.05);
+  --product-chip-border: rgba(var(--nhs-white-rgb) / 0.1);
 
   /* Layout & spacing */
-  --product-container-max: 1800px;
-  --product-container-padding: 1.5rem;
-  --product-container-padding-md: 3rem;
-  --product-container-padding-lg: 4rem;
-  --product-container-padding-xl: 5rem;
-  --product-hero-padding-y: 2.5rem;
-  --product-hero-padding-y-lg: 5rem;
-  --product-hero-max: 1800px;
-  --product-track-padding: 1.5rem;
-  --product-track-padding-md: 3rem;
-  --product-track-padding-lg: 4rem;
-  --product-section-padding: 4rem;
-  --product-section-padding-lg: 6rem;
-  --product-gap: 2rem;
-  --product-gap-lg: 3.5rem;
-  --product-gap-sm: 1.25rem;
-  --product-stack-sm: 1.25rem;
-  --product-stack-md: 2rem;
-  --product-stack-lg: 3rem;
-  --product-cta-padding-x: 2rem;
-  --product-cta-padding-y: 1rem;
+  --product-container-max: var(--nhs-max-width);
+  --product-container-padding: var(--h-spacing);
+  --product-container-padding-md: calc(var(--h-spacing) * 1.8);
+  --product-container-padding-lg: calc(var(--h-spacing) * 2.4);
+  --product-container-padding-xl: calc(var(--h-spacing) * 3);
+  --product-hero-padding-y: calc(var(--section-v-spacing) * 0.7);
+  --product-hero-padding-y-lg: var(--section-v-spacing);
+  --product-hero-max: calc(var(--max-width) + 8rem);
+  --product-track-padding: var(--h-spacing);
+  --product-track-padding-md: calc(var(--h-spacing) * 1.8);
+  --product-track-padding-lg: calc(var(--h-spacing) * 2.4);
+  --product-section-padding: calc(var(--section-v-spacing) * 0.9);
+  --product-section-padding-lg: calc(var(--section-v-spacing) * 1.2);
+  --product-gap: var(--spacing-m);
+  --product-gap-lg: var(--spacing-l);
+  --product-gap-sm: var(--spacing-s);
+  --product-stack-sm: var(--spacing-s);
+  --product-stack-md: var(--spacing-m);
+  --product-stack-lg: var(--spacing-l);
+  --product-cta-padding-x: calc(var(--gutter) * 3);
+  --product-cta-padding-y: calc(var(--gutter) * 1.5);
 
   /* Shape & depth */
-  --product-radius-card: 0.75rem;
-  --product-radius-lg: 1rem;
+  --product-radius-card: var(--spacing-s);
+  --product-radius-lg: calc(var(--spacing-s) * 1.5);
   --product-radius-pill: 9999px;
-  --product-radius-overlay: 1.25rem;
-  --product-shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --product-shadow-soft: 0 15px 30px rgba(0, 0, 0, 0.15);
+  --product-radius-overlay: calc(var(--spacing-s) * 2);
+  --product-shadow-card: 0 25px 50px -12px rgba(var(--nhs-black-rgb) / 0.25);
+  --product-shadow-soft: 0 15px 30px rgba(var(--nhs-black-rgb) / 0.15);
 
   /* Motion */
   --product-motion-fast: var(--motion-duration-fast, 0.3s);

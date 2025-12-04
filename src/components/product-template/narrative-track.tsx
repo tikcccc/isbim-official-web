@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useCallback, useMemo } from "react";
+import { cn } from "@/lib/utils";
+import styles from "./narrative-track.module.css";
 import { PRODUCT_TEMPLATE_ANIMATIONS } from "@/lib/animations";
 import { PRODUCT_TEMPLATE_COLORS } from "@/lib/design-tokens";
 import { useIsMobile } from "@/hooks";
@@ -466,17 +468,18 @@ export function NarrativeTrack({
   return (
     <section
       ref={trackRef}
-      className="relative z-20 product-surface-dark"
+      className={cn("relative z-20 product-surface-dark", styles.section)}
       style={{
         height: scrollHeight,
         boxShadow: trackShadow.trim() || "0 -50px 100px rgba(0,0,0,0.5)",
         marginTop: "-1px",
         transition: "background-color 0.3s linear",
+        backgroundColor: "var(--product-surface-light, #f2f2f2)",
       }}
     >
       {/* Sticky Stage - Centers content while scrolling */}
       <div
-      className="sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden"
+      className={cn("sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden", styles.sticky)}
         style={{ perspective: "1000px" }}
       >
         <div className="product-track-container text-center z-10 flex flex-col items-center justify-center h-full">
@@ -493,7 +496,7 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text product-stage-title product-stack-sm relative z-[1] max-w-7xl`}
+            className={`product-block-anim product-stage2-text product-stage-title-light product-stack-sm relative z-[1] max-w-7xl`}
             style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
           >
             {stage2Text}
@@ -503,28 +506,23 @@ export function NarrativeTrack({
           <div
             ref={bottomRef}
             className="product-bounce-anim flex flex-col items-center product-gap lg:product-gap-lg"
+            style={{
+              gap: "clamp(1.25rem, 2.5vw, 2rem)",
+              marginTop: "clamp(6rem, 8vw, 8.5rem)",
+            }}
           >
-            <p className="product-stage-desc product-text-muted max-w-lg mx-auto text-center">
+            <p className={cn("product-stage-desc max-w-lg mx-auto text-center mb-5", styles.description)}>
               {renderDescription()}
             </p>
 
             {/* Custom chevron scroll indicator */}
-            <div className="flex flex-col items-center mt-4 animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity product-transition-fast">
-              <span
-                className="product-label-sm mb-3"
-                style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
-              >
+            <div className={cn("flex flex-col items-center mt-6 product-scroll-bounce opacity-80 hover:opacity-100 transition-opacity product-transition-fast", styles.scrollPrompt)}>
+              <span className="product-label-sm mb-2" style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}>
                 {scrollPromptText}
               </span>
-              <div className="flex flex-col items-center gap-[-4px]">
-                <div
-                  className="w-[1px] h-12 bg-gradient-to-b from-transparent to-current"
-                  style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
-                />
-                <div
-                  className="w-3 h-3 border-b-[1px] border-r-[1px] rotate-45 -mt-1.5"
-                  style={{ borderColor: PRODUCT_TEMPLATE_COLORS.textMain }}
-                />
+              <div className={cn("flex flex-col items-center", styles.scrollStack)}>
+                <div className="w-[1px] h-12 bg-gradient-to-b from-transparent to-current" style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }} />
+                <div className={cn("w-3 h-3 border-b-[1.5px] border-r-[1.5px] rotate-45 -mt-1.5", styles.chevron)} />
               </div>
             </div>
           </div>

@@ -1,0 +1,20 @@
+.hero {
+  background: var(--product-surface-dark);
+  color: var(--product-text-inverse);
+}
+
+.overlayVertical {
+  background: var(--product-hero-overlay-vertical);
+}
+
+.overlayHorizontal {
+  background: var(--product-hero-overlay-horizontal);
+}
+
+.foreground {
+  color: var(--product-text-inverse);
+}
+
+.metadataLine {
+  color: var(--product-text-inverse-muted);
+}

@@ -5,7 +5,8 @@
 @import "../styles/themes/product.css";
 @import "../styles/home-utilities.css";
 @import "../styles/home-animations.css";
-@import "../styles/product-design-tokens.css";
+@import "../styles/product-utilities.css";
+@import "../styles/product-animations.css";
 @import "../styles/aboutus-design-tokens.css";
 @import "../styles/services-design-tokens.css";
 @import "../styles/contact-design-tokens.css";

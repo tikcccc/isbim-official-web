@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { m } from "@/components/motion/lazy-motion";
 import { TypewriterLines, TypewriterLinesReverse } from "@/components/animations/typewriter";
+import { cn } from "@/lib/utils";
+import styles from "./feature-section.module.css";
 
 /**
  * Detail item for the feature's detail view
@@ -375,12 +377,13 @@ export function FeatureSection({
   }, [displayedView]);
 
   return (
-    <div
-      ref={sectionRef}
-      className={`feature-block product-section-padding product-container min-h-screen flex items-center ${
-        !isLast ? "border-b product-border-soft" : ""
-      }`}
-    >
+      <div
+        ref={sectionRef}
+        className={cn(
+          "feature-block product-section-padding product-container min-h-screen flex items-center",
+          !isLast ? "border-b product-border-soft" : ""
+        )}
+      >
       <div className="w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 product-gap">
           {/* Left Column: Sticky Header */}
@@ -436,10 +439,10 @@ export function FeatureSection({
               </div>
 
               {/* Title with Typewriter Animation or Static Display */}
-              <h3
-              className="product-feature-title product-text-strong break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]"
-                style={{ textWrap: "balance", wordBreak: "break-word" }}
-              >
+                <h3
+              className={cn(styles.title, "product-text-strong break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]")}
+                  style={{ textWrap: "balance", wordBreak: "break-word" }}
+                >
                 {/* Forward Typewriter mode */}
                 {titleState.mode === "typewriter" && titleState.visibility !== "hidden" && (
                   <m.div
@@ -504,14 +507,14 @@ export function FeatureSection({
 
           {/* Right Column: Content */}
           <div className="lg:col-span-7 xl:col-span-7 flex flex-col lg:self-start product-stack-lg">
-            <p className="product-feature-body product-text-body mb-8 md:mb-10 w-full">
+            <p className={cn(styles.description, "product-text-body mb-8 md:mb-10 w-full")}>
               {description}
             </p>
 
             {/* Toggle Pill - accessible tablist with keyboard navigation */}
             {details && details.length > 0 && (
               <div className="mb-10" role="tablist" aria-label="View options">
-            <div className="toggle-pill inline-flex h-14 border product-toggle-shell product-radius-pill p-1 shadow-sm overflow-hidden">
+            <div className={cn("toggle-pill inline-flex h-14 border p-1 shadow-sm overflow-hidden", styles.toggleShell)}>
                   <button
                     role="tab"
                     aria-selected={activeView === "video"}
@@ -528,11 +531,12 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
+                    className={cn(
+                      "w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed",
                       activeView === "video"
-                        ? `product-toggle-active ${isFlashing ? "animate-rapid-pulse" : ""}`
+                        ? cn("product-toggle-active", isFlashing ? "animate-rapid-pulse" : "")
                         : "product-toggle-inactive"
-                    }`}
+                    )}
                   >
                     {videoLabel.toUpperCase()}
                   </button>
@@ -552,11 +556,12 @@ export function FeatureSection({
                         );
                       }
                     }}
-                    className={`w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed ${
+                    className={cn(
+                      "w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed",
                       activeView === "details"
-                        ? `product-toggle-active ${isFlashing ? "animate-rapid-pulse" : ""}`
+                        ? cn("product-toggle-active", isFlashing ? "animate-rapid-pulse" : "")
                         : "product-toggle-inactive"
-                    }`}
+                    )}
                   >
                     {detailsLabel.toUpperCase()}
                   </button>
@@ -565,14 +570,18 @@ export function FeatureSection({
             )}
 
             {/* Media Card / Details View - with tabpanel roles for accessibility */}
-            <div className="w-full h-[563px] max-w-full product-surface-card border product-radius-lg product-shadow-card overflow-hidden relative">
+            <div className={cn("w-full h-[563px] max-w-full overflow-hidden relative border", styles.featureCard)}>
               {/* Video/Image Panel */}
               <div
                 role="tabpanel"
                 id={`panel-video-${index}`}
                 aria-labelledby={`tab-video-${index}`}
-                hidden={displayedView !== "video"}
-                className={displayedView === "video" ? "w-full h-full" : "hidden"}
+                aria-hidden={displayedView !== "video"}
+                className={cn(
+                  "h-full",
+                  styles.panel,
+                  displayedView === "video" ? styles.panelVisible : styles.panelHidden
+                )}
                 ref={videoContainerRef}
               >
                 {mediaType === "video" ? (
@@ -607,22 +616,24 @@ export function FeatureSection({
                 role="tabpanel"
                 id={`panel-details-${index}`}
                 aria-labelledby={`tab-details-${index}`}
-                hidden={displayedView !== "details"}
-                className={`absolute inset-0 product-surface-panel p-8 md:p-12 overflow-y-auto ${
-                  displayedView !== "details" ? "hidden" : ""
-                }`}
+                aria-hidden={displayedView !== "details"}
+                className={cn(
+                  "product-surface-panel p-8 md:p-12 overflow-y-auto",
+                  styles.panel,
+                  displayedView === "details" ? styles.panelVisible : styles.panelHidden
+                )}
               >
-                <div className="product-stack-lg max-w-5xl">
+                <div className={cn("product-stack-md max-w-5xl", styles.detailList)}>
                   {details?.map((item, idx) => (
                     <div
                       key={idx}
-                      className="border-b product-border-subtle last:border-0"
-                      style={{ paddingBottom: "var(--product-stack-md)" }}
+                      className={cn("border-b product-border-subtle last:border-0", styles.detailItem)}
+                      style={{ paddingBottom: idx === details.length - 1 ? "0" : undefined }}
                     >
-                      <h4 className="product-feature-title product-text-strong mb-3">
+                      <h4 className={cn("product-text-strong mb-1", styles.detailTitle)}>
                         {item.title}
                       </h4>
-                      <p className="product-body product-text-muted">
+                      <p className={cn("product-text-muted", styles.detailBody)}>
                         {item.description}
                       </p>
                     </div>
@@ -632,8 +643,13 @@ export function FeatureSection({
 
               {/* Parallelogram Transition Overlay */}
                 {isTransitioning && (
-                <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden" style={{ borderRadius: "var(--product-radius-overlay)" }}>
+                <div
+                  key={`${activeView}-overlay`}
+                  className="absolute inset-0 z-50 pointer-events-none overflow-hidden"
+                  style={{ borderRadius: "var(--product-radius-overlay)" }}
+                >
                   <m.div
+                    key={`${activeView}-skew`}
                     className="absolute inset-y-0 left-0 w-full h-full flex items-center justify-center"
                     initial={{ x: "-200%" }}
                     animate={{

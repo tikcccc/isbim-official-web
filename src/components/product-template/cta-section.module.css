@@ -1,0 +1,37 @@
+.section {
+  background: var(--product-surface-dark);
+}
+
+.title {
+  font-family: var(--font-heading-en);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-family: var(--font-body-en);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--product-text-inverse-muted);
+}
+
+.ctaButton {
+  padding-inline: var(--product-cta-padding-x);
+  padding-block: var(--product-cta-padding-y);
+  border-radius: var(--product-radius-pill);
+}
+
+.decorLine {
+  width: 3rem;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.decorDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--product-radius-pill);
+}

@@ -1,6 +1,8 @@
 "use client";
 
 import { Link } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+import styles from "./cta-section.module.css";
 
 /**
  * ProductCTASection Props
@@ -35,28 +37,26 @@ export function ProductCTASection({
   buttonHref = "/contact",
 }: ProductCTASectionProps) {
   return (
-    <section className="relative z-10 product-surface-dark product-section-padding">
+    <section className={cn("relative z-10 product-section-padding", styles.section)}>
       <div className="product-container">
         <div className="flex flex-col items-center text-center">
           {/* Title with gradient effect */}
-          <h2 className="product-cta-title product-text-inverse mb-6">
+          <h2 className={cn("product-cta-title product-text-inverse mb-6", styles.title)}>
             <span className="product-text-gradient">{title}</span>
           </h2>
 
           {/* Subtitle */}
-          <p className="product-cta-subtitle product-text-inverse-muted max-w-3xl mb-12">
+          <p className={cn("product-cta-subtitle max-w-3xl mb-12", styles.subtitle)}>
             {subtitle}
           </p>
 
           {/* CTA Button */}
           <Link
             href={buttonHref}
-            className="group inline-flex items-center product-gap-sm product-cta-button product-cta-button-strong transition-all product-transition-fast hover:scale-105"
-            style={{
-              paddingInline: "var(--product-cta-padding-x)",
-              paddingBlock: "var(--product-cta-padding-y)",
-              borderRadius: "var(--product-radius-pill)",
-            }}
+            className={cn(
+              "group inline-flex items-center product-gap-sm product-cta-button product-cta-button-strong transition-all product-transition-fast hover:scale-105",
+              styles.ctaButton
+            )}
           >
             {buttonText}
             <svg
@@ -76,10 +76,10 @@ export function ProductCTASection({
 
           {/* Decorative elements */}
           <div className="mt-16 flex items-center product-gap-sm">
-            <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <div className="w-2 h-2 product-accent-dot" style={{ borderRadius: "var(--product-radius-pill)" }} />
-            <div className="w-2 h-2 product-accent-dot" style={{ borderRadius: "var(--product-radius-pill)" }} />
-            <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <div className={styles.decorLine} />
+            <div className={cn("product-accent-dot", styles.decorDot)} />
+            <div className={cn("product-accent-dot", styles.decorDot)} />
+            <div className={styles.decorLine} />
           </div>
         </div>
       </div>

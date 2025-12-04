@@ -40,8 +40,8 @@ export function HeroBackground({
   useEffect(() => {
     // Hide background when scrolled past hero + narrative sections
     const handleScroll = () => {
-      // Hide when scrolled past ~2.5 viewport heights (hero + narrative)
-      const scrollThreshold = window.innerHeight * 2.5;
+      // Hide when hero is scrolled beyond 1.5x the viewport height
+      const scrollThreshold = window.innerHeight * 1.5;
       const shouldBeVisible = window.scrollY < scrollThreshold;
 
       if (shouldBeVisible !== isVisible) {

@@ -248,7 +248,6 @@ src/schemas/
     themes/home.css             # .home-page scoped var overrides + base overrides (font/background/overflow)
     tokens.css                  # global primitives + semantics + responsive overrides (values only)
   - home-design-tokens.css      # removed from imports; legacy file deleted after migration
-  - product-design-tokens.css   # product template backgrounds/gradients, containers, narrative/index animations, sheen/gradient-x/rapid-pulse; AllianceNo2 titles + AllianceNo1 body/meta/CTA
   - aboutus-design-tokens.css   # about page palette + typography helpers (about-section/bg/overlay/text); AllianceNo2 titles, AllianceNo1 body/labels
   - services-design-tokens.css  # services/products page palette (dark + emerald), selection, badge/border helpers
   - contact-design-tokens.css   # contact page palette (light bg + product gradient), form/panel/badge utilities; layout/spacing (container/section/stack/form-grid), shape/shadow, motion (fast/base/slow/delay), underline/CTA animation tokens
