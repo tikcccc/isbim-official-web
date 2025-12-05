@@ -18,10 +18,10 @@ element.style {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -261,10 +261,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -425,10 +425,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -601,10 +601,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -793,10 +793,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -1005,10 +1005,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -1241,10 +1241,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -1411,10 +1411,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);
@@ -1588,10 +1588,10 @@ body {
 :root {
     --nhs-black: #202426;
     --nhs-black-rgb: 32 36 38;
-    --nhs-blue: #4e8af7;
-    --nhs-blue-rgb: 78 138 247;
+   --brand-blue: #4e8af7;
+   --brand-blue-rgb: 78 138 247;
     --nhs-white: #fff;
-    --nhs-white-rgb: 255 255 255;
+    --bg-white-rgb: 255 255 255;
     --height-nav: 86px;
     --nhs-max-width: 1480px;
     --nhs-link: var(--nhs-blue);

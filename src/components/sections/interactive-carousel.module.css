@@ -30,10 +30,12 @@
 .card {
   background: var(--home-carousel-card-bg);
   border-color: var(--home-carousel-card-border);
+  border-radius: var(--home-carousel-video-radius);
 }
 
 .overlay {
   background: var(--home-carousel-overlay);
+  border-radius: var(--home-carousel-video-radius);
 }
 
 .borderStrong {
@@ -44,6 +46,7 @@
   background: var(--home-carousel-arrow-bg);
   color: var(--home-text-inverse);
   border-color: var(--home-carousel-card-border);
+  border-radius: var(--home-carousel-btn-radius);
 }
 
 .arrow:hover {
@@ -62,11 +65,15 @@
   background: var(--home-carousel-dot-active);
 }
 
+.dotsWrapper {
+  margin-top: var(--home-carousel-dots-offset);
+}
+
 /* Typography scoped to the carousel */
 .carouselTitle {
-  font-family: var(--font-heading-en);
+  font-family: var(--font-body-en);
   font-size: clamp(1.75rem, 3vw, 2.75rem);
-  font-weight: 600;
+  font-weight: var(--weight-bold);
   letter-spacing: -0.015em;
   line-height: 1.15;
 }
@@ -74,7 +81,7 @@
 .carouselBigtext {
   font-family: var(--font-heading-en);
   font-size: clamp(2.75rem, 7vw, 5.5rem);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: -0.02em;
   line-height: 1.05;
 }

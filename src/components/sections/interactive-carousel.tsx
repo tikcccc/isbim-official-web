@@ -572,29 +572,28 @@ export function InteractiveCarousel() {
             );
           })}
         </div>
-      </div>
+        {/* Slide Indicators (Dots) */}
+        <div className={cn("flex justify-center home-gap-sm z-30 w-full home-padding-inline", styles.dotsWrapper)}>
+          {SLIDES.map((slide, index) => {
+            const total = SLIDES.length;
+            const activeIdx = (page % total + total) % total;
 
-      {/* Slide Indicators (Dots) */}
-      <div className="flex justify-center home-gap-sm z-30 w-full home-padding-inline mt-8">
-        {SLIDES.map((slide, index) => {
-          const total = SLIDES.length;
-          const activeIdx = (page % total + total) % total;
-
-          return (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => jumpToSlide(index)}
-              className={cn(
-                "h-2 transition-all",
-                activeIdx === index ? "w-12" : "w-2",
-                activeIdx === index ? styles.dotActive : styles.dot
-              )}
-              style={{ borderRadius: "var(--home-pill-radius)" }}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          );
-        })}
+            return (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => jumpToSlide(index)}
+                className={cn(
+                  "h-2 transition-all",
+                  activeIdx === index ? "w-12" : "w-2",
+                  activeIdx === index ? styles.dotActive : styles.dot
+                )}
+                style={{ borderRadius: "var(--home-pill-radius)" }}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            );
+          })}
+        </div>
       </div>
     </section>
   );

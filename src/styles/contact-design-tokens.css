@@ -8,8 +8,8 @@
   :root {
     /* Contact page palette - aligned with Product Template */
     --contact-bg: #f7f7f9;           /* align with product light gray */
-    --contact-text: var(--text-primary);         /* unified dark text */
-    --contact-text-light: var(--text-primary);   /* unify to same dark tone */
+    --contact-text: var(--text-base);         /* unified dark text */
+    --contact-text-light: var(--text-base);   /* unify to same dark tone */
     --contact-muted: #6b7280;        /* gray-500 */
     --contact-muted-light: #9ca3af;  /* gray-400 */
     --contact-muted-lighter: #d1d5db; /* gray-300 */

@@ -71,25 +71,25 @@
   .layout-footer-brand,
   .layout-footer-brand * {
     font-family: var(--font-heading-en);
-    color: var(--text-primary);
+    color: var(--text-base);
   }
 
   .layout-footer-heading,
   .layout-footer-heading * {
     font-family: var(--font-heading-en);
-    color: var(--text-primary);
+    color: var(--text-base);
   }
 
   .layout-footer-text,
   .layout-footer-text * {
     font-family: var(--font-body-en);
-    color: var(--text-primary);
+    color: var(--text-base);
   }
 
   .layout-footer-label,
   .layout-footer-label * {
     font-family: var(--font-body-en);
-    color: var(--text-primary);
+    color: var(--text-base);
   }
 
 }

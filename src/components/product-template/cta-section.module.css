@@ -16,7 +16,7 @@
 .title {
   font-family: var(--font-heading-en);
   font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -24,7 +24,7 @@
 .subtitle {
   font-family: var(--font-body-en);
   font-size: clamp(1.125rem, 2vw, 1.5rem);
-  font-weight: 300;
+  font-weight: var(--weight-light);
   line-height: 1.6;
   color: var(--product-text-inverse-muted);
   max-width: 42rem;

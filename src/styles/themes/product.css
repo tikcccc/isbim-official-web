@@ -4,12 +4,12 @@
 
   /* Text tokens */
   --product-text-strong: var(--ink-900);
-  --product-text-body: var(--color-slate-850);
+  --product-text-body: var(--text-base);
   --product-text-muted: var(--color-slate-600);
   --product-text-subtle: var(--color-slate-400);
   --product-text-inverse: var(--color-white);
-  --product-text-inverse-muted: rgba(var(--nhs-white-rgb) / 0.8);
-  --product-text-inverse-subtle: rgba(var(--nhs-white-rgb) / 0.65);
+  --product-text-inverse-muted: rgba(var(--bg-white-rgb) / 0.8);
+  --product-text-inverse-subtle: rgba(var(--bg-white-rgb) / 0.65);
 
   /* Surfaces */
   --product-surface-dark: var(--surface-dark);
@@ -22,7 +22,7 @@
   --product-border-subtle: var(--color-slate-200);
   --product-border-soft: color-mix(in srgb, var(--product-border-subtle) 60%, transparent);
   --product-border-strong: var(--color-slate-200);
-  --product-border-inverse: rgba(var(--nhs-white-rgb) / 0.1);
+  --product-border-inverse: rgba(var(--bg-white-rgb) / 0.1);
 
   /* Accents & gradients */
   --product-accent-from: var(--accent-violet);
@@ -54,8 +54,8 @@
   /* Misc */
   --text-color-light: #767676;
   --product-mask-color: var(--text-color-light);
-  --product-chip-bg: rgba(var(--nhs-white-rgb) / 0.05);
-  --product-chip-border: rgba(var(--nhs-white-rgb) / 0.1);
+  --product-chip-bg: rgba(var(--bg-white-rgb) / 0.05);
+  --product-chip-border: rgba(var(--bg-white-rgb) / 0.1);
 
   /* Layout & spacing */
   --product-container-max: var(--nhs-max-width);

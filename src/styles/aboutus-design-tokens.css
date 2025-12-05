@@ -3,7 +3,7 @@
     /* About page specific palette */
     --about-bg: #f7f7f9;
     --about-surface-panel: #ffffff;
-    --about-text-primary: var(--text-primary);
+    --about-text-primary: var(--text-base);
     --about-text-secondary: #4b5563;
     --about-text-muted: #6b7280;
     --about-accent: #2563eb;

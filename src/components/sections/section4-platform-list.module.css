@@ -6,7 +6,7 @@
 .title {
   font-family: var(--font-heading-en);
   font-size: clamp(2.75rem, 5vw, 4.5rem);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--home-text-primary);
@@ -15,7 +15,7 @@
 .bodyLarge {
   font-family: var(--font-body-en);
   font-size: clamp(1.125rem, 2vw, 1.375rem);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   line-height: 1.7;
   color: var(--home-text-muted);
 }
@@ -23,17 +23,17 @@
 .labelSm {
   font-family: var(--font-body-en);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1.2;
-  color: var(--home-text-subtle);
+  color: var(--home-text-soft);
 }
 
 .platformTitle {
   font-family: var(--font-heading-en);
   font-size: clamp(2.5rem, 6vw, 5.5rem);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--home-text-primary);
@@ -45,11 +45,19 @@
 
 .videoFrame {
   overflow: hidden;
-  border-radius: var(--home-radius-hard);
+  border-radius: var(--home-product-video-radius);
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: var(--home-shadow-hover);
+  transition: box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.videoFrame:hover {
   box-shadow: var(--home-shadow-strong);
-  background: #000;
+  border-color: transparent;
+  background: transparent;
 }
 
 .arrowIcon {
-  color: var(--home-text-muted);
+  color: var(--home-text-soft);
 }
