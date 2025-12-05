@@ -55,7 +55,7 @@ export function ProductCTASection({
             <Link
               href={buttonHref}
               className={cn(
-                "group inline-flex items-center product-gap-sm product-cta-button product-cta-button-strong transition-transform product-transition-fast hover:translate-y-[-2px]",
+                "group inline-flex items-center product-gap-sm product-cta-button product-cta-button-strong product-transition-fast",
                 styles.ctaButton
               )}
             >
