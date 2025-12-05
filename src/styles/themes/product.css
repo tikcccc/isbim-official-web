@@ -52,6 +52,7 @@
   --product-toggle-hover-text: var(--product-text-body);
 
   /* Misc */
+  --text-color-light: #767676;
   --product-mask-color: var(--text-color-light);
   --product-chip-bg: rgba(var(--nhs-white-rgb) / 0.05);
   --product-chip-border: rgba(var(--nhs-white-rgb) / 0.1);

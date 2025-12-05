@@ -7,7 +7,7 @@
   --home-text-inverse: var(--color-white);
   --home-text-inverse-muted: rgba(255, 255, 255, 0.7);
   --home-text-inverse-subtle: rgba(255, 255, 255, 0.6);
-  --home-cta-bg: var(--color-gray-50, #f8fafc);
+  --home-cta-bg: var(--color-gray-50, #efefef);
   --home-cta-border: var(--color-slate-200, #d1d5db);
   --home-cta-hover-bg: var(--color-slate-950, #0f172a);
   --home-cta-hover-text: var(--color-white);
@@ -37,13 +37,14 @@
   --home-button-strong-bg: var(--color-slate-850, #18181b);
   --home-button-strong-hover: var(--color-slate-800, #27272a);
   --home-button-strong-border: var(--color-slate-850, #18181b);
+  --home-carousel-surface: #efefef;
   --home-carousel-tab-bg: var(--color-white);
   --home-carousel-tab-border: #d4d4d8;
   --home-carousel-tab-text: #52525b;
   --home-carousel-tab-text-active: #18181b;
   --home-carousel-tab-bg-hover: #fafafa;
   --home-carousel-progress: rgba(24, 24, 27, 0.2);
-  --home-carousel-card-bg: var(--color-ink-900, #09090b);
+  --home-carousel-card-bg: #411515;
   --home-carousel-card-border: rgba(255, 255, 255, 0.1);
   --home-carousel-overlay: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
   --home-carousel-border-strong: rgba(255, 255, 255, 0.2);

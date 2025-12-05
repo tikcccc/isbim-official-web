@@ -23,6 +23,10 @@
   background: var(--home-carousel-progress);
 }
 
+.carouselSection {
+  background: var(--home-carousel-surface);
+}
+
 .card {
   background: var(--home-carousel-card-bg);
   border-color: var(--home-carousel-card-border);
@@ -79,4 +83,8 @@
   font-family: var(--font-body-en);
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+.slideContent {
+  padding-block: clamp(3rem, 6vw, 4.5rem);
 }

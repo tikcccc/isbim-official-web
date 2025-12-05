@@ -6,9 +6,9 @@ import dynamic from "next/dynamic";
 import { Facebook, Linkedin, Twitter, Youtube } from "lucide-react";
 import { m } from "@/components/motion/lazy-motion";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
+import { Separator } from "@/components/ui/separator";
 
 const NewsletterForm = dynamic(
   () => import("./newsletter-form").then((mod) => mod.NewsletterForm),
@@ -61,7 +61,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="footer-default w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-t border-slate-200 dark:border-slate-800 layout-footer-text">
+    <footer className="footer-default w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 layout-footer-text">
       <div className="container mx-auto px-6 py-14 lg:py-20">
         {/* Grid layout */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">
@@ -101,7 +101,7 @@ export function Footer() {
                   key={label}
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                  className="h-10 w-10 bg-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                   asChild
                 >
                   <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
@@ -183,7 +183,7 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-10" />
+        <Separator className="my-10 bg-[#e5e7eb] dark:bg-slate-800" />
 
         {/* Bottom Bar - Copyright & Legal Links */}
         <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-slate-500 dark:text-slate-400 space-y-3 md:space-y-0">

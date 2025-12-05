@@ -1,10 +1,10 @@
 @layer components {
   /* Footer newsletter CTA tokens */
   :root {
-    --layout-footer-cta-bg: #1e2124;
-    --layout-footer-cta-bg-hover: #111827;
-    --layout-footer-cta-text: #f8fafc;
-    --layout-footer-cta-border: #111827;
+    --layout-footer-cta-bg: #ffffff;
+    --layout-footer-cta-bg-hover: #f5f5f7;
+    --layout-footer-cta-text: #0f172a;
+    --layout-footer-cta-border: #d4d4d8;
   }
 
   .footer-dark {
@@ -91,4 +91,5 @@
     font-family: var(--font-body-en);
     color: var(--text-primary);
   }
+
 }

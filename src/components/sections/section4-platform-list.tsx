@@ -408,7 +408,10 @@ function PlatformRow({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? -10 : -20 }}
             transition={{ duration: motionBase }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 will-change-transform home-icon-subtle"
+            className={cn(
+              "absolute left-0 top-1/2 -translate-y-1/2 will-change-transform home-icon-subtle",
+              styles.arrowIcon
+            )}
           >
              <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
           </m.div>

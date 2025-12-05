@@ -152,6 +152,7 @@ export function InteractiveCarousel() {
   const [hovered, setHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const parallaxLayerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const posterFallback = "/images/post/banner-poster.jpg";
@@ -179,9 +180,10 @@ export function InteractiveCarousel() {
 
   // --- 1. Parallax 優化：quickTo + IntersectionObserver ---
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!sectionRef.current || !parallaxLayerRef.current) return;
 
     const section = sectionRef.current;
+    const layer = parallaxLayerRef.current;
     let quickToY: ((value: number) => void) | null = null;
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -193,13 +195,13 @@ export function InteractiveCarousel() {
 
         if (entry.isIntersecting) {
           // 進入視窗：初始化 quickTo
-          quickToY = gsap.quickTo(section, "y", {
+          quickToY = gsap.quickTo(layer, "y", {
             duration: 0.4,
             ease: "power2.out",
           });
         } else {
           // 離開視窗：重置位置
-          gsap.set(section, { y: 0 });
+          gsap.set(layer, { y: 0 });
           quickToY = null;
         }
       },
@@ -238,7 +240,7 @@ export function InteractiveCarousel() {
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       if (quickToY) {
-        gsap.set(section, { y: 0 });
+        gsap.set(layer, { y: 0 });
       }
     };
   }, []);
@@ -339,11 +341,17 @@ export function InteractiveCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full home-surface-panel overflow-visible flex flex-col items-center home-gap-lg section-padding pb-12 md:pb-16"
+      className={cn(
+        "relative w-full home-surface-panel overflow-visible flex flex-col items-center home-gap-lg section-padding pb-12 md:pb-16",
+        styles.carouselSection
+      )}
     >
-      <div className="w-full max-w-[1800px] mx-auto px-4 md:px-8">
+      <div
+        ref={parallaxLayerRef}
+        className="w-full max-w-[1800px] mx-auto px-4 md:px-8"
+      >
         {/* --- 導航區域 (Tabs + See All) --- */}
-        <div className="relative z-30 flex flex-col md:flex-row home-gap-sm items-center mb-4 md:mb-6">
+        <div className="relative z-30 flex flex-col md:flex-row home-gap-sm items-center mb-8 md:mb-12">
           {/* Tabs 容器：Grid 佈局自動均分寬度 */}
           <div className="flex-1 grid grid-cols-4 md:grid-cols-8 gap-2">
             {SLIDES.map((slide, index) => {
@@ -411,7 +419,7 @@ export function InteractiveCarousel() {
 
         {/* Slider Track */}
         <div
-          className="relative w-full flex items-center justify-center min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] overflow-visible"
+          className="relative w-full flex items-center justify-center min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] overflow-visible"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
@@ -429,7 +437,7 @@ export function InteractiveCarousel() {
                   initial="hidden"
                   animate="hidden"
                 className={cn(
-                  "absolute w-full h-full border min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard",
+                  "absolute w-full h-full border min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] home-radius-hard",
                   styles.card
                 )}
               />
@@ -443,7 +451,7 @@ export function InteractiveCarousel() {
                 initial="hidden"
                 animate={variant}
               className={cn(
-                "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[65svh] max-h-[72svh] sm:min-h-[70vh] sm:max-h-[78vh] lg:min-h-[660px] lg:max-h-[760px] home-radius-hard",
+                "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] home-radius-hard",
                 styles.card
               )}
             >
@@ -483,7 +491,12 @@ export function InteractiveCarousel() {
               </div>
 
                 {/* Content Overlay */}
-                <div className="relative z-10 w-full h-full p-8 md:p-12 flex flex-col justify-between home-text-inverse">
+                <div
+                  className={cn(
+                    "relative z-10 w-full h-full px-8 md:px-12 flex flex-col justify-between home-text-inverse",
+                    styles.slideContent
+                  )}
+                >
                   <div className="max-w-2xl">
                     <div className="inline-flex items-center gap-2 mb-4">
                       <span className="home-label-sm home-text-inverse-muted">

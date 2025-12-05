@@ -506,14 +506,14 @@ export function FeatureSection({
           </div>
 
           {/* Right Column: Content */}
-          <div className="lg:col-span-7 xl:col-span-7 flex flex-col lg:self-start product-stack-lg">
-            <p className={cn(styles.description, "product-text-body mb-8 md:mb-10 w-full")}>
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col lg:self-start pt-6 md:pt-8 lg:pt-12 space-y-8 md:space-y-10">
+            <p className={cn(styles.description, "product-text-body w-full")}>
               {description}
             </p>
 
             {/* Toggle Pill - accessible tablist with keyboard navigation */}
             {details && details.length > 0 && (
-              <div className="mb-10" role="tablist" aria-label="View options">
+            <div className="mb-4 md:mb-6" role="tablist" aria-label="View options">
             <div className={cn("toggle-pill inline-flex h-14 border p-1 shadow-sm overflow-hidden", styles.toggleShell)}>
                   <button
                     role="tab"
@@ -570,7 +570,7 @@ export function FeatureSection({
             )}
 
             {/* Media Card / Details View - with tabpanel roles for accessibility */}
-            <div className={cn("w-full h-[563px] max-w-full overflow-hidden relative border", styles.featureCard)}>
+            <div className={cn("w-full max-w-full overflow-hidden relative border shadow-xl bg-white", styles.featureCard, styles.featureMedia)}>
               {/* Video/Image Panel */}
               <div
                 role="tabpanel"
@@ -645,8 +645,7 @@ export function FeatureSection({
                 {isTransitioning && (
                 <div
                   key={`${activeView}-overlay`}
-                  className="absolute inset-0 z-50 pointer-events-none overflow-hidden"
-                  style={{ borderRadius: "var(--product-radius-overlay)" }}
+                  className={cn("absolute inset-0 z-50 pointer-events-none overflow-hidden", styles.featureMask)}
                 >
                   <m.div
                     key={`${activeView}-skew`}
@@ -662,7 +661,7 @@ export function FeatureSection({
                     }}
                   >
                     <div
-                      className="h-full w-[250%] flex-none shadow-2xl"
+                      className="h-full w-[220%] flex-none shadow-2xl"
                       style={{
                         transform: "skewX(-25deg)",
                         transformOrigin: "center",

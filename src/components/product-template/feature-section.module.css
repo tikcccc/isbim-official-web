@@ -80,4 +80,16 @@
 .toggleShell {
   background: rgba(var(--nhs-white-rgb), 0.5);
   border-color: var(--product-border-strong);
+  border-radius: 9999px;
+}
+
+.featureMedia {
+  min-height: 540px;
+  height: clamp(560px, 72vh, 640px);
+  border-radius: var(--product-radius-lg);
+}
+
+.featureMask {
+  /* Match the card radius so the transition overlay fully covers the corners */
+  border-radius: var(--product-radius-lg);
 }

@@ -22,7 +22,7 @@
 
 .labelSm {
   font-family: var(--font-body-en);
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -48,4 +48,8 @@
   border-radius: var(--home-radius-hard);
   box-shadow: var(--home-shadow-strong);
   background: #000;
+}
+
+.arrowIcon {
+  color: var(--home-text-muted);
 }
