@@ -62,18 +62,19 @@
 .panel {
   position: absolute;
   inset: 0;
-  transition: all 0.5s var(--product-motion-ease, ease);
+  transition: none;
 }
 
 .panelHidden {
+  display: none;
   opacity: 0;
-  transform: translateY(12px);
+  transform: none;
   pointer-events: none;
 }
 
 .panelVisible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
   pointer-events: auto;
 }
 
