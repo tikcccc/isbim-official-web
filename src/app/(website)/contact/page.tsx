@@ -181,8 +181,7 @@ export default function ContactPage() {
 
   return (
     <div
-      className={`contact-page contact-transition-base ${mounted ? "opacity-100" : "opacity-0"}`}
-      style={{ transitionDuration: "var(--contact-motion-slow)" }}
+      className={`contact-page transition-opacity duration-1000 ${mounted ? "opacity-100" : "opacity-0"}`}
     >
       {/* Background Layers */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -196,10 +195,10 @@ export default function ContactPage() {
         <div className="contact-cad-corner contact-cad-corner--br" />
 
         {/* Coordinate Labels */}
-        <div className="absolute top-1/2 left-10 contact-label-sm text-[--contact-muted] hidden lg:block -rotate-90 origin-left">
+        <div className="absolute top-1/2 left-10 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest -rotate-90 origin-left">
           COORD: {displayLat}° N
         </div>
-        <div className="absolute bottom-10 left-1/2 contact-label-sm text-[--contact-muted] hidden lg:block">
+        <div className="absolute bottom-10 left-1/2 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest">
           COORD: {displayLon}° E
         </div>
 
@@ -210,29 +209,17 @@ export default function ContactPage() {
         <div className="absolute bottom-[20%] right-[10%] text-gray-200/50 animate-bounce duration-[3000ms]">
           <Layers size={96} strokeWidth={0.5} />
         </div>
-
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 contact-container contact-section-padding contact-hero-padding">
+      <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-28 md:pt-32 lg:pt-40 pb-20 md:pb-22 lg:pb-24 px-4 sm:px-6 lg:px-0">
         {/* Header Section */}
-        <div
-          className="relative max-w-[1100px]"
-          style={{
-            marginBottom: "var(--contact-stack-lg)",
-            paddingLeft: "var(--contact-container-padding)",
-          }}
-        >
+        <div className="mb-24 relative pl-6 max-w-[1100px]">
           <div className="contact-title-border" aria-hidden="true" />
           <div className="overflow-hidden">
             <h1
-            className={`contact-hero-title transform ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
-            style={{
-              transitionDuration: "var(--contact-motion-slow)",
-              transitionTimingFunction: "var(--contact-motion-ease)",
-              transitionDelay: "var(--contact-motion-delay-hero)",
-            }}
-          >
+              className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] transform transition-transform duration-1000 delay-300 contact-hero-title ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
+            >
               {messages.contact_hero_title_prefix()}
               <br className="md:hidden" />
               <span className="font-semibold">
@@ -241,17 +228,9 @@ export default function ContactPage() {
             </h1>
           </div>
 
-          <div
-            className="max-w-3xl overflow-hidden"
-            style={{ marginTop: "var(--contact-stack-md)" }}
-          >
+          <div className="mt-8 max-w-3xl overflow-hidden">
             <p
-              className={`contact-hero-subtitle text-[--contact-muted] transform ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
-              style={{
-                transitionDuration: "var(--contact-motion-slow)",
-                transitionTimingFunction: "var(--contact-motion-ease)",
-                transitionDelay: "var(--contact-motion-delay-sub)",
-              }}
+              className={`text-lg md:text-xl text-[--contact-muted] font-light leading-relaxed transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
             >
               <>
                 {messages.contact_hero_body_prefix()}{" "}
@@ -268,30 +247,26 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="contact-layout-grid items-start">
+        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-24 items-start">
           {/* Left Column: Contact Info & Map */}
           <div
-            className={`lg:col-span-4 contact-stack-lg transform contact-transition-base ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-            style={{ transitionDuration: "var(--contact-motion-slow)", transitionDelay: "var(--contact-motion-delay-sub)" }}
+            className={`lg:col-span-4 space-y-10 md:space-y-12 transform transition-all duration-1000 delay-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             {/* Info Block 1: Address */}
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
-              <div className="flex items-center contact-gap-sm contact-stack-sm text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
+              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <MapPin size={18} className="contact-icon" />
-                <span className="contact-info-text">
+                <span className="contact-info-text text-sm md:text-base">
                   {messages.contact_label_address()}
                 </span>
               </div>
-              <div className="pl-2 contact-stack-sm">
-                <h3
-                  className="contact-location-title"
-                  style={{ marginBottom: "var(--contact-stack-sm)" }}
-                >
+              <div className="pl-2">
+                <h3 className="text-2xl font-medium text-[--contact-text] mb-2">
                   {messages.contact_address_city()}
                 </h3>
-                <p className="contact-body text-[--contact-muted] leading-relaxed font-light">
+                <p className="text-[--contact-muted] leading-relaxed font-light text-base md:text-lg">
                   <>
                     {messages.contact_address_line1()}
                     <br />
@@ -307,38 +282,32 @@ export default function ContactPage() {
             <div className="group cursor-default relative">
               <div className="contact-vertical-line" />
 
-              <div className="flex items-center contact-gap-sm contact-stack-sm text-[--contact-muted] group-hover:text-[--contact-accent] contact-transition-base">
+              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
                 <Globe size={18} className="contact-icon" />
-                <span className="contact-info-text">
+                <span className="contact-info-text text-sm md:text-base">
                   {messages.contact_label_digital_link()}
                 </span>
               </div>
-              <div className="pl-2 contact-stack-sm">
-                <div className="contact-stack-sm">
-                  <p
-                    className="contact-label text-[--contact-muted]"
-                    style={{ marginBottom: "var(--contact-stack-sm)" }}
-                  >
+              <div className="pl-2 space-y-4">
+                <div>
+                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
                     {messages.contact_label_direct_line()}
                   </p>
                   <a
                     href="tel:+85223828380"
-                  className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] contact-transition-base cursor-pointer"
-                >
+                    className="text-2xl font-medium text-[--contact-text] font-mono tracking-tight hover:text-[--contact-accent] transition-colors cursor-pointer"
+                  >
                     +852 2382 8380
                   </a>
                 </div>
-                <div className="contact-stack-sm">
-                  <p
-                    className="contact-label text-[--contact-muted]"
-                    style={{ marginBottom: "var(--contact-stack-sm)" }}
-                  >
+                <div>
+                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
                     {messages.contact_label_inquiry()}
                   </p>
                   <a
                     href="mailto:solution@isbim.com.hk"
-                  className="contact-emphasis text-[--contact-text] hover:text-[--contact-accent] contact-transition-base contact-accent-underline"
-                >
+                    className="text-2xl font-medium text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
+                  >
                     solution@isbim.com.hk
                   </a>
                 </div>
@@ -346,20 +315,19 @@ export default function ContactPage() {
             </div>
 
             {/* Map Section */}
-            <div className="relative" style={{ paddingTop: "var(--contact-stack-sm)" }}>
+            <div className="pt-4 relative">
               {/* Decorative corners for map */}
               <div className="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-[--contact-muted] z-10" />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-[--contact-muted] z-10" />
 
-              <div className="contact-map-container group contact-radius-md contact-shadow-soft">
+              <div className="contact-map-container group">
                 <iframe
                   width="100%"
                   height="100%"
                   frameBorder="0"
                   scrolling="no"
                   src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`}
-                  className="opacity-90 hover:opacity-100 transition-all"
-                  style={{ transitionDuration: "var(--contact-motion-slow)" }}
+                  className="opacity-90 hover:opacity-100 transition-all duration-700"
                   title={messages.contact_map_title()}
                 />
 
@@ -371,39 +339,36 @@ export default function ContactPage() {
                   href={googleMapsLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20 contact-radius-pill contact-transition-base"
+                  className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20"
                 >
                   <ExternalLink size={12} />
                   {messages.contact_map_cta()}
                 </a>
               </div>
 
-              <div
-                className="flex justify-between items-center"
-                style={{ marginTop: "var(--contact-stack-sm)", paddingInline: "0.25rem" }}
-              >
-                <p className="contact-label-sm text-[--contact-muted]">
+              <div className="flex justify-between items-center mt-2 px-1">
+                <p className="text-xs font-mono text-[--contact-muted]">
                   LAT: {displayLat} | LON: {displayLon}
                 </p>
-                <div className="flex contact-gap-sm items-center">
+                <div className="flex gap-2 items-center">
                   <Navigation size={12} className="text-[--contact-muted]" />
-                  <span className="contact-label-sm text-[--contact-muted]">
+                  <span className="text-xs font-mono text-[--contact-muted] uppercase tracking-wider">
                     {messages.contact_map_tagline()}
                   </span>
                 </div>
               </div>
             </div>
           </div>
+
           {/* Right Column: Form Section */}
           <div
-            className={`lg:col-span-8 transform contact-transition-base ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-            style={{ transitionDuration: "var(--contact-motion-slow)", transitionDelay: "var(--contact-motion-delay-sub)" }}
+            className={`lg:col-span-8 transform transition-all duration-1000 delay-900 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             <div
               id="contact-form"
               ref={formRef}
-              className="contact-panel contact-radius-md contact-panel-padding hover:shadow-2xl contact-transition-base relative overflow-hidden group"
-              >
+              className="contact-panel rounded-sm p-6 sm:p-7 md:p-10 lg:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group"
+            >
               {/* Structural Border */}
               <div className="contact-structural-border" />
 
@@ -416,21 +381,21 @@ export default function ContactPage() {
               ) : (
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                    className="contact-stack-md relative z-10 pl-2 md:pl-6"
+                  className="space-y-8 md:space-y-10 relative z-10 pl-2 md:pl-6"
                 >
                   {/* Form Header */}
                   <div className="contact-section-divider">
                     <h2 className="text-4xl font-light text-[--contact-text]">
                       {messages.contact_form_heading()}
                     </h2>
-                  <p className="text-base text-[--contact-muted] font-light" style={{ marginTop: "var(--contact-stack-sm)" }}>
+                    <p className="text-base text-[--contact-muted] mt-2 font-light">
                       {messages.contact_form_subheading()}
                     </p>
                   </div>
 
                   {/* Section 1: Identity */}
-                  <div className="contact-stack-md">
-                    <div className="contact-form-grid text-base md:text-lg">
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_first_name()}
                         required
@@ -449,8 +414,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 2: Organization */}
-                  <div className="contact-stack-md">
-                    <div className="contact-form-grid text-base md:text-lg">
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_company_name()}
                         error={errors.companyName?.message}
@@ -476,8 +441,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 3: Context */}
-                  <div className="contact-stack-md">
-                      <div className="contact-form-grid text-base md:text-lg">
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_job_title()}
                         error={errors.jobTitle?.message}
@@ -504,8 +469,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Section 4: Contact & Action */}
-                  <div className="contact-stack-md">
-                      <div className="contact-form-grid text-base md:text-lg">
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base md:text-lg">
                       <FormInput
                         label={messages.contact_label_email()}
                         type="email"
@@ -524,10 +489,10 @@ export default function ContactPage() {
                     </div>
 
                     {/* Marketing Consent */}
-                    <div className="relative z-20" style={{ paddingTop: "var(--contact-stack-sm)" }}>
+                    <div className="pt-4 relative z-20">
                       <button
                         type="button"
-                        className="flex items-start contact-gap-sm cursor-pointer group/checkbox text-left"
+                        className="flex items-start gap-4 cursor-pointer group/checkbox text-left"
                         onClick={() =>
                           setValue("marketingConsent", !marketingConsent, {
                             shouldDirty: true,
@@ -535,12 +500,16 @@ export default function ContactPage() {
                           })
                         }
                       >
-                        <div className="relative flex-shrink-0" style={{ marginTop: "var(--contact-stack-xs)" }}>
+                        <div className="relative flex-shrink-0 mt-0.5">
                           <div
                             className="w-5 h-5 border rounded-sm transition-all flex items-center justify-center"
                             style={{
-                              backgroundColor: marketingConsent ? "#111827" : "#ffffff",
-                              borderColor: marketingConsent ? "#111827" : "#d1d5db",
+                              backgroundColor: marketingConsent
+                                ? "#111827"
+                                : "#ffffff",
+                              borderColor: marketingConsent
+                                ? "#111827"
+                                : "#d1d5db",
                             }}
                           >
                             {marketingConsent && (
@@ -561,22 +530,23 @@ export default function ContactPage() {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="flex justify-end" style={{ paddingTop: "var(--contact-stack-md)" }}>
+                    <div className="pt-8 flex justify-end">
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group/btn contact-btn-primary text-[11px] uppercase cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
-                        style={{ backgroundColor: "var(--contact-text, #111827)" }}
+                        className="group/btn relative px-8 py-4 text-white font-medium text-base tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                        style={{
+                          backgroundColor: "var(--contact-text, #111827)",
+                        }}
                       >
-                        <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all"
-                          style={{ transitionDuration: "var(--contact-motion-base)", transitionTimingFunction: "var(--contact-motion-ease)" }}>
+                        <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
                           {isSubmitting ? (
-                            <span className="contact-label text-white animate-pulse">
+                            <span className="font-mono text-sm animate-pulse">
                               {messages.contact_submit_loading()}
                             </span>
                           ) : (
                             <>
-                              <span className="contact-button-label text-white">
+                              <span className="text-sm font-bold tracking-widest uppercase">
                                 {messages.contact_submit_label()}
                               </span>
                               <ArrowRight
@@ -588,11 +558,9 @@ export default function ContactPage() {
                         </span>
                         <div
                           aria-hidden="true"
-                          className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform"
+                          className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"
                           style={{
                             backgroundColor: "var(--contact-accent, #0ea5e9)",
-                            transitionDuration: "var(--contact-motion-slow)",
-                            transitionTimingFunction: "var(--contact-motion-ease-soft)",
                           }}
                         />
                       </button>
@@ -609,26 +577,16 @@ export default function ContactPage() {
 }
 
 // Success State Component
-function SuccessState({
-  onReset,
-}: {
-  onReset: () => void;
-}) {
+function SuccessState({ onReset }: { onReset: () => void }) {
   return (
     <div className="min-h-[500px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-700">
       <div className="relative">
         <div className="absolute inset-0 bg-[--contact-accent] blur-xl opacity-30 animate-pulse" />
-        <div
-          className="relative w-24 h-24 contact-gradient-bg rounded-full flex items-center justify-center shadow-lg"
-          style={{ marginBottom: "var(--contact-stack-lg)" }}
-        >
+        <div className="relative w-24 h-24 contact-gradient-bg rounded-full flex items-center justify-center mb-8 shadow-lg">
           <Check className="w-10 h-10 text-white" />
         </div>
       </div>
-      <h3
-        className="text-4xl font-light text-[--contact-text]"
-        style={{ marginBottom: "var(--contact-stack-sm)" }}
-      >
+      <h3 className="text-4xl font-light text-[--contact-text] mb-4">
         {messages.contact_success_title()}
       </h3>
       <p className="text-[--contact-muted] max-w-md text-lg font-light leading-relaxed">
@@ -636,12 +594,7 @@ function SuccessState({
       </p>
       <button
         onClick={onReset}
-        className="contact-radius-md border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] contact-transition-base uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
-        style={{
-          marginTop: "var(--contact-stack-lg)",
-          paddingInline: "var(--contact-btn-secondary-x)",
-          paddingBlock: "var(--contact-btn-secondary-y)",
-        }}
+        className="mt-12 px-8 py-3 rounded-none border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] transition-all uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
       >
         {messages.contact_reset_button()}
       </button>
@@ -649,7 +602,6 @@ function SuccessState({
   );
 }
 
-// Form Input Component
 // Form Input Component
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -675,9 +627,7 @@ const FormInput = ({
 
   return (
     <div className="group relative">
-      <label
-        className={`contact-label text-xs md:text-sm ${labelFocusColor}`}
-      >
+      <label className={`contact-label text-xs md:text-sm ${labelFocusColor}`}>
         {label}
         {required && " *"}
       </label>
@@ -686,16 +636,9 @@ const FormInput = ({
         {...props}
       />
       <div
-        className={`absolute bottom-0 left-0 w-0 group-focus-within:w-full transition-all ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
-        style={{
-          height: "var(--contact-underline-height)",
-          transitionDuration: "var(--contact-underline-duration)",
-          transitionTimingFunction: "var(--contact-motion-ease)",
-        }}
+        className={`absolute bottom-0 left-0 h-[1px] w-0 group-focus-within:w-full transition-all duration-500 ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
       />
-      {error && (
-        <p className="text-red-500 text-base mt-1">{error}</p>
-      )}
+      {error && <p className="text-red-500 text-base mt-1">{error}</p>}
     </div>
   );
 };
@@ -720,7 +663,7 @@ const FormSelect = ({
   placeholder,
   required,
   error,
-        accentColor = "primary",
+  accentColor = "primary",
 }: FormSelectProps) => {
   const focusColor =
     accentColor === "alt"
@@ -737,33 +680,21 @@ const FormSelect = ({
 
   return (
     <div className="group relative">
-      <label
-        className={`contact-label text-xs md:text-sm ${labelFocusColor}`}
-      >
+      <label className={`contact-label text-xs md:text-sm ${labelFocusColor}`}>
         {label}
         {required && " *"}
       </label>
-          <Select
-            value={value || ""}
-            onValueChange={(val) =>
-              onChange(val)
-            }
-          >
-            <SelectTrigger
-              className={cn(
-                "contact-select w-full justify-between items-center text-xl leading-tight px-0 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
-            "transition-all focus-visible:ring-0 focus-visible:ring-offset-0",
+      <Select value={value || ""} onValueChange={(val) => onChange(val)}>
+        <SelectTrigger
+          className={cn(
+            "contact-select w-full justify-between items-center text-xl leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
+            "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
             focusColor,
             hoverIconColor,
             "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
             "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]"
-              )}
-              style={{
-                paddingBlock: "var(--contact-input-padding-y)",
-                transitionDuration: "var(--contact-motion-base)",
-                transitionTimingFunction: "var(--contact-motion-ease)",
-              }}
-            >
+          )}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent
@@ -786,9 +717,7 @@ const FormSelect = ({
           ))}
         </SelectContent>
       </Select>
-      {error && (
-        <p className="text-red-500 text-base mt-1">{error}</p>
-      )}
+      {error && <p className="text-red-500 text-base mt-1">{error}</p>}
     </div>
   );
 };

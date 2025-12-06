@@ -1,56 +1,52 @@
 ﻿/* Home utilities: containers, spacing, labels, buttons */
 @layer components {
   /* Containers */
+  /* Full-page wrapper used by hero-section-1 and /page.tsx */
   .container-page {
     @apply relative w-full max-w-[1920px] mx-auto;
   }
 
+  /* Standard content width across home sections (section3/4/5, etc.) */
   .container-content {
     @apply w-[92%] md:w-[88%] max-w-[1920px] mx-auto;
   }
 
+  /* Wider content width for platform list grid, etc. */
   .container-content-wide {
     @apply w-[92%] md:w-[88%] max-w-[1920px] mx-auto;
   }
 
-  .container-narrow {
-    @apply w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-20;
-  }
-
-  .container-wide {
-    @apply w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 xl:px-24;
-  }
-
   /* Section spacing */
+  /* Default vertical padding for home sections */
   .section-padding {
     padding-block: clamp(3rem, 6vw, 5.5rem);
   }
 
+  /* Gap helpers used in carousel, platform list, CTA grids */
   .home-gap-sm { gap: var(--home-gap-sm); }
   .home-gap-md { gap: var(--home-gap-md); }
   .home-gap-lg { gap: var(--home-gap-lg); }
-  .home-stack-sm > :not([hidden]) ~ :not([hidden]) { margin-top: var(--home-stack-sm); }
-  .home-stack-md > :not([hidden]) ~ :not([hidden]) { margin-top: var(--home-stack-md); }
+  /* Vertical stack spacing (CTA buttons, etc.) */
   .home-stack-lg > :not([hidden]) ~ :not([hidden]) { margin-top: var(--home-stack-lg); }
+  /* Inline padding helpers (dots wrapper, platform title padding) */
   .home-padding-inline { padding-inline: var(--home-padding-inline); }
   .home-padding-inline-lg { padding-inline: var(--home-padding-inline-lg); }
 
   /* Radius helpers */
+  /* Hard edges used on carousel cards */
   .home-radius-hard { border-radius: var(--radius-hard); }
-  .home-radius-sm { border-radius: var(--radius-media-rounded); }
-  .home-radius-lg { border-radius: var(--radius-card); }
 
   /* Text colors */
-  .home-text-primary { color: var(--home-text-primary); }
+  /* Muted/subtle text helpers for scroll prompt, platform labels */
   .home-text-muted { color: var(--home-text-muted); }
   .home-text-subtle { color: var(--home-text-subtle); }
-  .home-text-soft { color: var(--home-text-soft); }
-  .home-text-vsoft { color: var(--home-text-vsoft); }
+  /* Inverse text helpers for dark surfaces (hero, carousel) */
   .home-text-inverse { color: var(--home-text-inverse); }
   .home-text-inverse-muted { color: var(--home-text-inverse-muted); }
   .home-text-inverse-subtle { color: var(--home-text-inverse-subtle); }
 
   /* Labels */
+  /* Base label (hero scroll prompt, shared label usage) */
   .home-label {
     font-family: var(--font-body-en);
     font-size: 0.8125rem;
@@ -61,6 +57,7 @@
     color: var(--home-text-muted);
   }
 
+  /* Small label for tabs/meta/platform version text */
   .home-label-sm {
     font-family: var(--font-body-en);
     font-size: 0.75rem;
@@ -71,11 +68,13 @@
     color: var(--home-text-muted);
   }
 
+  /* Inverse label color on dark backgrounds */
   .home-label-inverse {
     color: var(--home-text-inverse);
   }
 
   /* Buttons */
+  /* Strong dark CTA buttons (carousel actions) */
   .home-button-strong {
     background: var(--home-button-strong-bg);
     color: var(--home-text-inverse);

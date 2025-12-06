@@ -74,7 +74,7 @@
  --brand-blue-rgb: 78 138 247; 
 
   /* --- 语义颜色 ---*/
-  --gray-divider: #efefef;
+  --gray-divider: #efefef;/*分割线*/
   --status-error : #ff4136; /*錯誤狀態 */
   --border-strong: #d1d5db;
   --border-subtle: #e5e7eb;
@@ -89,7 +89,7 @@
    适配背景：纯白(#FFFFFF) & 浅灰(#EFEFEF)
 ========================================= */
 
-/* 1. 建议改为纯黑，最百搭，不显脏 */
+/* 1. 纯黑，最百搭，不显脏 */
 --shadow-tone: 0, 0, 0;
 
 /* 2. 新增：极淡内描边 (关键变量) */

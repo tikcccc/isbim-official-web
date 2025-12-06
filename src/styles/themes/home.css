@@ -13,6 +13,7 @@
   --home-carousel-tab-text:var(--text-base);
   --home-carousel-tab-text-active: var(--text-strong);
   --home-cta-hover-text: var(--text-inverse-strong);
+  --home-hero-subtitle: var(--text-inverse-muted, #d4d4d8);
 
   /*background*/
   --home-hero-surface: #000000;
@@ -36,6 +37,8 @@
 
   /*border*/
   --home-cta-border: var(--color-slate-200, #d1d5db);
+  /*divider-platform*/
+  --home-divider: var(--gray-divider);
   /*cta button*/
   --home-cta-hover-bg: var(--btn-black-bg); 
   
@@ -85,29 +88,31 @@
 
   /*cta section*/
   --home-cta-media-shadow: var(--home-shadow-strong);
+  --home-cta-overlay: linear-gradient(
+    to top right,
+    rgba(var(--shadow-tone), 0.2),
+    transparent 60%,
+    transparent 100%
+  );
   /*motion*/
   --home-cta-image-duration: 1.2s;
   --home-cta-text-duration: 0.8s;
   --home-cta-text-stagger: 0.15s;
   --home-cta-button-transition: 0.3s;
 
-
-  --home-gap: 2rem;
+ /*布局间距*/
   --home-gap-sm: clamp(1rem, 2vw, 1.5rem);
   --home-gap-md: clamp(1.5rem, 3vw, 2.5rem);
   --home-gap-lg: clamp(2rem, 4vw, 3rem);
-  --home-stack-sm: clamp(1rem, 2vw, 1.5rem);
-  --home-stack-md: clamp(1.5rem, 3vw, 2.25rem);
   --home-stack-lg: clamp(2.25rem, 4vw, 3rem);
   --home-padding-inline: clamp(1.5rem, 3vw, 2.5rem);
   --home-padding-inline-lg: clamp(2rem, 4vw, 3rem);
 
-
+ /*动效刚度与阻尼*/  
   --home-spring-stiffness: 200;
   --home-spring-damping: 20;
   --home-carousel-stiffness: 80;
   --home-carousel-damping: 20;
-  --home-stat-duration: 2000ms;
 
   /* Home-specific base overrides */
   font-family: var(--font-body-en);

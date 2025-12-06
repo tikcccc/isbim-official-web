@@ -28,5 +28,5 @@
   font-size: clamp(1.125rem, 2vw, 1.5rem);
   font-weight: var(--weight-regular);
   line-height: 1.6;
-  color: #d4d4d8;
+  color: var(--home-hero-subtitle);
 }

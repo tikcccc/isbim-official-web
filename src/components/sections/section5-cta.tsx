@@ -96,7 +96,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               priority
               fetchPriority="high"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent" />
+            <div className={cn("absolute inset-0", styles.mediaOverlay)} />
           </div>
 
           <div

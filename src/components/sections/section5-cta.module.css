@@ -12,8 +12,12 @@
   background: var(--home-media-muted);
 }
 
+.mediaOverlay {
+  background: var(--home-cta-overlay);
+}
+
 .title {
-  font-family: var(--font-heading-en);
+  font-family: var(--font-body-en);
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: var(--weight-medium);
   line-height: 1.1;

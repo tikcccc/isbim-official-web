@@ -40,7 +40,7 @@
 }
 
 .divider {
-  border-color: rgba(0, 0, 0, 0.05);
+  border-color: var(--home-divider);
 }
 
 .videoFrame {
