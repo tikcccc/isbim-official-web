@@ -1,6 +1,6 @@
 .section {
-  background: var(--product-surface-light, #f2f2f2);
-  color: var(--product-text-body);
+  background: var(--surface-subtle, #f2f2f2);
+  color: var(--text-base);
 }
 
 .sticky {
@@ -8,7 +8,7 @@
 }
 
 .description {
-  color: var(--product-text-muted);
+  color: var(--text-muted);
 }
 
 .scrollPrompt {
@@ -20,5 +20,5 @@
 }
 
 .chevron {
-  color: var(--product-text-strong);
+  color: var(--text-strong);
 }

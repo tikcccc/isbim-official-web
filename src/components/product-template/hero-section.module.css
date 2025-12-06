@@ -1,6 +1,6 @@
 .hero {
-  background: var(--product-surface-dark);
-  color: var(--product-text-inverse);
+  background: var(--surface-hero);
+  color: var(--text-inverse-strong);
 }
 
 .overlayVertical {
@@ -12,9 +12,9 @@
 }
 
 .foreground {
-  color: var(--product-text-inverse);
+  color: var(--text-inverse-strong);
 }
 
 .metadataLine {
-  color: var(--product-text-inverse-muted);
+  color: var(--text-inverse-base);
 }

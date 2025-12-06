@@ -4,9 +4,9 @@
   font-weight: var(--weight-bold);
   line-height: 1.15;
   letter-spacing: -0.025em;
-  color: var(--home-text-primary);
+  color: var(--text-base);
 }
 
 .soft {
-  color: var(--home-text-vsoft);
+  color: var(--text-vsoft);
 }

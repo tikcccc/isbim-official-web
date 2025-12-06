@@ -1,0 +1,57 @@
+/* =========================================
+   3-UTILITIES: CONTAINER CLASSES
+   Layout containers and section spacing
+   ========================================= */
+
+@layer components {
+  /* ─────────────────────────────────────────
+     Page Container
+     Full-width wrapper with max constraint
+     ───────────────────────────────────────── */
+  .container-page {
+    position: relative;
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+
+  /* ─────────────────────────────────────────
+     Content Container
+     Standard content width (92% → 88%)
+     ───────────────────────────────────────── */
+  .container-content {
+    width: 92%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 48em) {
+    .container-content {
+      width: 88%;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Wide Content Container
+     Same as content but explicit naming
+     ───────────────────────────────────────── */
+  .container-content-wide {
+    width: 92%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 48em) {
+    .container-content-wide {
+      width: 88%;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Section Padding
+     Vertical padding for page sections
+     ───────────────────────────────────────── */
+  .section-padding {
+    padding-block: clamp(3rem, 6vw, 5.5rem);
+  }
+}

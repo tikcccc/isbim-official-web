@@ -1,6 +1,14 @@
-/* Product utilities: containers, spacing, typography, buttons, surfaces */
+/* =========================================
+   PRODUCT TEMPLATE COMPONENT LAYER
+   Restores legacy product template classnames
+   using the new token architecture.
+   Scoped to .product-page to avoid global bleed.
+   ========================================= */
+
 @layer components {
-  /* Text colors */
+  /* ─────────────────────────────────────────
+     Text Colors
+     ───────────────────────────────────────── */
   :is(.product-page) .product-text-strong { color: var(--product-text-strong); }
   :is(.product-page) .product-text-body { color: var(--product-text-body); }
   :is(.product-page) .product-text-muted { color: var(--product-text-muted); }
@@ -9,11 +17,14 @@
   :is(.product-page) .product-text-inverse-muted { color: var(--product-text-inverse-muted); }
   :is(.product-page) .product-text-inverse-subtle { color: var(--product-text-inverse-subtle); }
 
-  /* Surfaces & borders */
+  /* ─────────────────────────────────────────
+     Surfaces & Borders
+     ───────────────────────────────────────── */
   :is(.product-page) .product-surface-dark { background: var(--product-surface-dark); }
-  :is(.product-page) .product-surface-deep { background: var(--product-surface-deep); }
-  :is(.product-page) .product-surface-light { background: var(--product-surface-light); }
-  :is(.product-page) .product-surface-panel { background: var(--product-surface-panel); }
+  :is(.product-page) .product-surface-panel {
+    background: var(--product-surface-panel);
+    border-color: var(--product-border-subtle);
+  }
   :is(.product-page) .product-surface-card {
     background: var(--product-surface-card);
     border-color: var(--product-border-subtle);
@@ -24,19 +35,29 @@
   :is(.product-page) .product-border-strong { border-color: var(--product-border-strong); }
   :is(.product-page) .product-border-inverse { border-color: var(--product-border-inverse); }
 
-  /* Gradients & overlays */
+  /* ─────────────────────────────────────────
+     Gradients & Overlays
+     ───────────────────────────────────────── */
   :is(.product-page) .product-text-gradient {
     background: var(--product-accent-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-
-  :is(.product-page) .product-gradient-bg { background: var(--product-accent-gradient); }
   :is(.product-page) .product-hero-overlay-vertical { background: var(--product-hero-overlay-vertical); }
   :is(.product-page) .product-hero-overlay-horizontal { background: var(--product-hero-overlay-horizontal); }
 
-  /* CTA / buttons */
+  /* ─────────────────────────────────────────
+     CTA / Buttons
+     ───────────────────────────────────────── */
+  :is(.product-page) .product-cta-button {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
   :is(.product-page) .product-cta-button-strong {
     background: var(--product-cta-button-bg);
     color: var(--product-cta-button-text);
@@ -48,22 +69,19 @@
   }
 
   /* Toggles */
-  :is(.product-page) .product-toggle-shell {
-    background: rgba(var(--bg-white-rgb) / 0.5);
-    backdrop-filter: blur(2px);
-    border-color: var(--product-border-strong);
-  }
   :is(.product-page) .product-toggle-active {
     background: var(--product-toggle-active-bg);
     color: var(--product-text-inverse);
   }
   :is(.product-page) .product-toggle-inactive { color: var(--product-text-subtle); }
-  :is(.product-page) .product-toggle-inactive:hover { color: var(--product-text-body); }
+  :is(.product-page) .product-toggle-inactive:hover { color: var(--product-toggle-hover-text); }
 
   /* Focus ring */
   :is(.product-page) .product-focus-ring:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--product-accent-ring), 0 0 0 4px rgba(var(--bg-white-rgb) / 0.5);
+    box-shadow:
+      0 0 0 2px var(--product-accent-ring),
+      0 0 0 4px rgba(var(--color-white-rgb) / 0.5);
   }
 
   /* Accents / chips */
@@ -86,7 +104,9 @@
     opacity: 0.8;
   }
 
-  /* Containers & spacing */
+  /* ─────────────────────────────────────────
+     Containers & Spacing
+     ───────────────────────────────────────── */
   :is(.product-page) .product-container {
     width: 92%;
     max-width: var(--product-container-max);
@@ -105,6 +125,7 @@
   :is(.product-page) .product-stack-sm > :not([hidden]) ~ :not([hidden]) { margin-top: var(--product-stack-sm); }
   :is(.product-page) .product-stack-md > :not([hidden]) ~ :not([hidden]) { margin-top: var(--product-stack-md); }
   :is(.product-page) .product-stack-lg > :not([hidden]) ~ :not([hidden]) { margin-top: var(--product-stack-lg); }
+
   @media (min-width: 768px) {
     :is(.product-page) .product-container { padding-inline: var(--product-container-padding-md); }
     :is(.product-page) .product-hero-padding { padding-inline: var(--product-container-padding-md); }
@@ -136,7 +157,9 @@
     :is(.product-page) .product-track-container { padding-inline: var(--product-track-padding-lg); }
   }
 
-  /* Shape & depth */
+  /* ─────────────────────────────────────────
+     Shape & Depth
+     ───────────────────────────────────────── */
   :is(.product-page) .product-radius-card { border-radius: var(--product-radius-card); }
   :is(.product-page) .product-radius-lg { border-radius: var(--product-radius-lg); }
   :is(.product-page) .product-radius-pill { border-radius: var(--product-radius-pill); }
@@ -154,151 +177,87 @@
     transition-timing-function: var(--product-motion-ease);
   }
 
-  /* Typography */
+  /* ─────────────────────────────────────────
+     Typography
+     ───────────────────────────────────────── */
   :is(.product-page) .product-hero-title {
-    font-family: var(--font-heading-en);
+    font-family: var(--font-heading);
     font-size: clamp(3.5rem, 8vw, 9rem);
-    font-weight: 700;
+    font-weight: var(--weight-bold);
     line-height: 0.9;
     letter-spacing: -0.045em;
   }
   :is(.product-page) .product-hero-subtitle {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: clamp(1.125rem, 2.4vw, 1.75rem);
-    font-weight: 300;
-    line-height: 1.6;
+    font-weight: var(--weight-light);
+    line-height: var(--line-relaxed);
   }
   :is(.product-page) .product-meta {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: var(--weight-bold);
     letter-spacing: 0.28em;
     text-transform: uppercase;
     line-height: 1.8;
   }
   :is(.product-page) .product-meta-chip {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: var(--weight-bold);
     letter-spacing: 0.18em;
     text-transform: uppercase;
   }
   :is(.product-page) .product-stage-title-light {
-    font-family: var(--font-heading-en);
+    font-family: var(--font-heading);
     font-size: clamp(2.5rem, 6vw, 6rem);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-  :is(.product-page) .product-stage-title {
-    font-family: var(--font-heading-en);
-    font-size: clamp(2.5rem, 6vw, 6rem);
-    font-weight: 600;
+    font-weight: var(--weight-regular);
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
   :is(.product-page) .product-stage-desc {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
-    font-weight: 300;
+    font-weight: var(--weight-light);
     line-height: 1.7;
   }
-  :is(.product-page) .product-feature-title {
-    font-family: var(--font-heading-en);
-    font-size: clamp(2rem, 4vw, 3.6rem);
-    font-weight: 600;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-  }
-  :is(.product-page) .product-feature-body {
-    font-family: var(--font-body-en);
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    font-weight: 500;
-    line-height: 1.6;
-  }
-  :is(.product-page) .product-detail-title {
-    font-family: var(--font-heading-en);
-    font-size: clamp(1.4rem, 3vw, 2.3rem);
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-  :is(.product-page) .product-detail-body {
-    font-family: var(--font-body-en);
-    font-size: clamp(0.98rem, 1.6vw, 1.15rem);
-    font-weight: 400;
-    line-height: 1.6;
-  }
   :is(.product-page) .product-body {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: clamp(1rem, 1.6vw, 1.25rem);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     line-height: 1.6;
   }
   :is(.product-page) .product-label {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: var(--weight-bold);
     letter-spacing: 0.18em;
     text-transform: uppercase;
     line-height: 1.3;
   }
   :is(.product-page) .product-label-sm {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: var(--weight-bold);
     letter-spacing: 0.18em;
     text-transform: uppercase;
     line-height: 1.2;
   }
   :is(.product-page) .product-cta-title {
-    font-family: var(--font-heading-en);
+    font-family: var(--font-heading);
     font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
   :is(.product-page) .product-cta-subtitle {
-    font-family: var(--font-body-en);
+    font-family: var(--font-body);
     font-size: clamp(1.125rem, 2vw, 1.5rem);
-    font-weight: 300;
+    font-weight: var(--weight-light);
     line-height: 1.6;
-  }
-  :is(.product-page) .product-cta-button {
-    font-family: var(--font-body-en);
-    font-size: 0.9375rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    line-height: 1.2;
   }
 
   /* Background helpers */
   :is(.product-page) .bg-product-dark { background-color: var(--product-surface-dark); }
   :is(.product-page) .bg-product-light { background-color: var(--product-surface-light); }
-  :is(.product-page) .text-product-gradient { background: var(--product-accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  :is(.product-page) .gradient-product { background: var(--product-accent-gradient); }
-
-  /* Section shell */
-  :is(.product-page) .product-section {
-    position: relative;
-    padding-block: var(--product-section-padding);
-    transition: background-color var(--product-motion-base) linear;
-  }
-  :is(.product-page) .product-section--dark {
-    background-color: var(--product-surface-dark);
-    color: var(--product-text-inverse);
-  }
-  :is(.product-page) .product-section--light {
-    background-color: var(--product-surface-light);
-    color: var(--product-text-body);
-  }
-
-  /* Legacy container helper */
-  :is(.product-page) .container-product {
-    width: 92%;
-    max-width: 1600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }

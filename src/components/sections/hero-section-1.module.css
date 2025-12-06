@@ -1,17 +1,17 @@
 ﻿.section {
-  background: var(--home-hero-surface);
+  background: var(--surface-hero);
 }
 
 .gradient {
-  background: var(--home-hero-gradient);
+  background: var(--hero-gradient);
 }
 
 .overlay {
-  background: var(--home-hero-overlay);
+  background: var(--hero-overlay);
 }
 
 .heroText {
-  color: var(--home-text-inverse);
+  color: var(--text-inverse-strong);
 }
 
 .title {
@@ -20,7 +20,7 @@
   font-weight: var(--weight-bolder);
   line-height: 1.1;
   letter-spacing: -0.03em;
-  color: var(--home-text-inverse);
+  color: var(--text-inverse-strong);
 }
 
 .subtitle {
@@ -28,5 +28,5 @@
   font-size: clamp(1.125rem, 2vw, 1.5rem);
   font-weight: var(--weight-regular);
   line-height: 1.6;
-  color: var(--home-hero-subtitle);
+  color: var(--hero-subtitle-color);
 }

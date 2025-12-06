@@ -113,13 +113,13 @@
       repeating-linear-gradient(to right,
         color-mix(in srgb, var(--accent-cyan) 80%, transparent) 0px,
         color-mix(in srgb, var(--accent-cyan) 70%, transparent) 0.5px,
-        rgba(var(--bg-white-rgb) / 0.65) 1px,
+        rgba(var(--color-white-rgb) / 0.65) 1px,
         transparent 1px,
         transparent 60px),
       repeating-linear-gradient(to bottom,
         color-mix(in srgb, var(--accent-cyan) 80%, transparent) 0px,
         color-mix(in srgb, var(--accent-cyan) 70%, transparent) 0.5px,
-        rgba(var(--bg-white-rgb) / 0.65) 1px,
+        rgba(var(--color-white-rgb) / 0.65) 1px,
         transparent 1px,
         transparent 60px);
     mix-blend-mode: screen;

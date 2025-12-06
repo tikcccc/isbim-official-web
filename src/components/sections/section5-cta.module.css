@@ -1,19 +1,19 @@
 ﻿.section {
-  background: var(--home-cta-bg);
-  color: var(--home-text-primary);
+  background: var(--cta-bg);
+  color: var(--text-base);
 }
 
 .media {
-  border-radius: var(--home-cta-image-radius);
-  box-shadow: var(--home-cta-media-shadow);
+  border-radius: var(--cta-image-radius);
+  box-shadow: var(--cta-media-shadow);
 }
 
 .mediaBg {
-  background: var(--home-media-muted);
+  background: var(--media-muted);
 }
 
 .mediaOverlay {
-  background: var(--home-cta-overlay);
+  background: var(--cta-overlay);
 }
 
 .title {
@@ -22,7 +22,7 @@
   font-weight: var(--weight-medium);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--home-text-primary);
+  color: var(--text-base);
 }
 
 .subtitle {
@@ -30,7 +30,7 @@
   font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
   font-weight: var(--weight-regular);
   line-height: 1.6;
-  color: var(--home-text-muted);
+  color: var(--text-muted);
 }
 
 .buttonText {
@@ -39,17 +39,17 @@
   font-weight: var(--weight-regular);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--home-text-primary);
+  color: var(--text-base);
 }
 
 .buttonVariant {
-  border-color: var(--home-cta-border);
-  color: var(--home-text-primary);
+  border-color: var(--cta-border);
+  color: var(--text-base);
   background: transparent;
-  border-radius: var(--home-cta-button-radius);
+  border-radius: var(--cta-button-radius);
 }
 
 .buttonVariant:hover {
-  background: var(--home-cta-hover-bg);
-  color: var(--home-cta-hover-text);
+  background: var(--cta-hover-bg);
+  color: var(--cta-hover-text);
 }

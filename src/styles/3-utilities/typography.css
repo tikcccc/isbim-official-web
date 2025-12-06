@@ -1,0 +1,58 @@
+/* =========================================
+   3-UTILITIES: TYPOGRAPHY CLASSES
+   Labels, text colors, and type utilities
+   ========================================= */
+
+@layer components {
+  /* ─────────────────────────────────────────
+     Label Styles
+     Uppercase tracking labels for UI
+     ───────────────────────────────────────── */
+  .label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--text-muted);
+  }
+
+  .label-sm {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--text-muted);
+  }
+
+  /* Inverse labels (on dark backgrounds) */
+  .label-inverse {
+    color: var(--text-inverse-strong);
+  }
+
+  .label-sm-inverse {
+    color: var(--text-inverse-strong);
+  }
+
+  /* ─────────────────────────────────────────
+     Text Color Utilities
+     Semantic text color classes
+     ───────────────────────────────────────── */
+
+  /* Light background text */
+  .text-strong { color: var(--text-strong); }
+  .text-base { color: var(--text-base); }
+  .text-muted { color: var(--text-muted); }
+  .text-subtle { color: var(--text-sub); }
+  .text-soft { color: var(--text-soft); }
+
+  /* Dark background text (inverse) */
+  .text-inverse { color: var(--text-inverse-strong); }
+  .text-inverse-base { color: var(--text-inverse-base); }
+  .text-inverse-muted { color: var(--text-inverse-muted); }
+  .text-inverse-subtle { color: var(--text-inverse-sub); }
+  .text-inverse-soft { color: var(--text-inverse-soft); }
+}

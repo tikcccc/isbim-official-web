@@ -1,72 +1,72 @@
 ﻿.tab {
-  background: var(--home-carousel-tab-bg);
-  border-color: var(--home-carousel-tab-border);
-  color: var(--home-carousel-tab-text);
+  background: var(--carousel-tab-bg);
+  border-color: var(--carousel-tab-border);
+  color: var(--carousel-tab-text);
 }
 
 .tab:hover {
-  background: var(--home-carousel-tab-bg-hover);
-  color: var(--home-carousel-tab-text-active);
+  background: var(--carousel-tab-bg-hover);
+  color: var(--carousel-tab-text-active);
 }
 
 .tabActive {
-  border-color: var(--home-carousel-tab-text-active);
-  color: var(--home-carousel-tab-text-active);
+  border-color: var(--carousel-tab-text-active);
+  color: var(--carousel-tab-text-active);
 }
 
 .tabActive:hover {
-  background: var(--home-carousel-tab-bg);
-  color: var(--home-carousel-tab-text-active);
+  background: var(--carousel-tab-bg);
+  color: var(--carousel-tab-text-active);
 }
 
 .progress {
-  background: var(--home-carousel-progress);
+  background: var(--carousel-progress);
 }
 
 .carouselSection {
-  background: var(--home-carousel-surface);
+  background: var(--carousel-surface);
 }
 
 .card {
-  background: var(--home-carousel-card-bg);
-  border-color: var(--home-carousel-card-border);
-  border-radius: var(--home-carousel-video-radius);
+  background: var(--carousel-card-bg);
+  border-color: var(--carousel-card-border);
+  border-radius: var(--carousel-video-radius);
 }
 
 .overlay {
-  background: var(--home-carousel-overlay);
-  border-radius: var(--home-carousel-video-radius);
+  background: var(--carousel-overlay);
+  border-radius: var(--carousel-video-radius);
 }
 
 .borderStrong {
-  border-color: var(--home-carousel-border-strong);
+  border-color: var(--carousel-border-strong);
 }
 
 .arrow {
-  background: var(--home-carousel-arrow-bg);
-  color: var(--home-text-inverse);
-  border-color: var(--home-carousel-card-border);
-  border-radius: var(--home-carousel-btn-radius);
+  background: var(--carousel-arrow-bg);
+  color: var(--text-inverse-strong);
+  border-color: var(--carousel-card-border);
+  border-radius: var(--carousel-btn-radius);
 }
 
 .arrow:hover {
-  background: var(--home-carousel-arrow-hover);
+  background: var(--carousel-arrow-hover);
 }
 
 .dot {
-  background: var(--home-carousel-dot);
+  background: var(--carousel-dot);
 }
 
 .dot:hover {
-  background: var(--home-carousel-dot-hover);
+  background: var(--carousel-dot-hover);
 }
 
 .dotActive {
-  background: var(--home-carousel-dot-active);
+  background: var(--carousel-dot-active);
 }
 
 .dotsWrapper {
-  margin-top: var(--home-carousel-dots-offset);
+  margin-top: var(--carousel-dots-offset);
 }
 
 /* Typography scoped to the carousel */
