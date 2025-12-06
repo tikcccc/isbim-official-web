@@ -37,16 +37,16 @@ export function ProductCTASection({
   buttonHref = "/contact",
 }: ProductCTASectionProps) {
   return (
-    <section className={cn("relative z-10 product-section-padding", styles.section)}>
-      <div className="product-container">
+    <section className={cn("relative z-10", styles.section)}>
+      <div className={styles.sectionShell}>
         <div className={cn("flex flex-col items-center text-center", styles.content)}>
           {/* Title with gradient effect */}
-          <h2 className={cn("product-cta-title product-text-inverse", styles.title)}>
-            <span className="product-text-gradient">{title}</span>
+          <h2 className={styles.title}>
+            <span className={styles.textGradient}>{title}</span>
           </h2>
 
           {/* Subtitle */}
-          <p className={cn("product-cta-subtitle", styles.subtitle)}>
+          <p className={styles.subtitle}>
             {subtitle}
           </p>
 
@@ -55,9 +55,10 @@ export function ProductCTASection({
             <Link
               href={buttonHref}
               className={cn(
-                "group inline-flex items-center product-gap-sm product-cta-button product-cta-button-strong product-transition-fast",
+                "group inline-flex items-center",
                 styles.ctaButton
               )}
+              style={{ gap: "var(--product-gap-sm)" }}
             >
               {buttonText}
               <svg
@@ -77,10 +78,10 @@ export function ProductCTASection({
           </div>
 
           {/* Decorative elements */}
-          <div className={cn("flex items-center product-gap-sm", styles.decorRow)}>
+          <div className={cn("flex items-center", styles.decorRow)} style={{ gap: "var(--product-gap-sm)" }}>
             <div className={styles.decorLine} />
-            <div className={cn("product-accent-dot", styles.decorDot)} />
-            <div className={cn("product-accent-dot", styles.decorDot)} />
+            <div className={styles.decorDot} />
+            <div className={styles.decorDot} />
             <div className={styles.decorLine} />
           </div>
         </div>

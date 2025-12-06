@@ -3,6 +3,7 @@
   border-color: var(--border-subtle);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-2xl);
+  border-style: solid;
 }
 
 .divider {
@@ -15,6 +16,7 @@
   font-weight: var(--weight-semibold);
   line-height: 1.08;
   letter-spacing: -0.02em;
+  color: var(--text-strong);
 }
 
 .detailTitle {
@@ -23,6 +25,7 @@
   font-weight: var(--weight-semibold);
   line-height: 1.2;
   letter-spacing: -0.01em;
+  color: var(--text-strong);
 }
 
 .body {
@@ -30,6 +33,7 @@
   font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-weight: var(--weight-regular);
   line-height: 1.6;
+  color: var(--text-base);
 }
 
 .detailBody {
@@ -37,6 +41,7 @@
   font-size: clamp(0.98rem, 1.6vw, 1.15rem);
   font-weight: var(--weight-regular);
   line-height: 1.6;
+  color: var(--text-muted);
 }
 
 .description {
@@ -44,6 +49,7 @@
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: var(--weight-medium);
   line-height: 1.6;
+  color: var(--text-base);
 }
 
 .detailList {
@@ -63,6 +69,7 @@
   position: absolute;
   inset: 0;
   transition: none;
+  border-radius: inherit;
 }
 
 .panelHidden {
@@ -84,6 +91,10 @@
   border-radius: 9999px;
 }
 
+.toggleBase {
+  border-radius: var(--radius-full);
+}
+
 .featureMedia {
   min-height: 540px;
   height: clamp(560px, 72vh, 640px);
@@ -93,4 +104,96 @@
 .featureMask {
   /* Match the card radius so the transition overlay fully covers the corners */
   border-radius: var(--radius-lg);
+}
+
+.detailList > :not([hidden]) ~ :not([hidden]) {
+  margin-top: var(--product-stack-md);
+}
+
+@media (min-width: 64em) {
+  .detailList > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--product-stack-lg);
+  }
+}
+
+.textMuted {
+  color: var(--text-muted);
+}
+
+.textStrong {
+  color: var(--text-strong);
+}
+
+.bodyText {
+  font-family: var(--font-body-en);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: var(--weight-regular);
+  line-height: 1.6;
+}
+
+.label {
+  font-family: var(--font-body-en);
+  font-size: 0.875rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.toggleActive {
+  background: var(--toggle-active-bg);
+  color: var(--text-inverse-strong);
+}
+
+.toggleInactive {
+  color: var(--text-sub);
+}
+
+.toggleInactive:hover {
+  color: var(--toggle-hover-text);
+}
+
+.focusRing:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--product-accent-ring),
+    0 0 0 4px rgba(var(--color-white-rgb) / 0.5);
+}
+
+.chip {
+  background: var(--chip-bg);
+  border-color: var(--chip-border);
+}
+
+.panelSurface {
+  background: var(--product-surface-panel);
+  border-color: var(--product-border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.sectionShell {
+  width: 92%;
+  max-width: var(--product-container-max);
+  margin-inline: auto;
+  padding-inline: var(--product-container-padding);
+  padding-block: var(--product-section-padding);
+}
+
+@media (min-width: 48em) {
+  .sectionShell {
+    padding-inline: var(--product-container-padding-md);
+  }
+}
+
+@media (min-width: 64em) {
+  .sectionShell {
+    padding-inline: var(--product-container-padding-lg);
+    padding-block: var(--product-section-padding-lg);
+  }
+}
+
+@media (min-width: 80em) {
+  .sectionShell {
+    padding-inline: var(--product-container-padding-xl);
+  }
 }

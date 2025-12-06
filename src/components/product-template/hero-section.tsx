@@ -58,7 +58,10 @@ export function HeroSection({
   }, []);
 
   return (
-    <header className={cn("sticky top-0 h-screen z-0 overflow-hidden product-surface-dark", styles.hero)}>
+    <header
+      className={cn("sticky top-0 h-screen z-0 overflow-hidden", styles.hero)}
+      style={{ backgroundColor: "var(--product-surface-dark)" }}
+    >
       {/* Background Video Layer - stays fixed (or slow parallax) */}
       <div className="absolute inset-0 -z-10">
         <video
@@ -76,43 +79,55 @@ export function HeroSection({
         </video>
 
         {/* Gradient Overlay - enhanced for better depth and readability */}
-        <div className={cn("absolute inset-0 product-hero-overlay-vertical transition-opacity product-transition-base", styles.overlayVertical)} />
-        <div className={cn("absolute inset-0 product-hero-overlay-horizontal transition-opacity product-transition-base", styles.overlayHorizontal)} />
+        <div
+          className={cn("absolute inset-0 transition-opacity", styles.overlayVertical)}
+          style={{ transition: "opacity var(--motion-base) var(--ease-smooth)" }}
+        />
+        <div
+          className={cn("absolute inset-0 transition-opacity", styles.overlayHorizontal)}
+          style={{ transition: "opacity var(--motion-base) var(--ease-smooth)" }}
+        />
       </div>
 
       {/* Foreground Content Layer - moves with narrative track */}
       <div
         data-hero-foreground="true"
-        className={cn("relative z-10 h-full max-w-[1800px] mx-auto product-hero-padding flex flex-col justify-end will-change-transform", styles.foreground)}
+        className={cn("relative z-10 h-full max-w-[1800px] mx-auto flex flex-col justify-end will-change-transform", styles.foreground, styles.heroPadding)}
         style={{
           transition: "transform 0.18s ease-out",
         }}
       >
         {/* Main content area */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full product-gap">
+        <div
+          className="flex flex-col md:flex-row justify-between items-start md:items-end w-full"
+          style={{ gap: "var(--product-gap)" }}
+        >
           {/* Left: Product Name - Anchored bottom-left */}
-          <div className="flex flex-col product-gap-sm max-w-4xl">
-            {logoComponent || (
-              <h1 className="product-hero-title product-text-inverse">
-                {productName}
-              </h1>
-            )}
+          <div
+            className="flex flex-col max-w-4xl"
+            style={{ gap: "var(--product-gap-sm)" }}
+          >
+            {logoComponent || <h1 className={styles.heroTitle}>{productName}</h1>}
 
             {/* Optional subtitle */}
             {productSubtitle && (
-              <p className="product-hero-subtitle product-text-inverse-muted max-w-lg mt-2 md:pl-2">
+              <p className={cn("max-w-lg mt-2 md:pl-2", styles.heroSubtitle)}>
                 {productSubtitle}
               </p>
             )}
           </div>
 
           {/* Right: Metadata - Bottom Right, Minimalist */}
-          <div className="hidden md:flex flex-col items-end product-text-inverse">
-            <div className={cn("relative flex flex-col items-end product-gap-sm product-meta pr-2 pl-8 product-text-inverse-muted product-meta-line transition-colors product-transition-base", styles.metadataLine)}>
+          <div className="hidden md:flex flex-col items-end">
+            <div
+              className={cn("relative flex flex-col items-end pr-2 pl-8", styles.meta, styles.metaLine, styles.metadataLine)}
+              style={{ gap: "var(--product-gap-sm)", transition: "color var(--motion-base) var(--ease-smooth)", color: "var(--text-inverse-muted)" }}
+            >
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}
-                  className="max-w-[240px] text-right leading-tight product-text-inverse-subtle hover:text-white transition-colors product-transition-fast"
+                  className="max-w-[240px] text-right leading-tight hover:text-white"
+                  style={{ color: "var(--text-inverse-subtle)", transition: "color var(--motion-fast) var(--ease-smooth)" }}
                 >
                   {item}
                 </span>
@@ -122,11 +137,19 @@ export function HeroSection({
         </div>
 
         {/* Mobile metadata - horizontal layout */}
-        <div className="flex md:hidden product-gap-sm mt-6 product-text-inverse-muted product-meta-chip flex-wrap">
+        <div
+          className={cn("flex md:hidden mt-6 flex-wrap", styles.metaChip)}
+          style={{ gap: "var(--product-gap-sm)", color: "var(--text-inverse-muted)" }}
+        >
           {cleanedMetadata.slice(0, 4).map((item, i) => (
             <span
               key={i}
-              className="px-3 py-1 rounded-full border product-border-inverse product-chip backdrop-blur-[1px]"
+              className="px-3 py-1 rounded-full border backdrop-blur-[1px]"
+              style={{
+                borderColor: "var(--border-inverse-soft)",
+                background: "var(--chip-bg)",
+                color: "var(--text-inverse-muted)",
+              }}
             >
               {item}
             </span>

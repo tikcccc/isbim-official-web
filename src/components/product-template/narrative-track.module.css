@@ -3,8 +3,34 @@
   color: var(--text-base);
 }
 
+.trackContainer {
+  max-width: var(--product-hero-max);
+  margin-inline: auto;
+  padding-inline: var(--product-track-padding);
+}
+
+@media (min-width: 48em) {
+  .trackContainer {
+    padding-inline: var(--product-track-padding-md);
+  }
+}
+
+@media (min-width: 64em) {
+  .trackContainer {
+    padding-inline: var(--product-track-padding-lg);
+  }
+}
+
 .sticky {
   background: transparent;
+}
+
+.titleLight {
+  font-family: var(--font-heading-en);
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: var(--weight-regular);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .description {
@@ -21,4 +47,20 @@
 
 .chevron {
   color: var(--text-strong);
+}
+
+.labelSm {
+  font-family: var(--font-body-en);
+  font-size: 0.75rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.stageDesc {
+  font-family: var(--font-body-en);
+  font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
+  font-weight: var(--weight-light);
+  line-height: 1.7;
 }

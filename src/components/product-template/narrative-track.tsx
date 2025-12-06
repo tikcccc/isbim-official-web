@@ -457,7 +457,7 @@ export function NarrativeTrack({
         i < arr.length - 1 ? (
           <span key={i}>
             {part}
-            <span className="product-text-body font-medium">{descriptionHighlight}</span>
+            <span style={{ color: "var(--text-base)", fontWeight: 500 }}>{descriptionHighlight}</span>
           </span>
         ) : (
           part
@@ -468,7 +468,7 @@ export function NarrativeTrack({
   return (
     <section
       ref={trackRef}
-      className={cn("relative z-20 product-surface-dark", styles.section)}
+      className={cn("relative z-20", styles.section)}
       style={{
         height: scrollHeight,
         boxShadow: trackShadow.trim() || "0 -50px 100px rgba(0,0,0,0.5)",
@@ -482,12 +482,12 @@ export function NarrativeTrack({
       className={cn("sticky top-6 sm:top-10 md:top-14 lg:top-16 h-screen flex items-center justify-center overflow-hidden", styles.sticky)}
         style={{ perspective: "1000px" }}
       >
-        <div className="product-track-container text-center z-10 flex flex-col items-center justify-center h-full">
+        <div className={cn("text-center z-10 flex flex-col items-center justify-center h-full", styles.trackContainer)}>
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}
-            className="product-stage-title-light mb-6 product-text-inverse max-w-7xl"
-            style={{ transition: "color var(--product-motion-base, 0.5s) var(--product-motion-ease, ease-out)" }}
+            className={cn("mb-6 max-w-7xl", styles.titleLight)}
+            style={{ transition: "color var(--product-motion-base, 0.5s) var(--product-motion-ease, ease-out)", color: "var(--text-inverse-strong)" }}
           >
             {stage1Text}
           </h2>
@@ -496,8 +496,11 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text product-stage-title-light product-stack-sm relative z-[1] max-w-7xl`}
-            style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}
+            className={`product-block-anim product-stage2-text relative z-[1] max-w-7xl ${styles.titleLight}`}
+            style={{
+              color: PRODUCT_TEMPLATE_COLORS.textMain,
+              marginTop: "var(--product-stack-sm)",
+            }}
           >
             {stage2Text}
           </div>
@@ -505,22 +508,28 @@ export function NarrativeTrack({
           {/* Bottom: Description + Scroll prompt */}
           <div
             ref={bottomRef}
-            className="product-bounce-anim flex flex-col items-center product-gap lg:product-gap-lg"
+            className="product-bounce-anim flex flex-col items-center"
             style={{
-              gap: "clamp(1.25rem, 2.5vw, 2rem)",
+              gap: "var(--product-gap)",
               marginTop: "clamp(6rem, 8vw, 8.5rem)",
             }}
           >
-            <p className={cn("product-stage-desc max-w-lg mx-auto text-center mb-5", styles.description)}>
+            <p className={cn("max-w-lg mx-auto text-center mb-5", styles.description, styles.stageDesc)}>
               {renderDescription()}
             </p>
 
             {/* Custom chevron scroll indicator */}
-            <div className={cn("flex flex-col items-center mt-6 product-scroll-bounce opacity-80 hover:opacity-100 transition-opacity product-transition-fast", styles.scrollPrompt)}>
-              <span className="product-label-sm mb-2" style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}>
+            <div
+              className={cn("flex flex-col items-center mt-6 product-scroll-bounce opacity-80 hover:opacity-100 transition-opacity", styles.scrollPrompt)}
+              style={{ gap: "var(--product-gap-sm)", transition: "opacity var(--motion-fast) var(--ease-smooth)" }}
+            >
+              <span className={cn("mb-2", styles.labelSm)} style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}>
                 {scrollPromptText}
               </span>
-              <div className={cn("flex flex-col items-center", styles.scrollStack)}>
+              <div
+                className={cn("flex flex-col items-center", styles.scrollStack)}
+                style={{ gap: "var(--product-gap-sm)" }}
+              >
                 <div className="w-[1px] h-12 bg-gradient-to-b from-transparent to-current" style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }} />
                 <div className={cn("w-3 h-3 border-b-[1.5px] border-r-[1.5px] rotate-45 -mt-1.5", styles.chevron)} />
               </div>

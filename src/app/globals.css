@@ -47,12 +47,7 @@
 @import "../styles/4-themes/product.css";
 
 /* ───────────────────────────────────────────────────────────────────────────
-   5. COMPONENT LAYER - Product template scoped utilities
-   ─────────────────────────────────────────────────────────────────────────── */
-@import "../styles/product-template.css";
-
-/* ───────────────────────────────────────────────────────────────────────────
-   6. ANIMATIONS - Page-specific animation definitions
+   5. ANIMATIONS - Page-specific animation definitions
    ─────────────────────────────────────────────────────────────────────────── */
 @import "../styles/home-animations.css";
 @import "../styles/product-animations.css";

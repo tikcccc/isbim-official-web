@@ -3,6 +3,56 @@
   color: var(--text-inverse-strong);
 }
 
+.heroPadding {
+  padding-inline: var(--product-container-padding);
+  padding-bottom: var(--product-hero-padding-y);
+}
+
+@media (min-width: 48em) {
+  .heroPadding {
+    padding-inline: var(--product-container-padding-md);
+  }
+}
+
+@media (min-width: 64em) {
+  .heroPadding {
+    padding-inline: var(--product-container-padding-lg);
+    padding-bottom: var(--product-hero-padding-y-lg);
+  }
+}
+
+@media (min-width: 80em) {
+  .heroPadding {
+    padding-inline: var(--product-container-padding-xl);
+  }
+}
+
+.heroTitle {
+  font-family: var(--font-heading-en);
+  font-size: clamp(3.5rem, 8vw, 9rem);
+  font-weight: var(--weight-bold);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  color: var(--text-inverse-strong);
+}
+
+.heroSubtitle {
+  font-family: var(--font-body-en);
+  font-size: clamp(1.125rem, 2.4vw, 1.75rem);
+  font-weight: var(--weight-light);
+  line-height: var(--line-relaxed);
+  color: var(--text-inverse-muted);
+}
+
+.meta {
+  font-family: var(--font-body-en);
+  font-size: 0.75rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+
 .overlayVertical {
   background: var(--product-hero-overlay-vertical);
 }
@@ -17,4 +67,27 @@
 
 .metadataLine {
   color: var(--text-inverse-base);
+}
+
+.metaLine {
+  position: relative;
+}
+
+.metaLine::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 1px;
+  background: var(--product-meta-line);
+  opacity: 0.8;
+}
+
+.metaChip {
+  font-family: var(--font-body-en);
+  font-size: 0.75rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }

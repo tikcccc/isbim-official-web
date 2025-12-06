@@ -57,8 +57,9 @@ export function HeroBackground({
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-screen z-0 overflow-hidden bg-product-dark transition-opacity duration-300"
+      className="fixed top-0 left-0 w-full h-screen z-0 overflow-hidden transition-opacity duration-300"
       style={{
+        backgroundColor: "var(--product-surface-dark)",
         opacity: isVisible ? 1 : 0,
         pointerEvents: isVisible ? "auto" : "none",
       }}

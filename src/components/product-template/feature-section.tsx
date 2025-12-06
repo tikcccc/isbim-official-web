@@ -380,22 +380,30 @@ export function FeatureSection({
       <div
         ref={sectionRef}
         className={cn(
-          "feature-block product-section-padding product-container min-h-screen flex items-center",
-          !isLast ? "border-b product-border-soft" : ""
+          "feature-block min-h-screen flex items-center",
+          styles.sectionShell,
+          !isLast ? "border-b" : ""
         )}
+        style={!isLast ? { borderColor: "var(--product-border-soft)" } : undefined}
       >
       <div className="w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 product-gap">
+        <div
+          className="grid grid-cols-1 lg:grid-cols-12"
+          style={{ gap: "var(--product-gap)" }}
+        >
           {/* Left Column: Sticky Header */}
           <div className="lg:col-span-5 xl:col-span-5 relative">
-            <div className="sticky top-32 flex flex-col product-gap-sm">
+            <div
+              className="sticky top-32 flex flex-col"
+              style={{ gap: "var(--product-gap-sm)" }}
+            >
               {/* Index Animation */}
-              <div className="index-anim-container flex items-center w-full product-body product-text-muted select-none">
+              <div className={cn("index-anim-container flex items-center w-full select-none", styles.bodyText, styles.textMuted)}>
                 {/* Before indices */}
                 {beforeIndices.length > 0 && (
-                <div className="flex items-center gap-2 opacity-50 product-body mr-2">
+                  <div className="flex items-center gap-2 opacity-50 mr-2">
                     {beforeIndices.map((idx, i) => (
-                      <span key={idx} className="flex items-center gap-2">
+                      <span key={idx} className={cn("flex items-center gap-2", styles.bodyText)}>
                         <span>{idx}</span>
                         {i < beforeIndices.length - 1 && (
                           <span className="w-3 h-px bg-current index-connector" />
@@ -409,7 +417,7 @@ export function FeatureSection({
                 {/* Current index (highlighted with flash animation) */}
                 <span
                   ref={indexSpanRef}
-                  className="product-text-strong font-medium mr-4 inline-block"
+                  className={cn("font-medium mr-4 inline-block", styles.textStrong)}
                 >
                   [{index}]
                 </span>
@@ -417,7 +425,7 @@ export function FeatureSection({
                 {/* Animated line */}
                 <m.div
                   className="index-line h-px flex-grow mx-4 origin-left"
-                  style={{ backgroundColor: "var(--product-text-body)" }}
+                  style={{ backgroundColor: "var(--text-base)" }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: lineActive ? 1 : 0 }}
                   transition={{ duration: motionBase, ease: "easeOut" }}
@@ -425,9 +433,9 @@ export function FeatureSection({
 
                 {/* After indices */}
                 {afterIndices.length > 0 && (
-                <div className="flex items-center gap-2 opacity-50 product-body">
+                  <div className="flex items-center gap-2 opacity-50">
                     {afterIndices.map((idx, i) => (
-                      <span key={idx} className="flex items-center gap-2">
+                      <span key={idx} className={cn("flex items-center gap-2", styles.bodyText)}>
                         <span>{idx}</span>
                         {i < afterIndices.length - 1 && (
                           <span className="w-3 h-px bg-current index-connector" />
@@ -440,7 +448,7 @@ export function FeatureSection({
 
               {/* Title with Typewriter Animation or Static Display */}
                 <h3
-              className={cn(styles.title, "product-text-strong break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]")}
+              className={cn(styles.title, "break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]")}
                   style={{ textWrap: "balance", wordBreak: "break-word" }}
                 >
                 {/* Forward Typewriter mode */}
@@ -507,12 +515,12 @@ export function FeatureSection({
 
           {/* Right Column: Content */}
           <div className="lg:col-span-7 xl:col-span-7 flex flex-col lg:self-start pt-6 md:pt-8 lg:pt-12 space-y-8 md:space-y-10">
-            <p className={cn(styles.description, "product-text-body w-full")}>
+            <p className={cn(styles.description, "w-full")}>
               {description}
             </p>
 
-            {/* Toggle Pill - accessible tablist with keyboard navigation */}
-            {details && details.length > 0 && (
+              {/* Toggle Pill - accessible tablist with keyboard navigation */}
+              {details && details.length > 0 && (
             <div className="mb-4 md:mb-6" role="tablist" aria-label="View options">
             <div className={cn("toggle-pill inline-flex h-14 border p-1 shadow-sm overflow-hidden", styles.toggleShell)}>
                   <button
@@ -532,10 +540,13 @@ export function FeatureSection({
                       }
                     }}
                     className={cn(
-                      "w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed",
+                      "w-32 px-6 py-2 transition-colors duration-0 disabled:cursor-not-allowed",
+                      styles.label,
+                      styles.focusRing,
+                      styles.toggleBase,
                       activeView === "video"
-                        ? cn("product-toggle-active", isFlashing ? "animate-rapid-pulse" : "")
-                        : "product-toggle-inactive"
+                        ? cn(styles.toggleActive, isFlashing ? "animate-rapid-pulse" : "")
+                        : styles.toggleInactive
                     )}
                   >
                     {videoLabel.toUpperCase()}
@@ -557,10 +568,13 @@ export function FeatureSection({
                       }
                     }}
                     className={cn(
-                      "w-32 px-6 py-2 product-radius-pill product-label transition-colors duration-0 product-focus-ring disabled:cursor-not-allowed",
+                      "w-32 px-6 py-2 transition-colors duration-0 disabled:cursor-not-allowed",
+                      styles.label,
+                      styles.focusRing,
+                      styles.toggleBase,
                       activeView === "details"
-                        ? cn("product-toggle-active", isFlashing ? "animate-rapid-pulse" : "")
-                        : "product-toggle-inactive"
+                        ? cn(styles.toggleActive, isFlashing ? "animate-rapid-pulse" : "")
+                        : styles.toggleInactive
                     )}
                   >
                     {detailsLabel.toUpperCase()}
@@ -618,22 +632,26 @@ export function FeatureSection({
                 aria-labelledby={`tab-details-${index}`}
                 aria-hidden={displayedView !== "details"}
                 className={cn(
-                  "product-surface-panel p-8 md:p-12 overflow-y-auto",
+                  "p-8 md:p-12 overflow-y-auto",
+                  styles.panelSurface,
                   styles.panel,
                   displayedView === "details" ? styles.panelVisible : styles.panelHidden
                 )}
               >
-                <div className={cn("product-stack-md max-w-5xl", styles.detailList)}>
+                <div className={cn("max-w-5xl", styles.detailList)}>
                   {details?.map((item, idx) => (
                     <div
                       key={idx}
-                      className={cn("border-b product-border-subtle last:border-0", styles.detailItem)}
-                      style={{ paddingBottom: idx === details.length - 1 ? "0" : undefined }}
+                  className={cn("border-b last:border-0", styles.detailItem)}
+                      style={{
+                        paddingBottom: idx === details.length - 1 ? "0" : undefined,
+                        borderColor: "var(--product-border-subtle)",
+                      }}
                     >
-                      <h4 className={cn("product-text-strong mb-1", styles.detailTitle)}>
+                      <h4 className={cn("mb-1", styles.detailTitle)}>
                         {item.title}
                       </h4>
-                      <p className={cn("product-text-muted", styles.detailBody)}>
+                      <p className={styles.detailBody}>
                         {item.description}
                       </p>
                     </div>
