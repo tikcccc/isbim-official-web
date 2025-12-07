@@ -101,6 +101,17 @@
   border-radius: var(--radius-lg);
 }
 
+.featureMediaVideo {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featureMediaDetails {
+  background: var(--surface-raised);
+}
+
 .featureMask {
   /* Match the card radius so the transition overlay fully covers the corners */
   border-radius: var(--radius-lg);

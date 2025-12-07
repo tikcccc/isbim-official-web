@@ -584,7 +584,14 @@ export function FeatureSection({
             )}
 
             {/* Media Card / Details View - with tabpanel roles for accessibility */}
-            <div className={cn("w-full max-w-full overflow-hidden relative border shadow-xl bg-white", styles.featureCard, styles.featureMedia)}>
+            <div
+              className={cn(
+                "w-full max-w-full overflow-hidden relative border shadow-xl",
+                styles.featureCard,
+                styles.featureMedia,
+                displayedView === "video" ? styles.featureMediaVideo : styles.featureMediaDetails
+              )}
+            >
               {/* Video/Image Panel */}
               <div
                 role="tabpanel"
@@ -607,7 +614,7 @@ export function FeatureSection({
                     muted
                     playsInline
                     preload="metadata"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     aria-label={title.join(" ")}
                   >
                     <track kind="captions" />
@@ -619,7 +626,7 @@ export function FeatureSection({
                     fill
                     priority={imagePriority}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 800px"
-                    className="object-cover"
+                    className="object-contain"
                     loading={imagePriority ? "eager" : "lazy"}
                   />
                 )}

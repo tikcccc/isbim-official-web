@@ -1,4 +1,4 @@
-import { Inter, Noto_Sans_SC, Space_Grotesk } from "next/font/google";
+import { Inter, Noto_Sans_SC, Space_Grotesk, Playfair_Display } from "next/font/google";
 
 export const allianceNo1 = Inter({
   variable: "--font-alliance-1",
@@ -22,4 +22,13 @@ export const allianceZh = Noto_Sans_SC({
   fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
   subsets: ["latin"],
   weight: ["400","500","600","700","800","900"],
+});
+
+// Artistic / display font (Playfair Display)
+export const allianceArt = Playfair_Display({
+  variable: "--font-art",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
 });

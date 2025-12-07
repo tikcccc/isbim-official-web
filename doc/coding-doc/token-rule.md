@@ -101,6 +101,8 @@ background: rgba(var(--color-white-rgb), 0.8);
 /*  CORRECT - Font families */
 --font-heading: var(--font-heading-en);
 --font-body: var(--font-body-en);
+--font-display: var(--font-art-en);         /* Artistic/display font (Playfair) */
+--font-cn: var(--font-alliance-zh);          /* Language-aware via :lang(zh*) */
 
 /*  CORRECT - Font weights */
 --weight-light: 300;

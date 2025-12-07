@@ -846,3 +846,9 @@ If animations break:
 Revert globals.css import to old themes/product.css.
 
 Check narrative-track.tsx for hardcoded dependency on removed tokens.
+
+---
+
+### Latest Update (2025-12-07)
+- Font tokens merged into `1-foundations/typography.css` (heading/body/zh/display); `font-design-tokens.css` removed.
+- Playfair Display added as display/art font (`--font-art-en`, alias `--font-display`).

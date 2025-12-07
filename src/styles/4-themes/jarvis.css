@@ -1,0 +1,99 @@
+/* =========================================
+   4-THEMES: JARVIS AI SUITE PAGE THEME
+   Maximum reuse of existing tokens
+   ========================================= */
+
+.jarvis-page {
+  /* ─────────────────────────────────────────
+     表面/背景 (复用全局语义)
+     ───────────────────────────────────────── */
+  --jarvis-surface-light: var(--color-gray-100);          /* 复用 archWhite ≈ gray-100 */
+  --jarvis-surface-dark: var(--color-charcoal-900);       /* 复用 deepDark = charcoal-900 */
+  --jarvis-surface-screen: var(--color-screen-bg);        /* 新增的屏幕背景色 */
+
+  /* ─────────────────────────────────────────
+     文字颜色 (完全复用全局语义)
+     ───────────────────────────────────────── */
+  --jarvis-text-strong: var(--text-strong);
+  --jarvis-text-base: var(--text-base);
+  --jarvis-text-muted: var(--text-muted);
+  --jarvis-text-inverse: var(--text-inverse-strong);
+  --jarvis-text-inverse-muted: var(--text-inverse-muted);
+
+  /* ─────────────────────────────────────────
+     强调色 (复用 Product 颜色体系)
+     ───────────────────────────────────────── */
+  --jarvis-accent-primary: var(--color-violet);           /* 复用 Product 紫色 */
+  --jarvis-accent-secondary: var(--color-cyan);           /* 复用 Product 青色 */
+  --jarvis-accent-neon: var(--color-neon-cyan);           /* 仅深色模式使用 */
+
+  /* ─────────────────────────────────────────
+     渐变 (复用提升后的语义渐变)
+     ───────────────────────────────────────── */
+  --jarvis-gradient: var(--gradient-accent);              /* 复用语义层渐变 */
+  --jarvis-gradient-text: var(--gradient-accent-text);    /* 用于文字渐变 */
+
+  /* 深色模式专用渐变 (使用霓虹青) */
+  --jarvis-gradient-neon: linear-gradient(
+    to right,
+    var(--color-violet),
+    var(--color-neon-cyan)
+  );
+
+  /* ─────────────────────────────────────────
+     交互列表项 (JARVIS 特有)
+     ───────────────────────────────────────── */
+  /* 浅色模式 */
+  --jarvis-item-border-active: var(--jarvis-accent-primary);
+  --jarvis-item-opacity-base: 0.5;
+  --jarvis-item-opacity-hover: 0.8;
+
+  /* 深色模式 */
+  --jarvis-item-border-active-dark: var(--jarvis-accent-neon);
+  --jarvis-item-glow: linear-gradient(90deg, rgba(0, 255, 255, 0.05), transparent);
+
+  /* ─────────────────────────────────────────
+     玻璃面板 (复用 Product chip 模式)
+     ───────────────────────────────────────── */
+  --jarvis-glass-bg: rgba(30, 31, 43, 0.6);
+  --jarvis-glass-border: var(--border-inverse-soft);      /* 复用全局 */
+  --jarvis-glass-shadow: var(--product-shadow-card);      /* 复用 Product */
+
+  /* ─────────────────────────────────────────
+     屏幕容器 (JARVIS 特有)
+     ───────────────────────────────────────── */
+  --jarvis-screen-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+
+  /* ─────────────────────────────────────────
+     网格背景 (JARVIS 特有)
+     ───────────────────────────────────────── */
+  --jarvis-grid-color: rgba(255, 255, 255, 0.03);
+  --jarvis-grid-size: 50px;
+
+  /* ─────────────────────────────────────────
+     CTA 按钮 (复用 Product chip 模式)
+     ───────────────────────────────────────── */
+  --jarvis-cta-bg: var(--chip-bg);                        /* 复用 Product chip */
+  --jarvis-cta-border: var(--chip-border);                /* 复用 Product chip */
+  --jarvis-cta-hover-glow: 0 0 40px rgba(0, 255, 255, 0.25);
+
+  /* ─────────────────────────────────────────
+     布局间距 (完全复用全局/Product)
+     ───────────────────────────────────────── */
+  --jarvis-container-max: var(--container-max);
+  --jarvis-container-padding: var(--product-container-padding);
+  --jarvis-section-padding: var(--product-section-padding);
+  --jarvis-gap: var(--product-gap);
+  --jarvis-gap-lg: var(--product-gap-lg);
+
+  /* ─────────────────────────────────────────
+     动画时间 (复用全局 + 特有长时动画)
+     ───────────────────────────────────────── */
+  --jarvis-motion-fast: var(--motion-fast);
+  --jarvis-motion-base: var(--motion-base);
+  --jarvis-motion-ease: var(--ease-smooth);
+
+  /* JARVIS 特有：超长氛围动画 */
+  --jarvis-motion-ambient: 15s;
+  --jarvis-motion-marquee: 120s;
+}

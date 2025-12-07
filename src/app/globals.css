@@ -45,12 +45,14 @@
    ─────────────────────────────────────────────────────────────────────────── */
 @import "../styles/4-themes/home.css";
 @import "../styles/4-themes/product.css";
+@import "../styles/4-themes/jarvis.css";
 
 /* ───────────────────────────────────────────────────────────────────────────
    5. ANIMATIONS - Page-specific animation definitions
    ─────────────────────────────────────────────────────────────────────────── */
 @import "../styles/home-animations.css";
 @import "../styles/product-animations.css";
+@import "../styles/jarvis-animations.css";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    LEGACY IMPORTS (To be refactored in Phase 3-4)
@@ -64,7 +66,6 @@
 @import "../styles/services-design-tokens.css";
 @import "../styles/contact-design-tokens.css";
 @import "../styles/newsroom-design-tokens.css";
-@import "../styles/font-design-tokens.css";
 @import "../styles/layout-design-tokens.css";
 @import "../styles/animation-design-tokens.css";
 

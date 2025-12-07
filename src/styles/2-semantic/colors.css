@@ -36,6 +36,13 @@
   --brand-accent: var(--color-blue-500);           /* Action blue */
 
   /* ═══════════════════════════════════════════
+     GRADIENT ACCENTS
+     Shared across Product & JARVIS pages
+     ═══════════════════════════════════════════ */
+  --gradient-accent: linear-gradient(93deg, var(--color-violet) 0%, var(--color-cyan) 100%);
+  --gradient-accent-text: linear-gradient(to right, var(--color-violet), var(--color-cyan));
+
+  /* ═══════════════════════════════════════════
      SEMANTIC STATUS COLORS
      ═══════════════════════════════════════════ */
   --status-error: #ff4136;

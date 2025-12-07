@@ -77,13 +77,6 @@ export function ProductCTASection({
             </Link>
           </div>
 
-          {/* Decorative elements */}
-          <div className={cn("flex items-center", styles.decorRow)} style={{ gap: "var(--product-gap-sm)" }}>
-            <div className={styles.decorLine} />
-            <div className={styles.decorDot} />
-            <div className={styles.decorDot} />
-            <div className={styles.decorLine} />
-          </div>
         </div>
       </div>
     </section>

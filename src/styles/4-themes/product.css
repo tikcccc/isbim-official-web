@@ -37,7 +37,7 @@
   --product-accent-soft: var(--accent-violet-soft);
 
   /* Product accent gradient (signature violet-cyan) */
-  --product-accent-gradient: linear-gradient(93deg, var(--accent-violet) 0%, var(--accent-cyan) 100%);
+  --product-accent-gradient: var(--gradient-accent);
 
   /* Meta line gradient (for decorative lines) */
   --product-meta-line: linear-gradient(

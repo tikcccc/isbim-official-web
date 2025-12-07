@@ -55,4 +55,24 @@
   .text-inverse-muted { color: var(--text-inverse-muted); }
   .text-inverse-subtle { color: var(--text-inverse-sub); }
   .text-inverse-soft { color: var(--text-inverse-soft); }
+
+  /* ─────────────────────────────────────────
+     Gradient Text Utilities
+     For Product & JARVIS pages
+     ───────────────────────────────────────── */
+  .gradient-text {
+    background: var(--gradient-accent-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* fallback */
+  }
+
+  .gradient-text-neon {
+    background: linear-gradient(to right, var(--color-violet), var(--color-neon-cyan));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* fallback */
+  }
 }

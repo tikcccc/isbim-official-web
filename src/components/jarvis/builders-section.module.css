@@ -1,0 +1,259 @@
+/* =========================================
+   JARVIS Builders Section (Dark)
+   ========================================= */
+
+.section {
+  position: relative;
+  background-color: var(--jarvis-surface-dark);
+  padding-top: 10rem;
+  padding-bottom: 8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  color: var(--jarvis-text-inverse);
+}
+
+/* ─────────────────────────────────────────
+   Decoration Lines
+   ───────────────────────────────────────── */
+.decorLineRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+.decorLineCenter {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   Container
+   ───────────────────────────────────────── */
+.container {
+  max-width: var(--jarvis-container-max);
+  margin: 0 auto;
+  padding-left: var(--jarvis-container-padding);
+  padding-right: var(--jarvis-container-padding);
+  position: relative;
+  z-index: 10;
+}
+
+/* ─────────────────────────────────────────
+   Grid Layout
+   ───────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Left Column
+   ───────────────────────────────────────── */
+.leftColumn {
+  position: relative;
+  z-index: 10;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.chip {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--jarvis-cta-border);
+  background: var(--jarvis-cta-bg);
+  backdrop-filter: blur(20px);
+  font-family: var(--font-heading);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-inverse-muted);
+  display: flex;
+  align-items: center;
+}
+
+.chipDotPurple {
+  display: inline-block;
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: var(--jarvis-accent-primary);
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+}
+
+.chipDotCyan {
+  display: inline-block;
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: var(--color-neon-cyan);
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 3.75rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--text-inverse-strong);
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    font-size: 6rem;
+  }
+}
+
+.headingItalic {
+  font-style: italic;
+  background: linear-gradient(to right, white, var(--color-gray-500));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradientBar {
+  width: 8rem;
+  height: 0.375rem;
+  background: var(--jarvis-gradient-neon);
+  margin-bottom: 3rem;
+}
+
+.description {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.375;
+  color: var(--text-inverse-base);
+  max-width: 32rem;
+}
+
+@media (min-width: 1024px) {
+  .description {
+    font-size: 1.875rem;
+  }
+}
+
+.highlight {
+  color: var(--jarvis-accent-primary);
+  font-weight: 400;
+  border-bottom: 1px solid rgba(152, 129, 243, 0.3);
+  padding-bottom: 0.25rem;
+}
+
+/* ─────────────────────────────────────────
+   Right Column
+   ───────────────────────────────────────── */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+  position: relative;
+}
+
+.bodyText {
+  color: var(--text-inverse-muted);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  max-width: 42rem;
+  font-weight: 300;
+  padding-left: 0;
+  border-left: none;
+}
+
+@media (min-width: 1024px) {
+  .bodyText {
+    padding-left: 3rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.bodyText p {
+  margin-bottom: 1.5rem;
+}
+
+.bodyText p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────
+   Marquee
+   ───────────────────────────────────────── */
+.marqueeContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.marqueeContent {
+  display: flex;
+  white-space: nowrap;
+  animation: jarvis-marquee var(--jarvis-motion-marquee) linear infinite;
+}
+
+.marqueeItem {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 200;
+  color: var(--color-gray-600);
+  margin: 0 2.5rem;
+}
+
+.marqueeItemHighlight {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 500;
+  color: var(--text-inverse-strong);
+  margin: 0 2.5rem;
+}
+
+/* Fade Overlays */
+.fadeLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10rem;
+  height: 100%;
+  background: linear-gradient(to right, var(--jarvis-surface-dark), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.fadeRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10rem;
+  height: 100%;
+  background: linear-gradient(to left, var(--jarvis-surface-dark), transparent);
+  z-index: 10;
+  pointer-events: none;
+}

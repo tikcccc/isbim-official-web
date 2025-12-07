@@ -1,5 +1,5 @@
 .section {
-  background: var(--surface-hero);
+  background: var(--surface-dark);
   padding-block: var(--product-section-padding);
 }
 
@@ -85,23 +85,6 @@
 
 .buttonWrap {
   margin-top: clamp(1.25rem, 3vw, 1.75rem);
-}
-
-.decorLine {
-  width: 3.5rem;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
-}
-
-.decorDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: var(--radius-full);
-  background: var(--product-accent-soft);
-}
-
-.decorRow {
-  margin-top: clamp(0.5rem, 2vw, 1.25rem);
 }
 
 .textGradient {

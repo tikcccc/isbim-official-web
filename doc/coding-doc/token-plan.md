@@ -680,6 +680,18 @@ Example:
 
 ## Changelog
 
+### [2.1.1] - 2025-12-07
+
+**Added**:
+- Playfair Display registered as display/art font via `--font-art-en` and alias `--font-display` in foundations typography.
+
+**Updated**:
+- Merged `font-design-tokens.css` into `1-foundations/typography.css` to keep a single font source of truth.
+- Removed `font-design-tokens.css` import from `globals.css`.
+
+**Removed**:
+- `src/styles/font-design-tokens.css` (redundant after merge).
+
 ### [2.1.0] - 2025-12-06 (Phase 2 Complete)
 
 **Added**:

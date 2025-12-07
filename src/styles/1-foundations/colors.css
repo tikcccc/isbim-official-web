@@ -57,6 +57,13 @@
   --color-cyan: #13c9ba;
   --color-violet: #9881f3;
   --color-violet-soft: rgba(152, 129, 243, 0.5);
+  --color-charcoal-900: #1e1f2b;
+
+  /* ─────────────────────────────────────────
+     JARVIS/Dark Mode Accent Colors
+     ───────────────────────────────────────── */
+  --color-neon-cyan: #00FFFF;           /* Neon Cyan 霓虹青 (深色模式高亮) */
+  --color-screen-bg: #0F1016;           /* Screen/Terminal 背景 */
 
   /* ─────────────────────────────────────────
      RGB Values (for rgba() usage)
