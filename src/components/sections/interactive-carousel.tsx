@@ -161,12 +161,12 @@ export function InteractiveCarousel() {
     const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
     return Number.isFinite(val) ? val : fallback;
   };
-  const cardTransitionDuration = readVar("--home-carousel-transition", 0.6);
-  const cardHiddenDuration = readVar("--home-carousel-hidden-duration", 0.5);
-  const arrowFadeDuration = readVar("--home-carousel-arrow-fade", 0.3);
-  const cardStiffness = readVar("--home-carousel-stiffness", 80);
-  const cardDamping = readVar("--home-carousel-damping", 20);
-  const labelTransition = readVar("--home-motion-base", 0.5);
+  const cardTransitionDuration = readVar("--carousel-transition", 0.6);
+  const cardHiddenDuration = readVar("--carousel-hidden-duration", 0.5);
+  const arrowFadeDuration = readVar("--carousel-arrow-fade", 0.3);
+  const cardStiffness = readVar("--carousel-stiffness", 80);
+  const cardDamping = readVar("--carousel-damping", 20);
+  const labelTransition = readVar("--motion-base", 0.5);
   const cardVariants = useMemo(
     () => createCardVariants(cardTransitionDuration, cardHiddenDuration, cardStiffness, cardDamping),
     [cardTransitionDuration, cardHiddenDuration, cardStiffness, cardDamping]
@@ -342,7 +342,7 @@ export function InteractiveCarousel() {
     <section
       ref={sectionRef}
       className={cn(
-        "relative w-full home-surface-panel overflow-visible flex flex-col items-center home-gap-lg section-padding pb-12 md:pb-16",
+        "relative w-full overflow-visible flex flex-col items-center gap-lg section-padding pb-12 md:pb-16",
         styles.carouselSection
       )}
     >
@@ -351,7 +351,7 @@ export function InteractiveCarousel() {
         className="w-full max-w-[1800px] mx-auto px-4 md:px-8"
       >
         {/* --- 導航區域 (Tabs + See All) --- */}
-        <div className="relative z-30 flex flex-col md:flex-row home-gap-sm items-center mb-8 md:mb-12">
+        <div className="relative z-30 flex flex-col md:flex-row gap-sm items-center mb-8 md:mb-12">
           {/* Tabs 容器：Grid 佈局自動均分寬度 */}
           <div className="flex-1 grid grid-cols-4 md:grid-cols-8 gap-2">
             {SLIDES.map((slide, index) => {
@@ -364,14 +364,14 @@ export function InteractiveCarousel() {
                   key={slide.id}
                   type="button"
                   onClick={() => jumpToSlide(index)}
-                className={cn(
-                  "relative overflow-hidden h-9 md:h-10 flex items-center justify-center home-label-sm border transition-all",
-                  styles.tab,
-                  "w-full",
-                  isActive ? styles.tabActive : ""
-                )}
-                style={{ transitionDuration: `${labelTransition}s` }}
-              >
+                  className={cn(
+                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center label-sm border transition-all",
+                    styles.tab,
+                    "w-full",
+                    isActive ? styles.tabActive : ""
+                  )}
+                  style={{ transitionDuration: `${labelTransition}s` }}
+                >
                   {/* 進度填充層 */}
                   {isActive && !hovered && (
                     <m.div
@@ -382,7 +382,7 @@ export function InteractiveCarousel() {
                         duration: AUTOPLAY_DURATION / 1000,
                         ease: "linear",
                       }}
-                      className={cn("absolute inset-0 z-0 home-carousel-progress", styles.progress)}
+                      className={cn("absolute inset-0 z-0", styles.progress)}
                       style={{ transformOrigin: "left" }}
                     />
                   )}
@@ -401,7 +401,7 @@ export function InteractiveCarousel() {
             <LocalizedLink
               href={ROUTES.JARVIS.SUITE}
               prefetchMode="hover"
-              className="inline-flex h-10 items-center justify-center px-6 home-label-sm border transition-colors home-button-strong"
+              className="inline-flex h-10 items-center justify-center px-6 label-sm border transition-colors button-strong"
             >
               See All
             </LocalizedLink>
@@ -410,7 +410,7 @@ export function InteractiveCarousel() {
             <LocalizedLink
               href={ROUTES.JARVIS.SUITE}
               prefetchMode="hover"
-              className="w-full h-10 flex items-center justify-center home-label-sm transition-colors border home-button-strong"
+              className="w-full h-10 flex items-center justify-center label-sm transition-colors border button-strong"
             >
               See All
             </LocalizedLink>
@@ -436,13 +436,13 @@ export function InteractiveCarousel() {
                   variants={cardVariants}
                   initial="hidden"
                   animate="hidden"
-                className={cn(
-                  "absolute w-full h-full border min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] home-radius-hard",
-                  styles.card
-                )}
-              />
-            );
-          }
+                  className={cn(
+                    "absolute w-full h-full border min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] radius-none",
+                    styles.card
+                  )}
+                />
+              );
+            }
 
             return (
               <m.div
@@ -450,11 +450,11 @@ export function InteractiveCarousel() {
                 variants={cardVariants}
                 initial="hidden"
                 animate={variant}
-              className={cn(
-                "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] home-radius-hard",
-                styles.card
-              )}
-            >
+                className={cn(
+                  "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] radius-none",
+                  styles.card
+                )}
+              >
                 {/* Background Video/Image */}
                 <div className="absolute inset-0 z-0">
                   {isCenter && slide.imageUrl.endsWith(".mp4") ? (
@@ -493,31 +493,31 @@ export function InteractiveCarousel() {
                 {/* Content Overlay */}
                 <div
                   className={cn(
-                    "relative z-10 w-full h-full px-8 md:px-12 flex flex-col justify-between home-text-inverse",
+                    "relative z-10 w-full h-full px-8 md:px-12 flex flex-col justify-between text-inverse",
                     styles.slideContent
                   )}
                 >
                   <div className="max-w-2xl">
                     <div className="inline-flex items-center gap-2 mb-4">
-                      <span className="home-label-sm home-text-inverse-muted">
+                      <span className="label-sm text-inverse-muted">
                         {slide.category}
                       </span>
                     </div>
-                    <h2 className={cn(styles.carouselTitle, "home-text-inverse mb-6")}>
+                    <h2 className={cn(styles.carouselTitle, "text-inverse mb-6")}>
                       {slide.title}
-                      <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 home-text-inverse-subtle" />
+                      <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 text-inverse-subtle" />
                     </h2>
                   </div>
 
                   {/* Bottom Section */}
                   <div className="relative">
                   <div className={cn("border-t pt-6 flex flex-col md:flex-row items-end justify-between gap-8", styles.borderStrong)}>
-                      <h1 className={cn(styles.carouselBigtext, "home-text-inverse select-none")}>
+                      <h1 className={cn(styles.carouselBigtext, "text-inverse select-none")}>
                         {slide.bigText}
                       </h1>
 
-                      <div className="hidden md:block max-w-xs home-text-inverse-subtle mb-4 leading-relaxed">
-                        <div className="flex gap-4 mb-2 home-label-sm home-text-inverse">
+                      <div className="hidden md:block max-w-xs text-inverse-subtle mb-4 leading-relaxed">
+                        <div className="flex gap-4 mb-2 label-sm text-inverse">
                           <span>Built on:</span>
                           <div className="flex flex-col">
                             {slide.meta.map((m) => (
@@ -525,7 +525,7 @@ export function InteractiveCarousel() {
                             ))}
                           </div>
                         </div>
-                        <p className={cn(styles.carouselBody, "home-text-inverse-muted")}>{slide.description}</p>
+                        <p className={cn(styles.carouselBody, "text-inverse-muted")}>{slide.description}</p>
                       </div>
                     </div>
                   </div>
@@ -573,7 +573,7 @@ export function InteractiveCarousel() {
           })}
         </div>
         {/* Slide Indicators (Dots) */}
-        <div className={cn("flex justify-center home-gap-sm z-30 w-full home-padding-inline", styles.dotsWrapper)}>
+        <div className={cn("flex justify-center gap-sm z-30 w-full padding-inline", styles.dotsWrapper)}>
           {SLIDES.map((slide, index) => {
             const total = SLIDES.length;
             const activeIdx = (page % total + total) % total;
@@ -588,7 +588,7 @@ export function InteractiveCarousel() {
                   activeIdx === index ? "w-12" : "w-2",
                   activeIdx === index ? styles.dotActive : styles.dot
                 )}
-                style={{ borderRadius: "var(--home-pill-radius)" }}
+                style={{ borderRadius: "var(--pill-radius)" }}
                 aria-label={`Go to slide ${index + 1}`}
               />
             );

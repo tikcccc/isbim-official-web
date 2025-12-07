@@ -49,7 +49,10 @@ export function Section3Placeholder() {
   }, []);
 
   return (
-    <section className="relative z-10 home-surface-base section-padding">
+    <section
+      className="relative z-10 section-padding"
+      style={{ background: "var(--surface-base)" }}
+    >
       {/* Trigger zone with auto height */}
       <div
         ref={triggerRef}

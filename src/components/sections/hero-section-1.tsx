@@ -35,10 +35,10 @@ export function HeroSection1() {
       const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
       return Number.isFinite(val) ? val : fallback;
     };
-    const titleDuration = readVar("--home-hero-title-duration", 1.2);
-    const titleStagger = readVar("--home-hero-title-stagger", 0.2);
-    const subtitleDuration = readVar("--home-hero-subtitle-duration", 1);
-    const subtitleDelay = readVar("--home-hero-subtitle-delay", 1);
+    const titleDuration = readVar("--hero-title-duration", 1.2);
+    const titleStagger = readVar("--hero-title-stagger", 0.2);
+    const subtitleDuration = readVar("--hero-subtitle-duration", 1);
+    const subtitleDelay = readVar("--hero-subtitle-delay", 1);
 
     gsap.to(titleSpans, {
       y: 0,
@@ -114,7 +114,7 @@ export function HeroSection1() {
           {/* Scroll Prompt */}
           <div className="scroll-prompt absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70">
             <ChevronDown className="w-6 h-6 mb-2 animate-bounce" />
-            <p className="home-label home-label-inverse">{m.homepage_scroll_prompt()}</p>
+            <p className="label label-inverse">{m.homepage_scroll_prompt()}</p>
           </div>
         </div>
       </header>

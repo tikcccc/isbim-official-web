@@ -203,10 +203,10 @@ export function Section4PlatformList() {
     const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
     return Number.isFinite(val) ? val : fallback;
   };
-  const motionFast = readVar("--home-motion-fast", 0.3);
-  const motionBase = readVar("--home-motion-base", 0.5);
-  const springStiffness = readVar("--home-spring-stiffness", 200);
-  const springDamping = readVar("--home-spring-damping", 20);
+  const motionFast = readVar("--motion-fast", 0.3);
+  const motionBase = readVar("--motion-base", 0.5);
+  const springStiffness = readVar("--spring-stiffness", 200);
+  const springDamping = readVar("--spring-damping", 20);
 
   const { preloadRange } = useSmartVideoPreloader(videoRefs, isInViewport);
 
@@ -273,7 +273,7 @@ export function Section4PlatformList() {
   return (
     <section
       ref={sectionRef}
-      className={cn("w-full section-padding flex flex-col home-gap-lg", styles.section)}
+      className={cn("w-full section-padding flex flex-col gap-lg", styles.section)}
     >
       <div className="container-content-wide">
         <h2 className={cn("mb-12 sm:mb-16", styles.title)}>
@@ -351,16 +351,16 @@ function PlatformRow({
       onTouchStart={onTouchStart}
     >
       {/* Grid Layout: Left (Text) - Middle (Video) - Right (Title) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 home-gap-md items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-md items-center">
 
         {/* 1. Left Section: Description Text */}
-        <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] home-gap-sm">
+        <div className="lg:col-span-3 flex flex-col justify-between relative min-h-[200px] gap-sm">
           <div className="z-10 pointer-events-none">
             <p className={styles.bodyLarge}>
               {platformDescs[item.descKey]()}
             </p>
           </div>
-          <span className={cn(styles.labelSm, "home-text-subtle block mt-auto")}>
+          <span className={cn(styles.labelSm, "text-subtle block mt-auto")}>
             {item.version}
           </span>
         </div>
@@ -394,7 +394,7 @@ function PlatformRow({
 
         {/* 3. Right Section: Large Title (with shift animation) */}
         <div className="lg:col-span-5 flex items-center justify-start relative min-h-[220px] lg:min-h-[240px]">
-          <div className="w-full home-padding-inline-lg overflow-visible">
+          <div className="w-full padding-inline-lg overflow-visible">
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: springStiffness, damping: springDamping, duration: motionBase }}
@@ -409,7 +409,7 @@ function PlatformRow({
             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? -10 : -20 }}
             transition={{ duration: motionBase }}
             className={cn(
-              "absolute left-0 top-1/2 -translate-y-1/2 will-change-transform home-icon-subtle",
+              "absolute left-0 top-1/2 -translate-y-1/2 will-change-transform text-soft",
               styles.arrowIcon
             )}
           >

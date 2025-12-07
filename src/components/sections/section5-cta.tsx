@@ -37,9 +37,9 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
         const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
         return Number.isFinite(val) ? val : fallback;
       };
-      const imageDuration = readVar("--home-cta-image-duration", 1.2);
-      const textDuration = readVar("--home-cta-text-duration", 0.8);
-      const textStagger = readVar("--home-cta-text-stagger", 0.15);
+      const imageDuration = readVar("--cta-image-duration", 1.2);
+      const textDuration = readVar("--cta-text-duration", 0.8);
+      const textStagger = readVar("--cta-text-stagger", 0.15);
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -78,7 +78,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
       className={cn("w-full section-padding flex flex-col", styles.section)}
     >
       <div className="container-content">
-        <div className="grid grid-cols-1 md:grid-cols-2 home-gap-md items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-md items-center">
           <div
             ref={imageRef}
             className={cn(
@@ -117,7 +117,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               {messages.section5_cta_subtitle()}
             </p>
 
-            <div ref={buttonRef} className="home-stack-lg mt-6 sm:mt-8">
+            <div ref={buttonRef} className="stack-lg mt-6 sm:mt-8">
               <m.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -131,7 +131,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                     styles.buttonText,
                     styles.buttonVariant
                   )}
-                  style={{ transitionDuration: "var(--home-cta-button-transition, 0.3s)" }}
+                  style={{ transitionDuration: "var(--cta-button-transition, 0.3s)" }}
                 >
                   <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">
                     {messages.section5_cta_button()}

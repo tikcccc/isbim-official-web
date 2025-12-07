@@ -76,9 +76,9 @@ export function ScrollPrompt({
     const val = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
     return Number.isFinite(val) ? val : fallback;
   };
-  const appearDuration = readVar("--home-scrollprompt-appear", 0.6);
-  const appearDelay = readVar("--home-scrollprompt-delay", 1.5);
-  const bounceDuration = readVar("--home-scrollprompt-bounce", 1.5);
+  const appearDuration = readVar("--scroll-prompt-appear", 0.6);
+  const appearDelay = readVar("--scroll-prompt-delay", 1.5);
+  const bounceDuration = readVar("--scroll-prompt-bounce", 1.5);
 
   return (
     <m.div
@@ -101,7 +101,7 @@ export function ScrollPrompt({
       }}
     >
       {/* Text */}
-      <span className="text-sm italic home-text-muted tracking-wide">
+      <span className="text-sm italic text-muted tracking-wide">
         {text}
       </span>
 
@@ -116,7 +116,7 @@ export function ScrollPrompt({
           ease: "easeInOut",
         }}
       >
-        <ChevronDown className="w-5 h-5 home-text-subtle" />
+        <ChevronDown className="w-5 h-5 text-subtle" />
       </m.div>
     </m.div>
   );

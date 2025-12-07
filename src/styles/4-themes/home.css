@@ -73,7 +73,7 @@
   /* ═══════════════════════════════════════════
      PLATFORM LIST SECTION
      ═══════════════════════════════════════════ */
-  --platform-divider: var(--border-divider);
+  --platform-divider: rgba(var(--color-black-rgb), 0.05);
   --platform-video-radius: var(--radius-none);
 
   /* ═══════════════════════════════════════════
@@ -104,10 +104,6 @@
      ═══════════════════════════════════════════ */
   --media-muted: var(--media-placeholder);
   --pill-radius: var(--radius-chip);
-
-  /* Spring physics for home animations */
-  --home-spring-stiffness: 200;
-  --home-spring-damping: 20;
 
   /* ═══════════════════════════════════════════
      BASE STYLES
