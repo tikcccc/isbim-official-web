@@ -30,11 +30,6 @@
   width: 100%;
   margin: 0 auto;
   padding: 10rem var(--jarvis-container-padding);
-
-  /* 🔍 DEBUG: Visual markers to check padding */
-  outline: 2px solid blue;
-  outline-offset: -2px;
-  background: rgba(0, 0, 255, 0.05);
 }
 
 /* ─────────────────────────────────────────

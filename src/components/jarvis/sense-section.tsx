@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './sense-section.module.css';
 
 interface SenseItem {
@@ -51,26 +51,12 @@ const ITEMS: SenseItem[] = [
 export function SenseSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // 🔍 DEBUG: Log computed styles to verify padding inheritance
-  useEffect(() => {
-    const content = document.querySelector('[data-debug="sense-content"]');
-    if (content) {
-      const computed = window.getComputedStyle(content);
-      console.log('🔵 SENSE Section .content:', {
-        paddingLeft: computed.paddingLeft,
-        paddingRight: computed.paddingRight,
-        maxWidth: computed.maxWidth,
-        width: computed.width,
-      });
-    }
-  }, []);
-
   return (
     <section className={styles.section}>
       {/* Grid Background */}
       <div className={styles.gridBg} />
 
-      <div className={styles.content} data-debug="sense-content">
+      <div className={styles.content}>
         {/* Header */}
         <div className={styles.header}>
           <div>
