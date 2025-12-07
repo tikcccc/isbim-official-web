@@ -93,9 +93,9 @@ export function FooterCharcoal() {
               {socialIcons.map(({ icon: Icon, label, href }) => (
                 <Button
                   key={label}
-                  variant="ghost"
                   size="icon"
-                  className="h-10 w-10 text-white hover:text-white hover:bg-white/15 transition-all"
+                  variant="ghost"
+                  className="h-10 w-10 text-white bg-transparent hover:bg-white/12 hover:text-white transition-all border border-transparent hover:border-white/20"
                   asChild
                 >
                   <a
@@ -104,7 +104,13 @@ export function FooterCharcoal() {
                     rel="noopener noreferrer"
                     aria-label={label}
                   >
-                    <Icon className="h-5 w-5" />
+                  <Icon
+                    className="h-5 w-5 text-white"
+                    color="white"
+                    fill="none"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
                   </a>
                 </Button>
               ))}

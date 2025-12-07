@@ -187,7 +187,7 @@ export function MenuOverlay() {
   const { lenis } = useLenis();
   const menuData = useMemo(() => getMenuData(), []);
   const overlayRef = useRef<HTMLDivElement | null>(null);
-  const scrollTargetRef = useRef<number>(0);
+  const scrollStateRef = useRef({ target: 0, rafId: null as number | null });
 
   // Lock body scroll when menu is open
   useBodyScrollLock(isOpen);
@@ -197,12 +197,11 @@ export function MenuOverlay() {
     if (!lenis || !isOpen) {
       if (lenis && !isOpen) {
         lenis.start();
-        scrollTargetRef.current = 0; // Reset when menu closes
+        scrollStateRef.current.target = 0; // Reset on close
       }
       return;
     }
 
-    // Pause Lenis and apply custom smooth scroll so the overlay scrolls even when Lenis blocks native overflow
     lenis.stop();
 
     const overlay = overlayRef.current || (document.querySelector("[data-menu-overlay]") as HTMLElement | null);
@@ -212,22 +211,18 @@ export function MenuOverlay() {
       };
     }
 
-    // Only initialize scrollTarget if it's 0 (first time or after menu was closed)
-    if (scrollTargetRef.current === 0) {
-      scrollTargetRef.current = overlay.scrollTop;
-    }
-
-    let rafId: number | null = null;
+    // Initialize scroll target from current position
+    scrollStateRef.current.target = overlay.scrollTop;
 
     const smoothStep = () => {
-      const delta = scrollTargetRef.current - overlay.scrollTop;
-      const eased = delta * 0.2; // slightly faster easing to reduce drag feel
+      const delta = scrollStateRef.current.target - overlay.scrollTop;
+      const eased = delta * 0.2;
       if (Math.abs(delta) > 0.5) {
         overlay.scrollTop += eased;
-        rafId = requestAnimationFrame(smoothStep);
+        scrollStateRef.current.rafId = requestAnimationFrame(smoothStep);
       } else {
-        overlay.scrollTop = scrollTargetRef.current;
-        rafId = null;
+        overlay.scrollTop = scrollStateRef.current.target;
+        scrollStateRef.current.rafId = null;
       }
     };
 
@@ -236,10 +231,10 @@ export function MenuOverlay() {
       e.stopPropagation();
 
       const maxScroll = overlay.scrollHeight - overlay.clientHeight;
-      scrollTargetRef.current = Math.max(0, Math.min(scrollTargetRef.current + e.deltaY, maxScroll));
+      scrollStateRef.current.target = Math.max(0, Math.min(scrollStateRef.current.target + e.deltaY, maxScroll));
 
-      if (rafId === null) {
-        rafId = requestAnimationFrame(smoothStep);
+      if (scrollStateRef.current.rafId === null) {
+        scrollStateRef.current.rafId = requestAnimationFrame(smoothStep);
       }
     };
 
@@ -247,8 +242,9 @@ export function MenuOverlay() {
 
     return () => {
       overlay.removeEventListener("wheel", handleWheel);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
+      if (scrollStateRef.current.rafId !== null) {
+        cancelAnimationFrame(scrollStateRef.current.rafId);
+        scrollStateRef.current.rafId = null;
       }
       lenis.start();
     };
