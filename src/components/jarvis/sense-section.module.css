@@ -17,7 +17,7 @@
   composes: jarvis-grid-bg from global;
   position: absolute;
   inset: 0;
-  opacity: 0.3;
+  opacity: 0.15;
   pointer-events: none;
 }
 
@@ -118,11 +118,11 @@
   height: 100%;
   min-height: 560px;
   max-height: 560px;
-  border-radius: 0.75rem;
+  border-radius: var(--jarvis-panel-radius);
   overflow: hidden;
   position: relative;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.02);
+  border: var(--jarvis-panel-border-dark);
+  box-shadow: var(--jarvis-panel-shadow-dark);
 }
 
 /* Top Bar */
@@ -206,7 +206,7 @@
   composes: jarvis-grid-bg from global;
   position: absolute;
   inset: 0;
-  opacity: 0.1;
+  opacity: 0.06;
   pointer-events: none;
   mix-blend-mode: overlay;
   z-index: 20;
@@ -216,7 +216,7 @@
 .glowEffect {
   position: absolute;
   inset: -1rem;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.05), transparent);
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.04), transparent);
   filter: blur(3rem);
   z-index: -10;
   border-radius: 9999px;

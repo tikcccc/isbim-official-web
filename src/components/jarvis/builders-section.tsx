@@ -2,14 +2,19 @@
 
 import styles from './builders-section.module.css';
 
-const MARQUEE_ITEMS = [
-  { text: 'FINANCE', highlight: false },
-  { text: 'DESIGN', highlight: true },
-  { text: 'TENDERING', highlight: false },
-  { text: 'MANAGEMENT', highlight: true },
-  { text: 'INSPECTION', highlight: false },
-  { text: 'PAYMENT', highlight: true },
-  { text: 'FACILITY OPS', highlight: false },
+const FEATURE_ITEMS = [
+  {
+    title: 'Full project lifecycle',
+    description: 'From finance and design to tendering, site execution, inspection, payment, and FM.',
+  },
+  {
+    title: 'Built for real teams',
+    description: 'Owners, consultants, contractors, and quantity surveyors share one assistant and one truth.',
+  },
+  {
+    title: 'Enterprise-ready',
+    description: 'Alibaba frontier models + isBIM dataset; security, auditability, and governance baked in.',
+  },
 ];
 
 export function BuildersSection() {
@@ -38,11 +43,8 @@ export function BuildersSection() {
             {/* Main Heading */}
             <h2 className={styles.heading}>
               Designed <br />
-              for <span className={styles.headingItalic}>Builders.</span>
+              for Builders
             </h2>
-
-            {/* Gradient Bar */}
-            <div className={styles.gradientBar} />
 
             {/* Description */}
             <p className={styles.description}>
@@ -58,36 +60,17 @@ export function BuildersSection() {
                 Powered by isBIM’s proprietary dataset and Alibaba’s frontier models.
               </p>
               <p className={styles.bodyParagraph}>
-                Accelerating operations for owners, consultants, contractors, and quantity surveyors.
+                Accelerating operations with one assistant across planning, delivery, and facility ops.
               </p>
             </div>
 
-            {/* Marquee */}
-            <div className={styles.marqueeContainer}>
-              <div className={styles.marqueeContent}>
-                {/* First Set */}
-                {MARQUEE_ITEMS.map((item, idx) => (
-                  <span
-                    key={`set1-${idx}`}
-                    className={item.highlight ? styles.marqueeItemHighlight : styles.marqueeItem}
-                  >
-                    {item.text}
-                  </span>
-                ))}
-                {/* Second Set (duplicate for seamless loop) */}
-                {MARQUEE_ITEMS.map((item, idx) => (
-                  <span
-                    key={`set2-${idx}`}
-                    className={item.highlight ? styles.marqueeItemHighlight : styles.marqueeItem}
-                  >
-                    {item.text}
-                  </span>
-                ))}
-              </div>
-
-              {/* Fade Overlays */}
-              <div className={styles.fadeLeft} />
-              <div className={styles.fadeRight} />
+            <div className={styles.featureList}>
+              {FEATURE_ITEMS.map((item) => (
+                <div key={item.title} className={styles.featureCard}>
+                  <div className={styles.featureTitle}>{item.title}</div>
+                  <div className={styles.featureDesc}>{item.description}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

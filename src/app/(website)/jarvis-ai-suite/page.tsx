@@ -24,7 +24,7 @@ export default function JarvisAiSuitePage() {
       <GenerateSection />
 
       {/* Gradient Transition */}
-      <div className="w-full h-24 bg-gradient-to-b from-[#F2F2F2] via-[#7A7B85] to-[#1E1F2B]" />
+      <div className="jarvis-section-divider" />
 
       <SenseSection />
       <CtaSection />

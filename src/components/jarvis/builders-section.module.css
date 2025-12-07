@@ -39,7 +39,7 @@
    Container
    ───────────────────────────────────────── */
 .container {
-  max-width: 1280px;
+  max-width: var(--jarvis-container-max);
   margin: 0 auto;
   padding-left: var(--jarvis-container-padding);
   padding-right: var(--jarvis-container-padding);
@@ -115,10 +115,10 @@
 }
 
 .heading {
-  font-family: var(--font-display);
-  font-size: 3.75rem;
+  font-family: var(--font-heading);
+  font-size: var(--jarvis-heading-lg, clamp(2.5rem, 3vw, 3.5rem));
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.04em;
   line-height: 1;
   color: var(--text-inverse-strong);
   margin-bottom: 2rem;
@@ -131,24 +131,13 @@
 }
 
 .headingItalic {
-  font-style: italic;
-  background: linear-gradient(to right, white, var(--color-gray-500));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  
 }
 
-.gradientBar {
-  width: 8rem;
-  height: 0.375rem;
-  background: var(--jarvis-gradient-neon);
-  margin-bottom: 3rem;
-}
 
 .description {
-  font-size: 1.5rem;
-  font-weight: 300;
+  font-size: var(--jarvis-body-lg, 1.125rem);
+  font-weight: 400;
   line-height: 1.375;
   color: var(--text-inverse-base);
   max-width: 36rem;
@@ -198,7 +187,7 @@
 
 .bodyLead {
   font-family: var(--font-body);
-  font-size: clamp(1.75rem, 2vw + 1rem, 2.75rem);
+  font-size: var(--jarvis-heading-md, clamp(1.5rem, 2vw, 2rem));
   font-weight: 400;
   line-height: 1.3;
   color: var(--text-inverse-muted);
@@ -208,7 +197,7 @@
   font-size: 1.125rem;
   line-height: 1.8;
   color: var(--text-inverse-sub);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .bodyAccentViolet {
@@ -221,70 +210,39 @@
   font-weight: 600;
 }
 
-/* ─────────────────────────────────────────
-   Marquee
-   ───────────────────────────────────────── */
-.marqueeContainer {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 3rem 0;
-  background: rgba(255, 255, 255, 0.02);
+.featureList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--jarvis-card-gap, 1rem);
+  margin-top: 1.5rem;
 }
 
-.marqueeContent {
-  display: flex;
-  white-space: nowrap;
-  min-width: 200%;
-  animation: jarvis-marquee var(--jarvis-motion-marquee) linear infinite;
+@media (min-width: 768px) {
+  .featureList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-.marqueeItem {
+.featureCard {
+  padding: var(--jarvis-card-padding, 1.75rem);
+  border-radius: var(--jarvis-panel-radius);
+  border: var(--jarvis-panel-border-dark);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: var(--jarvis-panel-shadow-dark);
+}
+
+.featureTitle {
   font-family: var(--font-heading);
-  font-size: 3rem;
-  font-weight: 200;
-  color: var(--color-gray-600);
-  margin: 0 2.5rem;
-}
-
-.marqueeItemHighlight {
-  font-family: var(--font-heading);
-  font-size: 3rem;
-  font-weight: 500;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--text-inverse-strong);
-  margin: 0 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
-@keyframes jarvis-marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Fade Overlays */
-.fadeLeft {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 10rem;
-  height: 100%;
-  background: linear-gradient(to right, var(--jarvis-surface-dark), transparent);
-  z-index: 10;
-  pointer-events: none;
-}
-
-.fadeRight {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 10rem;
-  height: 100%;
-  background: linear-gradient(to left, var(--jarvis-surface-dark), transparent);
-  z-index: 10;
-  pointer-events: none;
+.featureDesc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-inverse-muted);
 }
