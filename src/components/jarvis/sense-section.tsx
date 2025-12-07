@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './sense-section.module.css';
 
 interface SenseItem {
@@ -51,12 +51,26 @@ const ITEMS: SenseItem[] = [
 export function SenseSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // 🔍 DEBUG: Log computed styles to verify padding inheritance
+  useEffect(() => {
+    const content = document.querySelector('[data-debug="sense-content"]');
+    if (content) {
+      const computed = window.getComputedStyle(content);
+      console.log('🔵 SENSE Section .content:', {
+        paddingLeft: computed.paddingLeft,
+        paddingRight: computed.paddingRight,
+        maxWidth: computed.maxWidth,
+        width: computed.width,
+      });
+    }
+  }, []);
+
   return (
     <section className={styles.section}>
       {/* Grid Background */}
       <div className={styles.gridBg} />
 
-      <div className={styles.container}>
+      <div className={styles.content} data-debug="sense-content">
         {/* Header */}
         <div className={styles.header}>
           <div>
@@ -99,16 +113,16 @@ export function SenseSection() {
             <div className={styles.glowEffect} />
           </div>
 
-          {/* Right: Interactive Menu */}
-          <div className={styles.menuColumn}>
+          {/* Product List Column */}
+          <div className={styles.productColumn}>
             {ITEMS.map((item, idx) => (
               <div
                 key={item.id}
-                className={`${styles.menuItem} ${activeIndex === idx ? styles.menuItemActive : ''}`}
+                className={`${styles.productItem} ${activeIndex === idx ? styles.productItemActive : ''}`}
                 onMouseEnter={() => setActiveIndex(idx)}
               >
-                <div className={styles.menuItemHeader}>
-                  <h3 className={styles.menuItemTitle}>{item.title}</h3>
+                <div className={styles.productItemHeader}>
+                  <h3 className={styles.productItemTitle}>{item.title}</h3>
                   <svg
                     className={styles.arrow}
                     fill="none"
@@ -123,7 +137,7 @@ export function SenseSection() {
                     />
                   </svg>
                 </div>
-                <div className={styles.menuItemDesc}>{item.description}</div>
+                <div className={styles.productItemDesc}>{item.description}</div>
               </div>
             ))}
           </div>

@@ -32,3 +32,7 @@
 - Problem: Contact page scroll jank on desktop/mobile.
   Root Cause: Heavy CSS costs (backdrop-filter blur on form panel, fixed background with many absolute children, continuous pulse/bounce animations, gradient grid repaint, transition-all everywhere); no mobile downgrades.
   Solution: Plan to add will-change/GPU hints, mobile blur downgrade or solid fallback, pause non-critical animations via IntersectionObserver, lighten/sparsify the grid (or swap to static asset), replace transition-all with specific properties, and trim decorative elements/icons on small screens.
+
+- Problem: Jarvis Generate/Sense sections padding resolves to 0px so titles/product lists misalign.
+  Root Cause: `--jarvis-container-padding` maps to `--product-container-padding`, but the product tokens live under `.product-page` scope so on Jarvis page the variable chain breaks when that scope/class is missing.
+  Solution: Pending. Options: ensure Jarvis wrapper includes `.product-page` (or move needed vars to `:root`), or set explicit `--jarvis-container-padding` value in jarvis.css to decouple from product tokens. Debug outlines/logs re-enabled for verification.

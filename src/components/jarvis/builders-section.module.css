@@ -201,13 +201,13 @@
   font-size: clamp(1.75rem, 2vw + 1rem, 2.75rem);
   font-weight: 400;
   line-height: 1.3;
-  color: var(--text-inverse-strong);
+  color: var(--text-inverse-muted);
 }
 
 .bodyParagraph {
   font-size: 1.125rem;
   line-height: 1.8;
-  color: var(--text-inverse-base);
+  color: var(--text-inverse-sub);
   font-weight: 300;
 }
 

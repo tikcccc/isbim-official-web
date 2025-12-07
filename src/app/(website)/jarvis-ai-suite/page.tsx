@@ -14,10 +14,10 @@ import { HideDefaultFooter } from '@/components/services-products/hide-default-f
  * - Glass morphism panels
  * - Interactive product showcases
  * - Neon cyan accents in dark mode
- */
+  */
 export default function JarvisAiSuitePage() {
   return (
-    <div className="jarvis-page">
+    <div className="jarvis-page product-page">
       <HideDefaultFooter />
       <HeroSection />
       <BuildersSection />

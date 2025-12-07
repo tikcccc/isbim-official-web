@@ -39,30 +39,32 @@ export function GenerateSection() {
 
   return (
     <section className={styles.section}>
-      <div className={styles.container}>
+      <div className={styles.content}>
         {/* Header */}
         <div className={styles.header}>
-          <span className={styles.label}>Generative & Strategic Intelligence</span>
-          <h2 className={styles.heading}>
-            Generate. <span className={styles.headingMuted}>Automate.</span>{' '}
-            <span className="gradient-text">Capitalize.</span>
-          </h2>
+          <div>
+            <span className={styles.label}>Generative & Strategic Intelligence</span>
+            <h2 className={styles.heading}>
+              Generate. <span className={styles.headingMuted}>Automate.</span>{' '}
+              <span className="gradient-text">Capitalize.</span>
+            </h2>
+          </div>
         </div>
 
         {/* Grid */}
         <div className={styles.grid}>
-          {/* Left: Interactive List */}
-          <div className={styles.listColumn}>
+          {/* Product List Column */}
+          <div className={styles.productColumn}>
             {ITEMS.map((item, idx) => (
               <div
                 key={item.id}
-                className={`${styles.listItem} ${activeIndex === idx ? styles.listItemActive : ''} ${
-                  item.accentColor === 'purple' ? styles.listItemPurple : styles.listItemCyan
+                className={`${styles.productItem} ${activeIndex === idx ? styles.productItemActive : ''} ${
+                  item.accentColor === 'purple' ? styles.productItemPurple : styles.productItemCyan
                 }`}
                 onMouseEnter={() => setActiveIndex(idx)}
               >
-                <div className={styles.listItemHeader}>
-                  <h3 className={styles.listItemTitle}>{item.title}</h3>
+                <div className={styles.productItemHeader}>
+                  <h3 className={styles.productItemTitle}>{item.title}</h3>
                   <svg
                     className={styles.arrow}
                     fill="none"
@@ -77,7 +79,7 @@ export function GenerateSection() {
                     />
                   </svg>
                 </div>
-                <div className={styles.listItemDesc}>{item.description}</div>
+                <div className={styles.productItemDesc}>{item.description}</div>
               </div>
             ))}
           </div>

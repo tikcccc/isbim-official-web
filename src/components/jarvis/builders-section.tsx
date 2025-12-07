@@ -46,7 +46,7 @@ export function BuildersSection() {
 
             {/* Description */}
             <p className={styles.description}>
-              Transforms decades of engineering expertise into an{' '}
+              Decades of engineering expertise, distilled into an{' '}
               <span className={styles.highlight}>agentic assistant</span>.
             </p>
           </div>
@@ -55,12 +55,10 @@ export function BuildersSection() {
           <div className={styles.rightColumn}>
             <div className={styles.bodyText}>
               <p className={styles.bodyLead}>
-                JARVIS understands context, anticipates needs, and executes with precision.
+                Powered by isBIM’s proprietary dataset and Alibaba’s frontier models.
               </p>
               <p className={styles.bodyParagraph}>
-                Trained on <span className={styles.bodyAccentViolet}>isBIM’s proprietary dataset</span> and{' '}
-                <span className={styles.bodyAccentCyan}>Alibaba’s latest frontier models</span>, it accelerates
-                operations for owners, consultants, contractors, and quantity surveyors.
+                Accelerating operations for owners, consultants, contractors, and quantity surveyors.
               </p>
             </div>
 

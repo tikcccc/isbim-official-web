@@ -57,7 +57,7 @@
      ───────────────────────────────────────── */
   --jarvis-glass-bg: rgba(30, 31, 43, 0.6);
   --jarvis-glass-border: var(--border-inverse-soft);      /* 复用全局 */
-  --jarvis-glass-shadow: var(--product-shadow-card);      /* 复用 Product */
+  --jarvis-glass-shadow: var(--product-shadow-card, 0 25px 50px -12px rgba(var(--color-black-rgb) / 0.25)); /* 复用 Product */
 
   /* ─────────────────────────────────────────
      屏幕容器 (JARVIS 特有)
@@ -73,18 +73,18 @@
   /* ─────────────────────────────────────────
      CTA 按钮 (复用 Product chip 模式)
      ───────────────────────────────────────── */
-  --jarvis-cta-bg: var(--chip-bg);                        /* 复用 Product chip */
-  --jarvis-cta-border: var(--chip-border);                /* 复用 Product chip */
+  --jarvis-cta-bg: var(--chip-bg, rgba(var(--color-white-rgb) / 0.05));                        /* 复用 Product chip */
+  --jarvis-cta-border: var(--chip-border, rgba(var(--color-white-rgb) / 0.1));                /* 复用 Product chip */
   --jarvis-cta-hover-glow: 0 0 40px rgba(0, 255, 255, 0.25);
 
   /* ─────────────────────────────────────────
      布局间距 (完全复用全局/Product)
      ───────────────────────────────────────── */
   --jarvis-container-max: var(--container-max);
-  --jarvis-container-padding: var(--product-container-padding);
-  --jarvis-section-padding: var(--product-section-padding);
-  --jarvis-gap: var(--product-gap);
-  --jarvis-gap-lg: var(--product-gap-lg);
+  --jarvis-container-padding: var(--product-container-padding, var(--h-spacing));
+  --jarvis-section-padding: var(--product-section-padding, calc(var(--section-v-spacing) * 0.9));
+  --jarvis-gap: var(--product-gap, var(--spacing-m));
+  --jarvis-gap-lg: var(--product-gap-lg, var(--spacing-l));
 
   /* ─────────────────────────────────────────
      动画时间 (复用全局 + 特有长时动画)
@@ -96,4 +96,12 @@
   /* JARVIS 特有：超长氛围动画 */
   --jarvis-motion-ambient: 15s;
   --jarvis-motion-marquee: 45s;
+}
+
+/* Shared layout shell for hero + product sections */
+.jarvis-section-shell {
+  max-width: var(--jarvis-container-max);
+  margin: 0 auto;
+  padding-left: var(--jarvis-container-padding);
+  padding-right: var(--jarvis-container-padding);
 }
