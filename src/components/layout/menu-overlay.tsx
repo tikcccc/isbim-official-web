@@ -10,7 +10,7 @@ import { useBodyScrollLock, useLenis } from "@/hooks";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { m } from "@/components/motion/lazy-motion";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -186,6 +186,8 @@ export function MenuOverlay() {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
   const { lenis } = useLenis();
   const menuData = useMemo(() => getMenuData(), []);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const scrollTargetRef = useRef<number>(0);
 
   // Lock body scroll when menu is open
   useBodyScrollLock(isOpen);
@@ -195,6 +197,7 @@ export function MenuOverlay() {
     if (!lenis || !isOpen) {
       if (lenis && !isOpen) {
         lenis.start();
+        scrollTargetRef.current = 0; // Reset when menu closes
       }
       return;
     }
@@ -202,24 +205,28 @@ export function MenuOverlay() {
     // Pause Lenis and apply custom smooth scroll so the overlay scrolls even when Lenis blocks native overflow
     lenis.stop();
 
-    const overlay = document.querySelector("[data-menu-overlay]") as HTMLElement | null;
+    const overlay = overlayRef.current || (document.querySelector("[data-menu-overlay]") as HTMLElement | null);
     if (!overlay) {
       return () => {
         lenis.start();
       };
     }
 
-    let scrollTarget = overlay.scrollTop;
+    // Only initialize scrollTarget if it's 0 (first time or after menu was closed)
+    if (scrollTargetRef.current === 0) {
+      scrollTargetRef.current = overlay.scrollTop;
+    }
+
     let rafId: number | null = null;
 
     const smoothStep = () => {
-      const delta = scrollTarget - overlay.scrollTop;
+      const delta = scrollTargetRef.current - overlay.scrollTop;
       const eased = delta * 0.2; // slightly faster easing to reduce drag feel
       if (Math.abs(delta) > 0.5) {
         overlay.scrollTop += eased;
         rafId = requestAnimationFrame(smoothStep);
       } else {
-        overlay.scrollTop = scrollTarget;
+        overlay.scrollTop = scrollTargetRef.current;
         rafId = null;
       }
     };
@@ -229,7 +236,7 @@ export function MenuOverlay() {
       e.stopPropagation();
 
       const maxScroll = overlay.scrollHeight - overlay.clientHeight;
-      scrollTarget = Math.max(0, Math.min(scrollTarget + e.deltaY, maxScroll));
+      scrollTargetRef.current = Math.max(0, Math.min(scrollTargetRef.current + e.deltaY, maxScroll));
 
       if (rafId === null) {
         rafId = requestAnimationFrame(smoothStep);
@@ -248,18 +255,21 @@ export function MenuOverlay() {
   }, [isOpen, lenis]);
 
 
+
   return (
     <AnimatePresence>
       {isOpen && (
         <m.div
           data-menu-overlay
+          ref={overlayRef}
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed inset-0 z-40 bg-[#050505] text-white layout-nav-link overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-track]:bg-transparent"
+          className="fixed inset-0 z-40 bg-[#050505] text-white layout-nav-link overflow-y-scroll [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-track]:bg-transparent"
           style={{
             WebkitOverflowScrolling: 'touch',
+            scrollbarGutter: 'stable',
           }}
         >
           {/* Top Bar - Reserved space for Topbar integration */}
@@ -472,7 +482,7 @@ export function MenuOverlay() {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="z-10 flex flex-col"
+                    className="z-10 flex flex-col min-h-[720px] lg:min-h-[840px]"
                   >
                     <div className="mb-10 border-b border-white/10 pb-6 flex justify-between items-end">
                       <div>
@@ -549,7 +559,7 @@ export function MenuOverlay() {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="z-10 flex flex-col"
+                    className="z-10 flex flex-col min-h-[720px] lg:min-h-[840px]"
                   >
                     <div className="flex justify-between items-start mb-[2.75rem]">
                       <div>
