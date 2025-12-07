@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { TypewriterText } from '@/components/animations/typewriter';
 import styles from './hero-section.module.css';
 
-const TYPEWRITER_TEXT = 'Transforming blueprints into intelligent data streams...';
+const TYPEWRITER_TEXT = 'Automate invoices, tenders, and forms.';
 const COUNTER_TARGET = 98.7;
 const COUNTER_DURATION = 3000; // ms
 
@@ -99,7 +99,7 @@ export function HeroSection() {
                 &gt;{' '}
                 <TypewriterText
                   text={TYPEWRITER_TEXT}
-                  speed={80}
+                  speed={35}
                   cursorVisible
                   cursorChar="|"
                   cursorColor="var(--jarvis-accent-primary)"

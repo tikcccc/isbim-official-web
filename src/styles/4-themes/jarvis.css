@@ -95,5 +95,5 @@
 
   /* JARVIS 特有：超长氛围动画 */
   --jarvis-motion-ambient: 15s;
-  --jarvis-motion-marquee: 120s;
+  --jarvis-motion-marquee: 45s;
 }

@@ -112,7 +112,8 @@ export function TypewriterText({
 
         if (wrapDuringTyping && isWhitespace) {
           const spaceSpan = document.createElement("span");
-          spaceSpan.textContent = token;
+          // Preserve whitespace width by using non-breaking spaces
+          spaceSpan.textContent = token.replace(/ /g, "\u00A0");
           spaceSpan.style.opacity = reverse ? "1" : "0";
           spaceSpan.style.display = "inline";
           spaceSpan.style.transition = "none";
@@ -129,7 +130,7 @@ export function TypewriterText({
 
         token.split("").forEach((char) => {
           const span = document.createElement("span");
-          span.textContent = char;
+          span.textContent = char === " " ? "\u00A0" : char;
           span.style.opacity = reverse ? "1" : "0";
           span.style.display = "inline-block";
           span.style.transition = "none";

@@ -69,7 +69,7 @@
   z-index: 0;
   overflow: hidden;
   transform: rotate(-3deg) scale(1.1);
-  animation: jarvis-fade-in-up var(--motion-slower) var(--jarvis-ease) forwards;
+  composes: jarvis-fade-in-up from global;
 }
 
 .marqueeRow1,
@@ -77,29 +77,33 @@
   width: 100%;
   white-space: nowrap;
   opacity: 0.04;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .marqueeRow2 {
   width: 100%;
   white-space: nowrap;
   opacity: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .marqueeContent {
   display: inline-block;
-  animation: jarvis-marquee var(--jarvis-motion-marquee) linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  composes: jarvis-marquee from global;
 }
 
 .marqueeContentReverse {
   display: inline-block;
-  animation: jarvis-marquee-reverse var(--jarvis-motion-marquee) linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  composes: jarvis-marquee-reverse from global;
 }
 
 .marqueeText {
   font-family: var(--font-heading);
-  font-size: 10rem;
+  font-size: 8rem;
   font-weight: 700;
   letter-spacing: -0.08em;
   line-height: 1;
@@ -109,7 +113,7 @@
 
 .marqueeTextOutline {
   font-family: var(--font-heading);
-  font-size: 10rem;
+  font-size: 8rem;
   font-weight: 700;
   letter-spacing: -0.08em;
   line-height: 1;
@@ -118,10 +122,24 @@
   color: transparent;
 }
 
+@media (min-width: 768px) {
+  .marqueeText,
+  .marqueeTextOutline {
+    font-size: 12rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .marqueeText,
   .marqueeTextOutline {
-    font-size: 14rem;
+    font-size: 16rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .marqueeText,
+  .marqueeTextOutline {
+    font-size: 18rem;
   }
 }
 
@@ -162,29 +180,48 @@
   margin: 0 auto;
   padding-left: var(--jarvis-container-padding);
   padding-right: var(--jarvis-container-padding);
+  padding-top: 4rem;
   position: relative;
   z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-top: 6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-top: 8rem;
+  }
 }
 
 /* ─────────────────────────────────────────
    Title
    ───────────────────────────────────────── */
 .titleWrapper {
-  margin-bottom: 8rem;
+  margin-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .titleWrapper {
+    margin-bottom: 8rem;
+  }
 }
 
 @media (min-width: 1024px) {
   .titleWrapper {
-    margin-bottom: 12rem;
+    margin-bottom: 10rem;
   }
 }
 
 .title {
   font-family: var(--font-heading);
-  font-size: 6rem;
+  font-size: 7rem;
   font-weight: 300;
   letter-spacing: -0.08em;
-  line-height: 0.85;
+  line-height: 0.95;
   color: var(--jarvis-text-strong);
   position: relative;
   backdrop-filter: blur(2px);
@@ -192,17 +229,30 @@
   display: inline-block;
   padding: 1rem;
   margin-left: -1rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+.title :global(.gradient-text) {
+  display: inline-block;
+  padding-right: 0.35em; /* 避免大字号渐变文本被裁切（尤其是末尾的 e） */
+  overflow: visible;
 }
 
 @media (min-width: 768px) {
   .title {
-    font-size: 8rem;
+    font-size: 10rem;
   }
 }
 
 @media (min-width: 1024px) {
   .title {
-    font-size: 10rem;
+    font-size: 14rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 16rem;
   }
 }
 
@@ -257,29 +307,45 @@
 
 .labelText {
   font-family: var(--font-heading);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+  font-weight: 600;
 }
 
 .typewriterOutput {
-  height: 6rem;
+  height: 8rem;
+  white-space: normal;
+  min-width: 48rem;
+  max-width: 58rem;
 }
 
 .typewriterText {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   color: var(--text-muted);
   line-height: 1.75;
 }
 
+@media (min-width: 768px) {
+  .typewriterText {
+    font-size: 1.375rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .typewriterOutput {
-    height: 8rem;
+    height: 10rem;
   }
 
   .typewriterText {
     font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .typewriterText {
+    font-size: 1.75rem;
   }
 }
 
@@ -301,6 +367,7 @@
   flex-direction: column;
   align-items: flex-end;
   padding-bottom: 1rem;
+  margin-top: -2.25rem;
 }
 
 .counterDisplay {
@@ -310,15 +377,28 @@
 
 .counterNumber {
   font-family: var(--font-heading);
-  font-size: 8rem;
+  font-size: 5rem;
   font-weight: 300;
   color: var(--jarvis-text-strong);
   line-height: 1;
   letter-spacing: -0.05em;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+  .counterNumber {
+    font-size: 7rem;
+  }
 }
 
 @media (min-width: 1024px) {
+  .counterNumber {
+    font-size: 9rem;
+  }
+}
+
+@media (min-width: 1440px) {
   .counterNumber {
     font-size: 10rem;
   }
@@ -328,26 +408,38 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
   margin-left: 0.5rem;
 }
 
 .counterPercent span {
   font-family: var(--font-heading);
-  font-size: 2.25rem;
+  font-size: 2rem;
   color: var(--jarvis-accent-secondary);
   font-weight: 300;
 }
 
+@media (min-width: 768px) {
+  .counterPercent span {
+    font-size: 2.75rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .counterPercent span {
-    font-size: 3rem;
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .counterPercent span {
+    font-size: 4rem;
   }
 }
 
 .counterMeta {
   text-align: right;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   width: 100%;
   max-width: 20rem;
 }

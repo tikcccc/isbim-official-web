@@ -39,7 +39,7 @@
    Container
    ───────────────────────────────────────── */
 .container {
-  max-width: var(--jarvis-container-max);
+  max-width: 1280px;
   margin: 0 auto;
   padding-left: var(--jarvis-container-padding);
   padding-right: var(--jarvis-container-padding);
@@ -53,13 +53,15 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 6rem;
+  row-gap: 4rem;
   align-items: center;
+  justify-items: start;
 }
 
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: 5fr 7fr;
+    column-gap: clamp(3rem, 7vw, 9rem);
   }
 }
 
@@ -69,6 +71,7 @@
 .leftColumn {
   position: relative;
   z-index: 10;
+  max-width: 560px;
 }
 
 .chips {
@@ -148,7 +151,7 @@
   font-weight: 300;
   line-height: 1.375;
   color: var(--text-inverse-base);
-  max-width: 32rem;
+  max-width: 36rem;
 }
 
 @media (min-width: 1024px) {
@@ -173,6 +176,7 @@
   justify-content: center;
   gap: 4rem;
   position: relative;
+  max-width: 720px;
 }
 
 .bodyText {
@@ -183,7 +187,7 @@
   font-weight: 300;
   padding-left: 0;
   border-left: none;
-}
+  }
 
 @media (min-width: 1024px) {
   .bodyText {
@@ -216,6 +220,7 @@
 .marqueeContent {
   display: flex;
   white-space: nowrap;
+  min-width: 200%;
   animation: jarvis-marquee var(--jarvis-motion-marquee) linear infinite;
 }
 
@@ -233,6 +238,15 @@
   font-weight: 500;
   color: var(--text-inverse-strong);
   margin: 0 2.5rem;
+}
+
+@keyframes jarvis-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Fade Overlays */
