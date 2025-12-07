@@ -45,12 +45,12 @@ export function NewsletterForm() {
           {...register("email")}
           placeholder={messages.footer_email_placeholder()}
           type="email"
-          className="flex-1 h-10 text-[15px] border-slate-300 dark:border-slate-700 focus-visible:outline-none focus-visible:ring-0 focus-visible:border-slate-400 dark:focus-visible:border-slate-500 shadow-none transition-all duration-120 hover:border-slate-400 dark:hover:border-slate-500"
+          className="layout-footer-input flex-1 h-10 text-[15px] bg-transparent text-slate-900 dark:text-white caret-slate-900 dark:caret-white placeholder:text-slate-400 dark:placeholder:text-white/60 border border-slate-300 dark:border-white/35 hover:border-slate-400 dark:hover:border-white/55 focus-visible:outline-none focus-visible:ring-0 focus-visible:border-slate-500 dark:focus-visible:border-white shadow-none transition-all duration-120"
         />
         <Button
           type="submit"
           disabled={isSubmitting || isRedirecting}
-          className="px-4 h-10 shadow-sm transition-all duration-200 bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 focus:shadow-md disabled:translate-y-0 disabled:shadow-sm layout-footer-newsletter-button"
+          className="px-4 h-10 shadow-sm transition-all duration-200 bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 focus:shadow-md disabled:translate-y-0 disabled:shadow-sm layout-footer-newsletter-button cursor-pointer"
         >
           {isSubmitting ? (
             <Loader2 className="h-[18px] w-[18px] animate-spin" />

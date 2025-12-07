@@ -26,5 +26,11 @@ export function HideDefaultFooter() {
     };
   }, []);
 
-  return null;
+  return (
+    <style jsx global>{`
+      footer.footer-default {
+        display: none !important;
+      }
+    `}</style>
+  );
 }

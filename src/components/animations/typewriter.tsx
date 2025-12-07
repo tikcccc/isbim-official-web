@@ -54,8 +54,6 @@ export interface TypewriterTextProps {
   cursorColor?: string;
   /** Reverse animation (characters disappear) */
   reverse?: boolean;
-  /** Allow wrapping during typing (keeps words intact) */
-  wrapDuringTyping?: boolean;
 }
 
 export function TypewriterText({
@@ -68,7 +66,6 @@ export function TypewriterText({
   cursorChar = "|",
   cursorColor = "currentColor",
   reverse = false,
-  wrapDuringTyping = false,
 }: TypewriterTextProps) {
   const containerRef = useRef<HTMLSpanElement>(null);
   const cursorRef = useRef<HTMLSpanElement>(null);
@@ -102,43 +99,64 @@ export function TypewriterText({
       if (started) return;
       started = true;
 
-      // Clear container and create character spans (word-grouped when wrapping is allowed)
+      if (cursor) {
+        gsap.set(cursor, { x: 0, y: 0 });
+      }
+
+      // Clear container and create character spans
+      // Key insight: Use visibility:hidden instead of display:none so characters
+      // occupy space from the start, ensuring consistent line breaks
+      // Group by words to prevent words from breaking across lines
       container.innerHTML = "";
       const charElements: HTMLElement[] = [];
 
-      const tokens = wrapDuringTyping ? text.split(/(\s+)/) : [text];
+      // Split text into words and spaces
+      const tokens = text.split(/(\s+)/);
+
       tokens.forEach((token) => {
-        const isWhitespace = token.trim() === "";
+        const isSpace = /^\s+$/.test(token);
 
-        if (wrapDuringTyping && isWhitespace) {
-          const spaceSpan = document.createElement("span");
-          // Preserve whitespace width by using non-breaking spaces
-          spaceSpan.textContent = token.replace(/ /g, "\u00A0");
-          spaceSpan.style.opacity = reverse ? "1" : "0";
-          spaceSpan.style.display = "inline";
-          spaceSpan.style.transition = "none";
-          container.appendChild(spaceSpan);
-          charElements.push(spaceSpan);
-          return;
+        if (isSpace) {
+          // Handle spaces: create a single span for each space character
+          token.split("").forEach(() => {
+            const span = document.createElement("span");
+            span.textContent = "\u00A0"; // Non-breaking space
+            span.style.transition = "none";
+            span.style.display = "inline-block";
+
+            if (reverse) {
+              span.style.visibility = "visible";
+            } else {
+              span.style.visibility = "hidden";
+            }
+
+            container.appendChild(span);
+            charElements.push(span);
+          });
+        } else {
+          // Handle words: wrap in a word container to keep word intact
+          const wordContainer = document.createElement("span");
+          wordContainer.style.display = "inline-block";
+          wordContainer.style.whiteSpace = "nowrap"; // Prevent word from breaking
+
+          token.split("").forEach((char) => {
+            const span = document.createElement("span");
+            span.textContent = char;
+            span.style.transition = "none";
+            span.style.display = "inline-block";
+
+            if (reverse) {
+              span.style.visibility = "visible";
+            } else {
+              span.style.visibility = "hidden";
+            }
+
+            wordContainer.appendChild(span);
+            charElements.push(span);
+          });
+
+          container.appendChild(wordContainer);
         }
-
-        const wordSpan = document.createElement("span");
-        wordSpan.style.display = wrapDuringTyping ? "inline-block" : "inline";
-        if (wrapDuringTyping) {
-          wordSpan.style.whiteSpace = "nowrap";
-        }
-
-        token.split("").forEach((char) => {
-          const span = document.createElement("span");
-          span.textContent = char === " " ? "\u00A0" : char;
-          span.style.opacity = reverse ? "1" : "0";
-          span.style.display = "inline-block";
-          span.style.transition = "none";
-          wordSpan.appendChild(span);
-          charElements.push(span);
-        });
-
-        container.appendChild(wordSpan);
       });
 
       // Prevent layout reflow flicker when reversing by freezing the current width via minWidth
@@ -167,23 +185,41 @@ export function TypewriterText({
         },
       });
 
-      // Animate characters based on direction
+      // Animate characters based on direction using visibility
       if (reverse) {
-        // For reverse: animate from last to first, opacity 1 to 0
+        // For reverse: animate from last to first, visible to hidden
         const reversedElements = [...charElements].reverse();
-        timeline.to(reversedElements, {
-          opacity: 0,
+        timeline?.to(reversedElements, {
+          visibility: "hidden",
           duration: 0,
           stagger: staggerTime,
           ease: "none",
         });
       } else {
-        // For forward: animate from first to last, opacity 0 to 1
-        timeline.to(charElements, {
-          opacity: 1,
-          duration: 0,
-          stagger: staggerTime,
-          ease: "none",
+        // For forward: animate from first to last, hidden to visible, and move cursor along
+        charElements.forEach((el, index) => {
+          const at = index * staggerTime;
+          timeline?.to(
+            el,
+            {
+              visibility: "visible",
+              duration: 0,
+              ease: "none",
+            },
+            at
+          );
+          if (cursor && timeline) {
+            timeline.to(
+              cursor,
+              {
+                x: () => el.offsetLeft + el.offsetWidth,
+                y: () => el.offsetTop,
+                duration: 0,
+                ease: "none",
+              },
+              at
+            );
+          }
         });
       }
 
@@ -220,12 +256,12 @@ export function TypewriterText({
   }, []);
 
   return (
-    <span className="inline-block">
+    <span className="relative inline-block align-baseline">
       <span ref={containerRef} className={className} />
       {cursorVisible && (
         <span
           ref={cursorRef}
-          className="inline-block ml-1"
+          className="absolute inline-block left-0 top-0 pointer-events-none"
           style={{ color: cursorColor }}
         >
           {cursorChar}
@@ -439,10 +475,6 @@ export interface TypewriterLinesProps {
   className?: string;
   /** Callback when all lines complete */
   onComplete?: () => void;
-  /** Reverse animation (characters disappear) */
-  reverse?: boolean;
-  /** Allow wrapping during typing (keeps words intact) */
-  wrapDuringTyping?: boolean;
 }
 
 export function TypewriterLines({
@@ -452,10 +484,9 @@ export function TypewriterLines({
   lineGap,
   className = "",
   onComplete,
-  wrapDuringTyping = false,
 }: TypewriterLinesProps) {
   const completedCount = useRef(0);
-  const [allLinesComplete, setAllLinesComplete] = useState(false);
+  const [startedLines, setStartedLines] = useState<Set<number>>(new Set([0])); // Track which lines have started animating
 
   const readMotion = (name: string, fallback: number) => {
     if (typeof window === "undefined") return fallback;
@@ -468,38 +499,88 @@ export function TypewriterLines({
 
   const handleLineComplete = () => {
     completedCount.current += 1;
-    if (completedCount.current === lines.length) {
-      setAllLinesComplete(true);
-      if (onComplete) {
-        onComplete();
-      }
+    if (completedCount.current === lines.length && onComplete) {
+      onComplete();
     }
   };
 
-  return (
-    <span className={className}>
-      {lines.map((line, index) => {
-        // Calculate cumulative delay
-        const lineDelay = lines
-          .slice(0, index)
-          .reduce((acc, prevLine) => {
-            const charCount = prevLine.text.length;
-            return acc + (charCount * charSpeed) / 1000 + gap;
-      }, baseDelay);
+  // Schedule line start tracking based on delay
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
-        return (
-          <span key={index} className="block">
-            <TypewriterText
-              text={line.text}
-              className={`${line.className} ${!wrapDuringTyping && !allLinesComplete ? "whitespace-nowrap" : ""}`}
-              speed={speed}
-              delay={lineDelay}
-              onComplete={handleLineComplete}
-              wrapDuringTyping={wrapDuringTyping}
-            />
+    lines.forEach((_, index) => {
+      if (index === 0) return; // First line starts immediately
+
+      const lineDelay = lines
+        .slice(0, index)
+        .reduce((acc, prevLine) => {
+          const charCount = prevLine.text.length;
+          return acc + (charCount * charSpeed) / 1000 + gap;
+        }, baseDelay);
+
+      const timer = setTimeout(() => {
+        setStartedLines((prev) => {
+          const newSet = new Set(prev);
+          newSet.add(index);
+          return newSet;
+        });
+      }, lineDelay * 1000);
+
+      timers.push(timer);
+    });
+
+    return () => {
+      timers.forEach(clearTimeout);
+    };
+  }, [lines, charSpeed, baseDelay, gap]);
+
+  return (
+    <span className="relative inline-block w-full">
+      {/* Invisible placeholder to reserve space and prevent layout shift */}
+      <span className="invisible select-none pointer-events-none" aria-hidden="true">
+        {lines.map((line, index) => (
+          <span key={`placeholder-${index}`} className={cn("block", line.className)}>
+            {line.text}
           </span>
-        );
-      })}
+        ))}
+      </span>
+
+      {/* Animated typewriter content (absolutely positioned over placeholder) */}
+      <span className={cn("absolute inset-0", className)}>
+        {lines.map((line, index) => {
+          // Calculate cumulative delay
+          const lineDelay = lines
+            .slice(0, index)
+            .reduce((acc, prevLine) => {
+              const charCount = prevLine.text.length;
+              return acc + (charCount * charSpeed) / 1000 + gap;
+        }, baseDelay);
+
+          const hasStarted = startedLines.has(index);
+
+          return (
+            <span
+              key={index}
+              className="block"
+              style={{
+                // Hide lines that haven't started yet without affecting layout
+                visibility: hasStarted ? 'visible' : 'hidden',
+                position: hasStarted ? 'relative' : 'absolute',
+                height: hasStarted ? 'auto' : 0,
+                overflow: hasStarted ? 'visible' : 'hidden',
+              }}
+            >
+              <TypewriterText
+                text={line.text}
+                className={line.className}
+                speed={speed}
+                delay={lineDelay}
+                onComplete={handleLineComplete}
+              />
+            </span>
+          );
+        })}
+      </span>
     </span>
   );
 }
@@ -530,10 +611,8 @@ export function TypewriterLinesReverse({
   lineGap,
   className = "",
   onComplete,
-  wrapDuringTyping = false,
 }: TypewriterLinesProps) {
   const completedCount = useRef(0);
-  const [allLinesComplete, setAllLinesComplete] = useState(false);
   const containerRef = useRef<HTMLSpanElement>(null);
 
   const readMotion = (name: string, fallback: number) => {
@@ -547,11 +626,8 @@ export function TypewriterLinesReverse({
 
   const handleLineComplete = () => {
     completedCount.current += 1;
-    if (completedCount.current === lines.length) {
-      setAllLinesComplete(true);
-      if (onComplete) {
-        onComplete();
-      }
+    if (completedCount.current === lines.length && onComplete) {
+      onComplete();
     }
   };
 
@@ -592,12 +668,11 @@ export function TypewriterLinesReverse({
           <span key={visualIndex} className="block">
             <TypewriterText
               text={line.text}
-              className={`${line.className} ${!wrapDuringTyping && !allLinesComplete ? "whitespace-nowrap" : ""}`}
+              className={line.className}
               speed={speed}
               delay={cumulativeDelay}
               reverse={true}
               onComplete={handleLineComplete}
-              wrapDuringTyping={wrapDuringTyping}
             />
           </span>
         );

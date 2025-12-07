@@ -470,7 +470,6 @@ export function FeatureSection({
                       speed={30}
                       initialDelay={0.2}
                       lineGap={0.05}
-                      wrapDuringTyping
                     />
                   </m.div>
                 )}
@@ -486,7 +485,6 @@ export function FeatureSection({
                       speed={30}
                       initialDelay={0}
                       lineGap={0.02}
-                      wrapDuringTyping
                     />
                   </div>
                 )}

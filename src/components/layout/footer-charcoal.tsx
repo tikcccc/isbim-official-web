@@ -101,17 +101,11 @@ export function FooterCharcoal() {
                   <a
                     href={href}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                  >
-                  <Icon
-                    className="h-5 w-5 text-white"
-                    color="white"
-                    fill="none"
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                  </a>
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                >
+                  <Icon className="h-5 w-5" color="white" fill="none" strokeWidth={2} aria-hidden="true" />
+                </a>
                 </Button>
               ))}
             </div>
@@ -119,9 +113,13 @@ export function FooterCharcoal() {
 
           {/* Column 2: Solutions (JARVIS Products) */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-white">
+            <Link
+              href={ROUTES.JARVIS.SUITE}
+              prefetch
+              className="text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-all duration-200 w-fit hover:tracking-[0.22em]"
+            >
               {messages.footer_platforms()}
-            </h3>
+            </Link>
             <ul className="space-y-2.5 text-[15px] text-white">
               {productLinks.map((link) => (
                 <m.li
@@ -143,9 +141,13 @@ export function FooterCharcoal() {
 
           {/* Column 3: Company */}
           <div className="flex flex-col space-y-5">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-white">
+            <Link
+              href={ROUTES.SERVICES_PRODUCTS}
+              prefetch
+              className="text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-all duration-200 w-fit hover:tracking-[0.22em]"
+            >
               {messages.footer_company()}
-            </h3>
+            </Link>
             <ul className="space-y-2.5 text-[15px] text-white">
               {companyLinks.map((link) => (
                 <m.li
@@ -183,28 +185,16 @@ export function FooterCharcoal() {
         <Separator className="my-10 bg-white/10" />
 
         {/* Bottom Bar - Copyright & Legal Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-white space-y-3 md:space-y-0">
+        <div className="footer-bottom flex flex-col md:flex-row justify-between items-center text-[13px] text-white space-y-3 md:space-y-0">
           <p>{messages.footer_copyright()}</p>
           <div className="flex space-x-7">
-            <Link
-              href="/privacy"
-              prefetch
-              className="hover:opacity-80 transition-opacity"
-            >
+            <Link href="/privacy" prefetch className="hover:opacity-80 transition-opacity">
               {messages.footer_privacy()}
             </Link>
-            <Link
-              href="/terms"
-              prefetch
-              className="hover:opacity-80 transition-opacity"
-            >
+            <Link href="/terms" prefetch className="hover:opacity-80 transition-opacity">
               {messages.footer_terms()}
             </Link>
-            <Link
-              href="/cookies"
-              prefetch
-              className="hover:opacity-80 transition-opacity"
-            >
+            <Link href="/cookies" prefetch className="hover:opacity-80 transition-opacity">
               {messages.footer_cookies()}
             </Link>
           </div>

@@ -219,7 +219,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(152, 129, 243, 0.1), rgba(19, 201, 186, 0.1));
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(19, 201, 186, 0.1));
 }
 
 .placeholderText {

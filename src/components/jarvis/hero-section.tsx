@@ -5,8 +5,8 @@ import { TypewriterText } from '@/components/animations/typewriter';
 import styles from './hero-section.module.css';
 
 const TYPEWRITER_TEXT = 'Automate invoices, tenders, and forms.';
-const COUNTER_TARGET = 98.7;
-const COUNTER_DURATION = 3000; // ms
+const COUNTER_TARGET = 99.8;
+const COUNTER_DURATION = 1400; // ms
 
 export function HeroSection() {
   const [counter, setCounter] = useState(0);

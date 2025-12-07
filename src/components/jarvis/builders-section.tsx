@@ -53,11 +53,14 @@ export function BuildersSection() {
 
           {/* Right Column */}
           <div className={styles.rightColumn}>
-            {/* Body Text */}
             <div className={styles.bodyText}>
-              <p>
+              <p className={styles.bodyLead}>
                 JARVIS understands context, anticipates needs, and executes with precision.
-                It accelerates operations for owners, consultants, contractors, and quantity surveyors.
+              </p>
+              <p className={styles.bodyParagraph}>
+                Trained on <span className={styles.bodyAccentViolet}>isBIM’s proprietary dataset</span> and{' '}
+                <span className={styles.bodyAccentCyan}>Alibaba’s latest frontier models</span>, it accelerates
+                operations for owners, consultants, contractors, and quantity surveyors.
               </p>
             </div>
 

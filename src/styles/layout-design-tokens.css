@@ -39,6 +39,24 @@
     color: #0f172a !important;
   }
 
+  /* Footer input text/caret colors */
+  .footer-charcoal .layout-footer-input {
+    color: #ffffff !important;
+    caret-color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+  }
+  .footer-charcoal .layout-footer-input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  .footer-default .layout-footer-input {
+    color: #0f172a !important;
+    caret-color: #0f172a !important;
+    border-color: #d4d4d8 !important;
+  }
+  .footer-default .layout-footer-input::placeholder {
+    color: #94a3b8 !important;
+  }
+
   .layout-footer-newsletter-button {
     font-family: var(--font-body-en);
     background: var(--layout-footer-cta-bg) !important;
@@ -90,6 +108,17 @@
   .layout-footer-label * {
     font-family: var(--font-body-en);
     color: var(--text-base);
+  }
+
+  /* Page-specific: hide default light footer on Jarvis pages that use dark footers */
+  .jarvis-page footer.footer-default {
+    display: none !important;
+  }
+
+  /* Ensure footer-charcoal bottom bar stays visible on dark backgrounds */
+  .footer-charcoal .footer-bottom,
+  .footer-charcoal .footer-bottom * {
+    color: #ffffff !important;
   }
 
 }

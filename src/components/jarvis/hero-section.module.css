@@ -24,7 +24,7 @@
   width: 800px;
   height: 800px;
   background: linear-gradient(135deg,
-    rgba(152, 129, 243, 0.05) 0%,
+    rgba(138, 43, 226, 0.05) 0%,
     rgba(191, 219, 254, 0.1) 100%
   );
   border-radius: 9999px;
@@ -461,7 +461,7 @@
 .labelLine {
   width: 2rem;
   height: 1px;
-  background-color: rgba(152, 129, 243, 0.5);
+  background-color: rgba(138, 43, 226, 0.5);
 }
 
 .progressLabels {
