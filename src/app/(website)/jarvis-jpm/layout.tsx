@@ -1,4 +1,3 @@
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
 import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
 
 export default function JarvisJpmLayout({ children }: { children: React.ReactNode }) {
@@ -6,7 +5,6 @@ export default function JarvisJpmLayout({ children }: { children: React.ReactNod
     <>
       <HideDefaultFooter />
       {children}
-      <FooterCharcoal />
     </>
   );
 }
