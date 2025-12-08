@@ -203,6 +203,8 @@ export function MenuOverlay() {
     }
 
     lenis.stop();
+    // Capture the current scroll state object so cleanup uses the same reference
+    const scrollState = scrollStateRef.current;
 
     const overlay = overlayRef.current || (document.querySelector("[data-menu-overlay]") as HTMLElement | null);
     if (!overlay) {
@@ -212,17 +214,17 @@ export function MenuOverlay() {
     }
 
     // Initialize scroll target from current position
-    scrollStateRef.current.target = overlay.scrollTop;
+    scrollState.target = overlay.scrollTop;
 
     const smoothStep = () => {
-      const delta = scrollStateRef.current.target - overlay.scrollTop;
+      const delta = scrollState.target - overlay.scrollTop;
       const eased = delta * 0.2;
       if (Math.abs(delta) > 0.5) {
         overlay.scrollTop += eased;
-        scrollStateRef.current.rafId = requestAnimationFrame(smoothStep);
+        scrollState.rafId = requestAnimationFrame(smoothStep);
       } else {
-        overlay.scrollTop = scrollStateRef.current.target;
-        scrollStateRef.current.rafId = null;
+        overlay.scrollTop = scrollState.target;
+        scrollState.rafId = null;
       }
     };
 
@@ -231,10 +233,10 @@ export function MenuOverlay() {
       e.stopPropagation();
 
       const maxScroll = overlay.scrollHeight - overlay.clientHeight;
-      scrollStateRef.current.target = Math.max(0, Math.min(scrollStateRef.current.target + e.deltaY, maxScroll));
+      scrollState.target = Math.max(0, Math.min(scrollState.target + e.deltaY, maxScroll));
 
-      if (scrollStateRef.current.rafId === null) {
-        scrollStateRef.current.rafId = requestAnimationFrame(smoothStep);
+      if (scrollState.rafId === null) {
+        scrollState.rafId = requestAnimationFrame(smoothStep);
       }
     };
 
@@ -242,9 +244,9 @@ export function MenuOverlay() {
 
     return () => {
       overlay.removeEventListener("wheel", handleWheel);
-      if (scrollStateRef.current.rafId !== null) {
-        cancelAnimationFrame(scrollStateRef.current.rafId);
-        scrollStateRef.current.rafId = null;
+      if (scrollState.rafId !== null) {
+        cancelAnimationFrame(scrollState.rafId);
+        scrollState.rafId = null;
       }
       lenis.start();
     };
