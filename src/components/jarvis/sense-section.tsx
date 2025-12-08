@@ -102,9 +102,6 @@ export function SenseSection() {
               {/* Grid Overlay */}
               <div className={styles.gridOverlay} />
             </div>
-
-            {/* Glow Effect */}
-            <div className={styles.glowEffect} />
           </div>
 
           {/* Product List Column */}

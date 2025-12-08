@@ -23,9 +23,6 @@ export default function JarvisAiSuitePage() {
       <BuildersSection />
       <GenerateSection />
 
-      {/* Gradient Transition */}
-      <div className="jarvis-section-divider" />
-
       <SenseSection />
       <CtaSection />
       <FooterCharcoal />

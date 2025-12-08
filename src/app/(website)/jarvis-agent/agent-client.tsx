@@ -1,11 +1,11 @@
 'use client';
 
-import { ProductPageLayout } from '@/components/product-template';
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from '@/lib/media-config';
+import { AgentPageLayout } from '@/components/agent/agent-page-layout';
 
 export default function AgentClient() {
   return (
-    <ProductPageLayout
+    <AgentPageLayout
       productName="JARVIS Agent"
       videoSrc={JARVIS_VIDEOS.agent}
       posterSrc={JARVIS_POSTERS.agent}

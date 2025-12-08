@@ -50,7 +50,7 @@
 
 .title {
   font-family: var(--font-heading-en);
-  font-size: clamp(3.25rem, 6.3vw, 5.5rem);
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
   font-weight: var(--weight-bold);
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -59,7 +59,7 @@
 
 .subtitle {
   font-family: var(--font-body-en);
-  font-size: clamp(1.32rem, 2.55vw, 1.85rem);
+  font-size: clamp(1.08rem, 2vw, 1.5rem);
   font-weight: var(--weight-light);
   line-height: 1.72;
   color: var(--text-inverse-base);
@@ -71,7 +71,7 @@
   padding-block: clamp(1.15rem, 2.75vw, 1.45rem);
   border-radius: var(--radius-full);
   font-family: var(--font-body);
-  font-size: 1.08rem;
+  font-size: 1rem;
   font-weight: var(--weight-bold);
   letter-spacing: 0.22em;
   text-transform: uppercase;
