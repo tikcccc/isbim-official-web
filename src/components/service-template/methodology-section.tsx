@@ -20,7 +20,7 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
 }) => {
   return (
     <section className="min-h-screen bg-[var(--surface-base)] relative z-20 flex items-center shadow-[0_-20px_50px_rgba(0,0,0,0.3)]">
-      <div className="service-shell w-full py-16 md:py-24">
+      <div className="service-shell py-16 md:py-24">
         <h2 className={`${sectionTitleClass} mb-10 md:mb-14`}>
           {narrative.label}
         </h2>

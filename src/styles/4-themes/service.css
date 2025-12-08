@@ -27,15 +27,15 @@
 
 @layer components {
   .service-shell {
-    width: 100%;
-    max-width: var(--container-max);
+    width: 90%;
+    max-width: 1600px;
     margin-inline: auto;
-    padding-inline: var(--service-container-inline);
+    padding-inline: 0;
   }
 
   @media (min-width: 48em) {
     .service-shell {
-      padding-inline: var(--service-container-inline-lg);
+      width: 88%;
     }
   }
 

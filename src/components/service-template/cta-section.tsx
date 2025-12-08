@@ -19,10 +19,10 @@ interface CtaSectionProps {
 export const CtaSection: React.FC<CtaSectionProps> = ({ activeTab, colors }) => {
   return (
     <footer className="min-h-[55vh] bg-[var(--surface-dark)] border-t border-[rgba(255,255,255,0.1)] relative z-20 flex items-center">
-      <div className="service-shell w-full py-16 md:py-24">
-        <div className="max-w-4xl mx-auto space-y-6 text-center flex flex-col items-center">
+      <div className="service-shell py-16 md:py-24">
+        <div className="max-w-4xl space-y-6">
           <h2 className={`text-4xl md:text-6xl font-bold tracking-tighter ${colors.textInvStrong}`}>Ready to Transform?</h2>
-          <p className={`text-lg md:text-xl ${colors.textInvBase} leading-relaxed max-w-3xl`}>
+          <p className={`text-lg md:text-xl ${colors.textInvBase} leading-relaxed`}>
             Book a tailored {activeTab} session and see how JARVIS closes risk gaps with live transparency and execution playbooks.
           </p>
           <Link href={ROUTES.CONTACT} className={`inline-flex items-center text-lg md:text-xl transition-colors group ${colors.textInvBase} hover:${colors.textInvMuted}`}>

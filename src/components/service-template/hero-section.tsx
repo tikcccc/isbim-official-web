@@ -11,7 +11,7 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
   return (
     <header className="relative min-h-screen w-full flex flex-col justify-end pointer-events-none">
-      <div className="service-shell relative z-10 pb-20 md:pb-32 text-white pointer-events-auto">
+      <div className="w-full px-6 md:px-12 lg:px-16 relative z-10 pb-20 md:pb-32 text-white pointer-events-auto">
         <div className="grid grid-cols-12 gap-6 items-end">
           
           {/* Main Title Area */}

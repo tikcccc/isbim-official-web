@@ -21,7 +21,7 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
 }) => {
   return (
     <section className="min-h-screen bg-[var(--surface-subtle)] relative z-20 flex items-center">
-      <div className="service-shell w-full py-16 md:py-24">
+      <div className="service-shell py-16 md:py-24">
         <h3 className={`${sectionTitleClass} mb-10 md:mb-14`}>THE ENGINE</h3>
         
         <div className="flex flex-col">
