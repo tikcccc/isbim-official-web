@@ -24,6 +24,7 @@ import { ROUTES } from "@/lib/constants";
 
 export function Topbar() {
   const { isOpen, openMenu, closeMenu } = useMenuStore();
+  const radius10 = { borderRadius: "10px" };
 
   return (
     <>
@@ -34,9 +35,10 @@ export function Topbar() {
         className={`fixed z-50 flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3 sm:py-4 transition-all duration-300
           ${
             isOpen
-              ? "top-0 left-0 right-0 bg-[#050505] border-b border-white/10 rounded-none"
-              : "top-4 sm:top-5 lg:top-6 left-4 sm:left-5 lg:left-6 right-4 sm:right-5 lg:right-6 bg-zinc-900/30 backdrop-blur-lg border border-white/10 rounded-lg sm:rounded-xl"
+              ? "top-0 left-0 right-0 bg-[#050505] border-b border-white/10"
+              : "top-4 sm:top-5 lg:top-6 left-4 sm:left-5 lg:left-6 right-4 sm:right-5 lg:right-6 bg-zinc-900/30 backdrop-blur-lg border border-white/10"
           }`}
+        style={radius10}
       >
         {/* Logo */}
         <Link
@@ -65,12 +67,13 @@ export function Topbar() {
             <Link
               href={ROUTES.CONTACT}
               prefetch
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors
+              className={`h-10 px-4 inline-flex items-center justify-center text-sm font-medium transition-colors
                 ${
                   isOpen
                     ? "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                     : "bg-white text-black hover:bg-zinc-200"
                 }`}
+              style={radius10}
               onClick={isOpen ? closeMenu : undefined}
             >
               {messages.topbar_get_started()}
@@ -86,6 +89,7 @@ export function Topbar() {
             whileTap={{ scale: 0.95 }}
             className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center border border-white/20 rounded-lg
                      hover:bg-white/10 transition-colors text-white"
+            style={radius10}
             aria-label="Search"
           >
             <Search className="w-4 h-4 md:w-5 md:h-5" />
@@ -99,9 +103,10 @@ export function Topbar() {
             className={`flex items-center justify-center transition-colors text-white group
               ${
                 isOpen
-                  ? "px-4 py-2 gap-3 border border-white/20 rounded-lg hover:bg-white/10"
-                  : "w-9 h-9 md:w-10 md:h-10 border border-white/20 rounded-lg hover:bg-white/10"
+                  ? "px-4 py-2 gap-3 border border-white/20 hover:bg-white/10"
+                  : "w-9 h-9 md:w-10 md:h-10 border border-white/20 hover:bg-white/10"
               }`}
+            style={radius10}
             aria-label={isOpen ? "Close Menu" : "Open Menu"}
           >
             {isOpen ? (

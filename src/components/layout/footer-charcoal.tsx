@@ -61,7 +61,7 @@ export function FooterCharcoal() {
   ];
 
   return (
-    <footer className="footer-charcoal w-full bg-[#1e2124] text-white border-t border-white/10 layout-footer-text">
+    <footer className="footer-charcoal w-full bg-[#1e2124] text-white layout-footer-text">
       <div className="container mx-auto px-6 py-14 lg:py-20">
         {/* Grid layout */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">

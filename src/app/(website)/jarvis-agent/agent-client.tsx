@@ -7,7 +7,6 @@ export default function AgentClient() {
   return (
     <ProductPageLayout
       productName="JARVIS Agent"
-      productSubtitle="Operate every workflow with a governed AI assistant."
       videoSrc={JARVIS_VIDEOS.agent}
       posterSrc={JARVIS_POSTERS.agent}
       metadata={['Grounded responses', 'Tooled workflows', 'Governed rollout']}
@@ -60,9 +59,9 @@ export default function AgentClient() {
           ],
         },
       ]}
-      ctaTitle="Ready to deploy your agent?"
-      ctaSubtitle="We help you ship governed, reliable assistants across planning, delivery, and operations."
-      ctaButtonText="Talk to us"
+      ctaTitle="Call to Action"
+      ctaSubtitle="Meet your new AI staff. Request a live Agent session today."
+      ctaButtonText="Learn More"
       ctaButtonHref="/contact"
     />
   );

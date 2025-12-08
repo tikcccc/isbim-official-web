@@ -1,11 +1,11 @@
 /**
  * Services & Products Page Layout
  *
- * Special layout for dark-themed pages that need FooterDark instead of default Footer.
- * Hides the default white Footer and renders FooterDark instead.
+ * Special layout for dark-themed pages that need FooterCharcoal instead of default Footer.
+ * Hides the default white Footer and renders FooterCharcoal instead.
  */
 
-import { FooterDark } from "@/components/layout/footer-dark";
+import { FooterCharcoal } from "@/components/layout/footer-charcoal";
 import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
 
 export default function ServicesProductsLayout({
@@ -17,7 +17,7 @@ export default function ServicesProductsLayout({
     <>
       <HideDefaultFooter />
       {children}
-      <FooterDark />
+      <FooterCharcoal />
     </>
   );
 }

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Link } from '@/lib/i18n';
+import { ROUTES } from '@/lib/constants';
 import styles from './sense-section.module.css';
 
 interface SenseItem {
@@ -8,6 +10,7 @@ interface SenseItem {
   title: string;
   description: string;
   displayTitle: string;
+  href: string;
 }
 
 const ITEMS: SenseItem[] = [
@@ -16,7 +19,8 @@ const ITEMS: SenseItem[] = [
     title: 'JARVIS Eagle Eye',
     displayTitle: 'LIVE_FEED // EAGLE_EYE',
     description:
-      'Real-time digital twin with IoT and 360° capture for remote monitoring and anomaly detection.',
+      'Real-time digital twin with IoT and 360 capture for remote monitoring and anomaly detection.',
+    href: ROUTES.JARVIS.EAGLE_EYE,
   },
   {
     id: 1,
@@ -24,6 +28,7 @@ const ITEMS: SenseItem[] = [
     displayTitle: 'LIVE_FEED // SSSS',
     description:
       'Smart Site Safety System utilizing AI wearables to instantly alert and prevent hazards.',
+    href: ROUTES.JARVIS.SSSS,
   },
   {
     id: 2,
@@ -31,6 +36,7 @@ const ITEMS: SenseItem[] = [
     displayTitle: 'LIVE_FEED // DWSS',
     description:
       'Digital Works Supervision System ensuring compliance with blockchain-backed audit trails.',
+    href: ROUTES.JARVIS.DWSS,
   },
   {
     id: 3,
@@ -38,6 +44,7 @@ const ITEMS: SenseItem[] = [
     displayTitle: 'LIVE_FEED // CDCP',
     description:
       'Common Data Environment hub for interoperable BIM collaboration and version control.',
+    href: ROUTES.JARVIS.CDCP,
   },
   {
     id: 4,
@@ -45,6 +52,7 @@ const ITEMS: SenseItem[] = [
     displayTitle: 'LIVE_FEED // ASSETS',
     description:
       'AI-driven predictive maintenance and ESG tracking for full lifecycle facility optimization.',
+    href: ROUTES.JARVIS.ASSETS,
   },
 ];
 
@@ -102,8 +110,10 @@ export function SenseSection() {
           {/* Product List Column */}
           <div className={styles.productColumn}>
             {ITEMS.map((item, idx) => (
-              <div
+              <Link
                 key={item.id}
+                href={item.href}
+                prefetch
                 className={`${styles.productItem} ${activeIndex === idx ? styles.productItemActive : ''}`}
                 onMouseEnter={() => setActiveIndex(idx)}
               >
@@ -124,7 +134,7 @@ export function SenseSection() {
                   </svg>
                 </div>
                 <div className={styles.productItemDesc}>{item.description}</div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

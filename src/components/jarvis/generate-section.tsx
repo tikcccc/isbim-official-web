@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Link } from '@/lib/i18n';
+import { ROUTES } from '@/lib/constants';
 import styles from './generate-section.module.css';
 
 interface GenerateItem {
@@ -8,6 +10,7 @@ interface GenerateItem {
   title: string;
   description: string;
   accentColor: 'purple' | 'cyan';
+  href: string;
 }
 
 const ITEMS: GenerateItem[] = [
@@ -17,6 +20,7 @@ const ITEMS: GenerateItem[] = [
     description:
       'Automates repetitive tasks such as invoice scanning with 99.8% accuracy. Features tender parsing and auto-scoring.',
     accentColor: 'purple',
+    href: ROUTES.JARVIS.AGENT,
   },
   {
     id: 1,
@@ -24,6 +28,7 @@ const ITEMS: GenerateItem[] = [
     description:
       'Digitizes Bills of Quantities and links payment milestones to 360° digital twins, enabling 60-day certification.',
     accentColor: 'cyan',
+    href: ROUTES.JARVIS.PAY,
   },
   {
     id: 2,
@@ -31,6 +36,7 @@ const ITEMS: GenerateItem[] = [
     description:
       'Generates 3D models directly from 2D drawings, streamlining workflows for architects and engineers.',
     accentColor: 'purple',
+    href: ROUTES.JARVIS.AIR,
   },
 ];
 
@@ -56,11 +62,13 @@ export function GenerateSection() {
           {/* Product List Column */}
           <div className={styles.productColumn}>
             {ITEMS.map((item, idx) => (
-              <div
+              <Link
                 key={item.id}
                 className={`${styles.productItem} ${activeIndex === idx ? styles.productItemActive : ''} ${
                   item.accentColor === 'purple' ? styles.productItemPurple : styles.productItemCyan
                 }`}
+                href={item.href}
+                prefetch
                 onMouseEnter={() => setActiveIndex(idx)}
               >
                 <div className={styles.productItemHeader}>
@@ -80,7 +88,7 @@ export function GenerateSection() {
                   </svg>
                 </div>
                 <div className={styles.productItemDesc}>{item.description}</div>
-              </div>
+              </Link>
             ))}
           </div>
 

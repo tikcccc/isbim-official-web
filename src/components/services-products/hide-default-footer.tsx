@@ -3,34 +3,33 @@
 /**
  * Hide Default Footer Component
  *
- * Client component that hides the default white footer for dark-themed pages.
- * This allows pages like Services & Products to use FooterDark instead.
+ * Client component that hides the already-rendered global footer for dark-themed pages.
+ * This allows pages like Services & Products to render their own footer.
  */
 
 import { useEffect } from "react";
 
 export function HideDefaultFooter() {
   useEffect(() => {
-    // Find and hide the default footer (marked with .footer-default)
-    const defaultFooter = document.querySelector<HTMLElement>("footer.footer-default");
-    if (defaultFooter) {
-      defaultFooter.style.display = "none";
-    }
+    // If multiple footers exist (e.g., page-specific + global), hide the extra ones (keep the first)
+    const footers = Array.from(
+      document.querySelectorAll<HTMLElement>("footer.footer-default, footer.footer-charcoal")
+    );
+    const toHide = footers.length > 1 ? footers.slice(1) : [];
+
+    toHide.forEach((footer) => {
+      footer.dataset.prevDisplay = footer.style.display;
+      footer.style.display = "none";
+    });
 
     // Cleanup: restore footer when component unmounts
     return () => {
-      const defaultFooter = document.querySelector<HTMLElement>("footer.footer-default");
-      if (defaultFooter) {
-        defaultFooter.style.display = "";
-      }
+      toHide.forEach((footer) => {
+        footer.style.display = footer.dataset.prevDisplay ?? "";
+        delete footer.dataset.prevDisplay;
+      });
     };
   }, []);
 
-  return (
-    <style jsx global>{`
-      footer.footer-default {
-        display: none !important;
-      }
-    `}</style>
-  );
+  return null;
 }
