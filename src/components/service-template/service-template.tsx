@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useReducedMotion } from 'framer-motion';
+import { m } from '@/components/motion/lazy-motion';
 import { FooterCharcoal } from '@/components/layout/footer-charcoal';
 import { SERVICE_CONTENT, ServiceTab } from '@/data/services';
 import { HeroSection } from './hero-section';
@@ -9,6 +11,7 @@ import { EngineSection } from './engine-section';
 import { DataSection } from './data-section';
 import { GallerySection } from './gallery-section';
 import { CtaSection } from './cta-section';
+import { DESIGN_TOKENS } from '@/lib/design-tokens';
 
 // Token-aligned color class shortcuts
 const COLORS = {
@@ -37,6 +40,7 @@ interface ServiceTemplateProps {
 export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   const [activeTab] = useState<ServiceTab>(initialService);
   const content = SERVICE_CONTENT[activeTab];
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -46,11 +50,25 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
     <div className={`service-page min-h-screen font-sans selection:bg-[var(--surface-hero)] selection:text-[var(--text-inverse-strong)] transition-colors duration-700`}>
       {/* Parallax background */}
       <div className="fixed inset-0 w-full h-screen z-0">
-        <img 
+        <m.img 
           key={content.hero.img}
           src={content.hero.img} 
           alt={`${content.hero.title} hero`} 
-          className="w-full h-full object-cover animate-fade-in"
+          className="w-full h-full object-cover"
+          initial={
+            prefersReducedMotion ? undefined : { opacity: 0, scale: 1.06, y: 12 }
+          }
+          animate={
+            prefersReducedMotion ? undefined : { opacity: 1, scale: 1, y: 0 }
+          }
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  duration: DESIGN_TOKENS.animation.duration.page,
+                  ease: DESIGN_TOKENS.animation.easing.smooth,
+                }
+          }
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40"></div>
       </div>

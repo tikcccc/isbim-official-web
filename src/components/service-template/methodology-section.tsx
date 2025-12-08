@@ -1,6 +1,9 @@
 'use client';
 
 import React from 'react';
+import { useReducedMotion } from 'framer-motion';
+import { ScrollReveal } from '@/components/animations/scroll-reveal';
+import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
 
 interface MethodologySectionProps {
@@ -18,21 +21,43 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
   sectionTitleClass,
   colors,
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  const title = (
+    <h2 className={`${sectionTitleClass} mb-10 md:mb-14`}>
+      {narrative.label}
+    </h2>
+  );
+
+  const leadBlock = (
+    <p className={`text-[clamp(3rem,4.75vw,4.6rem)] font-bold leading-tight tracking-tight ${colors.textStrong} space-y-3`}>
+      {narrative.lead} <br/>
+      <span className={`${colors.textMuted} font-medium block text-[clamp(2.6rem,4.2vw,3.6rem)]`}>
+        {narrative.sub}
+      </span>
+    </p>
+  );
+
   return (
     <section className="min-h-screen bg-[var(--surface-base)] relative z-20 flex items-center shadow-[0_-20px_50px_rgba(0,0,0,0.3)]">
       <div className="service-shell py-16 md:py-24">
-        <h2 className={`${sectionTitleClass} mb-10 md:mb-14`}>
-          {narrative.label}
-        </h2>
+        {shouldReduceMotion ? (
+          title
+        ) : (
+          <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
+            {title}
+          </ScrollReveal>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-center">
           <div className="md:col-span-6">
-            <p className={`text-[clamp(3rem,4.75vw,4.6rem)] font-bold leading-tight tracking-tight ${colors.textStrong} space-y-3`}>
-              {narrative.lead} <br/>
-              <span className={`${colors.textMuted} font-medium block text-[clamp(2.6rem,4.2vw,3.6rem)]`}>
-                {narrative.sub}
-              </span>
-            </p>
+            {shouldReduceMotion ? (
+              leadBlock
+            ) : (
+              <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow} delay={0.08}>
+                {leadBlock}
+              </ScrollReveal>
+            )}
           </div>
           
           <div className="md:col-span-1 hidden md:block h-full">

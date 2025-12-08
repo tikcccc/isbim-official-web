@@ -196,7 +196,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "JPM",
       subTitle: "Project Management",
       desc: "Building the backbone of emerging economies.",
-      tag: "Hong Kong Precision – China Scale",
+      tag: "Hong Kong Precision × China Scale",
       img: "/images/view1.png",
     },
     narrative: {
@@ -236,7 +236,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "BIM",
       subTitle: "Consultancy",
       desc: "Mandated digital transformation.",
-      tag: "Model › Coordinate › Comply",
+      tag: "Model — Coordinate — Comply",
       img: "/images/view2.png",
     },
     narrative: {
@@ -299,7 +299,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
         { val: "1.2B", label: "Sq.Ft Built Assets" },
         { val: "8,000+", label: "Supplier Network" },
         { val: "20 Yrs", label: "Domain Expertise" },
-        { val: "Global", label: "Asia • Africa • Middle East" },
+        { val: "Global", label: "Asia — Africa — Middle East" },
       ],
     },
     gallery: {

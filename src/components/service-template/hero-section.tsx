@@ -2,6 +2,10 @@
 
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useReducedMotion } from 'framer-motion';
+import { ScrollReveal } from '@/components/animations/scroll-reveal';
+import { TypewriterText } from '@/components/animations';
+import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
 
 interface HeroSectionProps {
@@ -9,6 +13,19 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
+  const shouldReduceMotion = useReducedMotion();
+  const tagLine = shouldReduceMotion ? (
+    <span className="text-white/50 text-base mt-3 block font-mono uppercase tracking-[0.2em]">
+      {hero.tag}
+    </span>
+  ) : (
+    <TypewriterText
+      text={hero.tag}
+      className="text-white/50 text-base mt-3 block font-mono uppercase tracking-[0.2em]"
+      cursorVisible={false}
+    />
+  );
+
   return (
     <header className="relative min-h-screen w-full flex flex-col justify-end pointer-events-none">
       <div className="w-full px-6 md:px-12 lg:px-16 relative z-10 pb-20 md:pb-32 text-white pointer-events-auto">
@@ -16,23 +33,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
           
           {/* Main Title Area */}
           <div className="col-span-12 lg:col-span-8">
-            {/* Decorative Line */}
-            <div className="w-24 h-1 bg-white mb-8"></div>
+            <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
+              <div className="w-24 h-1 bg-white mb-8"></div>
+            </ScrollReveal>
             
-            <h1 className="text-[15vw] md:text-[10rem] font-black leading-[0.8] tracking-tighter mb-4 mix-blend-overlay opacity-90">
-              {hero.title}
-            </h1>
-            <h2 className="text-4xl md:text-7xl font-light tracking-tight text-white/90 leading-none">
-              {hero.subTitle}
-            </h2>
+            <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
+              <h1 className="text-[15vw] md:text-[10rem] font-black leading-[0.8] tracking-tighter mb-4 mix-blend-overlay opacity-90">
+                {hero.title}
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow} delay={0.12}>
+              <h2 className="text-4xl md:text-7xl font-light tracking-tight text-white/90 leading-none">
+                {hero.subTitle}
+              </h2>
+            </ScrollReveal>
           </div>
 
           {/* Description & Meta Area */}
           <div className="col-span-12 lg:col-span-4 flex flex-col justify-end">
-            <p className="text-xl md:text-2xl font-light leading-relaxed mb-8 text-white/80 border-l-2 border-white/30 pl-6">
-              {hero.desc} <br/>
-              <span className="text-white/50 text-base mt-2 block font-mono uppercase tracking-wider">{hero.tag}</span>
-            </p>
+            <ScrollReveal animation="fade" duration={DESIGN_TOKENS.animation.duration.normal} delay={0.1}>
+              <p className="text-xl md:text-2xl font-light leading-relaxed mb-8 text-white/80 border-l-2 border-white/30 pl-6">
+                {hero.desc}
+                {tagLine}
+              </p>
+            </ScrollReveal>
             
             <div className="animate-bounce">
               <ChevronDown className="w-6 h-6 text-white/50" />
