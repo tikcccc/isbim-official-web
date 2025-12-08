@@ -139,10 +139,7 @@ const FeatureRow = ({
   linkLabel: string;
   href: string;
 }) => (
-  <div className="group relative about-feature-padding border-t about-border first:border-t-0 about-radius-md about-shadow-soft isolate">
-    {/* Background layer - separated from content to avoid repaint */}
-    <div className="absolute inset-0 about-surface-base opacity-0 group-hover:opacity-100 transition-opacity -z-10 about-radius-md pointer-events-none" />
-    
+  <div className="about-feature-padding about-feature-row">
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <div className="lg:col-span-5">
         <RevealTitle
@@ -203,7 +200,7 @@ const StickyNav = () => {
   }, [activeSection]);
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-50 flex flex-col gap-4 about-label-lg about-text-primary pointer-events-auto mix-blend-darken">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[100] flex flex-col gap-4 about-label-lg about-text-primary pointer-events-auto about-nav-index">
       {[1, 2, 3].map((num) => (
         <div
           key={num}

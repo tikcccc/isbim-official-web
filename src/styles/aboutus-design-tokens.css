@@ -170,6 +170,12 @@
     padding-block: var(--about-feature-padding);
     padding-inline: var(--about-container-padding);
   }
+  .about-feature-row {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
   .about-gap {
     gap: var(--about-gap);
   }
@@ -208,5 +214,12 @@
   .about-transition-base {
     transition-duration: var(--about-motion-base);
     transition-timing-function: var(--about-motion-ease);
+  }
+
+  /* Navigation index - ensure always visible */
+  .about-nav-index {
+    color: var(--about-text-primary) !important;
+    background: transparent;
+    mix-blend-mode: normal;
   }
 }
