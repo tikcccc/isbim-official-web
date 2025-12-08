@@ -66,15 +66,19 @@ export function KnowledgeDeepDive() {
         </div>
 
         <div className={styles.visual}>
+          <div className={styles.halo} aria-hidden />
           <div className={`${styles.orbit} ${styles.orbitViolet}`}>
-            <span className={styles.planet} />
+            <span className={`${styles.orbitDot} ${styles.orbitDotViolet}`} />
           </div>
           <div className={`${styles.orbit} ${styles.orbitCyan}`}>
-            <span className={styles.planet} />
+            <span className={`${styles.orbitDot} ${styles.orbitDotCyan}`} />
           </div>
           <div className={`${styles.orbit} ${styles.orbitMint}`}>
-            <span className={styles.planet} />
+            <span className={`${styles.orbitDot} ${styles.orbitDotMint}`} />
           </div>
+          <span className={`${styles.spark} ${styles.sparkOne}`} aria-hidden />
+          <span className={`${styles.spark} ${styles.sparkTwo}`} aria-hidden />
+          <span className={`${styles.spark} ${styles.sparkThree}`} aria-hidden />
           <div className={styles.brain}>
             <Brain className={styles.brainIcon} />
           </div>

@@ -141,7 +141,7 @@
 
 .cardMeta {
   font-family: var(--font-body-en);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-inverse-muted, rgba(255, 255, 255, 0.6));
@@ -149,7 +149,7 @@
 
 .cardTitle {
   font-family: var(--font-heading-en);
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   font-weight: var(--weight-semibold, 600);
   color: var(--text-inverse-strong, #ffffff);
   letter-spacing: -0.01em;
@@ -157,20 +157,29 @@
 
 .cardDesc {
   font-family: var(--font-body-en);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-inverse-base, rgba(255, 255, 255, 0.78));
   line-height: 1.6;
 }
 
 .visual {
   position: relative;
-  width: clamp(320px, 36vw, 460px);
-  height: clamp(320px, 36vw, 460px);
+  width: clamp(420px, 48vw, 640px);
+  height: clamp(420px, 48vw, 640px);
   margin: 0 auto;
   display: none;
   filter: drop-shadow(0 0 35px rgba(0, 0, 0, 0.45));
   align-self: center;
   justify-self: center;
+}
+
+.halo {
+  position: absolute;
+  inset: -12%;
+  background: radial-gradient(circle at center, rgba(124, 124, 247, 0.12), rgba(45, 212, 191, 0.04), transparent 65%);
+  filter: blur(18px);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .orbit {
@@ -226,8 +235,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -235,12 +244,74 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 0 40px rgba(124, 124, 247, 0.2);
+  box-shadow: 0 0 50px rgba(124, 124, 247, 0.25);
 }
 
 .brainIcon {
-  width: 44px;
-  height: 44px;
+  width: 60px;
+  height: 60px;
+}
+
+.orbitDot {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.1));
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 36px currentColor;
+}
+
+.orbitDotViolet {
+  color: rgba(124, 124, 247, 0.75);
+  background: radial-gradient(circle, rgba(124, 124, 247, 0.95), rgba(124, 124, 247, 0.2));
+}
+
+.orbitDotCyan {
+  color: rgba(45, 212, 191, 0.75);
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.95), rgba(45, 212, 191, 0.2));
+}
+
+.orbitDotMint {
+  color: rgba(52, 211, 153, 0.75);
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.95), rgba(52, 211, 153, 0.2));
+}
+
+.spark {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent 65%);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  opacity: 0.7;
+  animation: spark-pulse 3s ease-in-out infinite;
+}
+
+.sparkOne {
+  top: 24%;
+  right: 20%;
+  animation-delay: 0.5s;
+}
+
+.sparkTwo {
+  bottom: 18%;
+  left: 18%;
+  animation-delay: 1.2s;
+}
+
+.sparkThree {
+  top: 12%;
+  right: 10%;
+  animation-delay: 2s;
+}
+
+@keyframes spark-pulse {
+  0% { transform: scale(0.9); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0.9; }
+  100% { transform: scale(0.9); opacity: 0.4; }
 }
 
 @keyframes spin {
