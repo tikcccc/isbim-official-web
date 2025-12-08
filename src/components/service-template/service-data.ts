@@ -26,7 +26,7 @@ export interface ServiceContent {
   gallery: {
     title: string;
     meta: string;
-    items: { id: string; loc: string; title: string; desc: string; metric: string }[];
+    items: { id: string; loc: string; title: string; desc: string; metric: string; img: string }[];
   };
 }
 
@@ -37,7 +37,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       subTitle: "Project Management",
       desc: "Building the backbone of emerging economies.",
       tag: "Hong Kong Precision – China Scale",
-      img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+      img: "/images/view1.png",
     },
     narrative: {
       label: "The Methodology",
@@ -66,8 +66,8 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "Africa 2025",
       meta: "HKD 13,000,000,000+ Signed",
       items: [
-        { id: "01", loc: "CAMEROON", title: "National Engineering Initiative", desc: "28,000-unit City of Great Achievement + South Province Government HQ. Presidential approval secured.", metric: "HKD 760M" },
-        { id: "02", loc: "NIGERIA", title: "Abuja Smart City", desc: "143-hectare luxury complex. MoU with Ministry of Housing. Speaker + 13 Governors engaged.", metric: "HKD 500M" },
+        { id: "01", loc: "CAMEROON", title: "National Engineering Initiative", desc: "28,000-unit City of Great Achievement + South Province Government HQ. Presidential approval secured.", metric: "HKD 760M", img: "/images/view2.png" },
+        { id: "02", loc: "NIGERIA", title: "Abuja Smart City", desc: "143-hectare luxury complex. MoU with Ministry of Housing. Speaker + 13 Governors engaged.", metric: "HKD 500M", img: "/images/view3.png" },
       ],
     },
   },
@@ -77,7 +77,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       subTitle: "Consultancy",
       desc: "Mandated digital transformation.",
       tag: "Model › Coordinate › Comply",
-      img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2070&auto=format&fit=crop",
+      img: "/images/view2.png",
     },
     narrative: {
       label: "The Mandate",
@@ -106,8 +106,8 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "Proven Assets",
       meta: "1.2 Billion Sq.Ft Delivered",
       items: [
-        { id: "01", loc: "HONG KONG", title: "M+ Museum", desc: "Delivering complex geometry coordination and asset management standards for a world-class cultural landmark.", metric: "ISO 19650" },
-        { id: "02", loc: "INFRASTRUCTURE", title: "HKIA Expansion", desc: "Full lifecycle BIM implementation from investigation to 4D construction simulation for aviation hubs.", metric: "CIC GOLD" },
+        { id: "01", loc: "HONG KONG", title: "M+ Museum", desc: "Delivering complex geometry coordination and asset management standards for a world-class cultural landmark.", metric: "ISO 19650", img: "/images/view3.png" },
+        { id: "02", loc: "INFRASTRUCTURE", title: "HKIA Expansion", desc: "Full lifecycle BIM implementation from investigation to 4D construction simulation for aviation hubs.", metric: "CIC GOLD", img: "/images/view4.png" },
       ],
     },
   },
@@ -117,7 +117,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       subTitle: "Construction Tech",
       desc: "Globalising construction tech.",
       tag: "Physics + Intelligence",
-      img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
+      img: "/images/view3.png",
     },
     narrative: {
       label: "The Playbook",
@@ -146,9 +146,9 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "The Portfolio",
       meta: "Re-engineering Construction",
       items: [
-        { id: "01", loc: "VERTICAL AI", title: "Autonomous Agents", desc: "Backing teams that automate complex construction workflows through generative design and scheduling.", metric: "SEED TO SERIES A" },
-        { id: "02", loc: "HARDWARE", title: "Modular Robotics", desc: "Industrializing on-site assembly with precision robotics and computer vision systems.", metric: "GLOBAL PILOTS" },
-        { id: "03", loc: "SMART CITIES", title: "Urban Operating Systems", desc: "Deploying city-scale digital twins and IoT networks to manage energy grid and traffic flows in emerging megacities.", metric: "SERIES B" },
+        { id: "01", loc: "VERTICAL AI", title: "Autonomous Agents", desc: "Backing teams that automate complex construction workflows through generative design and scheduling.", metric: "SEED TO SERIES A", img: "/images/view1.png" },
+        { id: "02", loc: "HARDWARE", title: "Modular Robotics", desc: "Industrializing on-site assembly with precision robotics and computer vision systems.", metric: "GLOBAL PILOTS", img: "/images/view2.png" },
+        { id: "03", loc: "SMART CITIES", title: "Urban Operating Systems", desc: "Deploying city-scale digital twins and IoT networks to manage energy grid and traffic flows in emerging megacities.", metric: "SERIES B", img: "/images/view4.png" },
       ],
     },
   },
@@ -158,7 +158,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       subTitle: "Infrastructure Capital",
       desc: "Infrastructure Finance.",
       tag: "Live Data = Financial Close",
-      img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2071&auto=format&fit=crop",
+      img: "/images/view4.png",
     },
     narrative: {
       label: "The Gap",
@@ -187,8 +187,8 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "Asset Classes",
       meta: "Making Infrastructure Bankable",
       items: [
-        { id: "01", loc: "GREEN ENERGY", title: "Renewable Power", desc: "Structuring finance for solar and wind transmission grids in emerging markets.", metric: "ESG COMPLIANT" },
-        { id: "02", loc: "DIGITAL INFRA", title: "Data Centres", desc: "Providing cost certainty for hyperscale data center construction across Southeast Asia.", metric: "TIER III+" },
+        { id: "01", loc: "GREEN ENERGY", title: "Renewable Power", desc: "Structuring finance for solar and wind transmission grids in emerging markets.", metric: "ESG COMPLIANT", img: "/images/view2.png" },
+        { id: "02", loc: "DIGITAL INFRA", title: "Data Centres", desc: "Providing cost certainty for hyperscale data center construction across Southeast Asia.", metric: "TIER III+", img: "/images/view3.png" },
       ],
     },
   },

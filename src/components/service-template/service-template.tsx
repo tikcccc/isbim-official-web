@@ -204,7 +204,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
                         {/* Alternating Layout */}
                         <div className={`md:col-span-7 overflow-hidden ${idx % 2 === 1 ? 'md:order-2' : ''}`}>
                             <div className="h-[400px] md:h-[600px] relative overflow-hidden bg-[var(--surface-dark)]">
-                                <img src={`https://source.unsplash.com/random/1200x800/?construction,${idx}`} alt={item.loc} className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0" />
+                                <img src={item.img} alt={item.loc} className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0" />
                             </div>
                         </div>
                         <div className={`md:col-span-5 flex flex-col h-full justify-center py-4 ${idx % 2 === 1 ? 'md:order-1 md:text-right' : ''}`}>
