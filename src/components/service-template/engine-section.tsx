@@ -25,7 +25,8 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
   sectionTitleClass,
   colors,
 }) => {
-  const shouldReduceMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const shouldReduceMotion = !!prefersReducedMotion;
   const { ref, inView } = useInView<HTMLDivElement>({
     threshold: 0.2,
     triggerOnce: true,

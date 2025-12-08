@@ -21,7 +21,8 @@ interface DataSectionProps {
 const SECTION_TITLE = `text-[var(--text-sub)] text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12`;
 
 export const DataSection: React.FC<DataSectionProps> = ({ stats, colors }) => {
-  const shouldReduceMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const shouldReduceMotion = !!prefersReducedMotion;
   const { ref, inView } = useInView<HTMLDivElement>({
     threshold: 0.2,
     triggerOnce: true,

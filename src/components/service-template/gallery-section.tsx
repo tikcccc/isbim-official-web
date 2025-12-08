@@ -20,7 +20,7 @@ interface GallerySectionProps {
 }
 
 export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, colors }) => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = !!useReducedMotion();
 
   return (
     <section className="service-section-xl bg-[var(--surface-dark)] relative z-20">
