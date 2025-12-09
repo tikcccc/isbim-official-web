@@ -55,6 +55,13 @@ src/app/
     revalidate/route.ts         # Sanity webhook -> on-demand ISR (HMAC secret)
 ```
 
+### Services Template (JPM / BIM / Finance / Ventures)
+- Pattern: Server wrapper `page.tsx` (SEO via `generateServicePageSEO`) + client `ServiceTemplate` (content/data).
+- Data source: `src/data/services.ts` (hero/narrative/engine/stats/gallery/meta); no inline duplicates.
+- Theme: `src/styles/4-themes/service.css` (service-shell width 90%/88%, max-width 1700px, padding 0); hero is full-bleed, sections use service-shell.
+- Components: `service-template/*` (hero/methodology/engine/data/gallery/cta) consume design tokens; avoid hardcoded hex/spacing.
+- Pages: `/jarvis-jpm`, `/bim-consultancy`, `/project-finance`, `/venture-investments` all share this template and use `FooterCharcoal` via layout with `HideDefaultFooter`.
+
 ### Layout / UI
 ```
 src/components/layout/

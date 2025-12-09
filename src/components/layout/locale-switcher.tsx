@@ -64,7 +64,7 @@ export function LocaleSwitcher() {
           ${
             currentLocale === "en"
               ? "text-white font-bold"
-              : "text-white/50 hover:bg-white/10"
+              : "text-white/50 hover:text-white"
           }
         `}
         aria-label="Switch to English"
@@ -85,7 +85,7 @@ export function LocaleSwitcher() {
           ${
             currentLocale === "zh"
               ? "text-white font-bold"
-              : "text-white/50 hover:bg-white/10"
+              : "text-white/50 hover:text-white"
           }
         `}
         aria-label="切換至中文"

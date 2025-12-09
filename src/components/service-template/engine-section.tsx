@@ -11,6 +11,7 @@ import { ServiceContent } from '@/data/services';
 
 interface EngineSectionProps {
   items: ServiceContent['engine'];
+  heading: string;
   sectionTitleClass: string;
   colors: {
     textStrong: string;
@@ -22,6 +23,7 @@ interface EngineSectionProps {
 
 export const EngineSection: React.FC<EngineSectionProps> = ({
   items,
+  heading,
   sectionTitleClass,
   colors,
 }) => {
@@ -66,10 +68,10 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
     <section className="min-h-screen bg-[var(--surface-subtle)] relative z-20 flex items-center">
       <div className="service-shell py-16 md:py-24">
         {shouldReduceMotion ? (
-          <h3 className={`${sectionTitleClass} mb-10 md:mb-14`}>THE ENGINE</h3>
+          <h3 className={`${sectionTitleClass} mb-10 md:mb-14`}>{heading}</h3>
         ) : (
           <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
-            <h3 className={`${sectionTitleClass} mb-10 md:mb-14`}>THE ENGINE</h3>
+            <h3 className={`${sectionTitleClass} mb-10 md:mb-14`}>{heading}</h3>
           </ScrollReveal>
         )}
         

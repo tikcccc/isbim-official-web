@@ -87,7 +87,7 @@ export function Topbar() {
           <m.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center border border-white/20 rounded-lg
+            className="w-10 h-10 flex items-center justify-center border border-white/20 rounded-lg
                      hover:bg-white/10 transition-colors text-white"
             style={radius10}
             aria-label="Search"
@@ -103,8 +103,8 @@ export function Topbar() {
             className={`flex items-center justify-center transition-colors text-white group
               ${
                 isOpen
-                  ? "px-4 py-2 gap-3 border border-white/20 hover:bg-white/10"
-                  : "w-9 h-9 md:w-10 md:h-10 border border-white/20 hover:bg-white/10"
+                  ? "h-10 px-4 gap-3 border border-white/20 hover:bg-white/10"
+                  : "w-10 h-10 border border-white/20 hover:bg-white/10"
               }`}
             style={radius10}
             aria-label={isOpen ? "Close Menu" : "Open Menu"}

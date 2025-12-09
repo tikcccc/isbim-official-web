@@ -11,6 +11,7 @@ import { ServiceContent } from '@/data/services';
 
 interface GallerySectionProps {
   gallery: ServiceContent['gallery'];
+  heading: string;
   colors: {
     textInvStrong: string;
     textInvBase: string;
@@ -19,7 +20,7 @@ interface GallerySectionProps {
   };
 }
 
-export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, colors }) => {
+export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading, colors }) => {
   const shouldReduceMotion = !!useReducedMotion();
 
   return (
@@ -28,7 +29,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, colors 
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-[rgba(255,255,255,0.2)] pb-8">
           <div>
             <span className={`block text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12 ${colors.textInvSub}`}>
-              THE GALLERY
+              {heading}
             </span>
             <h2 className={`text-4xl md:text-6xl font-bold tracking-tight ${colors.textInvStrong}`}>{gallery.title}</h2>
           </div>

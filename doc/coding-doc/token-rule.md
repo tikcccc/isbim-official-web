@@ -1021,6 +1021,12 @@ Before committing token changes:
 - [ ] Tested visual consistency
 - [ ] Updated this document if new patterns emerge
 
+## Service Template Addendum (JPM/BIM/Finance/Ventures)
+- Theme file `src/styles/4-themes/service.css` follows the standard import order; `service-shell` currently uses 90%/88% width (max 1700px, padding 0) and a full-bleed hero background. Keep these values token-driven; no inline hex/px.
+- Components in `src/components/service-template/` (hero/methodology/engine/data/gallery/cta) must consume design tokens only; data stays in `src/data/services.ts` (no inline duplicates).
+- Layout conventions: sections use unified 7/5 columns; stats grid is 2×2 with `border-[var(--border-subtle)]`; large numbers stick to tokenized typography (e.g., 6xl/7xl via semantic tokens).
+- Links/CTA must use i18n Link/LocalizedLink; `HideDefaultFooter` + `FooterCharcoal` remain in layout wrappers.
+
 ---
 
 **Last Review**: 2025-12-06

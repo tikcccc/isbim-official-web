@@ -56,6 +56,13 @@
 - Data from `src/data/services.ts` (5 entries) only; no inline duplicates.
 - Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead.
 
+## Service Template (JPM/BIM/Finance/Ventures)
+- 架构：Server `page.tsx` 只做 SEO（`generateServicePageSEO`）；Client `ServiceTemplate` 负责渲染与交互，数据集中在 `src/data/services.ts`。
+- 样式：`4-themes/service.css`（`service-shell` 宽 90%/88%，`max-width: 1700px`，padding 0），hero 全屏铺底，其他段落用 service-shell；禁止随意改 token 顺序，遵循 token-plan/token-rule。
+- 组件：`service-template/` 下的 hero/methodology/engine/data/gallery/cta，颜色/间距/动效均用设计 token，不得硬编码 hex/px。
+- 布局：方法论/数据/引擎/图库统一 7/5 分栏；Performance Delta 右侧 2×2 指标栅格，数值保持大字号（6xl/7xl），标签 12px/14px，分隔线用 `border-[var(--border-subtle)]`。
+- CTA：左对齐，`HideDefaultFooter` + `FooterCharcoal` 由布局处理；链接遵循 i18n 规范使用 `Link/LocalizedLink`。
+
 ## Product Template (JARVIS Product Pages)
 - **Architecture**: Server Wrapper + Client Content pattern
   - `page.tsx` (Server Component): SEO metadata generation + JSON-LD Schema ONLY

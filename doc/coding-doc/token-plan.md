@@ -692,6 +692,15 @@ Example:
 **Removed**:
 - `src/styles/font-design-tokens.css` (redundant after merge).
 
+### [2.1.2] - 2025-12-08
+
+**Added**:
+- Service template adopts shared theme `4-themes/service.css` with full-bleed hero and unified section shell (90%/88% width, max-width 1700px, padding 0).
+- Service layout components (hero/methodology/engine/data/gallery/cta) consume design tokens only; data centralized in `src/data/services.ts`.
+
+**Updated**:
+- Performance/Data sections standardized to 7/5 columns; right-side stats grid uses 2×2 layout with 6xl/7xl values and 12px/14px labels referencing semantic tokens.
+
 ### [2.1.0] - 2025-12-06 (Phase 2 Complete)
 
 **Added**:

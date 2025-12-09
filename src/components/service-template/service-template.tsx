@@ -1,10 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useReducedMotion } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
 import { FooterCharcoal } from '@/components/layout/footer-charcoal';
-import { SERVICE_CONTENT, ServiceTab } from '@/data/services';
+import {
+  getLocalizedServiceContent,
+  getLocalizedServiceMeta,
+  ServiceTab,
+} from '@/data/services';
 import { HeroSection } from './hero-section';
 import { MethodologySection } from './methodology-section';
 import { EngineSection } from './engine-section';
@@ -12,6 +17,7 @@ import { DataSection } from './data-section';
 import { GallerySection } from './gallery-section';
 import { CtaSection } from './cta-section';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
+import * as messages from '@/paraglide/messages';
 
 // Token-aligned color class shortcuts
 const COLORS = {
@@ -39,8 +45,14 @@ interface ServiceTemplateProps {
 
 export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   const [activeTab] = useState<ServiceTab>(initialService);
-  const content = SERVICE_CONTENT[activeTab];
+  const content = getLocalizedServiceContent(activeTab);
+  const meta = getLocalizedServiceMeta(activeTab);
   const prefersReducedMotion = useReducedMotion();
+  const engineHeading = messages.service_engine_heading();
+  const galleryHeading = messages.service_gallery_heading();
+  const ctaTitle = messages.service_cta_title();
+  const ctaBody = `${messages.service_cta_body_prefix()}${meta.title}${messages.service_cta_body_suffix()}`;
+  const ctaLinkText = `${messages.service_cta_link_prefix()}${meta.title}${messages.service_cta_link_suffix()}`;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,17 +62,11 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
     <div className={`service-page min-h-screen font-sans selection:bg-[var(--surface-hero)] selection:text-[var(--text-inverse-strong)] transition-colors duration-700`}>
       {/* Parallax background */}
       <div className="fixed inset-0 w-full h-screen z-0">
-        <m.img 
+        <m.div
           key={content.hero.img}
-          src={content.hero.img} 
-          alt={`${content.hero.title} hero`} 
-          className="w-full h-full object-cover"
-          initial={
-            prefersReducedMotion ? undefined : { opacity: 0, scale: 1.06, y: 12 }
-          }
-          animate={
-            prefersReducedMotion ? undefined : { opacity: 1, scale: 1, y: 0 }
-          }
+          className="absolute inset-0"
+          initial={prefersReducedMotion ? undefined : { opacity: 0, scale: 1.06, y: 12 }}
+          animate={prefersReducedMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
           transition={
             prefersReducedMotion
               ? undefined
@@ -69,7 +75,15 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
                   ease: DESIGN_TOKENS.animation.easing.smooth,
                 }
           }
-        />
+        >
+          <Image
+            src={content.hero.img}
+            alt={`${content.hero.title} hero`}
+            fill
+            priority
+            className="object-cover"
+          />
+        </m.div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40"></div>
       </div>
 
@@ -87,6 +101,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         />
         <EngineSection
           items={content.engine}
+          heading={engineHeading}
           sectionTitleClass={SECTION_TITLE_STYLE}
           colors={{
             textStrong: COLORS.textStrong,
@@ -97,6 +112,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         />
         <DataSection
           stats={content.stats}
+          introText={content.stats.intro}
           colors={{
             textStrong: COLORS.textStrong,
             textBase: COLORS.textBase,
@@ -106,6 +122,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         />
         <GallerySection
           gallery={content.gallery}
+          heading={galleryHeading}
           colors={{
             textInvStrong: COLORS.textInvStrong,
             textInvBase: COLORS.textInvBase,
@@ -115,6 +132,9 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         />
         <CtaSection
           activeTab={activeTab}
+          title={ctaTitle}
+          bodyText={ctaBody}
+          linkText={ctaLinkText}
           colors={{
             textInvStrong: COLORS.textInvStrong,
             textInvBase: COLORS.textInvBase,

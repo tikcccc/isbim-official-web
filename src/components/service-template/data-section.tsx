@@ -10,6 +10,7 @@ import { ServiceContent } from '@/data/services';
 
 interface DataSectionProps {
   stats: ServiceContent['stats'];
+  introText: string;
   colors: {
     textStrong: string;
     textBase: string;
@@ -20,7 +21,7 @@ interface DataSectionProps {
 
 const SECTION_TITLE = `text-[var(--text-sub)] text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12`;
 
-export const DataSection: React.FC<DataSectionProps> = ({ stats, colors }) => {
+export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, colors }) => {
   const prefersReducedMotion = useReducedMotion();
   const shouldReduceMotion = !!prefersReducedMotion;
   const { ref, inView } = useInView<HTMLDivElement>({
@@ -62,7 +63,7 @@ export const DataSection: React.FC<DataSectionProps> = ({ stats, colors }) => {
             <h3 className={SECTION_TITLE}>{stats.label}</h3>
 
             <p className={`text-2xl leading-relaxed ${colors.textBase} font-light mt-4`}>
-              Traditional construction is plagued by <span className={`${colors.textSoft}`}>uncertainty</span>. JARVIS delivers mathematical certainty.
+              {introText}
             </p>
             
             <div className="mt-12 p-10 bg-[var(--surface-subtle)] text-[var(--text-strong)]">

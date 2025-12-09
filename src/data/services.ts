@@ -22,9 +22,18 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ROUTES } from "@/lib/constants";
-import type * as messages from "@/paraglide/messages";
+import * as messages from "@/paraglide/messages";
 
 type MessageKey = keyof typeof messages;
+
+const translateMessage = (
+  key: MessageKey | undefined,
+  fallback: string
+): string => {
+  if (!key) return fallback;
+  const messageFn = messages[key];
+  return typeof messageFn === "function" ? (messageFn as () => string)() : fallback;
+};
 
 export interface ServiceData {
   id: string;
@@ -76,7 +85,7 @@ export const servicesData: ServiceData[] = [
     headerDescription: "End-to-end acceleration for Belt and Road megaprojects.",
     tagline: "Nation-Scale Orchestration",
     description:
-      "Delivers 30–45% faster timelines and 71% fewer defects by fusing Hong Kong precision with China's MiC scale.",
+      "Delivers 30-45% faster timelines and 71% fewer defects by fusing Hong Kong precision with China's MiC scale.",
     ctaText: "Explore JPM",
     image:
       "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1000&auto=format&fit=crop",
@@ -179,6 +188,7 @@ export interface ServiceContent {
   };
   engine: { id: string; title: string; desc: string }[];
   stats: {
+    intro: string;
     label: string;
     main: { val: string; label: string };
     grid: { val: string; label: string }[];
@@ -190,13 +200,49 @@ export interface ServiceContent {
   };
 }
 
+interface ServiceContentI18nKeys {
+  statsIntro: MessageKey;
+  hero: {
+    title: MessageKey;
+    subTitle: MessageKey;
+    desc: MessageKey;
+    tag: MessageKey;
+  };
+  narrative: {
+    label: MessageKey;
+    lead: MessageKey;
+    sub: MessageKey;
+    p1: MessageKey;
+    p2: MessageKey;
+  };
+  engine: { title: MessageKey; desc: MessageKey }[];
+  stats: {
+    label: MessageKey;
+    main: { label: MessageKey };
+    grid: { label: MessageKey }[];
+  };
+  gallery: {
+    title: MessageKey;
+    meta: MessageKey;
+    items: { title: MessageKey; desc: MessageKey; metric?: MessageKey }[];
+  };
+}
+
+type ServiceMetaEntry = {
+  seoKey: ServiceSeoKey;
+  title: string;
+  description: string;
+  titleKey?: MessageKey;
+  descriptionKey?: MessageKey;
+};
+
 export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
   JPM: {
     hero: {
       title: "JPM",
       subTitle: "Project Management",
       desc: "Building the backbone of emerging economies.",
-      tag: "Hong Kong Precision × China Scale",
+      tag: "Hong Kong Precision x China Scale",
       img: "/images/view1.png",
     },
     narrative: {
@@ -213,6 +259,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "Global Delivery", desc: "End-to-end management. 35-45% less waste and 25-35% lower emissions." },
     ],
     stats: {
+      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
       label: "Performance Delta",
       main: { val: "20-30%", label: "PROJECT COST SAVINGS" },
       grid: [
@@ -236,15 +283,15 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "BIM",
       subTitle: "Consultancy",
       desc: "Mandated digital transformation.",
-      tag: "Model — Coordinate — Comply",
+      tag: "Model | Coordinate | Comply",
       img: "/images/view2.png",
     },
     narrative: {
       label: "The Mandate",
       lead: "Drawings are dead.",
       sub: "Compliance is mandatory.",
-      p1: "Hong Kong's BIM journey started in 2017. Today, TC(W) No. 1/2025 makes BIM models contractually binding. isBIM has been there every step — delivering certified, compliant BIM for 2,600+ projects.",
-      p2: "A single 3D digital twin replaces hundreds of conflicting 2D drawings. Everyone — architect, engineer, contractor — works on the same live model. No more arguments.",
+      p1: "Hong Kong's BIM journey started in 2017. Today, TC(W) No. 1/2025 makes BIM models contractually binding. isBIM has been there every step - delivering certified, compliant BIM for 2,600+ projects.",
+      p2: "A single 3D digital twin replaces hundreds of conflicting 2D drawings. Everyone - architect, engineer, contractor - works on the same live model. No more arguments.",
     },
     engine: [
       { id: "01", title: "Full BIM Modelling", desc: "LOD 300-500, Revit/IFC standards, and clash-free coordination for zero ambiguity." },
@@ -253,6 +300,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "Tendering Support", desc: "BIM-embedded BOQs, 5D cost models, and full ContractBIM compliance support." },
     ],
     stats: {
+      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
       label: "Impact Analysis",
       main: { val: "75%", label: "REWORK REDUCTION" },
       grid: [
@@ -293,13 +341,14 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "Global Scale", desc: "Fastest route to AI-ready data centers in SE Asia and housing in Africa." },
     ],
     stats: {
+      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
       label: "Ecosystem Scale",
       main: { val: "2,600+", label: "LIVE PROJECTS ACCESS" },
       grid: [
         { val: "1.2B", label: "Sq.Ft Built Assets" },
         { val: "8,000+", label: "Supplier Network" },
         { val: "20 Yrs", label: "Domain Expertise" },
-        { val: "Global", label: "Asia — Africa — Middle East" },
+        { val: "Global", label: "Asia | Africa | Middle East" },
       ],
     },
     gallery: {
@@ -334,6 +383,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "30-Day Forecasting", desc: "Audited cost curves and risk prediction giving lenders certainty." },
     ],
     stats: {
+      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
       label: "Risk Mitigation",
       main: { val: "T+1", label: "REAL-TIME REPORTING" },
       grid: [
@@ -354,28 +404,292 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
   },
 };
 
-export const SERVICE_META: Record<
-  ServiceTab,
-  { seoKey: ServiceSeoKey; title: string; description: string }
-> = {
+const SERVICE_CONTENT_I18N_KEYS: Record<ServiceTab, ServiceContentI18nKeys> = {
+  JPM: {
+    statsIntro: "service_stats_intro",
+    hero: {
+      title: "service_jpm_hero_title",
+      subTitle: "service_jpm_hero_subtitle",
+      desc: "service_jpm_hero_desc",
+      tag: "service_jpm_hero_tag",
+    },
+    narrative: {
+      label: "service_jpm_narrative_label",
+      lead: "service_jpm_narrative_lead",
+      sub: "service_jpm_narrative_sub",
+      p1: "service_jpm_narrative_p1",
+      p2: "service_jpm_narrative_p2",
+    },
+    engine: [
+      { title: "service_jpm_engine_1_title", desc: "service_jpm_engine_1_desc" },
+      { title: "service_jpm_engine_2_title", desc: "service_jpm_engine_2_desc" },
+      { title: "service_jpm_engine_3_title", desc: "service_jpm_engine_3_desc" },
+      { title: "service_jpm_engine_4_title", desc: "service_jpm_engine_4_desc" },
+    ],
+    stats: {
+      label: "service_jpm_stats_label",
+      main: { label: "service_jpm_stats_main_label" },
+      grid: [
+        { label: "service_jpm_stats_grid_1_label" },
+        { label: "service_jpm_stats_grid_2_label" },
+        { label: "service_jpm_stats_grid_3_label" },
+        { label: "service_jpm_stats_grid_4_label" },
+      ],
+    },
+    gallery: {
+      title: "service_jpm_gallery_title",
+      meta: "service_jpm_gallery_meta",
+      items: [
+        {
+          title: "service_jpm_gallery_item_1_title",
+          desc: "service_jpm_gallery_item_1_desc",
+          metric: "service_jpm_gallery_item_1_metric",
+        },
+        {
+          title: "service_jpm_gallery_item_2_title",
+          desc: "service_jpm_gallery_item_2_desc",
+          metric: "service_jpm_gallery_item_2_metric",
+        },
+      ],
+    },
+  },
+  BIM: {
+    statsIntro: "service_stats_intro",
+    hero: {
+      title: "service_bim_hero_title",
+      subTitle: "service_bim_hero_subtitle",
+      desc: "service_bim_hero_desc",
+      tag: "service_bim_hero_tag",
+    },
+    narrative: {
+      label: "service_bim_narrative_label",
+      lead: "service_bim_narrative_lead",
+      sub: "service_bim_narrative_sub",
+      p1: "service_bim_narrative_p1",
+      p2: "service_bim_narrative_p2",
+    },
+    engine: [
+      { title: "service_bim_engine_1_title", desc: "service_bim_engine_1_desc" },
+      { title: "service_bim_engine_2_title", desc: "service_bim_engine_2_desc" },
+      { title: "service_bim_engine_3_title", desc: "service_bim_engine_3_desc" },
+      { title: "service_bim_engine_4_title", desc: "service_bim_engine_4_desc" },
+    ],
+    stats: {
+      label: "service_bim_stats_label",
+      main: { label: "service_bim_stats_main_label" },
+      grid: [
+        { label: "service_bim_stats_grid_1_label" },
+        { label: "service_bim_stats_grid_2_label" },
+        { label: "service_bim_stats_grid_3_label" },
+        { label: "service_bim_stats_grid_4_label" },
+      ],
+    },
+    gallery: {
+      title: "service_bim_gallery_title",
+      meta: "service_bim_gallery_meta",
+      items: [
+        {
+          title: "service_bim_gallery_item_1_title",
+          desc: "service_bim_gallery_item_1_desc",
+          metric: "service_bim_gallery_item_1_metric",
+        },
+        {
+          title: "service_bim_gallery_item_2_title",
+          desc: "service_bim_gallery_item_2_desc",
+          metric: "service_bim_gallery_item_2_metric",
+        },
+      ],
+    },
+  },
+  VENTURES: {
+    statsIntro: "service_stats_intro",
+    hero: {
+      title: "service_venture_hero_title",
+      subTitle: "service_venture_hero_subtitle",
+      desc: "service_venture_hero_desc",
+      tag: "service_venture_hero_tag",
+    },
+    narrative: {
+      label: "service_venture_narrative_label",
+      lead: "service_venture_narrative_lead",
+      sub: "service_venture_narrative_sub",
+      p1: "service_venture_narrative_p1",
+      p2: "service_venture_narrative_p2",
+    },
+    engine: [
+      { title: "service_venture_engine_1_title", desc: "service_venture_engine_1_desc" },
+      { title: "service_venture_engine_2_title", desc: "service_venture_engine_2_desc" },
+      { title: "service_venture_engine_3_title", desc: "service_venture_engine_3_desc" },
+      { title: "service_venture_engine_4_title", desc: "service_venture_engine_4_desc" },
+    ],
+    stats: {
+      label: "service_venture_stats_label",
+      main: { label: "service_venture_stats_main_label" },
+      grid: [
+        { label: "service_venture_stats_grid_1_label" },
+        { label: "service_venture_stats_grid_2_label" },
+        { label: "service_venture_stats_grid_3_label" },
+        { label: "service_venture_stats_grid_4_label" },
+      ],
+    },
+    gallery: {
+      title: "service_venture_gallery_title",
+      meta: "service_venture_gallery_meta",
+      items: [
+        {
+          title: "service_venture_gallery_item_1_title",
+          desc: "service_venture_gallery_item_1_desc",
+          metric: "service_venture_gallery_item_1_metric",
+        },
+        {
+          title: "service_venture_gallery_item_2_title",
+          desc: "service_venture_gallery_item_2_desc",
+          metric: "service_venture_gallery_item_2_metric",
+        },
+        {
+          title: "service_venture_gallery_item_3_title",
+          desc: "service_venture_gallery_item_3_desc",
+          metric: "service_venture_gallery_item_3_metric",
+        },
+      ],
+    },
+  },
+  FINANCE: {
+    statsIntro: "service_stats_intro",
+    hero: {
+      title: "service_finance_hero_title",
+      subTitle: "service_finance_hero_subtitle",
+      desc: "service_finance_hero_desc",
+      tag: "service_finance_hero_tag",
+    },
+    narrative: {
+      label: "service_finance_narrative_label",
+      lead: "service_finance_narrative_lead",
+      sub: "service_finance_narrative_sub",
+      p1: "service_finance_narrative_p1",
+      p2: "service_finance_narrative_p2",
+    },
+    engine: [
+      { title: "service_finance_engine_1_title", desc: "service_finance_engine_1_desc" },
+      { title: "service_finance_engine_2_title", desc: "service_finance_engine_2_desc" },
+      { title: "service_finance_engine_3_title", desc: "service_finance_engine_3_desc" },
+      { title: "service_finance_engine_4_title", desc: "service_finance_engine_4_desc" },
+    ],
+    stats: {
+      label: "service_finance_stats_label",
+      main: { label: "service_finance_stats_main_label" },
+      grid: [
+        { label: "service_finance_stats_grid_1_label" },
+        { label: "service_finance_stats_grid_2_label" },
+        { label: "service_finance_stats_grid_3_label" },
+        { label: "service_finance_stats_grid_4_label" },
+      ],
+    },
+    gallery: {
+      title: "service_finance_gallery_title",
+      meta: "service_finance_gallery_meta",
+      items: [
+        {
+          title: "service_finance_gallery_item_1_title",
+          desc: "service_finance_gallery_item_1_desc",
+          metric: "service_finance_gallery_item_1_metric",
+        },
+        {
+          title: "service_finance_gallery_item_2_title",
+          desc: "service_finance_gallery_item_2_desc",
+          metric: "service_finance_gallery_item_2_metric",
+        },
+      ],
+    },
+  },
+};
+
+export const SERVICE_META: Record<ServiceTab, ServiceMetaEntry> = {
   JPM: {
     seoKey: "jpm",
     title: "JPM Project Management",
     description: "Bankable project delivery that fuses Hong Kong rigor with China scale for Belt & Road infrastructure.",
+    titleKey: "service_jpm_meta_title",
+    descriptionKey: "service_jpm_meta_description",
   },
   BIM: {
     seoKey: "bim",
     title: "BIM Consultancy",
     description: "Certified BIM delivery for 2,600+ projects with ISO 19650 compliance and mandate-ready workflows.",
+    titleKey: "service_bim_meta_title",
+    descriptionKey: "service_bim_meta_description",
   },
   VENTURES: {
     seoKey: "venture",
     title: "Venture Investments",
     description: "Conviction-led construction tech investments with instant distribution and live JARVIS data advantages.",
+    titleKey: "service_venture_meta_title",
+    descriptionKey: "service_venture_meta_description",
   },
   FINANCE: {
     seoKey: "finance",
     title: "Project Finance",
     description: "Infrastructure finance with live digital twin transparency, de-risking capital for emerging markets.",
+    titleKey: "service_finance_meta_title",
+    descriptionKey: "service_finance_meta_description",
   },
 };
+
+export function getLocalizedServiceContent(tab: ServiceTab): ServiceContent {
+  const base = SERVICE_CONTENT[tab];
+  const keys = SERVICE_CONTENT_I18N_KEYS[tab];
+
+  return {
+    hero: {
+      title: translateMessage(keys.hero.title, base.hero.title),
+      subTitle: translateMessage(keys.hero.subTitle, base.hero.subTitle),
+      desc: translateMessage(keys.hero.desc, base.hero.desc),
+      tag: translateMessage(keys.hero.tag, base.hero.tag),
+      img: base.hero.img,
+    },
+    narrative: {
+      label: translateMessage(keys.narrative.label, base.narrative.label),
+      lead: translateMessage(keys.narrative.lead, base.narrative.lead),
+      sub: translateMessage(keys.narrative.sub, base.narrative.sub),
+      p1: translateMessage(keys.narrative.p1, base.narrative.p1),
+      p2: translateMessage(keys.narrative.p2, base.narrative.p2),
+    },
+    engine: base.engine.map((item, idx) => ({
+      ...item,
+      title: translateMessage(keys.engine[idx]?.title, item.title),
+      desc: translateMessage(keys.engine[idx]?.desc, item.desc),
+    })),
+    stats: {
+      intro: translateMessage(keys.statsIntro, base.stats.intro),
+      label: translateMessage(keys.stats.label, base.stats.label),
+      main: {
+        val: base.stats.main.val,
+        label: translateMessage(keys.stats.main.label, base.stats.main.label),
+      },
+      grid: base.stats.grid.map((item, idx) => ({
+        val: item.val,
+        label: translateMessage(keys.stats.grid[idx]?.label, item.label),
+      })),
+    },
+    gallery: {
+      title: translateMessage(keys.gallery.title, base.gallery.title),
+      meta: translateMessage(keys.gallery.meta, base.gallery.meta),
+      items: base.gallery.items.map((item, idx) => ({
+        ...item,
+        title: translateMessage(keys.gallery.items[idx]?.title, item.title),
+        desc: translateMessage(keys.gallery.items[idx]?.desc, item.desc),
+        metric: translateMessage(keys.gallery.items[idx]?.metric, item.metric),
+      })),
+    },
+  };
+}
+
+export function getLocalizedServiceMeta(tab: ServiceTab): ServiceMetaEntry {
+  const meta = SERVICE_META[tab];
+
+  return {
+    ...meta,
+    title: translateMessage(meta.titleKey, meta.title),
+    description: translateMessage(meta.descriptionKey, meta.description),
+  };
+}
