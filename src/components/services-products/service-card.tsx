@@ -18,13 +18,9 @@ import type { ServiceData } from "@/data/services";
 import { LocalizedLink } from "@/components/ui/localized-link";
 import * as messages from "@/paraglide/messages";
 
-const translate = (
-  key: keyof typeof messages | undefined,
-  fallback: string
-): string => {
-  if (!key) return fallback;
+const translate = (key: keyof typeof messages): string => {
   const messageFn = messages[key];
-  return typeof messageFn === "function" ? (messageFn as () => string)() : fallback;
+  return typeof messageFn === "function" ? (messageFn as () => string)() : key;
 };
 
 interface ServiceCardProps {
@@ -35,14 +31,11 @@ interface ServiceCardProps {
 export function ServiceCard({ item, index }: ServiceCardProps) {
   const Icon = item.icon;
   const displayIndex = (index + 1).toString().padStart(2, "0");
-  const typeLabel = translate(item.typeKey, item.type);
-  const title = translate(item.titleKey, item.title);
-  const headerDescription = translate(
-    item.headerDescriptionKey,
-    item.headerDescription
-  );
-  const description = translate(item.descriptionKey, item.description);
-  const ctaText = translate(item.ctaTextKey, item.ctaText);
+  const typeLabel = translate(item.typeKey);
+  const title = translate(item.titleKey);
+  const headerDescription = translate(item.headerDescriptionKey);
+  const description = translate(item.descriptionKey);
+  const ctaText = translate(item.ctaTextKey);
 
   return (
     <SpotlightCard className={`${item.gridArea} ${item.height}`}>
