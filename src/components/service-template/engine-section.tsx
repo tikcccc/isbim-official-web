@@ -27,6 +27,20 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
   sectionTitleClass,
   colors,
 }) => {
+  const renderWithBold = (text: string) => {
+    const parts = text.split(/(\*\*[^*]+\*\*)/);
+    return parts.map((part, idx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={idx} className={`${colors.textStrong} font-semibold`}>
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      return <React.Fragment key={idx}>{part}</React.Fragment>;
+    });
+  };
+
   const prefersReducedMotion = useReducedMotion();
   const shouldReduceMotion = !!prefersReducedMotion;
   const { ref, inView } = useInView<HTMLDivElement>({
@@ -110,7 +124,7 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
               <p
                 className={`w-full md:w-1/2 text-lg md:text-xl font-light leading-relaxed ${colors.textMuted} group-hover:${colors.textBase} transition-colors`}
               >
-                {item.desc}
+                {renderWithBold(item.desc)}
               </p>
             </m.div>
           ))}
