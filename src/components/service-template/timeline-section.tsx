@@ -52,20 +52,45 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
     },
   };
 
+  const dotVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: DESIGN_TOKENS.animation.easing.easeOut,
+      },
+    },
+  };
+
   const timelineContent = (
     <>
-      <h3 className={`${sectionTitleClass} mb-6`}>{heading}</h3>
+      <h3 className={`${sectionTitleClass} mb-12 md:mb-16`}>{heading}</h3>
 
-      <div className="relative">
-        {/* Desktop line */}
-        <div
-          className="hidden md:block absolute top-[18px] left-0 right-0 h-px bg-[var(--border-subtle)]"
-          aria-hidden
-        />
+      <div className="relative pt-6">
+        {/* Desktop animated progress line */}
+        <div className="hidden md:block absolute top-[30px] left-0 right-0 h-[2px]" aria-hidden>
+          {/* Base line (subtle) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--border-subtle)] via-[var(--border-subtle)] to-transparent opacity-40" />
+
+          {/* Animated progress line (strong) */}
+          {!shouldReduceMotion && (
+            <m.div
+              className="absolute inset-0 bg-gradient-to-r from-[#2f64ff] via-[#4f7dff] to-[#6f9aff] origin-left shadow-[0_0_8px_rgba(47,100,255,0.4)]"
+              initial={{ scaleX: 0 }}
+              animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
+              transition={{
+                duration: 2.5,
+                ease: DESIGN_TOKENS.animation.easing.easeInOut,
+              }}
+            />
+          )}
+        </div>
 
         <div
           ref={ref}
-          className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-12"
+          className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8 lg:gap-12"
         >
           {items.map((item, idx) => (
             <m.div
@@ -79,24 +104,46 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
               {/* Mobile vertical line */}
               {idx < items.length - 1 ? (
                 <div
-                  className="md:hidden absolute left-1/2 -translate-x-1/2 top-4 bottom-[-2.5rem] w-px bg-[var(--border-subtle)]"
+                  className="md:hidden absolute left-1/2 -translate-x-1/2 top-6 bottom-[-3rem] w-[2px] bg-gradient-to-b from-[var(--border-subtle)] to-transparent"
                   aria-hidden
                 />
               ) : null}
 
-              {/* Dot */}
-              <span
-                className={`absolute left-1/2 -translate-x-1/2 top-1 w-4 h-4 rounded-full bg-[#2f64ff] ring-4 ring-white shadow-[0_0_0_6px_rgba(47,100,255,0.08)] ${item.isNow ? 'scale-110 shadow-[0_0_0_10px_rgba(47,100,255,0.12)]' : ''}`}
+              {/* Dot with animation and pulse effect */}
+              <m.span
+                className={`absolute left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-0 top-2 md:top-0 w-5 h-5 rounded-full bg-gradient-to-br from-[#2f64ff] to-[#1e4ed8] ring-[3px] ring-white shadow-[0_0_0_8px_rgba(47,100,255,0.1)] ${
+                  item.isNow
+                    ? 'md:scale-125 md:shadow-[0_0_0_12px_rgba(47,100,255,0.2),0_0_16px_rgba(47,100,255,0.4)] md:ring-[4px]'
+                    : ''
+                }`}
                 aria-hidden
+                initial={shouldReduceMotion ? 'visible' : 'hidden'}
+                animate={shouldReduceMotion ? 'visible' : inView ? 'visible' : 'hidden'}
+                variants={dotVariants}
+                transition={{
+                  delay: shouldReduceMotion ? 0 : (idx / items.length) * 2.5,
+                }}
               />
 
-              <span className={`mt-3 text-sm font-semibold uppercase tracking-[0.18em] ${colors.textSub}`}>
-                {item.year}
-              </span>
-              <h4 className={`mt-2 text-2xl font-semibold leading-tight ${colors.textStrong}`}>
+              {/* Year badge */}
+              <div className="flex items-center gap-3 mb-4 md:mb-3">
+                <span className={`text-xs md:text-sm font-bold uppercase tracking-[0.2em] ${colors.textSub} ${item.isNow ? 'md:text-[#2f64ff]' : ''}`}>
+                  {item.year}
+                </span>
+                {item.isNow && (
+                  <span className="hidden md:inline-flex px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r from-[#2f64ff] to-[#4f7dff] text-white rounded-full">
+                    Current
+                  </span>
+                )}
+              </div>
+
+              {/* Title */}
+              <h4 className={`text-xl md:text-2xl font-bold leading-tight mb-3 ${colors.textStrong} ${item.isNow ? 'md:text-[#2f64ff]' : ''}`}>
                 {item.title}
               </h4>
-              <p className={`mt-2 text-base leading-relaxed ${colors.textMuted}`}>
+
+              {/* Description */}
+              <p className={`text-sm md:text-base leading-relaxed ${colors.textMuted} max-w-[280px] md:max-w-none`}>
                 {item.desc}
               </p>
             </m.div>

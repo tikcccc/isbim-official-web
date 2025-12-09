@@ -14,14 +14,15 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
   const shouldReduceMotion = useReducedMotion();
+  const descText = hero.desc.includes('\n') ? hero.desc : hero.desc.replace(' — ', '\n— ');
   const tagLine = shouldReduceMotion ? (
-    <span className="text-white/50 text-base mt-3 block font-mono uppercase tracking-[0.2em]">
+    <span className="text-white/60 text-lg md:text-xl mt-4 block font-mono uppercase tracking-[0.22em]">
       {hero.tag}
     </span>
   ) : (
     <TypewriterText
       text={hero.tag}
-      className="text-white/50 text-base mt-3 block font-mono uppercase tracking-[0.2em]"
+      className="text-white/60 text-lg md:text-xl mt-4 block font-mono uppercase tracking-[0.22em]"
       cursorVisible={false}
     />
   );
@@ -52,10 +53,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
           {/* Description & Meta Area */}
           <div className="col-span-12 lg:col-span-4 flex flex-col justify-end">
             <ScrollReveal animation="fade" duration={DESIGN_TOKENS.animation.duration.normal} delay={0.1}>
-              <p className="text-xl md:text-2xl font-light leading-relaxed mb-8 text-white/80 border-l-2 border-white/30 pl-6">
-                {hero.desc}
+              <div className="border-l-2 border-white/30 pl-6 mb-8">
+                <p className="text-xl md:text-2xl font-light leading-relaxed text-white/80 whitespace-pre-line">
+                  {descText}
+                </p>
                 {tagLine}
-              </p>
+              </div>
             </ScrollReveal>
             
             <div className="animate-bounce">

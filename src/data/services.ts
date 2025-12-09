@@ -26,100 +26,68 @@ import * as messages from "@/paraglide/messages";
 
 type MessageKey = keyof typeof messages;
 
-const translateMessage = (
-  key: MessageKey | undefined,
-  fallback: string
-): string => {
-  if (!key) return fallback;
+const translateMessage = (key?: MessageKey): string => {
+  if (!key) return "";
   const messageFn = messages[key];
-  return typeof messageFn === "function" ? (messageFn as () => string)() : fallback;
+  return typeof messageFn === "function" ? (messageFn as () => string)() : key;
 };
 
 export interface ServiceData {
   id: string;
   href: string;
-  title: string;
-  headerDescription: string;
-  tagline: string;
-  description: string;
-  ctaText: string;
   image: string;
-  type: string;
+  typeKey: MessageKey;
+  titleKey: MessageKey;
+  headerDescriptionKey: MessageKey;
+  descriptionKey: MessageKey;
+  ctaTextKey: MessageKey;
   icon: LucideIcon;
   gridArea: string;
   height: string;
-  titleKey?: MessageKey;
-  headerDescriptionKey?: MessageKey;
-  descriptionKey?: MessageKey;
-  ctaTextKey?: MessageKey;
-  typeKey?: MessageKey;
 }
 
 export const servicesData: ServiceData[] = [
   {
     id: "jarvis-suite",
     href: ROUTES.JARVIS.SUITE,
-    title: "JARVIS AI Suite",
-    headerDescription:
-      "Domain-specific generative AI agent for every construction stakeholder.",
-    tagline: "Generative AI for Builders",
-    description:
-      "Automates 99.8% of invoice scanning, parses tenders instantly, and generates 500,000+ design variants in seconds.",
-    ctaText: "Explore Suite",
     image:
       "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop",
-    type: "AI Platform",
-    icon: Brain,
-    gridArea: "md:col-span-12 lg:col-span-8",
-    height: "h-120 md:h-[32rem]",
+    typeKey: "services_card_jarvis_suite_type",
     titleKey: "services_card_jarvis_suite_title",
     headerDescriptionKey: "services_card_jarvis_suite_header",
     descriptionKey: "services_card_jarvis_suite_description",
     ctaTextKey: "services_card_jarvis_suite_cta",
-    typeKey: "services_card_jarvis_suite_type",
+    icon: Brain,
+    gridArea: "md:col-span-12 lg:col-span-8",
+    height: "h-120 md:h-[32rem]",
   },
   {
     id: "jarvis-pm",
     href: ROUTES.JARVIS.JPM,
-    title: "JARVIS Project Management",
-    headerDescription: "End-to-end acceleration for Belt and Road megaprojects.",
-    tagline: "Nation-Scale Orchestration",
-    description:
-      "Delivers 30-45% faster timelines and 71% fewer defects by fusing Hong Kong precision with China's MiC scale.",
-    ctaText: "Explore JPM",
     image:
       "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1000&auto=format&fit=crop",
-    type: "Management",
-    icon: Kanban,
-    gridArea: "md:col-span-6 lg:col-span-4",
-    height: "h-120 md:h-[32rem]",
+    typeKey: "services_card_jarvis_pm_type",
     titleKey: "services_card_jarvis_pm_title",
     headerDescriptionKey: "services_card_jarvis_pm_header",
     descriptionKey: "services_card_jarvis_pm_description",
     ctaTextKey: "services_card_jarvis_pm_cta",
-    typeKey: "services_card_jarvis_pm_type",
+    icon: Kanban,
+    gridArea: "md:col-span-6 lg:col-span-4",
+    height: "h-120 md:h-[32rem]",
   },
   {
     id: "bim-consultancy",
     href: ROUTES.BIM_CONSULTANCY,
-    title: "BIM Consultancy",
-    headerDescription:
-      "Award-winning BIM implementation: modelling, 4D/5D simulation.",
-    tagline: "Award-Winning Implementation",
-    description:
-      "Full-lifecycle modelling and ISO 19650 compliance ensuring seamless data flow across complex challenges.",
-    ctaText: "Explore BIM",
     image:
       "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop",
-    type: "Consultancy",
-    icon: Box,
-    gridArea: "md:col-span-6 lg:col-span-4",
-    height: "h-110",
+    typeKey: "services_card_bim_type",
     titleKey: "services_card_bim_title",
     headerDescriptionKey: "services_card_bim_header",
     descriptionKey: "services_card_bim_description",
     ctaTextKey: "services_card_bim_cta",
-    typeKey: "services_card_bim_type",
+    icon: Box,
+    gridArea: "md:col-span-6 lg:col-span-4",
+    height: "h-110",
   },
   {
     id: "project-finance",
@@ -261,14 +229,14 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       label: "The Methodology",
       lead: "Traditional models fail.",
       sub: "Nation-scale infrastructure orchestration.",
-      p1: "JPM fuses Hong Kong Professional Services with China's 8,000+ vetted MiC suppliers. We don't just find suppliers; we match them on technical, experience, financial, and cultural fit to ensure execution safety.",
-      p2: "This is Hong Kong's strategic bridge to Belt & Road. Our real-time digital twins predict risks 30 days ahead, condensing complex site data into 3-minute executive dashboards for instant decision-making.",
+      p1: "JPM fuses Hong Kong Professional Services, AI Intelligence, vetted MiC supply chains, and Global Delivery into a single execution platform. We don't just manage projects; we orchestrate nation-scale infrastructure with mathematical precision.",
+      p2: "This is Hong Kong's strategic bridge to Belt & Road—fusing local compliance expertise with China's industrial capacity and AI-driven risk management.",
     },
     engine: [
       { id: "01", title: "HK Professional Services", desc: "Bilingual PM teams translating global standards into China-executable specs. Dual compliance expertise." },
       { id: "02", title: "AI Intelligence", desc: "Real-time digital twin predicting risks 30 days ahead at 89% accuracy. 3-minute executive dashboards." },
       { id: "03", title: "8,000+ Suppliers", desc: "Vetted MiC supply chain with 4-step matching: technical, experience, financial, and cultural fit." },
-      { id: "04", title: "Global Delivery", desc: "End-to-end management. 35-45% less waste and 25-35% lower emissions." },
+      { id: "04", title: "Global Delivery", desc: "End-to-end from design to after-sales. 35–45% less waste and 25–35% lower emissions." },
     ],
     stats: {
       intro: "By the Numbers: Core Value Creation",
@@ -323,13 +291,13 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
     engine: [
       { id: "01", title: "Full BIM Modelling", desc: "LOD 300-500, Revit/IFC standards, and clash-free coordination for zero ambiguity." },
-      { id: "02", title: "On-site Secondment", desc: "CIC/BSI-certified BIM Managers & Coordinators deployed directly to your project team." },
+      { id: "02", title: "On-site Secondment", desc: "CIC/BSI-certified BIM Managers & Coordinators deployed directly to your project team. Multiple CIC Gold & Silver Service Awards." },
       { id: "03", title: "End-to-End Consultancy", desc: "From BEP creation and CDE setup to rigorous ISO 19650 compliance audits." },
       { id: "04", title: "Tendering Support", desc: "BIM-embedded BOQs, 5D cost models, and full ContractBIM compliance support." },
     ],
     stats: {
-      intro: "Benefits: Collaboration, Efficiency, and Risk Reduction",
-      label: "Benefits",
+      intro: "1.2 billion ft² of proven assets: Mandate-ready, faster, and cheaper.",
+      label: "Impact",
       main: { val: "75%", label: "REWORK REDUCTION" },
       grid: [
         { val: "100%", label: "Mandate Ready" },
@@ -360,17 +328,17 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       label: "The Playbook",
       lead: "VCs lack distribution.",
       sub: "We are the pipeline.",
-      p1: "We provide first institutional capital to teams re-engineering construction: vertical AI, robotics, ESG tech, and digital twins. Geography-agnostic at the earliest inflection points.",
-      p2: "From first pilot in Hong Kong to multi-country revenue in months. Backed by on-the-ground teams in Asia, Africa, and the Middle East, we eliminate market entry friction.",
+      p1: "We partner with the sharpest construction-AI founders and give them what most VCs can't: instant commercial traction. Our live project network turns prototypes into revenue in months, not years.",
+      p2: "We provide first institutional capital to exceptional teams re-engineering construction from the ground up. Our conviction is simple: the winners will be those who fuse deep domain physics with frontier intelligence.",
     },
     engine: [
-      { id: "01", title: "Battle-Tested Distribution", desc: "20 years of domain expertise and live JARVIS data become your unfair advantage." },
-      { id: "02", title: "Conviction-Led Investment", desc: "First institutional capital for vertical AI, robotics, and digital twins." },
+      { id: "01", title: "Battle-Tested Distribution", desc: "2,600 live projects, 1.2 billion ft² of built assets, 8,000+ China MiC supplier network, and government-level relationships across the globe." },
+      { id: "02", title: "Conviction-Led Investment", desc: "First institutional capital for exceptional teams re-engineering construction: vertical AI agents, robotics, modular systems, digital twins, ESG tech, and everything in between." },
       { id: "03", title: "In-Kind Incubation", desc: "Accelerating product-market fit inside our own global pipeline of 2,600+ projects." },
       { id: "04", title: "Global Scale", desc: "Fastest route to AI-ready data centers in SE Asia and housing in Africa." },
     ],
     stats: {
-      intro: "We Scale with Battle-Tested Distribution",
+      intro: "We Scale with Battle-Tested Distribution.",
       label: "Ecosystem Scale",
       main: { val: "2,600+", label: "LIVE PROJECTS ACCESS" },
       grid: [
@@ -395,29 +363,29 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     hero: {
       title: "FINANCE",
       subTitle: "Infrastructure Capital",
-      desc: "We make emerging-market infrastructure bankable — live JARVIS data + global capital = financial close.",
-      tag: "Live Data = Financial Close",
+      desc: "We make emerging-market infrastructure bankable.",
+      tag: "Live JARVIS data + global capital = financial close",
       img: "/images/view4.png",
     },
     narrative: {
       label: "The Financing Gap",
       lead: "Risk is opaque.",
       sub: "Data makes it visible.",
-      p1: "Billions in viable projects (Data Centres, Renewables, Hospitals, Smart Cities) stay stranded due to non-commercial risk. We sit at the centre of a global network of PE funds, DFIs, Export-Credit Agencies (ECAs), and Sovereign Investors.",
-      p2: "We deliver live digital twins and 30-day-ahead risk forecasts. Our in-kind investment in credit-enhancement design and bankable feasibility studies de-risks projects before a dollar is committed.",
+      p1: "Most global investors shy away from infrastructure in emerging economies. Non-commercial risk, opaque cost trajectories, and lack of verifiable progress data create a wall of uncertainty that keeps capital on the sidelines.",
+      p2: "We sit at the centre of a global capital network. Because every project we finance is already running on JARVIS and JPM, we deliver the real-time transparency lenders demand to deploy capital at scale.",
     },
     engine: [
-      { id: "01", title: "Global Capital Network", desc: "Access to leading PE funds, DFIs, export-credit agencies, and sovereign investors." },
-      { id: "02", title: "Live Digital Twins", desc: "Real-time monitoring of every cost and schedule parameter." },
+      { id: "01", title: "Global Capital Network", desc: "Leading private equity and private credit funds, development finance institutions, multilateral banks, export-credit agencies, and green/sovereign investors." },
+      { id: "02", title: "Live Digital Twins", desc: "Every project we finance is already running on JARVIS and JPM. Real-time monitoring of every cost and schedule parameter." },
       { id: "03", title: "In-Kind Investment", desc: "We fund bankable feasibility studies and financial modelling to de-risk projects early." },
-      { id: "04", title: "30-Day Forecasting", desc: "Audited cost curves and risk prediction giving lenders certainty." },
+      { id: "04", title: "30-Day Forecasting", desc: "Audited cost curves and 30-day-ahead risk forecasts at 89% accuracy, giving lenders the certainty they need to deploy capital at scale and at competitive pricing." },
     ],
     stats: {
-      intro: "Billions in viable projects (Data Centres, Renewables, Hospitals, Smart Cities) stay stranded due to non-commercial risk. We sit at the centre of a global network of PE funds, DFIs, Export-Credit Agencies (ECAs), and Sovereign Investors.",
+      intro: "Live data eliminates financing uncertainty.",
       label: "Risk Mitigation",
-      main: { val: "T+1", label: "REAL-TIME REPORTING" },
+      main: { val: "30 Days", label: "RISK FORECAST HORIZON" },
       grid: [
-        { val: "30 Days", label: "Risk Forecast Horizon" },
+        { val: "T+1", label: "Real-Time Reporting" },
         { val: "0", label: "Blind Spots" },
         { val: "100%", label: "Bankable Studies" },
         { val: "AAA", label: "Standard Compliance" },

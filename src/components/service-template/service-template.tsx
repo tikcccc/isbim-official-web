@@ -60,9 +60,16 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
             : messages.service_engine_heading();
   const galleryHeading = messages.service_gallery_heading();
   const ctaTitle = messages.service_cta_title();
-  const ctaBody = activeTab === "JPM"
-    ? messages.service_cta_body_prefix_jpm()
-    : `${messages.service_cta_body_prefix()}${meta.title}${messages.service_cta_body_suffix()}`;
+  const ctaBody =
+    activeTab === "JPM"
+      ? messages.service_cta_body_prefix_jpm()
+      : activeTab === "BIM"
+        ? messages.service_cta_body_bim?.() ?? "Join the network of 2,600+ projects redefining infrastructure."
+        : activeTab === "VENTURES"
+          ? messages.service_cta_body_venture?.() ?? "Join the network of global projects redefining infrastructure."
+          : activeTab === "FINANCE"
+            ? messages.service_cta_body_finance?.() ?? "Join the network of global projects redefining infrastructure."
+            : `${messages.service_cta_body_prefix()}${meta.title}${messages.service_cta_body_suffix()}`;
   const ctaLinkText = `${messages.service_cta_link_prefix()}${meta.title}${messages.service_cta_link_suffix()}`;
 
   useEffect(() => {
