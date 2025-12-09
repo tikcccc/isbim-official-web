@@ -10,6 +10,7 @@ import type { PortableTextComponents } from '@portabletext/react';
 import type { ReactNode } from 'react';
 import type { Image as SanityImage } from 'sanity';
 import type { PortableTextBlock } from '@portabletext/types';
+import { useEffect } from 'react';
 
 // Types for Sanity data
 interface NewsItem {
@@ -84,6 +85,15 @@ export default function NewsDetailClient({
       alert('Link copied to clipboard!');
     }
   };
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.groupCollapsed('[Newsroom][Debug] Detail payload');
+      console.log('newsDetail', newsDetail);
+      console.log('relatedNews', relatedNews);
+      console.groupEnd();
+    }
+  }, [newsDetail, relatedNews]);
 
   return (
     <m.div
@@ -187,7 +197,7 @@ export default function NewsDetailClient({
             </div>
           </div>
 
-          <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-[var(--newsroom-text-muted)]">
+          <div className="newsroom-prose max-w-none">
             <PortableText
               value={newsDetail.body || []}
               components={portableTextComponents}

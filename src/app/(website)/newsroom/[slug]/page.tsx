@@ -178,10 +178,12 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="newsroom-noise-overlay" />
 
         {/* News detail client component handles display and interactivity */}
-        <NewsDetailClient
-          newsDetail={newsDetail}
-          relatedNews={relatedNews}
-        />
+        <div className="newsroom-shell">
+          <NewsDetailClient
+            newsDetail={newsDetail}
+            relatedNews={relatedNews}
+          />
+        </div>
       </main>
     </>
   );

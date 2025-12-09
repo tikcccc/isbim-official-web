@@ -47,6 +47,7 @@
 @import "../styles/4-themes/product.css";
 @import "../styles/4-themes/jarvis.css";
 @import "../styles/4-themes/service.css";
+@import "../styles/4-themes/newsroom.css";
 
 /* ───────────────────────────────────────────────────────────────────────────
    5. ANIMATIONS - Page-specific animation definitions
@@ -66,7 +67,6 @@
 @import "../styles/aboutus-design-tokens.css";
 @import "../styles/services-design-tokens.css";
 @import "../styles/contact-design-tokens.css";
-@import "../styles/newsroom-design-tokens.css";
 @import "../styles/layout-design-tokens.css";
 @import "../styles/animation-design-tokens.css";
 

@@ -10,7 +10,7 @@ import {
 import NewsroomPageClient from "./newsroom-page-client";
 import type { Image as SanityImage } from 'sanity';
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 300; // Refresh newsroom list every 5 minutes
 
 // Types for Sanity data
 interface NewsItem {
@@ -73,14 +73,17 @@ export default async function NewsroomPage() {
       query: NEWS_LIST_QUERY,
       params: { start: 0, end: 12 },
       tags: ["sanity:news"],
+      cache: "no-store",
     }),
     sanityFetch<NewsCategory[]>({
       query: NEWS_CATEGORIES_QUERY,
       tags: ["sanity:newsCategory"],
+      cache: "no-store",
     }),
     sanityFetch<NewsItem | null>({
       query: FEATURED_NEWS_QUERY,
       tags: ["sanity:news"],
+      cache: "no-store",
     }),
   ]).catch(() => {
     // Fallback to empty data if Sanity fetch fails

@@ -100,6 +100,18 @@ export default function NewsroomPageClient({
   const [activeRoute, setActiveRoute] = useState<string | null>(null);
 
   useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.groupCollapsed('[Newsroom][Debug] Initial payload');
+      console.log('featuredNews', featuredNews);
+      console.log('categories', categories);
+      console.log('initialNews length', initialNews.length);
+      console.log('initialNews slugs', initialNews.map(n => n.slug?.current));
+      console.log('initialNews', initialNews);
+      console.groupEnd();
+    }
+  }, [initialNews, categories, featuredNews]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [activeRoute]);
 
@@ -198,6 +210,15 @@ function NewsListView({
     ? newsData
     : newsData.filter(post => post.category.title === filter);
 
+  const featuredMatchesFilter =
+    featuredNews &&
+    (filter === 'All' || featuredNews.category.title === filter);
+
+  const listWithoutFeatured =
+    featuredMatchesFilter && featuredNews
+      ? filteredData.filter((post) => post._id !== featuredNews._id)
+      : filteredData;
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -293,20 +314,17 @@ function NewsListView({
           >
             {layout === 'grid' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                {filteredData.map((post, index) => {
-                  if (index === 0 && featuredNews && post._id === featuredNews._id) {
-                    return (
-                      <m.div variants={itemVariants} key={post._id} className="col-span-1 md:col-span-2 lg:col-span-3">
-                        <FeaturedGridCard post={post} onClick={() => onNavigate(post._id)} />
-                      </m.div>
-                    );
-                  }
-                  return (
-                    <m.div variants={itemVariants} key={post._id}>
-                      <GridCard post={post} onClick={() => onNavigate(post._id)} />
-                    </m.div>
-                  );
-                })}
+                {featuredMatchesFilter && featuredNews && (
+                  <m.div variants={itemVariants} key={featuredNews._id} className="col-span-1 md:col-span-2 lg:col-span-3">
+                    <FeaturedGridCard post={featuredNews} onClick={() => onNavigate(featuredNews._id)} />
+                  </m.div>
+                )}
+
+                {listWithoutFeatured.map((post) => (
+                  <m.div variants={itemVariants} key={post._id}>
+                    <GridCard post={post} onClick={() => onNavigate(post._id)} />
+                  </m.div>
+                ))}
               </div>
             )}
 
