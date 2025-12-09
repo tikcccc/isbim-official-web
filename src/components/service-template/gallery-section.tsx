@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { useReducedMotion } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
@@ -100,10 +101,13 @@ function GalleryItem({ item, index, colors, shouldReduceMotion }: GalleryItemPro
     >
       <div className={`md:col-span-7 overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
         <div className="h-[400px] md:h-[600px] relative overflow-hidden bg-[var(--surface-dark)]">
-          <img
+          <Image
             src={item.img}
             alt={item.loc}
-            className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0"
+            fill
+            sizes="(min-width: 1024px) 60vw, 90vw"
+            className="object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0"
+            priority={index === 0}
           />
         </div>
       </div>

@@ -67,7 +67,7 @@ export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, colo
             </p>
             
             <div className="mt-12 p-10 bg-[var(--surface-subtle)] text-[var(--text-strong)]">
-              <span className={`block text-xs font-mono mb-4 ${colors.textSub} tracking-widest`}>
+              <span className={`block text-sm md:text-base font-mono font-semibold mb-4 ${colors.textSub} tracking-widest uppercase`}>
                 {startTypewriter && !shouldReduceMotion ? (
                   <TypewriterText
                     text={stats.main.label}
@@ -85,14 +85,40 @@ export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, colo
             </div>
           </m.div>
 
-          <div className="grid grid-cols-2 gap-x-12 gap-y-16 mt-8 lg:mt-0">
-            {stats.grid.map((stat, idx) => (
-              <div key={idx} className={`flex flex-col justify-end border-l pl-6 ${idx % 2 === 0 ? 'border-[var(--border-strong)]' : 'border-[var(--border-subtle)]'}`}>
-                <span className={`text-4xl md:text-5xl font-light mb-2 ${colors.textStrong}`}>{stat.val}</span>
-                <span className={`text-xs font-bold tracking-widest uppercase ${colors.textSub}`}>{stat.label}</span>
-              </div>
-            ))}
-          </div>
+          {stats.comparison?.length ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-12 mt-14 lg:mt-2 w-full max-w-6xl">
+              {stats.comparison.map((item, idx) => (
+                <div
+                  key={`${item.label}-${idx}`}
+                  className="flex flex-col gap-7 pb-10 border-b border-[var(--border-subtle)] max-w-full justify-center"
+                >
+                  <span className={`text-lg font-bold tracking-[0.2em] uppercase ${colors.textSub}`}>
+                    {item.label}
+                  </span>
+                  <div className="flex items-center gap-6">
+                    <div className="flex flex-col gap-1">
+                      <span className={`text-[11px] font-mono tracking-widest ${colors.textSub}`}>Before</span>
+                      <span className={`text-4xl md:text-5xl font-semibold whitespace-nowrap ${colors.textSoft}`}>{item.before}</span>
+                    </div>
+                    <span className={`text-xl font-semibold ${colors.textSub} flex items-center leading-none`}>→</span>
+                    <div className="flex flex-col gap-1">
+                      <span className={`text-[11px] font-mono tracking-widest ${colors.textSub}`}>After</span>
+                      <span className={`text-4xl md:text-5xl font-bold whitespace-nowrap ${colors.textStrong}`}>{item.after}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-x-12 gap-y-16 mt-8 lg:mt-0">
+              {stats.grid.map((stat, idx) => (
+                <div key={idx} className={`flex flex-col justify-end border-l pl-6 ${idx % 2 === 0 ? 'border-[var(--border-strong)]' : 'border-[var(--border-subtle)]'}`}>
+                  <span className={`text-4xl md:text-5xl font-light mb-2 ${colors.textStrong}`}>{stat.val}</span>
+                  <span className={`text-xs font-bold tracking-widest uppercase ${colors.textSub}`}>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

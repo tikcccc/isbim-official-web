@@ -5,6 +5,7 @@ import { useReducedMotion } from 'framer-motion';
 import { ScrollReveal } from '@/components/animations/scroll-reveal';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
+import { TimelineSection } from './timeline-section';
 
 interface MethodologySectionProps {
   narrative: ServiceContent['narrative'];
@@ -13,13 +14,16 @@ interface MethodologySectionProps {
     textStrong: string;
     textBase: string;
     textMuted: string;
+    textSub: string;
   };
+  timeline?: ServiceContent['timeline'];
 }
 
 export const MethodologySection: React.FC<MethodologySectionProps> = ({
   narrative,
   sectionTitleClass,
   colors,
+  timeline,
 }) => {
   const shouldReduceMotion = useReducedMotion();
 
@@ -73,6 +77,23 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
             </p>
           </div>
         </div>
+
+        {timeline ? (
+          <div className="mt-24 md:mt-28 pt-4">
+            <TimelineSection
+              inline
+              heading={timeline.heading}
+              items={timeline.items}
+              sectionTitleClass={sectionTitleClass}
+              colors={{
+                textStrong: colors.textStrong,
+                textBase: colors.textBase,
+                textSub: colors.textSub,
+                textMuted: colors.textMuted,
+              }}
+            />
+          </div>
+        ) : null}
       </div>
     </section>
   );

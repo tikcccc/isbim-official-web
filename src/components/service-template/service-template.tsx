@@ -48,10 +48,17 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   const content = getLocalizedServiceContent(activeTab);
   const meta = getLocalizedServiceMeta(activeTab);
   const prefersReducedMotion = useReducedMotion();
-  const engineHeading = messages.service_engine_heading();
+  const engineHeading =
+    activeTab === "JPM"
+      ? messages.service_jpm_engine_heading
+        ? messages.service_jpm_engine_heading()
+        : messages.service_engine_heading()
+      : messages.service_engine_heading();
   const galleryHeading = messages.service_gallery_heading();
   const ctaTitle = messages.service_cta_title();
-  const ctaBody = `${messages.service_cta_body_prefix()}${meta.title}${messages.service_cta_body_suffix()}`;
+  const ctaBody = activeTab === "JPM"
+    ? messages.service_cta_body_prefix_jpm()
+    : `${messages.service_cta_body_prefix()}${meta.title}${messages.service_cta_body_suffix()}`;
   const ctaLinkText = `${messages.service_cta_link_prefix()}${meta.title}${messages.service_cta_link_suffix()}`;
 
   useEffect(() => {
@@ -59,9 +66,9 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   }, [activeTab]);
 
   return (
-    <div className={`service-page min-h-screen font-sans selection:bg-[var(--surface-hero)] selection:text-[var(--text-inverse-strong)] transition-colors duration-700`}>
+    <div className={`service-page relative min-h-screen font-sans selection:bg-[var(--surface-hero)] selection:text-[var(--text-inverse-strong)] transition-colors duration-700 overflow-hidden`}>
       {/* Parallax background */}
-      <div className="fixed inset-0 w-full h-screen z-0">
+      <div className="absolute top-0 left-0 right-0 w-full h-[120vh] z-0 overflow-hidden pointer-events-none">
         <m.div
           key={content.hero.img}
           className="absolute inset-0"
@@ -97,7 +104,9 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
             textStrong: COLORS.textStrong,
             textBase: COLORS.textBase,
             textMuted: COLORS.textMuted,
+            textSub: COLORS.textSub,
           }}
+          timeline={activeTab === "BIM" ? content.timeline : undefined}
         />
         <EngineSection
           items={content.engine}

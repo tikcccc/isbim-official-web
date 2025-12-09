@@ -11,20 +11,36 @@ import { useEffect } from "react";
 
 export function HideDefaultFooter() {
   useEffect(() => {
-    // If multiple footers exist (e.g., page-specific + global), hide the extra ones (keep the first)
-    const footers = Array.from(
-      document.querySelectorAll<HTMLElement>("footer.footer-default, footer.footer-charcoal")
+    const charcoalFooters = Array.from(
+      document.querySelectorAll<HTMLElement>("footer.footer-charcoal")
     );
-    const toHide = footers.length > 1 ? footers.slice(1) : [];
+    const defaultFooters = Array.from(
+      document.querySelectorAll<HTMLElement>("footer.footer-default")
+    );
 
-    toHide.forEach((footer) => {
+    // Prefer keeping the charcoal footer for service pages. If it exists, hide every default footer.
+    const toHide = new Set<HTMLElement>();
+
+    if (charcoalFooters.length && defaultFooters.length) {
+      defaultFooters.forEach((footer) => toHide.add(footer));
+      // Also hide any extra charcoal footers beyond the first, if present.
+      charcoalFooters.slice(1).forEach((footer) => toHide.add(footer));
+    } else {
+      // Fallback: if only one style is present but duplicated, hide all but the first.
+      const combined = [...charcoalFooters, ...defaultFooters];
+      combined.slice(1).forEach((footer) => toHide.add(footer));
+    }
+
+    const hidden = Array.from(toHide);
+
+    hidden.forEach((footer) => {
       footer.dataset.prevDisplay = footer.style.display;
       footer.style.display = "none";
     });
 
     // Cleanup: restore footer when component unmounts
     return () => {
-      toHide.forEach((footer) => {
+      hidden.forEach((footer) => {
         footer.style.display = footer.dataset.prevDisplay ?? "";
         delete footer.dataset.prevDisplay;
       });

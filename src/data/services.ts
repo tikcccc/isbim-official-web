@@ -172,6 +172,7 @@ export type ServiceTab = "JPM" | "BIM" | "VENTURES" | "FINANCE";
 export type ServiceSeoKey = "jpm" | "bim" | "venture" | "finance";
 
 export interface ServiceContent {
+  statsIntro: string;
   hero: {
     title: string;
     subTitle: string;
@@ -186,12 +187,17 @@ export interface ServiceContent {
     p1: string;
     p2: string;
   };
+  timeline?: {
+    heading: string;
+    items: { year: string; title: string; desc: string; isNow?: boolean }[];
+  };
   engine: { id: string; title: string; desc: string }[];
   stats: {
     intro: string;
     label: string;
     main: { val: string; label: string };
     grid: { val: string; label: string }[];
+    comparison?: { before: string; after: string; label: string }[];
   };
   gallery: {
     title: string;
@@ -215,11 +221,16 @@ interface ServiceContentI18nKeys {
     p1: MessageKey;
     p2: MessageKey;
   };
+  timeline?: {
+    heading: MessageKey;
+    items: { year: MessageKey; title: MessageKey; desc: MessageKey; isNow?: boolean }[];
+  };
   engine: { title: MessageKey; desc: MessageKey }[];
   stats: {
     label: MessageKey;
     main: { label: MessageKey };
     grid: { label: MessageKey }[];
+    comparison?: { label: MessageKey }[];
   };
   gallery: {
     title: MessageKey;
@@ -238,6 +249,7 @@ type ServiceMetaEntry = {
 
 export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
   JPM: {
+    statsIntro: "service_jpm_stats_intro",
     hero: {
       title: "JPM",
       subTitle: "Project Management",
@@ -248,9 +260,9 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     narrative: {
       label: "The Methodology",
       lead: "Traditional models fail.",
-      sub: "We orchestrate differently.",
-      p1: "Emerging economies demand infrastructure that is bankable, efficient, and defect-free. JPM fuses Hong Kong's rigorous professional services with China's unmatched manufacturing scale.",
-      p2: "This isn't just construction; it's a strategic bridge to the Belt & Road initiative, powered by real-time digital twins and an ecosystem of 8,000+ vetted suppliers.",
+      sub: "Nation-scale infrastructure orchestration.",
+      p1: "JPM fuses Hong Kong Professional Services with China's 8,000+ vetted MiC suppliers. We don't just find suppliers; we match them on technical, experience, financial, and cultural fit to ensure execution safety.",
+      p2: "This is Hong Kong's strategic bridge to Belt & Road. Our real-time digital twins predict risks 30 days ahead, condensing complex site data into 3-minute executive dashboards for instant decision-making.",
     },
     engine: [
       { id: "01", title: "HK Professional Services", desc: "Bilingual PM teams translating global standards into China-executable specs. Dual compliance expertise." },
@@ -259,14 +271,20 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "Global Delivery", desc: "End-to-end management. 35-45% less waste and 25-35% lower emissions." },
     ],
     stats: {
-      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
+      intro: "By the Numbers: Core Value Creation",
       label: "Performance Delta",
-      main: { val: "20-30%", label: "PROJECT COST SAVINGS" },
+      main: { val: "70-80%", label: "TOTAL PROJECT COST (20-30% SAVINGS)" },
       grid: [
         { val: "-45%", label: "Delivery Time" },
         { val: "5%", label: "Defect Rate (vs 18%)" },
         { val: "19%", label: "Overruns (vs 68%)" },
         { val: "24m", label: "Cash Cycle (vs 36m)" },
+      ],
+      comparison: [
+        { before: "68%", after: "19%", label: "Budget Overruns" },
+        { before: "18%", after: "5%", label: "Defect Rate" },
+        { before: "36m", after: "24m", label: "Cash Cycle" },
+        { before: "100%", after: "55-70%", label: "Delivery Time" },
       ],
     },
     gallery: {
@@ -279,6 +297,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
   },
   BIM: {
+    statsIntro: "service_stats_intro",
     hero: {
       title: "BIM",
       subTitle: "Consultancy",
@@ -289,9 +308,18 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     narrative: {
       label: "The Mandate",
       lead: "Drawings are dead.",
-      sub: "Compliance is mandatory.",
-      p1: "Hong Kong's BIM journey started in 2017. Today, TC(W) No. 1/2025 makes BIM models contractually binding. isBIM has been there every step - delivering certified, compliant BIM for 2,600+ projects.",
-      p2: "A single 3D digital twin replaces hundreds of conflicting 2D drawings. Everyone - architect, engineer, contractor - works on the same live model. No more arguments.",
+      sub: "ContractBIM is binding.",
+      p1: "Hong Kong's BIM journey is precise: From TC(W) No. 7/2017 to the new TC(W) No. 1/2025 making BIM models contractually binding. We have been there every step.",
+      p2: "isBIM delivers more than models; we provide on-site secondment of CIC-certified professionals. Our automated quantity take-offs and BIM-embedded BOQs ensure 5D cost accuracy, eliminating 'which drawing is correct?' arguments.",
+    },
+    timeline: {
+      heading: "Policy Evolution",
+      items: [
+        { year: "2017", title: "TC(W) No. 7/2017", desc: "Mandatory BIM for public works > HK$30M." },
+        { year: "2020", title: "Asset Management", desc: "Scope expanded to investigation & feasibility." },
+        { year: "2025", title: "TC(W) No. 1/2025", desc: "BIM models become contractually binding." },
+        { year: "Now", title: "ISO 19650", desc: "Full compliance & CDE setup delivered.", isNow: true },
+      ],
     },
     engine: [
       { id: "01", title: "Full BIM Modelling", desc: "LOD 300-500, Revit/IFC standards, and clash-free coordination for zero ambiguity." },
@@ -320,6 +348,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
   },
   VENTURES: {
+    statsIntro: "service_stats_intro",
     hero: {
       title: "VENTURES",
       subTitle: "Construction Tech",
@@ -331,8 +360,8 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       label: "The Playbook",
       lead: "VCs lack distribution.",
       sub: "We are the pipeline.",
-      p1: "We partner with the sharpest construction-AI founders and give them what most VCs can't: instant commercial traction. We turn prototypes into revenue in months, not years.",
-      p2: "Our conviction is simple: the winners will be those who fuse deep domain physics with frontier intelligence. We back them before anyone else sees it.",
+      p1: "We provide first institutional capital to teams re-engineering construction: vertical AI, robotics, ESG tech, and digital twins. Geography-agnostic at the earliest inflection points.",
+      p2: "From first pilot in Hong Kong to multi-country revenue in months. Backed by on-the-ground teams in Asia, Africa, and the Middle East, we eliminate market entry friction.",
     },
     engine: [
       { id: "01", title: "Battle-Tested Distribution", desc: "20 years of domain expertise and live JARVIS data become your unfair advantage." },
@@ -362,6 +391,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
   },
   FINANCE: {
+    statsIntro: "service_stats_intro",
     hero: {
       title: "FINANCE",
       subTitle: "Infrastructure Capital",
@@ -370,11 +400,11 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       img: "/images/view4.png",
     },
     narrative: {
-      label: "The Gap",
+      label: "Risk & Transparency",
       lead: "Risk is opaque.",
       sub: "Data makes it visible.",
-      p1: "Most global investors shy away from emerging economies due to non-commercial risk and lack of verifiable data. Billions in viable projects stay stranded.",
-      p2: "We sit at the centre of a network of PE funds and multilateral banks. Because every project runs on JARVIS, we deliver the live transparency lenders demand.",
+      p1: "Billions in viable projects (Data Centres, Renewables, Hospitals, Smart Cities) stay stranded due to non-commercial risk. We sit at the centre of a global network of PE funds, DFIs, Export-Credit Agencies (ECAs), and Sovereign Investors.",
+      p2: "We deliver live digital twins and 30-day-ahead risk forecasts. Our in-kind investment in credit-enhancement design and bankable feasibility studies de-risks projects before a dollar is committed.",
     },
     engine: [
       { id: "01", title: "Global Capital Network", desc: "Access to leading PE funds, DFIs, export-credit agencies, and sovereign investors." },
@@ -435,6 +465,12 @@ const SERVICE_CONTENT_I18N_KEYS: Record<ServiceTab, ServiceContentI18nKeys> = {
         { label: "service_jpm_stats_grid_3_label" },
         { label: "service_jpm_stats_grid_4_label" },
       ],
+      comparison: [
+        { label: "service_jpm_comparison_overruns" },
+        { label: "service_jpm_comparison_defects" },
+        { label: "service_jpm_comparison_cash" },
+        { label: "service_jpm_comparison_delivery" },
+      ],
     },
     gallery: {
       title: "service_jpm_gallery_title",
@@ -467,6 +503,15 @@ const SERVICE_CONTENT_I18N_KEYS: Record<ServiceTab, ServiceContentI18nKeys> = {
       sub: "service_bim_narrative_sub",
       p1: "service_bim_narrative_p1",
       p2: "service_bim_narrative_p2",
+    },
+    timeline: {
+      heading: "service_bim_timeline_heading",
+      items: [
+        { year: "service_bim_timeline_item_1_year", title: "service_bim_timeline_item_1_title", desc: "service_bim_timeline_item_1_desc" },
+        { year: "service_bim_timeline_item_2_year", title: "service_bim_timeline_item_2_title", desc: "service_bim_timeline_item_2_desc" },
+        { year: "service_bim_timeline_item_3_year", title: "service_bim_timeline_item_3_title", desc: "service_bim_timeline_item_3_desc" },
+        { year: "service_bim_timeline_item_4_year", title: "service_bim_timeline_item_4_title", desc: "service_bim_timeline_item_4_desc" },
+      ],
     },
     engine: [
       { title: "service_bim_engine_1_title", desc: "service_bim_engine_1_desc" },
@@ -640,6 +685,7 @@ export function getLocalizedServiceContent(tab: ServiceTab): ServiceContent {
   const keys = SERVICE_CONTENT_I18N_KEYS[tab];
 
   return {
+    statsIntro: translateMessage(keys.statsIntro, base.stats.intro),
     hero: {
       title: translateMessage(keys.hero.title, base.hero.title),
       subTitle: translateMessage(keys.hero.subTitle, base.hero.subTitle),
@@ -654,6 +700,17 @@ export function getLocalizedServiceContent(tab: ServiceTab): ServiceContent {
       p1: translateMessage(keys.narrative.p1, base.narrative.p1),
       p2: translateMessage(keys.narrative.p2, base.narrative.p2),
     },
+    timeline: base.timeline
+      ? {
+          heading: translateMessage(keys.timeline?.heading, base.timeline.heading),
+          items: base.timeline.items.map((item, idx) => ({
+            year: translateMessage(keys.timeline?.items[idx]?.year, item.year),
+            title: translateMessage(keys.timeline?.items[idx]?.title, item.title),
+            desc: translateMessage(keys.timeline?.items[idx]?.desc, item.desc),
+            isNow: item.isNow,
+          })),
+        }
+      : undefined,
     engine: base.engine.map((item, idx) => ({
       ...item,
       title: translateMessage(keys.engine[idx]?.title, item.title),
@@ -669,6 +726,10 @@ export function getLocalizedServiceContent(tab: ServiceTab): ServiceContent {
       grid: base.stats.grid.map((item, idx) => ({
         val: item.val,
         label: translateMessage(keys.stats.grid[idx]?.label, item.label),
+      })),
+      comparison: base.stats.comparison?.map((item, idx) => ({
+        ...item,
+        label: translateMessage(keys.stats.comparison?.[idx]?.label, item.label),
       })),
     },
     gallery: {
