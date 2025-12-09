@@ -143,6 +143,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const pathname = usePathname();
     const shouldScrollTopRef = useRef(false);
     const { lenis } = useLenis();
+    const disableTransition = pathname.includes('/newsroom');
 
     // On first load, disable browser scroll restoration and scroll to top smoothly
     useEffect(() => {
@@ -170,6 +171,14 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     useEffect(() => {
         shouldScrollTopRef.current = true;
     }, [pathname]);
+
+    if (disableTransition) {
+        return (
+            <div className="relative w-full min-h-screen">
+                {children}
+            </div>
+        );
+    }
 
     return (
         <AnimatePresence

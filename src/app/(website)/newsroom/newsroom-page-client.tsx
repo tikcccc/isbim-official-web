@@ -1,18 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import { m } from '@/components/motion/lazy-motion';
 import {
-  ArrowLeft, ArrowRight, Share2,
-  LayoutGrid, List, AlignJustify, Home
+  ArrowRight,
+  LayoutGrid, List, AlignJustify,
 } from 'lucide-react';
 import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
-import { PortableText } from '@portabletext/react';
-import type { PortableTextComponents } from '@portabletext/react';
+import { Link } from '@/lib/i18n';
 import type { PortableTextBlock } from '@portabletext/types';
-import type { ReactNode } from 'react';
 import type { Image as SanityImage } from 'sanity';
 
 // --- Types ---
@@ -97,8 +94,6 @@ export default function NewsroomPageClient({
   categories,
   featuredNews,
 }: NewsroomPageClientProps) {
-  const [activeRoute, setActiveRoute] = useState<string | null>(null);
-
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
       console.groupCollapsed('[Newsroom][Debug] Initial payload');
@@ -111,66 +106,17 @@ export default function NewsroomPageClient({
     }
   }, [initialNews, categories, featuredNews]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [activeRoute]);
-
-  const activePost = initialNews.find(p => p._id === activeRoute);
-
   return (
     <div className="min-h-screen bg-[#FDFDFD] text-gray-900 font-sans selection:bg-black selection:text-white pt-12">
-      <AnimatePresence mode="wait">
-        {!activeRoute ? (
-          <NewsListView
-            key="list"
-            newsData={initialNews}
-            categories={categories}
-            featuredNews={featuredNews}
-            onNavigate={setActiveRoute}
-          />
-        ) : (
-          <DetailView
-            key="detail"
-            post={activePost!}
-            allNews={initialNews}
-            onNavigate={setActiveRoute}
-            onBack={() => setActiveRoute(null)}
-          />
-        )}
-      </AnimatePresence>
+      <NewsListView
+        key="list"
+        newsData={initialNews}
+        categories={categories}
+        featuredNews={featuredNews}
+      />
     </div>
   );
 }
-
-// Portable Text components for detail view
-const portableTextComponents: PortableTextComponents = {
-  marks: {
-    strong: ({ children }: { children?: ReactNode }) => <strong className="font-bold">{children}</strong>,
-    em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
-    link: ({ value, children }: { value?: { href?: string }; children?: ReactNode }) => {
-      const target = (value?.href || '').startsWith('http') ? '_blank' : undefined;
-      return (
-        <a
-          href={value?.href}
-          target={target}
-          rel={target === '_blank' ? 'noopener noreferrer' : undefined}
-          className="text-blue-700 hover:underline"
-        >
-          {children}
-        </a>
-      );
-    },
-  },
-  block: {
-    h2: ({ children }: { children?: ReactNode }) => <h2 className="text-2xl font-bold mt-8 mb-4">{children}</h2>,
-    h3: ({ children }: { children?: ReactNode }) => <h3 className="text-xl font-bold mt-6 mb-3">{children}</h3>,
-    blockquote: ({ children }: { children?: ReactNode }) => (
-      <blockquote className="border-l-4 border-gray-200 pl-4 my-6 italic">
-        {children}
-      </blockquote>
-    ),
-  },
-};
 
 // --- List View Container ---
 
@@ -178,12 +124,10 @@ function NewsListView({
   newsData,
   categories,
   featuredNews,
-  onNavigate
 }: {
   newsData: NewsPost[];
   categories: NewsCategory[];
   featuredNews: NewsPost | null;
-  onNavigate: (id: string) => void;
 }) {
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [filter, setFilter] = useState<CategoryFilter>('All');
@@ -316,13 +260,13 @@ function NewsListView({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                 {featuredMatchesFilter && featuredNews && (
                   <m.div variants={itemVariants} key={featuredNews._id} className="col-span-1 md:col-span-2 lg:col-span-3">
-                    <FeaturedGridCard post={featuredNews} onClick={() => onNavigate(featuredNews._id)} />
+                    <FeaturedGridCard post={featuredNews} />
                   </m.div>
                 )}
 
                 {listWithoutFeatured.map((post) => (
                   <m.div variants={itemVariants} key={post._id}>
-                    <GridCard post={post} onClick={() => onNavigate(post._id)} />
+                    <GridCard post={post} />
                   </m.div>
                 ))}
               </div>
@@ -332,7 +276,7 @@ function NewsListView({
               <div className="flex flex-col gap-12 max-w-5xl">
                 {filteredData.map((post) => (
                   <m.div variants={itemVariants} key={post._id}>
-                    <MagazineCard post={post} onClick={() => onNavigate(post._id)} />
+                    <MagazineCard post={post} />
                   </m.div>
                 ))}
               </div>
@@ -342,7 +286,7 @@ function NewsListView({
               <div className="border-t border-gray-200">
                 {filteredData.map((post) => (
                   <m.div variants={itemVariants} key={post._id}>
-                    <FeedRow post={post} onClick={() => onNavigate(post._id)} />
+                    <FeedRow post={post} />
                   </m.div>
                 ))}
               </div>
@@ -356,17 +300,18 @@ function NewsListView({
 
 // --- Cards & Components ---
 
-function FeaturedGridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
+function FeaturedGridCard({ post }: { post: NewsPost }) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(1200).height(675).url()
     : null;
   const hasImage = !!imageUrl;
 
   return (
-    <div
-      onClick={onClick}
-      className="group cursor-pointer border border-gray-200 bg-white hover:border-black transition-colors duration-300 overflow-hidden flex flex-col md:flex-row h-full"
+    <Link
+      href={`/newsroom/${post.slug.current}`}
+      className="group block border border-gray-200 bg-white hover:border-black transition-colors duration-300 overflow-hidden"
     >
+      <div className="flex flex-col md:flex-row h-full">
       {hasImage && (
         <div className="w-full md:w-1/2 aspect-[16/9] md:aspect-auto bg-gray-100 overflow-hidden relative border-b md:border-b-0 md:border-r border-gray-200">
           <Image
@@ -412,18 +357,19 @@ function FeaturedGridCard({ post, onClick }: { post: NewsPost; onClick: () => vo
           <ArrowRight className="w-4 h-4 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
         </div>
       </div>
-    </div>
+      </div>
+    </Link>
   );
 }
 
-function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
+function GridCard({ post }: { post: NewsPost }) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(533).url()
     : null;
   const hasImage = !!imageUrl;
 
   return (
-    <div onClick={onClick} className="group cursor-pointer flex flex-col h-full border-t border-gray-200 pt-6 hover:border-black transition-colors duration-300 relative bg-white">
+    <Link href={`/newsroom/${post.slug.current}`} className="group flex flex-col h-full border-t border-gray-200 pt-6 hover:border-black transition-colors duration-300 relative bg-white cursor-pointer">
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
           <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">[{post.category.title}]</MonoLabel>
@@ -472,20 +418,20 @@ function GridCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
         </span>
         <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
       </div>
-    </div>
+    </Link>
   );
 }
 
-function MagazineCard({ post, onClick }: { post: NewsPost; onClick: () => void }) {
+function MagazineCard({ post }: { post: NewsPost }) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(500).url()
     : null;
   const hasImage = !!imageUrl;
 
   return (
-    <div
-      onClick={onClick}
-      className={`group cursor-pointer grid gap-8 items-start border-t border-gray-200 pt-8 hover:border-black transition-colors duration-300
+    <Link
+      href={`/newsroom/${post.slug.current}`}
+      className={`group grid gap-8 items-start border-t border-gray-200 pt-8 hover:border-black transition-colors duration-300
         ${hasImage ? 'grid-cols-1 md:grid-cols-[2fr_3fr]' : 'grid-cols-1'}
       `}
     >
@@ -521,15 +467,15 @@ function MagazineCard({ post, onClick }: { post: NewsPost; onClick: () => void }
           Read Full Briefing <ArrowRight className="w-3 h-3" />
         </span>
       </div>
-    </div>
+    </Link>
   );
 }
 
-function FeedRow({ post, onClick }: { post: NewsPost; onClick: () => void }) {
+function FeedRow({ post }: { post: NewsPost }) {
   return (
-    <div
-      onClick={onClick}
-      className="group cursor-pointer flex flex-col md:flex-row items-baseline gap-4 md:gap-12 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+    <Link
+      href={`/newsroom/${post.slug.current}`}
+      className="group flex flex-col md:flex-row items-baseline gap-4 md:gap-12 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
     >
       <div className="w-32 shrink-0">
         <MonoLabel className="text-gray-500 group-hover:text-black transition-colors">
@@ -546,151 +492,9 @@ function FeedRow({ post, onClick }: { post: NewsPost; onClick: () => void }) {
           {post.category.title}
         </span>
       </div>
-    </div>
+    </Link>
   );
 }
 
 // --- Detail View Component ---
 
-function DetailView({ post, allNews, onBack, onNavigate }: { post: NewsPost; allNews: NewsPost[]; onBack: () => void; onNavigate: (id: string) => void }) {
-
-  // Find Related Articles Logic
-  const relatedPosts = allNews
-    .filter(p => p.category._id === post.category._id && p._id !== post._id)
-    .slice(0, 2);
-
-  const imageUrl = post.mainImage
-    ? urlFor(post.mainImage.asset)?.width(1600).height(685).url()
-    : null;
-
-  return (
-    <m.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
-      className="bg-white pt-6 pb-20 relative"
-    >
-      {/* Sticky header */}
-      <div className="border-b border-gray-100 sticky top-0 bg-white/95 backdrop-blur-md z-40 transition-all">
-        <div className="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
-          <button
-            onClick={onBack}
-            className="group flex items-center gap-2 text-xs font-mono uppercase text-gray-500 hover:text-black transition-colors"
-          >
-            <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
-            Back to Feed
-          </button>
-          <div className="flex gap-4">
-            <button className="text-gray-400 hover:text-black transition-colors"><Share2 className="w-4 h-4" /></button>
-          </div>
-        </div>
-      </div>
-
-      <article className="max-w-4xl mx-auto px-6 py-12">
-        {/* Meta + Title grid */}
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 mb-12">
-          <div className="space-y-6 pt-2">
-            <div>
-              <MonoLabel className="block mb-1">Published</MonoLabel>
-              <div className="text-sm font-medium">{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-            </div>
-            <div>
-              <MonoLabel className="block mb-1">Category</MonoLabel>
-              <div className="flex flex-wrap gap-2">
-                <span className="text-xs font-mono uppercase tracking-wide text-black">
-                  [{post.category.title}]
-                </span>
-              </div>
-            </div>
-            <div>
-              <MonoLabel className="block mb-1">Read Time</MonoLabel>
-              <div className="text-sm font-medium text-gray-400">{post.readTime} MIN READ</div>
-            </div>
-          </div>
-
-          <div>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6 leading-tight">
-              {post.title}
-            </h1>
-            {post.subtitle && (
-              <p className="text-xl text-gray-500 leading-relaxed font-light border-l-2 border-gray-900 pl-6">
-                {post.subtitle}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Main Image or Divider */}
-        {imageUrl ? (
-          <div className="relative aspect-[21/9] w-full bg-gray-100 mb-16 overflow-hidden border border-gray-200">
-            <Image
-              src={imageUrl}
-              alt={post.mainImage?.alt || post.title}
-              fill
-              sizes="100vw"
-              className="w-full h-full object-cover transition-all duration-700"
-            />
-          </div>
-        ) : (
-          <div className="w-full h-px bg-gray-200 mb-16" />
-        )}
-
-        {/* Body content grid */}
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
-          <div className="hidden md:block">
-            <div className="sticky top-32">
-              <div className="w-8 h-px bg-black mb-4"></div>
-              <MonoLabel>Section 01</MonoLabel>
-            </div>
-          </div>
-
-          <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-700">
-            {post.body && post.body.length > 0 ? (
-              <PortableText value={post.body} components={portableTextComponents} />
-            ) : (
-              <>
-                <p className="lead">
-                  {post.excerpt || post.subtitle || 'No content available.'}
-                </p>
-                <p>
-                  In a data-driven environment, the integration of these systems is not merely an operational upgrade but a fundamental restructuring of how infrastructure assets are conceived, financed, and maintained. The <strong>JARVIS</strong> ecosystem represents a paradigm shift from reactive management to predictive orchestration.
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      </article>
-
-      {/* Related Intelligence Section */}
-      {relatedPosts.length > 0 && (
-        <div className="max-w-4xl mx-auto px-6 mt-20 pt-12 border-t border-gray-900">
-          <h3 className="text-sm font-mono uppercase tracking-widest text-gray-900 mb-8">
-            Related Intelligence
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {relatedPosts.map(related => (
-              <div key={related._id} className="h-96">
-                <GridCard post={related} onClick={() => onNavigate(related._id)} />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden z-50 flex items-center justify-between pb-8">
-        <button onClick={onBack} className="p-2 text-gray-500 hover:text-black">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <button onClick={onBack} className="flex items-center gap-2 font-mono text-xs uppercase font-bold tracking-widest text-black">
-          <Home className="w-4 h-4" />
-          News Feed
-        </button>
-        <button className="p-2 text-gray-500 hover:text-black">
-          <Share2 className="w-5 h-5" />
-        </button>
-      </div>
-    </m.div>
-  );
-}

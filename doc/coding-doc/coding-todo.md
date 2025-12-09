@@ -72,6 +72,7 @@
 - [ ] Studio: Enable `@sanity/document-internationalization` or custom "Duplicate to zh/en" action to auto-copy and set language/slug.
 - [ ] GROQ: List/detail filtered by `languageTag`, fallback to en; cache tags `sanity:{type}:{translationKey}`; routes use language slug.
 - [ ] Revalidate/SEO: Webhook revalidates by `translationKey` (news/career together); `hreflang`/sitemap use sibling documents in the same group.
+- [ ] Configure Sanity webhook -> `/api/revalidate` to refresh newsroom/careers (tags: `sanity:news`, `sanity:newsCategory`, `sanity:career`) after publish.
 
 ---
 

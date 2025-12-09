@@ -41,6 +41,7 @@ interface NewsItem {
 interface NewsDetailClientProps {
   newsDetail: NewsItem;
   relatedNews: NewsItem[];
+  recentNews: NewsItem[];
 }
 
 // Utility component for mono labels
@@ -53,6 +54,7 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
 export default function NewsDetailClient({
   newsDetail,
   relatedNews,
+  recentNews,
 }: NewsDetailClientProps) {
   const imageUrl = newsDetail.mainImage
     ? urlFor(newsDetail.mainImage.asset)?.width(1600).height(685).url()
@@ -91,9 +93,10 @@ export default function NewsDetailClient({
       console.groupCollapsed('[Newsroom][Debug] Detail payload');
       console.log('newsDetail', newsDetail);
       console.log('relatedNews', relatedNews);
+      console.log('recentNews', recentNews);
       console.groupEnd();
     }
-  }, [newsDetail, relatedNews]);
+  }, [newsDetail, relatedNews, recentNews]);
 
   return (
     <m.div
@@ -237,6 +240,26 @@ export default function NewsDetailClient({
                 className="group"
               >
                 <RelatedCard post={related} />
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recent News Section */}
+      {recentNews.length > 0 && (
+        <div className="newsroom-article-container mt-20 pt-12 border-t newsroom-border-subtle">
+          <h3 className="newsroom-label newsroom-text-primary mb-8">
+            Recent News
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {recentNews.map(recent => (
+              <Link
+                key={recent._id}
+                href={`/newsroom/${recent.slug.current}`}
+                className="group"
+              >
+                <RelatedCard post={recent} />
               </Link>
             ))}
           </div>

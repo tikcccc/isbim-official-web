@@ -10,7 +10,7 @@ import {
 import NewsroomPageClient from "./newsroom-page-client";
 import type { Image as SanityImage } from 'sanity';
 
-export const revalidate = 300; // Refresh newsroom list every 5 minutes
+export const revalidate = 0; // Disable ISR: always fetch fresh data
 
 // Types for Sanity data
 interface NewsItem {

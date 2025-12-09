@@ -6,6 +6,7 @@ import {
   NEWS_DETAIL_QUERY,
   NEWS_METADATA_QUERY,
   RELATED_NEWS_QUERY,
+  NEWS_LIST_QUERY,
 } from "@/sanity/lib/queries";
 import NewsDetailClient from "./news-detail-client";
 import type { Image as SanityImage } from "sanity";
@@ -133,6 +134,16 @@ export default async function NewsDetailPage({ params }: PageProps) {
     tags: ["sanity:news"],
   });
 
+  const recentNewsRaw = await sanityFetch<NewsItem[]>({
+    query: NEWS_LIST_QUERY,
+    params: { start: 0, end: 4 },
+    tags: ["sanity:news"],
+  });
+
+  const recentNews = recentNewsRaw
+    .filter((item) => item._id !== newsDetail._id)
+    .slice(0, 3);
+
   // Breadcrumb Schema for navigation
   const breadcrumbSchema = createBreadcrumbSchema([
     { name: "Home", url: "/" },
@@ -182,6 +193,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           <NewsDetailClient
             newsDetail={newsDetail}
             relatedNews={relatedNews}
+            recentNews={recentNews}
           />
         </div>
       </main>
