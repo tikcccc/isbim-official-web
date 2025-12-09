@@ -50,10 +50,14 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   const prefersReducedMotion = useReducedMotion();
   const engineHeading =
     activeTab === "JPM"
-      ? messages.service_jpm_engine_heading
-        ? messages.service_jpm_engine_heading()
-        : messages.service_engine_heading()
-      : messages.service_engine_heading();
+      ? messages.service_jpm_engine_heading?.() ?? "The Four-Pillar Engine"
+      : activeTab === "BIM"
+        ? messages.service_bim_engine_heading?.() ?? "What We Actually Deliver"
+        : activeTab === "VENTURES"
+          ? messages.service_venture_engine_heading?.() ?? "Conviction-Led Investment"
+          : activeTab === "FINANCE"
+            ? messages.service_finance_engine_heading?.() ?? "Our Capital Network"
+            : messages.service_engine_heading();
   const galleryHeading = messages.service_gallery_heading();
   const ctaTitle = messages.service_cta_title();
   const ctaBody = activeTab === "JPM"
@@ -68,7 +72,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   return (
     <div className={`service-page relative min-h-screen font-sans selection:bg-[var(--surface-hero)] selection:text-[var(--text-inverse-strong)] transition-colors duration-700 overflow-hidden`}>
       {/* Parallax background */}
-      <div className="absolute top-0 left-0 right-0 w-full h-[120vh] z-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 w-full h-screen z-0 overflow-hidden pointer-events-none">
         <m.div
           key={content.hero.img}
           className="absolute inset-0"
@@ -93,6 +97,11 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         </m.div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40"></div>
       </div>
+      {/* Cover below hero to prevent bleed while keeping fixed parallax in view */}
+      <div
+        aria-hidden
+        className="fixed top-[100vh] left-0 right-0 bottom-0 bg-[var(--surface-base)] z-0 pointer-events-none"
+      />
 
       {/* Scrollable content */}
       <div className="relative z-10">

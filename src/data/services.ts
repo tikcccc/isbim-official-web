@@ -253,7 +253,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     hero: {
       title: "JPM",
       subTitle: "Project Management",
-      desc: "Building the backbone of emerging economies.",
+      desc: "Building the backbone of emerging economies—cheaper, faster, fewer defects.",
       tag: "Hong Kong Precision x China Scale",
       img: "/images/view1.png",
     },
@@ -297,11 +297,11 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
   },
   BIM: {
-    statsIntro: "service_stats_intro",
+    statsIntro: "service_bim_stats_intro",
     hero: {
       title: "BIM",
       subTitle: "Consultancy",
-      desc: "Mandated digital transformation.",
+      desc: "Mandated digital transformation: Model, coordinate, and comply with HK's BIM standards—reduce rework by 75%, accelerate delivery.",
       tag: "Model | Coordinate | Comply",
       img: "/images/view2.png",
     },
@@ -328,8 +328,8 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "Tendering Support", desc: "BIM-embedded BOQs, 5D cost models, and full ContractBIM compliance support." },
     ],
     stats: {
-      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
-      label: "Impact Analysis",
+      intro: "Benefits: Collaboration, Efficiency, and Risk Reduction",
+      label: "Benefits",
       main: { val: "75%", label: "REWORK REDUCTION" },
       grid: [
         { val: "100%", label: "Mandate Ready" },
@@ -348,11 +348,11 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
   },
   VENTURES: {
-    statsIntro: "service_stats_intro",
+    statsIntro: "service_venture_stats_intro",
     hero: {
       title: "VENTURES",
       subTitle: "Construction Tech",
-      desc: "Globalising construction tech.",
+      desc: "We back, build, and globalise the best construction technology founders – hardware, software, anywhere on earth.",
       tag: "Physics + Intelligence",
       img: "/images/view3.png",
     },
@@ -370,7 +370,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "Global Scale", desc: "Fastest route to AI-ready data centers in SE Asia and housing in Africa." },
     ],
     stats: {
-      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
+      intro: "We Scale with Battle-Tested Distribution",
       label: "Ecosystem Scale",
       main: { val: "2,600+", label: "LIVE PROJECTS ACCESS" },
       grid: [
@@ -391,16 +391,16 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     },
   },
   FINANCE: {
-    statsIntro: "service_stats_intro",
+    statsIntro: "service_finance_stats_intro",
     hero: {
       title: "FINANCE",
       subTitle: "Infrastructure Capital",
-      desc: "Infrastructure Finance.",
+      desc: "We make emerging-market infrastructure bankable — live JARVIS data + global capital = financial close.",
       tag: "Live Data = Financial Close",
       img: "/images/view4.png",
     },
     narrative: {
-      label: "Risk & Transparency",
+      label: "The Financing Gap",
       lead: "Risk is opaque.",
       sub: "Data makes it visible.",
       p1: "Billions in viable projects (Data Centres, Renewables, Hospitals, Smart Cities) stay stranded due to non-commercial risk. We sit at the centre of a global network of PE funds, DFIs, Export-Credit Agencies (ECAs), and Sovereign Investors.",
@@ -413,7 +413,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       { id: "04", title: "30-Day Forecasting", desc: "Audited cost curves and risk prediction giving lenders certainty." },
     ],
     stats: {
-      intro: "Traditional construction is plagued by uncertainty. JARVIS delivers mathematical certainty.",
+      intro: "Billions in viable projects (Data Centres, Renewables, Hospitals, Smart Cities) stay stranded due to non-commercial risk. We sit at the centre of a global network of PE funds, DFIs, Export-Credit Agencies (ECAs), and Sovereign Investors.",
       label: "Risk Mitigation",
       main: { val: "T+1", label: "REAL-TIME REPORTING" },
       grid: [
@@ -490,7 +490,7 @@ const SERVICE_CONTENT_I18N_KEYS: Record<ServiceTab, ServiceContentI18nKeys> = {
     },
   },
   BIM: {
-    statsIntro: "service_stats_intro",
+    statsIntro: "service_bim_stats_intro",
     hero: {
       title: "service_bim_hero_title",
       subTitle: "service_bim_hero_subtitle",
@@ -547,7 +547,7 @@ const SERVICE_CONTENT_I18N_KEYS: Record<ServiceTab, ServiceContentI18nKeys> = {
     },
   },
   VENTURES: {
-    statsIntro: "service_stats_intro",
+    statsIntro: "service_venture_stats_intro",
     hero: {
       title: "service_venture_hero_title",
       subTitle: "service_venture_hero_subtitle",
@@ -600,7 +600,7 @@ const SERVICE_CONTENT_I18N_KEYS: Record<ServiceTab, ServiceContentI18nKeys> = {
     },
   },
   FINANCE: {
-    statsIntro: "service_stats_intro",
+    statsIntro: "service_finance_stats_intro",
     hero: {
       title: "service_finance_hero_title",
       subTitle: "service_finance_hero_subtitle",
