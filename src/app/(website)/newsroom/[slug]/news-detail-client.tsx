@@ -103,26 +103,13 @@ export default function NewsDetailClient({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="newsroom-surface-card pt-6 pb-20 relative"
+      className="newsroom-detail newsroom-surface-card pb-20 relative"
     >
-      {/* Top Navigation Bar */}
-      <div className="newsroom-detail-header">
-        <div className="newsroom-detail-header-inner">
-          <Link href="/newsroom" className="newsroom-back-btn">
-            <ArrowLeft className="w-3 h-3 newsroom-back-icon" />
-            Back to Newsroom
-          </Link>
-          <div className="flex gap-4">
-            <button
-              onClick={handleShare}
-              className="newsroom-icon-soft hover:newsroom-text-primary transition-colors"
-              title="Share article"
-              type="button"
-            >
-              <Share2 className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+      <div className="newsroom-article-container flex items-center gap-3 md:gap-4 py-6">
+        <Link href="/newsroom" className="newsroom-back-btn">
+          <ArrowLeft className="w-3 h-3 newsroom-back-icon" />
+          Back to Newsroom
+        </Link>
       </div>
 
       {/* Article Content */}

@@ -63,7 +63,8 @@ const getMotionTokens = () => {
   };
 };
 
-const MOTION = getMotionTokens();
+// Shared cubic-bezier easing (must be a 4-value tuple for Framer Motion)
+const MOTION_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // --- Animation Variants (match prototype exactly) ---
 const containerVariants = {
@@ -84,7 +85,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1]
+      ease: MOTION_EASE
     }
   }
 };
@@ -122,7 +123,7 @@ function HeroSection({ post }: { post: NewsPost }) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.6, ease: MOTION_EASE }
     }
   };
 
@@ -131,7 +132,7 @@ function HeroSection({ post }: { post: NewsPost }) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.8, ease: MOTION_EASE }
     }
   };
 
@@ -145,7 +146,7 @@ function HeroSection({ post }: { post: NewsPost }) {
             className="absolute inset-0 z-0"
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 0.8 }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.5, ease: MOTION_EASE }}
             whileHover={{ scale: 1.025 }}
           >
             <Image
