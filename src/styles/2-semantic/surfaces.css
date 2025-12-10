@@ -14,6 +14,7 @@
   --surface-subtle: var(--color-gray-50);          /* Slight differentiation */
   --surface-muted: var(--color-gray-bg);           /* Gray sections (#efefef) */
   --surface-tinted: var(--color-tinted);           /* Green-tinted white */
+  --surface-paper: var(--color-soft-white);        /* Soft off-white for articles */
 
   /* Special Surfaces */
   --surface-hero: var(--color-black);              /* Hero sections, dark areas */
@@ -22,6 +23,7 @@
 
   /* RGB versions for opacity usage */
   --surface-base-rgb: var(--color-white-rgb);
+  --surface-paper-rgb: var(--color-soft-white-rgb);
 
   /* ═══════════════════════════════════════════
      BORDERS

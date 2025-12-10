@@ -71,14 +71,22 @@ const containerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: MOTION.stagger
+      staggerChildren: 0.1,
+      delayChildren: 0.05
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: MOTION.base } }
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
 };
 
 // --- Utility Components ---
@@ -97,16 +105,48 @@ function HeroSection({ post }: { post: NewsPost }) {
     : null;
   const hasImage = !!imageUrl;
 
+  // Hero animation variants
+  const heroContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      }
+    }
+  };
+
+  const heroItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
     <Link href={`/newsroom/${post.slug.current}`}>
       <div className="relative w-full h-[80vh] min-h-[600px] mb-12 group overflow-hidden bg-gray-900 cursor-pointer">
 
-        {/* Background Image with Slow Zoom Effect */}
+        {/* Background Image with Slow Zoom + Fade Effect */}
         {hasImage && (
           <m.div
             className="absolute inset-0 z-0"
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.8 }}
+            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ scale: 1.025 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <Image
               src={imageUrl}
@@ -114,7 +154,7 @@ function HeroSection({ post }: { post: NewsPost }) {
               fill
               priority
               sizes="100vw"
-              className="w-full h-full object-cover opacity-80"
+              className="w-full h-full object-cover"
             />
           </m.div>
         )}
@@ -124,64 +164,78 @@ function HeroSection({ post }: { post: NewsPost }) {
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 to-transparent opacity-80" />
 
         {/* Content Container - Flex Column Space Between */}
-        <div className="absolute inset-0 z-20 flex flex-col justify-between w-full">
+        <m.div
+          className="absolute inset-0 z-20 flex flex-col justify-between w-full"
+          variants={heroContainerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <div className="w-full max-w-[90%] md:max-w-[88%] xl:max-w-[1700px] mx-auto px-0 md:px-6">
             {/* TOP: Newsroom Masthead (Inside Hero) */}
-            <div className="pt-24 md:pt-32">
+            <m.div
+              className="pt-24 md:pt-32"
+              variants={titleVariants}
+            >
               <h1 className="newsroom-hero-title">
                 Newsroom
               </h1>
-            </div>
+            </m.div>
           </div>
 
           {/* BOTTOM: Featured Article Info */}
           <div className="w-full max-w-[90%] md:max-w-[88%] xl:max-w-[1700px] mx-auto px-0 md:px-6 pb-8 md:pb-12">
             {/* Category Tag */}
-            <div className="flex gap-3 mb-6">
+            <m.div className="flex gap-3 mb-6" variants={heroItemVariants}>
               <span className="text-[11px] font-mono border border-white/30 px-3 py-1 text-white bg-black/20 backdrop-blur-sm uppercase tracking-widest">
                 {post.category.title}
               </span>
-            </div>
+            </m.div>
 
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
-              <div className="flex gap-3 mb-6">
+              <m.div className="flex gap-3 mb-6" variants={heroItemVariants}>
                 {post.tags.map(tag => (
                   <span key={tag} className="text-[11px] font-mono border border-white/30 px-3 py-1 text-white bg-black/20 backdrop-blur-sm uppercase tracking-widest">
                     {tag}
                   </span>
                 ))}
-              </div>
+              </m.div>
             )}
 
             {/* Date */}
-            <div className="mb-4">
+            <m.div className="mb-4" variants={heroItemVariants}>
               <span className="font-mono text-xs tracking-wider uppercase text-gray-300">
                 {new Date(post.publishedAt).toLocaleDateString('en-CA')}
               </span>
-            </div>
+            </m.div>
 
             {/* Title */}
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white mb-6 leading-[1.1]">
+            <m.h2
+              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white mb-6 leading-[1.1]"
+              variants={heroItemVariants}
+            >
               {post.title}
-            </h2>
+            </m.h2>
 
             {/* Subtitle */}
             {post.subtitle && (
-              <p className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed border-l-2 border-white/30 pl-6">
+              <m.p
+                className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed border-l-2 border-white/30 pl-6"
+                variants={heroItemVariants}
+              >
                 {post.subtitle}
-              </p>
+              </m.p>
             )}
 
             {/* Read More CTA with Arrow */}
-            <div className="mt-8 flex items-center gap-3">
+            <m.div className="mt-8 flex items-center gap-3" variants={heroItemVariants}>
               <span className="text-sm md:text-base font-bold uppercase tracking-wide text-white">
                 Read Story
               </span>
               <MoveRight className="w-5 h-5 md:w-6 md:h-6 text-white transition-transform duration-300 group-hover:translate-x-2" />
-            </div>
+            </m.div>
           </div>
-        </div>
+        </m.div>
       </div>
     </Link>
   );
@@ -364,7 +418,8 @@ function NewsListView({
             <m.div
               variants={containerVariants}
               initial="hidden"
-              animate="show"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
             >
               {/* GRID VIEW: Newest article as featured card (full width), then regular cards */}
               {layout === 'grid' && (

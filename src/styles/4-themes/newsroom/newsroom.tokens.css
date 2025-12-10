@@ -6,12 +6,12 @@
 @layer base {
   :root {
     /* Palette */
-    --newsroom-page-bg: var(--surface-base);
-    --newsroom-surface-card: var(--bg-white);
-    --newsroom-surface-card-rgb: 255, 255, 255;
+    --newsroom-page-bg: var(--surface-paper);
+    --newsroom-surface-card: var(--surface-paper);
+    --newsroom-surface-card-rgb: var(--surface-paper-rgb);
     --newsroom-surface-quiet: var(--bg-light);
-    --newsroom-surface-muted: color-mix(in srgb, var(--bg-light) 90%, var(--bg-white) 10%);
-    --newsroom-surface-hover: color-mix(in srgb, var(--bg-light) 70%, var(--bg-white) 30%);
+    --newsroom-surface-muted: color-mix(in srgb, var(--surface-paper) 85%, var(--bg-light) 15%);
+    --newsroom-surface-hover: color-mix(in srgb, var(--surface-paper) 65%, var(--bg-light) 35%);
 
     --newsroom-text-primary: var(--text-base);
     --newsroom-text-body: var(--text-base);

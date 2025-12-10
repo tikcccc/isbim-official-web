@@ -10,6 +10,7 @@
      ───────────────────────────────────────── */
   --color-white: #ffffff;
   --color-black: #000000;
+  --color-soft-white: #fdfdfd;
 
   --color-gray-50: #f8fafc;
   --color-gray-100: #f3f3f3;
@@ -70,5 +71,6 @@
      ───────────────────────────────────────── */
   --color-white-rgb: 255, 255, 255;
   --color-black-rgb: 0, 0, 0;
+  --color-soft-white-rgb: 253, 253, 253;
   --color-blue-500-rgb: 78, 138, 247;
 }
