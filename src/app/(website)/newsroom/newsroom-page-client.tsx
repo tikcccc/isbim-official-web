@@ -181,7 +181,7 @@ function NewsListView({
       {/* Header Area */}
       <div className="newsroom-header">
         <div className="newsroom-header-content">
-          <div>
+          <div className="newsroom-hero-split">
             <h1 className="newsroom-title">Newsroom</h1>
             <p className="newsroom-tagline">
               Latest insights, updates, and industry intelligence from isBIM

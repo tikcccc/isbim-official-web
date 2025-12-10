@@ -158,7 +158,13 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
   }
 
   return (
-    <section className="service-section-xl bg-[var(--surface-base)] relative z-20 pt-[calc(var(--service-section-lg)*1.35)] pb-[calc(var(--service-section-lg)*0.4)]">
+    <section
+      className="service-section-xl bg-[var(--surface-base)] relative z-20
+                 pt-[calc(var(--service-section)*1.1)]
+                 pb-[calc(var(--service-section)*0.9)]
+                 md:pt-[calc(var(--service-section-lg)*1.35)]
+                 md:pb-[calc(var(--service-section-lg)*0.4)]"
+    >
       <div className="service-shell">{timelineContent}</div>
     </section>
   );
