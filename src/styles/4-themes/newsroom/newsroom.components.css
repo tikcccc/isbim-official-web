@@ -442,10 +442,31 @@
   /* Detail view */
   .newsroom-detail {
     background: var(--newsroom-surface-card);
-    padding-top: calc(var(--newsroom-stack-lg) + 10rem);
+    padding-top: calc(var(--newsroom-stack-lg) + 6rem);
     padding-bottom: var(--newsroom-section-padding-bottom);
     position: relative;
   }
+
+  .newsroom-meta-value {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--newsroom-text-subtle);
+  }
+
+  .newsroom-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    text-transform: none;
+    color: var(--newsroom-text-primary);
+    transition: color var(--newsroom-motion-fast);
+  }
+
+  .newsroom-back-btn:hover { color: var(--newsroom-accent-cta); }
+  .newsroom-back-icon { width: 1rem; height: 1rem; }
 
   .newsroom-detail-grid {
     display: grid;

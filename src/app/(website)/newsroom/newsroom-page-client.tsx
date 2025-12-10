@@ -49,20 +49,6 @@ interface NewsCategory {
 type LayoutMode = 'grid' | 'feed' | 'magazine';
 type CategoryFilter = string | 'All';
 
-// --- Motion Tokens (read from CSS custom properties) ---
-const getMotionTokens = () => {
-  if (typeof window === 'undefined') {
-    return { fast: 0.2, base: 0.4, slow: 0.7, stagger: 0.1 };
-  }
-  const style = getComputedStyle(document.documentElement);
-  return {
-    fast: parseFloat(style.getPropertyValue('--newsroom-motion-page-fast')) || 0.2,
-    base: parseFloat(style.getPropertyValue('--newsroom-motion-page-duration')) || 0.4,
-    slow: parseFloat(style.getPropertyValue('--newsroom-motion-page-slow')) || 0.7,
-    stagger: parseFloat(style.getPropertyValue('--newsroom-motion-page-stagger')) || 0.1,
-  };
-};
-
 // Shared cubic-bezier easing (must be a 4-value tuple for Framer Motion)
 const MOTION_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 

@@ -105,9 +105,9 @@ export default function NewsDetailClient({
       transition={{ duration: 0.3 }}
       className="newsroom-detail newsroom-surface-card pb-20 relative"
     >
-      <div className="newsroom-article-container flex items-center gap-3 md:gap-4 py-6">
+      <div className="newsroom-article-container flex items-center gap-3 md:gap-4 py-4">
         <Link href="/newsroom" className="newsroom-back-btn">
-          <ArrowLeft className="w-3 h-3 newsroom-back-icon" />
+          <ArrowLeft className="newsroom-back-icon" />
           Back to Newsroom
         </Link>
       </div>
@@ -120,27 +120,22 @@ export default function NewsDetailClient({
           <div className="space-y-6 pt-2">
             <div>
               <MonoLabel className="block mb-1">Published</MonoLabel>
-              <div className="text-sm font-medium">{formatDate(newsDetail.publishedAt)}</div>
+              <div className="newsroom-meta-value">{formatDate(newsDetail.publishedAt)}</div>
             </div>
             <div>
               <MonoLabel className="block mb-1">Category</MonoLabel>
               <div className="flex flex-wrap gap-2">
-                <span
-                  className="newsroom-label newsroom-text-primary"
-                  style={{ color: newsDetail.category.color }}
-                >
-                  [{newsDetail.category.title}]
-                </span>
+                <span className="newsroom-meta-value">{newsDetail.category.title}</span>
               </div>
             </div>
             <div>
               <MonoLabel className="block mb-1">Read Time</MonoLabel>
-              <div className="text-sm font-medium newsroom-text-soft">{newsDetail.readTime} MIN READ</div>
+              <div className="newsroom-meta-value">{newsDetail.readTime} MIN READ</div>
             </div>
             {newsDetail.author && (
               <div>
                 <MonoLabel className="block mb-1">Author</MonoLabel>
-                <div className="text-sm font-medium">{newsDetail.author}</div>
+                <div className="newsroom-meta-value">{newsDetail.author}</div>
               </div>
             )}
           </div>
