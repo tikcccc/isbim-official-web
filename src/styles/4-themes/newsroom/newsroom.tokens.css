@@ -39,8 +39,8 @@
     --newsroom-card-shadow-hover: none;
 
     /* Layout / spacing */
-    --newsroom-container-max: var(--max-width);
-    --newsroom-article-max: var(--max-width); /* align with page shell width */
+    --newsroom-container-max: 1700px;          /* Align with service template */
+    --newsroom-article-max: 1200px;            /* Wider article content */
     --newsroom-container-padding: var(--h-spacing);
     --newsroom-section-padding-top: var(--section-v-spacing);
     --newsroom-section-padding-bottom: calc(var(--section-v-spacing) * 1.5);
@@ -79,6 +79,12 @@
     --newsroom-transition-colors: var(--motion-duration-fast);
     --newsroom-transition-transform: var(--motion-duration-base);
     --newsroom-transition-featured: calc(var(--motion-duration-base) + 0.2s);
+
+    /* Page-specific motion (for Framer Motion animations) */
+    --newsroom-motion-page-fast: 0.2s;
+    --newsroom-motion-page-duration: 0.4s;
+    --newsroom-motion-page-slow: 0.7s;
+    --newsroom-motion-page-stagger: 0.1s;
   }
 
   /* Page wrapper & selection */

@@ -48,13 +48,21 @@ interface NewsCategory {
 type LayoutMode = 'grid' | 'feed' | 'magazine';
 type CategoryFilter = string | 'All';
 
-// --- Motion Tokens (match newsroom-design-tokens exactly) ---
-const MOTION = {
-  fast: 0.2,
-  base: 0.4,    // prototype: duration: 0.4
-  slow: 0.7,
-  stagger: 0.1, // prototype: staggerChildren: 0.1
+// --- Motion Tokens (read from CSS custom properties) ---
+const getMotionTokens = () => {
+  if (typeof window === 'undefined') {
+    return { fast: 0.2, base: 0.4, slow: 0.7, stagger: 0.1 };
+  }
+  const style = getComputedStyle(document.documentElement);
+  return {
+    fast: parseFloat(style.getPropertyValue('--newsroom-motion-page-fast')) || 0.2,
+    base: parseFloat(style.getPropertyValue('--newsroom-motion-page-duration')) || 0.4,
+    slow: parseFloat(style.getPropertyValue('--newsroom-motion-page-slow')) || 0.7,
+    stagger: parseFloat(style.getPropertyValue('--newsroom-motion-page-stagger')) || 0.1,
+  };
 };
+
+const MOTION = getMotionTokens();
 
 // --- Animation Variants (match prototype exactly) ---
 const containerVariants = {
@@ -107,7 +115,7 @@ export default function NewsroomPageClient({
   }, [initialNews, categories, featuredNews]);
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-gray-900 font-sans selection:bg-black selection:text-white pt-12">
+    <div className="newsroom-page">
       <NewsListView
         key="list"
         newsData={initialNews}
@@ -168,65 +176,61 @@ function NewsListView({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="max-w-7xl mx-auto px-6 pb-20"
+      className="newsroom-shell newsroom-padding-inline pb-20"
     >
-      {/* Header Area - matches prototype exactly */}
-      <div className="mb-8 border-b border-gray-900 pb-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">
-            News Feed
-          </h1>
+      {/* Header Area */}
+      <div className="newsroom-header">
+        <div className="newsroom-header-content">
+          <div>
+            <h1 className="newsroom-title">Newsroom</h1>
+            <p className="newsroom-tagline">
+              Latest insights, updates, and industry intelligence from isBIM
+            </p>
+          </div>
 
-          {/* Layout Controls - matches prototype: border border-gray-200 p-1 bg-white */}
-          <div className="flex items-center gap-2 border border-gray-200 p-1 bg-white">
+          {/* Layout Controls */}
+          <div className="newsroom-layout-toggle">
             <button
               onClick={() => setLayout('grid')}
-              className={`p-2 transition-colors ${layout === 'grid' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
-              title="Headline View"
+              className={`newsroom-layout-btn ${layout === 'grid' ? 'active' : ''}`}
+              title="Grid View"
+              aria-label="Grid layout"
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
             <button
               onClick={() => setLayout('magazine')}
-              className={`p-2 transition-colors ${layout === 'magazine' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
-              title="Strategic Briefing"
+              className={`newsroom-layout-btn ${layout === 'magazine' ? 'active' : ''}`}
+              title="Magazine View"
+              aria-label="Magazine layout"
             >
               <AlignJustify className="w-4 h-4" />
             </button>
             <button
               onClick={() => setLayout('feed')}
-              className={`p-2 transition-colors ${layout === 'feed' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
-              title="Compact Feed"
+              className={`newsroom-layout-btn ${layout === 'feed' ? 'active' : ''}`}
+              title="Feed View"
+              aria-label="Feed layout"
             >
               <List className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Intelligence Filter - matches prototype: mt-8 flex flex-wrap items-center gap-2 */}
-        <div className="mt-8 flex flex-wrap items-center gap-2">
+        {/* Category Filter */}
+        <div className="newsroom-filter-section">
           <button
             onClick={() => setFilter('All')}
-            className={`
-              px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
-              ${filter === 'All'
-                ? 'bg-black text-white border-black'
-                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
-            `}
+            className={`newsroom-filter-btn ${filter === 'All' ? 'active' : ''}`}
           >
-            View All
+            All Categories
           </button>
 
           {derivedCategories.map((cat) => (
             <button
               key={cat._id}
               onClick={() => setFilter(cat.title)}
-              className={`
-                px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
-                ${filter === cat.title
-                  ? 'bg-black text-white border-black'
-                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
-              `}
+              className={`newsroom-filter-btn ${filter === cat.title ? 'active' : ''}`}
             >
               {cat.title}
             </button>
@@ -236,7 +240,7 @@ function NewsListView({
             <m.span
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="ml-auto text-xs font-mono text-gray-400 hidden md:inline-block"
+              className="ml-auto newsroom-label-xs hidden md:inline-block"
             >
               Showing {filteredData.length} Result{filteredData.length !== 1 ? 's' : ''}
             </m.span>
@@ -247,8 +251,8 @@ function NewsListView({
       {/* Layout Renderer with Staggered Animation */}
       <div className="min-h-[500px]">
         {filteredData.length === 0 ? (
-          <div className="py-20 text-center border border-dashed border-gray-200 bg-gray-50">
-            <p className="text-sm font-mono text-gray-400 uppercase">No Intelligence Found</p>
+          <div className="py-20 text-center newsroom-border border-dashed newsroom-surface-quiet">
+            <p className="newsroom-label-xs newsroom-text-soft">No Articles Found</p>
           </div>
         ) : (
           <m.div
@@ -309,7 +313,7 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
   return (
     <Link
       href={`/newsroom/${post.slug.current}`}
-      className="group block border border-gray-200 bg-white hover:border-black transition-colors duration-300 overflow-hidden"
+      className="newsroom-card-featured group"
     >
       <div className="flex flex-col md:flex-row h-full">
       {hasImage && (
@@ -369,7 +373,7 @@ function GridCard({ post }: { post: NewsPost }) {
   const hasImage = !!imageUrl;
 
   return (
-    <Link href={`/newsroom/${post.slug.current}`} className="group flex flex-col h-full border-t border-gray-200 pt-6 hover:border-black transition-colors duration-300 relative bg-white cursor-pointer">
+    <Link href={`/newsroom/${post.slug.current}`} className="newsroom-card-shell group">
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
           <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">[{post.category.title}]</MonoLabel>
@@ -431,7 +435,7 @@ function MagazineCard({ post }: { post: NewsPost }) {
   return (
     <Link
       href={`/newsroom/${post.slug.current}`}
-      className={`group grid gap-8 items-start border-t border-gray-200 pt-8 hover:border-black transition-colors duration-300
+      className={`newsroom-card-shell group grid gap-8 items-start
         ${hasImage ? 'grid-cols-1 md:grid-cols-[2fr_3fr]' : 'grid-cols-1'}
       `}
     >
@@ -475,7 +479,7 @@ function FeedRow({ post }: { post: NewsPost }) {
   return (
     <Link
       href={`/newsroom/${post.slug.current}`}
-      className="group flex flex-col md:flex-row items-baseline gap-4 md:gap-12 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+      className="newsroom-feed-row group"
     >
       <div className="w-32 shrink-0">
         <MonoLabel className="text-gray-500 group-hover:text-black transition-colors">

@@ -106,23 +106,18 @@ export default function NewsDetailClient({
       className="newsroom-surface-card pt-6 pb-20 relative"
     >
       {/* Top Navigation Bar */}
-      <div
-        className="border-b newsroom-border-subtle sticky top-0 backdrop-blur-md z-40 transition-all"
-        style={{ backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.95)' }}
-      >
-        <div className="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
-          <Link
-            href="/newsroom"
-            className="group flex items-center gap-2 newsroom-label newsroom-text-subtle hover:text-[var(--newsroom-text-primary)] transition-colors"
-          >
-            <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
-            Back to Feed
+      <div className="newsroom-detail-header">
+        <div className="newsroom-detail-header-inner">
+          <Link href="/newsroom" className="newsroom-back-btn">
+            <ArrowLeft className="w-3 h-3 newsroom-back-icon" />
+            Back to Newsroom
           </Link>
           <div className="flex gap-4">
             <button
               onClick={handleShare}
-              className="newsroom-text-soft hover:text-[var(--newsroom-text-primary)] transition-colors"
+              className="newsroom-icon-soft hover:newsroom-text-primary transition-colors"
               title="Share article"
+              type="button"
             >
               <Share2 className="w-4 h-4" />
             </button>
@@ -188,14 +183,14 @@ export default function NewsDetailClient({
             />
           </div>
         ) : (
-          <div className="w-full h-px bg-[var(--newsroom-border-subtle)] mb-16" />
+          <div className="newsroom-detail-divider" />
         )}
 
         {/* Article Body */}
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
-          <div className="hidden md:block">
-            <div className="sticky top-32">
-              <div className="w-8 h-px bg-[var(--newsroom-text-primary)] mb-4"></div>
+          <div className="hidden md:block newsroom-detail-sidebar">
+            <div className="newsroom-detail-sticky">
+              <div className="newsroom-section-marker"></div>
               <MonoLabel>Section 01</MonoLabel>
             </div>
           </div>
