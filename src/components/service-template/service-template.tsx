@@ -16,6 +16,7 @@ import { EngineSection } from './engine-section';
 import { DataSection } from './data-section';
 import { GallerySection } from './gallery-section';
 import { CtaSection } from './cta-section';
+import { TimelineSection } from './timeline-section';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import * as messages from '@/paraglide/messages';
 
@@ -113,6 +114,21 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
       {/* Scrollable content */}
       <div className="relative z-10">
         <HeroSection hero={content.hero} />
+
+        {activeTab === "BIM" && content.timeline ? (
+          <TimelineSection
+            heading={content.timeline.heading}
+            items={content.timeline.items}
+            sectionTitleClass={SECTION_TITLE_STYLE}
+            colors={{
+              textStrong: COLORS.textStrong,
+              textBase: COLORS.textBase,
+              textSub: COLORS.textSub,
+              textMuted: COLORS.textMuted,
+            }}
+          />
+        ) : null}
+
         <MethodologySection
           narrative={content.narrative}
           sectionTitleClass={SECTION_TITLE_STYLE}
@@ -122,7 +138,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
             textMuted: COLORS.textMuted,
             textSub: COLORS.textSub,
           }}
-          timeline={activeTab === "BIM" ? content.timeline : undefined}
+          timeline={activeTab === "BIM" ? undefined : content.timeline}
         />
         <EngineSection
           items={content.engine}

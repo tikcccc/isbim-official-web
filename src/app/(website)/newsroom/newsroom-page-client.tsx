@@ -315,9 +315,8 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
       href={`/newsroom/${post.slug.current}`}
       className="newsroom-card-featured group"
     >
-      <div className="flex flex-col md:flex-row h-full">
       {hasImage && (
-        <div className="w-full md:w-1/2 aspect-[16/9] md:aspect-auto bg-gray-100 overflow-hidden relative border-b md:border-b-0 md:border-r border-gray-200">
+        <div className="newsroom-card-featured-image">
           <Image
             src={imageUrl}
             alt={post.mainImage?.alt || post.title}
@@ -328,39 +327,38 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
         </div>
       )}
 
-      <div className={`p-8 md:p-12 flex flex-col justify-center ${hasImage ? 'w-full md:w-1/2' : 'w-full'}`}>
-        <div className="flex justify-between items-start mb-6">
+      <div className="newsroom-card-featured-content">
+        <div className="flex justify-between items-start newsroom-mb-sm">
           <div className="flex gap-2">
-            <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">
+            <MonoLabel className="newsroom-text-soft group-hover:newsroom-text-primary transition-colors">
               [{post.category.title}]
             </MonoLabel>
           </div>
           <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
         </div>
 
-        <h3 className="text-3xl md:text-5xl font-bold leading-tight text-gray-900 mb-6 group-hover:underline decoration-2 underline-offset-8">
+        <h3 className="newsroom-card-title-featured newsroom-mb-sm group-hover:underline decoration-2 underline-offset-8">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="text-xl text-gray-500 leading-relaxed font-light mb-8">
+          <p className="newsroom-subtitle newsroom-mb">
             {post.subtitle}
           </p>
         )}
 
         {!hasImage && post.excerpt && (
-          <p className="text-gray-600 leading-relaxed line-clamp-4 font-mono text-sm mb-6 border-l-2 border-gray-200 pl-4">
+          <p className="newsroom-excerpt-mono newsroom-mb line-clamp-4 border-l-2 newsroom-border-soft pl-4">
             {post.excerpt}
           </p>
         )}
 
-        <div className="mt-auto pt-4 flex items-center justify-between w-full border-t border-transparent group-hover:border-gray-100 transition-colors">
-          <span className="text-sm font-bold uppercase tracking-wide group-hover:text-blue-700 transition-colors">
+        <div className="newsroom-card-footer">
+          <span className="newsroom-cta-text newsroom-text-primary group-hover:newsroom-text-accent transition-colors">
             Read Featured Story
           </span>
-          <ArrowRight className="w-4 h-4 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
+          <ArrowRight className="w-4 h-4 group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
         </div>
-      </div>
       </div>
     </Link>
   );

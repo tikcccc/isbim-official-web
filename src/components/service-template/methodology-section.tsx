@@ -43,7 +43,7 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
   );
 
   return (
-    <section className="min-h-screen bg-[var(--surface-base)] relative z-20 flex items-center shadow-[0_-20px_50px_rgba(0,0,0,0.3)]">
+    <section className="min-h-screen bg-[var(--surface-base)] relative z-20 flex items-center">
       <div className="service-shell py-16 md:py-24">
         {shouldReduceMotion ? (
           title
