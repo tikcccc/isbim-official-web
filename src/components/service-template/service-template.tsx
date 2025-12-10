@@ -19,6 +19,7 @@ import { CtaSection } from './cta-section';
 import { TimelineSection } from './timeline-section';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import * as messages from '@/paraglide/messages';
+import { ROUTES } from '@/lib/constants';
 
 // Token-aligned color class shortcuts
 const COLORS = {
@@ -51,7 +52,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   const prefersReducedMotion = useReducedMotion();
   const engineHeading =
     activeTab === "JPM"
-      ? messages.service_jpm_engine_heading?.() ?? "The Four-Pillar Engine"
+      ? messages.service_jpm_engine_heading?.() ?? " Hong Kong Precision x China Scale : The Four-Pillar Engine"
       : activeTab === "BIM"
         ? messages.service_bim_engine_heading?.() ?? "What We Actually Deliver"
         : activeTab === "VENTURES"
@@ -170,6 +171,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
             textInvMuted: COLORS.textInvMuted,
             textInvSub: COLORS.textInvSub,
           }}
+          contactHref={activeTab === "VENTURES" ? undefined : ROUTES.CONTACT}
         />
         <CtaSection
           activeTab={activeTab}

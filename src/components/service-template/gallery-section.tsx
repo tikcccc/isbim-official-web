@@ -9,6 +9,7 @@ import { TypewriterText } from '@/components/animations';
 import { useInView } from '@/hooks';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
+import { Link } from '@/lib/i18n';
 
 interface GallerySectionProps {
   gallery: ServiceContent['gallery'];
@@ -19,9 +20,10 @@ interface GallerySectionProps {
     textInvMuted: string;
     textInvSub: string;
   };
+  contactHref?: string;
 }
 
-export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading, colors }) => {
+export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading, colors, contactHref }) => {
   const shouldReduceMotion = !!useReducedMotion();
 
   return (
@@ -47,6 +49,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
               index={idx}
               colors={colors}
               shouldReduceMotion={shouldReduceMotion}
+              contactHref={contactHref}
             />
           ))}
         </div>
@@ -60,9 +63,10 @@ interface GalleryItemProps {
   index: number;
   colors: GallerySectionProps['colors'];
   shouldReduceMotion: boolean;
+  contactHref?: string;
 }
 
-function GalleryItem({ item, index, colors, shouldReduceMotion }: GalleryItemProps) {
+function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: GalleryItemProps) {
   const { ref, inView } = useInView<HTMLDivElement>({
     threshold: 0.2,
     triggerOnce: true,
@@ -90,53 +94,66 @@ function GalleryItem({ item, index, colors, shouldReduceMotion }: GalleryItemPro
   };
 
   const labelText = `${item.id} — ${item.loc}`;
+  const destination = item.href || contactHref;
+  const Wrapper: React.ElementType = destination ? Link : 'div';
+  const wrapperProps = destination
+    ? {
+        href: destination,
+        'aria-label': `${item.title} – ${item.href ? 'external link' : 'contact us'}`,
+        className: 'block',
+        target: item.href ? '_blank' : undefined,
+        rel: item.href ? 'noreferrer' : undefined,
+      }
+    : { className: 'block' };
 
   return (
-    <m.div
-      ref={ref}
-      className="group grid grid-cols-1 md:grid-cols-12 gap-12 items-center cursor-pointer"
-      initial={shouldReduceMotion ? 'visible' : 'hidden'}
-      animate={shouldReduceMotion ? 'visible' : inView ? 'visible' : 'hidden'}
-      variants={rowVariants}
-    >
-      <div className={`md:col-span-7 overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-        <div className="h-[400px] md:h-[600px] relative overflow-hidden bg-[var(--surface-dark)]">
-          <Image
-            src={item.img}
-            alt={item.loc}
-            fill
-            sizes="(min-width: 1024px) 60vw, 90vw"
-            className="object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0"
-            priority={index === 0}
-          />
+    <Wrapper {...wrapperProps}>
+      <m.div
+        ref={ref}
+        className="group grid grid-cols-1 md:grid-cols-12 gap-12 items-center cursor-pointer"
+        initial={shouldReduceMotion ? 'visible' : 'hidden'}
+        animate={shouldReduceMotion ? 'visible' : inView ? 'visible' : 'hidden'}
+        variants={rowVariants}
+      >
+        <div className={`md:col-span-7 overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+          <div className="h-[400px] md:h-[600px] relative overflow-hidden bg-[var(--surface-dark)]">
+            <Image
+              src={item.img}
+              alt={item.loc}
+              fill
+              sizes="(min-width: 1024px) 60vw, 90vw"
+              className="object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0"
+              priority={index === 0}
+            />
+          </div>
         </div>
-      </div>
-      <div className={`md:col-span-5 flex flex-col h-full justify-center py-4 ${index % 2 === 1 ? 'md:order-1 md:text-right' : ''}`}>
-        <div>
-          <span className={`text-xs font-mono mb-6 block ${colors.textInvSub} tracking-widest`}>
-            {startTypewriter && !shouldReduceMotion ? (
-              <TypewriterText
-                text={labelText}
-                className={colors.textInvSub}
-                delay={index * DESIGN_TOKENS.animation.stagger.relaxed}
-                cursorVisible={false}
-              />
-            ) : (
-              <span aria-hidden>{labelText}</span>
-            )}
-          </span>
-          <h3 className={`text-3xl md:text-4xl font-bold mb-6 ${colors.textInvStrong} group-hover:${colors.textInvMuted} transition-colors`}>
-            {item.title}
-          </h3>
-          <p className={`text-lg font-light leading-relaxed mb-8 ${colors.textInvBase} ${index % 2 === 1 ? 'ml-auto' : ''} max-w-md`}>
-            {item.desc}
-          </p>
+        <div className={`md:col-span-5 flex flex-col h-full justify-center py-4 ${index % 2 === 1 ? 'md:order-1 md:text-right' : ''}`}>
+          <div>
+            <span className={`text-xs font-mono mb-6 block ${colors.textInvSub} tracking-widest`}>
+              {startTypewriter && !shouldReduceMotion ? (
+                <TypewriterText
+                  text={labelText}
+                  className={colors.textInvSub}
+                  delay={index * DESIGN_TOKENS.animation.stagger.relaxed}
+                  cursorVisible={false}
+                />
+              ) : (
+                <span aria-hidden>{labelText}</span>
+              )}
+            </span>
+            <h3 className={`text-3xl md:text-4xl font-bold mb-6 ${colors.textInvStrong} group-hover:${colors.textInvMuted} transition-colors`}>
+              {item.title}
+            </h3>
+            <p className={`text-lg font-light leading-relaxed mb-8 ${colors.textInvBase} ${index % 2 === 1 ? 'ml-auto' : ''} max-w-md`}>
+              {item.desc}
+            </p>
+          </div>
+          <div className={`flex items-center border-t border-[rgba(255,255,255,0.2)] pt-6 ${index % 2 === 1 ? 'justify-end' : 'justify-between'}`}>
+            <span className={`text-2xl font-mono ${colors.textInvStrong} ${index % 2 === 1 ? 'order-2 ml-4' : ''}`}>{item.metric}</span>
+            <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-opacity text-white" />
+          </div>
         </div>
-        <div className={`flex items-center border-t border-[rgba(255,255,255,0.2)] pt-6 ${index % 2 === 1 ? 'justify-end' : 'justify-between'}`}>
-          <span className={`text-2xl font-mono ${colors.textInvStrong} ${index % 2 === 1 ? 'order-2 ml-4' : ''}`}>{item.metric}</span>
-          <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-opacity text-white" />
-        </div>
-      </div>
-    </m.div>
+      </m.div>
+    </Wrapper>
   );
 }

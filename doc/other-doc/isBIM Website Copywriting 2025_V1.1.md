@@ -455,7 +455,7 @@ https://www.palantir.com/platforms/aip/
 
 _Scroll to Explore_
 
-**Hong Kong Precision Meets China Scale: The Four-Pillar Engine**
+**Hong Kong Precision Meets China Scale:  Hong Kong Precision x China Scale : The Four-Pillar Engine**
 
 JPM fuses Hong Kong Professional Services (bilingual PM teams translating global/HK standards into China-executable specs, dual compliance expertise), AI Intelligence (real-time digital twin predicting risks 30 days ahead at 89% accuracy, 3-minute executive dashboards), 8,000+ vetted MiC suppliers (4-step matching: technical, experience, financial, cultural), and Global Delivery (end-to-end from design to after-sales, 35–45% less waste, 25–35% lower emissions). This is nation-scale infrastructure orchestration—Hong Kong’s strategic bridge to Belt & Road.
 

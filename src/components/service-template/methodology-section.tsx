@@ -34,12 +34,14 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
   );
 
   const leadBlock = (
-    <p className={`text-[clamp(3rem,4.75vw,4.6rem)] font-bold leading-tight tracking-tight ${colors.textStrong} space-y-3`}>
-      {narrative.lead} <br/>
-      <span className={`${colors.textMuted} font-medium block text-[clamp(2.6rem,4.2vw,3.6rem)]`}>
+    <div className="space-y-4">
+      <h3 className={`text-[clamp(2.2rem,3.8vw,3.4rem)] font-bold leading-[1.2] tracking-tight ${colors.textStrong}`}>
+        {narrative.lead}
+      </h3>
+      <p className={`${colors.textMuted} font-normal text-[clamp(1.3rem,2.4vw,1.8rem)] leading-relaxed`}>
         {narrative.sub}
-      </span>
-    </p>
+      </p>
+    </div>
   );
 
   return (

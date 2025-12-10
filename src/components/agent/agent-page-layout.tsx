@@ -7,7 +7,6 @@ import { FeatureSection } from "@/components/product-template/feature-section";
 import { ProductCTASection } from "@/components/product-template/cta-section";
 import { ProductFeature, ProductPageLayoutProps } from "@/components/product-template/product-page-layout";
 import { KnowledgeDeepDive } from "./knowledge-deep-dive";
-import { EvolutionSummary } from "./evolution-summary";
 
 type AgentPageLayoutProps = ProductPageLayoutProps & {
   features: ProductFeature[];
@@ -86,8 +85,6 @@ export function AgentPageLayout({
             isLast={idx === features.length - 1}
           />
         ))}
-
-        <EvolutionSummary />
       </main>
 
       <ProductCTASection
