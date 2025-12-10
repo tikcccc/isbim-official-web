@@ -230,7 +230,7 @@ function HeroSection({ post }: { post: NewsPost }) {
             {/* Read More CTA with Arrow */}
             <m.div className="mt-8 flex items-center gap-3" variants={heroItemVariants}>
               <span className="text-sm md:text-base font-bold uppercase tracking-wide text-white">
-                Read Story
+                Read Featured Story
               </span>
               <MoveRight className="w-5 h-5 md:w-6 md:h-6 text-white transition-transform duration-300 group-hover:translate-x-2" />
             </m.div>
@@ -363,7 +363,7 @@ function NewsListView({
                   type="button"
                   onClick={() => setFilter(cat as CategoryFilter)}
                   className={`
-                    px-3 py-1.5 text-[10px] md:text-xs font-mono uppercase tracking-wide border transition-all duration-200
+                    px-3 py-1.5 text-xs md:text-sm font-mono uppercase tracking-wide border transition-all duration-200
                     ${filter === cat
                       ? 'bg-black text-white border-black'
                       : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
@@ -374,7 +374,7 @@ function NewsListView({
               ))}
             </div>
 
-            <h2 className="text-3xl font-bold tracking-tighter text-gray-900">
+            <h2 className="text-4xl font-bold tracking-tighter text-gray-900">
               Latest Briefings
             </h2>
           </div>
@@ -518,7 +518,7 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
 
         <div className="newsroom-card-footer">
           <span className="newsroom-cta-text newsroom-text-primary group-hover:newsroom-text-accent transition-colors">
-            Read Featured Story
+            Read Story
           </span>
           <ArrowRight className="w-4 h-4 group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
         </div>

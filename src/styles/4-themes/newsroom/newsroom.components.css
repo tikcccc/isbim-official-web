@@ -233,7 +233,7 @@
   .newsroom-card-featured {
     display: flex;
     flex-direction: column;
-    background: #FFFFFF;
+    background: var(--newsroom-surface-card);
     border: 1px solid var(--newsroom-border-subtle);
     overflow: hidden;
     transition: border-color var(--newsroom-transition-colors);
@@ -242,7 +242,9 @@
   @media (min-width: 768px) {
     .newsroom-card-featured {
       flex-direction: row;
-      min-height: 480px;
+      align-items: stretch;
+      min-height: clamp(260px, 45vh, 440px);
+      max-height: clamp(320px, 55vh, 520px);
     }
   }
 
@@ -255,12 +257,16 @@
     overflow: hidden;
     position: relative;
     border-bottom: 1px solid var(--newsroom-border-subtle);
+    min-height: 200px;
   }
 
   @media (min-width: 768px) {
     .newsroom-card-featured-image {
       width: 50%;
       aspect-ratio: auto;
+      height: 100%;
+      min-height: clamp(240px, 45vh, 420px);
+      max-height: clamp(320px, 55vh, 520px);
       border-bottom: none;
       border-right: 1px solid var(--newsroom-border-subtle);
     }
@@ -268,25 +274,25 @@
 
   .newsroom-card-featured-content {
     width: 100%;
-    padding: 2rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   @media (min-width: 768px) {
     .newsroom-card-featured-content {
       width: 50%;
-      padding: 2.5rem;
-      gap: 1.75rem;
+      padding: 1.5rem;
+      gap: 1.25rem;
     }
   }
 
   @media (min-width: 1024px) {
     .newsroom-card-featured-content {
-      padding: 3rem 3.5rem;
-      gap: 2rem;
+      padding: 2rem 2.25rem;
+      gap: 1.5rem;
     }
   }
 
