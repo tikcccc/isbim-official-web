@@ -26,19 +26,6 @@
 }
 
 @layer components {
-  .service-shell {
-    width: 90%;
-    max-width: 1700px;
-    margin-inline: auto;
-    padding-inline: 0;
-  }
-
-  @media (min-width: 48em) {
-    .service-shell {
-      width: 88%;
-    }
-  }
-
   .service-section-lg {
     padding-block: var(--service-section);
   }

@@ -1,0 +1,14 @@
+@layer components {
+  .timelineGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  @media (min-width: 48em) {
+    .timelineGrid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2rem;
+    }
+  }
+}

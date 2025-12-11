@@ -123,10 +123,7 @@ export function ProductPageLayout({
   ctaButtonHref = "/contact",
 }: ProductPageLayoutProps) {
   return (
-    <div
-      className="product-page relative"
-      style={{ backgroundColor: "var(--product-surface-light)" }}
-    >
+    <div className="product-page relative">
       {/* Section A1: Hero Background (Fixed) - z-0 */}
       <HeroBackground
         videoSrc={videoSrc}
@@ -157,15 +154,11 @@ export function ProductPageLayout({
       {/* Seamless handoff to features (covers hero background bleed) */}
       <div
         className="relative z-10 h-16 -mt-6"
-        style={{ backgroundColor: "var(--product-surface-light)" }}
         aria-hidden="true"
       />
 
       {/* Section C: Feature Sections */}
-      <main
-        className="relative z-10"
-        style={{ backgroundColor: "var(--product-surface-light)" }}
-      >
+      <main className="relative z-10">
         {features.map((feature, idx) => (
           <FeatureSection
             key={feature.index}

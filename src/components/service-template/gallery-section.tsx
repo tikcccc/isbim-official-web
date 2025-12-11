@@ -10,6 +10,8 @@ import { useInView } from '@/hooks';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
 import { Link } from '@/lib/i18n';
+import shared from './service-shared.module.css';
+import styles from './gallery-section.module.css';
 
 interface GallerySectionProps {
   gallery: ServiceContent['gallery'];
@@ -27,17 +29,17 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
   const shouldReduceMotion = !!useReducedMotion();
 
   return (
-    <section className="service-section-xl bg-[var(--surface-dark)] relative z-20">
+    <section className={`${shared.sectionBase} ${shared.sectionBaseDark} service-section-xl`}>
       <div className="service-shell">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-[rgba(255,255,255,0.2)] pb-8">
+        <div className={`${styles.galleryHeader}`}>
           <div>
-            <span className={`block text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12 ${colors.textInvSub}`}>
+            <span className={`font-label block text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12 ${colors.textInvSub}`}>
               {heading}
             </span>
-            <h2 className={`text-4xl md:text-6xl font-bold tracking-tight ${colors.textInvStrong}`}>{gallery.title}</h2>
+            <h2 className={`font-display-section text-4xl md:text-6xl font-bold tracking-tight ${colors.textInvStrong}`}>{gallery.title}</h2>
           </div>
           <div className="text-right mt-8 md:mt-0">
-            <p className={`text-xl md:text-2xl font-mono ${colors.textInvBase}`}>{gallery.meta}</p>
+            <p className={`font-body-base text-xl md:text-2xl font-mono ${colors.textInvBase}`}>{gallery.meta}</p>
           </div>
         </div>
 
@@ -110,13 +112,13 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
     <Wrapper {...wrapperProps}>
       <m.div
         ref={ref}
-        className="group grid grid-cols-1 md:grid-cols-12 gap-12 items-center cursor-pointer"
+        className={`group ${styles.galleryGrid} md:grid-cols-12 items-center cursor-pointer`}
         initial={shouldReduceMotion ? 'visible' : 'hidden'}
         animate={shouldReduceMotion ? 'visible' : inView ? 'visible' : 'hidden'}
         variants={rowVariants}
       >
         <div className={`md:col-span-7 overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-          <div className="h-[400px] md:h-[600px] relative overflow-hidden bg-[var(--surface-dark)]">
+          <div className={`${styles.galleryMedia}`}>
             <Image
               src={item.img}
               alt={item.loc}
@@ -129,7 +131,7 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
         </div>
         <div className={`md:col-span-5 flex flex-col h-full justify-center py-4 ${index % 2 === 1 ? 'md:order-1 md:text-right' : ''}`}>
           <div>
-            <span className={`text-xs font-mono mb-6 block ${colors.textInvSub} tracking-widest`}>
+            <span className={`font-label-sm text-xs font-mono mb-6 block ${colors.textInvSub} tracking-widest`}>
               {startTypewriter && !shouldReduceMotion ? (
                 <TypewriterText
                   text={labelText}
@@ -141,10 +143,10 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
                 <span aria-hidden>{labelText}</span>
               )}
             </span>
-            <h3 className={`text-3xl md:text-4xl font-bold mb-6 ${colors.textInvStrong} group-hover:${colors.textInvMuted} transition-colors`}>
+            <h3 className={`font-heading-card text-3xl md:text-4xl font-bold mb-6 ${colors.textInvStrong} group-hover:${colors.textInvMuted} transition-colors`}>
               {item.title}
             </h3>
-            <p className={`text-lg font-light leading-relaxed mb-8 ${colors.textInvBase} ${index % 2 === 1 ? 'ml-auto' : ''} max-w-md`}>
+            <p className={`font-body-base text-base md:text-lg font-light leading-relaxed mb-8 ${colors.textInvBase} ${index % 2 === 1 ? 'ml-auto' : ''} max-w-md`}>
               {item.desc}
             </p>
           </div>

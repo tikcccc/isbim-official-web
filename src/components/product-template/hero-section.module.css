@@ -1,5 +1,5 @@
 .hero {
-  background: var(--surface-hero);
+  background: var(--product-surface-dark);
   color: var(--text-inverse-strong);
 }
 
@@ -55,14 +55,17 @@
 
 .overlayVertical {
   background: var(--product-hero-overlay-vertical);
+  transition: opacity var(--motion-base) var(--ease-smooth);
 }
 
 .overlayHorizontal {
   background: var(--product-hero-overlay-horizontal);
+  transition: opacity var(--motion-base) var(--ease-smooth);
 }
 
 .foreground {
   color: var(--text-inverse-strong);
+  transition: transform 0.18s ease-out;
 }
 
 .metadataLine {
@@ -82,6 +85,35 @@
   width: 1px;
   background: var(--product-meta-line);
   opacity: 0.8;
+}
+
+.gapLg {
+  gap: var(--product-gap);
+}
+
+.gapSm {
+  gap: var(--product-gap-sm);
+}
+
+.metaColor {
+  transition: color var(--motion-base) var(--ease-smooth);
+  color: var(--text-inverse-muted);
+}
+
+.metaItem {
+  color: var(--text-inverse-subtle);
+  transition: color var(--motion-fast) var(--ease-smooth);
+}
+
+.metaChipWrap {
+  gap: var(--product-gap-sm);
+  color: var(--text-inverse-muted);
+}
+
+.metaChipItem {
+  border-color: var(--border-inverse-soft);
+  background: var(--chip-bg);
+  color: var(--text-inverse-muted);
 }
 
 .metaChip {

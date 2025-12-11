@@ -60,7 +60,6 @@ export function HeroSection({
   return (
     <header
       className={cn("sticky top-0 h-screen z-0 overflow-hidden", styles.hero)}
-      style={{ backgroundColor: "var(--product-surface-dark)" }}
     >
       {/* Background Video Layer - stays fixed (or slow parallax) */}
       <div className="absolute inset-0 -z-10">
@@ -79,33 +78,22 @@ export function HeroSection({
         </video>
 
         {/* Gradient Overlay - enhanced for better depth and readability */}
-        <div
-          className={cn("absolute inset-0 transition-opacity", styles.overlayVertical)}
-          style={{ transition: "opacity var(--motion-base) var(--ease-smooth)" }}
-        />
-        <div
-          className={cn("absolute inset-0 transition-opacity", styles.overlayHorizontal)}
-          style={{ transition: "opacity var(--motion-base) var(--ease-smooth)" }}
-        />
+        <div className={cn("absolute inset-0", styles.overlayVertical)} />
+        <div className={cn("absolute inset-0", styles.overlayHorizontal)} />
       </div>
 
       {/* Foreground Content Layer - moves with narrative track */}
       <div
         data-hero-foreground="true"
         className={cn("relative z-10 h-full max-w-[1800px] mx-auto flex flex-col justify-end will-change-transform", styles.foreground, styles.heroPadding)}
-        style={{
-          transition: "transform 0.18s ease-out",
-        }}
       >
         {/* Main content area */}
         <div
-          className="flex flex-col md:flex-row justify-between items-start md:items-end w-full"
-          style={{ gap: "var(--product-gap)" }}
+          className={cn("flex flex-col md:flex-row justify-between items-start md:items-end w-full", styles.gapLg)}
         >
           {/* Left: Product Name - Anchored bottom-left */}
           <div
-            className="flex flex-col max-w-4xl"
-            style={{ gap: "var(--product-gap-sm)" }}
+            className={cn("flex flex-col max-w-4xl", styles.gapSm)}
           >
             {logoComponent || <h1 className={styles.heroTitle}>{productName}</h1>}
 
@@ -120,14 +108,12 @@ export function HeroSection({
           {/* Right: Metadata - Bottom Right, Minimalist */}
           <div className="hidden md:flex flex-col items-end">
             <div
-              className={cn("relative flex flex-col items-end pr-2 pl-8", styles.meta, styles.metaLine, styles.metadataLine)}
-              style={{ gap: "var(--product-gap-sm)", transition: "color var(--motion-base) var(--ease-smooth)", color: "var(--text-inverse-muted)" }}
+              className={cn("relative flex flex-col items-end pr-2 pl-8", styles.meta, styles.metaLine, styles.metadataLine, styles.gapSm, styles.metaColor)}
             >
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}
-                  className="max-w-[240px] text-right leading-tight hover:text-white"
-                  style={{ color: "var(--text-inverse-subtle)", transition: "color var(--motion-fast) var(--ease-smooth)" }}
+                  className={cn("max-w-[240px] text-right leading-tight hover:text-white", styles.metaItem)}
                 >
                   {item}
                 </span>
@@ -138,18 +124,12 @@ export function HeroSection({
 
         {/* Mobile metadata - horizontal layout */}
         <div
-          className={cn("flex md:hidden mt-6 flex-wrap", styles.metaChip)}
-          style={{ gap: "var(--product-gap-sm)", color: "var(--text-inverse-muted)" }}
+          className={cn("flex md:hidden mt-6 flex-wrap", styles.metaChip, styles.metaChipWrap)}
         >
           {cleanedMetadata.slice(0, 4).map((item, i) => (
             <span
               key={i}
-              className="px-3 py-1 rounded-full border backdrop-blur-[1px]"
-              style={{
-                borderColor: "var(--border-inverse-soft)",
-                background: "var(--chip-bg)",
-                color: "var(--text-inverse-muted)",
-              }}
+              className={cn("px-3 py-1 rounded-full border backdrop-blur-[1px]", styles.metaChipItem)}
             >
               {item}
             </span>

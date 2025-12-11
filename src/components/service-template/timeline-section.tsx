@@ -5,6 +5,7 @@ import { useReducedMotion } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
 import { useInView } from '@/hooks';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
+import styles from './timeline-section.module.css';
 
 interface TimelineItem {
   year: string;
@@ -90,7 +91,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
 
         <div
           ref={ref}
-          className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8 lg:gap-12"
+          className={`${styles.timelineGrid}`}
         >
           {items.map((item, idx) => (
             <m.div
@@ -127,7 +128,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
 
               {/* Year badge */}
               <div className="flex items-center gap-3 mb-4 md:mb-3">
-                <span className={`text-xs md:text-sm font-bold uppercase tracking-[0.2em] ${colors.textSub} ${item.isNow ? 'md:text-[#2f64ff]' : ''}`}>
+                <span className={`font-label-sm text-xs md:text-sm font-bold uppercase tracking-[0.2em] ${colors.textSub} ${item.isNow ? 'md:text-[#2f64ff]' : ''}`}>
                   {item.year}
                 </span>
                 {item.isNow && (
@@ -138,12 +139,12 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
               </div>
 
               {/* Title */}
-              <h4 className={`text-xl md:text-2xl font-bold leading-tight mb-3 ${colors.textStrong} ${item.isNow ? 'md:text-[#2f64ff]' : ''}`}>
+              <h4 className={`font-heading-card text-xl md:text-2xl font-bold leading-tight mb-3 ${colors.textStrong} ${item.isNow ? 'md:text-[#2f64ff]' : ''}`}>
                 {item.title}
               </h4>
 
               {/* Description */}
-              <p className={`text-sm md:text-base leading-relaxed ${colors.textMuted} max-w-[280px] md:max-w-none`}>
+              <p className={`font-body-base text-sm md:text-base leading-relaxed ${colors.textMuted} max-w-[280px] md:max-w-none`}>
                 {item.desc}
               </p>
             </m.div>

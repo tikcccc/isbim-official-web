@@ -6,6 +6,8 @@ import { ScrollReveal } from '@/components/animations/scroll-reveal';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
 import { TimelineSection } from './timeline-section';
+import shared from './service-shared.module.css';
+import styles from './methodology-section.module.css';
 
 interface MethodologySectionProps {
   narrative: ServiceContent['narrative'];
@@ -35,18 +37,18 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
 
   const leadBlock = (
     <div className="space-y-4">
-      <h3 className={`text-[clamp(2.2rem,3.8vw,3.4rem)] font-bold leading-[1.2] tracking-tight ${colors.textStrong}`}>
+      <h3 className={`font-display-feature text-[clamp(2.2rem,3.8vw,3.4rem)] font-bold leading-[1.2] tracking-tight ${colors.textStrong}`}>
         {narrative.lead}
       </h3>
-      <p className={`${colors.textMuted} font-normal text-[clamp(1.3rem,2.4vw,1.8rem)] leading-relaxed`}>
+      <p className={`font-body-lg ${colors.textMuted} font-normal text-[clamp(1.3rem,2.4vw,1.8rem)] leading-relaxed`}>
         {narrative.sub}
       </p>
     </div>
   );
 
   return (
-    <section className="min-h-screen bg-[var(--surface-base)] relative z-20 flex items-center">
-      <div className="service-shell py-16 md:py-24">
+    <section className={`${shared.sectionBase} ${shared.sectionBaseLight}`}>
+      <div className={`service-shell ${shared.padLg}`}>
         {shouldReduceMotion ? (
           title
         ) : (
@@ -55,7 +57,7 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
           </ScrollReveal>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-center">
+        <div className={`${styles.methodGrid} items-center`}>
           <div className="md:col-span-6">
             {shouldReduceMotion ? (
               leadBlock
@@ -67,14 +69,14 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
           </div>
           
           <div className="md:col-span-1 hidden md:block h-full">
-            <div className="h-full w-px bg-[var(--border-strong)] mx-auto"></div>
+            <div className={styles.methodDivider}></div>
           </div> 
 
           <div className="md:col-span-5 space-y-8">
-            <p className={`text-[clamp(1.05rem,2.2vw,1.3rem)] ${colors.textBase} leading-relaxed font-light`}>
+            <p className={`font-body-base text-[clamp(1.05rem,2.2vw,1.3rem)] ${colors.textBase} leading-relaxed font-light`}>
               {narrative.p1}
             </p>
-            <p className={`text-[clamp(1.05rem,2.2vw,1.3rem)] ${colors.textMuted} leading-relaxed`}>
+            <p className={`font-body-base text-[clamp(1.05rem,2.2vw,1.3rem)] ${colors.textMuted} leading-relaxed`}>
               {narrative.p2}
             </p>
           </div>

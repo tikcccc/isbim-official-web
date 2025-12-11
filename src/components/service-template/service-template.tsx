@@ -39,7 +39,7 @@ const COLORS = {
   bgDark: 'bg-[var(--surface-dark)]',
 };
 
-const SECTION_TITLE_STYLE = `${COLORS.textSub} text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12`;
+const SECTION_TITLE_STYLE = `${COLORS.textSub} font-label text-3xl font-bold tracking-widest pb-4 inline-block mb-12`;
 
 interface ServiceTemplateProps {
   initialService: ServiceTab;

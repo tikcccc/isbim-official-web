@@ -8,6 +8,8 @@ import { ScrollReveal } from '@/components/animations/scroll-reveal';
 import { useInView } from '@/hooks';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
+import shared from './service-shared.module.css';
+import styles from './engine-section.module.css';
 
 interface EngineSectionProps {
   items: ServiceContent['engine'];
@@ -79,8 +81,8 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
   };
 
   return (
-    <section className="min-h-screen bg-[var(--surface-subtle)] relative z-20 flex items-center">
-      <div className="service-shell py-16 md:py-24">
+    <section className={`${shared.sectionBase} ${shared.sectionBaseSubtle}`}>
+      <div className={`service-shell ${shared.padLg}`}>
         {shouldReduceMotion ? (
           <h3 className={`${sectionTitleClass} mb-10 md:mb-14`}>{heading}</h3>
         ) : (
@@ -91,7 +93,7 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
         
         <m.div
           ref={ref}
-          className="flex flex-col"
+          className={styles.engineList}
           initial={shouldReduceMotion ? 'visible' : 'hidden'}
           animate={shouldReduceMotion ? 'visible' : inView ? 'visible' : 'hidden'}
           variants={containerVariants}
@@ -100,10 +102,7 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
             <m.div
               key={idx}
               variants={itemVariants}
-              className={`group flex flex-col md:flex-row md:items-start border-t border-[var(--border-subtle)] py-10 md:py-12 transition-colors duration-300 hover:bg-[var(--surface-base)]
-              ${idx === 0 ? 'border-t-[var(--border-strong)]' : ''}
-              ${idx === items.length - 1 ? 'border-b border-[var(--border-subtle)]' : ''}
-            `}>
+              className={`group ${styles.engineItem} md:flex-row md:items-start py-10 md:py-12 transition-colors duration-300 hover:bg-[var(--surface-base)]`}>
               <span className={`text-sm font-mono mr-8 md:mr-12 ${colors.textSub} group-hover:${colors.textStrong} transition-colors min-w-[3ch]`}>
                 {startTypewriter && !shouldReduceMotion ? (
                   <TypewriterText
@@ -117,12 +116,12 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
                 )}
               </span>
               <h4
-                className={`text-3xl md:text-4xl font-medium w-full md:w-1/3 mb-4 md:mb-0 ${colors.textStrong}`}
+                className={`font-heading-card text-3xl md:text-4xl font-medium w-full md:w-1/3 mb-4 md:mb-0 ${colors.textStrong}`}
               >
                 {item.title}
               </h4>
               <p
-                className={`w-full md:w-1/2 text-lg md:text-xl font-light leading-relaxed ${colors.textMuted} group-hover:${colors.textBase} transition-colors`}
+                className={`font-body-base w-full md:w-1/2 text-lg md:text-xl font-light leading-relaxed ${colors.textMuted} group-hover:${colors.textBase} transition-colors`}
               >
                 {renderWithBold(item.desc)}
               </p>

@@ -7,6 +7,7 @@ import { ScrollReveal } from '@/components/animations/scroll-reveal';
 import { TypewriterText } from '@/components/animations';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
+import styles from './hero-section.module.css';
 
 interface HeroSectionProps {
   hero: ServiceContent['hero'];
@@ -16,35 +17,35 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
   const shouldReduceMotion = useReducedMotion();
   const descText = hero.desc.includes('\n') ? hero.desc : hero.desc.replace(' — ', '\n— ');
   const tagLine = shouldReduceMotion ? (
-    <span className="text-white/60 text-lg md:text-xl mt-4 block font-mono uppercase tracking-[0.22em]">
+    <span className={`${styles.heroTag} text-lg md:text-xl`}>
       {hero.tag}
     </span>
   ) : (
     <TypewriterText
       text={hero.tag}
-      className="text-white/60 text-lg md:text-xl mt-4 block font-mono uppercase tracking-[0.22em]"
+      className={`${styles.heroTag} text-lg md:text-xl`}
       cursorVisible={false}
     />
   );
 
   return (
-    <header className="relative min-h-screen w-full flex flex-col justify-end pointer-events-none">
-      <div className="w-full px-6 md:px-12 lg:px-16 relative z-10 pb-20 md:pb-32 text-white pointer-events-auto">
-        <div className="grid grid-cols-12 gap-6 items-end">
+    <header className={styles.hero}>
+      <div className={`${styles.heroInner} text-white`}>
+        <div className={`${styles.heroGrid} items-end`}>
           
           {/* Main Title Area */}
           <div className="col-span-12 lg:col-span-8">
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
-              <div className="w-24 h-1 bg-white mb-8"></div>
+              <div className={styles.heroDivider}></div>
             </ScrollReveal>
             
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
-              <h1 className="text-[15vw] md:text-[10rem] font-black leading-[0.8] tracking-tighter mb-4 mix-blend-overlay opacity-90">
+              <h1 className={`${styles.heroTitle} font-display-hero text-[15vw] md:text-[10rem] font-black tracking-tighter mb-4`}>
                 {hero.title}
               </h1>
             </ScrollReveal>
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow} delay={0.12}>
-              <h2 className="text-4xl md:text-7xl font-light tracking-tight text-white/90 leading-none">
+              <h2 className={`${styles.heroSubtitle} font-display-section text-4xl md:text-7xl font-light tracking-tight leading-none`}>
                 {hero.subTitle}
               </h2>
             </ScrollReveal>
@@ -53,8 +54,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
           {/* Description & Meta Area */}
           <div className="col-span-12 lg:col-span-4 flex flex-col justify-end">
             <ScrollReveal animation="fade" duration={DESIGN_TOKENS.animation.duration.normal} delay={0.1}>
-              <div className="border-l-2 border-white/30 pl-6 mb-8">
-                <p className="text-xl md:text-2xl font-light leading-relaxed text-white/80 whitespace-pre-line">
+              <div className={styles.heroDescWrap}>
+                <p className={`${styles.heroDesc} font-body-lg text-xl md:text-2xl font-light leading-relaxed whitespace-pre-line`}>
                   {descText}
                 </p>
                 {tagLine}

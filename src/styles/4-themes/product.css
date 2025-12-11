@@ -156,4 +156,6 @@
   --product-motion-spring-stiffness: var(--motion-spring-stiffness);
   --product-motion-spring-damping: var(--motion-spring-damping);
   --product-motion-parallax: var(--motion-parallax);
+
+  background: var(--product-surface-light);
 }

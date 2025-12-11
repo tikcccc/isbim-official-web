@@ -101,6 +101,25 @@
   }
 
   /* ─────────────────────────────────────────
+     Service Container
+     Slightly narrower (90% → 88%) with max 1700px, no horizontal padding
+     ───────────────────────────────────────── */
+  .container-service,
+  .service-shell {
+    width: 90%;
+    max-width: 1700px;
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+
+  @media (min-width: 48em) {
+    .container-service,
+    .service-shell {
+      width: 88%;
+    }
+  }
+
+  /* ─────────────────────────────────────────
      Section Padding
      Vertical padding for page sections
      ───────────────────────────────────────── */
