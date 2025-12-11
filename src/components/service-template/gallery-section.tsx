@@ -16,6 +16,7 @@ import styles from './gallery-section.module.css';
 interface GallerySectionProps {
   gallery: ServiceContent['gallery'];
   heading: string;
+  sectionTitleClass: string;
   colors: {
     textInvStrong: string;
     textInvBase: string;
@@ -25,7 +26,7 @@ interface GallerySectionProps {
   contactHref?: string;
 }
 
-export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading, colors, contactHref }) => {
+export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading, sectionTitleClass, colors, contactHref }) => {
   const shouldReduceMotion = !!useReducedMotion();
 
   return (
@@ -33,7 +34,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
       <div className="service-shell">
         <div className={`${styles.galleryHeader}`}>
           <div>
-            <span className={`font-label block text-3xl font-bold tracking-widest uppercase pb-4 inline-block mb-12 ${colors.textInvSub}`}>
+            <span className={`${sectionTitleClass} uppercase ${colors.textInvSub} mb-12`}>
               {heading}
             </span>
             <h2 className={`font-display-section text-4xl md:text-6xl font-bold tracking-tight ${colors.textInvStrong}`}>{gallery.title}</h2>

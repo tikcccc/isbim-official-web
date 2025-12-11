@@ -39,7 +39,9 @@ const COLORS = {
   bgDark: 'bg-[var(--surface-dark)]',
 };
 
-const SECTION_TITLE_STYLE = `${COLORS.textSub} font-label text-3xl font-bold tracking-widest pb-4 inline-block mb-12`;
+const SECTION_TITLE_BASE = 'font-container-subtitle text-3xl font-bold tracking-[0.1em] pb-4 inline-block';
+const SECTION_TITLE_PLAIN = `${COLORS.textSub} ${SECTION_TITLE_BASE}`;
+const SECTION_TITLE_STYLE = `${COLORS.textInvSub} ${SECTION_TITLE_BASE} uppercase`;
 
 interface ServiceTemplateProps {
   initialService: ServiceTab;
@@ -120,19 +122,13 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
           <TimelineSection
             heading={content.timeline.heading}
             items={content.timeline.items}
-            sectionTitleClass={SECTION_TITLE_STYLE}
-            colors={{
-              textStrong: COLORS.textStrong,
-              textBase: COLORS.textBase,
-              textSub: COLORS.textSub,
-              textMuted: COLORS.textMuted,
-            }}
+            sectionTitleClass={SECTION_TITLE_PLAIN}
           />
         ) : null}
 
         <MethodologySection
           narrative={content.narrative}
-          sectionTitleClass={SECTION_TITLE_STYLE}
+          sectionTitleClass={SECTION_TITLE_PLAIN}
           colors={{
             textStrong: COLORS.textStrong,
             textBase: COLORS.textBase,
@@ -144,7 +140,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         <EngineSection
           items={content.engine}
           heading={engineHeading}
-          sectionTitleClass={SECTION_TITLE_STYLE}
+          sectionTitleClass={SECTION_TITLE_PLAIN}
           colors={{
             textStrong: COLORS.textStrong,
             textBase: COLORS.textBase,
@@ -155,6 +151,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         <DataSection
           stats={content.stats}
           introText={content.stats.intro}
+          sectionTitleClass={SECTION_TITLE_PLAIN}
           colors={{
             textStrong: COLORS.textStrong,
             textBase: COLORS.textBase,
@@ -165,6 +162,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
         <GallerySection
           gallery={content.gallery}
           heading={galleryHeading}
+          sectionTitleClass={SECTION_TITLE_STYLE}
           colors={{
             textInvStrong: COLORS.textInvStrong,
             textInvBase: COLORS.textInvBase,

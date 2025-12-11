@@ -37,7 +37,6 @@
 }
 
 .videoFrame:hover {
-  box-shadow: var(--shadow-2xl);
   border-color: transparent;
   background: transparent;
 }

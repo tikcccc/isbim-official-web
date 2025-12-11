@@ -21,6 +21,14 @@ How we moved Service pages from inline/Tailwind-heavy styles to the shared CSS m
 - Shared base module:
   - `service-shared.module.css` (sectionBase*, padLg, light/subtle/dark backgrounds).
 
+## Timeline Section Refactor Notes (实战复盘)
+- 主题变量：section 背景/上下 padding 使用 `--service-section` / `--service-section-lg`（定义于 `src/styles/4-themes/service.css`），保持与主题一致。
+- 容器与字体：`service-shell`、`font-label-sm`、`font-heading-card`、`font-body-base` 继续在 TSX 里直接用全局 utility class，模块不再 `composes` 这些全局样式。
+- 模块负责的样式：进度线、节点、布局间距、颜色（使用语义色 `var(--text-strong/sub/muted)`）、内联/桌面断点的 margin/padding、dot 阴影等组件级样式。
+- TSX 仍保留的内联：动画 variants、关键渐变/阴影（若与 motion 强绑定）、外部传入的 section 标题 class (`sectionTitleClass`)。
+- Props 精简：移除颜色类 props，颜色转为模块内的语义 token，减少 TSX 拼接。
+- 断点策略：移动端垂直线在模块内隐藏于 `48em` 以上；桌面进度线仅在断点后显示。
+
 ## Step-by-Step Migration
 1) **Identify shared patterns**
    - Find repeated section wrappers (min-height, bg, padding) and move to `service-shared.module.css`.

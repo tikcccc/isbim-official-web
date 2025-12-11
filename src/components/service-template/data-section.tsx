@@ -99,6 +99,7 @@ function formatStatValue(
 interface DataSectionProps {
   stats: ServiceContent['stats'];
   introText: string;
+  sectionTitleClass: string;
   colors: {
     textStrong: string;
     textBase: string;
@@ -106,8 +107,6 @@ interface DataSectionProps {
     textSoft: string;
   };
 }
-
-const SECTION_TITLE = `font-label text-[var(--text-sub)] text-3xl font-bold tracking-widest pb-4 inline-block mb-12`;
 
 // Component for comparison items - NO animation (only main stat animates)
 interface ComparisonItemProps {
@@ -166,7 +165,7 @@ function GridStat({ stat, index, colors }: GridStatProps) {
   );
 }
 
-export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, colors }) => {
+export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, sectionTitleClass, colors }) => {
   const prefersReducedMotion = useReducedMotion();
   const shouldReduceMotion = !!prefersReducedMotion;
   const { ref, inView } = useInView<HTMLDivElement>({
@@ -223,7 +222,7 @@ export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, colo
             animate={shouldReduceMotion ? 'visible' : inView ? 'visible' : 'hidden'}
             variants={cardVariants}
           >
-            <h3 className={SECTION_TITLE}>{stats.label}</h3>
+            <h3 className={`${sectionTitleClass} mb-12`}>{stats.label}</h3>
 
             <p className={`font-body-lg text-2xl leading-relaxed ${colors.textBase} font-light mt-4`}>
               {introText}

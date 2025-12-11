@@ -89,12 +89,6 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
               heading={timeline.heading}
               items={timeline.items}
               sectionTitleClass={sectionTitleClass}
-              colors={{
-                textStrong: colors.textStrong,
-                textBase: colors.textBase,
-                textSub: colors.textSub,
-                textMuted: colors.textMuted,
-              }}
             />
           </div>
         ) : null}
