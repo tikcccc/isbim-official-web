@@ -14,19 +14,12 @@
   color: var(--text-inverse-strong);
 }
 
+/* 字體樣式已移至 .font-display-hero utility class */
 .title {
-  font-family: var(--font-heading-en);
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  font-weight: var(--weight-bolder);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
   color: var(--text-inverse-strong);
 }
 
+/* 字體樣式已移至 .font-body-lg utility class */
 .subtitle {
-  font-family: var(--font-body-en);
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  font-weight: var(--weight-regular);
-  line-height: 1.6;
   color: var(--hero-subtitle-color);
 }

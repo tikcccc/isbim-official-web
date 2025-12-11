@@ -17,33 +17,86 @@
 
   /* ─────────────────────────────────────────
      Content Container
-     Standard content width (92% → 88%)
+     Standard content width with 4-breakpoint max-width
+     Mobile → Tablet → Laptop → Desktop
      ───────────────────────────────────────── */
   .container-content {
     width: 92%;
-    max-width: var(--container-max);
+    max-width: 100%;
     margin-inline: auto;
   }
 
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
+    .container-content {
+      width: 90%;
+      max-width: 720px;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .container-content {
       width: 88%;
+      max-width: 1100px;  /* 筆電區間保守 */
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .container-content {
+      max-width: 1440px;  /* 桌機上限 */
     }
   }
 
   /* ─────────────────────────────────────────
      Wide Content Container
-     Same as content but explicit naming
+     Laptop locked at 1366px, Desktop released to 1920px
+     Used by Section4 and other wide layouts
      ───────────────────────────────────────── */
   .container-content-wide {
     width: 92%;
-    max-width: var(--container-max);
+    max-width: 100%;
     margin-inline: auto;
   }
 
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
+    .container-content-wide {
+      width: 90%;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .container-content-wide {
       width: 88%;
+      max-width: 1366px;  /* 🔒 筆電區間保護 */
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .container-content-wide {
+      max-width: var(--container-max);  /* 🚀 桌機釋放至 1920px */
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Narrow Container
+     For long-form reading content (articles, blogs)
+     Optimal reading width ~65-75 characters per line
+     ───────────────────────────────────────── */
+  .container-narrow {
+    width: 92%;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .container-narrow {
+      width: 90%;
+      max-width: 680px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-narrow {
+      max-width: 880px;  /* 長文閱讀最佳寬度 */
     }
   }
 

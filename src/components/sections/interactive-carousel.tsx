@@ -503,7 +503,7 @@ export function InteractiveCarousel() {
                         {slide.category}
                       </span>
                     </div>
-                    <h2 className={cn(styles.carouselTitle, "text-inverse mb-6")}>
+                    <h2 className={cn("font-heading-card", styles.carouselTitle, "text-inverse mb-6")}>
                       {slide.title}
                       <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 text-inverse-subtle" />
                     </h2>
@@ -512,7 +512,7 @@ export function InteractiveCarousel() {
                   {/* Bottom Section */}
                   <div className="relative">
                   <div className={cn("border-t pt-6 flex flex-col md:flex-row items-end justify-between gap-8", styles.borderStrong)}>
-                      <h1 className={cn(styles.carouselBigtext, "text-inverse select-none")}>
+                      <h1 className={cn("font-display-hero", styles.carouselBigtext, "text-inverse select-none")}>
                         {slide.bigText}
                       </h1>
 
@@ -525,7 +525,7 @@ export function InteractiveCarousel() {
                             ))}
                           </div>
                         </div>
-                        <p className={cn(styles.carouselBody, "text-inverse-muted")}>{slide.description}</p>
+                        <p className={cn("font-body-base", styles.carouselBody, "text-inverse-muted")}>{slide.description}</p>
                       </div>
                     </div>
                   </div>

@@ -1,9 +1,5 @@
-﻿.title {
-  font-family: var(--font-body-en);
-  font-size: clamp(2.75rem, 7vw, 4.5rem);
-  font-weight: var(--weight-bold);
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+/* 字體樣式已移至 .font-display-section-body utility class */
+.title {
   color: var(--text-base);
 }
 

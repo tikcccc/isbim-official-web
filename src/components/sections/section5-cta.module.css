@@ -16,27 +16,18 @@
   background: var(--cta-overlay);
 }
 
+/* 字體樣式已移至 .font-display-section utility class */
 .title {
-  font-family: var(--font-body-en);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: var(--weight-medium);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
   color: var(--text-base);
 }
 
+/* 字體樣式已移至 .font-body-lg utility class */
 .subtitle {
-  font-family: var(--font-body-en);
-  font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
-  font-weight: var(--weight-regular);
-  line-height: 1.6;
   color: var(--text-muted);
 }
 
+/* 字體樣式已移至 .font-body-base utility class */
 .buttonText {
-  font-family: var(--font-body-en);
-  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
-  font-weight: var(--weight-regular);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-base);

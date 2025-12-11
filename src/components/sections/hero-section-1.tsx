@@ -95,7 +95,7 @@ export function HeroSection1() {
       <header className={cn("relative z-10 container-page grid place-items-center text-center px-6 sm:px-10 flex-1", styles.heroText)}>
         <div className="hero-content">
           {/* Animated Title */}
-          <h1 ref={titleRef} className={cn("hero-title overflow-hidden", styles.title)}>
+          <h1 ref={titleRef} className={cn("hero-title overflow-hidden font-display-hero", styles.title)}>
             <div className="line-mask block overflow-hidden my-2">
               <span className="inline-block translate-y-full">
                 {m.homepage_hero_title()}
@@ -106,7 +106,7 @@ export function HeroSection1() {
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className={cn("mt-6 opacity-0 translate-y-4 max-w-3xl mx-auto", styles.subtitle)}
+            className={cn("mt-6 opacity-0 translate-y-4 max-w-3xl mx-auto font-hero-subtitle", styles.subtitle)}
           >
             {m.homepage_hero_subtitle()}
           </p>

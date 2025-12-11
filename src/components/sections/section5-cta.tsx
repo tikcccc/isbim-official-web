@@ -105,14 +105,14 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
           >
             <h2
               ref={titleRef}
-              className={cn("text-balance mb-6", styles.title)}
+              className={cn("text-balance mb-6 font-display-section", styles.title)}
             >
               {messages.section5_cta_title()}
             </h2>
 
             <p
               ref={subtitleRef}
-              className={cn("max-w-lg text-pretty mx-auto", styles.subtitle)}
+              className={cn("max-w-lg text-pretty mx-auto font-body-lg", styles.subtitle)}
             >
               {messages.section5_cta_subtitle()}
             </p>
@@ -127,7 +127,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                   asChild
                   variant="outline"
                   className={cn(
-                    "h-12 sm:h-14 px-8 sm:px-10 transition-all",
+                    "h-12 sm:h-14 px-8 sm:px-10 transition-all font-body-base",
                     styles.buttonText,
                     styles.buttonVariant
                   )}

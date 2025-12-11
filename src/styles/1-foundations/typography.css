@@ -113,7 +113,7 @@
 /* ─────────────────────────────────────────
    Responsive Typography (Tablet)
    ───────────────────────────────────────── */
-@media (min-width: 35em) {
+@media (min-width: 768px) {
   :root {
     --headline-100-size: 2.2222222222rem;
     --headline-100-line: 1;
@@ -133,7 +133,7 @@
 /* ─────────────────────────────────────────
    Responsive Typography (Desktop)
    ───────────────────────────────────────── */
-@media (min-width: 60em) {
+@media (min-width: 1024px) {
   :root {
     --headline-100-size: 2.7777777778rem;
     --headline-200-size: 4rem;

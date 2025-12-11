@@ -101,6 +101,13 @@
   border-radius: var(--radius-lg);
 }
 
+/* 筆電區間高度微調（防止過高） */
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .featureMedia {
+    height: clamp(480px, 60vh, 560px);
+  }
+}
+
 .featureMediaVideo {
   background: #000;
   display: flex;

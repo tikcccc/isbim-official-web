@@ -1,0 +1,152 @@
+/* =========================================
+   3-UTILITIES: FONT TYPE CLASSES
+   Reusable font combinations for consistent typography
+   ========================================= */
+
+@layer components {
+  /* ═══════════════════════════════════════════
+     Type 1: Display Hero
+     超大展示標題（Hero, Carousel BigText）
+     用途: Hero 主標題、Carousel 超大文字
+     ═══════════════════════════════════════════ */
+  .font-display-hero {
+    font-family: var(--font-heading-en);
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: var(--weight-bolder); /* 800 */
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 2: Display Section
+     區塊標題（Section Title）
+     用途: 頁面主要區塊的標題
+     ═══════════════════════════════════════════ */
+  .font-display-section {
+    font-family: var(--font-heading-en);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: var(--weight-semibold); /* 600 */
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 3: Display Feature
+     特色標題（Platform Title, Feature Title）
+     用途: 特色展示區的大標題
+     ═══════════════════════════════════════════ */
+  .font-display-feature {
+    font-family: var(--font-heading-en);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: var(--weight-medium); /* 500 */
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 4: Heading Card
+     卡片標題（Carousel Title, Card Title）
+     用途: 卡片或次級標題
+     ═══════════════════════════════════════════ */
+  .font-heading-card {
+    font-family: var(--font-body-en);
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: var(--weight-bold); /* 700 */
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 5: Hero Subtitle
+     Hero 副標題（超大副標題）
+     用途: Hero Section 專用副標題，比 Body Large 大一號
+     ═══════════════════════════════════════════ */
+  .font-hero-subtitle {
+    font-family: var(--font-body-en);
+    font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+    font-weight: var(--weight-regular); /* 400 */
+    line-height: 1.65;
+    letter-spacing: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 6: Body Large
+     大正文（副標題、描述段落）
+     用途: 重要的描述文字、副標題
+     ═══════════════════════════════════════════ */
+  .font-body-lg {
+    font-family: var(--font-body-en);
+    font-size: clamp(1.0625rem, 2vw, 1.375rem);
+    font-weight: var(--weight-regular); /* 400 */
+    line-height: 1.65;
+    letter-spacing: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 7: Body Base
+     標準正文（一般內容）
+     用途: 正文內容、按鈕文字
+     ═══════════════════════════════════════════ */
+  .font-body-base {
+    font-family: var(--font-body-en);
+    font-size: clamp(0.9375rem, 1vw, 1.0625rem);
+    font-weight: var(--weight-regular); /* 400 */
+    line-height: 1.6;
+    letter-spacing: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     Type 8: Label
+     標籤樣式（已存在，統一命名）
+     用途: 標籤、Meta 資訊、按鈕標籤
+     ═══════════════════════════════════════════ */
+  .font-label {
+    font-family: var(--font-body-en);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-semibold); /* 600 */
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .font-label-sm {
+    font-family: var(--font-body-en);
+    font-size: 0.75rem;
+    font-weight: var(--weight-semibold); /* 600 */
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════════════
+     變體：中文適用的 Body 版本
+     font-family 使用 --font-body-en（適合中英混排）
+     ═══════════════════════════════════════════ */
+  .font-display-section-body {
+    font-family: var(--font-body-en);
+    font-size: clamp(2.75rem, 7vw, 4.5rem);
+    font-weight: var(--weight-bold); /* 700 */
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   中文環境行高保護
+   針對中文，放寬緊密的行高以避免漢字上下邊緣衝突
+   ═══════════════════════════════════════════ */
+:lang(zh) .font-display-hero,
+:lang(zh) .font-display-section,
+:lang(zh) .font-display-feature,
+:lang(zh-HK) .font-display-hero,
+:lang(zh-HK) .font-display-section,
+:lang(zh-HK) .font-display-feature,
+:lang(zh-CN) .font-display-hero,
+:lang(zh-CN) .font-display-section,
+:lang(zh-CN) .font-display-feature,
+:lang(zh-TW) .font-display-hero,
+:lang(zh-TW) .font-display-section,
+:lang(zh-TW) .font-display-feature {
+  line-height: 1.25; /* 中文至少需要 1.25 才能呼吸 */
+  letter-spacing: 0; /* 中文通常不需要負字距 */
+}

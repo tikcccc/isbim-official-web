@@ -55,7 +55,7 @@
 /* ─────────────────────────────────────────
    Responsive Overrides (Tablet)
    ───────────────────────────────────────── */
-@media (min-width: 35em) {
+@media (min-width: 768px) {
   :root {
     --gutter: 0.8333333333rem;
     --v-gutter: 1.6666666667rem;
@@ -66,7 +66,7 @@
 /* ─────────────────────────────────────────
    Responsive Overrides (Desktop)
    ───────────────────────────────────────── */
-@media (min-width: 60em) {
+@media (min-width: 1024px) {
   :root {
     --gutter: 1.6666666667rem;
     --h-spacing: 1.6666666667rem;

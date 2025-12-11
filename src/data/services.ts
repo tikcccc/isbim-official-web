@@ -154,7 +154,7 @@ export interface ServiceContent {
   gallery: {
     title: string;
     meta: string;
-    items: { id: string; loc: string; title: string; desc: string; metric: string; img: string }[];
+    items: { id: string; loc: string; title: string; desc: string; metric: string; img: string; href?: string }[];
   };
 }
 
@@ -189,7 +189,7 @@ interface ServiceContentDefinition {
   gallery: {
     title: MessageKey;
     meta: MessageKey;
-    items: { id: string; loc: string; title: MessageKey; desc: MessageKey; metric: MessageKey; img: string }[];
+    items: { id: string; loc: string; title: MessageKey; desc: MessageKey; metric: MessageKey; img: string; href?: string }[];
   };
 }
 

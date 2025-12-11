@@ -18,6 +18,7 @@
 /* ───────────────────────────────────────────────────────────────────────────
    1. FOUNDATIONS - Single source of truth for primitives
    ─────────────────────────────────────────────────────────────────────────── */
+@import "../styles/1-foundations/breakpoints.css";
 @import "../styles/1-foundations/colors.css";
 @import "../styles/1-foundations/spacing.css";
 @import "../styles/1-foundations/typography.css";
@@ -38,6 +39,8 @@
 @import "../styles/3-utilities/containers.css";
 @import "../styles/3-utilities/spacing.css";
 @import "../styles/3-utilities/typography.css";
+@import "../styles/3-utilities/font-types.css";
+@import "../styles/3-utilities/responsive-media.css";
 @import "../styles/3-utilities/buttons.css";
 
 /* ───────────────────────────────────────────────────────────────────────────
