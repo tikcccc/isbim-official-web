@@ -16,7 +16,7 @@
   background: var(--cta-overlay);
 }
 
-/* 字體樣式已移至 .font-display-section utility class */
+/* 字體樣式已移至 .font-container-title utility class */
 .title {
   color: var(--text-base);
 }
@@ -43,4 +43,8 @@
 .buttonVariant:hover {
   background: var(--cta-hover-bg);
   color: var(--cta-hover-text);
+}
+
+.buttonTransition {
+  transition-duration: var(--cta-button-transition, 0.3s);
 }

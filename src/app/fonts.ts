@@ -1,4 +1,4 @@
-import { Inter, Noto_Sans_SC, Space_Grotesk, Playfair_Display } from "next/font/google";
+import { Inter, Noto_Sans_SC, Playfair_Display, Space_Grotesk } from "next/font/google";
 
 export const allianceNo1 = Inter({
   variable: "--font-alliance-1",

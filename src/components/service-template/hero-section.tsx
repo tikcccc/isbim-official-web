@@ -17,13 +17,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
   const shouldReduceMotion = useReducedMotion();
   const descText = hero.desc.includes('\n') ? hero.desc : hero.desc.replace(' — ', '\n— ');
   const tagLine = shouldReduceMotion ? (
-    <span className={`${styles.heroTag} text-lg md:text-xl`}>
+    <span className={`font-hero-tag ${styles.heroTag}`}>
       {hero.tag}
     </span>
   ) : (
     <TypewriterText
       text={hero.tag}
-      className={`${styles.heroTag} text-lg md:text-xl`}
+      className={`font-hero-tag ${styles.heroTag}`}
       cursorVisible={false}
     />
   );
@@ -40,7 +40,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
             </ScrollReveal>
             
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
-              <h1 className={`${styles.heroTitle} font-display-hero text-[15vw] md:text-[10rem] font-black tracking-tighter mb-4`}>
+              <h1 className={`${styles.heroTitle} font-hero-mega mb-4`}>
                 {hero.title}
               </h1>
             </ScrollReveal>
@@ -55,7 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
           <div className="col-span-12 lg:col-span-4 flex flex-col justify-end">
             <ScrollReveal animation="fade" duration={DESIGN_TOKENS.animation.duration.normal} delay={0.1}>
               <div className={styles.heroDescWrap}>
-                <p className={`${styles.heroDesc} font-body-lg text-xl md:text-2xl font-light leading-relaxed whitespace-pre-line`}>
+                <p className={`${styles.heroDesc} font-hero-subtitle whitespace-pre-line`}>
                   {descText}
                 </p>
                 {tagLine}

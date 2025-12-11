@@ -163,7 +163,6 @@ export function InteractiveCarousel() {
   };
   const cardTransitionDuration = readVar("--carousel-transition", 0.6);
   const cardHiddenDuration = readVar("--carousel-hidden-duration", 0.5);
-  const arrowFadeDuration = readVar("--carousel-arrow-fade", 0.3);
   const cardStiffness = readVar("--carousel-stiffness", 80);
   const cardDamping = readVar("--carousel-damping", 20);
   const labelTransition = readVar("--motion-base", 0.5);
@@ -365,12 +364,12 @@ export function InteractiveCarousel() {
                   type="button"
                   onClick={() => jumpToSlide(index)}
                   className={cn(
-                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center label-sm border transition-all",
+                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center font-label text-muted border transition-all",
                     styles.tab,
+                    styles.labelTransition,
                     "w-full",
                     isActive ? styles.tabActive : ""
                   )}
-                  style={{ transitionDuration: `${labelTransition}s` }}
                 >
                   {/* 進度填充層 */}
                   {isActive && !hovered && (
@@ -383,7 +382,6 @@ export function InteractiveCarousel() {
                         ease: "linear",
                       }}
                       className={cn("absolute inset-0 z-0", styles.progress)}
-                      style={{ transformOrigin: "left" }}
                     />
                   )}
 
@@ -401,7 +399,7 @@ export function InteractiveCarousel() {
             <LocalizedLink
               href={ROUTES.JARVIS.SUITE}
               prefetchMode="hover"
-              className="inline-flex h-10 items-center justify-center px-6 label-sm border transition-colors button-strong"
+              className="inline-flex h-10 items-center justify-center px-6 font-label text-muted border transition-colors button-strong"
             >
               See All
             </LocalizedLink>
@@ -410,7 +408,7 @@ export function InteractiveCarousel() {
             <LocalizedLink
               href={ROUTES.JARVIS.SUITE}
               prefetchMode="hover"
-              className="w-full h-10 flex items-center justify-center label-sm transition-colors border button-strong"
+              className="w-full h-10 flex items-center justify-center font-label text-muted transition-colors border button-strong"
             >
               See All
             </LocalizedLink>
@@ -499,11 +497,11 @@ export function InteractiveCarousel() {
                 >
                   <div className="max-w-2xl">
                     <div className="inline-flex items-center gap-2 mb-4">
-                      <span className="label-sm text-inverse-muted">
+                      <span className="font-label text-inverse-muted">
                         {slide.category}
                       </span>
                     </div>
-                    <h2 className={cn("font-heading-card", styles.carouselTitle, "text-inverse mb-6")}>
+                    <h2 className={cn("font-container-subtitle", styles.carouselTitle, "text-inverse mb-6")}>
                       {slide.title}
                       <ArrowUpRight className="inline-block ml-2 w-6 h-6 md:w-8 md:h-8 text-inverse-subtle" />
                     </h2>
@@ -512,12 +510,12 @@ export function InteractiveCarousel() {
                   {/* Bottom Section */}
                   <div className="relative">
                   <div className={cn("border-t pt-6 flex flex-col md:flex-row items-end justify-between gap-8", styles.borderStrong)}>
-                      <h1 className={cn("font-display-hero", styles.carouselBigtext, "text-inverse select-none")}>
+                      <h1 className={cn("font-hero-title", styles.carouselBigtext, "text-inverse select-none")}>
                         {slide.bigText}
                       </h1>
 
                       <div className="hidden md:block max-w-xs text-inverse-subtle mb-4 leading-relaxed">
-                        <div className="flex gap-4 mb-2 label-sm text-inverse">
+                        <div className="flex gap-4 mb-2 font-label-sm text-inverse">
                           <span>Built on:</span>
                           <div className="flex flex-col">
                             {slide.meta.map((m) => (
@@ -525,7 +523,7 @@ export function InteractiveCarousel() {
                             ))}
                           </div>
                         </div>
-                        <p className={cn("font-body-base", styles.carouselBody, "text-inverse-muted")}>{slide.description}</p>
+                        <p className={cn("font-caption", styles.carouselBody, "text-inverse")}>{slide.description}</p>
                       </div>
                     </div>
                   </div>
@@ -535,9 +533,9 @@ export function InteractiveCarousel() {
                 <div
                   className={cn(
                   "absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-0 z-20 pointer-events-none transition-opacity",
+                  styles.arrowFade,
                   isCenter && hovered ? "opacity-100" : "opacity-0"
                 )}
-                style={{ transitionDuration: `${arrowFadeDuration}s` }}
               >
                 <button
                     type="button"
@@ -586,9 +584,9 @@ export function InteractiveCarousel() {
                 className={cn(
                   "h-2 transition-all",
                   activeIdx === index ? "w-12" : "w-2",
-                  activeIdx === index ? styles.dotActive : styles.dot
+                  activeIdx === index ? styles.dotActive : styles.dot,
+                  styles.pillRadius
                 )}
-                style={{ borderRadius: "var(--pill-radius)" }}
                 aria-label={`Go to slide ${index + 1}`}
               />
             );

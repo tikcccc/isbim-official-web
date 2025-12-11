@@ -31,7 +31,7 @@
   --border-subtle: var(--color-gray-200);
   --border-strong: var(--color-slate-200);
   --border-divider: var(--color-gray-bg);
-  --border-inverse-soft: rgba(255, 255, 255, 0.1);
+  --border-inverse-soft: rgba(255, 255, 255, 0.3);
 
   /* ═══════════════════════════════════════════
      BUTTON COLORS

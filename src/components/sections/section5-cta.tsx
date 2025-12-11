@@ -105,7 +105,7 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
           >
             <h2
               ref={titleRef}
-              className={cn("text-balance mb-6 font-display-section", styles.title)}
+              className={cn("text-balance mb-6 font-container-title", styles.title)}
             >
               {messages.section5_cta_title()}
             </h2>
@@ -129,9 +129,9 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
                   className={cn(
                     "h-12 sm:h-14 px-8 sm:px-10 transition-all font-body-base",
                     styles.buttonText,
-                    styles.buttonVariant
+                    styles.buttonVariant,
+                    styles.buttonTransition
                   )}
-                  style={{ transitionDuration: "var(--cta-button-transition, 0.3s)" }}
                 >
                   <LocalizedLink href={ROUTES.CONTACT} prefetchMode="hover">
                     {messages.section5_cta_button()}

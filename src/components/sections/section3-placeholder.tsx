@@ -50,8 +50,7 @@ export function Section3Placeholder() {
 
   return (
     <section
-      className="relative z-10 section-padding"
-      style={{ background: "var(--surface-base)" }}
+      className={cn("relative z-10 section-padding", styles.section)}
     >
       {/* Trigger zone with auto height */}
       <div
@@ -61,12 +60,7 @@ export function Section3Placeholder() {
         {/* Text content that animates */}
         <h1
           ref={textRef}
-          className={cn("container-content text-center font-display-section-body", styles.title)}
-          style={{
-            willChange: "line-height, opacity, transform",
-            opacity: 0.5,
-            lineHeight: "1.5",
-          }}
+          className={cn("container-content text-center font-narrative", styles.title, styles.textInitial)}
         >
           {m.section3_narrative_prefix()}
           <span className={styles.soft}>{m.section3_narrative_faster()}</span>

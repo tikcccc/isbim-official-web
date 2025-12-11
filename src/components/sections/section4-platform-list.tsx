@@ -276,7 +276,7 @@ export function Section4PlatformList() {
       className={cn("w-full section-padding flex flex-col gap-lg", styles.section)}
     >
       <div className="container-content-wide">
-        <h2 className={cn("mb-12 sm:mb-16 font-display-section", styles.title)}>
+        <h2 className={cn("mb-12 sm:mb-16 font-container-title", styles.title)}>
           {messages.section4_title()}
         </h2>
 
@@ -360,7 +360,7 @@ function PlatformRow({
               {platformDescs[item.descKey]()}
             </p>
           </div>
-          <span className={cn("font-label-sm", styles.labelSm, "text-subtle block mt-auto")}>
+          <span className={cn("font-label", styles.labelSm, "text-subtle block mt-auto")}>
             {item.version}
           </span>
         </div>
@@ -398,7 +398,7 @@ function PlatformRow({
             <m.h3
               animate={{ x: isHovered ? 20 : 0 }}
               transition={{ type: "spring", stiffness: springStiffness, damping: springDamping, duration: motionBase }}
-              className={cn("font-display-feature", styles.platformTitle, "leading-[1.2] whitespace-nowrap will-change-transform")}
+              className={cn("font-feature", styles.platformTitle, "leading-[1.2] whitespace-nowrap will-change-transform")}
             >
               {platformTitles[item.titleKey]()}
             </m.h3>

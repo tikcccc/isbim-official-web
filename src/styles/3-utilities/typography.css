@@ -5,39 +5,6 @@
 
 @layer components {
   /* ─────────────────────────────────────────
-     Label Styles
-     Uppercase tracking labels for UI
-     ───────────────────────────────────────── */
-  .label {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.2;
-    color: var(--text-muted);
-  }
-
-  .label-sm {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.2;
-    color: var(--text-muted);
-  }
-
-  /* Inverse labels (on dark backgrounds) */
-  .label-inverse {
-    color: var(--text-inverse-strong);
-  }
-
-  .label-sm-inverse {
-    color: var(--text-inverse-strong);
-  }
-
-  /* ─────────────────────────────────────────
      Text Color Utilities
      Semantic text color classes
      ───────────────────────────────────────── */

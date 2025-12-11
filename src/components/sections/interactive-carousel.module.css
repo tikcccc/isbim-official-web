@@ -21,6 +21,7 @@
 
 .progress {
   background: var(--carousel-progress);
+  transform-origin: left;
 }
 
 .carouselSection {
@@ -47,6 +48,7 @@
   color: var(--text-inverse-strong);
   border-color: var(--carousel-card-border);
   border-radius: var(--carousel-btn-radius);
+  transition-duration: var(--carousel-arrow-fade, 0.3s);
 }
 
 .arrow:hover {
@@ -69,10 +71,22 @@
   margin-top: var(--carousel-dots-offset);
 }
 
+.labelTransition {
+  transition-duration: var(--motion-base);
+}
+
+.arrowFade {
+  transition-duration: var(--carousel-arrow-fade, 0.3s);
+}
+
+.pillRadius {
+  border-radius: var(--pill-radius);
+}
+
 /* Typography - 字體樣式已移至 utility classes */
-/* .carouselTitle → .font-heading-card */
+/* .carouselTitle → .font-container-subtitle */
 .carouselTitle {
-  /* Font styles moved to .font-heading-card utility class */
+  /* Font styles moved to .font-container-subtitle utility class */
 }
 
 /* .carouselBigtext → .font-display-hero */

@@ -3,7 +3,7 @@
   color: var(--text-base);
 }
 
-/* 字體樣式已移至 .font-display-section utility class */
+/* 字體樣式已移至 .font-container-title utility class */
 .title {
   color: var(--text-base);
 }
@@ -13,12 +13,12 @@
   color: var(--text-muted);
 }
 
-/* 字體樣式已移至 .font-label-sm utility class */
+/* 字體樣式已移至 .font-label utility class */
 .labelSm {
   color: var(--text-soft);
 }
 
-/* 字體樣式已移至 .font-display-feature utility class */
+/* 字體樣式已移至 .font-feature utility class */
 .platformTitle {
   color: var(--text-base);
 }

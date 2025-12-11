@@ -312,13 +312,13 @@ Version: 2.0 (Post-Refactor)
 | Type | Class | 用途 | Font Size | Weight | Line Height |
 |------|-------|------|-----------|--------|-------------|
 | 1 | `.font-display-hero` | Hero 超大標題 | `clamp(2rem, 6vw, 4.5rem)` | 800 | 1.05 |
-| 2 | `.font-display-section` | 區塊標題 | `clamp(2.5rem, 5vw, 4.5rem)` | 600 | 1.1 |
-| 3 | `.font-display-feature` | 特色標題 | `clamp(2.5rem, 6vw, 5.5rem)` | 500 | 1.1 |
-| 4 | `.font-heading-card` | 卡片標題 | `clamp(1.75rem, 3vw, 2.75rem)` | 700 | 1.15 |
+| 2 | `.font-container-title` | 區塊標題 | `clamp(2.5rem, 5vw, 4.5rem)` | 600 | 1.1 |
+| 3 | `.font-feature` | 特色標題 | `clamp(2.5rem, 6vw, 5.5rem)` | 500 | 1.1 |
+| 4 | `.font-container-subtitle` | 卡片標題 | `clamp(1.75rem, 3vw, 2.75rem)` | 700 | 1.15 |
 | 5 | `.font-hero-subtitle` | Hero 副標題 | `clamp(1.125rem, 2.2vw, 1.5rem)` | 400 | 1.65 |
 | 6 | `.font-body-lg` | 大正文 | `clamp(1.0625rem, 2vw, 1.375rem)` | 400 | 1.65 |
 | 7 | `.font-body-base` | 標準正文 | `clamp(0.9375rem, 1vw, 1.0625rem)` | 400 | 1.6 |
-| 8 | `.font-label` / `.font-label-sm` | 標籤 | `0.8125rem` / `0.75rem` | 600 | 1.2 |
+| 8 | `.font-label` / `.font-label` | 標籤 | `0.8125rem` / `0.75rem` | 600 | 1.2 |
 
 ### 中文環境行高保護
 
@@ -327,17 +327,17 @@ Version: 2.0 (Post-Refactor)
 ```css
 /* 3-utilities/font-types.css */
 :lang(zh) .font-display-hero,
-:lang(zh) .font-display-section,
-:lang(zh) .font-display-feature,
+:lang(zh) .font-container-title,
+:lang(zh) .font-feature,
 :lang(zh-HK) .font-display-hero,
-:lang(zh-HK) .font-display-section,
-:lang(zh-HK) .font-display-feature,
+:lang(zh-HK) .font-container-title,
+:lang(zh-HK) .font-feature,
 :lang(zh-CN) .font-display-hero,
-:lang(zh-CN) .font-display-section,
-:lang(zh-CN) .font-display-feature,
+:lang(zh-CN) .font-container-title,
+:lang(zh-CN) .font-feature,
 :lang(zh-TW) .font-display-hero,
-:lang(zh-TW) .font-display-section,
-:lang(zh-TW) .font-display-feature {
+:lang(zh-TW) .font-container-title,
+:lang(zh-TW) .font-feature {
   line-height: 1.25; /* 中文至少需要 1.25 才能呼吸 */
   letter-spacing: 0; /* 中文通常不需要負字距 */
 }
@@ -724,7 +724,7 @@ export function MyComponent() {
 
 ### Q3: 中文行高保護會影響所有中文內容嗎？
 
-**A**: 不會，只影響使用 **Display 類標題**（`.font-display-hero`, `.font-display-section`, `.font-display-feature`）的元素。
+**A**: 不會，只影響使用 **Display 類標題**（`.font-display-hero`, `.font-container-title`, `.font-feature`）的元素。
 
 Body 類文字（`.font-body-lg`, `.font-body-base`）本身行高已足夠（1.6-1.65），不需要額外保護。
 

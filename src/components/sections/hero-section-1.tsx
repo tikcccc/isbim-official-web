@@ -95,7 +95,7 @@ export function HeroSection1() {
       <header className={cn("relative z-10 container-page grid place-items-center text-center px-6 sm:px-10 flex-1", styles.heroText)}>
         <div className="hero-content">
           {/* Animated Title */}
-          <h1 ref={titleRef} className={cn("hero-title overflow-hidden font-display-hero", styles.title)}>
+          <h1 ref={titleRef} className={cn("hero-title overflow-hidden font-hero-headline", styles.title)}>
             <div className="line-mask block overflow-hidden my-2">
               <span className="inline-block translate-y-full">
                 {m.homepage_hero_title()}
@@ -114,7 +114,7 @@ export function HeroSection1() {
           {/* Scroll Prompt */}
           <div className="scroll-prompt absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70">
             <ChevronDown className="w-6 h-6 mb-2 animate-bounce" />
-            <p className="label label-inverse">{m.homepage_scroll_prompt()}</p>
+            <p className="font-label text-inverse-strong">{m.homepage_scroll_prompt()}</p>
           </div>
         </div>
       </header>
