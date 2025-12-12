@@ -36,8 +36,8 @@ export function KnowledgeDeepDive() {
       <div className={styles.shell} data-active={activeFeature}>
         <div className={styles.content}>
           <div className={styles.header}>
-            <span className={styles.label}>System Architecture</span>
-            <h2 className={styles.title}>
+            <span className="font-product-label-regular">System Architecture</span>
+            <h2 className={`font-product-title-md ${styles.title}`}>
               <span>The Knowledge Agent</span>
               <span className={styles.titleAccent}>Deep Dive</span>
             </h2>
@@ -56,9 +56,9 @@ export function KnowledgeDeepDive() {
                   <Icon className={styles.icon} />
                 </div>
                 <div className={styles.cardBody}>
-                  <div className={styles.cardMeta}>{subtitle}</div>
-                  <h3 className={styles.cardTitle}>{title}</h3>
-                  <p className={styles.cardDesc}>{desc}</p>
+                  <div className={`font-product-label-regular ${styles.cardMeta}`}>{subtitle}</div>
+                  <h3 className={`font-product-title-sm text-[1.32rem] ${styles.cardTitle}`}>{title}</h3>
+                  <p className={`font-product-body ${styles.cardDesc}`}>{desc}</p>
                 </div>
               </button>
             ))}

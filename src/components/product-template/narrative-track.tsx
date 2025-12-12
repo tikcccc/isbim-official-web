@@ -486,7 +486,7 @@ export function NarrativeTrack({
           {/* Stage 1: Character reveal animation */}
           <h2
             ref={text1Ref}
-            className={cn("mb-6 max-w-7xl", styles.titleLight)}
+            className="font-product-title-narrative mb-6 max-w-7xl"
             style={{ transition: "color var(--product-motion-base, 0.5s) var(--product-motion-ease, ease-out)", color: "var(--text-inverse-strong)" }}
           >
             {stage1Text}
@@ -496,7 +496,7 @@ export function NarrativeTrack({
           <div
             ref={text2Ref}
             data-text={stage2Text}
-            className={`product-block-anim product-stage2-text relative z-[1] max-w-7xl ${styles.titleLight}`}
+            className="font-product-title-narrative product-block-anim product-stage2-text relative z-[1] max-w-7xl"
             style={{
               color: PRODUCT_TEMPLATE_COLORS.textMain,
               marginTop: "var(--product-stack-sm)",
@@ -514,7 +514,7 @@ export function NarrativeTrack({
               marginTop: "clamp(6rem, 8vw, 8.5rem)",
             }}
           >
-            <p className={cn("max-w-lg mx-auto text-center mb-5", styles.description, styles.stageDesc)}>
+            <p className="font-product-desc max-w-lg mx-auto text-center mb-5">
               {renderDescription()}
             </p>
 
@@ -523,7 +523,7 @@ export function NarrativeTrack({
               className={cn("flex flex-col items-center mt-6 product-scroll-bounce opacity-80 hover:opacity-100 transition-opacity", styles.scrollPrompt)}
               style={{ gap: "var(--product-gap-sm)", transition: "opacity var(--motion-fast) var(--ease-smooth)" }}
             >
-              <span className={cn("mb-2", styles.labelSm)} style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}>
+              <span className="font-product-label-bold tracking-[0.18em] mb-2" style={{ color: PRODUCT_TEMPLATE_COLORS.textMain }}>
                 {scrollPromptText}
               </span>
               <div

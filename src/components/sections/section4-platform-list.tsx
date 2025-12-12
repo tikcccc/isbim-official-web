@@ -406,10 +406,10 @@ function PlatformRow({
 
           <m.div
             initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? -10 : -20 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -20 }}
             transition={{ duration: motionBase }}
             className={cn(
-              "absolute left-0 top-1/2 -translate-y-1/2 will-change-transform text-soft",
+              "absolute -left-8 sm:-left-12 lg:-left-14 top-1/2 -translate-y-1/2 will-change-transform text-soft",
               styles.arrowIcon
             )}
           >

@@ -286,6 +286,7 @@ export function TypewriterText({
  *   duration={1.5}
  *   steps={40}
  *   cursorVisible
+ *   hideCursorOnComplete
  *   scrollTrigger={{ trigger: "#section-1", start: "top 70%" }}
  * />
  * ```
@@ -304,6 +305,8 @@ export interface TypewriterWidthProps {
   cursorVisible?: boolean;
   /** Cursor className for styling */
   cursorClassName?: string;
+  /** Hide cursor after typing completes (default: false) */
+  hideCursorOnComplete?: boolean;
   /** ScrollTrigger configuration (optional) */
   scrollTrigger?: ScrollTrigger.Vars;
   /** Callback when animation completes */
@@ -317,6 +320,7 @@ export function TypewriterWidth({
   steps,
   cursorVisible = false,
   cursorClassName = "",
+  hideCursorOnComplete = false,
   scrollTrigger,
   onComplete,
 }: TypewriterWidthProps) {
@@ -375,6 +379,18 @@ export function TypewriterWidth({
       ease: `steps(${widthSteps})`,
     });
 
+    // Cursor blinking animation
+    let blinkAnim: gsap.core.Tween | null = null;
+    if (cursorVisible && cursorEl) {
+      blinkAnim = gsap.to(cursorEl, {
+        opacity: 0,
+        repeat: -1,
+        yoyo: true,
+        duration: blinkDuration,
+        ease: "steps(1)",
+      });
+    }
+
     // Animate cursor position
     if (cursorEl) {
       tl.to(
@@ -386,18 +402,17 @@ export function TypewriterWidth({
         },
         "<"
       );
-    }
 
-    // Cursor blinking animation
-    let blinkAnim: gsap.core.Tween | null = null;
-    if (cursorVisible && cursorEl) {
-      blinkAnim = gsap.to(cursorEl, {
-        opacity: 0,
-        repeat: -1,
-        yoyo: true,
-        duration: blinkDuration,
-        ease: "steps(1)",
-      });
+      // Hide cursor after typing completes
+      if (hideCursorOnComplete && blinkAnim) {
+        tl.call(() => {
+          if (blinkAnim) {
+            blinkAnim.kill();
+          }
+          // Directly hide cursor
+          gsap.set(cursorEl, { opacity: 0 });
+        });
+      }
     }
 
     return () => {

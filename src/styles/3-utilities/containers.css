@@ -123,6 +123,39 @@
      Section Padding
      Vertical padding for page sections
      ───────────────────────────────────────── */
+  /* =========================================
+     Product Container (Feature Section Shell)
+     Matches product template FeatureSection
+     Hardcoded values (derived from product tokens)
+     ========================================= */
+  .container-product-shell {
+    width: 92%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-inline: 1.1111111111rem;
+    padding-block: 3rem;
+  }
+
+  @media (min-width: 48em) {
+    .container-product-shell {
+      padding-inline: 2rem;
+      padding-block: 4rem;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .container-product-shell {
+      padding-inline: 4rem;
+      padding-block: 6.6666666667rem;
+    }
+  }
+
+  @media (min-width: 80em) {
+    .container-product-shell {
+      padding-inline: 5rem;
+    }
+  }
+
   .section-padding {
     padding-block: clamp(3rem, 6vw, 5.5rem);
   }

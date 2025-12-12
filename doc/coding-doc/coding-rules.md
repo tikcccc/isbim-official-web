@@ -1,12 +1,5 @@
 ﻿# Coding Rules - isBIM Official Web
 
-**鏂囦欢璇存槑:** 鏈枃浠跺畾涔変唬鐮侀鏍艰鍒欍€佸懡鍚嶇害瀹氥€佸弽妯″紡鍜屾渶浣冲疄璺点€傚綋寤虹珛鏂扮殑缂栫爜妯″紡(鍔ㄧ敾鏃跺簭銆佺粍浠剁粨鏋?銆佸畾涔夋柊搴撶殑瀵煎叆/瀵煎嚭瑙勫垯銆佹坊鍔?TypeScript 绫诲瀷瀹夊叏瑕佹眰鎴栬缃姩鐢诲崗璋冭鍒欐椂闇€瑕佹洿鏂版鏂囦欢銆?
-
-**鏇存柊鍘熷垯:**
-- 浣跨敤绠€娲佺殑瑕佺偣鍜屼唬鐮佺墖娈?閬垮厤闀跨瘒瑙ｉ噴
-- 瑙勫垯绠€鏄庢壖瑕?鍏抽敭鏃跺埢浣跨敤
-- 鍒犻櫎宸茶繃鏃舵垨涓嶅啀閫傜敤鐨勮鍒?
-
 **Last Updated**: 2025-12-04 (Contact/Newsroom spacing+shape+motion tokens applied; motion params aligned to tokens) | **Version**: 4.2
 
 ## Layout & Routing

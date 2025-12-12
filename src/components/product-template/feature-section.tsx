@@ -381,7 +381,7 @@ export function FeatureSection({
         ref={sectionRef}
         className={cn(
           "feature-block min-h-screen flex items-center",
-          styles.sectionShell,
+          "container-product-shell",
           !isLast ? "border-b" : ""
         )}
         style={!isLast ? { borderColor: "var(--product-border-soft)" } : undefined}
@@ -398,12 +398,12 @@ export function FeatureSection({
               style={{ gap: "var(--product-gap-sm)" }}
             >
               {/* Index Animation */}
-              <div className={cn("index-anim-container flex items-center w-full select-none", styles.bodyText, styles.textMuted)}>
+              <div className={cn("index-anim-container flex items-center w-full select-none", "font-product-body", styles.textMuted)}>
                 {/* Before indices */}
                 {beforeIndices.length > 0 && (
                   <div className="flex items-center gap-2 opacity-50 mr-2">
                     {beforeIndices.map((idx, i) => (
-                      <span key={idx} className={cn("flex items-center gap-2", styles.bodyText)}>
+                      <span key={idx} className={cn("flex items-center gap-2", "font-product-body")}>
                         <span>{idx}</span>
                         {i < beforeIndices.length - 1 && (
                           <span className="w-3 h-px bg-current index-connector" />
@@ -435,7 +435,7 @@ export function FeatureSection({
                 {afterIndices.length > 0 && (
                   <div className="flex items-center gap-2 opacity-50">
                     {afterIndices.map((idx, i) => (
-                      <span key={idx} className={cn("flex items-center gap-2", styles.bodyText)}>
+                      <span key={idx} className={cn("flex items-center gap-2", "font-product-body")}>
                         <span>{idx}</span>
                         {i < afterIndices.length - 1 && (
                           <span className="w-3 h-px bg-current index-connector" />
@@ -448,7 +448,7 @@ export function FeatureSection({
 
               {/* Title with Typewriter Animation or Static Display */}
                 <h3
-              className={cn(styles.title, "break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]")}
+              className={cn("font-product-title-md", "break-words w-full max-w-full lg:max-w-[40ch] xl:max-w-[44ch]")}
                   style={{ textWrap: "balance", wordBreak: "break-word" }}
                 >
                 {/* Forward Typewriter mode */}
@@ -513,7 +513,7 @@ export function FeatureSection({
 
           {/* Right Column: Content */}
           <div className="lg:col-span-7 xl:col-span-7 flex flex-col lg:self-start pt-6 md:pt-8 lg:pt-12 space-y-8 md:space-y-10">
-            <p className={cn(styles.description, "w-full")}>
+            <p className={cn("font-product-desc font-medium", "w-full")}>
               {description}
             </p>
 
@@ -539,7 +539,7 @@ export function FeatureSection({
                     }}
                     className={cn(
                       "w-32 px-6 py-2 transition-colors duration-0 disabled:cursor-not-allowed",
-                      styles.label,
+                      "font-product-button",
                       styles.focusRing,
                       styles.toggleBase,
                       activeView === "video"
@@ -567,7 +567,7 @@ export function FeatureSection({
                     }}
                     className={cn(
                       "w-32 px-6 py-2 transition-colors duration-0 disabled:cursor-not-allowed",
-                      styles.label,
+                      "font-product-button",
                       styles.focusRing,
                       styles.toggleBase,
                       activeView === "details"
@@ -653,10 +653,10 @@ export function FeatureSection({
                         borderColor: "var(--product-border-subtle)",
                       }}
                     >
-                      <h4 className={cn("mb-1", styles.detailTitle)}>
+                      <h4 className={cn("mb-1", "font-product-title-sm")}>
                         {item.title}
                       </h4>
-                      <p className={styles.detailBody}>
+                      <p className="font-product-body">
                         {item.description}
                       </p>
                     </div>

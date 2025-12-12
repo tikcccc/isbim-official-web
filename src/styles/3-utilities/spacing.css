@@ -33,11 +33,7 @@
   /* ─────────────────────────────────────────
      Padding Utilities
      Inline (horizontal) padding
-     ───────────────────────────────────────── */
-  .padding-inline {
-    padding-inline: var(--container-inline);
-  }
-
+     ───────────────────────────────────────── *
   .padding-inline-lg {
     padding-inline: var(--space-lg);
   }

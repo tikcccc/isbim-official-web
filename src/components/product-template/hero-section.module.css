@@ -27,31 +27,12 @@
   }
 }
 
-.heroTitle {
-  font-family: var(--font-heading-en);
-  font-size: clamp(3.5rem, 8vw, 9rem);
-  font-weight: var(--weight-bold);
-  line-height: 0.9;
-  letter-spacing: -0.045em;
-  color: var(--text-inverse-strong);
-}
-
-.heroSubtitle {
-  font-family: var(--font-body-en);
-  font-size: clamp(1.125rem, 2.4vw, 1.75rem);
-  font-weight: var(--weight-light);
-  line-height: var(--line-relaxed);
-  color: var(--text-inverse-muted);
-}
-
-.meta {
-  font-family: var(--font-body-en);
-  font-size: 0.75rem;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  line-height: 1.8;
-}
+/* 字體定義已移至 font-types-product.css:
+   - .font-product-hero-title
+   - .font-product-hero-subtitle
+   - .font-product-meta
+   - .font-product-meta-mobile
+*/
 
 .overlayVertical {
   background: var(--product-hero-overlay-vertical);
@@ -100,26 +81,7 @@
   color: var(--text-inverse-muted);
 }
 
-.metaItem {
-  color: var(--text-inverse-subtle);
-  transition: color var(--motion-fast) var(--ease-smooth);
-}
-
 .metaChipWrap {
   gap: var(--product-gap-sm);
   color: var(--text-inverse-muted);
-}
-
-.metaChipItem {
-  border-color: var(--border-inverse-soft);
-  background: var(--chip-bg);
-  color: var(--text-inverse-muted);
-}
-
-.metaChip {
-  font-family: var(--font-body-en);
-  font-size: 0.75rem;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
 }

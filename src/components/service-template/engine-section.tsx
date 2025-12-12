@@ -102,8 +102,8 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
             <m.div
               key={idx}
               variants={itemVariants}
-              className={`group ${styles.engineItem} md:flex-row md:items-start py-10 md:py-12 transition-colors duration-300 hover:bg-[var(--surface-base)]`}>
-              <span className={`font-service-index mr-8 md:mr-12 ${colors.textSub} group-hover:${colors.textStrong} transition-colors min-w-[3ch]`}>
+              className={`group ${styles.engineItem} md:flex-row md:items-center py-10 md:py-12 transition-colors duration-300 hover:bg-[var(--surface-base)]`}>
+              <span className={`font-service-index mr-8 md:mr-12 md:self-start ${colors.textSub} group-hover:${colors.textStrong} transition-colors min-w-[3ch]`}>
                 {startTypewriter && !shouldReduceMotion ? (
                   <TypewriterText
                     text={item.id}

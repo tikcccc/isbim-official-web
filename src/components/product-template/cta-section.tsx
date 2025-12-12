@@ -41,12 +41,12 @@ export function ProductCTASection({
       <div className={styles.sectionShell}>
         <div className={cn("flex flex-col items-center text-center", styles.content)}>
           {/* Title with gradient effect */}
-          <h2 className={styles.title}>
+          <h2 className={cn("font-product-title-lg", styles.title)}>
             <span className={styles.textGradient}>{title}</span>
           </h2>
 
           {/* Subtitle */}
-          <p className={styles.subtitle}>
+          <p className={cn("font-product-subtitle", styles.subtitle)}>
             {subtitle}
           </p>
 
@@ -55,7 +55,7 @@ export function ProductCTASection({
             <Link
               href={buttonHref}
               className={cn(
-                "group inline-flex items-center",
+                "group inline-flex items-center font-product-button",
                 styles.ctaButton
               )}
               style={{ gap: "var(--product-gap-sm)" }}

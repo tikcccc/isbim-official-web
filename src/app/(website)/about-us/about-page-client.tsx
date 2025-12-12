@@ -57,7 +57,7 @@ const TechDivider = ({ className }: { className?: string }) => (
 // ArrowLink: Link with arrow and underline animation
 const ArrowLink = ({ label, href }: { label: string; href: string }) => (
   <LocalizedLink href={href} prefetchMode="hover" className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
-    <div className="flex items-center gap-2 about-label about-text-primary">
+    <div className="flex items-center gap-2 font-label-lg about-text-primary">
       {label}
       <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">-&gt;</span>
     </div>
@@ -144,12 +144,12 @@ const FeatureRow = ({
       <div className="lg:col-span-5">
         <RevealTitle
           text={title}
-          className="about-feature-title leading-tight transition-colors duration-500"
+          className="font-container-subtitle leading-tight transition-colors duration-500"
         />
       </div>
 
       <div className="lg:col-span-7 flex flex-col justify-between h-full">
-        <p className="about-body-large mb-6">
+        <p className="font-body-xlg about-text-secondary mb-6">
           {content}
         </p>
         <div>
@@ -163,6 +163,7 @@ const FeatureRow = ({
 // StickyNav: Navigation component
 const StickyNav = () => {
   const activeSection = useNavStore((state) => state.activeSection);
+  const isMenuOpen = useMenuStore((state) => state.isOpen);
   const scrollTo = useSmoothScrollTo();
 
   const handleScrollTo = (id: string) => {
@@ -199,8 +200,11 @@ const StickyNav = () => {
     }
   }, [activeSection]);
 
+  // Hide navigation when menu is open
+  if (isMenuOpen) return null;
+
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[9999] flex flex-col gap-4 about-label-lg about-text-primary pointer-events-auto about-nav-index">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[9999] flex flex-col gap-4 font-label-lg about-text-primary pointer-events-auto about-nav-index">
       {[1, 2, 3].map((num) => (
         <div
           key={num}
@@ -297,20 +301,21 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
     >
       <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
 
-      <div className="about-container z-10 w-full">
+      <div className="container-content z-10">
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start lg:items-center mb-12">
           <div className="lg:col-span-7">
-            <span className="block about-label about-text-secondary mb-6 font-semibold">
+            <span className="block font-label-lg about-text-secondary mb-6 font-semibold">
               0{id} <span className="about-text-muted">/ 03</span>
             </span>
 
             <TypewriterWidth
               text={title}
-              className="about-hero-title leading-none"
+              className="font-container-title font-extrabold tracking-[-0.045em] leading-none"
               duration={1.5}
               steps={40}
               cursorVisible
+              hideCursorOnComplete
               cursorClassName="top-2 h-[80%] w-3 bg-[var(--about-accent)] ml-1 md:ml-2"
               scrollTrigger={{
                 trigger: `#section-${id}`,
@@ -322,7 +327,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
             {subtitle && (
             <div className={`section-${id}-anim opacity-0 lg:col-span-5 flex items-start`}>
-               <p className="about-subtitle border-l-2 about-border-accent pl-6 leading-snug md:leading-normal lg:leading-snug">
+               <p className="font-body-xlg about-text-secondary leading-snug md:leading-normal lg:leading-snug border-l-2 about-border-accent pl-6">
                  {subtitle}
                </p>
             </div>
@@ -334,10 +339,10 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
         </div>
 
         {/* Content Area */}
-        <div className={`section-${id}-anim opacity-0`}>
+          <div className={`section-${id}-anim opacity-0`}>
           {children || (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-9 about-body-large space-y-8">
+              <div className="lg:col-span-9 font-body-xlg about-text-secondary space-y-8">
                 {content}
               </div>
               <div className="lg:col-span-3"></div>
@@ -464,4 +469,3 @@ export default function AboutPage() {
     </main>
   );
 }
-

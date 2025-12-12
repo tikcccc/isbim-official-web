@@ -1,44 +1,28 @@
 @layer base {
   :root {
     /* About page specific palette */
-    --about-bg: #f7f7f9;
-    --about-surface-panel: #ffffff;
+    --about-bg: var(--surface-subtle);
     --about-text-primary: var(--text-base);
-    --about-text-secondary: #4b5563;
-    --about-text-muted: #6b7280;
-    --about-accent: #2563eb;
-    --about-border: #e5e7eb;
-    --about-border-strong: #d1d5db;
+    --about-text-secondary: var(--text-sub);
+    --about-text-muted: var(--text-soft);
+    --about-accent: var(--brand-accent);
+    --about-border: var(--border-subtle);
 
     /* Layout & spacing */
-    --about-container-max: 1600px;
-    --about-container-padding: 1.5rem;
-    --about-container-padding-md: 3rem;
-    --about-container-padding-lg: 5rem;
-    --about-container-padding-xl: 6rem;
-    --about-section-padding: 10rem;
-    --about-section-padding-lg: 12rem;
-    --about-gap: 2rem;
-    --about-gap-lg: 5rem;
-    --about-feature-padding: 4rem;
+    --about-section-padding: calc(var(--h-spacing) * 9);
+    --about-section-padding-lg: calc(var(--h-spacing) * 7.2);
+    --about-feature-padding: calc(var(--h-spacing) * 3.6);
 
     /* Shape & depth */
-    --about-radius-sm: 0.125rem;
-    --about-radius-md: 0.5rem;
-    --about-radius-lg: 0.75rem;
-    --about-radius-pill: 9999px;
-    --about-shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    --about-shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --about-radius-lg: var(--radius-lg);
+    --about-shadow-card: var(--shadow-2xl);
 
     /* Motion */
     --about-motion-fast: var(--motion-duration-fast, 0.3s);
-    --about-motion-base: var(--motion-duration-base, 0.5s);
     --about-motion-slow: var(--motion-duration-slow, 0.8s);
-    --about-motion-ease: var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
     --about-motion-stagger: var(--motion-stagger-base, 0.12s);
-    --about-motion-snappy: 0.06s;
-    --about-motion-ease-strong: cubic-bezier(0.22, 1, 0.36, 1);
-    --about-motion-ease-soft: cubic-bezier(0.2, 0.65, 0.3, 0.9);
+    --about-motion-snappy: calc(var(--motion-duration-fast, 0.3s) / 5);
+    --about-motion-ease-strong: var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
   }
 }
 
@@ -53,93 +37,6 @@
     background: var(--about-bg);
   }
 
-  /* Section wrapper for About page */
-  .about-section-shell {
-    @apply relative w-full;
-    background: var(--about-bg);
-  }
-
-  /* Optional noise overlay helper */
-  .about-noise-overlay {
-    @apply absolute inset-0 pointer-events-none;
-    background: url('/images/noise.svg');
-    opacity: 0.35;
-  }
-
-  /* About typography tokens */
-  .about-heading {
-    font-family: var(--font-heading-en);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--about-text-primary);
-  }
-
-  .about-body {
-    font-family: var(--font-body-en);
-    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-    line-height: 1.7;
-    color: var(--about-text-secondary);
-    font-weight: 400;
-  }
-
-  .about-hero-title {
-    font-family: var(--font-heading-en);
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.045em;
-    text-transform: uppercase;
-    color: var(--about-text-primary);
-  }
-
-  .about-feature-title {
-    font-family: var(--font-heading-en);
-    font-size: clamp(1.875rem, 3vw, 3rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--about-text-primary);
-  }
-
-  .about-subtitle {
-    font-family: var(--font-body-en);
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    font-weight: 300;
-    line-height: 1.5;
-    color: var(--about-text-secondary);
-  }
-
-  .about-body-large {
-    font-family: var(--font-body-en);
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    font-weight: 400;
-    line-height: 1.7;
-    color: var(--about-text-secondary);
-  }
-
-  .about-label {
-    font-family: var(--font-body-en);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.2;
-  }
-
-  .about-label-lg {
-    font-family: var(--font-body-en);
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.2;
-  }
-
-  .about-divider {
-    @apply w-full h-px;
-    background: var(--about-border);
-  }
-
   /* Color utilities */
   .about-text-primary { color: var(--about-text-primary); }
   .about-text-secondary { color: var(--about-text-secondary); }
@@ -148,27 +45,17 @@
 
   /* Surface utilities */
   .about-surface-base { background: var(--about-bg); }
-  .about-surface-panel { background: var(--about-surface-panel); }
 
   /* Border utilities */
   .about-border { border-color: var(--about-border); }
-  .about-border-strong { border-color: var(--about-border-strong); }
   .about-border-accent { border-color: var(--about-accent); }
 
   /* Layout utilities */
-  .about-container {
-    width: 92%;
-    max-width: var(--about-container-max);
-    margin-left: auto;
-    margin-right: auto;
-    padding-inline: var(--about-container-padding);
-  }
   .about-section-padding {
     padding-block: var(--about-section-padding);
   }
   .about-feature-padding {
     padding-block: var(--about-feature-padding);
-    padding-inline: var(--about-container-padding);
   }
   .about-feature-row {
     background: transparent;
@@ -176,45 +63,16 @@
     border-radius: 0;
     box-shadow: none;
   }
-  .about-gap {
-    gap: var(--about-gap);
-  }
 
-  @media (min-width: 768px) {
-    .about-container {
-      padding-inline: var(--about-container-padding-md);
-    }
-  }
   @media (min-width: 1024px) {
-    .about-container {
-      padding-inline: var(--about-container-padding-lg);
-    }
     .about-section-padding {
       padding-block: var(--about-section-padding-lg);
-    }
-    .about-gap {
-      gap: var(--about-gap-lg);
-    }
-  }
-  @media (min-width: 1280px) {
-    .about-container {
-      padding-inline: var(--about-container-padding-xl);
     }
   }
 
   /* Shape & depth utilities */
-  .about-radius-sm { border-radius: var(--about-radius-sm); }
-  .about-radius-md { border-radius: var(--about-radius-md); }
   .about-radius-lg { border-radius: var(--about-radius-lg); }
-  .about-radius-pill { border-radius: var(--about-radius-pill); }
   .about-shadow-card { box-shadow: var(--about-shadow-card); }
-  .about-shadow-soft { box-shadow: var(--about-shadow-soft); }
-
-  /* Motion utilities */
-  .about-transition-base {
-    transition-duration: var(--about-motion-base);
-    transition-timing-function: var(--about-motion-ease);
-  }
 
   /* Navigation index - ensure always visible */
   .about-nav-index {

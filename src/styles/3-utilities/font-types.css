@@ -77,7 +77,7 @@
     font-size: clamp(2.5rem, 5vw, 4.75rem);
     font-weight: var(--weight-semibold); /* 600 */
     line-height: 1.1;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
   }
 
   /* body font (max ~2.75rem) */
@@ -90,7 +90,15 @@
   }
 
   /* Body text (largest → base) */
-  /* Body Large: lead paragraphs / important copy (max ~1.375rem) */
+    .font-body-xlg
+  {
+    font-family: var(--font-body-en);
+    font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+    font-weight: var(--weight-regular); /* 400 */
+    line-height: 1.65;
+    letter-spacing: 0;
+  }
+
   .font-body-lg
   {
     font-family: var(--font-body-en);

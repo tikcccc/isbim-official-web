@@ -34,43 +34,45 @@ export function HeroForeground({
     >
       <div
         className={cn(
-          "relative h-full max-w-[1800px] mx-auto flex flex-col justify-end will-change-transform transition-transform duration-[180ms] ease-out",
+          "relative h-full w-full flex flex-col justify-end will-change-transform transition-transform duration-[180ms] ease-out",
+          styles.foreground,
           styles.heroPadding
         )}
       >
-        {/* Main content area */}
+        {/* Main content area (match service hero grid layout) */}
         <div
-          className="flex flex-col md:flex-row justify-between items-start md:items-end w-full pointer-events-auto"
+          className="grid grid-cols-12 items-end w-full pointer-events-auto"
           style={{ gap: "var(--product-gap)" }}
         >
-          {/* Left: Product Name - Anchored bottom-left */}
+          {/* Left: Product Name - Always left aligned */}
           <div
-            className="flex flex-col max-w-4xl"
+            className="col-span-12 lg:col-span-8 flex flex-col max-w-4xl"
             style={{ gap: "var(--product-gap-sm)" }}
           >
-            {logoComponent || (
-              <h1 className={styles.heroTitle}>{productName}</h1>
-            )}
+            {logoComponent || <h1 className="font-product-title-hero">{productName}</h1>}
 
-            {/* Optional subtitle */}
             {productSubtitle && (
-              <p className={cn("max-w-lg mt-2 md:pl-2", styles.heroSubtitle)}>
+              <p className={cn("font-product-subtitle max-w-lg mt-2 md:pl-2")}>
                 {productSubtitle}
               </p>
             )}
           </div>
 
-          {/* Right: Metadata - Bottom Right, Minimalist */}
-          <div className="hidden md:flex flex-col items-end">
+          {/* Right: Metadata - consistent right column position */}
+          <div className="col-span-12 lg:col-span-4 hidden md:flex flex-col items-end justify-end">
             <div
-              className={cn("relative flex flex-col items-end pr-2 pl-8", styles.meta, styles.metaLine)}
-              style={{ gap: "var(--product-gap-sm)", transition: "color var(--motion-base) var(--ease-smooth)", color: "var(--text-inverse-muted)" }}
+              className={cn(
+                "font-product-label-bold tracking-[0.28em] relative flex flex-col items-end pr-2 pl-8",
+                styles.metaLine,
+                styles.metadataLine,
+                styles.gapSm,
+                styles.metaColor
+              )}
             >
               {cleanedMetadata.map((item, i) => (
                 <span
                   key={i}
                   className="max-w-[240px] text-right leading-tight hover:text-white"
-                  style={{ color: "var(--text-inverse-subtle)", transition: "color var(--motion-fast) var(--ease-smooth)" }}
                 >
                   {item}
                 </span>
@@ -81,19 +83,15 @@ export function HeroForeground({
 
         {/* Mobile metadata - horizontal layout */}
         <div
-          className={cn("flex md:hidden mt-6 flex-wrap pointer-events-auto", styles.metaChip)}
-          style={{ gap: "var(--product-gap-sm)", color: "var(--text-inverse-muted)" }}
+          className={cn(
+            "font-product-label-bold tracking-[0.18em] flex md:hidden mt-6 flex-wrap pointer-events-auto",
+            styles.metaChipWrap
+          )}
         >
           {cleanedMetadata.slice(0, 4).map((item, i) => (
             <span
               key={i}
-              className="px-3 py-1 border backdrop-blur-[1px]"
-              style={{
-                borderRadius: "var(--product-radius-pill)",
-                borderColor: "var(--border-inverse-soft)",
-                background: "var(--chip-bg)",
-                color: "var(--text-inverse-muted)",
-              }}
+              className="px-3 py-1 rounded-full border backdrop-blur-[1px]"
             >
               {item}
             </span>

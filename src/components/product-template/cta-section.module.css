@@ -49,19 +49,10 @@
 }
 
 .title {
-  font-family: var(--font-heading-en);
-  font-size: clamp(3.4rem, 6.5vw, 6rem);
-  font-weight: var(--weight-bold);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
   color: var(--text-inverse-strong);
 }
 
 .subtitle {
-  font-family: var(--font-body-en);
-  font-size: clamp(1.08rem, 2vw, 1.5rem);
-  font-weight: var(--weight-light);
-  line-height: 1.72;
   color: var(--text-inverse-base);
   max-width: 48rem;
 }
@@ -70,12 +61,6 @@
   padding-inline: clamp(1.95rem, 4vw, 3.05rem);
   padding-block: clamp(1.15rem, 2.75vw, 1.45rem);
   border-radius: var(--radius-full);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  line-height: 1.2;
   transition:
     background var(--motion-fast) var(--ease-smooth),
     color var(--motion-fast) var(--ease-smooth),

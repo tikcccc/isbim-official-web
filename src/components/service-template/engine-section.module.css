@@ -23,7 +23,7 @@
   @media (min-width: 48em) {
     .engineItem {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: center;
     }
   }
 }
