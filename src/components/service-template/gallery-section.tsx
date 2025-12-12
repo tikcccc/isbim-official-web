@@ -37,10 +37,10 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
             <span className={`${sectionTitleClass} uppercase ${colors.textInvSub} mb-12`}>
               {heading}
             </span>
-            <h2 className={`font-display-section text-4xl md:text-6xl font-bold tracking-tight ${colors.textInvStrong}`}>{gallery.title}</h2>
+            <h2 className={`font-service-display ${colors.textInvStrong}`}>{gallery.title}</h2>
           </div>
           <div className="text-right mt-8 md:mt-0">
-            <p className={`font-body-base text-xl md:text-2xl font-mono ${colors.textInvBase}`}>{gallery.meta}</p>
+            <p className={`font-service-meta ${colors.textInvBase}`}>{gallery.meta}</p>
           </div>
         </div>
 
@@ -132,7 +132,7 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
         </div>
         <div className={`md:col-span-5 flex flex-col h-full justify-center py-4 ${index % 2 === 1 ? 'md:order-1 md:text-right' : ''}`}>
           <div>
-            <span className={`font-label-sm text-xs font-mono mb-6 block ${colors.textInvSub} tracking-widest`}>
+            <span className={`font-service-label mb-6 block ${colors.textInvSub}`}>
               {startTypewriter && !shouldReduceMotion ? (
                 <TypewriterText
                   text={labelText}
@@ -144,15 +144,15 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
                 <span aria-hidden>{labelText}</span>
               )}
             </span>
-            <h3 className={`font-heading-card text-3xl md:text-4xl font-bold mb-6 ${colors.textInvStrong} group-hover:${colors.textInvMuted} transition-colors`}>
+            <h3 className={`font-service-item-title mb-6 ${colors.textInvStrong} group-hover:${colors.textInvMuted} transition-colors`}>
               {item.title}
             </h3>
-            <p className={`font-body-base text-base md:text-lg font-light leading-relaxed mb-8 ${colors.textInvBase} ${index % 2 === 1 ? 'ml-auto' : ''} max-w-md`}>
+            <p className={`font-service-item-body mb-8 ${colors.textInvBase} ${index % 2 === 1 ? 'ml-auto' : ''} max-w-md`}>
               {item.desc}
             </p>
           </div>
           <div className={`flex items-center border-t border-[rgba(255,255,255,0.2)] pt-6 ${index % 2 === 1 ? 'justify-end' : 'justify-between'}`}>
-            <span className={`text-2xl font-mono ${colors.textInvStrong} ${index % 2 === 1 ? 'order-2 ml-4' : ''}`}>{item.metric}</span>
+            <span className={`font-service-metric ${colors.textInvStrong} ${index % 2 === 1 ? 'order-2 ml-4' : ''}`}>{item.metric}</span>
             <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-opacity text-white" />
           </div>
         </div>

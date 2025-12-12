@@ -37,10 +37,10 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
 
   const leadBlock = (
     <div className="space-y-4">
-      <h3 className={`font-display-feature text-[clamp(2.2rem,3.8vw,3.4rem)] font-bold leading-[1.2] tracking-tight ${colors.textStrong}`}>
+      <h3 className={`font-service-headline ${colors.textStrong}`}>
         {narrative.lead}
       </h3>
-      <p className={`font-body-lg ${colors.textMuted} font-normal text-[clamp(1.3rem,2.4vw,1.8rem)] leading-relaxed`}>
+      <p className={`font-service-subheadline ${colors.textMuted}`}>
         {narrative.sub}
       </p>
     </div>
@@ -73,10 +73,10 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
           </div> 
 
           <div className="md:col-span-5 space-y-8">
-            <p className={`font-body-base text-[clamp(1.05rem,2.2vw,1.3rem)] ${colors.textBase} leading-relaxed font-light`}>
+            <p className={`font-service-body ${colors.textBase}`}>
               {narrative.p1}
             </p>
-            <p className={`font-body-base text-[clamp(1.05rem,2.2vw,1.3rem)] ${colors.textMuted} leading-relaxed`}>
+            <p className={`font-service-body-muted ${colors.textMuted}`}>
               {narrative.p2}
             </p>
           </div>

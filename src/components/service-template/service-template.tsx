@@ -39,7 +39,7 @@ const COLORS = {
   bgDark: 'bg-[var(--surface-dark)]',
 };
 
-const SECTION_TITLE_BASE = 'font-container-subtitle text-3xl font-bold tracking-[0.1em] pb-4 inline-block';
+const SECTION_TITLE_BASE = 'font-service-section-title pb-4 inline-block';
 const SECTION_TITLE_PLAIN = `${COLORS.textSub} ${SECTION_TITLE_BASE}`;
 const SECTION_TITLE_STYLE = `${COLORS.textInvSub} ${SECTION_TITLE_BASE} uppercase`;
 

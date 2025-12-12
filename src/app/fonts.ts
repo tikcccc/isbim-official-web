@@ -1,4 +1,4 @@
-import { Inter, Noto_Sans_SC, Playfair_Display, Space_Grotesk } from "next/font/google";
+import { Inter, Noto_Sans_SC, Playfair_Display, Roboto_Mono, Space_Grotesk } from "next/font/google";
 
 export const allianceNo1 = Inter({
   variable: "--font-alliance-1",
@@ -31,4 +31,13 @@ export const allianceArt = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+});
+
+// Monospace font (Roboto Mono with system fallbacks)
+export const allianceMono = Roboto_Mono({
+  variable: "--font-mono",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  fallback: ["ui-monospace", "monospace"],
 });

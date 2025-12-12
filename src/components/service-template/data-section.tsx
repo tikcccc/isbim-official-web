@@ -122,18 +122,18 @@ function ComparisonItem({ item, colors }: ComparisonItemProps) {
   // Comparison items do NOT animate - keep static
   return (
     <div className="flex flex-col gap-7 pb-10 border-b border-[var(--border-subtle)] max-w-full justify-center">
-      <span className={`font-label text-lg font-bold tracking-[0.2em] uppercase ${colors.textSub}`}>{item.label}</span>
+      <span className={`font-service-data-kicker ${colors.textSub}`}>{item.label}</span>
       <div className="flex items-center gap-6">
         <div className="flex flex-col gap-1">
-          <span className={`text-[11px] font-mono tracking-widest ${colors.textSub}`}>Before</span>
-          <span className={`font-heading-card text-4xl md:text-5xl font-semibold whitespace-nowrap ${colors.textSoft}`}>
+          <span className={`font-service-data-meta ${colors.textSub}`}>Before</span>
+          <span className={`font-service-data-value-emphasis whitespace-nowrap ${colors.textSoft}`}>
             {item.before}
           </span>
         </div>
-        <span className={`text-xl font-semibold ${colors.textSub} flex items-center leading-none`}>→</span>
+        <span className={`font-service-data-accent ${colors.textSub} flex items-center`}>→</span>
         <div className="flex flex-col gap-1">
-          <span className={`text-[11px] font-mono tracking-widest ${colors.textSub}`}>After</span>
-          <span className={`font-heading-card text-4xl md:text-5xl font-bold whitespace-nowrap ${colors.textStrong}`}>
+          <span className={`font-service-data-meta ${colors.textSub}`}>After</span>
+          <span className={`font-service-data-value-strong whitespace-nowrap ${colors.textStrong}`}>
             {item.after}
           </span>
         </div>
@@ -159,8 +159,8 @@ function GridStat({ stat, index, colors }: GridStatProps) {
         index % 2 === 0 ? 'border-[var(--border-strong)]' : 'border-[var(--border-subtle)]'
       }`}
     >
-      <span className={`font-heading-card text-4xl md:text-5xl font-light mb-2 ${colors.textStrong}`}>{stat.val}</span>
-      <span className={`font-label-sm text-xs font-bold tracking-widest uppercase ${colors.textSub}`}>{stat.label}</span>
+      <span className={`font-service-data-value mb-2 ${colors.textStrong}`}>{stat.val}</span>
+      <span className={`font-service-data-label ${colors.textSub}`}>{stat.label}</span>
     </div>
   );
 }
@@ -224,12 +224,12 @@ export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, sect
           >
             <h3 className={`${sectionTitleClass} mb-12`}>{stats.label}</h3>
 
-            <p className={`font-body-lg text-2xl leading-relaxed ${colors.textBase} font-light mt-4`}>
+            <p className={`font-service-data-intro ${colors.textBase} mt-4`}>
               {introText}
             </p>
             
             <div className={`${styles.dataCard} mt-12 text-[var(--text-strong)]`}>
-              <span className={`block font-label-sm text-sm md:text-base font-mono font-semibold mb-4 ${colors.textSub} tracking-widest uppercase`}>
+              <span className={`block font-service-data-label mb-4 ${colors.textSub}`}>
                 {startTypewriter && !shouldReduceMotion ? (
                   <TypewriterText
                     text={stats.main.label}
@@ -241,7 +241,7 @@ export const DataSection: React.FC<DataSectionProps> = ({ stats, introText, sect
                   <span aria-hidden>{stats.main.label}</span>
                 )}
               </span>
-              <span className="font-display-section text-6xl md:text-8xl font-bold tracking-tighter">
+              <span className="font-service-data-figure">
                 {mainStatDisplay}
               </span>
             </div>

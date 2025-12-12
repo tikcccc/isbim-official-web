@@ -165,10 +165,6 @@
     .currentPill {
       display: inline-flex;
       padding: 0.125rem 0.5rem;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       color: #ffffff;
       background: linear-gradient(90deg, #2f64ff, #4f7dff);
       border-radius: 9999px;

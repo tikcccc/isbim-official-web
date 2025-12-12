@@ -200,7 +200,7 @@ const StickyNav = () => {
   }, [activeSection]);
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[100] flex flex-col gap-4 about-label-lg about-text-primary pointer-events-auto about-nav-index">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[9999] flex flex-col gap-4 about-label-lg about-text-primary pointer-events-auto about-nav-index">
       {[1, 2, 3].map((num) => (
         <div
           key={num}
@@ -211,11 +211,14 @@ const StickyNav = () => {
             activeSection === num ? "opacity-100 font-bold" : "opacity-40 hover:opacity-70"
           )}
         >
-          <span className="text-sm transition-none will-change-transform font-semibold">0{num}</span>
+          <span className="text-sm will-change-transform font-semibold">0{num}</span>
           <span className={cn(
-             "overflow-hidden transition-all duration-500 ease-in-out whitespace-nowrap will-change-transform text-sm",
+             "overflow-hidden whitespace-nowrap will-change-transform text-sm",
              activeSection === num ? "max-w-[300px] opacity-100" : "max-w-0 opacity-0"
-          )}>
+          )}
+          style={{
+            transition: activeSection === num ? 'max-width 500ms ease-in-out' : 'max-width 500ms ease-in-out, opacity 500ms ease-in-out'
+          }}>
             {num === 1 ? m.about_nav_section1() : num === 2 ? m.about_nav_section2() : m.about_nav_section3()}
           </span>
           {activeSection === num && <div className="h-[1px] w-8 bg-[var(--about-accent)] animate-pulse" />}

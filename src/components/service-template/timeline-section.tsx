@@ -118,12 +118,12 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
               {/* Year badge */}
               <div className={styles.yearRow}>
                 <span
-                  className={`font-label-lg ${styles.yearLabel} ${item.isNow ? styles.nowAccent : ''}`}
+                  className={`font-service-timeline-label ${styles.yearLabel} ${item.isNow ? styles.nowAccent : ''}`}
                 >
                   {item.year}
                 </span>
                 {item.isNow && (
-                  <span className={styles.currentPill}>
+                  <span className={`${styles.currentPill} font-service-timeline-pill`}>
                     Current
                   </span>
                 )}
@@ -131,13 +131,13 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
 
               {/* Title */}
               <h4
-                className={`font-heading-card text-xl md:text-2xl font-bold leading-tight ${styles.title} ${item.isNow ? styles.nowAccent : ''}`}
+                className={`font-service-timeline-title ${styles.title} ${item.isNow ? styles.nowAccent : ''}`}
               >
                 {item.title}
               </h4>
 
               {/* Description */}
-              <p className={`font-body-base text-sm md:text-base leading-relaxed ${styles.desc}`}>
+              <p className={`font-service-timeline-body ${styles.desc}`}>
                 {item.desc}
               </p>
             </m.div>

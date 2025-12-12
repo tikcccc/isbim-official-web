@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { sourceLanguageTag } from "@/paraglide/runtime";
-import { allianceNo1, allianceNo2, allianceZh } from "./fonts";
+import { allianceMono, allianceNo1, allianceNo2, allianceZh } from "./fonts";
 import { JsonLd, createOrganizationSchema } from "@/components/seo/json-ld";
 import { SITE_CONFIG } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
@@ -45,7 +45,7 @@ export default async function RootLayout({
   });
 
   return (
-    <html lang={languageTag} className={`${allianceNo1.variable} ${allianceNo2.variable} ${allianceZh.variable}`}>
+    <html lang={languageTag} className={`${allianceNo1.variable} ${allianceNo2.variable} ${allianceZh.variable} ${allianceMono.variable}`}>
       <head>
         <JsonLd data={organizationSchema} id="organization-schema" />
       </head>

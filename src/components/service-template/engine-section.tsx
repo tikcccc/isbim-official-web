@@ -103,7 +103,7 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
               key={idx}
               variants={itemVariants}
               className={`group ${styles.engineItem} md:flex-row md:items-start py-10 md:py-12 transition-colors duration-300 hover:bg-[var(--surface-base)]`}>
-              <span className={`text-sm font-mono mr-8 md:mr-12 ${colors.textSub} group-hover:${colors.textStrong} transition-colors min-w-[3ch]`}>
+              <span className={`font-service-index mr-8 md:mr-12 ${colors.textSub} group-hover:${colors.textStrong} transition-colors min-w-[3ch]`}>
                 {startTypewriter && !shouldReduceMotion ? (
                   <TypewriterText
                     text={item.id}
@@ -116,12 +116,12 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
                 )}
               </span>
               <h4
-                className={`font-heading-card text-3xl md:text-4xl font-medium w-full md:w-1/3 mb-4 md:mb-0 ${colors.textStrong}`}
+                className={`font-service-card-title w-full md:w-1/3 mb-4 md:mb-0 ${colors.textStrong}`}
               >
                 {item.title}
               </h4>
               <p
-                className={`font-body-base w-full md:w-1/2 text-lg md:text-xl font-light leading-relaxed ${colors.textMuted} group-hover:${colors.textBase} transition-colors`}
+                className={`font-service-card-body w-full md:w-1/2 ${colors.textMuted} group-hover:${colors.textBase} transition-colors`}
               >
                 {renderWithBold(item.desc)}
               </p>

@@ -17,13 +17,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
   const shouldReduceMotion = useReducedMotion();
   const descText = hero.desc.includes('\n') ? hero.desc : hero.desc.replace(' — ', '\n— ');
   const tagLine = shouldReduceMotion ? (
-    <span className={`font-hero-tag ${styles.heroTag}`}>
+    <span className={`font-service-hero-tag ${styles.heroTag}`}>
       {hero.tag}
     </span>
   ) : (
     <TypewriterText
       text={hero.tag}
-      className={`font-hero-tag ${styles.heroTag}`}
+      className={`font-service-hero-tag ${styles.heroTag}`}
       cursorVisible={false}
     />
   );
@@ -40,12 +40,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
             </ScrollReveal>
             
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow}>
-              <h1 className={`${styles.heroTitle} font-hero-mega mb-4`}>
+              <h1 className={`${styles.heroTitle} font-service-hero-mega mb-4`}>
                 {hero.title}
               </h1>
             </ScrollReveal>
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow} delay={0.12}>
-              <h2 className={`${styles.heroSubtitle} font-display-section text-4xl md:text-7xl font-light tracking-tight leading-none`}>
+              <h2 className={`${styles.heroSubtitle} font-service-hero-sub`}>
                 {hero.subTitle}
               </h2>
             </ScrollReveal>
@@ -55,16 +55,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
           <div className="col-span-12 lg:col-span-4 flex flex-col justify-end">
             <ScrollReveal animation="fade" duration={DESIGN_TOKENS.animation.duration.normal} delay={0.1}>
               <div className={styles.heroDescWrap}>
-                <p className={`${styles.heroDesc} font-hero-subtitle whitespace-pre-line`}>
+                <p className={`${styles.heroDesc} font-service-hero-subtitle whitespace-pre-line`}>
                   {descText}
                 </p>
                 {tagLine}
               </div>
             </ScrollReveal>
-            
-            <div className="animate-bounce">
+
+            {shouldReduceMotion ? (
               <ChevronDown className="w-6 h-6 text-white/50" />
-            </div>
+            ) : (
+              <ScrollReveal animation="fade" duration={DESIGN_TOKENS.animation.duration.normal} delay={0.3}>
+                <div className="animate-bounce">
+                  <ChevronDown className="w-6 h-6 text-white/50" />
+                </div>
+              </ScrollReveal>
+            )}
           </div>
         </div>
       </div>
