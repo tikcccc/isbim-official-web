@@ -1,16 +1,16 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { ArrowRight, CornerDownRight } from "lucide-react";
+import { ArrowRight, CornerDownRight, ChevronDown } from "lucide-react";
 import { Link } from "@/lib/i18n";
 import Image from "next/image";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
-import { useBodyScrollLock, useLenis } from "@/hooks";
+import { useBodyScrollLock, useLenis, useIsMobile } from "@/hooks";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { m } from "@/components/motion/lazy-motion";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -187,7 +187,15 @@ export function MenuOverlay() {
   const { lenis } = useLenis();
   const menuData = useMemo(() => getMenuData(), []);
   const overlayRef = useRef<HTMLDivElement | null>(null);
-  const scrollStateRef = useRef({ target: 0, rafId: null as number | null });
+  const scrollStateRef = useRef({
+    target: 0,
+    rafId: null as number | null,
+    touchStartY: undefined as number | undefined,
+  });
+
+  // Mobile expansion state for JARVIS Suite
+  const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   // Lock body scroll when menu is open
   useBodyScrollLock(isOpen);
@@ -240,10 +248,41 @@ export function MenuOverlay() {
       }
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      scrollState.touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (scrollState.touchStartY === undefined) return;
+
+      e.preventDefault(); // 阻止原生滚动
+      const touchCurrentY = e.touches[0].clientY;
+      const deltaY = scrollState.touchStartY - touchCurrentY;
+
+      const maxScroll = overlay.scrollHeight - overlay.clientHeight;
+      scrollState.target = Math.max(0, Math.min(scrollState.target + deltaY, maxScroll));
+
+      scrollState.touchStartY = touchCurrentY; // 更新起点
+
+      if (scrollState.rafId === null) {
+        scrollState.rafId = requestAnimationFrame(smoothStep);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      scrollState.touchStartY = undefined;
+    };
+
     overlay.addEventListener("wheel", handleWheel, { passive: false });
+    overlay.addEventListener("touchstart", handleTouchStart, { passive: false });
+    overlay.addEventListener("touchmove", handleTouchMove, { passive: false });
+    overlay.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       overlay.removeEventListener("wheel", handleWheel);
+      overlay.removeEventListener("touchstart", handleTouchStart);
+      overlay.removeEventListener("touchmove", handleTouchMove);
+      overlay.removeEventListener("touchend", handleTouchEnd);
       if (scrollState.rafId !== null) {
         cancelAnimationFrame(scrollState.rafId);
         scrollState.rafId = null;
@@ -335,40 +374,118 @@ export function MenuOverlay() {
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.4, duration: 0.5 }}
                         >
-                          {item.children.map((child, cIdx) =>
-                            child.href ? (
+                          {item.children.map((child, cIdx) => {
+                            // Special handling for JARVIS Suite on mobile
+                            if (child.action === "jarvis_suite" && child.href && isMobile) {
+                              return (
+                                <div key={cIdx}>
+                                  {/* Mobile: Split Interaction - Text (Link) + Arrow (Button) */}
+                                  <div className="flex items-center justify-between py-1">
+                                    {/* Left: Clickable text - jumps to JARVIS Suite page */}
+                                    <Link
+                                      href={child.href}
+                                      onClick={closeMenu}
+                                      prefetch
+                                      className="flex-1 group/child flex items-center gap-4 cursor-pointer"
+                                    >
+                                      <CornerDownRight
+                                        size={18}
+                                        className="text-blue-400 group-hover/child:text-blue-500 transition-colors"
+                                      />
+                                      <span className="text-xl text-white font-medium group-hover/child:text-blue-400 transition-colors layout-nav-link">
+                                        {child.title}
+                                      </span>
+                                    </Link>
+
+                                    {/* Right: Arrow button - toggles expansion */}
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setExpandedGroup(
+                                          expandedGroup === 'jarvis_suite' ? null : 'jarvis_suite'
+                                        );
+                                      }}
+                                      className="p-2 hover:bg-white/5 rounded transition-colors"
+                                      aria-label="展开/收起产品列表"
+                                      aria-expanded={expandedGroup === 'jarvis_suite'}
+                                    >
+                                      <ChevronDown
+                                        size={20}
+                                        className={`text-blue-400 transition-transform duration-300 ${
+                                          expandedGroup === 'jarvis_suite' ? 'rotate-180' : ''
+                                        }`}
+                                      />
+                                    </button>
+                                  </div>
+
+                                  {/* Mobile: Expanded product list */}
+                                  <AnimatePresence>
+                                    {expandedGroup === 'jarvis_suite' && (
+                                      <m.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                        className="ml-8 mt-4 space-y-2 overflow-hidden border-l border-white/10 pl-6"
+                                      >
+                                        {menuData.jarvisProducts.map((prod) => (
+                                          <Link
+                                            key={prod.href}
+                                            href={prod.href}
+                                            onClick={closeMenu}
+                                            prefetch
+                                            className="group/prod flex items-center gap-3 py-2 cursor-pointer"
+                                          >
+                                            <CornerDownRight
+                                              size={16}
+                                              className="text-neutral-600 group-hover/prod:text-blue-400 transition-colors shrink-0"
+                                            />
+                                            <span className="text-base text-neutral-400 group-hover/prod:text-white transition-colors">
+                                              {prod.name}
+                                            </span>
+                                          </Link>
+                                        ))}
+                                      </m.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              );
+                            }
+
+                            // Desktop or non-JARVIS Suite items: original behavior
+                            return child.href ? (
                               <Link
                                 key={cIdx}
                                 href={child.href}
                                 onClick={closeMenu}
                                 prefetch
-                          className="group/child flex items-center gap-4 cursor-pointer py-1"
-                          onMouseEnter={() =>
-                            child.action === "jarvis_suite"
-                              ? setActivePreview("jarvis_suite")
-                              : setActivePreview("default")
-                          }
-                        >
-                          <CornerDownRight
-                            size={18}
-                            className={`transition-colors ${
-                              child.action === "jarvis_suite"
-                                ? "text-blue-400 group-hover/child:text-blue-500"
-                                : "text-neutral-600 group-hover/child:text-blue-500"
-                            }`}
-                          />
-                          <span
-                            className={`text-xl transition-colors layout-nav-link ${
-                              child.isHighlight
-                                ? "text-white font-medium group-hover/child:text-blue-400"
-                                : "text-neutral-500 group-hover/child:text-neutral-300"
-                            }`}
-                          >
-                            {child.title}
-                          </span>
+                                className="group/child flex items-center gap-4 cursor-pointer py-1"
+                                onMouseEnter={() =>
+                                  child.action === "jarvis_suite"
+                                    ? setActivePreview("jarvis_suite")
+                                    : setActivePreview("default")
+                                }
+                              >
+                                <CornerDownRight
+                                  size={18}
+                                  className={`transition-colors ${
+                                    child.action === "jarvis_suite"
+                                      ? "text-blue-400 group-hover/child:text-blue-500"
+                                      : "text-neutral-600 group-hover/child:text-blue-500"
+                                  }`}
+                                />
+                                <span
+                                  className={`text-xl transition-colors layout-nav-link ${
+                                    child.isHighlight
+                                      ? "text-white font-medium group-hover/child:text-blue-400"
+                                      : "text-neutral-500 group-hover/child:text-neutral-300"
+                                  }`}
+                                >
+                                  {child.title}
+                                </span>
 
-                                {/* Hover Indicator */}
-                                {child.action === "jarvis_suite" && (
+                                {/* Hover Indicator (desktop only) */}
+                                {child.action === "jarvis_suite" && !isMobile && (
                                   <m.div
                                     layoutId="indicator"
                                     className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover/child:opacity-100"
@@ -406,9 +523,9 @@ export function MenuOverlay() {
                                     className="w-2 h-2 bg-blue-500 rounded-full opacity-100 animate-pulse"
                                   />
                                 )}
-                          </div>
-                        )
-                      )}
+                              </div>
+                            );
+                          })}
                         </m.div>
                       )}
                     </m.div>

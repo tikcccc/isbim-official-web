@@ -13,7 +13,8 @@
       "Bash(rm:*)",
       "Bash(npm run paraglide:compile:*)",
       "Bash(grep:*)",
-      "Bash(npx tsc --noEmit)"
+      "Bash(npx tsc --noEmit)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
