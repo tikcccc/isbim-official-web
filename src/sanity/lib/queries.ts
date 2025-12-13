@@ -191,6 +191,28 @@ export const NEWS_LIST_QUERY = defineQuery(
   }`
 );
 
+/** Fetch latest news items for menu overlay (limit 2) */
+export const MENU_LATEST_NEWS_QUERY = defineQuery(
+  `*[_type == "news" && defined(slug.current)] | order(publishedAt desc)[0...2] {
+    _id,
+    _type,
+    title,
+    slug,
+    publishedAt,
+    excerpt,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      color
+    },
+    readTime
+  }`
+);
+
 /** Fetch news by category with pagination */
 export const NEWS_BY_CATEGORY_QUERY = defineQuery(
   `*[_type == "news" && category._ref == $categoryId && defined(slug.current)] | order(publishedAt desc) [$start...$end] {

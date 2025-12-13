@@ -11,6 +11,9 @@ import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { m } from "@/components/motion/lazy-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { urlFor } from "@/sanity/lib";
+import { languageTag } from "@/paraglide/runtime";
+import type { Image as SanityImage } from "sanity";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -39,6 +42,24 @@ interface JarvisProduct {
   name: string;
   desc: string;
   href: string;
+}
+
+export interface MenuNewsPreview {
+  _id: string;
+  title: string;
+  slug?: { current?: string };
+  publishedAt?: string;
+  excerpt?: string;
+  mainImage?: {
+    asset?: SanityImage;
+    alt?: string;
+  };
+  category?: {
+    _id?: string;
+    title?: string;
+    color?: string;
+  };
+  readTime?: number;
 }
 
 // --- Helper function to get menu data with i18n ---
@@ -182,7 +203,7 @@ const panelVariants = {
  * - Grid texture background
  * - Type-safe routing with automatic locale handling
  */
-export function MenuOverlay() {
+export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }) {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
   const { lenis } = useLenis();
   const menuData = useMemo(() => getMenuData(), []);
@@ -196,6 +217,45 @@ export function MenuOverlay() {
   // Mobile expansion state for JARVIS Suite
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
   const isMobile = useIsMobile();
+
+  const localeTag = languageTag();
+  const newsItems = useMemo(() => (newsPreview ?? []).slice(0, 2), [newsPreview]);
+
+  const fallbackNews: MenuNewsPreview[] = [
+    {
+      _id: "fallback-1",
+      title: "Coding unveils new JARVIS core architecture for mega-projects.",
+      slug: { current: "" },
+      publishedAt: "2025-03-12",
+      category: { title: "PRESS RELEASE", color: "#60a5fa" },
+      mainImage: {
+        asset: undefined,
+        alt: "Tech",
+      },
+    },
+    {
+      _id: "fallback-2",
+      title: "How Digital Twins are reducing carbon footprints in Asia.",
+      slug: { current: "" },
+      publishedAt: "2025-02-28",
+      category: { title: "BLOG", color: "#9ca3af" },
+      mainImage: { asset: undefined, alt: "Chip" },
+    },
+  ];
+
+  const formatDate = (date?: string) => {
+    if (!date) return "";
+    const parsed = new Date(date);
+    if (Number.isNaN(parsed.getTime())) return "";
+    try {
+      return new Intl.DateTimeFormat(localeTag === "zh" ? "zh-CN" : "en-US", {
+        month: "short",
+        day: "2-digit",
+      }).format(parsed);
+    } catch {
+      return "";
+    }
+  };
 
   // Lock body scroll when menu is open
   useBodyScrollLock(isOpen);
@@ -619,10 +679,6 @@ export function MenuOverlay() {
                       </div>
                       <div className="text-right gap-4 flex ">
                         <TypewriterText
-                          text="STATUS: ONLINE"
-                          className="text-[10px] font-mono text-green-500 tracking-widest block"
-                        />
-                        <TypewriterText
                           text="2,600+ DEPLOYMENTS"
                           className="text-[10px] font-mono text-neutral-500 tracking-wider block"
                           delay={0.1}
@@ -777,66 +833,64 @@ export function MenuOverlay() {
 
                     {/* News Cards */}
                     <div className="grid grid-cols-2 gap-6">
-                      <m.div
-                        variants={fadeInUp}
-                        className="group cursor-pointer"
-                      >
-                        <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
-                          <Image
-                            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
-                            alt="Tech"
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 33vw"
-                            className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-80"
-                          />
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
-                            <TypewriterText
-                              text="FEATURED"
-                              className="bg-blue-600 text-white text-[9px] font-bold px-2 py-1 uppercase inline-block"
-                              delay={0.4}
-                            />
-                          </div>
-                        </div>
-                        <TypewriterText
-                          text="PRESS RELEASE // MAR 12"
-                          className="text-[9px] font-mono text-blue-400 mb-2 block"
-                          delay={0.5}
-                        />
-                        <h3 className="text-xl text-neutral-200 group-hover:text-white leading-snug mb-2">
-                          <TypewriterText
-                            text="Coding unveils new JARVIS core architecture for mega-projects."
-                            className="text-xl"
-                            delay={0.6}
-                          />
-                        </h3>
-                      </m.div>
-
-                      <m.div
-                        variants={fadeInUp}
-                        className="group cursor-pointer"
-                      >
-                        <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
-                          <Image
-                            src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800"
-                            alt="Chip"
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 33vw"
-                            className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-80"
-                          />
-                        </div>
-                        <TypewriterText
-                          text="BLOG // FEB 28"
-                          className="text-[9px] font-mono text-neutral-500 mb-2 block"
-                          delay={0.6}
-                        />
-                        <h3 className="text-xl text-neutral-200 group-hover:text-white leading-snug mb-2">
-                          <TypewriterText
-                            text="How Digital Twins are reducing carbon footprints in Asia."
-                            className="text-xl"
-                            delay={0.7}
-                          />
-                        </h3>
-                      </m.div>
+                      {(newsItems.length ? newsItems : fallbackNews).map((news, idx) => {
+                        const href =
+                          news.slug?.current && news.slug.current.length > 0
+                            ? `/newsroom/${news.slug.current}`
+                            : ROUTES.NEWSROOM;
+                        const imageUrl = news.mainImage?.asset
+                          ? urlFor(news.mainImage.asset)?.width(900).height(540).url()
+                          : idx === 0
+                          ? "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
+                          : "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800";
+                        const tag = news.category?.title || "NEWS";
+                        const tagColor = news.category?.color || "#60a5fa";
+                        const formattedDate = formatDate(news.publishedAt);
+                        const meta = formattedDate ? `${tag} // ${formattedDate}` : tag;
+                        return (
+                          <m.div
+                            key={news._id}
+                            variants={fadeInUp}
+                            className="group cursor-pointer"
+                          >
+                            <Link href={href} onClick={closeMenu} prefetch className="block">
+                              <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
+                                <Image
+                                  src={imageUrl || ""}
+                                  alt={news.mainImage?.alt || news.title}
+                                  fill
+                                  sizes="(max-width: 1024px) 100vw, 33vw"
+                                  className="object-cover opacity-70 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-90"
+                                />
+                                {idx === 0 && (
+                                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
+                                    <span className="bg-blue-600 text-white text-[9px] font-bold px-2 py-1 uppercase inline-block">
+                                      FEATURED
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                              <TypewriterText
+                                text={meta}
+                                className="text-[9px] font-mono text-blue-400 mb-2 block"
+                                delay={0.5 + idx * 0.1}
+                              />
+                              <h3 className="text-xl text-neutral-200 group-hover:text-white leading-snug mb-2">
+                                <TypewriterText
+                                  text={news.title}
+                                  className="text-xl"
+                                  delay={0.6 + idx * 0.1}
+                                />
+                              </h3>
+                              {news.excerpt && (
+                                <p className="text-sm text-neutral-500 line-clamp-2">
+                                  {news.excerpt}
+                                </p>
+                              )}
+                            </Link>
+                          </m.div>
+                        );
+                      })}
                     </div>
                   </m.div>
                 )}

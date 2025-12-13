@@ -6,7 +6,7 @@ import { m } from "@/components/motion/lazy-motion";
 import { Link } from "@/lib/i18n";
 import Image from "next/image";
 import { LocaleSwitcher } from "./locale-switcher";
-import { MenuOverlay } from "./menu-overlay";
+import { MenuOverlay, type MenuNewsPreview } from "./menu-overlay";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { ROUTES } from "@/lib/constants";
@@ -22,7 +22,7 @@ import { ROUTES } from "@/lib/constants";
  * - When menu is open: becomes solid black and sits at top of menu overlay
  */
 
-export function Topbar() {
+export function Topbar({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }) {
   const { isOpen, openMenu, closeMenu } = useMenuStore();
   const radius10 = { borderRadius: "10px" };
 
@@ -125,7 +125,7 @@ export function Topbar() {
       </m.nav>
 
       {/* Menu Overlay */}
-      <MenuOverlay />
+      <MenuOverlay newsPreview={newsPreview} />
 
       <style jsx global>{`
         .logo-mask-shine {
