@@ -875,13 +875,14 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                 className="text-[9px] font-mono text-blue-400 mb-2 block"
                                 delay={0.5 + idx * 0.1}
                               />
-                              <h3 className="text-xl text-neutral-200 group-hover:text-white leading-snug mb-2">
-                                <TypewriterText
-                                  text={news.title}
-                                  className="text-xl"
-                                  delay={0.6 + idx * 0.1}
-                                />
-                              </h3>
+                              <m.h3
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.35, delay: 0.6 + idx * 0.1, ease: "easeOut" }}
+                                className="text-xl text-neutral-200 group-hover:text-white leading-snug mb-2"
+                              >
+                                {news.title}
+                              </m.h3>
                               {news.excerpt && (
                                 <p className="text-sm text-neutral-500 line-clamp-2">
                                   {news.excerpt}
