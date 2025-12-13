@@ -9,7 +9,7 @@ import {
 import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { AppProviders } from "@/providers/app-providers";
 import { Topbar } from "@/components/layout/topbar";
-import { Footer } from "@/components/layout/footer";
+import { FooterRenderer } from "@/components/layout/footer-renderer";
 import { Toaster } from "@/components/ui/sonner";
 import { sanityFetch, MENU_LATEST_NEWS_QUERY } from "@/sanity/lib";
 import type { MenuNewsPreview } from "@/components/layout/menu-overlay";
@@ -35,7 +35,7 @@ export default async function WebsiteLayout({ children }: { children: React.Reac
           <div className="min-h-screen bg-zinc-100 text-zinc-900 footer-alliance-font">
             <Topbar newsPreview={menuNews} />
             {children}
-            <Footer />
+            <FooterRenderer />
           </div>
           <Toaster />
         </AppProviders>

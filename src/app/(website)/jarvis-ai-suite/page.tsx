@@ -3,8 +3,7 @@ import { BuildersSection } from '@/components/jarvis/builders-section';
 import { GenerateSection } from '@/components/jarvis/generate-section';
 import { SenseSection } from '@/components/jarvis/sense-section';
 import { CtaSection } from '@/components/jarvis/cta-section';
-import { FooterCharcoal } from '@/components/layout/footer-charcoal';
-import { HideDefaultFooter } from '@/components/services-products/hide-default-footer';
+import { FooterConfig } from '@/components/layout/footer-config';
 
 /**
  * JARVIS AI Suite Page
@@ -18,14 +17,13 @@ import { HideDefaultFooter } from '@/components/services-products/hide-default-f
 export default function JarvisAiSuitePage() {
   return (
     <div className="jarvis-page product-page">
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       <HeroSection />
       <BuildersSection />
       <GenerateSection />
 
       <SenseSection />
       <CtaSection />
-      <FooterCharcoal />
     </div>
   );
 }

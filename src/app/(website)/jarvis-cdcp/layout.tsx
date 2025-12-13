@@ -1,11 +1,10 @@
 /**
  * JARVIS CDCP Product Page Layout
  *
- * Uses FooterCharcoal and hides the default footer for product template pages.
+ * Sets footer variant to charcoal.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisCdcpLayout({
   children,
@@ -14,9 +13,8 @@ export default function JarvisCdcpLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

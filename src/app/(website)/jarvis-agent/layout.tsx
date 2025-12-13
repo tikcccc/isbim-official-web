@@ -1,11 +1,10 @@
 /**
  * JARVIS Agent Product Page Layout
  *
- * Hides the global light footer and renders the charcoal footer for this dark-themed page.
+ * Sets footer variant to charcoal.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisAgentLayout({
   children,
@@ -14,9 +13,8 @@ export default function JarvisAgentLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

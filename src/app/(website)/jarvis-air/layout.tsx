@@ -1,12 +1,10 @@
 /**
  * JARVIS Air Product Page Layout
  *
- * Dedicated layout for product template pages using the dark FooterCharcoal.
- * Mirrors the services-products and jarvis-pay layouts.
+ * Sets footer variant to charcoal.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisAirLayout({
   children,
@@ -15,9 +13,8 @@ export default function JarvisAirLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

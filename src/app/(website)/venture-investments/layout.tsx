@@ -1,9 +1,9 @@
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function VentureInvestmentsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
     </>
   );

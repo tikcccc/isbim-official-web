@@ -1,12 +1,10 @@
 /**
  * JARVIS SSSS Product Page Layout
  *
- * Uses FooterCharcoal and hides the default footer for product template pages.
- * Mirrors other JARVIS product layouts.
+ * Sets footer variant to charcoal.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisSsssLayout({
   children,
@@ -15,9 +13,8 @@ export default function JarvisSsssLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

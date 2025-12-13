@@ -1,6 +1,6 @@
 ﻿# Coding Rules - isBIM Official Web
 
-**Last Updated**: 2025-12-04 (Contact/Newsroom spacing+shape+motion tokens applied; motion params aligned to tokens) | **Version**: 4.2
+**Last Updated**: 2025-12-13 (Footer refactor: FooterBase/FooterRenderer/FooterConfig + footer-tokens; removed HideDefaultFooter) | **Version**: 4.3
 
 ## Layout & Routing
 - `(website)` owns providers/Topbar/Footer/PageTransition; `(studio)` stays bare (no providers/i18n).
@@ -45,16 +45,16 @@
 - Tailwind v4 utilities；shimmer utility 仍在 `globals.css`（Services/Products hero）。
 
 ## Services & Products Page
-- Dark cyberpunk vibe: `bg-[#050505]`, emerald accents, `BackgroundLayers`, `ServicesGrid` -> `ServiceCard`/`SpotlightCard`/`CornerBrackets`, `CtaSection`, `FooterDark`.
+- Dark cyberpunk vibe: `bg-[#050505]`, emerald accents, `BackgroundLayers`, `ServicesGrid` -> `ServiceCard`/`SpotlightCard`/`CornerBrackets`, `CtaSection` (footer driven by FooterConfig variant).
 - Data from `src/data/services.ts` (5 entries) only; no inline duplicates.
-- Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterDark` instead.
+- Uses dedicated `layout.tsx` with `<FooterConfig variant="charcoal" />` (global `FooterRenderer` applies variant; HideDefaultFooter removed).
 
 ## Service Template (JPM/BIM/Finance/Ventures)
 - 架构：Server `page.tsx` 只做 SEO（`generateServicePageSEO`）；Client `ServiceTemplate` 负责渲染与交互，数据集中在 `src/data/services.ts`。
 - 样式：`4-themes/service.css`（`service-shell` 宽 90%/88%，`max-width: 1700px`，padding 0），hero 全屏铺底，其他段落用 service-shell；禁止随意改 token 顺序，遵循 token-plan/token-rule。
 - 组件：`service-template/` 下的 hero/methodology/engine/data/gallery/cta，颜色/间距/动效均用设计 token，不得硬编码 hex/px。
 - 布局：方法论/数据/引擎/图库统一 7/5 分栏；Performance Delta 右侧 2×2 指标栅格，数值保持大字号（6xl/7xl），标签 12px/14px，分隔线用 `border-[var(--border-subtle)]`。
-- CTA：左对齐，`HideDefaultFooter` + `FooterCharcoal` 由布局处理；链接遵循 i18n 规范使用 `Link/LocalizedLink`。
+- CTA：左对齐，布局通过 `<FooterConfig variant="charcoal" />` 指定深色 footer，依赖全局 `FooterRenderer`；链接遵循 i18n 规范使用 `Link/LocalizedLink`。
 
 ## Product Template (JARVIS Product Pages)
 - **Architecture**: Server Wrapper + Client Content pattern
@@ -68,7 +68,7 @@
 - **Data Source Rule**: Static resources ONLY (Paraglide m.* translations). NOT for Sanity-based pages (Newsroom/Careers use Server Component + ISR).
 - Palantir-inspired design: sticky video hero, scroll-driven narrative, feature sections with Video/Details toggle.
 - Components: `HeroSection`, `NarrativeTrack`, `FeatureSection`, `ProductCTASection`, `ProductPageLayout` (composite) - ALL marked `"use client"`.
-- **Layout**: Use dedicated `layout.tsx` with `HideDefaultFooter` + `FooterCharcoal` (same pattern as services-products).
+- **Layout**: Use dedicated `layout.tsx` with `<FooterConfig variant="charcoal" />` (same pattern as services-products); global `FooterRenderer` 负责渲染对应变体。
 - **NarrativeTrack**: Responsive scroll height via `mobileScrollHeight` (250vh) / `desktopScrollHeight` (350vh) props. Uses `data-text` + `::before` pseudo-element for gradient text overlay.
 - **FeatureSection**: Uses `next/image` with fill+sizes for optimized images. ARIA tablist/tab/tabpanel roles + keyboard navigation (ArrowLeft/ArrowRight) for accessibility.
 - **SEO**: Add `SoftwareApplicationSchema` + `BreadcrumbSchema` via `<JsonLd>` in Server Component wrapper for each product page.

@@ -7,7 +7,7 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2025-12-04 (Contact form/layout/motion tokens, Newsroom spacing/layout/motion tokens, GSAP/Framer motion params aligned to token constants)
+**Last Updated**: 2025-12-13 (Footer refactor: FooterBase/FooterRenderer/FooterConfig + footer-tokens, removed HideDefaultFooter pattern)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
@@ -19,7 +19,7 @@
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
 - Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
-- Data/UI: TanStack Query, Zustand (only `menu-store.ts`)
+- Data/UI: TanStack Query, Zustand (`menu-store.ts`, `footer-store.ts`)
 - CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
 - Email: Dual-provider system (Resend primary, Brevo backup) - switch via `EMAIL_PROVIDER` env var
@@ -30,7 +30,7 @@
 src/app/
   layout.tsx                    # fonts + globals only (no providers)
   (website)/
-    layout.tsx                  # await headers() -> setLanguageTag() -> LocaleProvider -> AppProviders -> Topbar/Footer
+    layout.tsx                  # await headers() -> setLanguageTag() -> LocaleProvider -> AppProviders -> Topbar/FooterRenderer
     template.tsx                # PageTransition (client) wrapper
     page.tsx                    # Home
     about-us/page.tsx
@@ -60,14 +60,15 @@ src/app/
 - Data source: `src/data/services.ts` (hero/narrative/engine/stats/gallery/meta); no inline duplicates.
 - Theme: `src/styles/4-themes/service.css` (service-shell width 90%/88%, max-width 1700px, padding 0); hero is full-bleed, sections use service-shell.
 - Components: `service-template/*` (hero/methodology/engine/data/gallery/cta) consume design tokens; avoid hardcoded hex/spacing.
-- Pages: `/jarvis-jpm`, `/bim-consultancy`, `/project-finance`, `/venture-investments` all share this template and use `FooterCharcoal` via layout with `HideDefaultFooter`.
+- Pages: `/jarvis-jpm`, `/bim-consultancy`, `/project-finance`, `/venture-investments` all share this template and set footer via `<FooterConfig variant="charcoal" />` (global FooterRenderer reads Zustand store; no HideDefaultFooter).
 
 ### Layout / UI
 ```
 src/components/layout/
   topbar.tsx
   menu-overlay.tsx
-  footer.tsx
+  footer-base.tsx / footer.tsx / footer-charcoal.tsx (thin wrappers)
+  footer-renderer.tsx (global render via footer-store) / footer-config.tsx (page-level variant toggle)
   newsletter-form.tsx   # lazy-loaded in footer
   locale-switcher.tsx
   page-transition.tsx   # global transition overlay; disables browser scroll restoration and uses Lenis/window smooth scroll to top on load/after transitions
@@ -77,6 +78,7 @@ src/components/
 ```
 - Menu overlay JARVIS AI Suite cards now deep-link to their localized product routes (uses `buildHref` + `ROUTES.JARVIS.*` on click).
 - **Lenis + ScrollTrigger**: `smooth-scroll-provider.tsx` connects Lenis scroll events to ScrollTrigger (`lenisInstance.on("scroll", ScrollTrigger.update)`) and refreshes at 300ms/1000ms/window-load to handle Edge browser's deferred image loading.
+- **Footer architecture**: Single global `<FooterRenderer>` in `(website)/layout.tsx` reads Zustand `footer-store`; per-page/layout sets variant via `<FooterConfig variant="charcoal" | "default" />`. Tokens live in `src/styles/footer-tokens.css`. `HideDefaultFooter` removed.
 
 ### Sections (selected)
 ```
@@ -133,7 +135,7 @@ src/components/product-template/
 src/app/(website)/jarvis-pay/
   page.tsx                  # Server Component - SEO metadata + JSON-LD Schema only
   jarvis-pay-client.tsx     # 'use client' - All m.*() translations executed client-side
-  layout.tsx                # HideDefaultFooter + FooterCharcoal
+  layout.tsx                # sets <FooterConfig variant="charcoal" /> (global FooterRenderer applies variant)
 ```
 - **Architecture Pattern**: Server Wrapper + Client Content
   - `page.tsx` (Server Component): SEO metadata + JSON-LD Schema only, NO m.*() calls except metadata generation
@@ -144,7 +146,7 @@ src/app/(website)/jarvis-pay/
 - **Data Source**: Static resources only (Paraglide m.* translations), NOT Sanity CMS
 - **Contrast with Dynamic Pages**: Newsroom/Careers use Server Component + Sanity + ISR pattern (different from Product Template)
 - Design reference: `doc/reference-doc/pages/product-template/`
-- Uses dedicated `layout.tsx` with `HideDefaultFooter` to suppress global white Footer; renders `FooterCharcoal` instead
+- Layout: use dedicated `layout.tsx` with `<FooterConfig variant="charcoal" />`; global FooterRenderer applies the variant (HideDefaultFooter removed)
 - Responsive scroll height: 250vh mobile, 350vh desktop (via `mobileScrollHeight`/`desktopScrollHeight` props)
 - SEO: Uses `SoftwareApplicationSchema` + `BreadcrumbSchema` for structured data
 - Accessibility: ARIA tablist/tab/tabpanel roles + keyboard navigation for Video/Details toggle
@@ -387,7 +389,7 @@ public/
 - **SEO Sitemap**: Exclude `/jarvis-ai-suite` (redesign) and lower `/contact` priority; keep robots exclusions for Studio/API/Next assets/admin/json/revalidate.
 - **ISR**: Sanity webhook hits `api/revalidate` with `SANITY_WEBHOOK_SECRET` (HMAC) and revalidates tags from payload.
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
-- **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`, and `FooterDark`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page has dedicated layout (`services-products/layout.tsx`) with `HideDefaultFooter` to suppress global Footer and render `FooterDark` instead.
+- **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page layout uses `<FooterConfig variant="charcoal" />` + global `FooterRenderer` (no HideDefaultFooter).
 - **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
 - **Contact page**: Light architectural theme (`bg-[#f8fafc]`, product template purple→cyan gradient accents); uses `contact-design-tokens.css` for panel/form/badge utilities + layout/stack/form-grid/shape/shadow/motion tokens (underline + CTA overlays). Client Component with `useLocale()` + inline i18n. Form uses Server Action (`submitContactForm`), Zod validation, OpenStreetMap embed + Google Maps link.
 - **Newsroom page**: A-class content page aligned with Home (white background #FDFDFD); uses `newsroom-design-tokens.css` for magazine editorial styling (color/type + layout/spacing + shape/shadow + motion). Server Component + Sanity CMS + ISR pattern (NOT Product Template client pattern). Architecture: List page (`newsroom/page.tsx`) fetches news via `NEWS_LIST_QUERY`/`NEWS_BY_CATEGORY_QUERY`/`FEATURED_NEWS_QUERY`/`NEWS_CATEGORIES_QUERY`; Detail page (`newsroom/[slug]/page.tsx`) uses `NEWS_DETAIL_QUERY` + `RELATED_NEWS_QUERY`. Features: Three layout modes (Grid/Magazine/Feed), category filtering with dynamic color badges, transparent cards with white featured card, Framer Motion staggered animations (durations/stagger aligned to tokens), noise overlay texture. Design reference: `doc/reference-doc/pages/newsroom/newsroom-redesign.html`. Data: Sanity newsType (title, slug, subtitle, mainImage, excerpt, body, category reference, tags, author, readTime, featured, status, SEO) + newsCategoryType (title, slug, description, color).

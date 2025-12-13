@@ -1,12 +1,10 @@
 /**
  * JARVIS AI Suite Page Layout
  *
- * Special layout for dark-themed JARVIS AI Suite page.
- * Hides the default white Footer and renders FooterDark instead.
+ * Sets footer variant to charcoal.
  */
 
-import { Footer } from "@/components/layout/footer";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisAiSuiteLayout({
   children,
@@ -15,9 +13,8 @@ export default function JarvisAiSuiteLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <Footer />
     </>
   );
 }

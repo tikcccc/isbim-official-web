@@ -1,12 +1,10 @@
 /**
  * Services & Products Page Layout
  *
- * Special layout for dark-themed pages that need FooterCharcoal instead of default Footer.
- * Hides the default white Footer and renders FooterCharcoal instead.
+ * Sets footer variant to charcoal via FooterConfig.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function ServicesProductsLayout({
   children,
@@ -15,9 +13,8 @@ export default function ServicesProductsLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

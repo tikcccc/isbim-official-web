@@ -1,12 +1,10 @@
 /**
  * JARVIS Pay Product Page Layout
  *
- * Special layout for dark-themed product pages that need FooterCharcoal instead of default Footer.
- * Follows the same pattern as services-products layout.
+ * Sets footer variant to charcoal.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisPayLayout({
   children,
@@ -15,9 +13,8 @@ export default function JarvisPayLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

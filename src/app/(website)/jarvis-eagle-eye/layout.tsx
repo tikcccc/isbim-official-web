@@ -1,12 +1,10 @@
 /**
  * JARVIS Eagle Eye Product Page Layout
  *
- * Uses FooterCharcoal and hides the default footer for product template pages.
- * Mirrors jarvis-pay and jarvis-air layouts.
+ * Sets footer variant to charcoal.
  */
 
-import { FooterCharcoal } from "@/components/layout/footer-charcoal";
-import { HideDefaultFooter } from "@/components/services-products/hide-default-footer";
+import { FooterConfig } from "@/components/layout/footer-config";
 
 export default function JarvisEagleEyeLayout({
   children,
@@ -15,9 +13,8 @@ export default function JarvisEagleEyeLayout({
 }) {
   return (
     <>
-      <HideDefaultFooter />
+      <FooterConfig variant="charcoal" />
       {children}
-      <FooterCharcoal />
     </>
   );
 }

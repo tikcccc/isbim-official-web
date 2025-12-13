@@ -50,12 +50,12 @@ export function NewsletterForm() {
         <Button
           type="submit"
           disabled={isSubmitting || isRedirecting}
-          className="px-4 h-10 shadow-sm transition-all duration-200 bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 focus:shadow-md disabled:translate-y-0 disabled:shadow-sm layout-footer-newsletter-button cursor-pointer"
+          className="px-4 h-10 shadow-sm transition-all duration-200 bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 focus:shadow-md disabled:translate-y-0 disabled:shadow-sm layout-footer-newsletter-button cursor-pointer group"
         >
           {isSubmitting ? (
             <Loader2 className="h-[18px] w-[18px] animate-spin" />
           ) : (
-            <Send className="h-[18px] w-[18px]" />
+            <Send className="h-[18px] w-[18px] transition-transform duration-200 group-hover:-translate-y-[1px] group-hover:translate-x-[1px]" />
           )}
         </Button>
       </div>

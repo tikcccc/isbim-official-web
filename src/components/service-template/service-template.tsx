@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useReducedMotion } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
-import { FooterCharcoal } from '@/components/layout/footer-charcoal';
+import { FooterConfig } from '@/components/layout/footer-config';
 import {
   getLocalizedServiceContent,
   getLocalizedServiceMeta,
@@ -82,6 +82,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
 
   return (
     <div className={`service-page relative min-h-screen font-sans selection:bg-[var(--surface-hero)] selection:text-[var(--text-inverse-strong)] transition-colors duration-700 overflow-hidden`}>
+      <FooterConfig variant="charcoal" />
       {/* Parallax background */}
       <div className="fixed inset-0 w-full h-screen z-0 overflow-hidden pointer-events-none">
         <m.div
@@ -183,7 +184,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
             textInvMuted: COLORS.textInvMuted,
           }}
         />
-        <FooterCharcoal />
+        <FooterConfig variant="charcoal" />
       </div>
     </div>
   );
