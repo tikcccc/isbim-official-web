@@ -39,7 +39,7 @@ function AccordionItem({ title, children, isOpen, onToggle }: AccordionItemProps
   return (
     <div className="accordion-item">
       <button
-        className={`accordion-button font-heading-md ${isOpen ? "active" : ""}`}
+        className={`accordion-button font-body-xxlg ${isOpen ? "active" : ""}`}
         onClick={onToggle}
         aria-expanded={isOpen}
       >

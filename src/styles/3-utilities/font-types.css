@@ -90,8 +90,8 @@
   }
 
   /* Heading: medium-sized headings for sections/accordions */
-  .font-heading-md {
-    font-family: var(--font-heading-en);
+  .font-body-xxlg {
+    font-family: var(--font-body-en);
     font-size: clamp(1.375rem, 2.5vw, 1.75rem);
     font-weight: var(--weight-regular); /* 400 */
     line-height: 1.4;
