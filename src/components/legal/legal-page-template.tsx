@@ -74,7 +74,7 @@ export function LegalPageTemplate({ data }: LegalPageTemplateProps) {
       <div className="container-content legal-page">
         {/* Hero Section */}
         <div className="legal-hero">
-          <h1 className="font-hero-title legal-title">{data.pageTitle}</h1>
+          <h1 className="font-header-title legal-title">{data.pageTitle}</h1>
           <div className="legal-meta font-caption">{data.lastUpdated}</div>
           <div className="legal-intro font-body-base">{data.intro}</div>
         </div>

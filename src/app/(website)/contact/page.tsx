@@ -325,7 +325,7 @@ export default function ContactPage() {
                   >
                     {/* Form Header */}
                     <div className="mb-12">
-                      <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 contact-form-heading">
+                      <h2 className="text-4xl md:text-5xl font-semibold tracking-normal mb-2 contact-form-heading">
                         {messages.contact_form_heading()}
                       </h2>
                       <p className="text-base contact-form-subheading">

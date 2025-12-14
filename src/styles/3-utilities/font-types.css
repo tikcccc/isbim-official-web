@@ -19,7 +19,7 @@
   .font-header-title {
     font-family: var(--font-heading-en);
     font-size: clamp(2.75rem, 6vw, 7.5rem);
-    font-weight: var(--weight-bold); /* 700 */
+    font-weight: var(--weight-semibold); /* 700 */
     line-height: 1.05;
     letter-spacing: -0.025em;
   }
@@ -28,7 +28,7 @@
   .font-hero-title {
     font-family: var(--font-heading-en);
     font-size: clamp(2.75rem, 6vw, 6rem);
-    font-weight: var(--weight-bold); /* 700 */
+    font-weight: var(--weight-semibold); /* 700 */
     line-height: 1.05;
     letter-spacing: -0.025em;
   }

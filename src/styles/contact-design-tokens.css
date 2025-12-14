@@ -1,37 +1,35 @@
 /* ========================================
    CONTACT PAGE DESIGN TOKENS
-   Simplified version - pure white background
+   Layer 4: Theme - Contact Page specific
+
+   Architecture: Uses semantic tokens from 2-semantic/colors.css
+   Only defines page-specific accent colors and gradients
    ======================================== */
 
 @layer base {
   :root {
-    /* Contact page palette */
-    --contact-bg: #ffffff;           /* Pure white background */
-    --contact-text: #111827;         /* gray-900 */
-    --contact-text-light: #1f2937;   /* gray-800 */
-    --contact-muted: #6b7280;        /* gray-500 */
-    --contact-muted-light: #9ca3af;  /* gray-400 */
-    --contact-muted-lighter: #d1d5db; /* gray-300 */
-    --contact-border: #e5e7eb;       /* gray-200 */
-    --contact-border-light: #f3f4f6; /* gray-100 */
+    /* ─────────────────────────────────────────
+       Contact Page Accent Colors
+       Page-specific colors not covered by semantic layer
+       ───────────────────────────────────────── */
+    --contact-accent: #0ea5e9;                /* cyan - form focus, links */
+    --contact-accent-alt: var(--color-slate-950);  /* deep navy */
+    --contact-gradient: linear-gradient(120deg, var(--color-slate-950) 0%, #0ea5e9 100%);
 
-    /* Accent colors */
-    --contact-accent: #0ea5e9;       /* cyan */
-    --contact-accent-alt: #0f172a;   /* deep navy */
-    --contact-gradient: linear-gradient(120deg, #0f172a 0%, #0ea5e9 100%);
-
-    /* Selection */
-    --contact-selection-bg: #ccfbf1;  /* teal-100 */
-    --contact-selection-text: #0f766e; /* teal-700 */
+    /* Selection (page-specific branding) */
+    --contact-selection-bg: #ccfbf1;          /* teal-100 */
+    --contact-selection-text: #0f766e;        /* teal-700 */
   }
 }
 
 @layer components {
-  /* Page wrapper */
+  /* ═══════════════════════════════════════════
+     PAGE WRAPPER
+     ═══════════════════════════════════════════ */
   .contact-page {
     @apply min-h-screen w-full relative overflow-x-hidden;
-    background: var(--contact-bg);
-    color: var(--contact-text);
+    background: var(--color-white);
+    color: var(--text-base);
     font-family: var(--font-alliance-1), system-ui, sans-serif;
   }
 
@@ -41,13 +39,17 @@
     color: var(--contact-selection-text);
   }
 
-  /* Simplified form panel */
+  /* ═══════════════════════════════════════════
+     FORM PANEL
+     ═══════════════════════════════════════════ */
   .contact-panel {
-    background: #fafafa; /* neutral-50 */
-    border: 1px solid #f5f5f5; /* neutral-100 */
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-100);
   }
 
-  /* Gradient text effect */
+  /* ═══════════════════════════════════════════
+     GRADIENT EFFECTS
+     ═══════════════════════════════════════════ */
   .contact-gradient-text {
     background: var(--contact-gradient);
     -webkit-background-clip: text;
@@ -55,12 +57,13 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* Gradient background (used in success state) */
   .contact-gradient-bg {
     background: var(--contact-gradient);
   }
 
-  /* Accent underline with hover animation */
+  /* ═══════════════════════════════════════════
+     ACCENT UNDERLINE (HOVER ANIMATION)
+     ═══════════════════════════════════════════ */
   .contact-accent-underline {
     position: relative;
     display: inline-block;
@@ -83,22 +86,30 @@
     transform: scaleX(1);
   }
 
-  /* Form input underline style */
+  /* ═══════════════════════════════════════════
+     FORM INPUTS
+     ═══════════════════════════════════════════ */
   .contact-input {
-    @apply w-full bg-transparent border-b py-3 text-lg placeholder-slate-300 focus:outline-none transition-colors rounded-none;
-    border-color: var(--contact-muted-lighter);
-    color: var(--contact-text-light);
+    @apply w-full bg-transparent border-b py-3 text-lg focus:outline-none transition-colors rounded-none;
+    border-color: var(--color-gray-300);
+    color: var(--text-base);
+  }
+
+  .contact-input::placeholder {
+    color: var(--text-vsoft);
   }
 
   .contact-input:focus {
     border-color: var(--contact-accent);
   }
 
-  /* Form select - aligned with underline inputs */
+  /* ═══════════════════════════════════════════
+     FORM SELECT
+     ═══════════════════════════════════════════ */
   .contact-select {
     @apply w-full py-3 pr-10 pl-0 text-lg border-b rounded-none transition-all duration-300 appearance-none bg-transparent;
-    border-color: var(--contact-muted-lighter);
-    color: var(--contact-text-light);
+    border-color: var(--color-gray-300);
+    color: var(--text-base);
   }
 
   .contact-select:hover {
@@ -107,23 +118,23 @@
 
   .contact-select-content {
     @apply rounded-sm border shadow-xl;
-    border-color: var(--contact-muted-lighter);
+    border-color: var(--color-gray-300);
     background: rgba(255, 255, 255, 0.95);
   }
 
   .contact-select-item {
     @apply text-base py-2 px-3 rounded-sm transition-colors cursor-pointer;
-    color: var(--contact-text-light);
+    color: var(--text-base);
   }
 
   .contact-select-item:hover {
     background: rgba(14, 165, 233, 0.08);
-    color: var(--contact-text);
+    color: var(--text-strong);
   }
 
   .contact-select-item[data-state="checked"] {
     background: rgba(14, 165, 233, 0.12);
-    color: var(--contact-text);
+    color: var(--text-strong);
   }
 
   .contact-select:focus {
@@ -132,21 +143,25 @@
     background: transparent;
   }
 
-  /* Form label */
+  /* ═══════════════════════════════════════════
+     FORM LABEL
+     ═══════════════════════════════════════════ */
   .contact-label {
     @apply block text-[10px] font-bold uppercase tracking-widest mb-2 transition-colors;
-    color: var(--contact-muted);
+    color: var(--text-muted);
   }
 
   .group:focus-within .contact-label {
     color: var(--contact-accent);
   }
 
-  /* Primary button */
+  /* ═══════════════════════════════════════════
+     PRIMARY BUTTON
+     ═══════════════════════════════════════════ */
   .contact-btn-primary {
     @apply relative px-12 py-5 font-medium tracking-wide transition-all duration-300 overflow-hidden cursor-pointer;
-    background: var(--contact-text);
-    color: white;
+    background: var(--text-strong);
+    color: var(--color-white);
     isolation: isolate;
     box-shadow: 0 10px 24px -16px rgba(15, 23, 42, 0.35);
   }
@@ -174,11 +189,13 @@
     @apply relative z-10;
   }
 
-  /* Map container styles */
+  /* ═══════════════════════════════════════════
+     MAP CONTAINER
+     ═══════════════════════════════════════════ */
   .contact-map-container {
     @apply relative w-full h-72 rounded-sm overflow-hidden border shadow-inner;
-    border-color: var(--contact-muted-lighter);
-    background: var(--contact-border-light);
+    border-color: var(--color-gray-300);
+    background: var(--color-gray-100);
   }
 
   .contact-map-btn {
@@ -191,105 +208,113 @@
     background: var(--contact-accent);
   }
 
-  /* Icon tint for info column */
+  /* ═══════════════════════════════════════════
+     ICON STYLES
+     ═══════════════════════════════════════════ */
   .contact-icon {
-    color: rgba(79, 89, 107, 0.55);
+    color: var(--text-soft);
   }
 
-  /* ─────────────────────────────────────────
-     Contact Info Section Styles
-     Using semantic color tokens
-     ───────────────────────────────────────── */
-
-  /* Info icon button */
+  /* ═══════════════════════════════════════════
+     CONTACT INFO SECTION
+     ═══════════════════════════════════════════ */
   .contact-info-icon {
     @apply p-2 rounded-full transition-colors;
-    background: var(--contact-border-light);
-    color: var(--contact-text);
+    background: var(--color-gray-100);
+    color: var(--text-strong);
   }
 
   .group:hover .contact-info-icon {
-    background: var(--contact-text);
-    color: white;
+    background: var(--text-strong);
+    color: var(--color-white);
   }
 
-  /* Info heading */
   .contact-info-heading {
-    color: var(--contact-text);
+    color: var(--text-strong);
   }
 
-  /* Info body text */
   .contact-info-body {
-    color: var(--contact-muted);
+    color: var(--text-muted);
   }
 
   .contact-info-body:hover {
-    color: var(--contact-text);
+    color: var(--text-strong);
   }
 
-  /* Coordinate decoration text */
+  /* ═══════════════════════════════════════════
+     COORDINATE DECORATION
+     ═══════════════════════════════════════════ */
   .contact-coord-text {
-    color: var(--contact-muted);
+    color: var(--text-muted);
   }
 
   .contact-coord-text-light {
-    color: var(--contact-muted-light);
+    color: var(--text-soft);
   }
 
-  /* Map corner brackets */
   .contact-corner-bracket {
-    border-color: var(--contact-muted);
+    border-color: var(--text-muted);
   }
 
-  /* Form heading */
+  /* ═══════════════════════════════════════════
+     FORM HEADINGS
+     ═══════════════════════════════════════════ */
   .contact-form-heading {
-    color: var(--contact-text);
+    color: var(--text-strong);
   }
 
   .contact-form-subheading {
-    color: var(--contact-muted);
+    color: var(--text-muted);
   }
 
-  /* Checkbox border */
+  /* ═══════════════════════════════════════════
+     CHECKBOX & CONSENT
+     ═══════════════════════════════════════════ */
   .contact-checkbox {
-    border-color: var(--contact-muted-lighter);
+    border-color: var(--color-gray-300);
   }
 
   .contact-checkbox:checked {
-    background: var(--contact-text);
-    border-color: var(--contact-text);
+    background: var(--text-strong);
+    border-color: var(--text-strong);
   }
 
-  /* Consent label */
   .contact-consent-label {
-    color: var(--contact-muted);
+    color: var(--text-muted);
   }
 
   .contact-consent-label:hover {
-    color: var(--contact-text-light);
+    color: var(--text-base);
   }
 
-  /* Reset button */
+  /* ═══════════════════════════════════════════
+     RESET BUTTON
+     ═══════════════════════════════════════════ */
   .contact-reset-btn {
     @apply px-8 py-3 rounded-none border uppercase text-xs font-bold tracking-widest cursor-pointer transition-all;
-    border-color: var(--contact-muted-lighter);
-    color: var(--contact-muted);
+    border-color: var(--color-gray-300);
+    color: var(--text-muted);
   }
 
   .contact-reset-btn:hover {
-    border-color: var(--contact-text);
-    color: var(--contact-text);
-    background: var(--contact-border-light);
+    border-color: var(--text-strong);
+    color: var(--text-strong);
+    background: var(--color-gray-100);
     transform: translateY(-2px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
-  /* Section divider */
+  /* ═══════════════════════════════════════════
+     SECTION DIVIDER
+     ═══════════════════════════════════════════ */
   .contact-section-divider {
     @apply border-b-2 pb-6;
-    border-color: var(--contact-border);
+    border-color: var(--color-gray-200);
   }
 
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
   @media (max-width: 768px) {
     .contact-map-container {
       height: 12rem;
