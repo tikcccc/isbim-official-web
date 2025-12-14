@@ -20,10 +20,7 @@
  *       narrativeStage1={m.narrative_stage1()}
  *       narrativeStage2={m.narrative_stage2()}
  *       narrativeDesc={m.narrative_desc()}
- *       features={[...]}
- *       ctaTitle={m.cta_title()}
- *       ctaSubtitle={m.cta_subtitle()}
- *       ctaButtonText={m.cta_button()}
+ *       features={[]}
  *     />
  *   );
  * }
@@ -35,7 +32,7 @@ import { HeroBackground } from "./hero-background";
 import { HeroForeground } from "./hero-foreground";
 import { NarrativeTrack } from "./narrative-track";
 import { FeatureSection } from "./feature-section";
-import { ProductCTASection } from "./cta-section";
+import { CtaSection as JarvisCtaSection } from "@/components/ai-suite/cta-section";
 
 /**
  * Feature configuration for product pages
@@ -91,15 +88,6 @@ export interface ProductPageLayoutProps {
 
   /** Product features configuration */
   features: ProductFeature[];
-
-  /** CTA section title */
-  ctaTitle: string;
-  /** CTA section subtitle */
-  ctaSubtitle: string;
-  /** CTA button text */
-  ctaButtonText: string;
-  /** CTA button link destination */
-  ctaButtonHref?: string;
 }
 
 /**
@@ -117,10 +105,6 @@ export function ProductPageLayout({
   narrativeHighlight,
   scrollPrompt,
   features,
-  ctaTitle,
-  ctaSubtitle,
-  ctaButtonText,
-  ctaButtonHref = "/contact",
 }: ProductPageLayoutProps) {
   return (
     <div className="product-page relative">
@@ -177,13 +161,10 @@ export function ProductPageLayout({
         ))}
       </main>
 
-      {/* Section D: Call to Action */}
-      <ProductCTASection
-        title={ctaTitle}
-        subtitle={ctaSubtitle}
-        buttonText={ctaButtonText}
-        buttonHref={ctaButtonHref}
-      />
+      {/* Section D: CTA (shared from JARVIS AI Suite) */}
+      <div className="relative z-10 jarvis-page">
+        <JarvisCtaSection />
+      </div>
     </div>
   );
 }

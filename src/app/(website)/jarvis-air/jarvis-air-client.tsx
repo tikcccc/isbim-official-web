@@ -119,10 +119,6 @@ export default function JarvisAirClient() {
           ],
         },
       ]}
-      ctaTitle={m.jarvis_air_cta_title()}
-      ctaSubtitle={m.jarvis_air_cta_subtitle()}
-      ctaButtonText={m.jarvis_air_cta_button()}
-      ctaButtonHref="/contact"
     />
   );
 }

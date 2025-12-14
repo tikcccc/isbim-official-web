@@ -114,10 +114,6 @@ export default function JarvisCdcpClient() {
           ],
         },
       ]}
-      ctaTitle={m.jarvis_cdcp_cta_title()}
-      ctaSubtitle={m.jarvis_cdcp_cta_subtitle()}
-      ctaButtonText={m.jarvis_cdcp_cta_button()}
-      ctaButtonHref="/contact"
     />
   );
 }

@@ -430,7 +430,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
         { val: "T+1", label: "service_finance_stats_grid_1_label" },
         { val: "0", label: "service_finance_stats_grid_2_label" },
         { val: "100%", label: "service_finance_stats_grid_3_label" },
-        { val: "AAA", label: "service_finance_stats_grid_4_label" },
+        { val: "100%", label: "service_finance_stats_grid_4_label" },
       ],
     },
     gallery: {

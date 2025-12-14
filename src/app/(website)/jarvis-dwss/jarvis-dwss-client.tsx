@@ -114,10 +114,6 @@ export default function JarvisDwssClient() {
           ],
         },
       ]}
-      ctaTitle={m.jarvis_dwss_cta_title()}
-      ctaSubtitle={m.jarvis_dwss_cta_subtitle()}
-      ctaButtonText={m.jarvis_dwss_cta_button()}
-      ctaButtonHref="/contact"
     />
   );
 }

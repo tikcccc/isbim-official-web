@@ -115,10 +115,6 @@ export default function JarvisPayClient() {
           ],
         },
       ]}
-      ctaTitle={m.jarvis_pay_cta_title()}
-      ctaSubtitle={m.jarvis_pay_cta_subtitle()}
-      ctaButtonText={m.jarvis_pay_cta_button()}
-      ctaButtonHref="/contact"
     />
   );
 }

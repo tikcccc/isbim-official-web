@@ -59,10 +59,6 @@ export default function AgentClient() {
           ],
         },
       ]}
-      ctaTitle="Call to Action"
-      ctaSubtitle="Meet your new AI staff. Request a live Agent session today."
-      ctaButtonText="Learn More"
-      ctaButtonHref="/contact"
     />
   );
 }

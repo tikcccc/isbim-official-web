@@ -4,8 +4,8 @@ import { HeroBackground } from "@/components/product-template/hero-background";
 import { HeroForeground } from "@/components/product-template/hero-foreground";
 import { NarrativeTrack } from "@/components/product-template/narrative-track";
 import { FeatureSection } from "@/components/product-template/feature-section";
-import { ProductCTASection } from "@/components/product-template/cta-section";
 import { ProductFeature, ProductPageLayoutProps } from "@/components/product-template/product-page-layout";
+import { CtaSection as JarvisCtaSection } from "@/components/ai-suite/cta-section";
 import { KnowledgeDeepDive } from "./knowledge-deep-dive";
 
 type AgentPageLayoutProps = ProductPageLayoutProps & {
@@ -24,10 +24,6 @@ export function AgentPageLayout({
   narrativeHighlight,
   scrollPrompt,
   features,
-  ctaTitle,
-  ctaSubtitle,
-  ctaButtonText,
-  ctaButtonHref = "/contact",
 }: AgentPageLayoutProps) {
   return (
     <div
@@ -87,12 +83,9 @@ export function AgentPageLayout({
         ))}
       </main>
 
-      <ProductCTASection
-        title={ctaTitle}
-        subtitle={ctaSubtitle}
-        buttonText={ctaButtonText}
-        buttonHref={ctaButtonHref}
-      />
+      <div className="relative z-10 jarvis-page">
+        <JarvisCtaSection />
+      </div>
     </div>
   );
 }

@@ -115,10 +115,6 @@ export default function JarvisEagleEyeClient() {
           ],
         },
       ]}
-      ctaTitle={m.jarvis_eagle_eye_cta_title()}
-      ctaSubtitle={m.jarvis_eagle_eye_cta_subtitle()}
-      ctaButtonText={m.jarvis_eagle_eye_cta_button()}
-      ctaButtonHref="/contact"
     />
   );
 }

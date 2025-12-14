@@ -114,10 +114,6 @@ export default function JarvisAssetsClient() {
           ],
         },
       ]}
-      ctaTitle={m.jarvis_assets_cta_title()}
-      ctaSubtitle={m.jarvis_assets_cta_subtitle()}
-      ctaButtonText={m.jarvis_assets_cta_button()}
-      ctaButtonHref="/contact"
     />
   );
 }
