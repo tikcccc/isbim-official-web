@@ -56,13 +56,12 @@ export const contactFormSchema = z.object({
     .optional()
     .or(z.literal("")),
 
-  /** Company name - optional, max 100 characters */
+  /** Company name - required, max 100 characters */
   companyName: z
     .string()
+    .min(1, "Company name is required")
     .max(100, "Company name must be less than 100 characters")
-    .trim()
-    .optional()
-    .or(z.literal("")),
+    .trim(),
 
   /** Company type - optional enum */
   companyType: z

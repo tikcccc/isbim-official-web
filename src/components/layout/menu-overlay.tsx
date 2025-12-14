@@ -843,10 +843,9 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           : idx === 0
                           ? "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
                           : "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800";
-                        const tag = news.category?.title || "NEWS";
-                        const tagColor = news.category?.color || "#60a5fa";
-                        const formattedDate = formatDate(news.publishedAt);
-                        const meta = formattedDate ? `${tag} // ${formattedDate}` : tag;
+                          const tag = news.category?.title || "NEWS";
+                          const formattedDate = formatDate(news.publishedAt);
+                          const meta = formattedDate ? `${tag} // ${formattedDate}` : tag;
                         return (
                           <m.div
                             key={news._id}

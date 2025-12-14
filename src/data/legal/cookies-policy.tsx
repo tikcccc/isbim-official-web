@@ -3,6 +3,7 @@ import { Link } from "@/lib/i18n";
 import * as m from "@/paraglide/messages";
 
 export function getCookiesPolicyData(locale: "en" | "zh"): LegalPageData {
+  void locale;
   return {
     pageTitle: m.cookies_title(),
     lastUpdated: m.cookies_last_updated(),

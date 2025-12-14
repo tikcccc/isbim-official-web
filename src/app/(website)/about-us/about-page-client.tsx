@@ -12,6 +12,7 @@ import { useSmoothScrollTo } from '@/hooks';
 import { ROUTES } from '@/lib/constants';
 import { TypewriterWidth } from '@/components/animations';
 import { LocalizedLink } from '@/components/ui/localized-link';
+import { PageHeader } from '@/components/ui/page-header';
 
 /**
  * About Us Page
@@ -40,7 +41,7 @@ interface NavState {
 }
 
 const useNavStore = create<NavState>((set) => ({
-  activeSection: 1,
+  activeSection: 0, // Start with no section active until scrolled into view
   setActiveSection: (index) => set({ activeSection: index }),
 }));
 
@@ -200,8 +201,8 @@ const StickyNav = () => {
     }
   }, [activeSection]);
 
-  // Hide navigation when menu is open
-  if (isMenuOpen) return null;
+  // Hide navigation when menu is open or no section is active
+  if (isMenuOpen || activeSection === 0) return null;
 
   return (
     <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[9999] flex flex-col gap-4 font-label-lg about-text-primary pointer-events-auto about-nav-index">
@@ -257,6 +258,10 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       end: "bottom 55%",
       onEnter: () => setActiveSection(id),
       onEnterBack: () => setActiveSection(id),
+      onLeaveBack: () => {
+        // Reset to 0 when scrolling back above section 1
+        if (id === 1) setActiveSection(0);
+      },
       markers: false
     });
 
@@ -358,7 +363,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
                   alt={title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
-                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105 filter grayscale hover:grayscale-0"
+                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   priority={id === 1}
                 />
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--about-accent)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
@@ -394,12 +399,36 @@ export default function AboutPage() {
 
       <StickyNav />
 
+      {/* Page Header */}
+      <div className="about-surface-base pt-32 pb-8">
+        <PageHeader
+          title={m.about_page_title()}
+          subtitle={m.about_page_subtitle()}
+        />
+      </div>
+
+      {/* Hero Image between Header and Section 1 */}
+      <div className="about-surface-base pb-16">
+        <div className="container-content">
+          <div className="relative w-full aspect-[21/9] overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
+            <Image
+              src="/images/cta.png"
+              alt="isBIM Hero"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
+              className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+              priority
+            />
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--about-accent)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+          </div>
+        </div>
+      </div>
+
       {/* 01: Why We're Here */}
       <Section
         id={1}
         title={m.about_section1_title()}
         subtitle={m.about_section1_subtitle()}
-        imageSrc="/images/cta.png"
         content={
           <>
             <p>{m.about_section1_content1()}</p>

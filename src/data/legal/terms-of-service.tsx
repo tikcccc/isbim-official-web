@@ -3,6 +3,7 @@ import { Link } from "@/lib/i18n";
 import * as m from "@/paraglide/messages";
 
 export function getTermsOfServiceData(_locale: "en" | "zh"): LegalPageData {
+  void _locale;
   return {
     pageTitle: m.terms_title(),
     lastUpdated: m.terms_last_updated(),

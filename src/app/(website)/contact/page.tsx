@@ -6,11 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
   MapPin,
-  Globe,
+  Phone,
+  Mail,
   ExternalLink,
-  Layers,
-  Box,
-  Navigation,
   ArrowRight,
   Check,
 } from "lucide-react";
@@ -30,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/ui/page-header";
 
 // Map coordinates for 430 Nathan Road, Yau Ma Tei
 const lat = 22.30973871039109;
@@ -48,7 +47,6 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [titleAnimating, setTitleAnimating] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -119,11 +117,6 @@ export default function ContactPage() {
 
   useEffect(() => {
     setMounted(true);
-    // 滑入动画完成后立即开始上色 (delay 300ms + duration 1000ms = 1300ms)
-    const timer = setTimeout(() => {
-      setTitleAnimating(true);
-    }, 500);
-    return () => clearTimeout(timer);
   }, []);
 
   const {
@@ -183,219 +176,165 @@ export default function ContactPage() {
     <div
       className={`contact-page transition-opacity duration-1000 ${mounted ? "opacity-100" : "opacity-0"}`}
     >
-      {/* Background Layers */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {/* Technical Grid */}
-        <div className="absolute inset-0 contact-grid-bg" />
-
-        {/* CAD Corner Markers */}
-        <div className="contact-cad-corner contact-cad-corner--tl" />
-        <div className="contact-cad-corner contact-cad-corner--tr" />
-        <div className="contact-cad-corner contact-cad-corner--bl" />
-        <div className="contact-cad-corner contact-cad-corner--br" />
-
-        {/* Coordinate Labels */}
-        <div className="absolute top-1/2 left-10 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest -rotate-90 origin-left">
+      {/* Background coordinate decorations */}
+      <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
+        {/* Left vertical coordinate */}
+        <div className="absolute top-1/2 left-10 contact-coord-text font-mono text-[10px] tracking-widest -rotate-90 origin-left">
           COORD: {displayLat}° N
         </div>
-        <div className="absolute bottom-10 left-1/2 text-[--contact-muted-lighter] font-mono text-[10px] hidden lg:block tracking-widest">
+        {/* Bottom horizontal coordinate */}
+        <div className="absolute bottom-10 left-1/2 contact-coord-text font-mono text-[10px] tracking-widest">
           COORD: {displayLon}° E
-        </div>
-
-        {/* Floating BIM Objects */}
-        <div className="absolute top-[10%] left-[15%] text-gray-200/50 animate-pulse">
-          <Box size={120} strokeWidth={0.5} />
-        </div>
-        <div className="absolute bottom-[20%] right-[10%] text-gray-200/50 animate-bounce duration-[3000ms]">
-          <Layers size={96} strokeWidth={0.5} />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-[90%] 2xl:max-w-[1600px] mx-auto pt-28 md:pt-32 lg:pt-40 pb-20 md:pb-22 lg:pb-24 px-4 sm:px-6 lg:px-0">
-        {/* Header Section */}
-        <div className="mb-24 relative pl-6 max-w-[1100px]">
-          <div className="contact-title-border" aria-hidden="true" />
-          <div className="overflow-hidden">
-            <h1
-              className={`text-5xl md:text-7xl xl:text-7xl 2xl:text-8xl font-light tracking-tighter leading-[0.9] transform transition-transform duration-1000 delay-300 contact-hero-title ${mounted ? "translate-y-0" : "translate-y-[150%]"} ${titleAnimating ? "is-animating" : ""}`}
+      <main className="pt-28 md:pt-32 lg:pt-40 pb-20 md:pb-22 lg:pb-24 relative z-10">
+        {/* Page Header - Swiss Style */}
+        <PageHeader
+          title={messages.contact_page_title()}
+          subtitle={messages.contact_page_subtitle()}
+        />
+
+        {/* Main Grid */}
+        <div className="container-content">
+          <div className="grid lg:grid-cols-12 gap-x-16 gap-y-16">
+            {/* Left Column: Contact Info */}
+            <div
+              className={`lg:col-span-4 flex flex-col gap-12 transform transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
-              {messages.contact_hero_title_prefix()}
-              <br className="md:hidden" />
-              <span className="font-semibold">
-                {messages.contact_hero_title_highlight()}
-              </span>
-            </h1>
-          </div>
-
-          <div className="mt-8 max-w-3xl overflow-hidden">
-            <p
-              className={`text-lg md:text-xl text-[--contact-muted] font-light leading-relaxed transform transition-transform duration-1000 delay-500 ${mounted ? "translate-y-0" : "translate-y-[150%]"}`}
-            >
-              <>
-                {messages.contact_hero_body_prefix()}{" "}
-                <span className="font-medium text-[--contact-text-light]">
-                  {messages.contact_hero_body_ai()}
-                </span>{" "}
-                {messages.contact_hero_body_connector()}{" "}
-                <span className="font-medium text-[--contact-text-light]">
-                  {messages.contact_hero_body_bim()}
-                </span>
-                {messages.contact_hero_body_suffix()}
-              </>
-            </p>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-24 items-start">
-          {/* Left Column: Contact Info & Map */}
-          <div
-            className={`lg:col-span-4 space-y-10 md:space-y-12 transform transition-all duration-1000 delay-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            {/* Info Block 1: Address */}
-            <div className="group cursor-default relative">
-              <div className="contact-vertical-line" />
-
-              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
-                <MapPin size={18} className="contact-icon" />
-                <span className="contact-info-text text-sm md:text-base">
-                  {messages.contact_label_address()}
-                </span>
-              </div>
-              <div className="pl-2">
-                <h3 className="text-2xl font-medium text-[--contact-text] mb-2">
-                  {messages.contact_address_city()}
-                </h3>
-                <p className="text-[--contact-muted] leading-relaxed font-light text-base md:text-lg">
-                  <>
+              {/* Info List */}
+              <div className="space-y-10">
+                {/* Address */}
+                <div className="group">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="contact-info-icon">
+                      <MapPin size={20} strokeWidth={2} />
+                    </div>
+                    <h3 className="text-lg font-bold tracking-tight contact-info-heading">
+                      {messages.contact_info_address()}:
+                    </h3>
+                  </div>
+                  <address className="pl-[52px] not-italic text-base contact-info-body leading-relaxed">
                     {messages.contact_address_line1()}
                     <br />
                     {messages.contact_address_line2()}
                     <br />
                     {messages.contact_address_line3()}
-                  </>
-                </p>
-              </div>
-            </div>
-
-            {/* Info Block 2: Contact */}
-            <div className="group cursor-default relative">
-              <div className="contact-vertical-line" />
-
-              <div className="flex items-center gap-4 mb-3 text-[--contact-muted] group-hover:text-[--contact-accent] transition-colors duration-300">
-                <Globe size={18} className="contact-icon" />
-                <span className="contact-info-text text-sm md:text-base">
-                  {messages.contact_label_digital_link()}
-                </span>
-              </div>
-              <div className="pl-2 space-y-4">
-                <div>
-                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
-                    {messages.contact_label_direct_line()}
-                  </p>
-                  <a
-                    href="tel:+85223828380"
-                    className="text-2xl font-medium text-[--contact-text] font-mono tracking-tight hover:text-[--contact-accent] transition-colors cursor-pointer"
-                  >
-                    +852 2382 8380
-                  </a>
+                    <br />
+                    {messages.contact_address_city()}
+                  </address>
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-[--contact-muted] uppercase mb-1 tracking-wider">
-                    {messages.contact_label_inquiry()}
-                  </p>
-                  <a
-                    href="mailto:solution@isbim.com.hk"
-                    className="text-2xl font-medium text-[--contact-text] hover:text-[--contact-accent] transition-colors contact-accent-underline"
-                  >
-                    solution@isbim.com.hk
-                  </a>
-                </div>
-              </div>
-            </div>
 
-            {/* Map Section */}
-            <div className="pt-4 relative">
-              {/* Decorative corners for map */}
-              <div className="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-[--contact-muted] z-10" />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-[--contact-muted] z-10" />
-
-              <div className="contact-map-container group">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  scrolling="no"
-                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`}
-                  className="opacity-90 hover:opacity-100 transition-all duration-700"
-                  title={messages.contact_map_title()}
-                />
-
-                {/* Overlay noise texture */}
-                <div className="absolute inset-0 pointer-events-none bg-[url('/images/noise.svg')] opacity-10" />
-
-                {/* Overlay Button */}
-                <a
-                  href={googleMapsLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20"
-                >
-                  <ExternalLink size={12} />
-                  {messages.contact_map_cta()}
-                </a>
-              </div>
-
-              <div className="flex justify-between items-center mt-2 px-1">
-                <p className="text-xs font-mono text-[--contact-muted]">
-                  LAT: {displayLat} | LON: {displayLon}
-                </p>
-                <div className="flex gap-2 items-center">
-                  <Navigation size={12} className="text-[--contact-muted]" />
-                  <span className="text-xs font-mono text-[--contact-muted] uppercase tracking-wider">
-                    {messages.contact_map_tagline()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Form Section */}
-          <div
-            className={`lg:col-span-8 transform transition-all duration-1000 delay-900 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <div
-              id="contact-form"
-              ref={formRef}
-              className="contact-panel rounded-sm p-6 sm:p-7 md:p-10 lg:p-12 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group"
-            >
-              {/* Structural Border */}
-              <div className="contact-structural-border" />
-
-              {/* Architectural Hatching Patterns */}
-              <div className="contact-hatching contact-hatching--tr" />
-              <div className="contact-hatching contact-hatching--bl" />
-
-              {isSuccess ? (
-                <SuccessState onReset={() => setIsSuccess(false)} />
-              ) : (
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="space-y-8 md:space-y-10 relative z-10 pl-2 md:pl-6"
-                >
-                  {/* Form Header */}
-                  <div className="contact-section-divider">
-                    <h2 className="text-4xl font-light text-[--contact-text]">
-                      {messages.contact_form_heading()}
-                    </h2>
-                    <p className="text-base text-[--contact-muted] mt-2 font-light">
-                      {messages.contact_form_subheading()}
-                    </p>
+                {/* Phone */}
+                <div className="group">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="contact-info-icon">
+                      <Phone size={20} strokeWidth={2} />
+                    </div>
+                    <h3 className="text-lg font-bold tracking-tight contact-info-heading">
+                      {messages.contact_info_phone()}:
+                    </h3>
                   </div>
+                  <div className="pl-[52px]">
+                    <a
+                      href="tel:+85223828380"
+                      className="text-base contact-info-body font-medium transition-colors"
+                    >
+                      +852 2382 8380
+                    </a>
+                  </div>
+                </div>
 
-                  {/* Section 1: Identity */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
+                {/* Email */}
+                <div className="group">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="contact-info-icon">
+                      <Mail size={20} strokeWidth={2} />
+                    </div>
+                    <h3 className="text-lg font-bold tracking-tight contact-info-heading">
+                      {messages.contact_info_email()}:
+                    </h3>
+                  </div>
+                  <div className="pl-[52px]">
+                    <a
+                      href="mailto:solution@isbim.com.hk"
+                      className="text-base contact-info-body font-medium transition-colors break-all"
+                    >
+                      solution@isbim.com.hk
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Map Section */}
+              <div className="pt-4 relative">
+                {/* Map corner brackets - top-left and bottom-right */}
+                <div className="absolute -top-2 -left-2 w-4 h-4 border-l border-t contact-corner-bracket" />
+                <div className="absolute -bottom-2 -right-2 w-4 h-4 border-r border-b contact-corner-bracket" />
+
+                <div className="contact-map-container group">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    scrolling="no"
+                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`}
+                    className="opacity-90 hover:opacity-100 transition-all duration-700"
+                    title={messages.contact_map_title()}
+                  />
+
+                  {/* Overlay Button */}
+                  <a
+                    href={googleMapsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-map-btn translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-20"
+                  >
+                    <ExternalLink size={12} />
+                    {messages.contact_map_cta()}
+                  </a>
+                </div>
+
+                <div className="flex justify-between items-center mt-2 px-1">
+                  <p className="text-xs font-mono contact-coord-text">
+                    LAT: {displayLat} | LON: {displayLon}
+                  </p>
+                  <p className="text-[10px] font-mono tracking-widest contact-coord-text-light flex items-center gap-1">
+                    <span className="contact-coord-text">◇</span> STRATEGIC LOCATION
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Form Section */}
+            <div
+              className={`lg:col-span-8 transform transition-all duration-1000 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            >
+              <div
+                id="contact-form"
+                ref={formRef}
+                className="contact-panel rounded-sm p-8 md:p-12 lg:p-16 relative overflow-hidden"
+              >
+                {isSuccess ? (
+                  <SuccessState onReset={() => setIsSuccess(false)} />
+                ) : (
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-12"
+                  >
+                    {/* Form Header */}
+                    <div className="mb-12">
+                      <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 contact-form-heading">
+                        {messages.contact_form_heading()}
+                      </h2>
+                      <p className="text-base contact-form-subheading">
+                        {messages.contact_form_subheading()}
+                      </p>
+                    </div>
+
+                    {/* Row 1: Name */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                       <FormInput
                         label={messages.contact_label_first_name()}
                         required
@@ -411,17 +350,15 @@ export default function ContactPage() {
                         placeholder={messages.contact_placeholder_last_name()}
                       />
                     </div>
-                  </div>
 
-                  {/* Section 2: Organization */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
+                    {/* Row 2: Company */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                       <FormInput
                         label={messages.contact_label_company_name()}
+                        required
                         error={errors.companyName?.message}
                         {...register("companyName")}
                         placeholder={messages.contact_placeholder_company_name()}
-                        accentColor="alt"
                       />
                       <FormSelect
                         label={messages.contact_label_company_type()}
@@ -435,20 +372,16 @@ export default function ContactPage() {
                         }
                         options={companyTypeOptions}
                         placeholder={messages.contact_placeholder_company_type()}
-                        accentColor="alt"
                       />
                     </div>
-                  </div>
 
-                  {/* Section 3: Context */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-6 md:gap-y-8 text-base md:text-lg">
+                    {/* Row 3: Job & Service */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                       <FormInput
                         label={messages.contact_label_job_title()}
                         error={errors.jobTitle?.message}
                         {...register("jobTitle")}
                         placeholder={messages.contact_placeholder_job_title()}
-                        accentColor="alt"
                       />
                       <FormSelect
                         label={messages.contact_label_service()}
@@ -463,14 +396,11 @@ export default function ContactPage() {
                         placeholder={messages.contact_placeholder_service()}
                         required
                         error={errors.service?.message}
-                        accentColor="alt"
                       />
                     </div>
-                  </div>
 
-                  {/* Section 4: Contact & Action */}
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base md:text-lg">
+                    {/* Row 4: Contact */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                       <FormInput
                         label={messages.contact_label_email()}
                         type="email"
@@ -488,45 +418,42 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    {/* Marketing Consent */}
-                    <div className="pt-4 relative z-20">
-                      <button
-                        type="button"
-                        className="flex items-start gap-4 cursor-pointer group/checkbox text-left"
-                        onClick={() =>
-                          setValue("marketingConsent", !marketingConsent, {
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          })
-                        }
+                    {/* Consent */}
+                    <div className="pt-4 flex items-start gap-4 group cursor-pointer">
+                      <div className="relative flex items-center mt-0.5">
+                        <input
+                          type="checkbox"
+                          id="consent"
+                          checked={marketingConsent}
+                          onChange={() =>
+                            setValue("marketingConsent", !marketingConsent, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            })
+                          }
+                          className="peer appearance-none w-6 h-6 border contact-checkbox checked:bg-[--contact-text] checked:border-[--contact-text] transition-colors cursor-pointer"
+                        />
+                        <svg
+                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 text-white opacity-0 peer-checked:opacity-100 pointer-events-none"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                        >
+                          <path
+                            strokeLinecap="square"
+                            strokeLinejoin="miter"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <label
+                        htmlFor="consent"
+                        className="text-base contact-consent-label leading-relaxed cursor-pointer select-none transition-colors"
                       >
-                        <div className="relative flex-shrink-0 mt-0.5">
-                          <div
-                            className="w-5 h-5 border rounded-sm transition-all flex items-center justify-center"
-                            style={{
-                              backgroundColor: marketingConsent
-                                ? "#111827"
-                                : "#ffffff",
-                              borderColor: marketingConsent
-                                ? "#111827"
-                                : "#d1d5db",
-                            }}
-                          >
-                            {marketingConsent && (
-                              <Check size={12} className="text-white" />
-                            )}
-                          </div>
-                        </div>
-                        <span className="text-lg text-[--contact-text] font-normal group-hover/checkbox:text-[--contact-accent] transition-colors leading-relaxed select-none">
-                          <>
-                            {messages.contact_marketing_consent()}
-                            <br />
-                            <span className="text-[--contact-muted] text-base font-light tracking-wide">
-                              {messages.contact_marketing_privacy()}
-                            </span>
-                          </>
-                        </span>
-                      </button>
+                        {messages.contact_marketing_consent()}{" "}
+                        {messages.contact_marketing_privacy()}
+                      </label>
                     </div>
 
                     {/* Submit Button */}
@@ -534,44 +461,32 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group/btn relative px-8 py-4 text-white font-medium text-base tracking-wide uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
-                        style={{
-                          backgroundColor: "var(--contact-text, #111827)",
-                        }}
+                        className="contact-btn-primary flex items-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed"
                       >
-                        <span className="relative z-10 flex items-center gap-3 group-hover/btn:tracking-wider transition-all duration-300">
+                        <span>
                           {isSubmitting ? (
-                            <span className="font-mono text-sm animate-pulse">
+                            <span className="animate-pulse">
                               {messages.contact_submit_loading()}
                             </span>
                           ) : (
-                            <>
-                              <span className="text-sm font-bold tracking-widest uppercase">
-                                {messages.contact_submit_label()}
-                              </span>
+                            <span className="flex items-center gap-4">
+                              {messages.contact_submit_label()}
                               <ArrowRight
-                                size={16}
-                                className="transition-transform duration-300 group-hover/btn:translate-x-1"
+                                size={18}
+                                className="group-hover:translate-x-1 transition-transform"
                               />
-                            </>
+                            </span>
                           )}
                         </span>
-                        <div
-                          aria-hidden="true"
-                          className="absolute inset-0 transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"
-                          style={{
-                            backgroundColor: "var(--contact-accent, #0ea5e9)",
-                          }}
-                        />
                       </button>
                     </div>
-                  </div>
-                </form>
-              )}
+                  </form>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
@@ -586,15 +501,15 @@ function SuccessState({ onReset }: { onReset: () => void }) {
           <Check className="w-10 h-10 text-white" />
         </div>
       </div>
-      <h3 className="text-4xl font-light text-[--contact-text] mb-4">
+      <h3 className="text-4xl font-light contact-form-heading mb-4">
         {messages.contact_success_title()}
       </h3>
-      <p className="text-[--contact-muted] max-w-md text-lg font-light leading-relaxed">
+      <p className="text-lg contact-form-subheading max-w-md font-light leading-relaxed">
         {messages.contact_success_message()}
       </p>
       <button
         onClick={onReset}
-        className="mt-12 px-8 py-3 rounded-none border border-[--contact-muted-lighter] text-[--contact-muted] hover:border-[--contact-text] hover:text-[--contact-text] hover:bg-[--contact-border-light] transition-all uppercase text-xs font-bold tracking-widest cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
+        className="mt-12 contact-reset-btn"
       >
         {messages.contact_reset_button()}
       </button>
@@ -606,39 +521,25 @@ function SuccessState({ onReset }: { onReset: () => void }) {
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
-  accentColor?: "primary" | "alt";
 }
 
 const FormInput = ({
   label,
   error,
   required,
-  accentColor = "primary",
   ...props
 }: FormInputProps) => {
-  const focusColor =
-    accentColor === "alt"
-      ? "focus:border-[--contact-accent-alt]"
-      : "focus:border-[--contact-accent]";
-  const labelFocusColor =
-    accentColor === "alt"
-      ? "group-focus-within:text-[--contact-accent-alt]"
-      : "group-focus-within:text-[--contact-accent]";
-
   return (
     <div className="group relative">
-      <label className={`contact-label text-xs md:text-sm ${labelFocusColor}`}>
+      <label className="contact-label text-xs md:text-sm group-focus-within:text-[--contact-accent]">
         {label}
         {required && " *"}
       </label>
       <input
-        className={`contact-input text-lg md:text-xl ${focusColor}`}
+        className="contact-input text-lg md:text-xl focus:border-[--contact-accent]"
         {...props}
       />
-      <div
-        className={`absolute bottom-0 left-0 h-[1px] w-0 group-focus-within:w-full transition-all duration-500 ${accentColor === "alt" ? "bg-[--contact-accent-alt]" : "bg-[--contact-accent]"}`}
-      />
-      {error && <p className="text-red-500 text-base mt-1">{error}</p>}
+      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>
   );
 };
@@ -652,7 +553,6 @@ interface FormSelectProps {
   placeholder: string;
   required?: boolean;
   error?: string;
-  accentColor?: "primary" | "alt";
 }
 
 const FormSelect = ({
@@ -663,34 +563,20 @@ const FormSelect = ({
   placeholder,
   required,
   error,
-  accentColor = "primary",
 }: FormSelectProps) => {
-  const focusColor =
-    accentColor === "alt"
-      ? "focus:border-[--contact-accent-alt]"
-      : "focus:border-[--contact-accent]";
-  const labelFocusColor =
-    accentColor === "alt"
-      ? "group-focus-within:text-[--contact-accent-alt]"
-      : "group-focus-within:text-[--contact-accent]";
-  const hoverIconColor =
-    accentColor === "alt"
-      ? "group-hover:text-[--contact-accent-alt]"
-      : "group-hover:text-[--contact-accent]";
-
   return (
     <div className="group relative">
-      <label className={`contact-label text-xs md:text-sm ${labelFocusColor}`}>
+      <label className="contact-label text-xs md:text-sm group-focus-within:text-[--contact-accent]">
         {label}
         {required && " *"}
       </label>
       <Select value={value || ""} onValueChange={(val) => onChange(val)}>
         <SelectTrigger
           className={cn(
-            "contact-select w-full justify-between items-center text-xl leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
+            "contact-select text-xl w-full justify-between items-center leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
             "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
-            focusColor,
-            hoverIconColor,
+            "focus:border-[--contact-accent]",
+            "group-hover:text-[--contact-accent]",
             "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
             "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]"
           )}
@@ -703,7 +589,6 @@ const FormSelect = ({
           position="popper"
           sideOffset={6}
           avoidCollisions={false}
-          unconstrained
           className="contact-select-content"
         >
           {options.map((option) => (
@@ -717,7 +602,7 @@ const FormSelect = ({
           ))}
         </SelectContent>
       </Select>
-      {error && <p className="text-red-500 text-base mt-1">{error}</p>}
+      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>
   );
 };

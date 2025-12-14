@@ -3,6 +3,7 @@ import type { LegalPageData } from "@/components/legal/legal-page-template";
 import * as m from "@/paraglide/messages";
 
 export function getPrivacyPolicyData(_locale: "en" | "zh"): LegalPageData {
+  void _locale;
   return {
     pageTitle: m.privacy_title(),
     lastUpdated: m.privacy_last_updated(),

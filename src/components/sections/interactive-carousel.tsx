@@ -165,7 +165,6 @@ export function InteractiveCarousel() {
   const cardHiddenDuration = readVar("--carousel-hidden-duration", 0.5);
   const cardStiffness = readVar("--carousel-stiffness", 80);
   const cardDamping = readVar("--carousel-damping", 20);
-  const labelTransition = readVar("--motion-base", 0.5);
   const cardVariants = useMemo(
     () => createCardVariants(cardTransitionDuration, cardHiddenDuration, cardStiffness, cardDamping),
     [cardTransitionDuration, cardHiddenDuration, cardStiffness, cardDamping]
