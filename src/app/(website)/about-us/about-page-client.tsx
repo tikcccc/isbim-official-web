@@ -149,7 +149,7 @@ const FeatureRow = ({
       </div>
 
       <div className="lg:col-span-7 flex flex-col justify-between h-full">
-        <p className="font-body-xlg about-text-secondary mb-6">
+        <p className="font-body-lg about-text-secondary mb-6">
           {content}
         </p>
         <div>
@@ -327,7 +327,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
             {subtitle && (
             <div className={`section-${id}-anim opacity-0 lg:col-span-5 flex items-start`}>
-               <p className="font-body-xlg about-text-secondary leading-snug md:leading-normal lg:leading-snug border-l-2 about-border-accent pl-6">
+               <p className="font-body-lg about-text-secondary leading-snug md:leading-normal lg:leading-snug border-l-2 about-border-accent pl-6">
                  {subtitle}
                </p>
             </div>
@@ -342,7 +342,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
           <div className={`section-${id}-anim opacity-0`}>
           {children || (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-9 font-body-xlg about-text-secondary space-y-8">
+              <div className="lg:col-span-9 font-body-lg about-text-secondary space-y-8">
                 {content}
               </div>
               <div className="lg:col-span-3"></div>

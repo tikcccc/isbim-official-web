@@ -1,28 +1,18 @@
-import { HeroSection } from '@/components/jarvis/hero-section';
-import { BuildersSection } from '@/components/jarvis/builders-section';
-import { GenerateSection } from '@/components/jarvis/generate-section';
-import { SenseSection } from '@/components/jarvis/sense-section';
-import { CtaSection } from '@/components/jarvis/cta-section';
-import { FooterConfig } from '@/components/layout/footer-config';
+import { HeroSection } from "@/components/ai-suite/hero-section";
+import { BuildersSection } from "@/components/ai-suite/builders-section";
+import { CtaSection } from "@/components/ai-suite/cta-section";
+import { ProductMatrix } from "@/components/ai-suite/product-matrix";
 
 /**
  * JARVIS AI Suite Page
- * Industrial Futurism design with:
- * - Kinetic typography backgrounds
- * - 120s epic marquees
- * - Glass morphism panels
- * - Interactive product showcases
- * - Neon cyan accents in dark mode
-  */
+ * Renders the AI Suite sections (copied from the previous version for iteration).
+ */
 export default function JarvisAiSuitePage() {
   return (
     <div className="jarvis-page product-page">
-      <FooterConfig variant="charcoal" />
       <HeroSection />
       <BuildersSection />
-      <GenerateSection />
-
-      <SenseSection />
+      <ProductMatrix />
       <CtaSection />
     </div>
   );
