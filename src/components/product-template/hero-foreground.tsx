@@ -46,10 +46,14 @@ export function HeroForeground({
         >
           {/* Left: Product Name - Always left aligned */}
           <div
-            className="col-span-12 lg:col-span-8 flex flex-col max-w-4xl"
+            className="col-span-12 lg:col-span-9 xl:col-span-9 flex flex-col max-w-5xl xl:max-w-none"
             style={{ gap: "var(--product-gap-sm)" }}
           >
-            {logoComponent || <h1 className="font-product-title-hero">{productName}</h1>}
+            {logoComponent || (
+              <h1 className="font-product-title-hero xl:whitespace-nowrap">
+                {productName}
+              </h1>
+            )}
 
             {productSubtitle && (
               <p className={cn("font-product-subtitle max-w-lg mt-2 md:pl-2")}>
@@ -59,7 +63,7 @@ export function HeroForeground({
           </div>
 
           {/* Right: Metadata - consistent right column position */}
-          <div className="col-span-12 lg:col-span-4 hidden md:flex flex-col items-end justify-end">
+          <div className="col-span-12 lg:col-span-3 xl:col-span-3 hidden md:flex flex-col items-end justify-end">
             <div
               className={cn(
                 "font-product-label-bold tracking-[0.28em] relative flex flex-col items-end pr-2 pl-8",
