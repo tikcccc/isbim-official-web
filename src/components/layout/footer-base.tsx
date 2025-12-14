@@ -3,9 +3,7 @@
 import { Link } from "@/lib/i18n";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { Facebook, Linkedin, Twitter, Youtube } from "lucide-react";
 import { m } from "@/components/motion/lazy-motion";
-import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { Separator } from "@/components/ui/separator";
@@ -52,17 +50,17 @@ const companyLinks = [
   { name: "Contact Us", href: ROUTES.CONTACT },
 ];
 
-const socialIcons = [
-  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
-  { icon: Twitter, label: "Twitter/X", href: "https://twitter.com" },
-  { icon: Youtube, label: "YouTube", href: "https://youtube.com" },
-  { icon: Facebook, label: "Facebook", href: "https://facebook.com" },
-];
-
 export type FooterVariant = "default" | "charcoal";
 
 export function FooterBase({ variant = "default" }: { variant?: FooterVariant }) {
   const isCharcoal = variant === "charcoal";
+  const linkedinHref = "https://hk.linkedin.com/company/isbim";
+  const linkedinButtonClass = isCharcoal
+    ? "inline-flex w-fit items-center justify-center gap-2.5 rounded-[10px] border border-white/50 bg-white/10 px-5 py-2.5 text-white text-sm font-medium transition-colors duration-200 hover:border-[#0077b5] hover:bg-[#0077b5]/20"
+    : "inline-flex w-fit items-center justify-center gap-2.5 rounded-[10px] border border-gray-300 bg-white px-5 py-2.5 text-gray-700 text-sm font-medium transition-colors duration-200 hover:border-[#0077b5] hover:text-[#0077b5]";
+  const linkedinIconClass = isCharcoal
+    ? "text-white flex-shrink-0"
+    : "text-[#0077b5] flex-shrink-0";
 
   return (
     <footer
@@ -117,21 +115,27 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
               <span className="footer-body-muted">{messages.footer_tagline2()}</span>
             </p>
 
-            {/* Social Icons */}
+            {/* Social: single LinkedIn CTA */}
             <div className="footer-social-row">
-              {socialIcons.map(({ icon: Icon, label, href }) => (
-                <Button
-                  key={label}
-                  variant="ghost"
-                  size="icon"
-                  className="footer-social-btn"
-                  asChild
+              <a
+                href={linkedinHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkedinButtonClass}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className={linkedinIconClass}
+                  aria-hidden="true"
                 >
-                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                    <Icon className="h-5 w-5" aria-hidden="true" />
-                  </a>
-                </Button>
-              ))}
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <span className="text-sm font-medium">Connect on LinkedIn</span>
+              </a>
             </div>
           </div>
 

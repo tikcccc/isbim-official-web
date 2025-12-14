@@ -110,22 +110,6 @@
     background: var(--footer-skeleton);
   }
 
-  .footer-social-btn {
-    height: 2.5rem;
-    width: 2.5rem;
-    background: var(--footer-icon-bg);
-    color: var(--footer-icon);
-    border: 1px solid var(--footer-icon-border);
-    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
-  }
-
-  .footer-social-btn:hover {
-    background: var(--footer-icon-hover-bg);
-    color: var(--footer-icon-hover);
-    border-color: var(--footer-icon-hover-border);
-    transform: translateY(-1px);
-  }
-
   /* Newsletter controls */
   .layout-footer-newsletter-button {
     font-family: var(--font-body-en);
