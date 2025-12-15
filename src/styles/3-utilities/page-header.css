@@ -42,7 +42,8 @@
 
   @media (min-width: 1024px) {
     .page-header__title-col {
-      grid-column: span 5;
+      /* Architectural split: strong left anchor + wide negative space */
+      grid-column: 1 / span 4;
     }
   }
 
@@ -59,7 +60,8 @@
 
   @media (min-width: 1024px) {
     .page-header__subtitle-col {
-      grid-column: 7 / -1; /* Slightly closer to title */
+      /* Push description to the far right to create negative space */
+      grid-column: 7 / -1;
       padding-bottom: 0.25rem; /* Lower position - closer to title baseline */
     }
   }
@@ -67,7 +69,7 @@
   /* Typography inherited from font-page-header-subtitle in font-types.css */
   .page-header__subtitle {
     color: var(--text-muted);
-    max-width: 32rem; /* Tighter measure for readability */
+    max-width: 42rem; /* Allow longer lines for right-column layout */
   }
 
   .page-header__divider {

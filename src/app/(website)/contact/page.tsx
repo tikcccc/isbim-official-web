@@ -174,8 +174,11 @@ export default function ContactPage() {
 
   return (
     <div
-      className={`contact-page transition-opacity duration-1000 ${mounted ? "opacity-100" : "opacity-0"}`}
+      className={`contact-page surface-noise-overlay transition-opacity duration-1000 ${mounted ? "opacity-100" : "opacity-0"}`}
     >
+      {/* Global noise texture overlay */}
+      <div className="noise-grain" />
+
       {/* Background coordinate decorations */}
       <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
         {/* Left vertical coordinate */}

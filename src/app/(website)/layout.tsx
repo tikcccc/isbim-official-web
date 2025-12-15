@@ -32,7 +32,7 @@ export default async function WebsiteLayout({ children }: { children: React.Reac
     <LanguageProvider>
       <LocaleProvider locale={locale}>
         <AppProviders>
-          <div className="min-h-screen bg-zinc-100 text-zinc-900 footer-alliance-font">
+          <div className="min-h-screen text-zinc-900 footer-alliance-font">
             <Topbar newsPreview={menuNews} />
             {children}
             <FooterRenderer />

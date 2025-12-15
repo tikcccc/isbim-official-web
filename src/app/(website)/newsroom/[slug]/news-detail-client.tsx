@@ -103,8 +103,11 @@ export default function NewsDetailClient({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="newsroom-detail newsroom-surface-card pb-20 relative"
+      className="newsroom-detail surface-noise-overlay pb-20 relative"
     >
+      {/* Global noise texture overlay */}
+      <div className="noise-grain" />
+
       <div className="newsroom-article-container flex items-center gap-3 md:gap-4 py-4">
         <Link href="/newsroom" className="newsroom-back-btn">
           <ArrowLeft className="newsroom-back-icon" />

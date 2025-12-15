@@ -4,7 +4,10 @@ export const revalidate = 3600;
 
 export default function CareersPage() {
   return (
-    <main>
+    <main className="surface-noise-overlay min-h-screen">
+      {/* Global noise texture overlay */}
+      <div className="noise-grain" />
+
       <PageHeader
         title="Impact Us"
         subtitle="isBIM delivers nation-scale infrastructure that powers the global economy. From AI factories in APAC to smart cities in Africa, we build the backbone of emerging economies—faster, cheaper, safer, greener. Join a flat hierarchy where every hire owns their impact from day one."

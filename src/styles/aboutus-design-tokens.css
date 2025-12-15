@@ -1,7 +1,7 @@
 @layer base {
   :root {
     /* About page specific palette */
-    --about-bg: var(--surface-subtle);
+    --about-bg: var(--surfact-softgray);
     --about-text-primary: var(--text-base);
     --about-text-secondary: var(--text-sub);
     --about-text-muted: var(--text-soft);

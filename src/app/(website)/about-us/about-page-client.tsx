@@ -55,9 +55,8 @@ const TechDivider = ({ className }: { className?: string }) => (
   </div>
 );
 
-const AboutNoiseOverlay = () => (
-  <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150" />
-);
+// Noise overlay is now provided globally via .surface-noise-overlay + .noise-grain classes
+// See: src/styles/3-utilities/surfaces.css
 
 // ArrowLink: Link with arrow and underline animation
 const ArrowLink = ({ label, href }: { label: string; href: string }) => (
@@ -308,8 +307,6 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       ref={sectionRef}
       className="min-h-screen w-full flex flex-col justify-center relative overflow-hidden about-section-padding about-surface-base will-change-auto"
     >
-      <AboutNoiseOverlay />
-
       <div className="container-content z-10">
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-start lg:items-center mb-12">
@@ -402,13 +399,14 @@ export default function AboutPage({ heroImageSrc = "/images/cta.png" }: AboutPag
   }, []);
 
   return (
-    <main className="about-page about-surface-base about-text-primary min-h-[300vh] selection:bg-[var(--about-accent)]/10 selection:text-[var(--about-accent)] antialiased">
+    <main className="about-page surface-noise-overlay about-text-primary min-h-[300vh] selection:bg-[var(--about-accent)]/10 selection:text-[var(--about-accent)] antialiased">
+      {/* Global noise texture overlay */}
+      <div className="noise-grain" />
 
       <StickyNav />
 
       {/* Page Header */}
-      <div className="about-surface-base pb-8 relative overflow-hidden">
-        <AboutNoiseOverlay />
+      <div className="pb-8 relative overflow-hidden">
         <PageHeader
           title={m.about_page_title()}
           subtitle={m.about_page_subtitle()}
@@ -417,8 +415,7 @@ export default function AboutPage({ heroImageSrc = "/images/cta.png" }: AboutPag
       </div>
 
       {/* Hero Image between Header and Section 1 */}
-      <div className="about-surface-base pb-16 relative overflow-hidden">
-        <AboutNoiseOverlay />
+      <div className="pb-16 relative overflow-hidden">
         <div className="container-content relative z-10">
           <div className="relative w-full aspect-[3528/1859] overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
             <Image

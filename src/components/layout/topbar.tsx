@@ -100,7 +100,7 @@ export function Topbar({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={isOpen ? closeMenu : openMenu}
-            className={`flex items-center justify-center transition-colors text-white group
+            className={`flex items-center justify-center transition-colors text-white group cursor-pointer
               ${
                 isOpen
                   ? "h-10 px-4 gap-3 border border-white/20 hover:bg-white/10"
@@ -113,7 +113,7 @@ export function Topbar({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }
               <>
                 <TypewriterText
                   text="CLOSE"
-                  className="text-[10px] layout-nav-label text-neutral-400 group-hover:text-white tracking-widest hidden md:block"
+                  className="text-[10px] layout-nav-label text-neutral-300 group-hover:text-white tracking-widest hidden md:block"
                 />
                 <X className="w-5 h-5" />
               </>

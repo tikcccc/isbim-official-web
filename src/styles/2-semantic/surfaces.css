@@ -15,7 +15,8 @@
   --surface-muted: var(--color-gray-bg);           /* Gray sections (#efefef) */
   --surface-tinted: var(--color-tinted);           /* Green-tinted white */
   --surface-paper: var(--color-soft-white);        /* Soft off-white for articles */
-
+  --surfact-softgray:var(--color-soft-gray);
+  
   /* Special Surfaces */
   --surface-hero: var(--color-black);              /* Hero sections, dark areas */
   --surface-dark: var(--color-charcoal-900);       /* Dark mode surfaces */

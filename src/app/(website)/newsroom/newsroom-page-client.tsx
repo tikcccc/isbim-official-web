@@ -254,7 +254,10 @@ export default function NewsroomPageClient({
   }, [initialNews, categories, featuredNews]);
 
   return (
-    <div className="newsroom-page">
+    <div className="newsroom-page surface-noise-overlay">
+      {/* Global noise texture overlay */}
+      <div className="noise-grain" />
+
       <NewsListView
         key="list"
         newsData={initialNews}
