@@ -26,6 +26,12 @@ import { useEffect, useRef, useId } from "react";
 // Global lock counter to handle multiple simultaneous locks
 let lockCount = 0;
 let originalOverflow = "";
+let originalPaddingRight = "";
+
+function getScrollbarWidth(): number {
+  if (typeof window === "undefined" || typeof document === "undefined") return 0;
+  return Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+}
 
 /**
  * useBodyScrollLock - Lock/unlock body scroll with multiple lock support
@@ -78,6 +84,13 @@ export function useBodyScrollLock(lock: boolean): void {
       if (lockCount === 0) {
         // First lock: save original overflow
         originalOverflow = document.body.style.overflow;
+        originalPaddingRight = document.body.style.paddingRight;
+
+        const scrollbarWidth = getScrollbarWidth();
+        if (scrollbarWidth > 0) {
+          const computedPaddingRight = Number.parseFloat(window.getComputedStyle(document.body).paddingRight) || 0;
+          document.body.style.paddingRight = `${computedPaddingRight + scrollbarWidth}px`;
+        }
         document.body.style.overflow = "hidden";
       }
       lockCount++;
@@ -90,6 +103,7 @@ export function useBodyScrollLock(lock: boolean): void {
       if (lockCount === 0) {
         // Last lock released: restore original overflow
         document.body.style.overflow = originalOverflow || "unset";
+        document.body.style.paddingRight = originalPaddingRight;
       }
     }
 
@@ -101,6 +115,7 @@ export function useBodyScrollLock(lock: boolean): void {
 
         if (lockCount === 0) {
           document.body.style.overflow = originalOverflow || "unset";
+          document.body.style.paddingRight = originalPaddingRight;
         }
       }
     };

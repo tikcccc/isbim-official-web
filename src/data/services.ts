@@ -304,9 +304,9 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
       label: "service_bim_stats_label",
       main: { val: "75%", label: "service_bim_stats_main_label" },
       grid: [
-        { val: "100%", label: "service_bim_stats_grid_1_label" },
+        { val: "HK$30M+", label: "service_bim_stats_grid_1_label" },
         { val: "72%", label: "service_bim_stats_grid_2_label" },
-        { val: "-45%", label: "service_bim_stats_grid_3_label" },
+        { val: "30-45%", label: "service_bim_stats_grid_3_label" },
         { val: "2,600+", label: "service_bim_stats_grid_4_label" },
       ],
     },
@@ -428,9 +428,9 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
       main: { val: "30 Days", label: "service_finance_stats_main_label" },
       grid: [
         { val: "Live", label: "service_finance_stats_grid_1_label" },
-        { val: "0", label: "service_finance_stats_grid_2_label" },
-        { val: "100%", label: "service_finance_stats_grid_3_label" },
-        { val: "100%", label: "service_finance_stats_grid_4_label" },
+        { val: "Audited", label: "service_finance_stats_grid_2_label" },
+        { val: "Bankable", label: "service_finance_stats_grid_3_label" },
+        { val: "In-Kind", label: "service_finance_stats_grid_4_label" },
       ],
     },
     gallery: {
