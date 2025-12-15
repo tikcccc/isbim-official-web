@@ -74,8 +74,8 @@
 
   .page-header__divider {
     width: 100%;
-    height: 2px;
-    background: var(--text-base); /* Black divider as design element */
+    height: 1px;
+    background: var(--line-soft); /* Black divider as design element */
     margin-top: 4rem;
   }
 }

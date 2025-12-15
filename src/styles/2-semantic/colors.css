@@ -28,6 +28,7 @@
 
   /* Accent Text */
   --text-accent: var(--color-slate-950);
+  --line-soft:var(--color-gray-300);
 
   /* ═══════════════════════════════════════════
      BRAND COLORS
