@@ -21,16 +21,93 @@
 /* Font styles moved to font-product-feature-desc utility class */
 
 .detailList {
-  gap: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .detailItem {
-  padding-bottom: var(--space-sm);
+  padding-bottom: var(--space-xs, 0.5rem);
 }
 
 .detailItem:last-child {
   border-bottom: none;
   padding-bottom: 0;
+}
+
+/* Detail panel typography - optimized for 4:3 aspect ratio */
+.detailTitle {
+  font-family: var(--font-heading-en);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: var(--weight-semibold);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.detailDesc {
+  font-family: var(--font-body-en);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: var(--weight-regular);
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+/* Detail panel container - responsive padding */
+.detailPanel {
+  padding: 1.5rem 1.75rem;
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .detailPanel {
+    padding: 2rem 2.5rem;
+  }
+
+  .detailList {
+    gap: var(--space-md);
+  }
+
+  .detailItem {
+    padding-bottom: var(--space-sm, 0.75rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .detailPanel {
+    padding: 2.5rem 3rem;
+  }
+
+  .detailList {
+    gap: var(--space-lg, 1.5rem);
+  }
+
+  .detailTitle {
+    font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+    margin-bottom: 0.625rem;
+  }
+
+  .detailDesc {
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  }
+
+  .detailItem {
+    padding-bottom: var(--space-md, 1rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .detailPanel {
+    padding: 3rem 3.5rem;
+  }
+
+  .detailTitle {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+  }
+
+  .detailDesc {
+    font-size: clamp(1.125rem, 1.4vw, 1.375rem);
+  }
 }
 
 .panel {
@@ -64,16 +141,9 @@
 }
 
 .featureMedia {
-  min-height: 540px;
-  height: clamp(560px, 72vh, 640px);
+  aspect-ratio: 4 / 3;
+  width: 100%;
   border-radius: var(--radius-lg);
-}
-
-/* 筆電區間高度微調（防止過高） */
-@media (min-width: 1024px) and (max-width: 1599px) {
-  .featureMedia {
-    height: clamp(480px, 60vh, 560px);
-  }
 }
 
 .featureMediaVideo {
@@ -92,15 +162,6 @@
   border-radius: var(--radius-lg);
 }
 
-.detailList > :not([hidden]) ~ :not([hidden]) {
-  margin-top: var(--product-stack-md);
-}
-
-@media (min-width: 64em) {
-  .detailList > :not([hidden]) ~ :not([hidden]) {
-    margin-top: var(--product-stack-lg);
-  }
-}
 
 .textMuted {
   color: var(--text-muted);

@@ -1,7 +1,7 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
+import { getVideoUrl, JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
 import { ProductPageLayout } from "@/components/product-template";
 
 /**
@@ -11,9 +11,9 @@ import { ProductPageLayout } from "@/components/product-template";
  */
 export default function JarvisCdcpClient() {
   const featureVideos = {
-    singleSource: JARVIS_VIDEOS.cdcp,
-    bim: JARVIS_VIDEOS.cdcp,
-    availability: JARVIS_VIDEOS.cdcp,
+    singleSource: getVideoUrl("CDCP1.mp4"),
+    bim: getVideoUrl("CDCP2.mp4"),
+    availability: getVideoUrl("CDCP3.mp4"),
   };
 
   return (

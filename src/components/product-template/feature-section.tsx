@@ -637,26 +637,25 @@ export function FeatureSection({
                 aria-labelledby={`tab-details-${index}`}
                 aria-hidden={displayedView !== "details"}
                 className={cn(
-                  "p-8 md:p-12 overflow-y-auto",
+                  styles.detailPanel,
                   styles.panelSurface,
                   styles.panel,
                   displayedView === "details" ? styles.panelVisible : styles.panelHidden
                 )}
               >
-                <div className={cn("max-w-5xl", styles.detailList)}>
+                <div className={styles.detailList}>
                   {details?.map((item, idx) => (
                     <div
                       key={idx}
-                  className={cn("border-b last:border-0", styles.detailItem)}
+                      className={cn("border-b last:border-0", styles.detailItem)}
                       style={{
-                        paddingBottom: idx === details.length - 1 ? "0" : undefined,
                         borderColor: "var(--product-border-subtle)",
                       }}
                     >
-                      <h4 className={cn("mb-1", "font-product-title-sm")}>
+                      <h4 className={styles.detailTitle}>
                         {item.title}
                       </h4>
-                      <p className="font-product-body">
+                      <p className={styles.detailDesc}>
                         {item.description}
                       </p>
                     </div>

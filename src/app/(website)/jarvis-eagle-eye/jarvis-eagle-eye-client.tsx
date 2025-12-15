@@ -1,7 +1,7 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
+import { getVideoUrl, JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
 import { ProductPageLayout } from "@/components/product-template";
 
 /**
@@ -12,9 +12,9 @@ import { ProductPageLayout } from "@/components/product-template";
  */
 export default function JarvisEagleEyeClient() {
   const featureVideos = {
-    capture: JARVIS_VIDEOS.eagleEye,
-    detection: JARVIS_VIDEOS.eagleEye,
-    collaboration: JARVIS_VIDEOS.eagleEye,
+    capture: getVideoUrl("eye1.mp4"),
+    detection: getVideoUrl("eye2.mp4"),
+    collaboration: getVideoUrl("eye3.mp4"),
   };
 
   return (
