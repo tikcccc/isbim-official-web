@@ -93,6 +93,7 @@ export function HeroForeground({
         <div
           className={cn(
             "grid grid-cols-12 items-end w-full pointer-events-auto relative",
+            styles.heroContentOffset,
             showBottomBorder && styles.bottomBorder,
             showLeftLine && styles.leftDecoLine
           )}
@@ -101,8 +102,8 @@ export function HeroForeground({
           {/* Left: Brand + Product Name */}
           <div
             className={cn(
-              "col-span-12 lg:col-span-9 xl:col-span-9 flex flex-col max-w-5xl xl:max-w-none",
-              showLeftLine && "lg:pl-8"
+              "col-span-12 md:col-span-8 flex flex-col max-w-5xl xl:max-w-none",
+              showLeftLine && "md:pl-8"
             )}
             style={{ gap: "var(--product-gap-sm)" }}
           >
@@ -111,10 +112,7 @@ export function HeroForeground({
                 {/* Brand Name - 空心描邊字 (如果提供) */}
                 {brandName && (
                   <h2
-                    className={cn(
-                      "font-product-title-hero xl:whitespace-nowrap select-none -ml-1",
-                      styles.textOutline
-                    )}
+                    className="font-product-title-hero-outline xl:whitespace-nowrap select-none -ml-1"
                   >
                     {brandName}
                   </h2>
@@ -136,7 +134,7 @@ export function HeroForeground({
             {/* 副標題區域 (帶橫線) */}
             {productSubtitle && (
               <div className={cn(styles.subtitleLine, "mt-4 pl-1")}>
-                <p className="font-product-subtitle text-gray-300 tracking-widest uppercase">
+                <p className="font-product-hero-subtitle text-gray-300">
                   {productSubtitle}
                 </p>
               </div>
@@ -144,7 +142,7 @@ export function HeroForeground({
           </div>
 
           {/* Right: Metadata */}
-          <div className="col-span-12 lg:col-span-3 xl:col-span-3 hidden md:flex flex-col items-end justify-end">
+          <div className="col-span-12 md:col-span-4 hidden md:flex flex-col items-end justify-end">
             {isNewFormat ? (
               /* 新版: Icon + 文字 + Hover 動畫 */
               <div className="flex flex-col items-end space-y-3">

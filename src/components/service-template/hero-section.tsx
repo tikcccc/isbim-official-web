@@ -45,7 +45,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
               </h1>
             </ScrollReveal>
             <ScrollReveal animation="slide-up" duration={DESIGN_TOKENS.animation.duration.slow} delay={0.12}>
-              <h2 className={`${styles.heroSubtitle} font-service-hero-sub`}>
+              <h2 className={`${styles.heroSubtitle} font-service-subheadline`}>
                 {hero.subTitle}
               </h2>
             </ScrollReveal>

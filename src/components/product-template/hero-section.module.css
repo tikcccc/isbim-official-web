@@ -49,6 +49,28 @@
   transition: transform 0.18s ease-out;
 }
 
+/* ============================================
+ * Hero 內容垂直偏移控制
+ * 調整這個值可以讓整體內容上下移動
+ * 正值 = 向下移動，負值 = 向上移動
+ * ============================================ */
+.heroContentOffset {
+  --hero-offset-y: 2rem; /* 調整這個值！ */
+  transform: translateY(var(--hero-offset-y));
+}
+
+@media (min-width: 48em) {
+  .heroContentOffset {
+    --hero-offset-y: 3rem; /* md 斷點 */
+  }
+}
+
+@media (min-width: 64em) {
+  .heroContentOffset {
+    --hero-offset-y: 4rem; /* lg 斷點 */
+  }
+}
+
 .metadataLine {
   color: var(--text-inverse-base);
 }
@@ -84,21 +106,6 @@
 .metaChipWrap {
   gap: var(--product-gap-sm);
   color: var(--text-inverse-muted);
-}
-
-/* ============================================
- * 空心描邊文字效果 (Outline Text)
- * ============================================ */
-.textOutline {
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.6);
-  color: transparent;
-  opacity: 0.8;
-}
-
-@media (max-width: 48em) {
-  .textOutline {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
-  }
 }
 
 /* ============================================
