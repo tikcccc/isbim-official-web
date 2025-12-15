@@ -234,6 +234,8 @@
   }
 
   .contact-info-body {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
     color: var(--text-muted);
   }
 
@@ -244,16 +246,36 @@
   /* ═══════════════════════════════════════════
      COORDINATE DECORATION
      ═══════════════════════════════════════════ */
+
+  /* Map coordinates (LAT/LON and STRATEGIC LOCATION) - unified styling */
   .contact-coord-text {
-    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
   }
 
   .contact-coord-text-light {
-    color: var(--text-soft);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-gray-500);
   }
 
+  /* Corner bracket decorations for map */
   .contact-corner-bracket {
-    border-color: var(--text-muted);
+    border-color: var(--color-gray-300);
+  }
+
+  /* Background coordinate decorations (fixed position) */
+  .contact-bg-coord {
+    font-size: 0.625rem;
+    line-height: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--color-gray-400);
   }
 
   /* ═══════════════════════════════════════════

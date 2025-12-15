@@ -34,7 +34,7 @@ export const EngineSection: React.FC<EngineSectionProps> = ({
     return parts.map((part, idx) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={idx} className={`${colors.textStrong} font-semibold`}>
+          <strong key={idx} className="font-service-card-body-strong">
             {part.slice(2, -2)}
           </strong>
         );

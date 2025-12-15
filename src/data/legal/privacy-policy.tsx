@@ -225,7 +225,7 @@ export function getPrivacyPolicyData(_locale: "en" | "zh"): LegalPageData {
             <p>
               <strong>{m.privacy_q11_contact_label()}</strong>{" "}
               {m.privacy_q11_contact_desc()}
-              <Link href="mailto:support@isbim.hk" className="cookies-email-link">
+              <Link href="mailto:solution@isbim.com.hk" className="cookies-email-link">
                 {m.privacy_contact_email()}
               </Link>
             </p>

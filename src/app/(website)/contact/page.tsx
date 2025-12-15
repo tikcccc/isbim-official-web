@@ -179,11 +179,11 @@ export default function ContactPage() {
       {/* Background coordinate decorations */}
       <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
         {/* Left vertical coordinate */}
-        <div className="absolute top-1/2 left-10 contact-coord-text font-mono text-[10px] tracking-widest -rotate-90 origin-left">
+        <div className="absolute top-1/2 left-10 contact-bg-coord font-mono -rotate-90 origin-left">
           COORD: {displayLat}° N
         </div>
         {/* Bottom horizontal coordinate */}
-        <div className="absolute bottom-10 left-1/2 contact-coord-text font-mono text-[10px] tracking-widest">
+        <div className="absolute bottom-10 left-1/2 contact-bg-coord font-mono">
           COORD: {displayLon}° E
         </div>
       </div>
@@ -215,7 +215,7 @@ export default function ContactPage() {
                       {messages.contact_info_address()}:
                     </h3>
                   </div>
-                  <address className="pl-[52px] not-italic text-base contact-info-body leading-relaxed">
+                  <address className="pl-[52px] not-italic contact-info-body leading-relaxed">
                     {messages.contact_address_line1()}
                     <br />
                     {messages.contact_address_line2()}
@@ -239,7 +239,7 @@ export default function ContactPage() {
                   <div className="pl-[52px]">
                     <a
                       href="tel:+85223828380"
-                      className="text-base contact-info-body font-medium transition-colors"
+                      className="contact-info-body font-medium transition-colors"
                     >
                       +852 2382 8380
                     </a>
@@ -259,7 +259,7 @@ export default function ContactPage() {
                   <div className="pl-[52px]">
                     <a
                       href="mailto:solution@isbim.com.hk"
-                      className="text-base contact-info-body font-medium transition-colors break-all"
+                      className="contact-info-body font-medium transition-colors break-all"
                     >
                       solution@isbim.com.hk
                     </a>
@@ -296,12 +296,12 @@ export default function ContactPage() {
                   </a>
                 </div>
 
-                <div className="flex justify-between items-center mt-2 px-1">
-                  <p className="text-xs font-mono contact-coord-text">
+                <div className="flex justify-between items-center mt-3 px-1">
+                  <p className="font-mono contact-coord-text">
                     LAT: {displayLat} | LON: {displayLon}
                   </p>
-                  <p className="text-[10px] font-mono tracking-widest contact-coord-text-light flex items-center gap-1">
-                    <span className="contact-coord-text">◇</span> STRATEGIC LOCATION
+                  <p className="font-mono contact-coord-text flex items-center gap-1">
+                    <span>◇</span> STRATEGIC LOCATION
                   </p>
                 </div>
               </div>
@@ -531,15 +531,20 @@ const FormInput = ({
 }: FormInputProps) => {
   return (
     <div className="group relative">
-      <label className="contact-label text-xs md:text-sm group-focus-within:text-[--contact-accent]">
+      <label className="contact-label text- md:text-sm group-focus-within:text-[--contact-accent]">
         {label}
         {required && " *"}
       </label>
       <input
-        className="contact-input text-lg md:text-xl focus:border-[--contact-accent]"
+        className={cn(
+          "contact-input text-lg md:text-xl focus:border-[--contact-accent]",
+          error && "border-red-400"
+        )}
         {...props}
       />
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && (
+        <p className="text-base text-red-500 font-medium mt-1">{error}</p>
+      )}
     </div>
   );
 };
@@ -566,7 +571,7 @@ const FormSelect = ({
 }: FormSelectProps) => {
   return (
     <div className="group relative">
-      <label className="contact-label text-xs md:text-sm group-focus-within:text-[--contact-accent]">
+      <label className="contact-label text-base md:text-sm group-focus-within:text-[--contact-accent]">
         {label}
         {required && " *"}
       </label>
@@ -578,7 +583,8 @@ const FormSelect = ({
             "focus:border-[--contact-accent]",
             "group-hover:text-[--contact-accent]",
             "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
-            "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]"
+            "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]",
+            error && "border-red-400"
           )}
         >
           <SelectValue placeholder={placeholder} />
@@ -602,7 +608,9 @@ const FormSelect = ({
           ))}
         </SelectContent>
       </Select>
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && (
+        <p className="text-base text-red-500 font-medium mt-1">{error}</p>
+      )}
     </div>
   );
 };

@@ -73,7 +73,7 @@ export function getCookiesPolicyData(locale: "en" | "zh"): LegalPageData {
             <p>
               {m.cookies_q5_desc()}
               <Link
-                href="mailto:support@isbim.hk"
+                href="mailto:solution@isbim.com.hk"
                 className="cookies-email-link"
               >
                 {m.cookies_contact_email()}

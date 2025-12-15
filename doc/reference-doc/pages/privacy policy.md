@@ -57,4 +57,4 @@ AR Data: TrueDepth generated temporary data is cleared immediately after the app
 We use cookies to enhance the functionality of our web-based platforms (JARVIS) and for analytics purposes. By using our Services, you consent to the use of cookies.
 11. Contact & Other Conditions
 Children's Privacy: Our applications are designed for construction professionals and are not directed to children under 13.
-Contact Us: Any questions about this Privacy Policy should be addressed to: support@isbim.hk
+Contact Us: Any questions about this Privacy Policy should be addressed to: solution@isbim.com.hk

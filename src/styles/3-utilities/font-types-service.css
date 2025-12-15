@@ -83,7 +83,7 @@
   /* Body paragraph - light weight */
   .font-service-body {
     font-family: var(--font-body-en);
-    font-size: clamp(1.0625rem, 2vw, 1.375rem);
+    font-size: clamp(0.9625rem, 2vw, 1.275rem);
     font-weight: var(--weight-regular);
     line-height: 1.6;
     letter-spacing: 0;
@@ -92,7 +92,7 @@
   /* Body paragraph - regular weight (muted) */
   .font-service-body-muted {
     font-family: var(--font-body-en);
-    font-size: clamp(1.0625rem, 2vw, 1.375rem);
+    font-size: clamp(0.9625rem, 2vw, 1.275rem);
     font-weight: var(--weight-regular);
     line-height: 1.6;
     letter-spacing: 0;
@@ -122,10 +122,16 @@
   /* Card body */
   .font-service-card-body {
     font-family: var(--font-body-en);
-    font-size: clamp(1.0625rem, 2vw, 1.375rem);
-    font-weight: var(--weight-regular);
+    font-size: clamp(0.9625rem, 2vw, 1.275rem);
+    font-weight: var(--weight-light);
     line-height: 1.6;
     letter-spacing: 0;
+  }
+
+  /* Inline emphasis inside card body (renderWithBold) */
+  .font-service-card-body-strong {
+    font-weight: var(--weight-medium);
+    color: var(--text-strong);
   }
 
   /* ─────────────────────────────────────────
@@ -379,4 +385,3 @@
 :lang(zh-TW) .font-service-section-title {
   letter-spacing: 0;
 }
-

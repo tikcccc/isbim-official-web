@@ -205,7 +205,7 @@ const StickyNav = () => {
   if (isMenuOpen || activeSection === 0) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 z-[9999] flex flex-col gap-4 font-label-lg about-text-primary pointer-events-auto about-nav-index">
+    <div className="fixed bottom-4 right-4 md:bottom-10 md:left-10 md:right-auto z-[9999] flex flex-col gap-4 font-label-lg about-text-primary pointer-events-auto about-nav-index">
       {[1, 2, 3].map((num) => (
         <div
           key={num}
