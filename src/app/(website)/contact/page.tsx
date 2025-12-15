@@ -214,8 +214,8 @@ export default function ContactPage() {
                     <div className="contact-info-icon">
                       <MapPin size={20} strokeWidth={2} />
                     </div>
-                    <h3 className="text-lg font-bold tracking-tight contact-info-heading">
-                      {messages.contact_info_address()}:
+                    <h3 className="contact-info-heading">
+                      {messages.contact_info_address()}
                     </h3>
                   </div>
                   <address className="pl-[52px] not-italic contact-info-body leading-relaxed">
@@ -235,14 +235,14 @@ export default function ContactPage() {
                     <div className="contact-info-icon">
                       <Phone size={20} strokeWidth={2} />
                     </div>
-                    <h3 className="text-lg font-bold tracking-tight contact-info-heading">
-                      {messages.contact_info_phone()}:
+                    <h3 className="contact-info-heading">
+                      {messages.contact_info_phone()}
                     </h3>
                   </div>
                   <div className="pl-[52px]">
                     <a
                       href="tel:+85223828380"
-                      className="contact-info-body font-medium transition-colors"
+                      className="contact-info-body transition-colors"
                     >
                       +852 2382 8380
                     </a>
@@ -255,14 +255,14 @@ export default function ContactPage() {
                     <div className="contact-info-icon">
                       <Mail size={20} strokeWidth={2} />
                     </div>
-                    <h3 className="text-lg font-bold tracking-tight contact-info-heading">
-                      {messages.contact_info_email()}:
+                    <h3 className="contact-info-heading">
+                      {messages.contact_info_email()}
                     </h3>
                   </div>
                   <div className="pl-[52px]">
                     <a
                       href="mailto:solution@isbim.com.hk"
-                      className="contact-info-body font-medium transition-colors break-all"
+                      className="contact-info-body transition-colors break-all"
                     >
                       solution@isbim.com.hk
                     </a>

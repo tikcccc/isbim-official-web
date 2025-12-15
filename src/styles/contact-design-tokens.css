@@ -217,11 +217,12 @@
 
   /* ═══════════════════════════════════════════
      CONTACT INFO SECTION
+     Swiss Style: Labels recede, content advances
      ═══════════════════════════════════════════ */
   .contact-info-icon {
     @apply p-2 rounded-full transition-colors;
     background: var(--color-gray-100);
-    color: var(--text-strong);
+    color: var(--text-muted);
   }
 
   .group:hover .contact-info-icon {
@@ -229,14 +230,22 @@
     color: var(--color-white);
   }
 
+  /* Unified label style: uppercase, muted (Swiss Style consistency) */
   .contact-info-heading {
-    color: var(--text-strong);
+    @apply text-lg font-bold uppercase tracking-wide;
+    color: var(--text-muted);
   }
 
+  .group:hover .contact-info-heading {
+    color: var(--text-soft);
+  }
+
+  /* Content style: larger, prominent (the actual information) */
   .contact-info-body {
     font-size: 1.125rem;
     line-height: 1.75rem;
-    color: var(--text-muted);
+    font-weight: 500;
+    color: var(--text-base);
   }
 
   .contact-info-body:hover {
