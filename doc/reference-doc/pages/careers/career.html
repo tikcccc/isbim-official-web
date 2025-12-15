@@ -1,0 +1,418 @@
+import React, { useState } from 'react';
+import { ArrowLeft, MapPin, Clock, Briefcase, ArrowRight, ArrowUpRight, Search, ChevronDown } from 'lucide-react';
+
+// --- Mock Data ---
+
+const COMPANY_INFO = {
+  name: "isBIM",
+  description: "isBIM delivers nation-scale infrastructure that powers the global economy. From AI factories in APAC to smart cities in Africa, we build the backbone of emerging economies—faster, cheaper, safer, greener. Join a flat hierarchy where every hire owns their impact from day one."
+};
+
+// Reorganized data structure to fit the column layout better
+const JOB_COLUMNS = [
+  {
+    title: "Engineering & Tech",
+    categories: [
+      {
+        name: "AI & Software Engineering",
+        jobs: [
+          {
+            id: 2,
+            title: "Forward Deployed Software Engineer",
+            location: "London, UK",
+            type: "On-Site",
+            department: "Engineering",
+            description: `
+              ### A World-Changing Company
+              We build software that matters. Our tools are used to design hospitals, airports, and data centers.
+
+              ### The Role
+              The Forward Deployed Software Engineer role isn't just a job title; it's the blueprint. We pioneered this unique position, embedding talented engineers directly with our customers to tackle their most pressing challenges head-on.
+
+              As an FDSE, you'll be at the intersection of world-changing problems and impactful technology, shaping solutions where they matter most.
+
+              ### What You'll Do
+              - Work side by side with our customers to understand their toughest issues.
+              - Architect and deploy scalable solutions using our proprietary stack.
+              - Iterate rapidly based on real-world feedback.
+            `
+          },
+          {
+            id: 5,
+            title: "Product Designer",
+            location: "Remote",
+            type: "Full-time",
+            department: "Design",
+            description: "Shape the user experience of our core platforms..."
+          },
+          {
+            id: 6,
+            title: "DevOps Engineer",
+            location: "Singapore",
+            type: "Full-time",
+            department: "Engineering",
+            description: "Maintain and scale our global infrastructure..."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: "Commercial",
+    categories: [
+      {
+        name: "Global Project Team",
+        jobs: [
+          {
+            id: 1,
+            title: "Senior BIM Consultant",
+            location: "Hong Kong",
+            type: "Full-time",
+            department: "Project Delivery",
+            description: `
+              ### A World-Changing Company
+              isBIM builds the world's leading software for construction digital twins. By bringing the right data to the people who need it, our platforms empower our partners to build safer, greener, and more efficient cities.
+
+              ### The Role
+              As a Senior BIM Consultant, you will lead the digital transformation of major infrastructure projects. You are not just a modeler; you are a strategic advisor to our clients, helping them navigate complex engineering challenges using cutting-edge BIM technologies.
+
+              ### Core Responsibilities
+              - Lead BIM coordination meetings with multi-disciplinary teams.
+              - Develop and implement BIM execution plans (BEP).
+              - Mentor junior staff and drive internal innovation.
+              - Interface directly with clients to ensure project success.
+            `
+          }
+        ]
+      },
+      {
+        name: "Customer Success Team",
+        jobs: [
+           {
+            id: 3,
+            title: "Customer Success Manager",
+            location: "Singapore",
+            type: "Remote",
+            department: "Sales",
+            description: "Join our customer success team to help our enterprise clients get the most out of our platform..."
+          }
+        ]
+      },
+       {
+        name: "Investments",
+        jobs: [
+           {
+            id: 8,
+            title: "Investment Associate",
+            location: "New York",
+            type: "Full-time",
+            department: "Finance",
+            description: "Analyze new market opportunities..."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: "Early Talent",
+    categories: [
+      {
+        name: "Internships",
+        jobs: [
+          {
+            id: 4,
+            title: "Investment Analyst Intern",
+            location: "New York, USA",
+            type: "Internship",
+            department: "Finance",
+            description: "Analyze market trends and support the investment team in identifying high-growth opportunities in the prop-tech sector..."
+          },
+          {
+            id: 7,
+            title: "Software Engineer Intern",
+            location: "London, UK",
+            type: "Internship",
+            department: "Engineering",
+            description: "Join our core engineering team for a summer of high-impact coding..."
+          }
+        ]
+      },
+      {
+        name: "New Graduates",
+        jobs: [
+           {
+            id: 9,
+            title: "Graduate Analyst",
+            location: "Hong Kong",
+            type: "Full-time",
+            department: "Strategy",
+            description: "Start your career solving complex problems..."
+          }
+        ]
+      }
+    ]
+  }
+];
+
+// --- Components ---
+
+const Button = ({ children, onClick, className = "", variant = "primary" }) => {
+  const baseStyle = "px-6 py-3 font-medium transition-all duration-200 text-sm tracking-wide";
+  const variants = {
+    primary: "bg-black text-white hover:bg-gray-800",
+    outline: "border border-gray-300 text-black hover:bg-gray-50"
+  };
+
+  return (
+    <button onClick={onClick} className={`${baseStyle} ${variants[variant]} ${className}`}>
+      {children}
+    </button>
+  );
+};
+
+const FilterDropdown = ({ label }) => (
+  <div className="flex items-center gap-2 cursor-pointer group text-sm font-medium text-gray-600 hover:text-black transition-colors pb-2 border-b border-transparent hover:border-black">
+    {label}
+    <ChevronDown size={14} className="group-hover:translate-y-0.5 transition-transform" />
+  </div>
+);
+
+const SearchBar = () => (
+  <div className="flex items-center gap-2 pb-2 border-b border-gray-300 focus-within:border-black transition-colors w-full md:w-64">
+    <input 
+      type="text" 
+      placeholder="Search" 
+      className="w-full outline-none text-sm placeholder-gray-400 bg-transparent"
+    />
+    <Search size={16} className="text-gray-400" />
+  </div>
+);
+
+const JobListItem = ({ job, onClick }) => (
+  <div className="relative group">
+    <div 
+      onClick={() => onClick(job)}
+      className="flex justify-between items-start py-3 border-b border-gray-200 cursor-pointer hover:border-black transition-colors duration-200"
+    >
+      <h4 className="text-sm md:text-[15px] font-normal text-gray-800 group-hover:text-black leading-snug pr-8 transition-colors">
+        {job.title}
+      </h4>
+      <ArrowRight size={14} className="text-gray-400 group-hover:text-black transition-colors flex-shrink-0 mt-1" />
+    </div>
+
+    {/* Tooltip / Hover Card - replicating the reference image style */}
+    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-20 animate-fade-in-up">
+      <div className="bg-white border border-gray-200 shadow-lg px-4 py-3 text-xs tracking-wide min-w-[180px]">
+        <div className="flex items-center gap-2 mb-1 text-gray-500">
+           <ArrowUpRight size={10} />
+           <span className="uppercase font-semibold">Location</span>
+        </div>
+        <div className="text-black font-medium border-b border-black inline-block pb-0.5">
+          {job.location}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const ColumnSection = ({ title, categories, onJobClick }) => (
+  <div className="flex flex-col gap-10">
+    <h2 className="text-3xl font-light text-black tracking-tight mb-2">{title}</h2>
+    
+    {categories.map((cat, idx) => (
+      <div key={idx} className="mb-4">
+        <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">
+            {cat.name}
+        </h3>
+        <div className="flex flex-col gap-1">
+          {cat.jobs.map(job => (
+            <JobListItem key={job.id} job={job} onClick={onJobClick} />
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+// --- Views ---
+
+const ListingView = ({ onJobClick }) => {
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20 animate-fade-in">
+        
+        {/* 1. Open Positions Title & 2. Company Description */}
+        {/* Using a grid layout to mimic the reference: Title left, Description right */}
+        <header className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24 mb-20 md:mb-28">
+           <h1 className="text-6xl md:text-8xl font-normal tracking-tighter text-black shrink-0">
+            Open Positions
+           </h1>
+           <div className="max-w-xl pt-2">
+             <p className="text-xl md:text-2xl font-light leading-relaxed text-gray-800">
+              {COMPANY_INFO.description}
+             </p>
+           </div>
+        </header>
+
+        {/* 3. Filter Bar */}
+        <div className="sticky top-0 bg-white/95 backdrop-blur-sm z-30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-16 py-4 border-b border-gray-100 transition-all">
+           <div className="flex flex-wrap gap-6 md:gap-10">
+              <FilterDropdown label="All Types" />
+              <FilterDropdown label="All Locations" />
+              <FilterDropdown label="All Business Areas" />
+           </div>
+           <SearchBar />
+        </div>
+
+        {/* 4. Column Grid Layout (Positions) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
+          {JOB_COLUMNS.map((col, idx) => (
+            <ColumnSection 
+              key={idx}
+              title={col.title}
+              categories={col.categories}
+              onJobClick={onJobClick}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DetailView = ({ job, onBack }) => {
+  // Simple markdown parser for the description
+  const renderContent = (text) => {
+    return text.split('\n').map((line, index) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('###')) {
+        return <h3 key={index} className="text-xl font-bold text-gray-900 mt-10 mb-4">{trimmed.replace('###', '')}</h3>;
+      }
+      if (trimmed.startsWith('-')) {
+        return <li key={index} className="ml-4 list-disc text-gray-600 mb-2 leading-relaxed pl-2">{trimmed.replace('-', '')}</li>;
+      }
+      if (trimmed === '') {
+        return <br key={index} />;
+      }
+      return <p key={index} className="text-gray-600 mb-4 leading-relaxed text-lg font-light">{line}</p>;
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-white animate-fade-in">
+      {/* Navigation */}
+      <nav className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+        <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
+          <button 
+            onClick={onBack}
+            className="group flex items-center text-sm font-medium text-gray-500 hover:text-black transition-colors"
+          >
+            <ArrowLeft size={18} className="mr-3 group-hover:-translate-x-1 transition-transform" />
+            All Positions
+          </button>
+          <span className="hidden md:block text-xs font-bold tracking-[0.2em] uppercase text-gray-400">isBIM Careers</span>
+        </div>
+      </nav>
+
+      <main className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        {/* Job Header */}
+        <header className="mb-16">
+          <div className="flex flex-wrap gap-6 text-sm text-gray-500 mb-8 font-medium tracking-wide">
+             <div className="flex items-center gap-2">
+                <MapPin size={16} />
+                {job.location}
+             </div>
+             <span className="text-gray-300">/</span>
+             <div className="flex items-center gap-2">
+                <Briefcase size={16} />
+                {job.department}
+             </div>
+             <span className="text-gray-300">/</span>
+             <div className="flex items-center gap-2">
+                <Clock size={16} />
+                {job.type}
+             </div>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-medium text-gray-900 mb-10 leading-tight tracking-tight">
+            {job.title}
+          </h1>
+
+          <Button className="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 text-base">
+            Apply for this Role <ArrowUpRight size={18} />
+          </Button>
+        </header>
+
+        {/* Content Divider */}
+        <hr className="border-gray-200 mb-16" />
+
+        {/* Description */}
+        <article className="prose prose-lg prose-gray max-w-none prose-headings:font-medium prose-headings:tracking-tight prose-p:font-light prose-li:font-light">
+          {renderContent(job.description)}
+        </article>
+
+        {/* Footer Apply Area */}
+        <div className="mt-24 pt-12 border-t border-gray-100">
+          <div className="bg-gray-50 p-10 md:p-16 text-center">
+            <h3 className="text-3xl font-light text-gray-900 mb-4">Ready to join us?</h3>
+            <p className="text-gray-500 mb-10 max-w-xl mx-auto">
+                We are looking for people who are ready to own their impact from day one.
+            </p>
+            <Button className="w-full md:w-auto min-w-[240px]">
+                Apply Now
+            </Button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+// --- Main App Component ---
+
+const App = () => {
+  const [currentView, setCurrentView] = useState('list'); // 'list' or 'detail'
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const handleJobClick = (job) => {
+    setSelectedJob(job);
+    setCurrentView('detail');
+    window.scrollTo(0, 0);
+  };
+
+  const handleBackClick = () => {
+    setSelectedJob(null);
+    setCurrentView('list');
+    window.scrollTo(0, 0);
+  };
+
+  return (
+    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-black selection:text-white">
+      {/* Global CSS for fading */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.2s ease-out forwards;
+        }
+      `}</style>
+
+      {currentView === 'list' ? (
+        <ListingView onJobClick={handleJobClick} />
+      ) : (
+        <DetailView job={selectedJob} onBack={handleBackClick} />
+      )}
+    </div>
+  );
+};
+
+export default App;
