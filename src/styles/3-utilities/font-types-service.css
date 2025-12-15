@@ -185,8 +185,8 @@
 
   /* Metric number */
   .font-service-metric {
-    font-family: var(--font-mono);
-    font-size: clamp(1rem, 1.5vw, 1.3rem); 
+    font-family: var(--font-body-en);
+    font-size: clamp(1rem, 1.5vw, 1.125rem); 
     font-weight: var(--weight-medium);
     line-height: 1.2;
   }
