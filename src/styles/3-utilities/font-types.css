@@ -22,7 +22,7 @@
     font-size: clamp(4rem, 15vw, 10rem);
     font-weight: var(--weight-bold); /* 700 */
     line-height: 0.95;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.045em;
     text-transform: uppercase;
   }
 

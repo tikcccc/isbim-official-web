@@ -416,7 +416,7 @@ export function InteractiveCarousel() {
 
         {/* Slider Track */}
         <div
-          className="relative w-full flex items-center justify-center min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] overflow-visible"
+          className="relative w-full flex items-center justify-center min-h-[80svh] max-h-[88svh] sm:min-h-[82vh] sm:max-h-[92vh] lg:min-h-[780px] lg:max-h-[960px] overflow-visible"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
@@ -434,7 +434,7 @@ export function InteractiveCarousel() {
                   initial="hidden"
                   animate="hidden"
                   className={cn(
-                    "absolute w-full h-full border min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] radius-none",
+                    "absolute w-full h-full border min-h-[80svh] max-h-[88svh] sm:min-h-[82vh] sm:max-h-[92vh] lg:min-h-[780px] lg:max-h-[960px] radius-none",
                     styles.card
                   )}
                 />
@@ -448,7 +448,7 @@ export function InteractiveCarousel() {
                 initial="hidden"
                 animate={variant}
                 className={cn(
-                  "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[75svh] max-h-[82svh] sm:min-h-[78vh] sm:max-h-[88vh] lg:min-h-[720px] lg:max-h-[880px] radius-none",
+                  "absolute w-full h-full border shadow-2xl overflow-hidden min-h-[80svh] max-h-[88svh] sm:min-h-[82vh] sm:max-h-[92vh] lg:min-h-[780px] lg:max-h-[960px] radius-none",
                   styles.card
                 )}
               >

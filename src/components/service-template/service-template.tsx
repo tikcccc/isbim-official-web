@@ -41,7 +41,7 @@ const COLORS = {
 
 const SECTION_TITLE_BASE = 'font-service-section-title pb-4 inline-block';
 const SECTION_TITLE_PLAIN = `${COLORS.textSub} ${SECTION_TITLE_BASE}`;
-const SECTION_TITLE_STYLE = `${COLORS.textInvSub} ${SECTION_TITLE_BASE} uppercase`;
+const SECTION_TITLE_STYLE = `${COLORS.textInvSub} ${SECTION_TITLE_BASE}`;
 
 interface ServiceTemplateProps {
   initialService: ServiceTab;

@@ -34,7 +34,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
       <div className="service-shell">
         <div className={`${styles.galleryHeader}`}>
           <div>
-            <span className={`${sectionTitleClass} uppercase ${colors.textInvSub} mb-12`}>
+            <span className={`${sectionTitleClass} ${colors.textInvSub} mb-12`}>
               {heading}
             </span>
             <h2 className={`font-service-display ${colors.textInvStrong}`}>{gallery.title}</h2>

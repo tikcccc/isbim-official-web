@@ -148,7 +148,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
             >
               {messages.footer_platforms()}
             </Link>
-            <ul className="space-y-2.5 footer-body">
+            <ul className="space-y-1.5 footer-body">
               {productLinks.map((link) => (
                 <m.li
                   key={link.name}
@@ -158,7 +158,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
                   <Link
                     href={link.href}
                     prefetch
-                    className="footer-link block py-0.5 leading-tight"
+                    className="footer-link block py-0.5"
                   >
                     {link.name}
                   </Link>
@@ -176,7 +176,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
             >
               {messages.footer_company()}
             </Link>
-            <ul className="space-y-2.5 footer-body">
+            <ul className="space-y-1.5 footer-body">
               {companyLinks.map((link) => (
                 <m.li
                   key={link.name}
@@ -186,7 +186,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
                   <Link
                     href={link.href}
                     prefetch
-                    className="footer-link block py-0.5 leading-tight"
+                    className="footer-link block py-0.5"
                   >
                     {link.name}
                   </Link>
