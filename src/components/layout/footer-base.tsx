@@ -148,7 +148,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
             >
               {messages.footer_platforms()}
             </Link>
-            <ul className="space-y-1.5 footer-body">
+            <ul className="space-y-1.25 footer-body">
               {productLinks.map((link) => (
                 <m.li
                   key={link.name}
@@ -176,7 +176,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
             >
               {messages.footer_company()}
             </Link>
-            <ul className="space-y-1.5 footer-body">
+            <ul className="space-y-1.25 footer-body">
               {companyLinks.map((link) => (
                 <m.li
                   key={link.name}

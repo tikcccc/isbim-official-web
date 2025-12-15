@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -183,11 +183,11 @@ export default function ContactPage() {
       <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
         {/* Left vertical coordinate */}
         <div className="absolute top-1/2 left-10 contact-bg-coord font-mono -rotate-90 origin-left">
-          COORD: {displayLat}° N
+          COORD: {displayLat}掳 N
         </div>
         {/* Bottom horizontal coordinate */}
         <div className="absolute bottom-10 left-1/2 contact-bg-coord font-mono">
-          COORD: {displayLon}° E
+          COORD: {displayLon}掳 E
         </div>
       </div>
 
@@ -300,11 +300,11 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex justify-between items-center mt-3 px-1">
-                  <p className="font-mono contact-coord-text">
+                  <p className="contact-coord contact-coord--wide uppercase">
                     LAT: {displayLat} | LON: {displayLon}
                   </p>
-                  <p className="font-mono contact-coord-text flex items-center gap-1">
-                    <span>◇</span> STRATEGIC LOCATION
+                  <p className="contact-coord contact-coord--wide uppercase">
+                    STRATEGIC LOCATION
                   </p>
                 </div>
               </div>

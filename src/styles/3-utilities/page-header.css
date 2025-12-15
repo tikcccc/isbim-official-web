@@ -23,53 +23,69 @@
   }
 
   .page-header__grid {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    align-items: end; /* Critical: baseline alignment for Swiss style */
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .page-header__grid {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 3rem;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem; /* Protect gap between title and subtitle */
     }
   }
 
   .page-header__title-col {
-    grid-column: span 1;
+    width: 100%;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .page-header__title-col {
-      /* Architectural split: strong left anchor + wide negative space */
-      grid-column: 1 / span 4;
+      /* 5/12 ratio for Swiss Split layout */
+      width: 41.666%;
+      flex-shrink: 0;
     }
   }
 
   /* Typography inherited from font-page-header-title in font-types.css */
   .page-header__title {
+    margin: 0;
     color: var(--text-base);
+    word-break: break-word; /* Allow long titles to wrap within container */
+    overflow-wrap: break-word;
   }
 
   .page-header__subtitle-col {
-    grid-column: span 1;
-    align-self: end; /* Ensure bottom alignment */
-    padding-bottom: 0.5rem; /* Fine-tune baseline alignment with title */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 0.2em; /* Fine-tune baseline alignment with title */
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .page-header__subtitle-col {
-      /* Push description to the far right to create negative space */
-      grid-column: 8 / -1;
-      padding-bottom: 0.25rem; /* Lower position - closer to title baseline */
+      /* 6/12 ratio for Swiss Split layout */
+      width: 50%;
+      flex-shrink: 0;
     }
+  }
+
+  /* Accent line decoration above subtitle */
+  .page-header__accent-line {
+    width: 3rem;
+    height: 2px;
+    background: var(--text-strong);
+    margin-bottom: 1.5rem;
   }
 
   /* Typography inherited from font-page-header-subtitle in font-types.css */
   .page-header__subtitle {
+    margin: 0;
     color: var(--text-muted);
-    max-width: 42rem; /* Allow longer lines for right-column layout */
+    max-width: 38rem; /* max-w-md: Compact text block for Swiss block feel */
   }
 
   .page-header__divider {

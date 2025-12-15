@@ -19,9 +19,9 @@
   /* Page Header Title: Swiss-style large uppercase titles */
   .font-page-header-title {
     font-family: var(--font-heading-en);
-    font-size: clamp(4rem, 15vw, 10rem);
+    font-size: clamp(4rem, 9vw, 9rem);
     font-weight: var(--weight-bold); /* 700 */
-    line-height: 0.95;
+    line-height: 0.8;
     letter-spacing: -0.045em;
     text-transform: uppercase;
   }

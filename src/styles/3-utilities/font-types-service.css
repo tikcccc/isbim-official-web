@@ -123,7 +123,7 @@
   .font-service-card-body {
     font-family: var(--font-body-en);
     font-size: clamp(0.9625rem, 2vw, 1.275rem);
-    font-weight: var(--weight-light);
+    font-weight: var(--weight-regular);
     line-height: 1.6;
     letter-spacing: 0;
   }
@@ -251,7 +251,7 @@
   .font-service-data-intro {
     font-family: var(--font-body-en);
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-    font-weight: var(--weight-light);
+    font-weight: var(--weight-regular);
     line-height: 1.65;
     letter-spacing: 0;
   }
