@@ -2,7 +2,14 @@
 
 import * as m from "@/paraglide/messages";
 import { JARVIS_VIDEOS, JARVIS_POSTERS, getVideoUrl } from "@/lib/media-config";
-import { ProductPageLayout } from "@/components/product-template";
+import {
+  ProductPageLayout,
+  type MetadataItem,
+  // Shared icons
+  ShieldCheckIcon,
+  BanknoteIcon,
+  EyeIcon,
+} from "@/components/product-template";
 
 /**
  * JARVIS Pay Client Component
@@ -21,16 +28,35 @@ export default function JarvisPayClient() {
     feature3: getVideoUrl("jarvis-pay-feature3.mp4"),
   };
 
+  // Metadata with icons - subtitles derived from existing feature descriptions
+  const metadata: MetadataItem[] = [
+    {
+      title: m.jarvis_pay_hero_meta1(), // "SOPL-Compliant"
+      subtitle: "60-Day Mandate",       // From feature1_detail2
+      icon: <ShieldCheckIcon />,
+    },
+    {
+      title: m.jarvis_pay_hero_meta2(), // "Working Capital"
+      subtitle: "Lower Rates",          // From feature3_detail3
+      icon: <BanknoteIcon />,
+    },
+    {
+      title: m.jarvis_pay_hero_meta3(), // "Investor Visibility"
+      subtitle: "Real-Time",            // From feature3_detail2
+      icon: <EyeIcon />,
+    },
+  ];
+
   return (
     <ProductPageLayout
-      productName="JARVIS Pay"
+      brandName="JARVIS"
+      productName="PAY"
+      productSubtitle={m.jarvis_pay_narrative_stage2()} // "Certify in 60 Days"
       videoSrc={JARVIS_VIDEOS.pay}
       posterSrc={JARVIS_POSTERS.pay}
-      metadata={[
-        m.jarvis_pay_hero_meta1(),
-        m.jarvis_pay_hero_meta2(),
-        m.jarvis_pay_hero_meta3(),
-      ]}
+      metadata={metadata}
+      showLeftLine={true}
+      showBottomBorder={true}
       narrativeStage1={m.jarvis_pay_narrative_stage1()}
       narrativeStage2={m.jarvis_pay_narrative_stage2()}
       narrativeDesc={m.jarvis_pay_narrative_desc()}

@@ -1,7 +1,7 @@
 "use client";
 
 import { HeroBackground } from "@/components/product-template/hero-background";
-import { HeroForeground } from "@/components/product-template/hero-foreground";
+import { HeroForeground, type MetadataItem } from "@/components/product-template/hero-foreground";
 import { NarrativeTrack } from "@/components/product-template/narrative-track";
 import { FeatureSection } from "@/components/product-template/feature-section";
 import { ProductFeature, ProductPageLayoutProps } from "@/components/product-template/product-page-layout";
@@ -13,11 +13,14 @@ type AgentPageLayoutProps = ProductPageLayoutProps & {
 };
 
 export function AgentPageLayout({
+  brandName,
   productName,
   productSubtitle,
   videoSrc,
   posterSrc,
   metadata,
+  showLeftLine = true,
+  showBottomBorder = true,
   narrativeStage1,
   narrativeStage2,
   narrativeDesc,
@@ -37,9 +40,12 @@ export function AgentPageLayout({
       />
 
       <HeroForeground
+        brandName={brandName}
         productName={productName}
         productSubtitle={productSubtitle}
         metadata={metadata}
+        showLeftLine={showLeftLine}
+        showBottomBorder={showBottomBorder}
       />
 
       <div className="relative h-screen z-5" aria-hidden="true" />

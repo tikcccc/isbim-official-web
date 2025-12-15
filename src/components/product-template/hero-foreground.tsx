@@ -4,13 +4,46 @@ import { cn } from "@/lib/utils";
 import styles from "./hero-section.module.css";
 
 /**
+ * MetadataItem - 右側功能菜單項目
+ */
+export interface MetadataItem {
+  /** 主標題文字 */
+  title: string;
+  /** Hover 時顯示的副標題 */
+  subtitle?: string;
+  /** Icon 組件 (SVG) */
+  icon?: React.ReactNode;
+}
+
+/**
  * HeroForeground Props
  */
 interface HeroForegroundProps {
+  /** 公司/品牌名稱 (空心描邊字) - 例如 "JARVIS" */
+  brandName?: string;
+  /** 產品名稱 (實心白字) - 例如 "PAY" */
   productName: string;
+  /** 產品副標題描述 */
   productSubtitle?: string;
-  metadata: string[];
+  /**
+   * Metadata 項目列表
+   * - 舊版: string[] (純文字)
+   * - 新版: MetadataItem[] (帶 icon 和 hover 效果)
+   */
+  metadata: string[] | MetadataItem[];
+  /** 自定義 Logo 組件 (覆蓋 brandName + productName) */
   logoComponent?: React.ReactNode;
+  /** 是否顯示左側裝飾竪線 (默認 true) */
+  showLeftLine?: boolean;
+  /** 是否顯示底部邊框線 (默認 true) */
+  showBottomBorder?: boolean;
+}
+
+/**
+ * 檢查是否為 MetadataItem 類型
+ */
+function isMetadataItem(item: string | MetadataItem): item is MetadataItem {
+  return typeof item === "object" && "title" in item;
 }
 
 /**
@@ -18,14 +51,31 @@ interface HeroForegroundProps {
  *
  * Foreground content layer (title and metadata) that moves with scroll.
  * Positioned absolutely to allow smooth upward movement synchronized with NarrativeTrack.
+ *
+ * 支援兩種模式：
+ * 1. 舊版: productName + string[] metadata
+ * 2. 新版: brandName(空心) + productName(實心) + MetadataItem[] (帶 icon)
  */
 export function HeroForeground({
+  brandName,
   productName,
   productSubtitle,
   metadata,
   logoComponent,
+  showLeftLine = true,
+  showBottomBorder = true,
 }: HeroForegroundProps) {
-  const cleanedMetadata = metadata.filter((item) => item?.trim().length);
+  // 判斷是否為新版 MetadataItem 格式
+  const isNewFormat =
+    metadata.length > 0 && isMetadataItem(metadata[0] as string | MetadataItem);
+
+  // 過濾有效的 metadata
+  const cleanedMetadata = metadata.filter((item) => {
+    if (typeof item === "string") {
+      return item?.trim().length > 0;
+    }
+    return item?.title?.trim().length > 0;
+  });
 
   return (
     <div
@@ -41,47 +91,102 @@ export function HeroForeground({
       >
         {/* Main content area (match service hero grid layout) */}
         <div
-          className="grid grid-cols-12 items-end w-full pointer-events-auto"
+          className={cn(
+            "grid grid-cols-12 items-end w-full pointer-events-auto relative",
+            showBottomBorder && styles.bottomBorder,
+            showLeftLine && styles.leftDecoLine
+          )}
           style={{ gap: "var(--product-gap)" }}
         >
-          {/* Left: Product Name - Always left aligned */}
+          {/* Left: Brand + Product Name */}
           <div
-            className="col-span-12 lg:col-span-9 xl:col-span-9 flex flex-col max-w-5xl xl:max-w-none"
+            className={cn(
+              "col-span-12 lg:col-span-9 xl:col-span-9 flex flex-col max-w-5xl xl:max-w-none",
+              showLeftLine && "lg:pl-8"
+            )}
             style={{ gap: "var(--product-gap-sm)" }}
           >
             {logoComponent || (
-              <h1 className="font-product-title-hero xl:whitespace-nowrap">
-                {productName}
-              </h1>
+              <div className="flex flex-col">
+                {/* Brand Name - 空心描邊字 (如果提供) */}
+                {brandName && (
+                  <h2
+                    className={cn(
+                      "font-product-title-hero xl:whitespace-nowrap select-none -ml-1",
+                      styles.textOutline
+                    )}
+                  >
+                    {brandName}
+                  </h2>
+                )}
+                {/* Product Name - 實心白字 */}
+                <h1
+                  className={cn(
+                    "font-product-title-hero xl:whitespace-nowrap",
+                    !brandName && "text-white",
+                    brandName &&
+                      "text-white mix-blend-normal drop-shadow-2xl -ml-1"
+                  )}
+                >
+                  {productName}
+                </h1>
+              </div>
             )}
 
+            {/* 副標題區域 (帶橫線) */}
             {productSubtitle && (
-              <p className={cn("font-product-subtitle max-w-lg mt-2 md:pl-2")}>
-                {productSubtitle}
-              </p>
+              <div className={cn(styles.subtitleLine, "mt-4 pl-1")}>
+                <p className="font-product-subtitle text-gray-300 tracking-widest uppercase">
+                  {productSubtitle}
+                </p>
+              </div>
             )}
           </div>
 
-          {/* Right: Metadata - consistent right column position */}
+          {/* Right: Metadata */}
           <div className="col-span-12 lg:col-span-3 xl:col-span-3 hidden md:flex flex-col items-end justify-end">
-            <div
-              className={cn(
-                "font-product-label-bold tracking-[0.28em] relative flex flex-col items-end pr-2 pl-8",
-                styles.metaLine,
-                styles.metadataLine,
-                styles.gapSm,
-                styles.metaColor
-              )}
-            >
-              {cleanedMetadata.map((item, i) => (
-                <span
-                  key={i}
-                  className="max-w-[240px] text-right leading-tight hover:text-white"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
+            {isNewFormat ? (
+              /* 新版: Icon + 文字 + Hover 動畫 */
+              <div className="flex flex-col items-end space-y-3">
+                {(cleanedMetadata as MetadataItem[]).map((item, i) => (
+                  <div key={i} className={styles.metaIconItem}>
+                    <div className={styles.metaIconText}>
+                      <div className={cn(styles.metaIconTitle, "text-white")}>
+                        {item.title}
+                      </div>
+                      {item.subtitle && (
+                        <div className={styles.metaIconSubtext}>
+                          {item.subtitle}
+                        </div>
+                      )}
+                    </div>
+                    {item.icon && (
+                      <div className={styles.metaIconCircle}>{item.icon}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* 舊版: 純文字列表 */
+              <div
+                className={cn(
+                  "font-product-label-bold tracking-[0.28em] relative flex flex-col items-end pr-2 pl-8",
+                  styles.metaLine,
+                  styles.metadataLine,
+                  styles.gapSm,
+                  styles.metaColor
+                )}
+              >
+                {(cleanedMetadata as string[]).map((item, i) => (
+                  <span
+                    key={i}
+                    className="max-w-[240px] text-right leading-tight hover:text-white"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -97,7 +202,7 @@ export function HeroForeground({
               key={i}
               className="px-3 py-1 rounded-full border backdrop-blur-[1px]"
             >
-              {item}
+              {typeof item === "string" ? item : item.title}
             </span>
           ))}
         </div>

@@ -2,7 +2,13 @@
 
 import * as m from "@/paraglide/messages";
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
-import { ProductPageLayout } from "@/components/product-template";
+import {
+  ProductPageLayout,
+  type MetadataItem,
+  EyeIcon,
+  ActivityIcon,
+  TrendingUpIcon,
+} from "@/components/product-template";
 
 /**
  * JARVIS Assets Client Component
@@ -16,16 +22,33 @@ export default function JarvisAssetsClient() {
     esg: JARVIS_VIDEOS.assets,
   };
 
+  // Metadata with icons - subtitles from feature detail titles
+  const metadata: MetadataItem[] = [
+    {
+      title: m.jarvis_assets_hero_meta1(), // "Portfolio Visibility"
+      subtitle: "Unified Estate",          // From feature1_detail1
+      icon: <EyeIcon />,
+    },
+    {
+      title: m.jarvis_assets_hero_meta2(), // "Predictive Ops"
+      subtitle: "Predictive Maintenance",  // From feature2_detail2
+      icon: <ActivityIcon />,
+    },
+    {
+      title: m.jarvis_assets_hero_meta3(), // "ESG Finance"
+      subtitle: "Capital Advantage",       // From feature3_detail3
+      icon: <TrendingUpIcon />,
+    },
+  ];
+
   return (
     <ProductPageLayout
-      productName="JARVIS Assets"
+      brandName="JARVIS"
+      productName="ASSETS"
+      productSubtitle={m.jarvis_assets_narrative_stage2()} // "Predictive Estate Intelligence"
       videoSrc={JARVIS_VIDEOS.assets}
       posterSrc={JARVIS_POSTERS.assets}
-      metadata={[
-        m.jarvis_assets_hero_meta1(),
-        m.jarvis_assets_hero_meta2(),
-        m.jarvis_assets_hero_meta3(),
-      ]}
+      metadata={metadata}
       narrativeStage1={m.jarvis_assets_narrative_stage1()}
       narrativeStage2={m.jarvis_assets_narrative_stage2()}
       narrativeDesc={m.jarvis_assets_narrative_desc()}

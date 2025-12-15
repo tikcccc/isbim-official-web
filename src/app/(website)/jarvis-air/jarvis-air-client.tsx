@@ -2,7 +2,13 @@
 
 import * as m from "@/paraglide/messages";
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
-import { ProductPageLayout } from "@/components/product-template";
+import {
+  ProductPageLayout,
+  type MetadataItem,
+  CpuIcon,
+  ZapIcon,
+  LayersIcon,
+} from "@/components/product-template";
 
 /**
  * JARVIS Air Client Component
@@ -21,16 +27,33 @@ export default function JarvisAirClient() {
     interiors: JARVIS_VIDEOS.air,
   };
 
+  // Metadata with icons - subtitles from feature detail titles
+  const metadata: MetadataItem[] = [
+    {
+      title: m.jarvis_air_hero_meta1(), // "Nation-Scale Copilot"
+      subtitle: "Generative Copilot",   // From feature1_detail1
+      icon: <CpuIcon />,
+    },
+    {
+      title: m.jarvis_air_hero_meta2(), // "Sub-60s Simulation"
+      subtitle: "Rapid Simulation",     // From feature1_detail2
+      icon: <ZapIcon />,
+    },
+    {
+      title: m.jarvis_air_hero_meta3(), // "500K+ Templates"
+      subtitle: "Massive Library",      // From feature3_detail1
+      icon: <LayersIcon />,
+    },
+  ];
+
   return (
     <ProductPageLayout
-      productName="JARVIS Air"
+      brandName="JARVIS"
+      productName="AIR"
+      productSubtitle={m.jarvis_air_narrative_stage2()} // "Infinite Generative Vision."
       videoSrc={JARVIS_VIDEOS.air}
       posterSrc={JARVIS_POSTERS.air}
-      metadata={[
-        m.jarvis_air_hero_meta1(),
-        m.jarvis_air_hero_meta2(),
-        m.jarvis_air_hero_meta3(),
-      ]}
+      metadata={metadata}
       narrativeStage1={m.jarvis_air_narrative_stage1()}
       narrativeStage2={m.jarvis_air_narrative_stage2()}
       narrativeDesc={m.jarvis_air_narrative_desc()}

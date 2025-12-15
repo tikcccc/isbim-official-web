@@ -29,7 +29,7 @@
 
 
 import { HeroBackground } from "./hero-background";
-import { HeroForeground } from "./hero-foreground";
+import { HeroForeground, type MetadataItem } from "./hero-foreground";
 import { NarrativeTrack } from "./narrative-track";
 import { FeatureSection } from "./feature-section";
 import { CtaSection as JarvisCtaSection } from "@/components/ai-suite/cta-section";
@@ -64,7 +64,9 @@ export interface ProductFeature {
  * ProductPageLayout Props
  */
 export interface ProductPageLayoutProps {
-  /** Product name displayed in hero */
+  /** 品牌名稱 (空心描邊字) - 例如 "JARVIS" */
+  brandName?: string;
+  /** Product name displayed in hero (實心白字) */
   productName: string;
   /** Optional subtitle below product name */
   productSubtitle?: string;
@@ -72,8 +74,16 @@ export interface ProductPageLayoutProps {
   videoSrc: string;
   /** Hero video poster image */
   posterSrc?: string;
-  /** Metadata items for hero sidebar */
-  metadata: string[];
+  /**
+   * Metadata items for hero sidebar
+   * - 舊版: string[] (純文字)
+   * - 新版: MetadataItem[] (帶 icon 和 hover 效果)
+   */
+  metadata: string[] | MetadataItem[];
+  /** 是否顯示左側裝飾竪線 (默認 true) */
+  showLeftLine?: boolean;
+  /** 是否顯示底部邊框線 (默認 true) */
+  showBottomBorder?: boolean;
 
   /** Narrative section stage 1 text */
   narrativeStage1: string;
@@ -94,11 +104,14 @@ export interface ProductPageLayoutProps {
  * ProductPageLayout - Unified layout for all JARVIS product pages
  */
 export function ProductPageLayout({
+  brandName,
   productName,
   productSubtitle,
   videoSrc,
   posterSrc,
   metadata,
+  showLeftLine = true,
+  showBottomBorder = true,
   narrativeStage1,
   narrativeStage2,
   narrativeDesc,
@@ -117,9 +130,12 @@ export function ProductPageLayout({
 
       {/* Section A2: Hero Foreground (Moves with scroll) - z-10 */}
       <HeroForeground
+        brandName={brandName}
         productName={productName}
         productSubtitle={productSubtitle}
         metadata={metadata}
+        showLeftLine={showLeftLine}
+        showBottomBorder={showBottomBorder}
       />
 
       {/* Spacer to prevent immediate overlap - matches hero height */}

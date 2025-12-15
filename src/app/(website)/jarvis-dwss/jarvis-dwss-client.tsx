@@ -2,7 +2,13 @@
 
 import * as m from "@/paraglide/messages";
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
-import { ProductPageLayout } from "@/components/product-template";
+import {
+  ProductPageLayout,
+  type MetadataItem,
+  ShieldCheckIcon,
+  FileCheckIcon,
+  ZapIcon,
+} from "@/components/product-template";
 
 /**
  * JARVIS DWSS Client Component
@@ -16,16 +22,33 @@ export default function JarvisDwssClient() {
     deployment: JARVIS_VIDEOS.dwss,
   };
 
+  // Metadata with icons - subtitles from feature detail titles
+  const metadata: MetadataItem[] = [
+    {
+      title: m.jarvis_dwss_hero_meta1(), // "DEVB TC(W) 2/2023"
+      subtitle: "DEVB Mandate",          // From feature1_detail1
+      icon: <ShieldCheckIcon />,
+    },
+    {
+      title: m.jarvis_dwss_hero_meta2(), // "Digital RISC & Diaries"
+      subtitle: "Digital Transition",    // From feature1_detail2
+      icon: <FileCheckIcon />,
+    },
+    {
+      title: m.jarvis_dwss_hero_meta3(), // "70% Faster Approvals"
+      subtitle: "Enhanced Efficiency",   // From feature1_detail3
+      icon: <ZapIcon />,
+    },
+  ];
+
   return (
     <ProductPageLayout
-      productName="JARVIS DWSS"
+      brandName="JARVIS"
+      productName="DWSS"
+      productSubtitle={m.jarvis_dwss_narrative_stage2()} // "The Digital Supervision Hub."
       videoSrc={JARVIS_VIDEOS.dwss}
       posterSrc={JARVIS_POSTERS.dwss}
-      metadata={[
-        m.jarvis_dwss_hero_meta1(),
-        m.jarvis_dwss_hero_meta2(),
-        m.jarvis_dwss_hero_meta3(),
-      ]}
+      metadata={metadata}
       narrativeStage1={m.jarvis_dwss_narrative_stage1()}
       narrativeStage2={m.jarvis_dwss_narrative_stage2()}
       narrativeDesc={m.jarvis_dwss_narrative_desc()}

@@ -16,27 +16,43 @@
 
 /* Gradient blobs removed for a clean top background */
 
+/* Background layer */
+.background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.backgroundImage {
+  position: absolute;
+  inset: -2%;
+  background-image: url("/images/ai%20suite%20cover.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.02);
+}
+
+.backgroundOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.65)
+  );
+}
+
 /* ─────────────────────────────────────────
    Decoration Lines
    ───────────────────────────────────────── */
 .decorLineRight {
-  position: absolute;
-  top: 0;
-  right: 3rem;
-  height: 100%;
-  width: 1px;
-  background-color: rgba(0, 0, 0, 0.05);
-  z-index: 0;
+  display: none;
 }
 
 .decorLineBottom {
-  position: absolute;
-  bottom: 6rem;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: rgba(0, 0, 0, 0.05);
-  z-index: 0;
+  display: none;
 }
 
 @media (max-width: 1023px) {
@@ -95,9 +111,8 @@
   font-weight: 300;
   letter-spacing: -0.08em;
   line-height: 0.95;
-  color: var(--jarvis-text-strong);
+  color: #ffffff;
   position: relative;
-  backdrop-filter: blur(2px);
   border-radius: 1rem;
   display: inline-block;
   padding: 1rem;
@@ -151,7 +166,6 @@
    ───────────────────────────────────────── */
 .typewriterPanel {
   padding-bottom: 1rem;
-  backdrop-filter: blur(4px);
   border-radius: 0.5rem;
   padding: 0.5rem;
   margin-left: -0.5rem;
@@ -184,6 +198,7 @@
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-weight: 600;
+  color: #f2f4ff;
 }
 
 .typewriterOutput {
@@ -196,7 +211,7 @@
 .typewriterText {
   font-family: var(--font-heading);
   font-size: 1.125rem;
-  color: var(--text-muted);
+  color: #e8e8e8;
   line-height: 1.75;
 }
 

@@ -2,7 +2,13 @@
 
 import * as m from "@/paraglide/messages";
 import { getVideoUrl, JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
-import { ProductPageLayout } from "@/components/product-template";
+import {
+  ProductPageLayout,
+  type MetadataItem,
+  DatabaseIcon,
+  LayersIcon,
+  CloudIcon,
+} from "@/components/product-template";
 
 /**
  * JARVIS CDCP Client Component
@@ -16,16 +22,33 @@ export default function JarvisCdcpClient() {
     availability: getVideoUrl("CDCP3.mp4"),
   };
 
+  // Metadata with icons - subtitles from feature detail titles
+  const metadata: MetadataItem[] = [
+    {
+      title: m.jarvis_cdcp_hero_meta1(), // "Single Source of Truth"
+      subtitle: "Single Source",         // From feature1_detail1
+      icon: <DatabaseIcon />,
+    },
+    {
+      title: m.jarvis_cdcp_hero_meta2(), // "BIM-Native Access"
+      subtitle: "In-Browser BIM",        // From feature2_detail1
+      icon: <LayersIcon />,
+    },
+    {
+      title: m.jarvis_cdcp_hero_meta3(), // "99.99% Uptime"
+      subtitle: "High Availability",     // From feature3_detail3
+      icon: <CloudIcon />,
+    },
+  ];
+
   return (
     <ProductPageLayout
-      productName="JARVIS CDCP"
+      brandName="JARVIS"
+      productName="CDCP"
+      productSubtitle={m.jarvis_cdcp_narrative_stage2()} // "The Single Source of Truth"
       videoSrc={JARVIS_VIDEOS.cdcp}
       posterSrc={JARVIS_POSTERS.cdcp}
-      metadata={[
-        m.jarvis_cdcp_hero_meta1(),
-        m.jarvis_cdcp_hero_meta2(),
-        m.jarvis_cdcp_hero_meta3(),
-      ]}
+      metadata={metadata}
       narrativeStage1={m.jarvis_cdcp_narrative_stage1()}
       narrativeStage2={m.jarvis_cdcp_narrative_stage2()}
       narrativeDesc={m.jarvis_cdcp_narrative_desc()}

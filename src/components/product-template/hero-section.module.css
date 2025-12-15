@@ -85,3 +85,150 @@
   gap: var(--product-gap-sm);
   color: var(--text-inverse-muted);
 }
+
+/* ============================================
+ * 空心描邊文字效果 (Outline Text)
+ * ============================================ */
+.textOutline {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6);
+  color: transparent;
+  opacity: 0.8;
+}
+
+@media (max-width: 48em) {
+  .textOutline {
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ============================================
+ * 底部邊框線
+ * ============================================ */
+.bottomBorder {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: var(--product-gap);
+}
+
+/* ============================================
+ * 左側裝飾竪線
+ * ============================================ */
+.leftDecoLine {
+  position: relative;
+}
+
+.leftDecoLine::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: var(--product-gap);
+  height: 80%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.1)
+  );
+}
+
+@media (max-width: 64em) {
+  .leftDecoLine::before {
+    display: none;
+  }
+}
+
+/* ============================================
+ * 副標題區域樣式
+ * ============================================ */
+.subtitleLine {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.7;
+}
+
+.subtitleLine::before {
+  content: "";
+  width: 3rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+/* ============================================
+ * Metadata Icon 項目 (右側功能菜單)
+ * ============================================ */
+.metaIconItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  transition: transform 0.3s ease;
+}
+
+.metaIconItem:hover {
+  transform: translateX(-0.5rem);
+}
+
+.metaIconText {
+  text-align: right;
+}
+
+.metaIconTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  transition: color 0.3s ease;
+}
+
+.metaIconItem:hover .metaIconTitle {
+  color: var(--product-accent, #34d399);
+}
+
+.metaIconSubtext {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(156, 163, 175, 1); /* gray-400 - brighter than before */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.metaIconItem:hover .metaIconSubtext {
+  max-height: 2rem;
+  margin-top: 0.25rem;
+  opacity: 1;
+  color: rgba(209, 213, 219, 1); /* gray-300 - even brighter on hover */
+}
+
+.metaIconCircle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.metaIconItem:hover .metaIconCircle {
+  border-color: var(--product-accent, #34d399);
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.metaIconCircle svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  stroke-width: 1.5;
+  transition: stroke 0.3s ease;
+}
+
+.metaIconItem:hover .metaIconCircle svg {
+  stroke: var(--product-accent, #34d399);
+}

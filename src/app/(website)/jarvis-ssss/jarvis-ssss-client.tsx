@@ -2,7 +2,13 @@
 
 import * as m from "@/paraglide/messages";
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
-import { ProductPageLayout } from "@/components/product-template";
+import {
+  ProductPageLayout,
+  type MetadataItem,
+  ShieldCheckIcon,
+  AlertTriangleIcon,
+  CheckCircleIcon,
+} from "@/components/product-template";
 
 /**
  * JARVIS SSSS Client Component
@@ -16,16 +22,33 @@ export default function JarvisSsssClient() {
     dashboard: JARVIS_VIDEOS.ssss,
   };
 
+  // Metadata with icons - subtitles from feature detail titles
+  const metadata: MetadataItem[] = [
+    {
+      title: m.jarvis_ssss_hero_meta1(), // "DEVB 10-Module"
+      subtitle: "DEVB Compliance",       // From feature1_detail1
+      icon: <ShieldCheckIcon />,
+    },
+    {
+      title: m.jarvis_ssss_hero_meta2(), // "Instant Safety Alerts"
+      subtitle: "Proactive Safety",      // From feature1_detail3
+      icon: <AlertTriangleIcon />,
+    },
+    {
+      title: m.jarvis_ssss_hero_meta3(), // "Zero-Accident Goal"
+      subtitle: "Zero-Accident Future",  // From feature2_detail3
+      icon: <CheckCircleIcon />,
+    },
+  ];
+
   return (
     <ProductPageLayout
-      productName="JARVIS SSSS"
+      brandName="JARVIS"
+      productName="SSSS"
+      productSubtitle={m.jarvis_ssss_narrative_stage2()} // "Proactive Risk Orchestration"
       videoSrc={JARVIS_VIDEOS.ssss}
       posterSrc={JARVIS_POSTERS.ssss}
-      metadata={[
-        m.jarvis_ssss_hero_meta1(),
-        m.jarvis_ssss_hero_meta2(),
-        m.jarvis_ssss_hero_meta3(),
-      ]}
+      metadata={metadata}
       narrativeStage1={m.jarvis_ssss_narrative_stage1()}
       narrativeStage2={m.jarvis_ssss_narrative_stage2()}
       narrativeDesc={m.jarvis_ssss_narrative_desc()}

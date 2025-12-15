@@ -8,6 +8,12 @@ const TYPEWRITER_TEXT = 'Automate invoices, tenders, and forms.';
 export function HeroSection() {
   return (
     <section className={styles.hero}>
+      {/* Background layer */}
+      <div className={styles.background} aria-hidden>
+        <div className={styles.backgroundImage} />
+        <div className={styles.backgroundOverlay} />
+      </div>
+
       {/* Decoration Lines */}
       <div className={styles.decorLineRight} />
       <div className={styles.decorLineBottom} />

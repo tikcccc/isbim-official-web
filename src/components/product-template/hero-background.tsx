@@ -79,9 +79,8 @@ export function HeroBackground({
         <source src={videoSrc} type="video/mp4" />
       </video>
 
-      {/* Gradient Overlay - enhanced for better depth and readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+      {/* Gradient Overlay - 從底部純黑漸變到頂部透明 (參考原型設計) */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
     </div>
   );
 }

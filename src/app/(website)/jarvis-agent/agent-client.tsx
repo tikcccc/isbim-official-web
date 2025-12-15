@@ -2,14 +2,41 @@
 
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from '@/lib/media-config';
 import { AgentPageLayout } from '@/components/agent/agent-page-layout';
+import {
+  type MetadataItem,
+  CheckCircleIcon,
+  CpuIcon,
+  ShieldCheckIcon,
+} from '@/components/product-template';
 
 export default function AgentClient() {
+  // Metadata with icons - subtitles from feature details
+  const metadata: MetadataItem[] = [
+    {
+      title: 'Grounded responses',
+      subtitle: 'Thread-aware replies', // From feature1 detail3
+      icon: <CheckCircleIcon />,
+    },
+    {
+      title: 'Tooled workflows',
+      subtitle: 'Auto-file & extract', // From feature1 detail1
+      icon: <CpuIcon />,
+    },
+    {
+      title: 'Governed rollout',
+      subtitle: 'Audit ready', // From feature2 detail3
+      icon: <ShieldCheckIcon />,
+    },
+  ];
+
   return (
     <AgentPageLayout
-      productName="JARVIS Agent"
+      brandName="JARVIS"
+      productName="AGENT"
+      productSubtitle="To agentic execution" // From narrativeStage2
       videoSrc={JARVIS_VIDEOS.agent}
       posterSrc={JARVIS_POSTERS.agent}
-      metadata={['Grounded responses', 'Tooled workflows', 'Governed rollout']}
+      metadata={metadata}
       narrativeStage1="From inbox chaos"
       narrativeStage2="To agentic execution"
       narrativeDesc="Collect requests, ground answers in live context, and execute multi-step tasks with auditability."
