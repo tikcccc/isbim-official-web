@@ -189,7 +189,7 @@ export default function ContactPage() {
       </div>
 
       {/* Main Content */}
-      <main className="pt-28 md:pt-32 lg:pt-40 pb-20 md:pb-22 lg:pb-24 relative z-10">
+      <main className="pb-20 md:pb-22 lg:pb-24 relative z-10">
         {/* Page Header - Swiss Style */}
         <PageHeader
           title={messages.contact_page_title()}

@@ -275,7 +275,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
       subTitle: "service_bim_hero_subtitle",
       desc: "service_bim_hero_desc",
       tag: "service_bim_hero_tag",
-      img: "/images/view2.png",
+      img: "/images/bim cover.png",
     },
     narrative: {
       label: "service_bim_narrative_label",
@@ -320,7 +320,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_bim_gallery_item_1_title",
           desc: "service_bim_gallery_item_1_desc",
           metric: "service_bim_gallery_item_1_metric",
-          img: "/images/view3.png",
+          img: "/images/M+ cover.png",
         },
         {
           id: "02",
@@ -328,7 +328,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_bim_gallery_item_2_title",
           desc: "service_bim_gallery_item_2_desc",
           metric: "service_bim_gallery_item_2_metric",
-          img: "/images/view4.png",
+          img: "/images/HKIA cover.png",
         },
       ],
     },

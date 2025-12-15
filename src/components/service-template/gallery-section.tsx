@@ -125,7 +125,7 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
               alt={item.loc}
               fill
               sizes="(min-width: 1024px) 60vw, 90vw"
-              className="object-cover opacity-90 group-hover:scale-105 transition-all duration-1000 ease-out grayscale group-hover:grayscale-0"
+              className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               priority={index === 0}
             />
           </div>

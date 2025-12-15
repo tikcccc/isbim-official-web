@@ -6,20 +6,33 @@
 
 @layer components {
   .page-header {
-    margin-bottom: 2rem; /* mb-8 equivalent */
+    padding-top: 7rem;    /* Mobile: pt-28 */
+    margin-bottom: 6rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-header {
+      padding-top: 8rem;  /* Tablet: pt-32 */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-header {
+      padding-top: 10rem; /* Desktop: pt-40 */
+    }
   }
 
   .page-header__grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    align-items: center;
-    min-height: 240px;
+    align-items: end; /* Critical: baseline alignment for Swiss style */
   }
 
   @media (min-width: 1024px) {
     .page-header__grid {
       grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 3rem;
     }
   }
 
@@ -29,32 +42,38 @@
 
   @media (min-width: 1024px) {
     .page-header__title-col {
-      grid-column: span 7;
+      grid-column: span 5;
     }
   }
 
+  /* Typography inherited from font-page-header-title in font-types.css */
   .page-header__title {
-    color: var(--text-base); /* Using semantic color token */
+    color: var(--text-base);
   }
 
   .page-header__subtitle-col {
     grid-column: span 1;
+    align-self: end; /* Ensure bottom alignment */
+    padding-bottom: 0.5rem; /* Fine-tune baseline alignment with title */
   }
 
   @media (min-width: 1024px) {
     .page-header__subtitle-col {
-      grid-column: 8 / -1; /* col-start-8 to end */
+      grid-column: 7 / -1; /* Slightly closer to title */
+      padding-bottom: 0.25rem; /* Lower position - closer to title baseline */
     }
   }
 
+  /* Typography inherited from font-page-header-subtitle in font-types.css */
   .page-header__subtitle {
-    color: var(--text-muted); /* Using semantic color token */
+    color: var(--text-muted);
+    max-width: 32rem; /* Tighter measure for readability */
   }
 
   .page-header__divider {
     width: 100%;
-    height: 1px;
-    background: var(--color-gray-300);
-    margin-top: 4rem; /* mt-16 equivalent */
+    height: 2px;
+    background: var(--text-vsoft); /* Black divider as design element */
+    margin-top: 4rem;
   }
 }

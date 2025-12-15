@@ -1,14 +1,14 @@
-import * as m from '@/paraglide/messages';
+import { PageHeader } from '@/components/ui/page-header';
 
 export const revalidate = 3600;
 
 export default function CareersPage() {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">{m.careers_title()}</h1>
-        <p className="text-gray-600">{m.careers_subtitle()}</p>
-      </div>
-    </div>
+    <main>
+      <PageHeader
+        title="Impact Us"
+        subtitle="isBIM delivers nation-scale infrastructure that powers the global economy. From AI factories in APAC to smart cities in Africa, we build the backbone of emerging economies—faster, cheaper, safer, greener. Join a flat hierarchy where every hire owns their impact from day one."
+      />
+    </main>
   );
 }

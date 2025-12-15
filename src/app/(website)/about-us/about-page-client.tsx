@@ -55,6 +55,10 @@ const TechDivider = ({ className }: { className?: string }) => (
   </div>
 );
 
+const AboutNoiseOverlay = () => (
+  <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150" />
+);
+
 // ArrowLink: Link with arrow and underline animation
 const ArrowLink = ({ label, href }: { label: string; href: string }) => (
   <LocalizedLink href={href} prefetchMode="hover" className="group/btn inline-flex flex-col items-start gap-2 cursor-pointer mt-6">
@@ -304,7 +308,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
       ref={sectionRef}
       className="min-h-screen w-full flex flex-col justify-center relative overflow-hidden about-section-padding about-surface-base will-change-auto"
     >
-      <div className="absolute inset-0 bg-[url('/images/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none filter grayscale contrast-150"></div>
+      <AboutNoiseOverlay />
 
       <div className="container-content z-10">
 
@@ -366,7 +370,6 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
                   className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   priority={id === 1}
                 />
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--about-accent)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
              </div>
           </div>
         )}
@@ -377,7 +380,11 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 };
 
 // --- 3. Page Entry Point ---
-export default function AboutPage() {
+interface AboutPageProps {
+  heroImageSrc?: string;
+}
+
+export default function AboutPage({ heroImageSrc = "/images/cta.png" }: AboutPageProps) {
   const { closeMenu } = useMenuStore();
 
   useEffect(() => {
@@ -400,26 +407,28 @@ export default function AboutPage() {
       <StickyNav />
 
       {/* Page Header */}
-      <div className="about-surface-base pt-32 pb-8">
+      <div className="about-surface-base pb-8 relative overflow-hidden">
+        <AboutNoiseOverlay />
         <PageHeader
           title={m.about_page_title()}
           subtitle={m.about_page_subtitle()}
+          className="relative z-10"
         />
       </div>
 
       {/* Hero Image between Header and Section 1 */}
-      <div className="about-surface-base pb-16">
-        <div className="container-content">
-          <div className="relative w-full aspect-[21/9] overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
+      <div className="about-surface-base pb-16 relative overflow-hidden">
+        <AboutNoiseOverlay />
+        <div className="container-content relative z-10">
+          <div className="relative w-full aspect-[3528/1859] overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
             <Image
-              src="/images/cta.png"
+              src={heroImageSrc}
               alt="isBIM Hero"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
               className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               priority
             />
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--about-accent)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { urlFor } from "@/sanity/lib";
 import { languageTag } from "@/paraglide/runtime";
 import type { Image as SanityImage } from "sanity";
+import styles from "./menu-overlay.module.css";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -363,7 +364,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed inset-0 z-40 bg-[#050505] text-white layout-nav-link overflow-y-scroll [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-track]:bg-transparent"
+          className={`fixed inset-0 z-40 layout-nav-link ${styles.overlay}`}
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarGutter: 'stable',
@@ -379,7 +380,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
               <div className="mb-8">
                 <TypewriterText
                   text="NAVIGATION_INDEX"
-                  className="text-[10px] layout-nav-label text-blue-400 mb-8 tracking-[0.2em]"
+                  className={`${styles.navIndexLabel} layout-nav-label`}
                   delay={0.2}
                 />
 
@@ -401,9 +402,9 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           href={item.href}
                           onClick={closeMenu}
                           prefetch
-                          className="group flex items-center gap-4 cursor-pointer"
+                          className={`group flex items-center gap-4 cursor-pointer ${styles.navTopItem}`}
                         >
-                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight layout-nav-heading">
+                          <span className={`${styles.navTopItemTitle} layout-nav-heading`}>
                             {item.title}
                           </span>
                         </Link>
@@ -412,15 +413,15 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           href={item.href}
                           onClick={closeMenu}
                           prefetch
-                          className="group flex items-center gap-4 cursor-pointer"
+                          className={`group flex items-center gap-4 cursor-pointer ${styles.navTopItem}`}
                         >
-                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight layout-nav-heading">
+                          <span className={`${styles.navTopItemTitle} layout-nav-heading`}>
                             {item.title}
                           </span>
                         </Link>
                       ) : (
-                        <div className="group flex items-center gap-4 cursor-pointer">
-                          <span className="text-3xl lg:text-4xl font-medium text-neutral-400 group-hover:text-white transition-colors tracking-tight layout-nav-heading">
+                        <div className={`group flex items-center gap-4 cursor-pointer ${styles.navTopItem}`}>
+                          <span className={`${styles.navTopItemTitle} layout-nav-heading`}>
                             {item.title}
                           </span>
                         </div>
@@ -442,20 +443,22 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                   {/* Mobile: Split Interaction - Text (Link) + Arrow (Button) */}
                                   <div className="flex items-center justify-between py-1">
                                     {/* Left: Clickable text - jumps to JARVIS Suite page */}
-                                    <Link
-                                      href={child.href}
-                                      onClick={closeMenu}
-                                      prefetch
-                                      className="flex-1 group/child flex items-center gap-4 cursor-pointer"
-                                    >
-                                      <CornerDownRight
-                                        size={18}
-                                        className="text-blue-400 group-hover/child:text-blue-500 transition-colors"
-                                      />
-                                      <span className="text-xl text-white font-medium group-hover/child:text-blue-400 transition-colors layout-nav-link">
-                                        {child.title}
-                                      </span>
-                                    </Link>
+                                      <Link
+                                        href={child.href}
+                                        onClick={closeMenu}
+                                        prefetch
+                                        className={`flex-1 group/child flex items-center gap-4 cursor-pointer ${styles.navChild}`}
+                                      >
+                                        <CornerDownRight
+                                          size={18}
+                                          className="text-blue-400 group-hover/child:text-blue-500 transition-colors"
+                                        />
+                                        <span
+                                          className={`${styles.navChildText} ${styles.navChildTextHighlight} layout-nav-link`}
+                                        >
+                                          {child.title}
+                                        </span>
+                                      </Link>
 
                                     {/* Right: Arrow button - toggles expansion */}
                                     <button
@@ -494,13 +497,13 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                             href={prod.href}
                                             onClick={closeMenu}
                                             prefetch
-                                            className="group/prod flex items-center gap-3 py-2 cursor-pointer"
+                                            className={`group/prod flex items-center gap-3 py-2 cursor-pointer ${styles.mobileProduct}`}
                                           >
                                             <CornerDownRight
                                               size={16}
                                               className="text-neutral-600 group-hover/prod:text-blue-400 transition-colors shrink-0"
                                             />
-                                            <span className="text-base text-neutral-400 group-hover/prod:text-white transition-colors">
+                                            <span className={styles.mobileProductText}>
                                               {prod.name}
                                             </span>
                                           </Link>
@@ -519,7 +522,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                 href={child.href}
                                 onClick={closeMenu}
                                 prefetch
-                                className="group/child flex items-center gap-4 cursor-pointer py-1"
+                                className={`group/child flex items-center gap-4 cursor-pointer py-1 ${styles.navChild}`}
                                 onMouseEnter={() =>
                                   child.action === "jarvis_suite"
                                     ? setActivePreview("jarvis_suite")
@@ -535,10 +538,8 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                   }`}
                                 />
                                 <span
-                                  className={`text-xl transition-colors layout-nav-link ${
-                                    child.isHighlight
-                                      ? "text-white font-medium group-hover/child:text-blue-400"
-                                      : "text-neutral-500 group-hover/child:text-neutral-300"
+                                  className={`${styles.navChildText} layout-nav-link ${
+                                    child.isHighlight ? styles.navChildTextHighlight : styles.navChildTextNormal
                                   }`}
                                 >
                                   {child.title}
@@ -555,7 +556,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                             ) : (
                               <div
                                 key={cIdx}
-                                className="group/child flex items-center gap-4 cursor-pointer py-1"
+                                className={`group/child flex items-center gap-4 cursor-pointer py-1 ${styles.navChild}`}
                                 onMouseEnter={() =>
                                   child.action === "jarvis_suite"
                                     ? setActivePreview("jarvis_suite")
@@ -567,10 +568,8 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                   className="text-neutral-600 group-hover/child:text-blue-500 transition-colors"
                                 />
                                 <span
-                                  className={`text-xl transition-colors layout-nav-link ${
-                                    child.isHighlight
-                                      ? "text-white font-medium group-hover/child:text-blue-400"
-                                      : "text-neutral-500 group-hover/child:text-neutral-300"
+                                  className={`${styles.navChildText} layout-nav-link ${
+                                    child.isHighlight ? styles.navChildTextHighlight : styles.navChildTextNormal
                                   }`}
                                 >
                                   {child.title}
@@ -606,11 +605,10 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                     href="/terms"
                     onClick={closeMenu}
                     prefetch
-                    className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
+                    className={styles.footerLink}
                   >
                     <TypewriterText
                       text={messages.menu_nav_legal()}
-                      className="text-sm"
                       delay={1.0}
                     />
                   </Link>
@@ -618,11 +616,10 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                     href="/privacy"
                     onClick={closeMenu}
                     prefetch
-                    className="text-sm text-neutral-500 hover:text-neutral-200 transition-colors"
+                    className={styles.footerLink}
                   >
                     <TypewriterText
                       text={messages.footer_privacy()}
-                      className="text-sm"
                       delay={1.1}
                     />
                   </Link>
@@ -663,24 +660,24 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                       <div>
                         <TypewriterText
                           text="PRODUCT_CATALOG"
-                          className="text-[10px] font-mono text-blue-400 mb-3 tracking-widest"
+                          className={styles.productCatalogKicker}
                         />
                         <m.h2
                           variants={fadeInUp}
-                          className="text-4xl font-light text-white"
+                          className={styles.productCatalogTitle}
                         >
                           {messages.menu_nav_jarvis_suite()}
                         </m.h2>
                         <TypewriterText
                           text={messages.menu_suite_subtitle()}
-                          className="text-sm text-neutral-400 mt-2 block"
+                          className={styles.productCatalogSubtitle}
                           delay={0.2}
                         />
                       </div>
                       <div className="text-right gap-4 flex ">
                         <TypewriterText
                           text="2,600+ DEPLOYMENTS"
-                          className="text-[10px] font-mono text-neutral-500 tracking-wider block"
+                          className={styles.deploymentsMeta}
                           delay={0.1}
                         />
                       </div>
@@ -693,7 +690,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           href={prod.href}
                           onClick={closeMenu}
                           prefetch
-                          className="group block cursor-pointer p-4 rounded-lg bg-white/[0.015] hover:bg-white/5 transition-all shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[inset_0_0_0_1px_rgba(59,130,246,0.25)]"
+                          className={`group block cursor-pointer p-4 rounded-lg bg-white/[0.015] hover:bg-white/5 transition-all shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[inset_0_0_0_1px_rgba(59,130,246,0.25)] ${styles.productCard}`}
                         >
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex items-start gap-3 flex-1">
@@ -701,21 +698,20 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                               <div className="flex-1">
                                 <TypewriterText
                                   text={prod.name}
-                                  className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors block"
+                                  className={styles.productCardName}
                                   delay={0.3 + idx * 0.08}
                                 />
                               </div>
                             </div>
                             <TypewriterText
                               text={`Module ${String(idx + 1).padStart(2, '0')}`}
-                              className="text-[9px] font-mono text-neutral-600 uppercase tracking-wider whitespace-nowrap"
+                              className={styles.productCardModule}
                               delay={0.35 + idx * 0.08}
                             />
                           </div>
-                          <div className="text-sm text-neutral-400 pl-5 leading-relaxed">
+                          <div className={styles.productCardDesc}>
                             <TypewriterText
                               text={prod.desc}
-                              className="text-sm"
                               delay={0.5 + idx * 0.08}
                             />
                           </div>
@@ -736,14 +732,14 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                       <div>
                         <TypewriterText
                           text="LATEST_INTELLIGENCE"
-                          className="text-[10px] font-mono text-blue-400 tracking-[0.2em] mb-4 block"
+                          className={styles.defaultKicker}
                         />
                         <m.h2
                           variants={fadeInUp}
-                          className="text-3xl font-light text-white max-w-lg leading-snug"
+                          className={styles.defaultHeadline}
                         >
                           {messages.menu_headline()}{" "}
-                          <span className="text-blue-400">
+                          <span className={styles.defaultHeadlineHighlight}>
                             {messages.menu_headline_highlight()}
                           </span>
                         </m.h2>
@@ -753,7 +749,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           href={ROUTES.SERVICES_PRODUCTS}
                           onClick={closeMenu}
                           prefetch
-                          className="text-[10px] font-mono border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all text-neutral-300 uppercase tracking-widest flex items-center gap-2"
+                          className={styles.exploreCta}
                         >
                           Explore <ArrowRight size={14} />
                         </Link>
@@ -769,19 +765,18 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                         <div key={idx} className="text-center">
                         <TypewriterText
                           text={stat.label}
-                          className="text-[10px] layout-nav-label text-blue-400 tracking-[0.15em] mb-3 block"
+                          className={`${styles.statLabel} layout-nav-label`}
                           delay={0.3 + idx * 0.1}
                         />
-                          <div className="text-3xl font-medium text-white mb-2">
+                          <div className={styles.statValue}>
                             <TypewriterText
                               text={stat.value}
-                              className="text-3xl font-medium"
                               delay={0.4 + idx * 0.1}
                             />
                           </div>
                           <TypewriterText
                             text={stat.desc}
-                            className="text-xs text-neutral-400 leading-tight"
+                            className={styles.statDesc}
                             delay={0.5 + idx * 0.1}
                           />
                         </div>
@@ -791,20 +786,20 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                     {/* Impact Metrics */}
                     <m.div
                       variants={fadeInUp}
-                      className="flex justify-between items-center mb-[2.75rem] px-4"
+                      className="flex justify-between items-start mb-[2.75rem] px-4"
                     >
                       {menuData.impact.map((item, idx) => (
-                        <div key={idx} className="flex items-center gap-3">
-                          <div className="w-1 h-10 bg-blue-500/50" />
-                          <div>
+                        <div key={idx} className="flex items-start gap-3">
+                          <div className="w-1 h-10 bg-blue-500/50 mt-1" />
+                          <div className="flex flex-col items-start">
                             <TypewriterText
                               text={item.value}
-                              className="text-xl font-semibold text-white block"
+                              className={styles.impactValue}
                               delay={0.6 + idx * 0.08}
                             />
                             <TypewriterText
                               text={item.label}
-                              className="text-[10px] text-neutral-300 uppercase tracking-wider inline-block ml-2"
+                              className={styles.impactLabel}
                               delay={0.7 + idx * 0.08}
                             />
                           </div>
@@ -816,7 +811,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                     <div className="flex justify-between items-center mb-7 pt-7 border-t border-white/10">
                       <TypewriterText
                         text="NEWSROOM_FEED"
-                        className="text-[10px] font-mono text-blue-400 tracking-[0.2em]"
+                        className={styles.newsKicker}
                         delay={0.8}
                       />
                       <m.div variants={fadeInUp}>
@@ -824,7 +819,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           href={ROUTES.NEWSROOM}
                           onClick={closeMenu}
                           prefetch
-                          className="text-[9px] font-mono text-gray-300 hover:text-gray-100 transition-colors uppercase tracking-widest flex items-center gap-2"
+                          className={styles.newsViewAll}
                         >
                           {messages.menu_view_all()} <ArrowRight size={12} />
                         </Link>
@@ -850,7 +845,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           <m.div
                             key={news._id}
                             variants={fadeInUp}
-                            className="group cursor-pointer"
+                            className={`group cursor-pointer ${styles.newsCard}`}
                           >
                             <Link href={href} onClick={closeMenu} prefetch className="block">
                               <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
@@ -863,7 +858,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                                 />
                                 {idx === 0 && (
                                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
-                                    <span className="bg-blue-600 text-white text-[9px] font-bold px-2 py-1 uppercase inline-block">
+                                    <span className={styles.featuredTag}>
                                       FEATURED
                                     </span>
                                   </div>
@@ -871,19 +866,19 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                               </div>
                               <TypewriterText
                                 text={meta}
-                                className="text-[9px] font-mono text-blue-400 mb-2 block"
+                                className={styles.newsMeta}
                                 delay={0.5 + idx * 0.1}
                               />
                               <m.h3
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.35, delay: 0.6 + idx * 0.1, ease: "easeOut" }}
-                                className="text-xl text-neutral-200 group-hover:text-white leading-snug mb-2"
+                                className={styles.newsTitle}
                               >
                                 {news.title}
                               </m.h3>
                               {news.excerpt && (
-                                <p className="text-sm text-neutral-500 line-clamp-2">
+                                <p className={`${styles.newsExcerpt} line-clamp-2`}>
                                   {news.excerpt}
                                 </p>
                               )}

@@ -49,7 +49,7 @@ export default function AboutUsPage() {
       <JsonLd data={organizationSchema} id="about-organization-schema" />
 
       {/* Client component with all animations and interactivity */}
-      <AboutPageClient />
+      <AboutPageClient heroImageSrc="/images/about-us.png" />
     </>
   );
 }
