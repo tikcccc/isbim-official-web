@@ -61,7 +61,7 @@
   @media (min-width: 1024px) {
     .page-header__subtitle-col {
       /* Push description to the far right to create negative space */
-      grid-column: 7 / -1;
+      grid-column: 8 / -1;
       padding-bottom: 0.25rem; /* Lower position - closer to title baseline */
     }
   }
@@ -75,7 +75,7 @@
   .page-header__divider {
     width: 100%;
     height: 2px;
-    background: var(--text-vsoft); /* Black divider as design element */
+    background: var(--text-base); /* Black divider as design element */
     margin-top: 4rem;
   }
 }
