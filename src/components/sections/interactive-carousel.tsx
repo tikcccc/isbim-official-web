@@ -363,7 +363,7 @@ export function InteractiveCarousel() {
                   type="button"
                   onClick={() => jumpToSlide(index)}
                   className={cn(
-                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center font-label text-muted border transition-all",
+                    "relative overflow-hidden h-9 md:h-10 flex items-center justify-center font-label-lg text-muted border transition-all",
                     styles.tab,
                     styles.labelTransition,
                     "w-full",
@@ -398,18 +398,18 @@ export function InteractiveCarousel() {
             <LocalizedLink
               href={ROUTES.JARVIS.SUITE}
               prefetchMode="hover"
-              className="inline-flex h-10 items-center justify-center px-6 font-label text-muted border transition-colors button-strong"
+              className="inline-flex h-10 items-center justify-center px-6 font-label-lg text-muted border transition-colors button-strong"
             >
-              See All
+              SEE ALL
             </LocalizedLink>
           </div>
           <div className="md:hidden w-full">
             <LocalizedLink
               href={ROUTES.JARVIS.SUITE}
               prefetchMode="hover"
-              className="w-full h-10 flex items-center justify-center font-label text-muted transition-colors border button-strong"
+              className="w-full h-10 flex items-center justify-center font-label-lg text-muted transition-colors border button-strong"
             >
-              See All
+              SEE ALL
             </LocalizedLink>
           </div>
         </div>
@@ -496,7 +496,7 @@ export function InteractiveCarousel() {
                 >
                   <div className="max-w-2xl">
                     <div className="inline-flex items-center gap-2 mb-4">
-                      <span className="font-label text-inverse-muted">
+                      <span className="font-label-lg text-inverse-muted">
                         {slide.category}
                       </span>
                     </div>

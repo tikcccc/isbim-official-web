@@ -317,7 +317,7 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
 
             <TypewriterWidth
               text={title}
-              className="font-container-title font-extrabold tracking-[-0.045em] leading-none"
+              className="font-container-title font-extrabold tracking-[-0.04em] leading-none text-transform: uppercase"
               duration={1.5}
               steps={40}
               cursorVisible

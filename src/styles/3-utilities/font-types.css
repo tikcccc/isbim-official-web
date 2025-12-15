@@ -11,17 +11,17 @@
     font-family: var(--font-heading-en);
     /* Mobile: 4rem (64px) -> Desktop: 10rem (160px) */
     font-size: clamp(4rem, 15vw, 10rem);
-    font-weight: var(--weight-bold); /* 900 - 最粗 */
+    font-weight: var(--weight-bold); /* 700 - 最粗 */
     line-height: 0.95; /* 字大到這個程度，行高必須壓到 1 以下 */
     letter-spacing: -0.05em; /* 字距要非常緊，才有塊狀感 */
   }
 
   /* Page Header Title: Swiss-style large uppercase titles */
   .font-page-header-title {
-    font-family: var(--font-body-en);
-    font-size: clamp(4rem, 12vw, 9.5rem);
+    font-family: var(--font-heading-en);
+    font-size: clamp(4rem, 15vw, 10rem);
     font-weight: var(--weight-bold); /* 700 */
-    line-height: 1;
+    line-height: 0.95;
     letter-spacing: -0.05em;
     text-transform: uppercase;
   }
@@ -49,6 +49,7 @@
     font-weight: var(--weight-semibold); /* 700 */
     line-height: 1.05;
     letter-spacing: -0.025em;
+    text-transform: uppercase;
   }
 
   /* Display Hero: largest hero headlines (max ~4.5rem), heading font */
@@ -95,6 +96,7 @@
     font-weight: var(--weight-medium); /* 500 */
     line-height: 1.1;
     letter-spacing: -0.025em;
+    text-transform: uppercase;
   } 
   
 
@@ -168,7 +170,7 @@
   .font-label-sm {
     font-family: var(--font-heading-en);
     font-size: 0.815rem;
-    font-weight: var(--weight-semibold); /* 600 */
+    font-weight: var(--weight-medium); /* 600 */
     line-height: 1.2;
     letter-spacing: 0.14em;
     text-transform: uppercase;

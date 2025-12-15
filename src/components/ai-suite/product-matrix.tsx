@@ -52,7 +52,7 @@ const PRODUCTS: Product[] = [
   {
     id: "04",
     name: "JARVIS Eagle Eye",
-    shortName: "EAGLE EYE",
+    shortName: "Eagle Eye",
     desc: "Real-time digital twin with IoT. Remote monitoring, anomaly detection, compliance assurance.",
     category: "MONITORING",
     video: VIDEO_SOURCES.monitoring,

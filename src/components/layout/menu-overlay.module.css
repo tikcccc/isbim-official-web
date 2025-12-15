@@ -164,7 +164,7 @@
   }
 
   .newsTitle {
-    @apply text-xl text-neutral-400 leading-snug mb-2 transition-colors;
+    @apply text-xl text-neutral-300 leading-snug mb-2 transition-colors;
   }
 
   .newsCard:hover .newsTitle {

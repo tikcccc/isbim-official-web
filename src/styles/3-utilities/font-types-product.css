@@ -16,6 +16,7 @@
     font-weight: var(--weight-bold);
     line-height: 0.9;
     letter-spacing: -0.045em;
+    text-transform: uppercase;
   }
 
   /* Narrative 大標題 (40→96px, regular, 輕字重) - 大但輕柔 */

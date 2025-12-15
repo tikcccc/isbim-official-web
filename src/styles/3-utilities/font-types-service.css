@@ -39,7 +39,7 @@
 
   /* Hero sub-title (h2) - service specific inline style */
   .font-service-hero-sub {
-    font-family: var(--font-heading-en);
+    font-family: var(--font-body-en);
     font-size: clamp(2.25rem, 5vw, 4.375rem); /* text-4xl → md:text-7xl */
     font-weight: var(--weight-light);
     line-height: 1;

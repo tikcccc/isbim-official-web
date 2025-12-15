@@ -32,8 +32,8 @@
   border-radius: var(--platform-video-radius);
   background: transparent;
   border: 1px solid transparent;
-  box-shadow: var(--shadow-md);
-  transition: box-shadow 180ms ease, border-color 180ms ease;
+  box-shadow: none;
+  transition: border-color 180ms ease;
 }
 
 .videoFrame:hover {

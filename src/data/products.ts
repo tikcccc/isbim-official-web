@@ -94,7 +94,7 @@ export const carouselProducts: CarouselProduct[] = [
   },
   {
     id: 4,
-    category: "JARVIS EAGLE EYE",
+    category: "JARVIS Eagle Eye",
     tabTitle: "Eagle Eye",
     title: "Real-time Digital Twin with IoT Integration",
     bigText: "Eagle Eye",
