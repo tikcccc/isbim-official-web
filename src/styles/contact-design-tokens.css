@@ -27,7 +27,7 @@
        ───────────────────────────────────────── */
 
     /* Font Sizes - 3 levels only */
-    --contact-text-xs: clamp(0.4rem, 1vw, 0.65rem);    /* coords, small buttons */
+    --contact-text-xs: clamp(0.6rem, 1vw, 0.65rem);    /* coords, small buttons */
     --contact-text-sm: clamp(0.85rem, 1.4vw, 0.95rem);   /* labels, consent, info headings */
     --contact-text-base: clamp(1rem, 1.6vw, 1.125rem);   /* body, inputs, selects */
 
@@ -111,9 +111,10 @@
      FORM INPUTS
      ═══════════════════════════════════════════ */
   .contact-input {
-    @apply w-full bg-transparent border-b py-3 text-lg focus:outline-none transition-colors rounded-none;
+    @apply w-full bg-transparent border-b py-3 focus:outline-none transition-colors rounded-none;
     border-color: var(--color-gray-300);
     color: var(--contact-color-primary);
+    font-size: var(--contact-text-sm);
   }
 
   .contact-input::placeholder {
@@ -124,13 +125,25 @@
     border-color: var(--contact-accent);
   }
 
+  /* Override browser autofill blue background */
+  .contact-input:-webkit-autofill,
+  .contact-input:-webkit-autofill:hover,
+  .contact-input:-webkit-autofill:focus,
+  .contact-select:-webkit-autofill {
+    -webkit-text-fill-color: var(--contact-color-primary);
+    box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
   /* ═══════════════════════════════════════════
      FORM SELECT
      ═══════════════════════════════════════════ */
   .contact-select {
-    @apply w-full py-3 pr-10 pl-0 text-lg border-b rounded-none transition-all duration-300 appearance-none bg-transparent;
+    @apply w-full py-3 pr-10 pl-0 border-b rounded-none transition-all duration-300 appearance-none bg-transparent;
     border-color: var(--color-gray-300);
     color: var(--contact-color-primary);
+    font-size: var(--contact-text-sm);
+    line-height: 1.5;
   }
 
   .contact-select:hover {
@@ -144,8 +157,10 @@
   }
 
   .contact-select-item {
-    @apply text-lg py-2 px-3 rounded-sm transition-colors cursor-pointer;
+    @apply py-2 px-3 rounded-sm transition-colors cursor-pointer;
     color: var(--contact-color-primary);
+    font-size: var(--contact-text-sm);
+    line-height: 1.5;
   }
 
   .contact-select-item:hover {
@@ -162,6 +177,13 @@
     outline: none;
     border-color: var(--contact-accent);
     background: transparent;
+  }
+
+  /* Ensure select value text matches inputs */
+  .contact-select [data-slot="select-value"],
+  .contact-select [data-slot="select-value"] > span {
+    font-size: var(--contact-text-sm);
+    line-height: 1.5;
   }
 
   /* ═══════════════════════════════════════════

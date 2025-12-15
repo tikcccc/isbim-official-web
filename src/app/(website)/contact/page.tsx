@@ -534,13 +534,13 @@ const FormInput = ({
 }: FormInputProps) => {
   return (
     <div className="group relative">
-      <label className="contact-label text- md:text-sm group-focus-within:text-[--contact-accent]">
+      <label className="contact-label group-focus-within:text-[--contact-accent]">
         {label}
         {required && " *"}
       </label>
       <input
         className={cn(
-          "contact-input text-lg md:text-xl focus:border-[--contact-accent]",
+          "contact-input focus:border-[--contact-accent]",
           error && "border-red-400"
         )}
         {...props}
@@ -574,14 +574,14 @@ const FormSelect = ({
 }: FormSelectProps) => {
   return (
     <div className="group relative">
-      <label className="contact-label text-base md:text-sm group-focus-within:text-[--contact-accent]">
+      <label className="contact-label group-focus-within:text-[--contact-accent]">
         {label}
         {required && " *"}
       </label>
       <Select value={value || ""} onValueChange={(val) => onChange(val)}>
         <SelectTrigger
           className={cn(
-            "contact-select text-xl w-full justify-between items-center leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
+            "contact-select w-full justify-between items-center leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
             "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
             "focus:border-[--contact-accent]",
             "group-hover:text-[--contact-accent]",
