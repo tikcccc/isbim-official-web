@@ -59,7 +59,7 @@ interface InnerOverlayProps {
  * The brush animation is 0.9s but uses ease-out [0.22, 1, 0.36, 1],
  * so it visually clears the viewport around 500-600ms
  */
-const CONTENT_REVEAL_DELAY = 400; // ms - when brush has visually cleared
+const CONTENT_REVEAL_DELAY = 200; // ms - when brush has visually cleared
 
 /**
  * InnerOverlayRunner - Page transition animation core component
