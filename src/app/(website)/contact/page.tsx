@@ -204,7 +204,7 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-16">
             {/* Left Column: Contact Info */}
             <div
-              className={`lg:col-span-4 flex flex-col gap-12 transform transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              className={`lg:col-span-4 flex flex-col gap-12 lg:pt-16 transform transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
               {/* Info List */}
               <div className="space-y-10">
@@ -323,19 +323,9 @@ export default function ContactPage() {
                   <SuccessState onReset={() => setIsSuccess(false)} />
                 ) : (
                   <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-12"
-                  >
-                    {/* Form Header */}
-                    <div className="mb-12">
-                      <h2 className="text-4xl md:text-5xl font-semibold tracking-normal mb-2 contact-form-heading">
-                        {messages.contact_form_heading()}
-                      </h2>
-                      <p className="text-base contact-form-subheading">
-                        {messages.contact_form_subheading()}
-                      </p>
-                    </div>
-
+                     onSubmit={handleSubmit(onSubmit)}
+                     className="space-y-12"
+                   >
                     {/* Row 1: Name */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                       <FormInput
@@ -434,10 +424,10 @@ export default function ContactPage() {
                               shouldValidate: true,
                             })
                           }
-                          className="peer appearance-none w-6 h-6 border contact-checkbox checked:bg-[--contact-text] checked:border-[--contact-text] transition-colors cursor-pointer"
+                          className="peer appearance-none w-4 h-4 border contact-checkbox cursor-pointer"
                         />
                         <svg
-                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 text-white opacity-0 peer-checked:opacity-100 pointer-events-none"
+                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
