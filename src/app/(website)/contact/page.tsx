@@ -192,12 +192,13 @@ export default function ContactPage() {
       </div>
 
       {/* Main Content */}
-      <main className="pb-20 md:pb-22 lg:pb-24 relative z-10">
-        {/* Page Header - Swiss Style */}
-        <PageHeader
-          title={messages.contact_page_title()}
-          subtitle={messages.contact_page_subtitle()}
-        />
+        <main className="pb-20 md:pb-22 lg:pb-24 relative z-10">
+          {/* Page Header - Swiss Style */}
+          <PageHeader
+            title={messages.contact_page_title()}
+            subtitle={messages.contact_page_subtitle()}
+            className="mb-8 md:mb-10 lg:mb-12"
+          />
 
         {/* Main Grid */}
         <div className="container-content">
