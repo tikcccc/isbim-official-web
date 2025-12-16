@@ -128,16 +128,17 @@
 
   /* Meta Icon Title (16px, medium, spaced) - product hero metadata (icon layout) */
   .font-product-meta-icon-title {
-    font-family: var(--font-body-en);
-    font-size: 1rem;
+    font-family: var(--font-heading-en);
+    font-size: 0.9rem;
+    text-transform: uppercase;
     font-weight: var(--weight-medium);
     letter-spacing: 0.15em;
   }
 
   /* Meta Icon Subtext (10px, regular, uppercase, spaced) - reveal on hover */
   .font-product-meta-icon-subtext {
-    font-family: var(--font-body-en);
-    font-size: 0.625rem;
+    font-family: var(--font-heading-en);
+    font-size: 0.725rem;
     font-weight: var(--weight-regular);
     text-transform: uppercase;
     letter-spacing: 0.15em;
