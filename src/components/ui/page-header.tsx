@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, className }: PageHeaderProps) {
   return (
-    <section className={cn("page-header container-content", className)}>
+    <section className={cn("page-header page-header--auto-animate container-content", className)}>
       <div className="page-header__grid">
         <div className="page-header__title-col">
           <h1 className="font-page-header-title page-header__title">{title}</h1>

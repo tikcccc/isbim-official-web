@@ -94,4 +94,143 @@
     background: var(--line-soft); /* Black divider as design element */
     margin-top: 4rem;
   }
+
+  /* =========================================
+     PAGE HEADER ANIMATIONS
+     Swiss-style staggered reveal animations
+     ========================================= */
+
+  /* Base animation states - hidden by default */
+  .page-header--animated .page-header__title {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+    will-change: opacity, transform;
+  }
+
+  .page-header--animated .page-header__accent-line {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition:
+      opacity var(--motion-duration-base, 0.5s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform var(--motion-duration-base, 0.5s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+    transition-delay: 0.2s;
+    will-change: opacity, transform;
+  }
+
+  .page-header--animated .page-header__subtitle {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+    transition-delay: 0.35s;
+    will-change: opacity, transform;
+  }
+
+  .page-header--animated .page-header__divider {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition:
+      opacity var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+    transition-delay: 0.5s;
+    will-change: opacity, transform;
+  }
+
+  /* Revealed state - triggered by JS or .revealed class */
+  .page-header--animated.revealed .page-header__title,
+  .page-header--animated .page-header__title.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-header--animated.revealed .page-header__accent-line,
+  .page-header--animated .page-header__accent-line.revealed {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .page-header--animated.revealed .page-header__subtitle,
+  .page-header--animated .page-header__subtitle.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-header--animated.revealed .page-header__divider,
+  .page-header--animated .page-header__divider.revealed {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  /* Auto-animate variant - animates on page load without JS
+     Timing: PageTransition takes ~0.9s + 0.1s delay, so we start at 1.0s
+     to ensure the overlay has fully cleared before header animation begins */
+  .page-header--auto-animate .page-header__title {
+    animation: page-header-fade-up var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+    animation-delay: 1.0s;
+    opacity: 0;
+  }
+
+  .page-header--auto-animate .page-header__accent-line {
+    animation: page-header-line-reveal var(--motion-duration-base, 0.5s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+    animation-delay: 1.2s;
+    opacity: 0;
+  }
+
+  .page-header--auto-animate .page-header__subtitle {
+    animation: page-header-fade-up var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+    animation-delay: 1.35s;
+    opacity: 0;
+  }
+
+  .page-header--auto-animate .page-header__divider {
+    animation: page-header-line-reveal var(--motion-duration-slow, 0.8s) var(--motion-ease-smooth, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+    animation-delay: 1.5s;
+    opacity: 0;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .page-header--animated .page-header__title,
+    .page-header--animated .page-header__accent-line,
+    .page-header--animated .page-header__subtitle,
+    .page-header--animated .page-header__divider,
+    .page-header--auto-animate .page-header__title,
+    .page-header--auto-animate .page-header__accent-line,
+    .page-header--auto-animate .page-header__subtitle,
+    .page-header--auto-animate .page-header__divider {
+      animation: none;
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Keyframes outside @layer for broader compatibility */
+@keyframes page-header-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-header-line-reveal {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
