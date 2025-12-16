@@ -256,7 +256,7 @@
   opacity: 0;
 }
 
-/* 故障閃爍動畫 - 0.1s 完成，fill-mode: both 確保等待期隱形 */
+/* 故障閃爍動畫 - 0.15s 完成，fill-mode: both 確保等待期隱形 */
 .animGlitch {
   animation: glitch-enter 0.15s ease-out both;
 }

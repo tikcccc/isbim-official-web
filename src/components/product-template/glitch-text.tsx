@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import styles from "./hero-section.module.css";
+import { useTransitionComplete } from "@/components/layout/page-transition";
 
 /**
  * 字母動畫配置
@@ -128,6 +129,7 @@ export function GlitchText({
   animate = true,
 }: GlitchTextProps) {
   const [isAnimating, setIsAnimating] = useState(false);
+  const isTransitionComplete = useTransitionComplete();
   const containerRef = useRef<HTMLSpanElement>(null);
 
   // 獲取該文字的動畫配置
@@ -139,6 +141,11 @@ export function GlitchText({
       // 重置動畫
       setIsAnimating(false);
 
+      // 等待頁面轉場遮罩清除後再啟動文字動畫
+      if (!isTransitionComplete) {
+        return;
+      }
+
       // 短暫延遲後啟動動畫（確保 DOM 更新）
       const timer = setTimeout(() => {
         setIsAnimating(true);
@@ -146,7 +153,7 @@ export function GlitchText({
 
       return () => clearTimeout(timer);
     }
-  }, [animate, config]);
+  }, [animate, config, isTransitionComplete]);
 
   // 如果沒有配置，直接返回普通文字
   if (!config) {
