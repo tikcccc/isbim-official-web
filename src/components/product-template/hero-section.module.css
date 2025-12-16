@@ -239,7 +239,7 @@
  * 核心概念：「穩定錨點」與「故障補全」
  * ============================================ */
 
-/* 故障閃爍 keyframes - 極速 0.1s 完成 */
+/* 故障閃爍 keyframes - 0.1s 完成 */
 @keyframes glitch-enter {
   0% { opacity: 0; }
   10% { opacity: 1; }
@@ -256,9 +256,9 @@
   opacity: 0;
 }
 
-/* 故障閃爍動畫 - 0.1s 極速完成，fill-mode: both 確保等待期隱形 */
+/* 故障閃爍動畫 - 0.1s 完成，fill-mode: both 確保等待期隱形 */
 .animGlitch {
-  animation: glitch-enter 0.1s ease-out both;
+  animation: glitch-enter 0.15s ease-out both;
 }
 
 /* 穩定錨點 - 絕對不閃爍，瞬間出現 */
