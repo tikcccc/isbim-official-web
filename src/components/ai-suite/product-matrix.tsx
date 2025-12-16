@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
+import { ROUTES } from "@/lib/constants";
+import { LocalizedLink } from "@/components/ui/localized-link";
 import styles from "./product-matrix.module.css";
 
 type Product = {
@@ -13,6 +15,7 @@ type Product = {
   category: string;
   video: string;
   poster?: string;
+  href: string;
 };
 
 const PRODUCTS: Product[] = [
@@ -24,6 +27,7 @@ const PRODUCTS: Product[] = [
     category: "AUTOMATION",
     video: JARVIS_VIDEOS.agent,
     poster: JARVIS_POSTERS.agent,
+    href: ROUTES.JARVIS.AGENT,
   },
   {
     id: "02",
@@ -33,6 +37,7 @@ const PRODUCTS: Product[] = [
     category: "FINANCE",
     video: JARVIS_VIDEOS.pay,
     poster: JARVIS_POSTERS.pay,
+    href: ROUTES.JARVIS.PAY,
   },
   {
     id: "03",
@@ -42,6 +47,7 @@ const PRODUCTS: Product[] = [
     category: "GENERATIVE",
     video: JARVIS_VIDEOS.air,
     poster: JARVIS_POSTERS.air,
+    href: ROUTES.JARVIS.AIR,
   },
   {
     id: "04",
@@ -51,6 +57,7 @@ const PRODUCTS: Product[] = [
     category: "MONITORING",
     video: JARVIS_VIDEOS.eagleEye,
     poster: JARVIS_POSTERS.eagleEye,
+    href: ROUTES.JARVIS.EAGLE_EYE,
   },
   {
     id: "05",
@@ -60,6 +67,7 @@ const PRODUCTS: Product[] = [
     category: "SAFETY",
     video: JARVIS_VIDEOS.ssss,
     poster: JARVIS_POSTERS.ssss,
+    href: ROUTES.JARVIS.SSSS,
   },
   {
     id: "06",
@@ -69,6 +77,7 @@ const PRODUCTS: Product[] = [
     category: "MANAGEMENT",
     video: JARVIS_VIDEOS.dwss,
     poster: JARVIS_POSTERS.dwss,
+    href: ROUTES.JARVIS.DWSS,
   },
   {
     id: "07",
@@ -78,6 +87,7 @@ const PRODUCTS: Product[] = [
     category: "DATA",
     video: JARVIS_VIDEOS.cdcp,
     poster: JARVIS_POSTERS.cdcp,
+    href: ROUTES.JARVIS.CDCP,
   },
   {
     id: "08",
@@ -87,12 +97,13 @@ const PRODUCTS: Product[] = [
     category: "LIFECYCLE",
     video: JARVIS_VIDEOS.assets,
     poster: JARVIS_POSTERS.assets,
+    href: ROUTES.JARVIS.ASSETS,
   },
 ];
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const cardRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLAnchorElement | null>(null);
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -133,8 +144,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   }, [hovered]);
 
   return (
-    <div
+    <LocalizedLink
       ref={cardRef}
+      href={product.href}
+      prefetchMode="hover"
       className={styles.card}
       style={{
         transition: "opacity 260ms ease, transform 260ms ease",
@@ -184,7 +197,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </div>
         </div>
       </div>
-    </div>
+    </LocalizedLink>
   );
 }
 
