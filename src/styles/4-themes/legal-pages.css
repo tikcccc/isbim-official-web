@@ -169,7 +169,7 @@
 
 .accordion-text {
   color: var(--text-muted);
-  max-width: 80ch;
+  max-width: 100ch;
   width: 100%;
 }
 
