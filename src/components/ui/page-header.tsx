@@ -1,4 +1,7 @@
+'use client';
+
 import { cn } from "@/lib/utils";
+import { useTransitionComplete } from "@/components/layout/page-transition";
 
 interface PageHeaderProps {
   title: string;
@@ -7,8 +10,16 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({ title, subtitle, className }: PageHeaderProps) {
+  const isTransitionComplete = useTransitionComplete();
+
   return (
-    <section className={cn("page-header page-header--auto-animate container-content", className)}>
+    <section
+      className={cn(
+        "page-header page-header--animated container-content",
+        isTransitionComplete && "revealed",
+        className
+      )}
+    >
       <div className="page-header__grid">
         <div className="page-header__title-col">
           <h1 className="font-page-header-title page-header__title">{title}</h1>

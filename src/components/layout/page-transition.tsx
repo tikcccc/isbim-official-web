@@ -1,11 +1,65 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { usePathname } from '@/lib/i18n';
 import { useLenis } from '@/components/smooth-scroll-provider';
 import { m } from '@/components/motion/lazy-motion';
+
+/* =========================================
+   PAGE TRANSITION CONTEXT
+   Broadcasts transition animation state to child components
+   ========================================= */
+
+interface PageTransitionContextValue {
+    /** Whether the enter animation has completed and content can be revealed */
+    isEnterComplete: boolean;
+    /** Subscribe to enter complete event - returns unsubscribe function */
+    onEnterComplete: (callback: () => void) => () => void;
+}
+
+const PageTransitionContext = createContext<PageTransitionContextValue | null>(null);
+
+/**
+ * Hook to access page transition state
+ * Returns null if used outside PageTransition provider
+ */
+export function usePageTransition() {
+    return useContext(PageTransitionContext);
+}
+
+/**
+ * Hook that returns true when it's safe to start content animations
+ * Handles case where PageTransition is not present (returns true immediately)
+ */
+export function useTransitionComplete() {
+    const context = usePageTransition();
+
+    // If no transition context (outside PageTransition), always return true
+    if (!context) {
+        return true;
+    }
+
+    // Return the current state from context
+    return context.isEnterComplete;
+}
+
+/* =========================================
+   INNER OVERLAY RUNNER
+   Page transition animation core component
+   ========================================= */
+
+interface InnerOverlayProps {
+    onAnimationComplete?: () => void;
+}
+
+/**
+ * Time to wait before triggering content reveal
+ * The brush animation is 0.9s but uses ease-out [0.22, 1, 0.36, 1],
+ * so it visually clears the viewport around 500-600ms
+ */
+const CONTENT_REVEAL_DELAY = 400; // ms - when brush has visually cleared
 
 /**
  * InnerOverlayRunner - Page transition animation core component
@@ -21,7 +75,18 @@ import { m } from '@/components/motion/lazy-motion';
  * This animation runs on all route changes, including locale switching,
  * providing a consistent branded transition experience across the application.
  */
-const InnerOverlayBase: React.FC = () => {
+const InnerOverlayBase: React.FC<InnerOverlayProps> = ({ onAnimationComplete }) => {
+    // Use timer to trigger callback - more reliable than onAnimationComplete with React.memo
+    useEffect(() => {
+        if (!onAnimationComplete) return;
+
+        const timer = setTimeout(() => {
+            onAnimationComplete();
+        }, CONTENT_REVEAL_DELAY);
+
+        return () => clearTimeout(timer);
+    }, [onAnimationComplete]);
+
     return (
         <div className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden">
 
@@ -119,6 +184,11 @@ const InnerOverlayBase: React.FC = () => {
 InnerOverlayBase.displayName = "InnerOverlayBase";
 export const InnerOverlayRunner = React.memo(InnerOverlayBase);
 
+/* =========================================
+   PAGE TRANSITION COMPONENT
+   Main page transition wrapper with context provider
+   ========================================= */
+
 /**
  * PageTransition - Main page transition wrapper component
  * Compatible with Next.js App Router template.tsx
@@ -134,6 +204,9 @@ export const InnerOverlayRunner = React.memo(InnerOverlayBase);
  *   return <PageTransition>{children}</PageTransition>;
  * }
  * ```
+ *
+ * Child components can use `useTransitionComplete()` hook to know when
+ * to start their entrance animations.
  */
 interface PageTransitionProps {
     children: React.ReactNode;
@@ -144,6 +217,36 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const shouldScrollTopRef = useRef(false);
     const { lenis } = useLenis();
     const disableTransition = pathname.includes('/newsroom');
+
+    // Transition state
+    const [isEnterComplete, setIsEnterComplete] = useState(false);
+    const listenersRef = useRef<Set<() => void>>(new Set());
+
+    // Reset state on pathname change
+    useEffect(() => {
+        setIsEnterComplete(false);
+    }, [pathname]);
+
+    // Handle animation complete
+    const handleEnterComplete = useCallback(() => {
+        setIsEnterComplete(true);
+        // Notify all subscribers
+        listenersRef.current.forEach(callback => callback());
+    }, []);
+
+    // Subscribe to enter complete event
+    const onEnterComplete = useCallback((callback: () => void) => {
+        listenersRef.current.add(callback);
+        return () => {
+            listenersRef.current.delete(callback);
+        };
+    }, []);
+
+    // Context value - memoized to prevent unnecessary re-renders
+    const contextValue = useMemo<PageTransitionContextValue>(() => ({
+        isEnterComplete,
+        onEnterComplete,
+    }), [isEnterComplete, onEnterComplete]);
 
     // On first load, disable browser scroll restoration and scroll to top smoothly
     useEffect(() => {
@@ -174,49 +277,56 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
 
     if (disableTransition) {
         return (
-            <div className="relative w-full min-h-screen">
-                {children}
-            </div>
+            <PageTransitionContext.Provider value={{ isEnterComplete: true, onEnterComplete: () => () => {} }}>
+                <div className="relative w-full min-h-screen">
+                    {children}
+                </div>
+            </PageTransitionContext.Provider>
         );
     }
 
     return (
-        <AnimatePresence
-            mode="wait"
-            onExitComplete={() => {
-                if (shouldScrollTopRef.current) {
-                    shouldScrollTopRef.current = false;
-                    requestAnimationFrame(() => {
-                        if (lenis) {
-                            lenis.scrollTo(0, { immediate: false });
-                        } else {
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                        }
-                    });
-                }
-            }}
-        >
-            <div key={pathname} className="relative w-full min-h-screen">
-                {/* Page content fade in/out */}
-                <m.div
-                    key={`page-${pathname}`}
-                    className="min-h-screen w-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{
-                        delay: 0.1,
-                        duration: 0.9,
-                        ease: [0.22, 1, 0.36, 1]
-                    }}
-                >
-                    {children}
-                </m.div>
+        <PageTransitionContext.Provider value={contextValue}>
+            <AnimatePresence
+                mode="wait"
+                onExitComplete={() => {
+                    if (shouldScrollTopRef.current) {
+                        shouldScrollTopRef.current = false;
+                        requestAnimationFrame(() => {
+                            if (lenis) {
+                                lenis.scrollTo(0, { immediate: false });
+                            } else {
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
+                        });
+                    }
+                }}
+            >
+                <div key={pathname} className="relative w-full min-h-screen">
+                    {/* Page content fade in/out */}
+                    <m.div
+                        key={`page-${pathname}`}
+                        className="min-h-screen w-full"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                            delay: 0.1,
+                            duration: 0.9,
+                            ease: [0.22, 1, 0.36, 1]
+                        }}
+                    >
+                        {children}
+                    </m.div>
 
-                {/* Transition overlay */}
-                <InnerOverlayRunner key={`overlay-${pathname}`} />
-            </div>
-        </AnimatePresence>
+                    {/* Transition overlay */}
+                    <InnerOverlayRunner
+                        key={`overlay-${pathname}`}
+                        onAnimationComplete={handleEnterComplete}
+                    />
+                </div>
+            </AnimatePresence>
+        </PageTransitionContext.Provider>
     );
 };
 
