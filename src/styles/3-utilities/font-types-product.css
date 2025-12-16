@@ -38,6 +38,32 @@
     }
   }
 
+  /* Hero Display Standard Super Title (7rem~16rem, bold) */
+  .font-product-title-display {
+    font-family: var(--font-heading-en);
+    font-size: clamp(7rem, 9vw, 14rem);
+    font-weight: var(--weight-bold);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+    text-transform: none;
+  }
+
+  /* Hero Display Gradient Super Title (independent registration) */
+  .font-product-title-display-gradient {
+    font-family: var(--font-heading-en);
+    font-size: clamp(7rem, 9vw, 14rem);
+    font-weight: var(--weight-bold);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+    text-transform: none;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
+  }
+
   /* Narrative 大標題 (40→96px, regular, 輕字重) - 大但輕柔 */
   .font-product-title-narrative {
     font-family: var(--font-heading-en);
@@ -168,6 +194,8 @@
 
   :lang(zh) .font-product-title-hero,
   :lang(zh) .font-product-title-hero-outline,
+  :lang(zh) .font-product-title-display,
+  :lang(zh) .font-product-title-display-gradient,
   :lang(zh) .font-product-title-narrative,
   :lang(zh) .font-product-title-lg,
   :lang(zh) .font-product-title-md,

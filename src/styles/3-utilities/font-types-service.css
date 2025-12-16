@@ -16,7 +16,17 @@
     font-size: clamp(4rem, 15vw, 10rem);
     font-weight: var(--weight-bold);
     line-height: 0.8;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Hero sub-title (h2) - service specific inline style */
+  .font-service-hero-sub {
+    font-family: var(--font-body-en);
+    font-size: clamp(2.25rem, 5vw, 4.375rem); /* text-4xl → md:text-7xl */
+    font-weight: var(--weight-light);
+    line-height: 1;
+    letter-spacing: -0.025em;
   }
 
   /* Hero tag - from .font-hero-tag */
@@ -35,15 +45,6 @@
     font-weight: var(--weight-regular);
     line-height: 1.65;
     letter-spacing: 0;
-  }
-
-  /* Hero sub-title (h2) - service specific inline style */
-  .font-service-hero-sub {
-    font-family: var(--font-body-en);
-    font-size: clamp(2.25rem, 5vw, 4.375rem); /* text-4xl → md:text-7xl */
-    font-weight: var(--weight-light);
-    line-height: 1;
-    letter-spacing: -0.025em;
   }
 
   /* ─────────────────────────────────────────

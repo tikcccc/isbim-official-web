@@ -236,11 +236,7 @@
 }
 
 .title {
-  font-family: var(--font-heading);
-  font-size: 7rem;
-  font-weight: 700;
-  letter-spacing: -0.06em;
-  line-height: 0.95;
+  composes: font-product-title-display from global;
   color: var(--ai-suite-white);
   position: relative;
   display: inline-block;
@@ -252,13 +248,13 @@
 }
 
 .gradientText {
+  composes: font-product-title-display-gradient from global;
   display: inline-block;
   padding-right: 0.35em;
   overflow: visible;
-  font-weight: 700;
   text-shadow: none;
   /* Shimmer - 純白底 + 高亮白光掃過 */
-  background: linear-gradient(
+  background-image: linear-gradient(
     105deg,
     rgba(255, 255, 255, 0.85) 0%,
     rgba(255, 255, 255, 0.85) 35%,
@@ -268,10 +264,6 @@
     rgba(255, 255, 255, 0.85) 100%
   );
   background-size: 250% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
   animation: shimmerLoop 4s ease-in-out infinite;
 }
 
@@ -286,25 +278,6 @@
     background-position: 100% 0;
   }
 }
-
-@media (min-width: 768px) {
-  .title {
-    font-size: 10rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .title {
-    font-size: 14rem;
-  }
-}
-
-@media (min-width: 1440px) {
-  .title {
-    font-size: 16rem;
-  }
-}
-
 /* ─────────────────────────────────────────
    Grid Layout
    ───────────────────────────────────────── */
@@ -366,11 +339,7 @@
 }
 
 .labelText {
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-weight: 500;
+  composes: font-product-label-bold from global;
   color: var(--ai-suite-gray-300);
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
@@ -383,32 +352,13 @@
 }
 
 .typewriterText {
-  font-family: var(--font-heading);
-  font-size: 1.125rem;
-  font-weight: 300;
+  composes: font-product-subtitle from global;
   color: var(--ai-suite-gray-200);
-  line-height: 1.8;
-}
-
-@media (min-width: 768px) {
-  .typewriterText {
-    font-size: 1.375rem;
-  }
 }
 
 @media (min-width: 1024px) {
   .typewriterOutput {
     height: 10rem;
-  }
-
-  .typewriterText {
-    font-size: 1.5rem;
-  }
-}
-
-@media (min-width: 1440px) {
-  .typewriterText {
-    font-size: 1.75rem;
   }
 }
 
