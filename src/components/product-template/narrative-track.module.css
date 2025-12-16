@@ -25,6 +25,26 @@
   background: transparent;
 }
 
+/* Short viewport safeguard:
+   On smaller heights (e.g. 1366×768) the fixed Topbar can overlap the first narrative line.
+   Reserve vertical space inside the sticky stage without changing desktop behavior. */
+@media (max-height: 820px) {
+  .sticky {
+    top: 0 !important;
+    height: 100vh !important;
+    padding-top: calc(6rem + env(safe-area-inset-top));
+    padding-bottom: 2rem;
+  }
+}
+
+@supports (height: 100svh) {
+  @media (max-height: 820px) {
+    .sticky {
+      height: 100svh !important;
+    }
+  }
+}
+
 .titleLight {
   font-family: var(--font-heading-en);
   font-size: clamp(2.5rem, 6vw, 6rem);

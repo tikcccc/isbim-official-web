@@ -150,10 +150,7 @@
     }
   }
 
-  /* Slightly wider container than default content */
-  .footer-shell.container-content {
-    max-width: 1488px;
-  }
+
 
   .footer-grid {
     display: grid;

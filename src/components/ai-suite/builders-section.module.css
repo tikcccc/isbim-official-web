@@ -39,12 +39,10 @@
    Container
    ───────────────────────────────────────── */
 .container {
-  max-width: var(--jarvis-container-max);
-  margin: 0 auto;
-  padding-left: var(--jarvis-container-padding);
-  padding-right: var(--jarvis-container-padding);
+  composes: container-product-shell from global;
   position: relative;
   z-index: 10;
+  padding-block: 0;
 }
 
 /* ─────────────────────────────────────────

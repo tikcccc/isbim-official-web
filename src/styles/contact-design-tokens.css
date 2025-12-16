@@ -114,7 +114,8 @@
     @apply w-full bg-transparent border-b py-3 focus:outline-none transition-colors rounded-none;
     border-color: var(--color-gray-300);
     color: var(--contact-color-primary);
-    font-size: var(--contact-text-sm);
+    font-size: var(--contact-text-base);
+    line-height: 1.5;
   }
 
   .contact-input::placeholder {
@@ -142,7 +143,7 @@
     @apply w-full py-3 pr-10 pl-0 border-b rounded-none transition-all duration-300 appearance-none bg-transparent;
     border-color: var(--color-gray-300);
     color: var(--contact-color-primary);
-    font-size: var(--contact-text-sm);
+    font-size: var(--contact-text-base);
     line-height: 1.5;
   }
 
@@ -159,7 +160,7 @@
   .contact-select-item {
     @apply py-2 px-3 rounded-sm transition-colors cursor-pointer;
     color: var(--contact-color-primary);
-    font-size: var(--contact-text-sm);
+    font-size: var(--contact-text-base);
     line-height: 1.5;
   }
 
@@ -182,7 +183,7 @@
   /* Ensure select value text matches inputs */
   .contact-select [data-slot="select-value"],
   .contact-select [data-slot="select-value"] > span {
-    font-size: var(--contact-text-sm);
+    font-size: var(--contact-text-base);
     line-height: 1.5;
   }
 

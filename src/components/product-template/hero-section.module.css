@@ -112,7 +112,7 @@
  * 底部邊框線
  * ============================================ */
 .bottomBorder {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   padding-bottom: var(--product-gap);
 }
 
@@ -183,20 +183,14 @@
 }
 
 .metaIconTitle {
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
   transition: color 0.3s ease;
 }
 
 .metaIconItem:hover .metaIconTitle {
-  color: var(--product-accent, #34d399);
+  color: var(--text-inverse-strong);
 }
 
 .metaIconSubtext {
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
   color: rgba(156, 163, 175, 1); /* gray-400 - brighter than before */
   max-height: 0;
   overflow: hidden;
@@ -225,8 +219,8 @@
 }
 
 .metaIconItem:hover .metaIconCircle {
-  border-color: var(--product-accent, #34d399);
-  background: rgba(52, 211, 153, 0.1);
+  border-color: var(--text-inverse-soft);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .metaIconCircle svg {
@@ -237,5 +231,53 @@
 }
 
 .metaIconItem:hover .metaIconCircle svg {
-  stroke: var(--product-accent, #34d399);
+  stroke: var(--text-inverse-strong);
+}
+
+/* ============================================
+ * Cyberpunk/HUD 產品名稱進場動畫
+ * 核心概念：「穩定錨點」與「故障補全」
+ * ============================================ */
+
+/* 故障閃爍 keyframes - 極速 0.1s 完成 */
+@keyframes glitch-enter {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  30% { opacity: 0.2; }
+  50% { opacity: 1; }
+  70% { opacity: 0.2; }
+  90% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* 字母包裝器基礎樣式 */
+.glitchChar {
+  display: inline-block;
+  opacity: 0;
+}
+
+/* 故障閃爍動畫 - 0.1s 極速完成，fill-mode: both 確保等待期隱形 */
+.animGlitch {
+  animation: glitch-enter 0.1s ease-out both;
+}
+
+/* 穩定錨點 - 絕對不閃爍，瞬間出現 */
+.animInstant {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* 延遲工具類: 50ms - 350ms */
+.delay50 { animation-delay: 50ms; }
+.delay100 { animation-delay: 100ms; }
+.delay150 { animation-delay: 150ms; }
+.delay200 { animation-delay: 200ms; }
+.delay250 { animation-delay: 250ms; }
+.delay300 { animation-delay: 300ms; }
+.delay350 { animation-delay: 350ms; }
+
+/* 產品名稱容器 - 確保字母間距一致 */
+.glitchTitle {
+  display: flex;
+  align-items: baseline;
 }

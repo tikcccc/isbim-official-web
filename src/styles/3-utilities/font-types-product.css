@@ -126,6 +126,23 @@
     text-transform: uppercase;
   }
 
+  /* Meta Icon Title (16px, medium, spaced) - product hero metadata (icon layout) */
+  .font-product-meta-icon-title {
+    font-family: var(--font-body-en);
+    font-size: 1rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.15em;
+  }
+
+  /* Meta Icon Subtext (10px, regular, uppercase, spaced) - reveal on hover */
+  .font-product-meta-icon-subtext {
+    font-family: var(--font-body-en);
+    font-size: 0.625rem;
+    font-weight: var(--weight-regular);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
   /* Label 正常 (12→13.6px, regular, uppercase) - section-label + card-meta */
   .font-product-label-regular {
     font-family: var(--font-body-en);

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
 import styles from "./product-matrix.module.css";
 
 type Product = {
@@ -11,17 +12,7 @@ type Product = {
   desc: string;
   category: string;
   video: string;
-};
-
-const VIDEO_SOURCES = {
-  automation: "https://videos.pexels.com/video-files/8378772/8378772-hd_1280_720_25fps.mp4",
-  finance: "https://videos.pexels.com/video-files/3130182/3130182-hd_1280_720_30fps.mp4",
-  generative: "https://videos.pexels.com/video-files/3129671/3129671-hd_1280_720_30fps.mp4",
-  monitoring: "https://videos.pexels.com/video-files/3191572/3191572-hd_1280_720_25fps.mp4",
-  safety: "https://videos.pexels.com/video-files/1187979/1187979-hd_1280_720_24fps.mp4",
-  management: "https://videos.pexels.com/video-files/3129957/3129957-hd_1280_720_25fps.mp4",
-  data: "https://videos.pexels.com/video-files/3252451/3252451-hd_1280_720_25fps.mp4",
-  lifecycle: "https://videos.pexels.com/video-files/1739010/1739010-hd_1280_720_30fps.mp4",
+  poster?: string;
 };
 
 const PRODUCTS: Product[] = [
@@ -31,7 +22,8 @@ const PRODUCTS: Product[] = [
     shortName: "AGENT",
     desc: "Domain-specific generative AI agent for construction stakeholders. Invoice scanning & tender parsing.",
     category: "AUTOMATION",
-    video: VIDEO_SOURCES.automation,
+    video: JARVIS_VIDEOS.agent,
+    poster: JARVIS_POSTERS.agent,
   },
   {
     id: "02",
@@ -39,7 +31,8 @@ const PRODUCTS: Product[] = [
     shortName: "PAY",
     desc: "Digital twin for 60-day SOPL-compliant certification. Better working-capital via investor visibility.",
     category: "FINANCE",
-    video: VIDEO_SOURCES.finance,
+    video: JARVIS_VIDEOS.pay,
+    poster: JARVIS_POSTERS.pay,
   },
   {
     id: "03",
@@ -47,15 +40,17 @@ const PRODUCTS: Product[] = [
     shortName: "AIR",
     desc: "Stable-diffusion generative design. Instant visuals, video walkthroughs, and scenario prototyping.",
     category: "GENERATIVE",
-    video: VIDEO_SOURCES.generative,
+    video: JARVIS_VIDEOS.air,
+    poster: JARVIS_POSTERS.air,
   },
   {
     id: "04",
     name: "JARVIS Eagle Eye",
-    shortName: "Eagle Eye",
+    shortName: "EAGLE EYE",
     desc: "Real-time digital twin with IoT. Remote monitoring, anomaly detection, compliance assurance.",
     category: "MONITORING",
-    video: VIDEO_SOURCES.monitoring,
+    video: JARVIS_VIDEOS.eagleEye,
+    poster: JARVIS_POSTERS.eagleEye,
   },
   {
     id: "05",
@@ -63,7 +58,8 @@ const PRODUCTS: Product[] = [
     shortName: "SSSS",
     desc: "Smart Site Safety System. Reduces incidents through proactive risk orchestration.",
     category: "SAFETY",
-    video: VIDEO_SOURCES.safety,
+    video: JARVIS_VIDEOS.ssss,
+    poster: JARVIS_POSTERS.ssss,
   },
   {
     id: "06",
@@ -71,7 +67,8 @@ const PRODUCTS: Product[] = [
     shortName: "DWSS",
     desc: "Digital Works Supervision portal. Secure submission, automated checks, audit trails.",
     category: "MANAGEMENT",
-    video: VIDEO_SOURCES.management,
+    video: JARVIS_VIDEOS.dwss,
+    poster: JARVIS_POSTERS.dwss,
   },
   {
     id: "07",
@@ -79,7 +76,8 @@ const PRODUCTS: Product[] = [
     shortName: "CDCP",
     desc: "Common Data Collaboration Platform. Interoperable BIM hub for conflict resolution.",
     category: "DATA",
-    video: VIDEO_SOURCES.data,
+    video: JARVIS_VIDEOS.cdcp,
+    poster: JARVIS_POSTERS.cdcp,
   },
   {
     id: "08",
@@ -87,7 +85,8 @@ const PRODUCTS: Product[] = [
     shortName: "ASSETS",
     desc: "Digital twin + AI FM for predictive maintenance and lifecycle optimization.",
     category: "LIFECYCLE",
-    video: VIDEO_SOURCES.lifecycle,
+    video: JARVIS_VIDEOS.assets,
+    poster: JARVIS_POSTERS.assets,
   },
 ];
 
@@ -150,6 +149,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         <video
           ref={videoRef}
           src={product.video}
+          poster={product.poster}
           loop
           muted
           playsInline
@@ -191,16 +191,15 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 export function ProductMatrix() {
   return (
     <section className={styles.section}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>SYSTEM MODULES</h2>
-        <span className={styles.eyebrow}>
-          V2.4 <span className={styles.eyebrowLine} /> SECURE CONNECTION
-        </span>
-      </div>
-      <div className={styles.grid}>
-        {PRODUCTS.map((product, index) => (
-          <ProductCard key={product.id} product={product} index={index} />
-        ))}
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>SYSTEM MODULES</h2>
+        </div>
+        <div className={styles.grid}>
+          {PRODUCTS.map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} />
+          ))}
+        </div>
       </div>
     </section>
   );

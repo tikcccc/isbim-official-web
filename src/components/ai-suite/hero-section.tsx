@@ -9,9 +9,19 @@ export function HeroSection() {
   return (
     <section className={styles.hero}>
       {/* Background layer */}
-      <div className={styles.background} aria-hidden>
+      <div className={styles.background} aria-hidden="true">
+        {/* 背景圖片 - 帶緩慢縮放動畫 */}
         <div className={styles.backgroundImage} />
+        {/* 層 1：基礎暗化漸變 */}
         <div className={styles.backgroundOverlay} />
+        {/* 層 2：徑向暈影聚焦 */}
+        <div className={styles.backgroundVignette} />
+        {/* 層 3：光暈呼吸效果 */}
+        <div className={styles.lightPulse} />
+        {/* 層 4：掃描線效果 */}
+        <div className={styles.scanLine} />
+        {/* 層 5：微粒浮動效果 */}
+        <div className={styles.particles} />
       </div>
 
       {/* Decoration Lines */}
@@ -23,7 +33,7 @@ export function HeroSection() {
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>
             JARVIS<br />
-            <span className="gradient-text">AI Suite</span>
+            <span className={styles.gradientText}>AI Suite</span>
           </h1>
         </div>
 
@@ -42,7 +52,7 @@ export function HeroSection() {
                   speed={35}
                   cursorVisible
                   cursorChar="|"
-                  cursorColor="var(--jarvis-accent-primary)"
+                  cursorColor="#ffffff"
                 />
               </p>
             </div>

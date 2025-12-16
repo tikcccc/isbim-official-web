@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import styles from "./hero-section.module.css";
+import { GlitchText, PRODUCT_ANIMATIONS } from "./glitch-text";
 
 /**
  * MetadataItem - 右側功能菜單項目
@@ -117,7 +118,7 @@ export function HeroForeground({
                     {brandName}
                   </h2>
                 )}
-                {/* Product Name - 實心白字 */}
+                {/* Product Name - 實心白字 + Glitch 進場動畫 */}
                 <h1
                   className={cn(
                     "font-product-title-hero xl:whitespace-nowrap",
@@ -126,7 +127,12 @@ export function HeroForeground({
                       "text-white mix-blend-normal drop-shadow-2xl -ml-1"
                   )}
                 >
-                  {productName}
+                  {/* 如果產品名稱有 Glitch 動畫配置，使用 GlitchText */}
+                  {PRODUCT_ANIMATIONS[productName.toUpperCase()] ? (
+                    <GlitchText text={productName} animate={true} />
+                  ) : (
+                    productName
+                  )}
                 </h1>
               </div>
             )}
@@ -149,11 +155,21 @@ export function HeroForeground({
                 {(cleanedMetadata as MetadataItem[]).map((item, i) => (
                   <div key={i} className={styles.metaIconItem}>
                     <div className={styles.metaIconText}>
-                      <div className={cn(styles.metaIconTitle, "text-white")}>
+                      <div
+                        className={cn(
+                          styles.metaIconTitle,
+                          "font-product-meta-icon-title text-white"
+                        )}
+                      >
                         {item.title}
                       </div>
                       {item.subtitle && (
-                        <div className={styles.metaIconSubtext}>
+                        <div
+                          className={cn(
+                            styles.metaIconSubtext,
+                            "font-product-meta-icon-subtext"
+                          )}
+                        >
                           {item.subtitle}
                         </div>
                       )}

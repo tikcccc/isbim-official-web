@@ -579,14 +579,14 @@ const FormSelect = ({
         {required && " *"}
       </label>
       <Select value={value || ""} onValueChange={(val) => onChange(val)}>
-        <SelectTrigger
-          className={cn(
-            "contact-select w-full justify-between items-center leading-tight px-0 py-2.5 rounded-none border-0 border-b bg-transparent h-auto min-h-[50px]",
-            "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
-            "focus:border-[--contact-accent]",
-            "group-hover:text-[--contact-accent]",
-            "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
-            "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]",
+          <SelectTrigger
+            className={cn(
+              "contact-select w-full justify-between items-center px-0 py-3 rounded-none border-0 border-b bg-transparent h-auto shadow-none data-[size=default]:!h-auto data-[size=sm]:!h-auto",
+              "transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0",
+              "focus:border-[--contact-accent]",
+              "group-hover:text-[--contact-accent]",
+              "[&_svg]:transition-transform [&_[data-slot=select-icon]]:transition-transform data-[state=open]:[&_svg]:-rotate-180",
+              "data-[state=open]:border-b data-[state=open]:border-[--contact-accent]",
             error && "border-red-400"
           )}
         >
