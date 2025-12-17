@@ -1,0 +1,108 @@
+Using existing cloned repo
+   ▲ Next.js 15.5.7
+   - Local:        http://localhost:3030
+   - Network:      http://10.14.0.2:3030
+   - Environments: .env.local
+
+ ✓ Starting...
+[36mi[39m [1m[34m[paraglide] [39m[22mCompiling inlang project at "./project.inlang".
+Using existing cloned repo
+ ✓ Ready in 7.7s
+[36mi[39m [1m[34m[paraglide] [39m[22mMessages changed. Recompiling...
+ ✓ Compiled /middleware in 377ms (209 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 12.4s (3108 modules)
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 3390ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
+ ✓ Compiled in 5.7s (3317 modules)
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 1583ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 754ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 845ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 785ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 734ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
+[Sanity Fetch] {
+  query: '(\n' +
+    '    (\n' +
+    '      *[_type == "news" && featured == true && defined(slug.current)]\n' +
+    '        | order(publis...',
+  params: {},
+  tags: [ 'sanity:all', 'sanity:news' ],
+  revalidate: false
+}
+ GET /en 200 in 811ms
+ │ GET https://4y8vgu6z.api.sanity.io/v2024-01-01/data/query/production?query=%28%0A++++%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+featured+%3D%3D+true+%26%26+defined%28slug.current%29%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29+%2B+%28%0A++++++*%5B_type+%3D%3D+%22news%22+%26%26+defined%28slug.current%29+%26%26+featured+%21%3D+true%5D%0A++++++++%7C+order%28publishedAt+desc%29%5B0...1%5D%0A++++%29%0A++%29%5B%5D%7B%0A++++_id%2C%0A++++_type%2C%0A++++title%2C%0A++++slug%2C%0A++++publishedAt%2C%0A++++excerpt%2C%0A++++featured%2C%0A++++mainImage+%7B%0A++++++asset%2C%0A++++++alt%0A++++%7D%2C%0A++++category-%3E%7B%0A++++++_id%2C%0A++++++title%2C%0A++++++color%0A++++%7D%2C%0A++++readTime%0A++%7D&returnQuery=false&perspective=published
+ │ │ ⚠ Specified "cache: no-store" and "revalidate: false", only one should be specified.
