@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
+import * as m from "@/paraglide/messages";
 import { JARVIS_POSTERS, JARVIS_VIDEOS } from "@/lib/media-config";
 import { ROUTES } from "@/lib/constants";
 import { LocalizedLink } from "@/components/ui/localized-link";
@@ -9,7 +10,6 @@ import styles from "./product-matrix.module.css";
 
 type Product = {
   id: string;
-  name: string;
   shortName: string;
   desc: string;
   category: string;
@@ -17,89 +17,6 @@ type Product = {
   poster?: string;
   href: string;
 };
-
-const PRODUCTS: Product[] = [
-  {
-    id: "01",
-    name: "JARVIS Agent",
-    shortName: "AGENT",
-    desc: "Domain-specific generative AI agent for construction stakeholders.",
-    category: "AUTOMATION",
-    video: JARVIS_VIDEOS.agent,
-    poster: JARVIS_POSTERS.agent,
-    href: ROUTES.JARVIS.AGENT,
-  },
-  {
-    id: "02",
-    name: "JARVIS Pay",
-    shortName: "PAY",
-    desc: "60-day SOPL certification via Digital Twin. Boost capital via visibility.",
-    category: "FINANCE",
-    video: JARVIS_VIDEOS.pay,
-    poster: JARVIS_POSTERS.pay,
-    href: ROUTES.JARVIS.PAY,
-  },
-  {
-    id: "03",
-    name: "JARVIS Air",
-    shortName: "AIR",
-    desc: "Stable Diffusion Design. Instant visuals, walkthroughs, and prototypes.",
-    category: "GENERATIVE",
-    video: JARVIS_VIDEOS.air,
-    poster: JARVIS_POSTERS.air,
-    href: ROUTES.JARVIS.AIR,
-  },
-  {
-    id: "04",
-    name: "JARVIS Eagle Eye",
-    shortName: "EAGLE EYE",
-    desc: "Real-time IoT. Monitor & ensure compliance.",
-    category: "MONITORING",
-    video: JARVIS_VIDEOS.eagleEye,
-    poster: JARVIS_POSTERS.eagleEye,
-    href: ROUTES.JARVIS.EAGLE_EYE,
-  },
-  {
-    id: "05",
-    name: "JARVIS SSSS",
-    shortName: "SSSS",
-    desc: "Smart Site Safety System. Reduces incidents through proactive risk orchestration.",
-    category: "SAFETY",
-    video: JARVIS_VIDEOS.ssss,
-    poster: JARVIS_POSTERS.ssss,
-    href: ROUTES.JARVIS.SSSS,
-  },
-  {
-    id: "06",
-    name: "JARVIS DWSS",
-    shortName: "DWSS",
-    desc: "Digital Works Supervision portal. Secure submission, automated checks, audit trails.",
-    category: "MANAGEMENT",
-    video: JARVIS_VIDEOS.dwss,
-    poster: JARVIS_POSTERS.dwss,
-    href: ROUTES.JARVIS.DWSS,
-  },
-  {
-    id: "07",
-    name: "JARVIS CDCP",
-    shortName: "CDCP",
-    desc: "Common Data Collaboration Platform. Interoperable BIM hub for conflict resolution.",
-    category: "DATA",
-    video: JARVIS_VIDEOS.cdcp,
-    poster: JARVIS_POSTERS.cdcp,
-    href: ROUTES.JARVIS.CDCP,
-  },
-  {
-    id: "08",
-    name: "JARVIS Assets",
-    shortName: "ASSETS",
-    desc: "Digital twin + AI FM for predictive maintenance and lifecycle optimization.",
-    category: "LIFECYCLE",
-    video: JARVIS_VIDEOS.assets,
-    poster: JARVIS_POSTERS.assets,
-    href: ROUTES.JARVIS.ASSETS,
-  },
-];
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -188,7 +105,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           <h3 className={styles.name}>{product.shortName}</h3>
           <p className={styles.desc}>{product.desc}</p>
           <div className={styles.footer}>
-            <span className={styles.footerLabel}>Access module</span>
+            <span className={styles.footerLabel}>{m.jarvis_suite_matrix_access_module()}</span>
             <span className={styles.statusBars} aria-hidden>
               <span className={styles.statusBar} />
               <span className={styles.statusBar} />
@@ -202,14 +119,89 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export function ProductMatrix() {
+  const products: Product[] = [
+    {
+      id: "01",
+      shortName: m.jarvis_suite_matrix_agent_shortname(),
+      desc: m.jarvis_suite_matrix_agent_desc(),
+      category: m.jarvis_suite_matrix_agent_category(),
+      video: JARVIS_VIDEOS.agent,
+      poster: JARVIS_POSTERS.agent,
+      href: ROUTES.JARVIS.AGENT,
+    },
+    {
+      id: "02",
+      shortName: m.jarvis_suite_matrix_pay_shortname(),
+      desc: m.jarvis_suite_matrix_pay_desc(),
+      category: m.jarvis_suite_matrix_pay_category(),
+      video: JARVIS_VIDEOS.pay,
+      poster: JARVIS_POSTERS.pay,
+      href: ROUTES.JARVIS.PAY,
+    },
+    {
+      id: "03",
+      shortName: m.jarvis_suite_matrix_air_shortname(),
+      desc: m.jarvis_suite_matrix_air_desc(),
+      category: m.jarvis_suite_matrix_air_category(),
+      video: JARVIS_VIDEOS.air,
+      poster: JARVIS_POSTERS.air,
+      href: ROUTES.JARVIS.AIR,
+    },
+    {
+      id: "04",
+      shortName: m.jarvis_suite_matrix_eagle_eye_shortname(),
+      desc: m.jarvis_suite_matrix_eagle_eye_desc(),
+      category: m.jarvis_suite_matrix_eagle_eye_category(),
+      video: JARVIS_VIDEOS.eagleEye,
+      poster: JARVIS_POSTERS.eagleEye,
+      href: ROUTES.JARVIS.EAGLE_EYE,
+    },
+    {
+      id: "05",
+      shortName: m.jarvis_suite_matrix_ssss_shortname(),
+      desc: m.jarvis_suite_matrix_ssss_desc(),
+      category: m.jarvis_suite_matrix_ssss_category(),
+      video: JARVIS_VIDEOS.ssss,
+      poster: JARVIS_POSTERS.ssss,
+      href: ROUTES.JARVIS.SSSS,
+    },
+    {
+      id: "06",
+      shortName: m.jarvis_suite_matrix_dwss_shortname(),
+      desc: m.jarvis_suite_matrix_dwss_desc(),
+      category: m.jarvis_suite_matrix_dwss_category(),
+      video: JARVIS_VIDEOS.dwss,
+      poster: JARVIS_POSTERS.dwss,
+      href: ROUTES.JARVIS.DWSS,
+    },
+    {
+      id: "07",
+      shortName: m.jarvis_suite_matrix_cdcp_shortname(),
+      desc: m.jarvis_suite_matrix_cdcp_desc(),
+      category: m.jarvis_suite_matrix_cdcp_category(),
+      video: JARVIS_VIDEOS.cdcp,
+      poster: JARVIS_POSTERS.cdcp,
+      href: ROUTES.JARVIS.CDCP,
+    },
+    {
+      id: "08",
+      shortName: m.jarvis_suite_matrix_assets_shortname(),
+      desc: m.jarvis_suite_matrix_assets_desc(),
+      category: m.jarvis_suite_matrix_assets_category(),
+      video: JARVIS_VIDEOS.assets,
+      poster: JARVIS_POSTERS.assets,
+      href: ROUTES.JARVIS.ASSETS,
+    },
+  ];
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>SYSTEM MODULES</h2>
+          <h2 className={styles.title}>{m.jarvis_suite_matrix_title()}</h2>
         </div>
         <div className={styles.grid}>
-          {PRODUCTS.map((product, index) => (
+          {products.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}
         </div>

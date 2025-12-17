@@ -1,36 +1,37 @@
 'use client';
 
 import { ChevronRight } from 'lucide-react';
+import * as m from '@/paraglide/messages';
 import styles from './evolution-summary.module.css';
 
-const steps = [
-  {
-    id: '01',
-    title: 'Interaction',
-    desc: 'Records context from daily actions.',
-    accent: 'indigo',
-  },
-  {
-    id: '02',
-    title: 'Feedback Loop',
-    desc: 'Refines weights overnight.',
-    accent: 'cyan',
-  },
-  {
-    id: '03',
-    title: 'Evolution',
-    desc: 'Anticipates needs & scales logic.',
-    accent: 'gradient',
-  },
-];
-
 export function EvolutionSummary() {
+  const steps = [
+    {
+      id: '01',
+      title: m.jarvis_agent_evolution_step1_title(),
+      desc: m.jarvis_agent_evolution_step1_desc(),
+      accent: 'indigo',
+    },
+    {
+      id: '02',
+      title: m.jarvis_agent_evolution_step2_title(),
+      desc: m.jarvis_agent_evolution_step2_desc(),
+      accent: 'cyan',
+    },
+    {
+      id: '03',
+      title: m.jarvis_agent_evolution_step3_title(),
+      desc: m.jarvis_agent_evolution_step3_desc(),
+      accent: 'gradient',
+    },
+  ];
+
   return (
     <section className={styles.section}>
       <div className={styles.shell}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Train, Interact, Evolve.</h2>
-          <p className={styles.lead}>Feedback loops refine accuracy to your corporate DNA.</p>
+          <h2 className={styles.title}>{m.jarvis_agent_evolution_title()}</h2>
+          <p className={styles.lead}>{m.jarvis_agent_evolution_lead()}</p>
         </div>
 
         <div className={styles.timeline}>
@@ -56,14 +57,14 @@ export function EvolutionSummary() {
         </div>
 
         <div className={styles.result}>
-          <div className={styles.resultText}>The Result?</div>
+          <div className={styles.resultText}>{m.jarvis_agent_evolution_result_label()}</div>
           <div className={styles.metrics}>
             <div className={styles.metric}>
               <div className={styles.metricValue}>
                 <span className={styles.metricNumber}>80</span>
                 <span className={styles.metricSuffix}>%</span>
               </div>
-              <div className={styles.metricLabel}>Less Admin Overhead</div>
+              <div className={styles.metricLabel}>{m.jarvis_agent_evolution_metric1_label()}</div>
             </div>
 
             <div className={styles.divider} />
@@ -73,7 +74,7 @@ export function EvolutionSummary() {
                 <span className={styles.metricNumber}>3</span>
                 <span className={styles.metricSuffix}>x</span>
               </div>
-              <div className={styles.metricLabel}>Faster Decisions</div>
+              <div className={styles.metricLabel}>{m.jarvis_agent_evolution_metric2_label()}</div>
             </div>
           </div>
         </div>

@@ -1,23 +1,27 @@
 'use client';
 
+import * as m from '@/paraglide/messages';
 import styles from './builders-section.module.css';
 
-const FEATURE_ITEMS = [
-  {
-    title: 'Full project lifecycle',
-    description: 'From finance and design to tendering, site execution, inspection, payment, and FM.',
-  },
-  {
-    title: 'Built for real teams',
-    description: 'Owners, consultants, contractors, and quantity surveyors share one assistant and one truth.',
-  },
-  {
-    title: 'Enterprise-ready',
-    description: 'Alibaba frontier models + isBIM dataset; security, auditability, and governance baked in.',
-  },
-];
-
 export function BuildersSection() {
+  const featureItems = [
+    {
+      id: 'lifecycle',
+      title: m.jarvis_suite_builders_feature1_title(),
+      description: m.jarvis_suite_builders_feature1_desc(),
+    },
+    {
+      id: 'teams',
+      title: m.jarvis_suite_builders_feature2_title(),
+      description: m.jarvis_suite_builders_feature2_desc(),
+    },
+    {
+      id: 'enterprise',
+      title: m.jarvis_suite_builders_feature3_title(),
+      description: m.jarvis_suite_builders_feature3_desc(),
+    },
+  ];
+
   return (
     <section className={styles.section}>
       {/* Decoration Lines */}
@@ -32,24 +36,28 @@ export function BuildersSection() {
             <div className={styles.chips}>
               <div className={styles.chip}>
                 <span className={styles.chipDotPurple} />
-                isBIM DATASET
+                {m.jarvis_suite_builders_chip_isbim_dataset()}
               </div>
               <div className={styles.chip}>
                 <span className={styles.chipDotCyan} />
-                ALIBABA MODELS
+                {m.jarvis_suite_builders_chip_alibaba_models()}
               </div>
             </div>
 
             {/* Main Heading */}
             <h2 className={styles.heading}>
-              Designed <br />
-              for Builders
+              {m.jarvis_suite_interlude_title_part1()}
+              <br />
+              {m.jarvis_suite_interlude_title_part2()}
             </h2>
 
             {/* Description */}
             <p className={styles.description}>
-              Decades of engineering expertise, distilled into an{' '}
-              <span className={styles.highlight}>agentic assistant</span>.
+              {m.jarvis_suite_builders_description_prefix()}
+              <span className={styles.highlight}>
+                {m.jarvis_suite_builders_description_highlight()}
+              </span>
+              {m.jarvis_suite_builders_description_suffix()}
             </p>
           </div>
 
@@ -57,16 +65,16 @@ export function BuildersSection() {
           <div className={styles.rightColumn}>
             <div className={styles.bodyText}>
               <p className={styles.bodyLead}>
-                Powered by isBIM’s proprietary dataset and Alibaba’s frontier models.
+                {m.jarvis_suite_builders_body_lead()}
               </p>
               <p className={styles.bodyParagraph}>
-                Accelerating operations with one assistant across planning, delivery, and facility ops.
+                {m.jarvis_suite_builders_body_paragraph()}
               </p>
             </div>
 
             <div className={styles.featureList}>
-              {FEATURE_ITEMS.map((item) => (
-                <div key={item.title} className={styles.featureCard}>
+              {featureItems.map((item) => (
+                <div key={item.id} className={styles.featureCard}>
                   <div className={styles.featureTitle}>{item.title}</div>
                   <div className={styles.featureDesc}>{item.description}</div>
                 </div>

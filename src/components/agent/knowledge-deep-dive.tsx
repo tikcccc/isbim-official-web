@@ -2,44 +2,44 @@
 
 import { useState } from 'react';
 import { Brain, Network, Shield, Database } from 'lucide-react';
+import * as m from '@/paraglide/messages';
 import styles from './knowledge-deep-dive.module.css';
-
-const features = [
-  {
-    id: 'intelligence',
-    icon: Database,
-    title: 'Domain Intelligence',
-    subtitle: 'isBIM Engineering Data',
-    desc: "Ingests 10 years of project archives. It understands 'rebar' as a structural dependency, not just a keyword.",
-  },
-  {
-    id: 'culture',
-    icon: Network,
-    title: 'Cultural Adaptation',
-    subtitle: 'Context Tuning',
-    desc: "Fine-tuned on internal comms. Learns that 'urgent' means 2 hours for team, 24 hours for vendors.",
-  },
-  {
-    id: 'guardrails',
-    icon: Shield,
-    title: 'Governed Responses',
-    subtitle: 'Compliance & Tone',
-    desc: 'Grounded in your contracts, codes, and brand voice—cites sources and stays on-tone for audit-ready answers.',
-  },
-];
 
 export function KnowledgeDeepDive() {
   const [activeFeature, setActiveFeature] = useState(0);
+  const features = [
+    {
+      id: 'intelligence',
+      icon: Database,
+      title: m.jarvis_agent_deep_dive_feature1_title(),
+      subtitle: m.jarvis_agent_deep_dive_feature1_subtitle(),
+      desc: m.jarvis_agent_deep_dive_feature1_desc(),
+    },
+    {
+      id: 'culture',
+      icon: Network,
+      title: m.jarvis_agent_deep_dive_feature2_title(),
+      subtitle: m.jarvis_agent_deep_dive_feature2_subtitle(),
+      desc: m.jarvis_agent_deep_dive_feature2_desc(),
+    },
+    {
+      id: 'guardrails',
+      icon: Shield,
+      title: m.jarvis_agent_deep_dive_feature3_title(),
+      subtitle: m.jarvis_agent_deep_dive_feature3_subtitle(),
+      desc: m.jarvis_agent_deep_dive_feature3_desc(),
+    },
+  ];
 
   return (
     <section className={styles.section}>
       <div className={styles.shell} data-active={activeFeature}>
         <div className={styles.content}>
           <div className={styles.header}>
-            <span className="font-product-label-regular">System Architecture</span>
+            <span className="font-product-label-regular">{m.jarvis_agent_deep_dive_label()}</span>
             <h2 className={`font-product-title-md ${styles.title}`}>
-              <span>The Knowledge Agent</span>
-              <span className={styles.titleAccent}>Deep Dive</span>
+              <span>{m.jarvis_agent_deep_dive_title_part1()}</span>
+              <span className={styles.titleAccent}>{m.jarvis_agent_deep_dive_title_part2()}</span>
             </h2>
           </div>
 

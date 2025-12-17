@@ -2,6 +2,7 @@
 
 import { JARVIS_VIDEOS, JARVIS_POSTERS } from '@/lib/media-config';
 import { AgentPageLayout } from '@/components/agent/agent-page-layout';
+import * as m from '@/paraglide/messages';
 import {
   type MetadataItem,
   CheckCircleIcon,
@@ -13,18 +14,18 @@ export default function AgentClient() {
   // Metadata with icons - subtitles from feature details
   const metadata: MetadataItem[] = [
     {
-      title: 'Grounded responses',
-      subtitle: 'Thread-aware replies', // From feature1 detail3
+      title: m.jarvis_agent_hero_meta1(),
+      subtitle: m.jarvis_agent_feature1_detail3_title(), // From feature1 detail3
       icon: <CheckCircleIcon />,
     },
     {
-      title: 'Tooled workflows',
-      subtitle: 'Auto-file & extract', // From feature1 detail1
+      title: m.jarvis_agent_hero_meta2(),
+      subtitle: m.jarvis_agent_feature1_detail1_title(), // From feature1 detail1
       icon: <CpuIcon />,
     },
     {
-      title: 'Governed rollout',
-      subtitle: 'Audit ready', // From feature2 detail3
+      title: m.jarvis_agent_hero_meta3(),
+      subtitle: m.jarvis_agent_feature2_detail3_title(), // From feature2 detail3
       icon: <ShieldCheckIcon />,
     },
   ];
@@ -33,56 +34,86 @@ export default function AgentClient() {
     <AgentPageLayout
       brandName="JARVIS"
       productName="AGENT"
-      productSubtitle="To agentic execution" // From narrativeStage2
+      productSubtitle={m.jarvis_agent_narrative_stage2()} // From narrativeStage2
       videoSrc={JARVIS_VIDEOS.agent}
       posterSrc={JARVIS_POSTERS.agent}
       metadata={metadata}
-      narrativeStage1="From inbox chaos"
-      narrativeStage2="To agentic execution"
-      narrativeDesc="Collect requests, ground answers in live context, and execute multi-step tasks with auditability."
-      narrativeHighlight="Built for delivery, not demos."
-      scrollPrompt="Scroll to explore"
+      narrativeStage1={m.jarvis_agent_narrative_stage1()}
+      narrativeStage2={m.jarvis_agent_narrative_stage2()}
+      narrativeDesc={m.jarvis_agent_narrative_desc()}
+      narrativeHighlight={m.jarvis_agent_narrative_highlight()}
+      scrollPrompt={m.jarvis_agent_scroll_prompt()}
       features={[
         {
           index: '0.1',
-          title: ['Email Agent'],
-          description:
-            'CC Agent on any thread — it auto-files documents, extracts data, fills forms, and routes to JARVIS Pay for invoices or VOs. No more lost attachments or manual entry.',
+          title: [m.jarvis_agent_feature1_title_line1()],
+          description: m.jarvis_agent_feature1_desc(),
           mediaSrc: JARVIS_VIDEOS.agent,
           mediaType: 'video',
           mediaPoster: JARVIS_POSTERS.agent,
+          videoLabel: m.jarvis_agent_toggle_video(),
+          detailsLabel: m.jarvis_agent_toggle_details(),
           details: [
-            { title: 'Auto-file & extract', description: 'Attachments and text are filed, parsed, and structured.' },
-            { title: 'Form fill & routing', description: 'Populates forms and routes invoices/VOs into JARVIS Pay.' },
-            { title: 'Thread-aware replies', description: 'Grounded responses with context from the entire thread.' },
+            {
+              title: m.jarvis_agent_feature1_detail1_title(),
+              description: m.jarvis_agent_feature1_detail1_desc(),
+            },
+            {
+              title: m.jarvis_agent_feature1_detail2_title(),
+              description: m.jarvis_agent_feature1_detail2_desc(),
+            },
+            {
+              title: m.jarvis_agent_feature1_detail3_title(),
+              description: m.jarvis_agent_feature1_detail3_desc(),
+            },
           ],
         },
         {
           index: '0.2',
-          title: ['Compliance Agent'],
-          description:
-            'Ask anytime — “Is this rebar schedule compliant?” or “Does this change order breach scope?” — and get instant, contract- and law-aligned answers with audit trails.',
+          title: [m.jarvis_agent_feature2_title_line1()],
+          description: m.jarvis_agent_feature2_desc(),
           mediaSrc: JARVIS_VIDEOS.agent,
           mediaType: 'video',
           mediaPoster: JARVIS_POSTERS.agent,
+          videoLabel: m.jarvis_agent_toggle_video(),
+          detailsLabel: m.jarvis_agent_toggle_details(),
           details: [
-            { title: 'Spec & law grounded', description: 'Checks against contracts, standards, and regulations.' },
-            { title: 'Scope guardrails', description: 'Flags scope creep and compliance gaps before approval.' },
-            { title: 'Audit ready', description: 'Cited answers with trails for sign-off and governance.' },
+            {
+              title: m.jarvis_agent_feature2_detail1_title(),
+              description: m.jarvis_agent_feature2_detail1_desc(),
+            },
+            {
+              title: m.jarvis_agent_feature2_detail2_title(),
+              description: m.jarvis_agent_feature2_detail2_desc(),
+            },
+            {
+              title: m.jarvis_agent_feature2_detail3_title(),
+              description: m.jarvis_agent_feature2_detail3_desc(),
+            },
           ],
         },
         {
           index: '0.3',
-          title: ['Tendering Agent'],
-          description:
-            'Upload a 500-page tender — Agent digests it into bite-sized intel: scoring matrix, BOQ highlights, risk flags, scope gaps. Query it live to stress-test your bid.',
+          title: [m.jarvis_agent_feature3_title_line1()],
+          description: m.jarvis_agent_feature3_desc(),
           mediaSrc: JARVIS_VIDEOS.agent,
           mediaType: 'video',
           mediaPoster: JARVIS_POSTERS.agent,
+          videoLabel: m.jarvis_agent_toggle_video(),
+          detailsLabel: m.jarvis_agent_toggle_details(),
           details: [
-            { title: 'Scoring matrix', description: 'Extracts criteria and weights for fast bid strategy.' },
-            { title: 'Risk & scope gaps', description: 'Surfaces red flags, BOQ highlights, and missing scope.' },
-            { title: 'Live Q&A', description: 'Query the tender to validate responses and assumptions.' },
+            {
+              title: m.jarvis_agent_feature3_detail1_title(),
+              description: m.jarvis_agent_feature3_detail1_desc(),
+            },
+            {
+              title: m.jarvis_agent_feature3_detail2_title(),
+              description: m.jarvis_agent_feature3_detail2_desc(),
+            },
+            {
+              title: m.jarvis_agent_feature3_detail3_title(),
+              description: m.jarvis_agent_feature3_detail3_desc(),
+            },
           ],
         },
       ]}

@@ -230,11 +230,12 @@ export function Section4PlatformList() {
 
   // Preload a couple of posters so hover previews show immediately
   useEffect(() => {
+    if (!isInViewport) return;
     posterUrls.slice(0, 3).forEach((url) => {
       const img = new Image();
       img.src = url;
     });
-  }, [posterUrls]);
+  }, [isInViewport, posterUrls]);
 
   // Phase 2: Smart hover handler with progressive preload
   const handleHover = useCallback((index: number) => {
@@ -339,6 +340,8 @@ function PlatformRow({
     }
   };
 
+  const shouldAttachMedia = isInViewport;
+
   return (
     <Link
       href={href}
@@ -380,12 +383,12 @@ function PlatformRow({
             <div className={cn("aspect-video w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[420px]", styles.videoFrame)}>
               <video
                 ref={videoRef}
-                src={item.videoUrl}
-                poster={item.posterUrl}
+                src={shouldAttachMedia ? item.videoUrl : undefined}
+                poster={shouldAttachMedia ? item.posterUrl : undefined}
                 loop
                 muted
                 playsInline
-                preload="metadata"
+                preload={shouldAttachMedia ? "metadata" : "none"}
                 className="w-full h-full object-cover opacity-90"
               />
             </div>

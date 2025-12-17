@@ -1,7 +1,7 @@
 "use client";
 
 import { HeroBackground } from "@/components/product-template/hero-background";
-import { HeroForeground, type MetadataItem } from "@/components/product-template/hero-foreground";
+import { HeroForeground } from "@/components/product-template/hero-foreground";
 import { NarrativeTrack } from "@/components/product-template/narrative-track";
 import { FeatureSection } from "@/components/product-template/feature-section";
 import { ProductFeature, ProductPageLayoutProps } from "@/components/product-template/product-page-layout";
