@@ -30,12 +30,17 @@ export function NewsletterForm() {
   });
 
   const onSubmit = async (data: SubscriptionFormValues) => {
+    if (isRedirecting) return;
     setIsRedirecting(true);
-    router.push(
-      `${ROUTES.CONTACT}?email=${encodeURIComponent(
-        data.email
-      )}#contact-form`
-    );
+    try {
+      router.push(
+        `${ROUTES.CONTACT}?email=${encodeURIComponent(
+          data.email
+        )}#contact-form`
+      );
+    } finally {
+      setIsRedirecting(false);
+    }
   };
 
   return (
