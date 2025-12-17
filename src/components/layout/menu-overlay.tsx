@@ -51,6 +51,7 @@ export interface MenuNewsPreview {
   slug?: { current?: string };
   publishedAt?: string;
   excerpt?: string;
+  featured?: boolean;
   mainImage?: {
     asset?: SanityImage;
     alt?: string;
@@ -221,28 +222,6 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
 
   const localeTag = languageTag();
   const newsItems = useMemo(() => (newsPreview ?? []).slice(0, 2), [newsPreview]);
-
-  const fallbackNews: MenuNewsPreview[] = [
-    {
-      _id: "fallback-1",
-      title: "Coding unveils new JARVIS core architecture for mega-projects.",
-      slug: { current: "" },
-      publishedAt: "2025-03-12",
-      category: { title: "PRESS RELEASE", color: "#60a5fa" },
-      mainImage: {
-        asset: undefined,
-        alt: "Tech",
-      },
-    },
-    {
-      _id: "fallback-2",
-      title: "How Digital Twins are reducing carbon footprints in Asia.",
-      slug: { current: "" },
-      publishedAt: "2025-02-28",
-      category: { title: "BLOG", color: "#9ca3af" },
-      mainImage: { asset: undefined, alt: "Chip" },
-    },
-  ];
 
   const formatDate = (date?: string) => {
     if (!date) return "";
@@ -827,20 +806,20 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                     </div>
 
                     {/* News Cards */}
-                    <div className="grid grid-cols-2 gap-6">
-                      {(newsItems.length ? newsItems : fallbackNews).map((news, idx) => {
+                    {newsItems.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-6">
+                        {newsItems.map((news, idx) => {
                         const href =
                           news.slug?.current && news.slug.current.length > 0
                             ? `/newsroom/${news.slug.current}`
                             : ROUTES.NEWSROOM;
                         const imageUrl = news.mainImage?.asset
                           ? urlFor(news.mainImage.asset)?.width(900).height(540).url()
-                          : idx === 0
-                          ? "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
-                          : "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800";
+                          : null;
                           const tag = news.category?.title || "NEWS";
                           const formattedDate = formatDate(news.publishedAt);
                           const meta = formattedDate ? `${tag} // ${formattedDate}` : tag;
+                          const isFeatured = news.featured === true;
                         return (
                           <m.div
                             key={news._id}
@@ -849,14 +828,18 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           >
                             <Link href={href} onClick={closeMenu} prefetch className="block">
                               <div className="aspect-video bg-neutral-900 mb-5 overflow-hidden relative border border-white/10">
-                                <Image
-                                  src={imageUrl || ""}
-                                  alt={news.mainImage?.alt || news.title}
-                                  fill
-                                  sizes="(max-width: 1024px) 100vw, 33vw"
-                                  className="object-cover opacity-70 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-90"
-                                />
-                                {idx === 0 && (
+                                {imageUrl ? (
+                                  <Image
+                                    src={imageUrl}
+                                    alt={news.mainImage?.alt || news.title}
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 33vw"
+                                    className="object-cover opacity-70 group-hover:scale-105 transition-transform duration-700 group-hover:opacity-90"
+                                  />
+                                ) : (
+                                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-white/5" />
+                                )}
+                                {isFeatured && (
                                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
                                     <span className={styles.featuredTag}>
                                       FEATURED
@@ -885,8 +868,23 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                             </Link>
                           </m.div>
                         );
-                      })}
-                    </div>
+                        })}
+                      </div>
+                    ) : (
+                      <m.div
+                        variants={fadeInUp}
+                        className="rounded-lg border border-white/10 bg-white/[0.02] px-8 py-12 text-center"
+                      >
+                        <TypewriterText
+                          text={messages.menu_news_empty_title()}
+                          className="text-xs font-medium tracking-[0.2em] uppercase text-blue-400"
+                          delay={0.95}
+                        />
+                        <p className="mt-3 text-sm text-neutral-400">
+                          {messages.menu_news_empty_desc()}
+                        </p>
+                      </m.div>
+                    )}
                   </m.div>
                 )}
               </AnimatePresence>

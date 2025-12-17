@@ -191,15 +191,24 @@ export const NEWS_LIST_QUERY = defineQuery(
   }`
 );
 
-/** Fetch latest news items for menu overlay (limit 2) */
+/** Fetch menu news: 1 featured + 1 latest non-featured */
 export const MENU_LATEST_NEWS_QUERY = defineQuery(
-  `*[_type == "news" && defined(slug.current)] | order(publishedAt desc)[0...2] {
+  `(
+    (
+      *[_type == "news" && featured == true && defined(slug.current)]
+        | order(publishedAt desc)[0...1]
+    ) + (
+      *[_type == "news" && defined(slug.current) && featured != true]
+        | order(publishedAt desc)[0...1]
+    )
+  )[]{
     _id,
     _type,
     title,
     slug,
     publishedAt,
     excerpt,
+    featured,
     mainImage {
       asset,
       alt
