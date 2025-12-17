@@ -1,6 +1,8 @@
-'use client';
+"use client";
 
-import styles from './cta-section.module.css';
+import { LocalizedLink } from "@/components/ui/localized-link";
+import { ROUTES } from "@/lib/constants";
+import styles from "./cta-section.module.css";
 
 export function CtaSection() {
   return (
@@ -20,13 +22,17 @@ export function CtaSection() {
         </h2>
 
         <div className={styles.buttonWrapper}>
-          <button className={styles.ctaButton}>
+          <LocalizedLink
+            href={ROUTES.CONTACT}
+            prefetchMode="hover"
+            className={styles.ctaButton}
+          >
             <div className={styles.buttonGradient} />
             <span className={styles.buttonText}>
               Request Live Demo
               <span className={styles.pulsingDot} />
             </span>
-          </button>
+          </LocalizedLink>
         </div>
       </div>
     </section>
