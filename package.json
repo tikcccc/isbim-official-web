@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run paraglide:compile && next build",
+    "build": "bun run paraglide:compile && next build",
     "start": "next start",
     "lint": "eslint",
     "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide",
