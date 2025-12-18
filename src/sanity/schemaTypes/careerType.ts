@@ -243,13 +243,6 @@ export const careerType = defineType({
       group: "content",
     }),
     defineField({
-      name: "perks",
-      title: "Perks & Benefits",
-      type: "array",
-      of: [{ type: "string" }],
-      group: "content",
-    }),
-    defineField({
       name: "postedAt",
       title: "Posted At",
       type: "datetime",
@@ -260,6 +253,13 @@ export const careerType = defineType({
       name: "expiresAt",
       title: "Expires At",
       type: "datetime",
+      group: "content",
+    }),
+    defineField({
+      name: "applicationUrl",
+      title: "Application URL",
+      type: "url",
+      description: "External form/ATS link for this role.",
       group: "content",
     }),
 

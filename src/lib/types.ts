@@ -209,9 +209,9 @@ export interface SanityCareer {
   intro?: string;
   body?: unknown;
   sections?: unknown;
-  perks?: string[];
   postedAt?: string;
   expiresAt?: string;
+  applicationUrl?: string;
   status?: "open" | "draft" | "closed";
 }
 

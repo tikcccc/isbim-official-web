@@ -135,9 +135,9 @@ export interface Career extends SanityDocument {
   intro?: string;
   body?: PortableTextBlock[];
   sections?: CareerSection[];
-  perks?: string[];
   postedAt?: string;
   expiresAt?: string;
+  applicationUrl?: string;
   seo?: {
     metaTitle?: string;
     metaDescription?: string;

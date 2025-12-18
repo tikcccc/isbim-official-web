@@ -421,9 +421,9 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     intro,
     body,
     sections,
-    perks,
     postedAt,
     expiresAt,
+    applicationUrl,
     sortOrder,
     seo
   }`
@@ -533,6 +533,7 @@ export const CAREER_METADATA_QUERY = defineQuery(
     },
     employmentType,
     workModel,
+    applicationUrl,
     seo,
     _updatedAt
   }`
