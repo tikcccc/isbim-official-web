@@ -183,11 +183,11 @@ export default function ContactPage() {
       <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
         {/* Left vertical coordinate */}
         <div className="absolute top-1/2 left-10 contact-bg-coord font-mono -rotate-90 origin-left">
-          COORD: {displayLat}掳 N
+          COORD: {displayLat} N
         </div>
         {/* Bottom horizontal coordinate */}
         <div className="absolute bottom-10 left-1/2 contact-bg-coord font-mono">
-          COORD: {displayLon}掳 E
+          COORD: {displayLon} E
         </div>
       </div>
 

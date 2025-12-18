@@ -145,7 +145,6 @@ export interface SanityPost {
   title: string;
   slug: { current: string };
   publishedAt: string;
-  excerpt?: string;
   body?: unknown;
   author?: {
     name: string;
@@ -193,10 +192,6 @@ export interface SanityCareer {
     _id?: string;
     title?: string;
     slug?: { current?: string };
-    city?: string;
-    country?: string;
-    timezone?: string;
-    sortOrder?: number;
   }>;
   workModel?: "onsite" | "hybrid" | "remote";
   employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";

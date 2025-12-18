@@ -47,7 +47,6 @@ export interface Post extends SanityDocument {
   title: string;
   slug: Slug;
   publishedAt?: string;
-  excerpt?: string;
   body?: PortableTextBlock[]; // Block content
   mainImage?: Image;
 }
@@ -73,7 +72,6 @@ export interface News extends SanityDocument {
   title: string;
   slug: Slug;
   publishedAt?: string;
-  excerpt?: string;
   body?: PortableTextBlock[];
  coverImage?: Image;
 }
@@ -102,10 +100,6 @@ export interface CareerLocation extends SanityDocument {
   _type: "careerLocation";
   title: string;
   slug: Slug;
-  city?: string;
-  country?: string;
-  timezone?: string;
-  sortOrder?: number;
 }
 
 export interface CareerSection {

@@ -44,13 +44,6 @@ export const newsType = defineType({
       options: { hotspot: true },
     }),
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
-      rows: 3,
-      description: 'Short excerpt for list view (optional, falls back to subtitle)',
-    }),
-    defineField({
       name: 'body',
       title: 'Body',
       type: 'array',

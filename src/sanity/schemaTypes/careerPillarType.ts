@@ -20,7 +20,7 @@ export const careerPillarType = defineType({
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Description (Optional)",
       type: "text",
       rows: 3,
       description: "Optional blurb for UI hover/preview.",

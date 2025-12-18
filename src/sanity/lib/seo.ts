@@ -43,7 +43,6 @@ export async function generatePostMetadata(
   try {
     const post = await sanityFetch<{
       title: string;
-      excerpt?: string;
       mainImage?: Image;
       publishedAt?: string;
       _updatedAt: string;
@@ -68,7 +67,7 @@ export async function generatePostMetadata(
 
     return generatePageMetadata({
       title: post.title,
-      description: post.excerpt || `Read more about ${post.title}`,
+      description: `Read more about ${post.title}`,
       path: `/posts/${slug}`,
       locale,
       image: imageUrl,
@@ -158,8 +157,8 @@ export async function generateNewsMetadata(
   try {
     const news = await sanityFetch<{
       title: string;
-      excerpt?: string;
-      coverImage?: Image;
+      subtitle?: string;
+      mainImage?: Image;
       publishedAt?: string;
       _updatedAt: string;
     } | null>({
@@ -179,11 +178,11 @@ export async function generateNewsMetadata(
       });
     }
 
-    const imageUrl = news.coverImage ? urlFor(news.coverImage)?.width(1200).height(630).url() : undefined;
+    const imageUrl = news.mainImage ? urlFor(news.mainImage)?.width(1200).height(630).url() : undefined;
 
     return generatePageMetadata({
       title: news.title,
-      description: news.excerpt || `Read the latest news: ${news.title}`,
+      description: news.subtitle || `Read the latest news: ${news.title}`,
       path: `/newsroom/${slug}`,
       locale,
       image: imageUrl,
@@ -218,7 +217,7 @@ export async function generateCareerMetadata(
   try {
     const career = await sanityFetch<{
       title: string;
-      locations?: Array<{ title?: string; city?: string; country?: string }>;
+      locations?: Array<{ title?: string; slug?: string }>;
       pillar?: { title?: string; slug?: string; sortOrder?: number };
       team?: { title?: string; pillar?: { title?: string; slug?: string; sortOrder?: number } };
       employmentType?: string;
@@ -260,10 +259,7 @@ export async function generateCareerMetadata(
       return text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text;
     };
     const locationTitle =
-      career.locations?.[0]?.title ||
-      (career.locations?.[0]?.city && career.locations?.[0]?.country
-        ? `${career.locations[0].city}, ${career.locations[0].country}`
-        : career.locations?.[0]?.city || career.locations?.[0]?.country);
+      career.locations?.[0]?.title || career.locations?.[0]?.slug || "";
     const description =
       career.seo?.metaDescription ||
       makeExcerpt(sectionSnippet) ||

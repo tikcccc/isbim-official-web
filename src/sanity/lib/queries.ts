@@ -40,7 +40,6 @@ export const POSTS_QUERY = defineQuery(
     title,
     slug,
     publishedAt,
-    excerpt,
     mainImage
   }`
 );
@@ -56,7 +55,6 @@ export const POST_BY_SLUG_QUERY = defineQuery(
     title,
     slug,
     publishedAt,
-    excerpt,
     body,
     mainImage
   }`
@@ -150,7 +148,6 @@ export const FEATURED_NEWS_QUERY = defineQuery(
     slug,
     subtitle,
     publishedAt,
-    excerpt,
     body,
     mainImage {
       asset,
@@ -177,7 +174,6 @@ export const NEWS_LIST_QUERY = defineQuery(
     slug,
     subtitle,
     publishedAt,
-    excerpt,
     body,
     mainImage {
       asset,
@@ -211,7 +207,6 @@ export const MENU_LATEST_NEWS_QUERY = defineQuery(
     title,
     slug,
     publishedAt,
-    excerpt,
     featured,
     mainImage {
       asset,
@@ -236,7 +231,6 @@ export const NEWS_BY_CATEGORY_QUERY = defineQuery(
     slug,
     subtitle,
     publishedAt,
-    excerpt,
     mainImage {
       asset,
       alt
@@ -262,7 +256,6 @@ export const NEWS_DETAIL_QUERY = defineQuery(
     slug,
     subtitle,
     publishedAt,
-    excerpt,
     body,
     mainImage {
       asset,
@@ -300,7 +293,6 @@ export const RELATED_NEWS_QUERY = defineQuery(
     slug,
     subtitle,
     publishedAt,
-    excerpt,
     mainImage {
       asset,
       alt
@@ -351,11 +343,7 @@ export const CAREERS_QUERY = defineQuery(
     locations[]->{
       _id,
       title,
-      slug,
-      city,
-      country,
-      timezone,
-      sortOrder
+      slug
     },
     workModel,
     employmentType,
@@ -398,11 +386,7 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     locations[]->{
       _id,
       title,
-      slug,
-      city,
-      country,
-      timezone,
-      sortOrder
+      slug
     },
     workModel,
     employmentType,
@@ -462,7 +446,6 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(
 export const POST_METADATA_QUERY = defineQuery(
   `*[_type == "post" && slug.current == $slug][0] {
     title,
-    excerpt,
     mainImage,
     publishedAt,
     _updatedAt
@@ -483,7 +466,6 @@ export const NEWS_METADATA_QUERY = defineQuery(
   `*[_type == "news" && slug.current == $slug][0] {
     title,
     subtitle,
-    excerpt,
     mainImage,
     publishedAt,
     author,
@@ -504,8 +486,7 @@ export const CAREER_METADATA_QUERY = defineQuery(
     title,
     locations[]->{
       title,
-      city,
-      country
+      slug
     },
     pillar->{
       title,
