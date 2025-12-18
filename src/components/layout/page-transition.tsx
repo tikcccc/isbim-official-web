@@ -215,7 +215,7 @@ interface PageTransitionProps {
 }
 
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
-    const pathname = usePathname();
+    const pathname = usePathname(); // canonical (no locale)
     const locale = useLocale();
     const searchParams = useSearchParams();
     const searchKey = searchParams?.toString() ?? "";

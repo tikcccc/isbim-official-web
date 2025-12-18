@@ -169,8 +169,25 @@ export interface SanityCareer {
   title: string;
   slug: { current: string };
   pillar?: string;
-  team?: string;
-  locations?: string[];
+  team?: {
+    _id?: string;
+    title?: string;
+    slug?: { current?: string };
+    pillar?: string;
+    sortOrder?: number;
+    status?: "active" | "hidden";
+    description?: string;
+  };
+  locations?: Array<{
+    _id?: string;
+    title?: string;
+    slug?: { current?: string };
+    city?: string;
+    country?: string;
+    timezone?: string;
+    sortOrder?: number;
+    status?: "active" | "hidden";
+  }>;
   workModel?: "onsite" | "hybrid" | "remote";
   employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";
   experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";

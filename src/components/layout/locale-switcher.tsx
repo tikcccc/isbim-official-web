@@ -23,14 +23,16 @@ const localeLabels: Record<AvailableLanguageTag, string> = {
   zh: "中文",
 };
 
-function stripLocalePrefix(pathname: string) {
+function stripLocalePrefix(pathname: string): `/${string}` {
   const segments = pathname.split("/").filter(Boolean);
   if (segments.length === 0) return "/";
   const [maybeLocale, ...rest] = segments;
   if (availableLanguageTags.includes(maybeLocale as AvailableLanguageTag)) {
-    return `/${rest.join("/")}`;
+    const pathWithoutLocale = `/${rest.join("/")}`;
+    return pathWithoutLocale as `/${string}`;
   }
-  return pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return normalizedPath as `/${string}`;
 }
 
 export function LocaleSwitcher() {
@@ -56,16 +58,17 @@ export function LocaleSwitcher() {
     const canonicalPath = stripLocalePrefix(pathname);
     const query = searchParams?.toString();
     // Use Paraglide strategy to build localized path (handles translated pathnames/prefix)
-    const localizedPath = strategy.getLocalisedUrl(canonicalPath, newLocale).pathname + (query ? `?${query}` : "");
+    const localizedPath =
+      strategy.getLocalisedUrl(canonicalPath, newLocale, true).pathname + (query ? `?${query}` : "");
 
-    // Delay context/runtime switch to allow transition overlay to cover
+    // Slight delay so transition overlay can start; avoids long lag
     if (localeUpdateTimer.current) {
       clearTimeout(localeUpdateTimer.current);
     }
     localeUpdateTimer.current = window.setTimeout(() => {
       setLanguageTag(() => newLocale);
       setLocale(newLocale);
-    }, 800); // align with transition duration (~0.9s)
+    }, 450);
 
     // Persist preference for server / middleware
     document.cookie = `NEXT_LOCALE=${newLocale}; Path=/; Max-Age=31557600; SameSite=Lax`;
