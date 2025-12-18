@@ -218,9 +218,19 @@ export async function generateCareerMetadata(
   try {
     const career = await sanityFetch<{
       title: string;
-      description?: string;
-      department?: string;
-      location?: string;
+      summary?: string;
+      intro?: string;
+      locations?: string[];
+      team?: string;
+      employmentType?: string;
+      workModel?: string;
+      seo?: {
+        metaTitle?: string;
+        metaDescription?: string;
+        openGraphImage?: Image;
+        keywords?: string[];
+      };
+      _updatedAt?: string;
     } | null>({
       query: CAREER_METADATA_QUERY,
       params: { slug },
@@ -238,16 +248,37 @@ export async function generateCareerMetadata(
       });
     }
 
+    const title = career.seo?.metaTitle || career.title;
     const description =
-      career.description ||
-      `Join our team as ${career.title}${career.department ? ` in ${career.department}` : ""}${career.location ? ` (${career.location})` : ""}`;
+      career.seo?.metaDescription ||
+      career.summary ||
+      career.intro ||
+      `Join our team as ${career.title}${career.team ? ` in ${career.team}` : ""}${
+        career.locations?.length ? ` (${career.locations[0]})` : ""
+      }`;
+    const imageUrl = career.seo?.openGraphImage
+      ? urlFor(career.seo.openGraphImage)?.width(1200).height(630).url()
+      : undefined;
+    const keywords = [
+      ...COMMON_KEYWORDS,
+      "careers",
+      "jobs",
+      "hiring",
+      career.title,
+      career.team ?? "",
+      career.employmentType ?? "",
+      career.workModel ?? "",
+      ...(career.seo?.keywords ?? []),
+    ].filter(Boolean);
 
     return generatePageMetadata({
-      title: career.title,
+      title,
       description,
       path: `/careers/${slug}`,
       locale,
-      keywords: [...COMMON_KEYWORDS, "careers", "jobs", "hiring", career.title],
+      image: imageUrl,
+      modifiedTime: career._updatedAt,
+      keywords,
     });
   } catch (error) {
     console.error(`[SEO] Failed to generate career metadata for slug: ${slug}`, error);

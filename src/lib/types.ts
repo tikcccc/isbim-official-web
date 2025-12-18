@@ -167,12 +167,32 @@ export interface SanityNews extends SanityPost {
 export interface SanityCareer {
   _id: string;
   title: string;
-  location: string;
-  department: string;
-  type: "full-time" | "part-time" | "contract";
-  description: string;
-  requirements: string[];
-  postedAt: string;
+  slug: { current: string };
+  pillar?: string;
+  team?: string;
+  locations?: string[];
+  workModel?: "onsite" | "hybrid" | "remote";
+  employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";
+  experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";
+  summary?: string;
+  intro?: string;
+  body?: unknown;
+  sections?: unknown;
+  perks?: string[];
+  application?: {
+    applyUrl?: string;
+    applyEmail?: string;
+    instructions?: string;
+  };
+  hiringManager?: {
+    name?: string;
+    title?: string;
+    email?: string;
+    photo?: { asset: { url: string } };
+  };
+  postedAt?: string;
+  expiresAt?: string;
+  status?: "open" | "draft" | "closed";
 }
 
 export interface SanityProject {

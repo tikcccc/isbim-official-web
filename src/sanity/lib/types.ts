@@ -81,16 +81,54 @@ export interface News extends SanityDocument {
 /**
  * Career document type
  */
+export interface CareerSection {
+  _key: string;
+  title: string;
+  kind?: "overview" | "responsibilities" | "requirements" | "benefits" | "custom";
+  content?: PortableTextBlock[];
+}
+
+export interface CareerApplication {
+  applyUrl?: string;
+  applyEmail?: string;
+  instructions?: string;
+}
+
+export interface CareerHiringManager {
+  name?: string;
+  title?: string;
+  email?: string;
+  photo?: Image;
+}
+
 export interface Career extends SanityDocument {
   _type: "career";
   title: string;
   slug: Slug;
-  department?: string;
-  location?: string;
-  employmentType?: string;
-  description?: string;
-  requirements?: string[];
-  benefits?: string[];
+  status?: "open" | "draft" | "closed";
+  pillar?: string;
+  team?: string;
+  locations?: string[];
+  workModel?: "onsite" | "hybrid" | "remote";
+  employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";
+  experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";
+  tags?: string[];
+  sortOrder?: number;
+  summary?: string;
+  intro?: string;
+  body?: PortableTextBlock[];
+  sections?: CareerSection[];
+  perks?: string[];
+  application?: CareerApplication;
+  hiringManager?: CareerHiringManager;
+  postedAt?: string;
+  expiresAt?: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    openGraphImage?: Image;
+    keywords?: string[];
+  };
 }
 
 /**

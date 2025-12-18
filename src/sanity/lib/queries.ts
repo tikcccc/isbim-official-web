@@ -321,14 +321,22 @@ export const RELATED_NEWS_QUERY = defineQuery(
 
 /** Fetch all open career positions */
 export const CAREERS_QUERY = defineQuery(
-  `*[_type == "career" && defined(slug.current)] | order(_createdAt desc) {
+  `*[_type == "career" && defined(slug.current) && coalesce(status, "open") != "closed"] | order(coalesce(sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
     _id,
     _type,
     title,
     slug,
-    department,
-    location,
-    employmentType
+    status,
+    pillar,
+    team,
+    locations,
+    workModel,
+    employmentType,
+    experienceLevel,
+    tags,
+    summary,
+    postedAt,
+    sortOrder
   }`
 );
 
@@ -339,12 +347,25 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     _type,
     title,
     slug,
-    department,
-    location,
+    status,
+    pillar,
+    team,
+    locations,
+    workModel,
     employmentType,
-    description,
-    requirements,
-    benefits
+    experienceLevel,
+    tags,
+    summary,
+    intro,
+    body,
+    sections,
+    perks,
+    application,
+    hiringManager,
+    postedAt,
+    expiresAt,
+    sortOrder,
+    seo
   }`
 );
 
@@ -430,9 +451,14 @@ export const NEWS_METADATA_QUERY = defineQuery(
 export const CAREER_METADATA_QUERY = defineQuery(
   `*[_type == "career" && slug.current == $slug][0] {
     title,
-    description,
-    department,
-    location
+    summary,
+    intro,
+    locations,
+    team,
+    employmentType,
+    workModel,
+    seo,
+    _updatedAt
   }`
 );
 
