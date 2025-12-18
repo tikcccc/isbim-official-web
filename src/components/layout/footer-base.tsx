@@ -8,6 +8,7 @@ import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { Separator } from "@/components/ui/separator";
 import { useLocale } from "@/lib/i18n/locale-context";
+import { useMemo } from "react";
 
 const NewsletterForm = dynamic(
   () => import("./newsletter-form").then((mod) => mod.NewsletterForm),
@@ -29,33 +30,39 @@ function NewsletterFallback() {
   );
 }
 
-const productLinks = [
-  { name: "JARVIS Agent", href: ROUTES.JARVIS.AGENT },
-  { name: "JARVIS Pay", href: ROUTES.JARVIS.PAY },
-  { name: "JARVIS Air", href: ROUTES.JARVIS.AIR },
-  { name: "JARVIS Eagle Eye", href: ROUTES.JARVIS.EAGLE_EYE },
-  { name: "JARVIS SSSS", href: ROUTES.JARVIS.SSSS },
-  { name: "JARVIS DWSS", href: ROUTES.JARVIS.DWSS },
-  { name: "JARVIS CDCP", href: ROUTES.JARVIS.CDCP },
-  { name: "JARVIS Assets", href: ROUTES.JARVIS.ASSETS },
-];
-
-const companyLinks = [
-  { name: "JARVIS Project Management (JPM)", href: ROUTES.JARVIS.JPM },
-  { name: "BIM Consultancy", href: ROUTES.BIM_CONSULTANCY },
-  { name: "Project Finance", href: ROUTES.PROJECT_FINANCE },
-  { name: "Venture Investments", href: ROUTES.VENTURE_INVESTMENTS },
-  { name: "About Us", href: ROUTES.ABOUT },
-  { name: "Newsroom", href: ROUTES.NEWSROOM },
-  { name: "Careers", href: ROUTES.CAREERS },
-  { name: "Contact Us", href: ROUTES.CONTACT },
-];
-
 export type FooterVariant = "default" | "charcoal";
 
 export function FooterBase({ variant = "default" }: { variant?: FooterVariant }) {
   // Subscribe to locale changes so translations re-render
-  useLocale();
+  const locale = useLocale();
+
+  const productLinks = useMemo(
+    () => [
+      { name: messages.menu_product_agent_name(), href: ROUTES.JARVIS.AGENT },
+      { name: messages.menu_product_pay_name(), href: ROUTES.JARVIS.PAY },
+      { name: messages.menu_product_air_name(), href: ROUTES.JARVIS.AIR },
+      { name: messages.menu_product_eagleeye_name(), href: ROUTES.JARVIS.EAGLE_EYE },
+      { name: messages.menu_product_ssss_name(), href: ROUTES.JARVIS.SSSS },
+      { name: messages.menu_product_dwss_name(), href: ROUTES.JARVIS.DWSS },
+      { name: messages.menu_product_cdcp_name(), href: ROUTES.JARVIS.CDCP },
+      { name: messages.menu_product_assets_name(), href: ROUTES.JARVIS.ASSETS },
+    ],
+    [locale]
+  );
+
+  const companyLinks = useMemo(
+    () => [
+      { name: messages.menu_nav_jpm(), href: ROUTES.JARVIS.JPM },
+      { name: messages.menu_nav_bim(), href: ROUTES.BIM_CONSULTANCY },
+      { name: messages.menu_nav_finance(), href: ROUTES.PROJECT_FINANCE },
+      { name: messages.menu_nav_venture(), href: ROUTES.VENTURE_INVESTMENTS },
+      { name: messages.menu_nav_about(), href: ROUTES.ABOUT },
+      { name: messages.menu_nav_newsroom(), href: ROUTES.NEWSROOM },
+      { name: messages.menu_nav_careers(), href: ROUTES.CAREERS },
+      { name: messages.menu_nav_contact(), href: ROUTES.CONTACT },
+    ],
+    [locale]
+  );
 
   const isCharcoal = variant === "charcoal";
   const linkedinHref = "https://hk.linkedin.com/company/isbim";
