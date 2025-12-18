@@ -29,7 +29,15 @@ export const careerPillarType = defineType({
       name: "sortOrder",
       title: "Sort Order",
       type: "number",
-      description: "Lower numbers appear first in the column list.",
+      description: "Priority for columns: High shows first, Low shows last.",
+      options: {
+        list: [
+          { title: "High (top)", value: 1 },
+          { title: "Medium", value: 2 },
+          { title: "Low (bottom)", value: 3 },
+        ],
+        layout: "dropdown",
+      },
     }),
     defineField({
       name: "status",

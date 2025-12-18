@@ -130,7 +130,15 @@ export const careerType = defineType({
       name: "sortOrder",
       title: "Sort Order",
       type: "number",
-      description: "Lower numbers surface first in the listing layouts.",
+      description: "Priority: High shows first, Low shows last.",
+      options: {
+        list: [
+          { title: "High (top)", value: 1 },
+          { title: "Medium", value: 2 },
+          { title: "Low (bottom)", value: 3 },
+        ],
+        layout: "dropdown",
+      },
       group: "listing",
     }),
 

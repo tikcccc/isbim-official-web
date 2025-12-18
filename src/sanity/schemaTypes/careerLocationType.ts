@@ -38,7 +38,15 @@ export const careerLocationType = defineType({
       name: "sortOrder",
       title: "Sort Order",
       type: "number",
-      description: "Lower numbers surface higher in location lists.",
+      description: "Priority in location lists: High shows first, Low shows last.",
+      options: {
+        list: [
+          { title: "High (top)", value: 1 },
+          { title: "Medium", value: 2 },
+          { title: "Low (bottom)", value: 3 },
+        ],
+        layout: "dropdown",
+      },
     }),
     defineField({
       name: "status",
