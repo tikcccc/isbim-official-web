@@ -52,6 +52,16 @@
     text-transform: uppercase;
   }
 
+  /* Newsroom masthead hero */
+  .font-news-hero {
+    font-family: var(--font-heading-en);
+    font-size: clamp(3rem, 7vw, 8rem);
+    font-weight: var(--weight-max); /* 900 */
+    line-height: 1;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+  }
+
   /* Display Hero: largest hero headlines (max ~4.5rem), heading font */
   .font-hero-headline {
     font-family: var(--font-heading-en);

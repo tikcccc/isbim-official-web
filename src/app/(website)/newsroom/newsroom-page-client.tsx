@@ -341,7 +341,7 @@ function NewsListView({
       {heroPost && <HeroSection post={heroPost} />}
 
       {/* Container for Controls & List */}
-      <div className="newsroom-shell newsroom-padding-inline">
+      <div className="container-content">
         {/* Controls Area */}
         <div className="mb-12 border-b border-gray-900 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-4">
@@ -652,4 +652,3 @@ function FeedRow({ post }: { post: NewsPost }) {
 }
 
 // --- Detail View Component ---
-

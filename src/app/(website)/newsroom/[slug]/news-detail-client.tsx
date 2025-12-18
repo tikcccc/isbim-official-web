@@ -108,7 +108,7 @@ export default function NewsDetailClient({
       {/* Global noise texture overlay */}
       <div className="noise-grain" />
 
-      <div className="newsroom-article-container flex items-center gap-3 md:gap-4 py-4">
+      <div className="container-content flex items-center gap-3 md:gap-4 py-4">
         <Link href="/newsroom" className="newsroom-back-btn">
           <ArrowLeft className="newsroom-back-icon" />
           Back to Newsroom
@@ -116,7 +116,7 @@ export default function NewsDetailClient({
       </div>
 
       {/* Article Content */}
-      <article className="newsroom-article-container py-12">
+      <article className="container-content py-12">
         {/* Article Header */}
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 mb-12">
           {/* Sidebar Metadata */}
@@ -208,7 +208,7 @@ export default function NewsDetailClient({
 
       {/* Related Intelligence Section */}
       {relatedNews.length > 0 && (
-        <div className="newsroom-article-container mt-20 pt-12 border-t newsroom-border-strong">
+        <div className="container-content mt-20 pt-12 border-t newsroom-border-strong">
           <h3 className="newsroom-label newsroom-text-primary mb-8">
             Related Intelligence
           </h3>
@@ -228,7 +228,7 @@ export default function NewsDetailClient({
 
       {/* Recent News Section */}
       {recentNews.length > 0 && (
-        <div className="newsroom-article-container mt-20 pt-12 border-t newsroom-border-subtle">
+        <div className="container-content mt-20 pt-12 border-t newsroom-border-subtle">
           <h3 className="newsroom-label newsroom-text-primary mb-8">
             Recent News
           </h3>
