@@ -3,6 +3,7 @@ import { newsCategoryType } from './newsCategoryType';
 import { careerType } from './careerType';
 import { careerTeamType } from './careerTeamType';
 import { careerLocationType } from './careerLocationType';
+import { careerPillarType } from './careerPillarType';
 
 // Sanity now only stores dynamic content:
 // - News posts
@@ -10,4 +11,12 @@ import { careerLocationType } from './careerLocationType';
 // - Career positions
 // - Career teams (pillars/subgroups)
 // - Career locations
-export const schemaTypes = [newsType, newsCategoryType, careerTeamType, careerLocationType, careerType];
+// - Career pillars
+export const schemaTypes = [
+  newsType,
+  newsCategoryType,
+  careerPillarType,
+  careerTeamType,
+  careerLocationType,
+  careerType,
+];

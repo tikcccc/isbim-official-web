@@ -1,13 +1,13 @@
 import { defineField, defineType } from "sanity";
 
-export const careerTeamType = defineType({
-  name: "careerTeam",
-  title: "Career Team",
+export const careerPillarType = defineType({
+  name: "careerPillar",
+  title: "Career Pillar",
   type: "document",
   fields: [
     defineField({
       name: "title",
-      title: "Team Name",
+      title: "Pillar Title",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -19,25 +19,17 @@ export const careerTeamType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "pillar",
-      title: "Pillar (Column Header)",
-      type: "reference",
-      to: [{ type: "careerPillar" }],
-      description: "Which pillar this team appears under on the careers page.",
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: "description",
       title: "Description",
       type: "text",
       rows: 3,
-      description: "Optional blurb for hover/preview.",
+      description: "Optional blurb for UI hover/preview.",
     }),
     defineField({
       name: "sortOrder",
       title: "Sort Order",
       type: "number",
-      description: "Lower numbers surface the team higher within a pillar.",
+      description: "Lower numbers appear first in the column list.",
     }),
     defineField({
       name: "status",
@@ -56,15 +48,15 @@ export const careerTeamType = defineType({
   preview: {
     select: {
       title: "title",
-      pillarTitle: "pillar.title",
       status: "status",
+      sortOrder: "sortOrder",
     },
-    prepare({ title, pillarTitle, status }) {
+    prepare({ title, status, sortOrder }) {
       const emoji = status === "hidden" ? "👁️‍🗨️" : "🧭";
-      const subtitle = pillarTitle || "No pillar set";
+      const order = typeof sortOrder === "number" ? `#${sortOrder}` : "no order";
       return {
         title,
-        subtitle: `${emoji} ${subtitle}`,
+        subtitle: `${emoji} ${order}`,
       };
     },
   },

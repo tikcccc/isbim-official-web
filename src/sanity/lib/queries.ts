@@ -321,18 +321,32 @@ export const RELATED_NEWS_QUERY = defineQuery(
 
 /** Fetch all open career positions */
 export const CAREERS_QUERY = defineQuery(
-  `*[_type == "career" && defined(slug.current) && coalesce(status, "open") != "closed"] | order(coalesce(team->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
+  `*[_type == "career" && defined(slug.current) && coalesce(status, "open") != "closed"] | order(coalesce(team->sortOrder, pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
     _id,
     _type,
     title,
     slug,
     status,
-    pillar,
+    pillar->{
+      _id,
+      title,
+      slug,
+      sortOrder,
+      status,
+      description
+    },
     team->{
       _id,
       title,
       slug,
-      pillar,
+      pillar->{
+        _id,
+        title,
+        slug,
+        sortOrder,
+        status,
+        description
+      },
       sortOrder,
       status,
       description
@@ -365,12 +379,26 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     title,
     slug,
     status,
-    pillar,
+    pillar->{
+      _id,
+      title,
+      slug,
+      sortOrder,
+      status,
+      description
+    },
     team->{
       _id,
       title,
       slug,
-      pillar,
+      pillar->{
+        _id,
+        title,
+        slug,
+        sortOrder,
+        status,
+        description
+      },
       sortOrder,
       status,
       description
@@ -490,10 +518,18 @@ export const CAREER_METADATA_QUERY = defineQuery(
       city,
       country
     },
-    pillar,
+    pillar->{
+      title,
+      slug,
+      sortOrder
+    },
     team->{
       title,
-      pillar
+      pillar->{
+        title,
+        slug,
+        sortOrder
+      }
     },
     employmentType,
     workModel,

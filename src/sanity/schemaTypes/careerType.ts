@@ -7,7 +7,6 @@ export const careerType = defineType({
   groups: [
     { name: "listing", title: "Listing" },
     { name: "content", title: "Content" },
-    { name: "application", title: "Application" },
     { name: "seo", title: "SEO" },
   ],
   fields: [
@@ -46,15 +45,9 @@ export const careerType = defineType({
     defineField({
       name: "pillar",
       title: "Pillar (Column Header)",
-      type: "string",
-      description: "Maps to the primary grouping in the newspaper/table layouts.",
-      options: {
-        list: [
-          { title: "Delivery & Success", value: "delivery-success" },
-          { title: "Engineering", value: "engineering" },
-          { title: "Strategy & Talent", value: "strategy-talent" },
-        ],
-      },
+      type: "reference",
+      to: [{ type: "careerPillar" }],
+      description: "Optional override. Defaults to the pillar on the selected team.",
       group: "listing",
     }),
     defineField({
@@ -311,12 +304,14 @@ export const careerType = defineType({
     select: {
       title: "title",
       teamTitle: "team.title",
-      pillar: "team.pillar",
+      pillarTitle: "pillar.title",
+      teamPillarTitle: "team.pillar.title",
       location: "locations.0.title",
       status: "status",
     },
-    prepare({ title, teamTitle, pillar, location, status }) {
+    prepare({ title, teamTitle, pillarTitle, teamPillarTitle, location, status }) {
       const statusEmoji = status === "open" ? "🟢" : status === "draft" ? "📝" : "⛔️";
+      const pillar = pillarTitle || teamPillarTitle;
       const subtitle = [teamTitle || pillar, location].filter(Boolean).join(" • ");
       return {
         title,

@@ -81,11 +81,20 @@ export interface News extends SanityDocument {
 /**
  * Career document type
  */
+export interface CareerPillar extends SanityDocument {
+  _type: "careerPillar";
+  title: string;
+  slug: Slug;
+  description?: string;
+  sortOrder?: number;
+  status?: "active" | "hidden";
+}
+
 export interface CareerTeam extends SanityDocument {
   _type: "careerTeam";
   title: string;
   slug: Slug;
-  pillar?: string;
+  pillar?: CareerPillar;
   description?: string;
   sortOrder?: number;
   status?: "active" | "hidden";
@@ -114,7 +123,7 @@ export interface Career extends SanityDocument {
   title: string;
   slug: Slug;
   status?: "open" | "draft" | "closed";
-  pillar?: string;
+  pillar?: CareerPillar;
   team?: CareerTeam;
   locations?: CareerLocation[];
   workModel?: "onsite" | "hybrid" | "remote";

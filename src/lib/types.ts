@@ -168,12 +168,26 @@ export interface SanityCareer {
   _id: string;
   title: string;
   slug: { current: string };
-  pillar?: string;
+  pillar?: {
+    _id?: string;
+    title?: string;
+    slug?: { current?: string };
+    sortOrder?: number;
+    status?: "active" | "hidden";
+    description?: string;
+  };
   team?: {
     _id?: string;
     title?: string;
     slug?: { current?: string };
-    pillar?: string;
+    pillar?: {
+      _id?: string;
+      title?: string;
+      slug?: { current?: string };
+      sortOrder?: number;
+      status?: "active" | "hidden";
+      description?: string;
+    };
     sortOrder?: number;
     status?: "active" | "hidden";
     description?: string;
