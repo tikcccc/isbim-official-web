@@ -262,60 +262,6 @@ export const careerType = defineType({
       group: "content",
     }),
 
-    // Application & contact
-    defineField({
-      name: "application",
-      title: "Application",
-      type: "object",
-      fields: [
-        defineField({
-          name: "applyUrl",
-          title: "Apply URL",
-          type: "url",
-          description: "External ATS link if applicable.",
-        }),
-        defineField({
-          name: "applyEmail",
-          title: "Apply Email",
-          type: "string",
-          description: "Fallback email for applications.",
-        }),
-        defineField({
-          name: "instructions",
-          title: "Application Notes",
-          type: "text",
-          rows: 3,
-        }),
-      ],
-      options: { collapsible: true, collapsed: false },
-      group: "application",
-    }),
-    defineField({
-      name: "hiringManager",
-      title: "Hiring Manager",
-      type: "object",
-      fields: [
-        defineField({ name: "name", title: "Name", type: "string" }),
-        defineField({ name: "title", title: "Title", type: "string" }),
-        defineField({ name: "email", title: "Email", type: "string" }),
-        defineField({
-          name: "photo",
-          title: "Photo",
-          type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              type: "string",
-              title: "Alt Text",
-            }),
-          ],
-        }),
-      ],
-      options: { collapsible: true, collapsed: true },
-      group: "application",
-    }),
-
     // SEO
     defineField({
       name: "seo",

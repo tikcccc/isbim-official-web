@@ -297,13 +297,13 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     useEffect(() => {
         if (!isEnterComplete) return;
         performScrollIfPending();
-    }, [isEnterComplete, lenis]);
+    }, [isEnterComplete, performScrollIfPending]);
 
     // If transitions are disabled (e.g., newsroom), still perform scroll-to-top on route/locale/search change
     useEffect(() => {
         if (!disableTransition) return;
         performScrollIfPending();
-    }, [transitionKey, disableTransition, lenis]);
+    }, [transitionKey, disableTransition, performScrollIfPending]);
 
     if (disableTransition) {
         return (

@@ -12,7 +12,6 @@ import * as messages from "@/paraglide/messages";
 import { m } from "@/components/motion/lazy-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { urlFor } from "@/sanity/lib";
-import { languageTag } from "@/paraglide/runtime";
 import type { Image as SanityImage } from "sanity";
 import styles from "./menu-overlay.module.css";
 import { useLocale } from "@/lib/i18n/locale-context";
@@ -223,7 +222,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
 
   // Subscribe to locale changes so translations update
   const locale = useLocale();
-  const localeTag = languageTag();
+  const localeTag = locale;
   const newsItems = useMemo(() => (newsPreview ?? []).slice(0, 2), [newsPreview]);
 
   const formatDate = (date?: string) => {

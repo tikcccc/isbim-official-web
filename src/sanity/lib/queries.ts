@@ -394,8 +394,6 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     body,
     sections,
     perks,
-    application,
-    hiringManager,
     postedAt,
     expiresAt,
     sortOrder,

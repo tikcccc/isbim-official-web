@@ -196,17 +196,6 @@ export interface SanityCareer {
   body?: unknown;
   sections?: unknown;
   perks?: string[];
-  application?: {
-    applyUrl?: string;
-    applyEmail?: string;
-    instructions?: string;
-  };
-  hiringManager?: {
-    name?: string;
-    title?: string;
-    email?: string;
-    photo?: { asset: { url: string } };
-  };
   postedAt?: string;
   expiresAt?: string;
   status?: "open" | "draft" | "closed";

@@ -109,19 +109,6 @@ export interface CareerSection {
   content?: PortableTextBlock[];
 }
 
-export interface CareerApplication {
-  applyUrl?: string;
-  applyEmail?: string;
-  instructions?: string;
-}
-
-export interface CareerHiringManager {
-  name?: string;
-  title?: string;
-  email?: string;
-  photo?: Image;
-}
-
 export interface Career extends SanityDocument {
   _type: "career";
   title: string;
@@ -140,8 +127,6 @@ export interface Career extends SanityDocument {
   body?: PortableTextBlock[];
   sections?: CareerSection[];
   perks?: string[];
-  application?: CareerApplication;
-  hiringManager?: CareerHiringManager;
   postedAt?: string;
   expiresAt?: string;
   seo?: {
