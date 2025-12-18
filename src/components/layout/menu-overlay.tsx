@@ -208,7 +208,9 @@ const panelVariants = {
 export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }) {
   const { isOpen, closeMenu, activePreview, setActivePreview } = useMenuStore();
   const { lenis } = useLenis();
-  const menuData = useMemo(() => getMenuData(), []);
+  // Recompute menu labels when locale changes so translations stay in sync
+  const locale = useLocale();
+  const menuData = useMemo(() => getMenuData(), [locale]);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const scrollStateRef = useRef({
     target: 0,
@@ -221,7 +223,6 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
   const isMobile = useIsMobile();
 
   // Subscribe to locale changes so translations update
-  const locale = useLocale();
   const localeTag = locale;
   const newsItems = useMemo(() => (newsPreview ?? []).slice(0, 2), [newsPreview]);
 
