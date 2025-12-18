@@ -68,7 +68,7 @@ export function LocaleSwitcher() {
     localeUpdateTimer.current = window.setTimeout(() => {
       setLanguageTag(() => newLocale);
       setLocale(newLocale);
-    }, 450);
+    }, 650);
 
     // Persist preference for server / middleware
     document.cookie = `NEXT_LOCALE=${newLocale}; Path=/; Max-Age=31557600; SameSite=Lax`;
