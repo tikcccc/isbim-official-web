@@ -212,7 +212,6 @@ export interface SanityCareer {
   postedAt?: string;
   expiresAt?: string;
   applicationUrl?: string;
-  status?: "open" | "draft" | "closed";
 }
 
 export interface SanityProject {

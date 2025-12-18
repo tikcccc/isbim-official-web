@@ -201,21 +201,6 @@ export const newsType = defineType({
       description: 'Show as featured article (top of list)',
       initialValue: false,
     }),
-    defineField({
-      name: 'status',
-      title: 'Status',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Draft', value: 'draft' },
-          { title: 'Published', value: 'published' },
-          { title: 'Archived', value: 'archived' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'draft',
-      validation: (Rule) => Rule.required(),
-    }),
   ],
 
   preview: {
@@ -224,16 +209,14 @@ export const newsType = defineType({
       media: 'mainImage',
       categoryTitle: 'category.title',
       publishedAt: 'publishedAt',
-      status: 'status',
     },
-    prepare({ title, media, categoryTitle, publishedAt, status }) {
+    prepare({ title, media, categoryTitle, publishedAt }) {
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString() : 'Not published';
-      const statusEmoji = status === 'published' ? '✅' : status === 'draft' ? '📝' : '📦';
 
       return {
         title,
         media,
-        subtitle: `${statusEmoji} ${categoryTitle || 'No category'} • ${date}`,
+        subtitle: `${categoryTitle || 'No category'} • ${date}`,
       };
     },
   },

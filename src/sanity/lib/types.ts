@@ -122,7 +122,6 @@ export interface Career extends SanityDocument {
   _type: "career";
   title: string;
   slug: Slug;
-  status?: "open" | "draft" | "closed";
   pillar?: CareerPillar;
   team?: CareerTeam;
   locations?: CareerLocation[];

@@ -274,7 +274,6 @@ export const NEWS_DETAIL_QUERY = defineQuery(
     author,
     readTime,
     featured,
-    status,
     seo {
       metaTitle,
       metaDescription,
@@ -321,18 +320,16 @@ export const RELATED_NEWS_QUERY = defineQuery(
 
 /** Fetch all open career positions */
 export const CAREERS_QUERY = defineQuery(
-  `*[_type == "career" && defined(slug.current) && coalesce(status, "open") != "closed"] | order(coalesce(team->sortOrder, pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
+  `*[_type == "career" && defined(slug.current)] | order(coalesce(team->sortOrder, pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
     _id,
     _type,
     title,
     slug,
-    status,
     pillar->{
       _id,
       title,
       slug,
       sortOrder,
-      status,
       description
     },
     team->{
@@ -344,11 +341,9 @@ export const CAREERS_QUERY = defineQuery(
         title,
         slug,
         sortOrder,
-        status,
         description
       },
       sortOrder,
-      status,
       description
     },
     locations[]->{
@@ -378,13 +373,11 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     _type,
     title,
     slug,
-    status,
     pillar->{
       _id,
       title,
       slug,
       sortOrder,
-      status,
       description
     },
     team->{
@@ -396,11 +389,9 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
         title,
         slug,
         sortOrder,
-        status,
         description
       },
       sortOrder,
-      status,
       description
     },
     locations[]->{

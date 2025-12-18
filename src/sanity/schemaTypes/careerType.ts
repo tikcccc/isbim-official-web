@@ -12,22 +12,6 @@ export const careerType = defineType({
   fields: [
     // Listing & filters
     defineField({
-      name: "status",
-      title: "Status",
-      type: "string",
-      options: {
-        list: [
-          { title: "Open", value: "open" },
-          { title: "Draft", value: "draft" },
-          { title: "Closed", value: "closed" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "open",
-      validation: (Rule) => Rule.required(),
-      group: "listing",
-    }),
-    defineField({
       name: "title",
       title: "Role Title",
       type: "string",
@@ -315,15 +299,13 @@ export const careerType = defineType({
       pillarTitle: "pillar.title",
       teamPillarTitle: "team.pillar.title",
       location: "locations.0.title",
-      status: "status",
     },
-    prepare({ title, teamTitle, pillarTitle, teamPillarTitle, location, status }) {
-      const statusEmoji = status === "open" ? "🟢" : status === "draft" ? "📝" : "⛔️";
+    prepare({ title, teamTitle, pillarTitle, teamPillarTitle, location }) {
       const pillar = pillarTitle || teamPillarTitle;
       const subtitle = [teamTitle || pillar, location].filter(Boolean).join(" • ");
       return {
         title,
-        subtitle: `${statusEmoji} ${subtitle || "No location"}`,
+        subtitle: subtitle || "No location",
       };
     },
   },
