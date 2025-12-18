@@ -119,6 +119,15 @@ const platforms: PlatformItem[] = [
   },
 ];
 
+// Schedule work without blocking UI; fall back to setTimeout on unsupported browsers
+const scheduleIdle = (cb: () => void) => {
+  if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+    (window as typeof window & { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback?.(cb);
+  } else {
+    setTimeout(cb, 0);
+  }
+};
+
 // Hook: Detect network quality for adaptive preloading
 function useConnectionQuality() {
   const [quality, setQuality] = useState<"slow" | "fast">("fast");
@@ -246,7 +255,17 @@ export function Section4PlatformList() {
     // Play current video
     const video = videoRefs.current[index];
     if (video) {
-      video.play().catch(() => {});
+      scheduleIdle(() => {
+        if (video.readyState >= 2) {
+          video.play().catch(() => {});
+          return;
+        }
+        const onCanPlay = () => {
+          video.removeEventListener("canplay", onCanPlay);
+          video.play().catch(() => {});
+        };
+        video.addEventListener("canplay", onCanPlay, { once: true });
+      });
     }
 
     // Preload next 2 videos
@@ -345,7 +364,7 @@ function PlatformRow({
   return (
     <Link
       href={href}
-      prefetch
+      prefetch={isHovered}
       className={cn("relative block border-t py-6 sm:py-10 group cursor-pointer", styles.divider)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onLeave}
