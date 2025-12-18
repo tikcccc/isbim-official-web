@@ -12,34 +12,24 @@ export const newsCategoryType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: { source: 'title' },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-    }),
-    defineField({
-      name: 'color',
-      title: 'Color',
-      type: 'string',
-      description: 'Hex color for category badge (e.g., #10b981)',
-      validation: (Rule) =>
-        Rule.regex(/^#[0-9A-Fa-f]{6}$/, {
-          name: 'hex color',
-          invert: false,
-        }).error('Must be a valid hex color (e.g., #10b981)'),
+      name: 'sortOrder',
+      title: 'Sort Order',
+      type: 'number',
+      description: 'Priority: High shows first.',
+      options: {
+        list: [
+          { title: 'High (top)', value: 1 },
+          { title: 'Medium', value: 2 },
+          { title: 'Low (bottom)', value: 3 },
+        ],
+        layout: 'radio',
+      },
     }),
   ],
 
   preview: {
     select: {
       title: 'title',
-      subtitle: 'description',
     },
   },
 });

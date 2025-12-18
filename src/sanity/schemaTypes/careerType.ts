@@ -98,6 +98,7 @@ export const careerType = defineType({
           { title: "Lead", value: "lead" },
           { title: "Director", value: "director" },
         ],
+        layout: "radio",
       },
       group: "listing",
     }),
@@ -121,61 +122,12 @@ export const careerType = defineType({
           { title: "Medium", value: 2 },
           { title: "Low (bottom)", value: 3 },
         ],
-        layout: "dropdown",
+        layout: "radio",
       },
       group: "listing",
     }),
 
     // Detail content
-    defineField({
-      name: "summary",
-      title: "Listing Summary",
-      type: "text",
-      rows: 3,
-      description: "Short blurb for cards/newspaper layout (max ~200 chars).",
-      validation: (Rule) => Rule.max(200),
-      group: "content",
-    }),
-    defineField({
-      name: "intro",
-      title: "Intro",
-      type: "text",
-      rows: 4,
-      description: "Optional hero paragraph for the detail view.",
-      group: "content",
-    }),
-    defineField({
-      name: "body",
-      title: "Body",
-      type: "array",
-      of: [
-        {
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [{ name: "href", type: "url", title: "URL" }],
-              },
-            ],
-          },
-        },
-      ],
-      description: "Rich content for the detail page; supports headings, lists, and links.",
-      validation: (Rule) => Rule.required(),
-      group: "content",
-    }),
     defineField({
       name: "sections",
       title: "Structured Sections",
@@ -224,6 +176,49 @@ export const careerType = defineType({
           },
         }),
       ],
+      initialValue: [
+        {
+          _type: "section",
+          title: "The Role",
+          kind: "overview",
+          content: [],
+        },
+        {
+          _type: "section",
+          title: "Core Responsibilities",
+          kind: "responsibilities",
+          content: [],
+        },
+        {
+          _type: "section",
+          title: "Requirements",
+          kind: "requirements",
+          content: [],
+        },
+      ],
+      validation: (Rule) => Rule.required().min(1),
+      group: "content",
+    }),
+    defineField({
+      name: "applicationUrl",
+      title: "Application URL",
+      type: "url",
+      description: "External form/ATS link for this role.",
+      group: "content",
+    }),
+    defineField({
+      name: "contentImage",
+      title: "Content Image (Optional)",
+      type: "image",
+      description: "Optional image to accompany the content.",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alt Text",
+        }),
+      ],
       group: "content",
     }),
     defineField({
@@ -239,13 +234,6 @@ export const careerType = defineType({
       type: "datetime",
       group: "content",
     }),
-    defineField({
-      name: "applicationUrl",
-      title: "Application URL",
-      type: "url",
-      description: "External form/ATS link for this role.",
-      group: "content",
-    }),
 
     // SEO
     defineField({
@@ -258,6 +246,7 @@ export const careerType = defineType({
           name: "metaTitle",
           title: "Meta Title",
           type: "string",
+          description: "Optional. Defaults to the job title if left blank.",
           validation: (Rule) => Rule.max(60).warning("Keep under 60 characters"),
         }),
         defineField({
@@ -265,6 +254,7 @@ export const careerType = defineType({
           title: "Meta Description",
           type: "text",
           rows: 3,
+          description: "Optional. Auto-generated from content if left blank.",
           validation: (Rule) => Rule.max(160).warning("Keep under 160 characters"),
         }),
         defineField({

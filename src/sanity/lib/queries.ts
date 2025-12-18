@@ -36,6 +36,7 @@ export const POSTS_QUERY = defineQuery(
     _id,
     _type,
     _createdAt,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     publishedAt,
@@ -49,6 +50,7 @@ export const POST_BY_SLUG_QUERY = defineQuery(
   `*[_type == "post" && slug.current == $slug][0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     _createdAt,
     _updatedAt,
     title,
@@ -69,6 +71,7 @@ export const PRODUCTS_QUERY = defineQuery(
   `*[_type == "product" && defined(slug.current)] | order(name asc) {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     name,
     slug,
     description,
@@ -83,6 +86,7 @@ export const PRODUCT_BY_SLUG_QUERY = defineQuery(
   `*[_type == "product" && slug.current == $slug][0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     name,
     slug,
     description,
@@ -101,6 +105,7 @@ export const IMAGE_ASSETS_QUERY = defineQuery(
   `*[_type == "imageAsset"] | order(title asc) {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     alt,
     file,
@@ -113,6 +118,7 @@ export const IMAGE_ASSET_BY_SLUG_QUERY = defineQuery(
   `*[_type == "imageAsset" && slug.current == $slug][0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     alt,
     file,
@@ -128,10 +134,9 @@ export const IMAGE_ASSET_BY_SLUG_QUERY = defineQuery(
 export const NEWS_CATEGORIES_QUERY = defineQuery(
   `*[_type == "newsCategory"] | order(title asc) {
     _id,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
-    slug,
-    description,
-    color
+    sortOrder
   }`
 );
 
@@ -140,6 +145,7 @@ export const FEATURED_NEWS_QUERY = defineQuery(
   `*[_type == "news" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     subtitle,
@@ -153,10 +159,8 @@ export const FEATURED_NEWS_QUERY = defineQuery(
     category->{
       _id,
       title,
-      slug,
-      color
+      sortOrder
     },
-    tags,
     author,
     readTime,
     featured
@@ -168,6 +172,7 @@ export const NEWS_LIST_QUERY = defineQuery(
   `*[_type == "news" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     subtitle,
@@ -181,10 +186,8 @@ export const NEWS_LIST_QUERY = defineQuery(
     category->{
       _id,
       title,
-      slug,
-      color
+      sortOrder
     },
-    tags,
     author,
     readTime,
     featured
@@ -204,6 +207,7 @@ export const MENU_LATEST_NEWS_QUERY = defineQuery(
   )[]{
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     publishedAt,
@@ -216,7 +220,7 @@ export const MENU_LATEST_NEWS_QUERY = defineQuery(
     category->{
       _id,
       title,
-      color
+      sortOrder
     },
     readTime
   }`
@@ -227,6 +231,7 @@ export const NEWS_BY_CATEGORY_QUERY = defineQuery(
   `*[_type == "news" && category._ref == $categoryId && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     subtitle,
@@ -239,10 +244,8 @@ export const NEWS_BY_CATEGORY_QUERY = defineQuery(
     category->{
       _id,
       title,
-      slug,
-      color
+      sortOrder
     },
-    tags,
     author,
     readTime,
     featured
@@ -254,6 +257,7 @@ export const NEWS_DETAIL_QUERY = defineQuery(
   `*[_type == "news" && slug.current == $slug][0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     subtitle,
@@ -267,10 +271,8 @@ export const NEWS_DETAIL_QUERY = defineQuery(
     category->{
       _id,
       title,
-      slug,
-      color
+      sortOrder
     },
-    tags,
     author,
     readTime,
     featured,
@@ -293,6 +295,7 @@ export const RELATED_NEWS_QUERY = defineQuery(
   `*[_type == "news" && category._ref == $categoryId && slug.current != $currentSlug && defined(slug.current)] | order(publishedAt desc) [0...3] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     subtitle,
@@ -305,10 +308,8 @@ export const RELATED_NEWS_QUERY = defineQuery(
     category->{
       _id,
       title,
-      slug,
-      color
+      sortOrder
     },
-    tags,
     author,
     readTime
   }`
@@ -323,6 +324,7 @@ export const CAREERS_QUERY = defineQuery(
   `*[_type == "career" && defined(slug.current)] | order(coalesce(team->sortOrder, pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     pillar->{
@@ -353,14 +355,12 @@ export const CAREERS_QUERY = defineQuery(
       city,
       country,
       timezone,
-      sortOrder,
-      status
+      sortOrder
     },
     workModel,
     employmentType,
     experienceLevel,
     tags,
-    summary,
     postedAt,
     sortOrder
   }`
@@ -371,6 +371,7 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
   `*[_type == "career" && slug.current == $slug][0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     pillar->{
@@ -401,16 +402,12 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
       city,
       country,
       timezone,
-      sortOrder,
-      status
+      sortOrder
     },
     workModel,
     employmentType,
     experienceLevel,
     tags,
-    summary,
-    intro,
-    body,
     sections,
     postedAt,
     expiresAt,
@@ -429,6 +426,7 @@ export const PROJECTS_QUERY = defineQuery(
   `*[_type == "project" && defined(slug.current)] | order(completedAt desc) {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     client,
@@ -443,6 +441,7 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(
   `*[_type == "project" && slug.current == $slug][0] {
     _id,
     _type,
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
     client,
@@ -501,9 +500,8 @@ export const NEWS_METADATA_QUERY = defineQuery(
 /** Fetch career metadata for SEO */
 export const CAREER_METADATA_QUERY = defineQuery(
   `*[_type == "career" && slug.current == $slug][0] {
+    "isDraft": string::startsWith(_id, "drafts."),
     title,
-    summary,
-    intro,
     locations[]->{
       title,
       city,
@@ -524,6 +522,15 @@ export const CAREER_METADATA_QUERY = defineQuery(
     },
     employmentType,
     workModel,
+    sections[]{
+      title,
+      kind,
+      "text": pt::text(content)
+    },
+    contentImage{
+      ...,
+      alt
+    },
     applicationUrl,
     seo,
     _updatedAt

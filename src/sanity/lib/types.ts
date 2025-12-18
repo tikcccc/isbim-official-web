@@ -87,7 +87,6 @@ export interface CareerPillar extends SanityDocument {
   slug: Slug;
   description?: string;
   sortOrder?: number;
-  status?: "active" | "hidden";
 }
 
 export interface CareerTeam extends SanityDocument {
@@ -97,7 +96,6 @@ export interface CareerTeam extends SanityDocument {
   pillar?: CareerPillar;
   description?: string;
   sortOrder?: number;
-  status?: "active" | "hidden";
 }
 
 export interface CareerLocation extends SanityDocument {
@@ -108,7 +106,6 @@ export interface CareerLocation extends SanityDocument {
   country?: string;
   timezone?: string;
   sortOrder?: number;
-  status?: "active" | "hidden";
 }
 
 export interface CareerSection {
@@ -130,10 +127,8 @@ export interface Career extends SanityDocument {
   experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";
   tags?: string[];
   sortOrder?: number;
-  summary?: string;
-  intro?: string;
-  body?: PortableTextBlock[];
   sections?: CareerSection[];
+  contentImage?: Image;
   postedAt?: string;
   expiresAt?: string;
   applicationUrl?: string;

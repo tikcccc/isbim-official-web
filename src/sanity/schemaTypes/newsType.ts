@@ -27,22 +27,13 @@ export const newsType = defineType({
       validation: (Rule) => Rule.max(200),
     }),
 
-    // Category and tags
+    // Category
     defineField({
       name: 'category',
       title: 'Category',
       type: 'reference',
       to: [{ type: 'newsCategory' }],
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{ type: 'string' }],
-      options: {
-        layout: 'tags',
-      },
     }),
 
     // Content
@@ -51,14 +42,6 @@ export const newsType = defineType({
       title: 'Main Image',
       type: 'image',
       options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alt Text',
-          validation: (Rule) => Rule.required(),
-        }),
-      ],
     }),
     defineField({
       name: 'excerpt',
@@ -107,12 +90,6 @@ export const newsType = defineType({
           options: { hotspot: true },
           fields: [
             {
-              name: 'alt',
-              type: 'string',
-              title: 'Alt Text',
-              validation: (Rule) => Rule.required(),
-            },
-            {
               name: 'caption',
               type: 'string',
               title: 'Caption',
@@ -147,18 +124,27 @@ export const newsType = defineType({
       initialValue: 5,
     }),
 
-    // SEO fields
+    // Status control
+    defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      description: 'Show as featured article (top of list)',
+      initialValue: false,
+    }),
+    // SEO fields (optional; auto-generated if blank)
     defineField({
       name: 'seo',
       title: 'SEO & Social',
       type: 'object',
       options: { collapsible: true, collapsed: true },
+      description: 'Optional. Defaults to title/subtitle/excerpt and main image if left blank.',
       fields: [
         defineField({
           name: 'metaTitle',
           title: 'Meta Title',
           type: 'string',
-          description: 'SEO title (max 60 chars, defaults to title)',
+          description: 'Optional. Defaults to title if blank.',
           validation: (Rule) => Rule.max(60).warning('Keep under 60 characters'),
         }),
         defineField({
@@ -166,22 +152,15 @@ export const newsType = defineType({
           title: 'Meta Description',
           type: 'text',
           rows: 3,
-          description: 'SEO description (max 160 chars, defaults to subtitle/excerpt)',
+          description: 'Optional. Auto-generated from subtitle/excerpt/body if blank.',
           validation: (Rule) => Rule.max(160).warning('Keep under 160 characters'),
         }),
         defineField({
           name: 'openGraphImage',
           title: 'Open Graph Image',
           type: 'image',
-          description: 'Image for social sharing (1200x630 recommended, defaults to mainImage)',
+          description: 'Optional social image (1200x630). Defaults to main image if blank.',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alt Text',
-            }),
-          ],
         }),
         defineField({
           name: 'keywords',
@@ -191,15 +170,6 @@ export const newsType = defineType({
           options: { layout: 'tags' },
         }),
       ],
-    }),
-
-    // Status control
-    defineField({
-      name: 'featured',
-      title: 'Featured',
-      type: 'boolean',
-      description: 'Show as featured article (top of list)',
-      initialValue: false,
     }),
   ],
 

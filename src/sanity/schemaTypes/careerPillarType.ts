@@ -39,32 +39,17 @@ export const careerPillarType = defineType({
         layout: "dropdown",
       },
     }),
-    defineField({
-      name: "status",
-      title: "Status",
-      type: "string",
-      options: {
-        list: [
-          { title: "Active", value: "active" },
-          { title: "Hidden", value: "hidden" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "active",
-    }),
   ],
   preview: {
     select: {
       title: "title",
-      status: "status",
       sortOrder: "sortOrder",
     },
-    prepare({ title, status, sortOrder }) {
-      const emoji = status === "hidden" ? "👁️‍🗨️" : "🧭";
+    prepare({ title, sortOrder }) {
       const order = typeof sortOrder === "number" ? `#${sortOrder}` : "no order";
       return {
         title,
-        subtitle: `${emoji} ${order}`,
+        subtitle: order,
       };
     },
   },

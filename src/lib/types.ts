@@ -173,7 +173,6 @@ export interface SanityCareer {
     title?: string;
     slug?: { current?: string };
     sortOrder?: number;
-    status?: "active" | "hidden";
     description?: string;
   };
   team?: {
@@ -185,11 +184,9 @@ export interface SanityCareer {
       title?: string;
       slug?: { current?: string };
       sortOrder?: number;
-      status?: "active" | "hidden";
       description?: string;
     };
     sortOrder?: number;
-    status?: "active" | "hidden";
     description?: string;
   };
   locations?: Array<{
@@ -200,15 +197,15 @@ export interface SanityCareer {
     country?: string;
     timezone?: string;
     sortOrder?: number;
-    status?: "active" | "hidden";
   }>;
   workModel?: "onsite" | "hybrid" | "remote";
   employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";
   experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";
-  summary?: string;
-  intro?: string;
-  body?: unknown;
   sections?: unknown;
+  contentImage?: {
+    asset?: { url?: string };
+    alt?: string;
+  };
   postedAt?: string;
   expiresAt?: string;
   applicationUrl?: string;

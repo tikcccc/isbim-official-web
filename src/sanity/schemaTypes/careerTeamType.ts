@@ -44,35 +44,20 @@ export const careerTeamType = defineType({
           { title: "Medium", value: 2 },
           { title: "Low (bottom)", value: 3 },
         ],
-        layout: "dropdown",
-      },
-    }),
-    defineField({
-      name: "status",
-      title: "Status",
-      type: "string",
-      options: {
-        list: [
-          { title: "Active", value: "active" },
-          { title: "Hidden", value: "hidden" },
-        ],
         layout: "radio",
       },
-      initialValue: "active",
     }),
   ],
   preview: {
     select: {
       title: "title",
       pillarTitle: "pillar.title",
-      status: "status",
     },
-    prepare({ title, pillarTitle, status }) {
-      const emoji = status === "hidden" ? "👁️‍🗨️" : "🧭";
+    prepare({ title, pillarTitle }) {
       const subtitle = pillarTitle || "No pillar set";
       return {
         title,
-        subtitle: `${emoji} ${subtitle}`,
+        subtitle,
       };
     },
   },

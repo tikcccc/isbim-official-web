@@ -218,13 +218,12 @@ export async function generateCareerMetadata(
   try {
     const career = await sanityFetch<{
       title: string;
-      summary?: string;
-      intro?: string;
       locations?: Array<{ title?: string; city?: string; country?: string }>;
       pillar?: { title?: string; slug?: string; sortOrder?: number };
       team?: { title?: string; pillar?: { title?: string; slug?: string; sortOrder?: number } };
       employmentType?: string;
       workModel?: string;
+      sections?: Array<{ title?: string; kind?: string; text?: string }>;
       seo?: {
         metaTitle?: string;
         metaDescription?: string;
@@ -252,6 +251,14 @@ export async function generateCareerMetadata(
     const title = career.seo?.metaTitle || career.title;
     const teamTitle = career.team?.title;
     const pillar = career.team?.pillar?.title || career.pillar?.title;
+    const sectionSnippet =
+      career.sections
+        ?.map((s) => (s?.text || "").trim())
+        .find((text) => text.length > 0) || "";
+    const makeExcerpt = (text: string, max = 160) => {
+      if (!text) return "";
+      return text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text;
+    };
     const locationTitle =
       career.locations?.[0]?.title ||
       (career.locations?.[0]?.city && career.locations?.[0]?.country
@@ -259,8 +266,7 @@ export async function generateCareerMetadata(
         : career.locations?.[0]?.city || career.locations?.[0]?.country);
     const description =
       career.seo?.metaDescription ||
-      career.summary ||
-      career.intro ||
+      makeExcerpt(sectionSnippet) ||
       `Join our team as ${career.title}${teamTitle ? ` in ${teamTitle}` : ""}${
         locationTitle ? ` (${locationTitle})` : ""
       }`;

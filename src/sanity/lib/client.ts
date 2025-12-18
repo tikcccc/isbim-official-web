@@ -60,3 +60,20 @@ export const writeClient = createClient({
   token: sanityConfig.token,
   perspective: "published",
 });
+
+/**
+ * Preview client (includes drafts when using a valid token)
+ * Use this only for preview/editorial surfaces. Do NOT expose publicly.
+ */
+export const previewClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  token: sanityConfig.token,
+  perspective: "previewDrafts",
+  stega: {
+    enabled: false,
+    studioUrl: "/studio",
+  },
+});

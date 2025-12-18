@@ -22,7 +22,7 @@
  */
 
 // Client exports
-export { client, writeClient, projectId, dataset, apiVersion } from "./client";
+export { client, writeClient, previewClient, projectId, dataset, apiVersion } from "./client";
 
 // Fetch utilities
 export {

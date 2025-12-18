@@ -45,21 +45,8 @@ export const careerLocationType = defineType({
           { title: "Medium", value: 2 },
           { title: "Low (bottom)", value: 3 },
         ],
-        layout: "dropdown",
-      },
-    }),
-    defineField({
-      name: "status",
-      title: "Status",
-      type: "string",
-      options: {
-        list: [
-          { title: "Active", value: "active" },
-          { title: "Hidden", value: "hidden" },
-        ],
         layout: "radio",
       },
-      initialValue: "active",
     }),
   ],
   preview: {
@@ -67,14 +54,12 @@ export const careerLocationType = defineType({
       title: "title",
       city: "city",
       country: "country",
-      status: "status",
     },
-    prepare({ title, city, country, status }) {
-      const flag = status === "hidden" ? "👁️‍🗨️" : "📍";
+    prepare({ title, city, country }) {
       const parts = [city, country].filter(Boolean).join(", ");
       return {
         title,
-        subtitle: `${flag} ${parts || "Location"}`,
+        subtitle: `${parts || "Location"}`,
       };
     },
   },
