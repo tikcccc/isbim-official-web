@@ -116,6 +116,7 @@
     color: var(--contact-color-primary);
     font-size: var(--contact-text-base);
     line-height: 1.5;
+    font-weight: var(--contact-font-normal);
   }
 
   .contact-input::placeholder {
@@ -145,6 +146,7 @@
     color: var(--contact-color-primary);
     font-size: var(--contact-text-base);
     line-height: 1.5;
+    font-weight: var(--contact-font-normal);
   }
 
   .contact-select:hover {
@@ -162,6 +164,7 @@
     color: var(--contact-color-primary);
     font-size: var(--contact-text-base);
     line-height: 1.5;
+    font-weight: var(--contact-font-normal);
   }
 
   .contact-select-item:hover {
@@ -185,6 +188,7 @@
   .contact-select [data-slot="select-value"] > span {
     font-size: var(--contact-text-base);
     line-height: 1.5;
+    font-weight: var(--contact-font-normal);
   }
 
   /* ═══════════════════════════════════════════
