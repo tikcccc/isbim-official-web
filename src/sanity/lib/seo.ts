@@ -220,8 +220,9 @@ export async function generateCareerMetadata(
       title: string;
       summary?: string;
       intro?: string;
-      locations?: string[];
-      team?: string;
+      locations?: Array<{ title?: string; city?: string; country?: string }>;
+      pillar?: string;
+      team?: { title?: string; pillar?: string };
       employmentType?: string;
       workModel?: string;
       seo?: {
@@ -249,12 +250,19 @@ export async function generateCareerMetadata(
     }
 
     const title = career.seo?.metaTitle || career.title;
+    const teamTitle = career.team?.title;
+    const pillar = career.team?.pillar || career.pillar;
+    const locationTitle =
+      career.locations?.[0]?.title ||
+      (career.locations?.[0]?.city && career.locations?.[0]?.country
+        ? `${career.locations[0].city}, ${career.locations[0].country}`
+        : career.locations?.[0]?.city || career.locations?.[0]?.country);
     const description =
       career.seo?.metaDescription ||
       career.summary ||
       career.intro ||
-      `Join our team as ${career.title}${career.team ? ` in ${career.team}` : ""}${
-        career.locations?.length ? ` (${career.locations[0]})` : ""
+      `Join our team as ${career.title}${teamTitle ? ` in ${teamTitle}` : ""}${
+        locationTitle ? ` (${locationTitle})` : ""
       }`;
     const imageUrl = career.seo?.openGraphImage
       ? urlFor(career.seo.openGraphImage)?.width(1200).height(630).url()
@@ -265,7 +273,8 @@ export async function generateCareerMetadata(
       "jobs",
       "hiring",
       career.title,
-      career.team ?? "",
+      teamTitle ?? "",
+      pillar ?? "",
       career.employmentType ?? "",
       career.workModel ?? "",
       ...(career.seo?.keywords ?? []),

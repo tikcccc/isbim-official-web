@@ -60,8 +60,9 @@ export const careerType = defineType({
     defineField({
       name: "team",
       title: "Team / Subgroup",
-      type: "string",
-      description: "Shown under each pillar (e.g. AI & Software Engineering Team).",
+      type: "reference",
+      to: [{ type: "careerTeam" }],
+      description: "Pick from Career Teams (add new teams in that collection).",
       validation: (Rule) => Rule.required(),
       group: "listing",
     }),
@@ -69,9 +70,9 @@ export const careerType = defineType({
       name: "locations",
       title: "Locations",
       type: "array",
-      of: [{ type: "string" }],
-      description: "Display order matches listing layouts; first item is the primary location.",
-      validation: (Rule) => Rule.min(1),
+      of: [{ type: "reference", to: [{ type: "careerLocation" }] }],
+      description: "Pick one or more locations; first item is treated as primary.",
+      validation: (Rule) => Rule.required().min(1),
       group: "listing",
     }),
     defineField({
@@ -363,13 +364,14 @@ export const careerType = defineType({
   preview: {
     select: {
       title: "title",
-      team: "team",
-      location: "locations.0",
+      teamTitle: "team.title",
+      pillar: "team.pillar",
+      location: "locations.0.title",
       status: "status",
     },
-    prepare({ title, team, location, status }) {
+    prepare({ title, teamTitle, pillar, location, status }) {
       const statusEmoji = status === "open" ? "🟢" : status === "draft" ? "📝" : "⛔️";
-      const subtitle = [team, location].filter(Boolean).join(" • ");
+      const subtitle = [teamTitle || pillar, location].filter(Boolean).join(" • ");
       return {
         title,
         subtitle: `${statusEmoji} ${subtitle || "No location"}`,

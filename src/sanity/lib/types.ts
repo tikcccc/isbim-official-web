@@ -75,12 +75,33 @@ export interface News extends SanityDocument {
   publishedAt?: string;
   excerpt?: string;
   body?: PortableTextBlock[];
-  coverImage?: Image;
+ coverImage?: Image;
 }
 
 /**
  * Career document type
  */
+export interface CareerTeam extends SanityDocument {
+  _type: "careerTeam";
+  title: string;
+  slug: Slug;
+  pillar?: string;
+  description?: string;
+  sortOrder?: number;
+  status?: "active" | "hidden";
+}
+
+export interface CareerLocation extends SanityDocument {
+  _type: "careerLocation";
+  title: string;
+  slug: Slug;
+  city?: string;
+  country?: string;
+  timezone?: string;
+  sortOrder?: number;
+  status?: "active" | "hidden";
+}
+
 export interface CareerSection {
   _key: string;
   title: string;
@@ -107,8 +128,8 @@ export interface Career extends SanityDocument {
   slug: Slug;
   status?: "open" | "draft" | "closed";
   pillar?: string;
-  team?: string;
-  locations?: string[];
+  team?: CareerTeam;
+  locations?: CareerLocation[];
   workModel?: "onsite" | "hybrid" | "remote";
   employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";
   experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";
