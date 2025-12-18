@@ -39,6 +39,8 @@ import type { AvailableLanguageTag } from "@/paraglide/runtime";
 interface LocaleContextValue {
   /** Current active locale (e.g., "zh", "en") */
   locale: AvailableLanguageTag;
+  /** Setter to update locale in client (keeps Context in sync on locale switch) */
+  setLocale: (locale: AvailableLanguageTag) => void;
 }
 
 /**
@@ -85,8 +87,15 @@ interface LocaleProviderProps {
  * ```
  */
 export function LocaleProvider({ locale, children }: LocaleProviderProps) {
+  const [currentLocale, setCurrentLocale] = React.useState<AvailableLanguageTag>(locale);
+
+  // Sync with server-provided locale when it changes (e.g., navigation)
+  React.useEffect(() => {
+    setCurrentLocale(locale);
+  }, [locale]);
+
   return (
-    <LocaleContext.Provider value={{ locale }}>
+    <LocaleContext.Provider value={{ locale: currentLocale, setLocale: setCurrentLocale }}>
       {children}
     </LocaleContext.Provider>
   );

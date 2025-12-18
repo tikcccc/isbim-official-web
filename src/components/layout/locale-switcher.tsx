@@ -1,8 +1,11 @@
 "use client";
 
-import { useLocale } from "@/lib/i18n/index";
-import { useRouter, usePathname } from "@/lib/i18n";
-import { type AvailableLanguageTag } from "@/paraglide/runtime";
+import { useLocale, useLocaleContext } from "@/lib/i18n/index";
+import { usePathname } from "@/lib/i18n";
+import { strategy } from "@/lib/i18n";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { setLanguageTag, type AvailableLanguageTag, availableLanguageTags } from "@/paraglide/runtime";
 import { m } from "@/components/motion/lazy-motion";
 
 /**
@@ -20,19 +23,55 @@ const localeLabels: Record<AvailableLanguageTag, string> = {
   zh: "中文",
 };
 
+function stripLocalePrefix(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments.length === 0) return "/";
+  const [maybeLocale, ...rest] = segments;
+  if (availableLanguageTags.includes(maybeLocale as AvailableLanguageTag)) {
+    return `/${rest.join("/")}`;
+  }
+  return pathname.startsWith("/") ? pathname : `/${pathname}`;
+}
+
 export function LocaleSwitcher() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname(); // canonical path (no locale prefix)
+  const searchParams = useSearchParams();
   const currentLocale = useLocale(); // Use Context instead of languageTag()
+  const { setLocale } = useLocaleContext();
+  const localeUpdateTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (localeUpdateTimer.current) {
+        clearTimeout(localeUpdateTimer.current);
+        localeUpdateTimer.current = null;
+      }
+    };
+  }, []);
 
   const switchLocale = (newLocale: AvailableLanguageTag) => {
     if (newLocale === currentLocale) return;
 
-    // Use router.replace to switch locale
-    // - replace: Updates URL without adding to history (cleaner navigation)
-    // - scroll: false - Maintains user's scroll position during language switch
-    // Note: This will trigger the page transition animation as part of the branded experience
-    router.replace(pathname, { locale: newLocale, scroll: false });
+    const canonicalPath = stripLocalePrefix(pathname);
+    const query = searchParams?.toString();
+    // Use Paraglide strategy to build localized path (handles translated pathnames/prefix)
+    const localizedPath = strategy.getLocalisedUrl(canonicalPath, newLocale).pathname + (query ? `?${query}` : "");
+
+    // Delay context/runtime switch to allow transition overlay to cover
+    if (localeUpdateTimer.current) {
+      clearTimeout(localeUpdateTimer.current);
+    }
+    localeUpdateTimer.current = window.setTimeout(() => {
+      setLanguageTag(() => newLocale);
+      setLocale(newLocale);
+    }, 800); // align with transition duration (~0.9s)
+
+    // Persist preference for server / middleware
+    document.cookie = `NEXT_LOCALE=${newLocale}; Path=/; Max-Age=31557600; SameSite=Lax`;
+
+    // Replace without adding history and keep scroll position (PageTransition handles scroll)
+    router.replace(localizedPath, { scroll: false });
   };
 
   return (

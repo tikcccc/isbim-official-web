@@ -7,6 +7,7 @@ import { m } from "@/components/motion/lazy-motion";
 import { ROUTES } from "@/lib/constants";
 import * as messages from "@/paraglide/messages";
 import { Separator } from "@/components/ui/separator";
+import { useLocale } from "@/lib/i18n/locale-context";
 
 const NewsletterForm = dynamic(
   () => import("./newsletter-form").then((mod) => mod.NewsletterForm),
@@ -53,6 +54,9 @@ const companyLinks = [
 export type FooterVariant = "default" | "charcoal";
 
 export function FooterBase({ variant = "default" }: { variant?: FooterVariant }) {
+  // Subscribe to locale changes so translations re-render
+  useLocale();
+
   const isCharcoal = variant === "charcoal";
   const linkedinHref = "https://hk.linkedin.com/company/isbim";
   const linkedinButtonClass = isCharcoal

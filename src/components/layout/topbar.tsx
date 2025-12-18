@@ -10,6 +10,7 @@ import { MenuOverlay, type MenuNewsPreview } from "./menu-overlay";
 import { useMenuStore } from "@/stores/menu-store";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { ROUTES } from "@/lib/constants";
+import { useLocale } from "@/lib/i18n/locale-context";
 
 /**
  * Topbar Component
@@ -25,6 +26,8 @@ import { ROUTES } from "@/lib/constants";
 export function Topbar({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }) {
   const { isOpen, openMenu, closeMenu } = useMenuStore();
   const radius10 = { borderRadius: "10px" };
+  // Subscribe to locale changes so translations re-render
+  useLocale();
 
   return (
     <>

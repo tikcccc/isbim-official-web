@@ -4,6 +4,8 @@ import React, { createContext, useContext, useEffect, useRef, useState, useCallb
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { usePathname } from '@/lib/i18n';
+import { useLocale } from '@/lib/i18n/locale-context';
+import { useSearchParams } from 'next/navigation';
 import { useLenis } from '@/components/smooth-scroll-provider';
 import { m } from '@/components/motion/lazy-motion';
 
@@ -214,6 +216,10 @@ interface PageTransitionProps {
 
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const pathname = usePathname();
+    const locale = useLocale();
+    const searchParams = useSearchParams();
+    const searchKey = searchParams?.toString() ?? "";
+    const transitionKey = `${pathname}?${searchKey}|${locale}`;
     const shouldScrollTopRef = useRef(false);
     const { lenis } = useLenis();
     const disableTransition = pathname.includes('/newsroom');
@@ -222,10 +228,10 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const [isEnterComplete, setIsEnterComplete] = useState(false);
     const listenersRef = useRef<Set<() => void>>(new Set());
 
-    // Reset state on pathname change
+    // Reset state on route/locale/search change
     useEffect(() => {
         setIsEnterComplete(false);
-    }, [pathname]);
+    }, [transitionKey]);
 
     // Handle animation complete
     const handleEnterComplete = useCallback(() => {
@@ -273,7 +279,31 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     // Mark that we should scroll to top after the exit animation completes
     useEffect(() => {
         shouldScrollTopRef.current = true;
-    }, [pathname]);
+    }, [transitionKey]);
+
+    const performScrollIfPending = useCallback(() => {
+        if (!shouldScrollTopRef.current) return;
+        shouldScrollTopRef.current = false;
+        requestAnimationFrame(() => {
+            if (lenis) {
+                lenis.scrollTo(0, { immediate: false });
+            } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        });
+    }, [lenis]);
+
+    // Scroll to top after enter animation completes (ensures overlay is gone)
+    useEffect(() => {
+        if (!isEnterComplete) return;
+        performScrollIfPending();
+    }, [isEnterComplete, lenis]);
+
+    // If transitions are disabled (e.g., newsroom), still perform scroll-to-top on route/locale/search change
+    useEffect(() => {
+        if (!disableTransition) return;
+        performScrollIfPending();
+    }, [transitionKey, disableTransition, lenis]);
 
     if (disableTransition) {
         return (
@@ -289,23 +319,12 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
         <PageTransitionContext.Provider value={contextValue}>
             <AnimatePresence
                 mode="wait"
-                onExitComplete={() => {
-                    if (shouldScrollTopRef.current) {
-                        shouldScrollTopRef.current = false;
-                        requestAnimationFrame(() => {
-                            if (lenis) {
-                                lenis.scrollTo(0, { immediate: false });
-                            } else {
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                            }
-                        });
-                    }
-                }}
+                onExitComplete={performScrollIfPending}
             >
-                <div key={pathname} className="relative w-full min-h-screen">
+                <div key={transitionKey} className="relative w-full min-h-screen">
                     {/* Page content fade in/out */}
                     <m.div
-                        key={`page-${pathname}`}
+                        key={`page-${transitionKey}`}
                         className="min-h-screen w-full"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -321,7 +340,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
 
                     {/* Transition overlay */}
                     <InnerOverlayRunner
-                        key={`overlay-${pathname}`}
+                        key={`overlay-${transitionKey}`}
                         onAnimationComplete={handleEnterComplete}
                     />
                 </div>

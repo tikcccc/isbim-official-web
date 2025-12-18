@@ -15,6 +15,7 @@ import { urlFor } from "@/sanity/lib";
 import { languageTag } from "@/paraglide/runtime";
 import type { Image as SanityImage } from "sanity";
 import styles from "./menu-overlay.module.css";
+import { useLocale } from "@/lib/i18n/locale-context";
 
 // --- Type definitions for menu data ---
 interface MenuChild {
@@ -220,6 +221,8 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
+  // Subscribe to locale changes so translations update
+  const locale = useLocale();
   const localeTag = languageTag();
   const newsItems = useMemo(() => (newsPreview ?? []).slice(0, 2), [newsPreview]);
 
