@@ -307,7 +307,7 @@ function NewsListView({
 
   const filteredData = filter === 'All'
     ? sortedNewsData
-    : sortedNewsData.filter(post => post.category.title === filter);
+    : sortedNewsData.filter(post => post.category._id === filter);
 
   // Hero post logic (NOT affected by filter):
   // - If featured news exists: ALWAYS use featured news (regardless of filter)
@@ -347,16 +347,19 @@ function NewsListView({
           <div className="flex flex-col gap-4">
             {/* Category Filter */}
             <div className="newsroom-filter-section">
-              {['All', ...derivedCategories.map(cat => cat.title)].map((cat) => (
+              {['All', ...derivedCategories.map(cat => cat._id)].map((catId) => {
+                const cat = derivedCategories.find(c => c._id === catId);
+                const label = catId === 'All' ? 'View All' : (cat?.title ?? '');
+                return (
                 <button
-                  key={cat}
+                  key={catId}
                   type="button"
-                  onClick={() => setFilter(cat as CategoryFilter)}
-                  className={`newsroom-filter-btn ${filter === cat ? 'active' : ''}`}
+                  onClick={() => setFilter(catId as CategoryFilter)}
+                  className={`newsroom-filter-btn ${filter === catId ? 'active' : ''}`}
                 >
-                  {cat === 'All' ? 'View All' : cat}
+                  {label}
                 </button>
-              ))}
+              )})}
             </div>
 
             <h2 className="news-font-section newsroom-text-primary">
@@ -564,7 +567,7 @@ function GridCard({ post }: { post: NewsPost }) {
 
       <div className="mt-auto pt-3 border-t newsroom-border-subtle flex items-center justify-between group-hover:newsroom-surface-quiet -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
         <span className="news-font-label newsroom-text-subtle group-hover:newsroom-text-accent transition-colors">
-          Read Briefing
+          Read Story
         </span>
         <ArrowRight className="w-3 h-3 newsroom-text-soft group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
       </div>

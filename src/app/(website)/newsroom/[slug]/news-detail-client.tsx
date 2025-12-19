@@ -118,7 +118,7 @@ export default function NewsDetailClient({
       {/* Article Content */}
       <article className="container-content py-12">
         {/* Article Header */}
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(180px,22%)_minmax(0,1fr)] xl:grid-cols-[minmax(180px,18%)_minmax(0,1fr)] gap-8 mb-12">
           {/* Sidebar Metadata */}
           <div className="space-y-6 pt-2">
             <div>
@@ -172,7 +172,7 @@ export default function NewsDetailClient({
         )}
 
         {/* Article Body */}
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(180px,22%)_minmax(0,1fr)] xl:grid-cols-[minmax(180px,18%)_minmax(0,1fr)] gap-8">
           <div className="hidden md:block newsroom-detail-sidebar">
             <div className="newsroom-detail-sticky">
               <div className="newsroom-section-marker"></div>
@@ -322,7 +322,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
 
       <div className="newsroom-card-footer mt-auto flex items-center justify-between -mx-0">
         <span className="news-font-label newsroom-cta-link">
-          Read Briefing
+          Read Story
         </span>
         <ArrowRight className="w-3 h-3 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />
       </div>

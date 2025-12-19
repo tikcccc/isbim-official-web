@@ -97,7 +97,7 @@ export default function NewsCard({ news }: NewsCardProps) {
       {/* Footer: Read Button */}
       <div className="newsroom-card-footer mt-auto flex items-center justify-between -mx-0">
         <span className="news-font-label newsroom-cta-link">
-          Read Briefing
+          Read Story
         </span>
         <ArrowRight className="w-3 h-3 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />
       </div>

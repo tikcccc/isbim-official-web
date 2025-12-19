@@ -188,13 +188,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="noise-grain" />
 
         {/* News detail client component handles display and interactivity */}
-        <div className="container-content">
-          <NewsDetailClient
-            newsDetail={newsDetail}
-            relatedNews={relatedNews}
-            recentNews={recentNews}
-          />
-        </div>
+        <NewsDetailClient
+          newsDetail={newsDetail}
+          relatedNews={relatedNews}
+          recentNews={recentNews}
+        />
       </main>
     </>
   );
