@@ -151,7 +151,8 @@
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-2xl);
     padding: 1.25rem;
-    min-width: 260px;
+    width: 320px;
+    max-width: calc(100vw - 2rem);
   }
 
   .hoverCardHeader {
@@ -251,7 +252,7 @@
     padding: 0.25rem 0.625rem;
     border-radius: var(--radius-sm);
     background: var(--surface-subtle);
-    color: var(--text-sub);
+    color: inherit;
   }
 
   .applyIcon {
