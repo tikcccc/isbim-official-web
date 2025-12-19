@@ -48,40 +48,6 @@ type Job = {
 
 const FILTER_ALL = "all";
 
-const formatRelativeTime = (value?: string | null) => {
-  if (!value) return null;
-  const date = new Date(value);
-  const timestamp = date.getTime();
-  if (Number.isNaN(timestamp)) return null;
-
-  const diffMs = Date.now() - timestamp;
-  if (diffMs < 0) return formatDate(value);
-
-  const minute = 60 * 1000;
-  const hour = 60 * minute;
-  const day = 24 * hour;
-  const week = 7 * day;
-
-  if (diffMs < minute) return "Just now";
-  if (diffMs < hour) {
-    const minutes = Math.floor(diffMs / minute);
-    return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
-  }
-  if (diffMs < day) {
-    const hours = Math.floor(diffMs / hour);
-    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-  }
-  if (diffMs < week) {
-    const days = Math.floor(diffMs / day);
-    return `${days} day${days === 1 ? "" : "s"} ago`;
-  }
-  if (diffMs < 30 * day) {
-    const weeks = Math.floor(diffMs / week);
-    return `${weeks} week${weeks === 1 ? "" : "s"} ago`;
-  }
-  return formatDate(value);
-};
-
 const normalizeCareers = (careers: Career[]): Job[] =>
   careers.map((career) => {
     const locations = (career.locations || [])
@@ -254,7 +220,7 @@ const HoverCard = ({ job }: { job: Job }) => (
             <span>Posted</span>
           </div>
           <div className={cn(styles.hoverCardMetaValue, "font-legal")}>
-            {formatRelativeTime(job.postedAt)}
+            {formatDate(job.postedAt)}
           </div>
         </div>
       )}
