@@ -17,220 +17,124 @@
   .newsroom-gap { gap: var(--newsroom-card-gap); }
   .newsroom-gap-lg { gap: var(--newsroom-stack-lg); }
 
-  /* Typography utilities */
-  .newsroom-label {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    line-height: 1.2;
-    color: var(--newsroom-text-subtle);
-  }
-
-  .newsroom-label-xs {
-    font-family: var(--font-body);
-    font-size: 0.625rem;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    line-height: 1.2;
-    color: var(--newsroom-text-soft);
-  }
-
-  .newsroom-title {
+  /* Newsroom font utilities (scoped) */
+  .news-font-hero {
     font-family: var(--font-heading);
-    font-size: 3rem;
-    font-weight: 700;
-    line-height: 1.1;
+    font-size: clamp(3.5rem, 7vw,10rem);
+    font-weight: 900;
     letter-spacing: -0.05em;
-    color: var(--newsroom-text-primary);
+    text-transform: uppercase;
+    line-height: 1;
   }
 
-  @media (min-width: 768px) {
-    .newsroom-title { font-size: 4rem; }
+  .news-font-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
   }
 
-  @media (min-width: 1024px) {
-    .newsroom-title { font-size: 4.5rem; }
-  }
-
-  .newsroom-tagline {
+  .news-font-subtitle {
     font-family: var(--font-body);
-    font-size: 1.125rem;
-    font-weight: 400;
-    line-height: 1.6;
-    color: var(--newsroom-text-muted);
-    margin-top: var(--newsroom-stack);
-    max-width: 700px;
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-tagline {
-      font-size: 1.25rem;
-      margin-top: calc(var(--newsroom-stack) * 1.2);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .newsroom-tagline {
-      font-size: 1.375rem;
-    }
-  }
-
-  .newsroom-card-title-featured {
-    font-family: var(--font-heading);
-    font-size: 1.85rem;
-    font-weight: 700;
-    line-height: 1.15;
-    color: var(--newsroom-text-primary);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-card-title-featured { font-size: 2.1rem; }
-  }
-
-  @media (min-width: 1024px) {
-    .newsroom-card-title-featured { font-size: 2.35rem; }
-  }
-
-  .newsroom-card-title {
-    font-family: var(--font-heading);
-    font-size: 1.375rem;
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--newsroom-text-primary);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-card-title { font-size: 1.5rem; }
-  }
-
-  .newsroom-magazine-title {
-    font-family: var(--font-heading);
-    font-size: 1.75rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--newsroom-text-primary);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-magazine-title { font-size: 2.125rem; }
-  }
-
-  .newsroom-magazine-title-lg {
-    font-family: var(--font-heading);
-    font-size: 2.125rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--newsroom-text-primary);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-magazine-title-lg { font-size: 2.5rem; }
-  }
-
-  .newsroom-article-title {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    color: var(--newsroom-text-primary);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-article-title { font-size: 3.5rem; }
-  }
-
-  @media (min-width: 1024px) {
-    .newsroom-article-title { font-size: 4rem; }
-  }
-
-  .newsroom-subtitle {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--newsroom-text-subtle);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-subtitle { font-size: 1.05rem; }
-  }
-
-  @media (min-width: 1024px) {
-    .newsroom-subtitle { font-size: 1.125rem; }
-  }
-
-  .newsroom-body-small {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
+    font-size: clamp(1.125rem, 2.2vw, 1.25rem);
     font-weight: 400;
     line-height: 1.65;
-    color: var(--newsroom-text-subtle);
   }
 
-  @media (min-width: 768px) {
-    .newsroom-body-small { font-size: 1rem; }
+  .news-font-section {
+    font-family: var(--font-heading);
+    font-size: clamp(1.85rem, 2.5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
 
-  .newsroom-excerpt-mono {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 400;
-    line-height: 1.65;
-    color: var(--newsroom-text-subtle);
+.news-font-card-lg {
+  font-family: var(--font-body);
+  font-size: clamp(1.85rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.news-font-card {
+  font-family: var(--font-body);
+  font-size: clamp(1.375rem, 2vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.news-font-body-lg {
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0em;
+}
+
+.news-font-body {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.6vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0em;
+}
+  .news-font-label {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 
-  @media (min-width: 768px) {
-    .newsroom-excerpt-mono { font-size: 0.875rem; }
-  }
-
-  .newsroom-body {
-    font-family: var(--font-body);
-    font-size: 1.125rem;
-    font-weight: 400;
-    line-height: 1.75;
-    color: var(--newsroom-text-muted);
-  }
-
-  @media (min-width: 768px) {
-    .newsroom-body { font-size: 1.1875rem; }
-  }
-
-  .newsroom-cta-text {
+  .news-font-label-lg {
     font-family: var(--font-heading);
     font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.025em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    line-height: 1.2;
   }
 
-  .newsroom-cta-text-xs {
-    font-family: var(--font-body);
-    font-size: 0.625rem;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .newsroom-feed-title {
+  .news-font-detail-title{
     font-family: var(--font-heading);
-    font-size: 1rem;
+    font-size: clamp(2.5rem, 3.3vw, 7.5rem);
     font-weight: 700;
-    color: var(--newsroom-text-primary);
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+  }
+   
+   .news-font-detail-subtitle{
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0em;
   }
 
+  
+ .news-font-detail-meta {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0em;
+ }
   /* Color/surface/border helpers */
-  .newsroom-text-primary { color: var(--newsroom-text-primary); }
-  .newsroom-text-body { color: var(--newsroom-text-body); }
-  .newsroom-text-muted { color: var(--newsroom-text-muted); }
-  .newsroom-text-subtle { color: var(--newsroom-text-subtle); }
-  .newsroom-text-soft { color: var(--newsroom-text-soft); }
-  .newsroom-text-faint { color: var(--newsroom-text-faint); }
-  .newsroom-text-inverse { color: var(--newsroom-text-inverse); }
+  .newsroom-text-primary { color: var(--text-strong); }
+  .newsroom-text-body,
+  .newsroom-text-muted { color: var(--text-muted); }
+  .newsroom-text-subtle,
+  .newsroom-text-soft,
+  .newsroom-text-faint { color: var(--text-sub); }
+  .newsroom-text-inverse { color: var(--text-inverse-base); }
   .newsroom-text-accent { color: var(--newsroom-accent-cta); }
+  .newsroom-text-inverse-strong { color: var(--text-inverse-strong); }
+  .newsroom-text-inverse-muted { color: var(--text-inverse-muted); }
+  .newsroom-text-inverse-sub { color: var(--text-inverse-sub); }
 
   .newsroom-surface-card { background: var(--newsroom-surface-card); }
   .newsroom-surface-muted { background: var(--newsroom-surface-muted); }

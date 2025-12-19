@@ -80,7 +80,7 @@ const itemVariants = {
 
 // MonoLabel: font-mono text-xs tracking-wider uppercase text-gray-500
 const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <span className={`font-mono text-xs tracking-wider uppercase text-gray-500 ${className}`}>
+  <span className={`news-font-label newsroom-text-subtle ${className}`}>
     {children}
   </span>
 );
@@ -124,7 +124,7 @@ function HeroSection({ post }: { post: NewsPost }) {
 
   return (
     <Link href={`/newsroom/${post.slug.current}`}>
-      <div className="relative w-full h-[80vh] min-h-[600px] mb-12 group overflow-hidden bg-gray-900 cursor-pointer">
+      <div className="relative w-full h-[80vh] min-h-[600px] mb-12 group overflow-hidden newsroom-hero-surface cursor-pointer">
 
         {/* Background Image with Slow Zoom + Fade Effect */}
         {hasImage && (
@@ -163,7 +163,7 @@ function HeroSection({ post }: { post: NewsPost }) {
               className="pt-24 md:pt-32"
               variants={titleVariants}
             >
-              <h1 className="newsroom-hero-title">
+              <h1 className="newsroom-hero-title news-font-hero">
                 Newsroom
               </h1>
             </m.div>
@@ -173,7 +173,7 @@ function HeroSection({ post }: { post: NewsPost }) {
           <div className="w-full max-w-[90%] md:max-w-[88%] xl:max-w-[1700px] mx-auto px-0 md:px-6 pb-8 md:pb-12">
             {/* Category Tag */}
             <m.div className="flex gap-3 mb-6" variants={heroItemVariants}>
-              <span className="text-[11px] font-mono border border-white/30 px-3 py-1 text-white bg-black/20 backdrop-blur-sm uppercase tracking-widest">
+              <span className="newsroom-hero-badge news-font-mono-xs">
                 {post.category.title}
               </span>
             </m.div>
@@ -182,7 +182,7 @@ function HeroSection({ post }: { post: NewsPost }) {
             {post.tags && post.tags.length > 0 && (
               <m.div className="flex gap-3 mb-6" variants={heroItemVariants}>
                 {post.tags.map(tag => (
-                  <span key={tag} className="text-[11px] font-mono border border-white/30 px-3 py-1 text-white bg-black/20 backdrop-blur-sm uppercase tracking-widest">
+                  <span key={tag} className="newsroom-hero-badge news-font-mono-xs">
                     {tag}
                   </span>
                 ))}
@@ -191,14 +191,14 @@ function HeroSection({ post }: { post: NewsPost }) {
 
             {/* Date */}
             <m.div className="mb-4" variants={heroItemVariants}>
-              <span className="font-mono text-xs tracking-wider uppercase text-gray-300">
+              <span className="news-font-label newsroom-text-inverse-sub">
                 {new Date(post.publishedAt).toLocaleDateString('en-CA')}
               </span>
             </m.div>
 
             {/* Title */}
             <m.h2
-              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white mb-6 leading-[1.1]"
+              className="news-font-headline newsroom-text-inverse-strong mb-6 leading-[1.1]"
               variants={heroItemVariants}
             >
               {post.title}
@@ -207,7 +207,7 @@ function HeroSection({ post }: { post: NewsPost }) {
             {/* Subtitle */}
             {post.subtitle && (
               <m.p
-                className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed border-l-2 border-white/30 pl-6"
+                className="news-font-subtitle newsroom-text-inverse-muted max-w-2xl leading-relaxed border-l-2 border-white/30 pl-6"
                 variants={heroItemVariants}
               >
                 {post.subtitle}
@@ -216,10 +216,10 @@ function HeroSection({ post }: { post: NewsPost }) {
 
             {/* Read More CTA with Arrow */}
             <m.div className="mt-8 flex items-center gap-3" variants={heroItemVariants}>
-              <span className="text-sm md:text-base font-bold uppercase tracking-wide text-white">
+              <span className="news-font-label-lg newsroom-text-inverse-strong">
                 Read Featured Story
               </span>
-              <MoveRight className="w-5 h-5 md:w-6 md:h-6 text-white transition-transform duration-300 group-hover:translate-x-2" />
+              <MoveRight className="w-5 h-5 md:w-6 md:h-6 newsroom-text-inverse transition-transform duration-300 group-hover:translate-x-2" />
             </m.div>
           </div>
         </m.div>
@@ -343,38 +343,33 @@ function NewsListView({
       {/* Container for Controls & List */}
       <div className="container-content">
         {/* Controls Area */}
-        <div className="mb-12 border-b border-gray-900 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="mb-12 border-b newsroom-border-strong pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-4">
             {/* Category Filter */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="newsroom-filter-section">
               {['All', ...derivedCategories.map(cat => cat.title)].map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setFilter(cat as CategoryFilter)}
-                  className={`
-                    px-3 py-1.5 text-xs md:text-sm font-mono uppercase tracking-wide border transition-all duration-200
-                    ${filter === cat
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-black'}
-                  `}
+                  className={`newsroom-filter-btn ${filter === cat ? 'active' : ''}`}
                 >
                   {cat === 'All' ? 'View All' : cat}
                 </button>
               ))}
             </div>
 
-            <h2 className="text-4xl font-bold tracking-tighter text-gray-900">
+            <h2 className="news-font-section newsroom-text-primary">
               Latest Briefings
             </h2>
           </div>
 
           {/* Layout Switcher */}
-          <div className="flex items-center gap-2 border border-gray-200 p-1 bg-white">
+          <div className="newsroom-layout-toggle">
             <button
               type="button"
               onClick={() => setLayout('grid')}
-              className={`p-2 transition-colors ${layout === 'grid' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+              className={`newsroom-layout-btn ${layout === 'grid' ? 'active' : ''}`}
               title="Grid View"
             >
               <LayoutGrid className="w-4 h-4" />
@@ -382,7 +377,7 @@ function NewsListView({
             <button
               type="button"
               onClick={() => setLayout('magazine')}
-              className={`p-2 transition-colors ${layout === 'magazine' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+              className={`newsroom-layout-btn ${layout === 'magazine' ? 'active' : ''}`}
               title="Strategic View"
             >
               <AlignJustify className="w-4 h-4" />
@@ -390,7 +385,7 @@ function NewsListView({
             <button
               type="button"
               onClick={() => setLayout('feed')}
-              className={`p-2 transition-colors ${layout === 'feed' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+              className={`newsroom-layout-btn ${layout === 'feed' ? 'active' : ''}`}
               title="Data Feed"
             >
               <List className="w-4 h-4" />
@@ -439,7 +434,7 @@ function NewsListView({
               )}
 
               {layout === 'feed' && (
-                <div className="border-t border-gray-200">
+                <div className="border-t newsroom-border-subtle">
                   {listData.map((post) => (
                     <m.div variants={itemVariants} key={post._id}>
                       <FeedRow post={post} />
@@ -490,24 +485,24 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
           <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
         </div>
 
-        <h3 className="newsroom-card-title-featured newsroom-mb-sm group-hover:underline decoration-2 underline-offset-8">
+        <h3 className="newsroom-card-title-featured news-font-card-lg newsroom-text-primary newsroom-mb-sm group-hover:underline decoration-2 underline-offset-8">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="newsroom-subtitle newsroom-mb">
+          <p className="newsroom-subtitle news-font-body newsroom-text-muted newsroom-mb">
             {post.subtitle}
           </p>
         )}
 
         {!hasImage && post.excerpt && (
-          <p className="newsroom-excerpt-mono newsroom-mb line-clamp-4 border-l-2 newsroom-border-soft pl-4">
+          <p className="newsroom-excerpt-mono news-font-body newsroom-text-muted newsroom-mb line-clamp-4 border-l-2 newsroom-border-soft pl-4">
             {post.excerpt}
           </p>
         )}
 
         <div className="newsroom-card-footer">
-          <span className="newsroom-cta-text newsroom-text-primary group-hover:newsroom-text-accent transition-colors">
+          <span className="news-font-label-lg newsroom-text-primary group-hover:newsroom-text-accent transition-colors">
             Read Story
           </span>
           <ArrowRight className="w-4 h-4 group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
@@ -527,29 +522,29 @@ function GridCard({ post }: { post: NewsPost }) {
     <Link href={`/newsroom/${post.slug.current}`} className="newsroom-card-shell group">
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
-          <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">[{post.category.title}]</MonoLabel>
+          <MonoLabel className="newsroom-text-soft group-hover:newsroom-text-primary transition-colors">[{post.category.title}]</MonoLabel>
         </div>
-        <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
+        <MonoLabel className="newsroom-text-subtle">{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="text-xl font-bold leading-tight text-gray-900 mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="news-font-card font-semibold leading-tight newsroom-text-primary mb-3 group-hover:underline decoration-1 underline-offset-4">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="text-sm leading-relaxed text-gray-500 line-clamp-2 mb-4">
+          <p className="news-font-body leading-relaxed newsroom-text-muted line-clamp-2 mb-4">
             {post.subtitle}
           </p>
         )}
 
         {hasImage && (
           <div className="mt-auto mb-4">
-            <div className="relative w-full aspect-[3/2] bg-gray-100 overflow-hidden border border-gray-100">
-              <Image
-                src={imageUrl}
-                alt={post.mainImage?.alt || post.title}
-                fill
+          <div className="relative w-full aspect-[3/2] newsroom-surface-muted overflow-hidden border newsroom-border-subtle">
+            <Image
+              src={imageUrl}
+              alt={post.mainImage?.alt || post.title}
+              fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="w-full h-full object-cover transition-all duration-500"
               />
@@ -559,19 +554,19 @@ function GridCard({ post }: { post: NewsPost }) {
 
         {!hasImage && post.excerpt && (
           <div className="relative mt-2 mb-4 flex-1">
-            <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-200 group-hover:bg-blue-500 transition-colors" />
-            <p className="text-xs text-gray-500 leading-relaxed pl-4 line-clamp-[10] font-mono">
+            <div className="absolute left-0 top-0 bottom-0 w-px newsroom-border-subtle group-hover:newsroom-text-accent transition-colors" />
+            <p className="news-font-body-lg newsroom-text-soft leading-relaxed pl-4 line-clamp-[10]">
               {post.excerpt}...
             </p>
           </div>
         )}
       </div>
 
-      <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between group-hover:bg-gray-50 -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
-        <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 group-hover:text-blue-700 transition-colors">
+      <div className="mt-auto pt-3 border-t newsroom-border-subtle flex items-center justify-between group-hover:newsroom-surface-quiet -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
+        <span className="news-font-label newsroom-text-subtle group-hover:newsroom-text-accent transition-colors">
           Read Briefing
         </span>
-        <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
+        <ArrowRight className="w-3 h-3 newsroom-text-soft group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
       </div>
     </Link>
   );
@@ -591,7 +586,7 @@ function MagazineCard({ post }: { post: NewsPost }) {
       `}
     >
       {hasImage && (
-        <div className="relative aspect-[4/3] md:aspect-[16/10] bg-gray-100 overflow-hidden border border-gray-100">
+        <div className="relative aspect-[4/3] md:aspect-[16/10] newsroom-surface-muted overflow-hidden border newsroom-border-subtle">
           <Image
             src={imageUrl}
             alt={post.mainImage?.alt || post.title}
@@ -603,22 +598,23 @@ function MagazineCard({ post }: { post: NewsPost }) {
       )}
 
       <div className="flex flex-col h-full justify-center">
-        <div className="flex items-center gap-4 mb-4">
-          <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
-          <div className="h-px w-8 bg-gray-300"></div>
-          <MonoLabel className="text-gray-400 group-hover:text-black transition-colors">
-            [{post.category.title}]
-          </MonoLabel>
-        </div>
-        <h3 className={`font-bold leading-tight text-gray-900 mb-4 group-hover:text-blue-700 transition-colors
-          ${hasImage ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'}
+      <div className="flex items-center gap-4 mb-4">
+        <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
+          <div className="h-px w-8 newsroom-border-subtle"></div>
+        <MonoLabel className="newsroom-text-soft group-hover:newsroom-text-primary transition-colors">
+          [{post.category.title}]
+        </MonoLabel>
+      </div>
+        <h3 className={`leading-tight mb-4 transition-colors group-hover:newsroom-text-accent
+          ${hasImage ? 'news-font-card' : 'news-font-section'}
+          font-semibold newsroom-text-primary
         `}>
           {post.title}
         </h3>
-        <p className="text-gray-600 leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">
+        <p className="news-font-body newsroom-text-muted leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">
           {post.excerpt ? post.excerpt.substring(0, hasImage ? 180 : 300) : post.subtitle}...
         </p>
-        <span className="flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-wide mt-auto group-hover:translate-x-2 transition-transform">
+        <span className="flex items-center gap-2 news-font-label font-semibold mt-auto group-hover:translate-x-2 transition-transform newsroom-text-accent">
           Read Full Briefing <ArrowRight className="w-3 h-3" />
         </span>
       </div>
@@ -633,17 +629,17 @@ function FeedRow({ post }: { post: NewsPost }) {
       className="newsroom-feed-row group"
     >
       <div className="w-32 shrink-0">
-        <MonoLabel className="text-gray-500 group-hover:text-black transition-colors">
+        <MonoLabel className="newsroom-text-subtle group-hover:newsroom-text-primary transition-colors">
           {new Date(post.publishedAt).toLocaleDateString('en-CA')}
         </MonoLabel>
       </div>
       <div className="flex-1">
-        <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
+        <h3 className="news-font-body font-semibold newsroom-text-primary group-hover:newsroom-text-accent transition-colors">
           {post.title}
         </h3>
       </div>
       <div className="w-auto hidden md:block shrink-0">
-        <span className="text-[10px] font-mono text-gray-400">
+        <span className="news-font-label newsroom-text-soft">
           {post.category.title}
         </span>
       </div>

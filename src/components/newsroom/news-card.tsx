@@ -49,24 +49,24 @@ export default function NewsCard({ news }: NewsCardProps) {
       {/* Header: Category and Date */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
-          <span className="newsroom-label newsroom-text-soft group-hover:text-[var(--newsroom-text-primary)] transition-colors">
+          <span className="news-font-label newsroom-text-subtle group-hover:newsroom-text-primary transition-colors">
             [{news.category.title}]
           </span>
         </div>
-        <span className="newsroom-label newsroom-text-subtle">
+        <span className="news-font-label newsroom-text-subtle">
           {news.publishedAt}
         </span>
       </div>
 
       <div className="flex-1 flex flex-col">
         {/* Title */}
-        <h3 className="newsroom-card-title mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="news-font-card mb-3 group-hover:underline decoration-1 underline-offset-4">
           {news.title}
         </h3>
 
         {/* Subtitle */}
         {news.subtitle && (
-          <p className="newsroom-body-small line-clamp-2 mb-4">
+          <p className="news-font-body line-clamp-2 mb-4">
             {news.subtitle}
           </p>
         )}
@@ -87,7 +87,7 @@ export default function NewsCard({ news }: NewsCardProps) {
         ) : (
           <div className="relative mt-2 mb-4 flex-1">
             <div className="newsroom-excerpt-bar absolute left-0 top-0 bottom-0 w-px" />
-            <p className="newsroom-body-small leading-relaxed pl-4 line-clamp-[10]">
+            <p className="news-font-body leading-relaxed pl-4 line-clamp-[10]">
               {news.excerpt}...
             </p>
           </div>
@@ -96,7 +96,7 @@ export default function NewsCard({ news }: NewsCardProps) {
 
       {/* Footer: Read Button */}
       <div className="newsroom-card-footer mt-auto flex items-center justify-between -mx-0">
-        <span className="newsroom-cta-label newsroom-cta-link">
+        <span className="news-font-label newsroom-cta-link">
           Read Briefing
         </span>
         <ArrowRight className="w-3 h-3 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />

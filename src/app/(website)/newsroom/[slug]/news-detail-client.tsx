@@ -46,7 +46,7 @@ interface NewsDetailClientProps {
 
 // Utility component for mono labels
 const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <span className={`newsroom-label newsroom-text-subtle ${className}`}>
+  <span className={`news-font-label newsroom-text-subtle ${className}`}>
     {children}
   </span>
 );
@@ -109,7 +109,7 @@ export default function NewsDetailClient({
       <div className="noise-grain" />
 
       <div className="container-content flex items-center gap-3 md:gap-4 py-4">
-        <Link href="/newsroom" className="newsroom-back-btn">
+        <Link href="/newsroom" className="newsroom-back-btn news-font-body">
           <ArrowLeft className="newsroom-back-icon" />
           Back to Newsroom
         </Link>
@@ -123,33 +123,33 @@ export default function NewsDetailClient({
           <div className="space-y-6 pt-2">
             <div>
               <MonoLabel className="block mb-1">Published</MonoLabel>
-              <div className="newsroom-meta-value">{formatDate(newsDetail.publishedAt)}</div>
+              <div className="news-font-detail-meta text-[var(--text-muted)]">{formatDate(newsDetail.publishedAt)}</div>
             </div>
             <div>
               <MonoLabel className="block mb-1">Category</MonoLabel>
               <div className="flex flex-wrap gap-2">
-                <span className="newsroom-meta-value">{newsDetail.category.title}</span>
+                <span className="news-font-detail-meta text-[var(--text-muted)]">{newsDetail.category.title}</span>
               </div>
             </div>
             <div>
               <MonoLabel className="block mb-1">Read Time</MonoLabel>
-              <div className="newsroom-meta-value">{newsDetail.readTime} MIN READ</div>
+              <div className=" news-font-detail-meta text-[var(--text-muted)]">{newsDetail.readTime} MIN READ</div>
             </div>
             {newsDetail.author && (
               <div>
                 <MonoLabel className="block mb-1">Author</MonoLabel>
-                <div className="newsroom-meta-value">{newsDetail.author}</div>
+                <div className=" news-font-detail-meta text-[var(--text-muted)]">{newsDetail.author}</div>
               </div>
             )}
           </div>
 
           {/* Main Title & Subtitle */}
           <div>
-            <h1 className="newsroom-article-title mb-6 leading-tight">
+            <h1 className="newsroom-article-title news-font-detail-title text-[var(--text-strong)] mb-6 leading-tight">
               {newsDetail.title}
             </h1>
             {newsDetail.subtitle && (
-              <p className="newsroom-body leading-relaxed font-light border-l-2 newsroom-border-strong pl-6">
+              <p className="newsroom-body news-font-detail-subtitle text-[var(--text-muted)] leading-relaxed border-l-2 newsroom-border-strong pl-6">
                 {newsDetail.subtitle}
               </p>
             )}
@@ -180,7 +180,7 @@ export default function NewsDetailClient({
             </div>
           </div>
 
-          <div className="newsroom-prose max-w-none">
+          <div className="newsroom-prose news-font-body-lg text-[var(--text-muted)] max-w-none">
             <PortableText
               value={newsDetail.body || []}
               components={portableTextComponents}
@@ -196,7 +196,7 @@ export default function NewsDetailClient({
               {newsDetail.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 newsroom-label-xs newsroom-surface-muted newsroom-text-muted hover:bg-[var(--newsroom-surface-quiet)] transition-colors cursor-pointer"
+                  className="px-3 py-1 news-font-label newsroom-surface-muted newsroom-text-muted hover:bg-[var(--newsroom-surface-quiet)] transition-colors cursor-pointer"
                 >
                   {tag}
                 </span>
@@ -209,7 +209,7 @@ export default function NewsDetailClient({
       {/* Related Intelligence Section */}
       {relatedNews.length > 0 && (
         <div className="container-content mt-20 pt-12 border-t newsroom-border-strong">
-          <h3 className="newsroom-label newsroom-text-primary mb-8">
+          <h3 className="news-font-label newsroom-text-primary mb-8">
             Related Intelligence
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -229,7 +229,7 @@ export default function NewsDetailClient({
       {/* Recent News Section */}
       {recentNews.length > 0 && (
         <div className="container-content mt-20 pt-12 border-t newsroom-border-subtle">
-          <h3 className="newsroom-label newsroom-text-primary mb-8">
+          <h3 className="news-font-label-lg newsroom-text-primary mb-8">
             Recent News
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -251,14 +251,14 @@ export default function NewsDetailClient({
         className="fixed bottom-0 left-0 right-0 border-t newsroom-border-subtle p-4 md:hidden z-50 flex items-center justify-between pb-8"
         style={{ backgroundColor: 'rgba(var(--newsroom-surface-card-rgb), 0.96)' }}
       >
-        <Link href="/newsroom" className="p-2 newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]">
+        <Link href="/newsroom" className="p-2 newsroom-text-subtle hover:newsroom-text-primary news-font-label">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <Link href="/newsroom" className="flex items-center gap-2 newsroom-label newsroom-text-primary font-bold">
+        <Link href="/newsroom" className="flex items-center gap-2 news-font-label-lg newsroom-text-primary font-bold">
           <Home className="w-4 h-4" />
           News Feed
         </Link>
-        <button onClick={handleShare} className="p-2 newsroom-text-subtle hover:text-[var(--newsroom-text-primary)]">
+        <button onClick={handleShare} className="p-2 newsroom-text-subtle hover:newsroom-text-primary news-font-label">
           <Share2 className="w-5 h-5" />
         </button>
       </div>
@@ -276,7 +276,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
     <div className="group cursor-pointer flex flex-col h-full relative newsroom-card-shell">
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
-          <MonoLabel className="group-hover:text-[var(--newsroom-text-primary)] transition-colors">
+          <MonoLabel className="group-hover:newsroom-text-primary transition-colors">
             [{post.category.title}]
           </MonoLabel>
         </div>
@@ -286,12 +286,12 @@ function RelatedCard({ post }: { post: NewsItem }) {
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="newsroom-card-title mb-3 group-hover:underline decoration-1 underline-offset-4">
+        <h3 className="news-font-card font-semibold text-[var(--text-strong)] mb-3 group-hover:underline decoration-1 underline-offset-4">
           {post.title}
         </h3>
 
         {post.subtitle && (
-          <p className="newsroom-body-small line-clamp-2 mb-4">
+          <p className="newsroom-body-small news-font-body text-[var(--text-muted)] line-clamp-2 mb-4">
             {post.subtitle}
           </p>
         )}
@@ -313,7 +313,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
         {!imageUrl && post.excerpt && (
           <div className="relative mt-2 mb-4 flex-1">
             <div className="newsroom-excerpt-bar absolute left-0 top-0 bottom-0 w-px" />
-            <p className="newsroom-body-small leading-relaxed pl-4 line-clamp-[10]">
+            <p className="newsroom-body-small news-font-body text-[var(--text-muted)] leading-relaxed pl-4 line-clamp-[10]">
               {post.excerpt}...
             </p>
           </div>
@@ -321,7 +321,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
       </div>
 
       <div className="newsroom-card-footer mt-auto flex items-center justify-between -mx-0">
-        <span className="newsroom-cta-label newsroom-cta-link">
+        <span className="news-font-label newsroom-cta-link">
           Read Briefing
         </span>
         <ArrowRight className="w-3 h-3 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />
@@ -333,7 +333,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
 // Portable Text Components for rich text rendering
 const portableTextComponents: PortableTextComponents = {
   marks: {
-    strong: ({ children }: { children?: ReactNode }) => <strong className="font-bold">{children}</strong>,
+    strong: ({ children }: { children?: ReactNode }) => <strong className="news-font-body font-semibold newsroom-text-primary">{children}</strong>,
     em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
     link: ({ value, children }: { value?: { href?: string }; children?: ReactNode }) => {
       const target = (value?.href || '').startsWith('http') ? '_blank' : undefined;
@@ -350,8 +350,8 @@ const portableTextComponents: PortableTextComponents = {
     },
   },
   block: {
-    h2: ({ children }: { children?: ReactNode }) => <h2 className="text-2xl font-bold mt-8 mb-4">{children}</h2>,
-    h3: ({ children }: { children?: ReactNode }) => <h3 className="text-xl font-bold mt-6 mb-3">{children}</h3>,
+    h2: ({ children }: { children?: ReactNode }) => <h2 className="news-font-card font-semibold newsroom-text-primary mt-8 mb-4">{children}</h2>,
+    h3: ({ children }: { children?: ReactNode }) => <h3 className="news-font-body-lg font-semibold newsroom-text-primary mt-6 mb-3">{children}</h3>,
     blockquote: ({ children }: { children?: ReactNode }) => (
       <blockquote className="border-l-4 newsroom-border-subtle pl-4 my-6 italic">
         {children}

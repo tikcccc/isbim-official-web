@@ -55,8 +55,8 @@
   /* Newsroom masthead hero */
   .font-news-hero {
     font-family: var(--font-heading-en);
-    font-size: clamp(3rem, 7vw, 8rem);
-    font-weight: var(--weight-max); /* 900 */
+    font-size: clamp(3rem, 7vw, 12rem);
+    font-weight: var(--weight-bold); /* 900 */
     line-height: 1;
     letter-spacing: -0.05em;
     text-transform: uppercase;
@@ -203,6 +203,7 @@
   line-height: 1.5;
   letter-spacing: 0.01em;
 }
+
 }
 
 /* Chinese locale: relax line-height and reset letter-spacing for tight glyphs */

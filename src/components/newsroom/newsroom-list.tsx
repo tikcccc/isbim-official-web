@@ -70,7 +70,7 @@ export default function NewsroomList({
         {/* Page Header with Title and Layout Toggle */}
         <div className="mb-8 border-b newsroom-border-strong pb-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <h1 className="newsroom-title">
+            <h1 className="news-font-section">
               {m.newsroom_title()}
             </h1>
 
