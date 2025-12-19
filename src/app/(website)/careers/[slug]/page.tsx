@@ -15,7 +15,6 @@ import {
 import {
   generateCareerMetadata,
   sanityFetch,
-  REVALIDATE,
   CAREER_BY_SLUG_QUERY,
 } from "@/sanity/lib";
 import type { Career } from "@/sanity/lib/types";
@@ -34,7 +33,7 @@ import {
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 
-export const revalidate = REVALIDATE.HOUR;
+export const revalidate = 3600;
 
 interface PageProps {
   params: Promise<{ slug: string }>;

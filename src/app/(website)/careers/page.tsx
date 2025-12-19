@@ -1,10 +1,10 @@
 import { PageHeader } from "@/components/ui/page-header";
 import CareersListClient from "./careers-list-client";
-import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import { CAREERS_QUERY } from "@/sanity/lib/queries";
 import type { Career } from "@/sanity/lib/types";
 
-export const revalidate = REVALIDATE.HOUR;
+export const revalidate = 3600;
 
 export default async function CareersPage() {
   type CareerQueryResult = Career & { isDraft?: boolean };
