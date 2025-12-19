@@ -105,7 +105,6 @@ export interface CareerLocation extends SanityDocument {
 export interface CareerSection {
   _key: string;
   title: string;
-  kind?: "overview" | "responsibilities" | "requirements" | "benefits" | "custom";
   content?: PortableTextBlock[];
 }
 
@@ -113,7 +112,6 @@ export interface Career extends SanityDocument {
   _type: "career";
   title: string;
   slug: Slug;
-  pillar?: CareerPillar;
   team?: CareerTeam;
   locations?: CareerLocation[];
   workModel?: "onsite" | "hybrid" | "remote";

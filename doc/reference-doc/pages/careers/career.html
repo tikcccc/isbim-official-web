@@ -42,7 +42,6 @@ const JOB_DESCRIPTIONS = {
 };
 
 // --- RAW DATA ---
-// Updated: Removed 'deadline' from some jobs to test optionality logic.
 const ALL_JOBS = [
   // Global Project Team
   { 
@@ -52,7 +51,6 @@ const ALL_JOBS = [
   { 
     id: 11, title: "Project Manager", location: "Dubai", type: "Contract", workMode: "On-Site", team: "Global Project Team", category: "Delivery & Success",
     tags: ["PMP", "Construction", "Leadership"], seniority: "Lead", postedAt: "1 week ago" 
-    // No deadline here (Optional)
   },
   
   // Customer Success Team
@@ -63,7 +61,6 @@ const ALL_JOBS = [
   { 
     id: 31, title: "Implementation Specialist", location: "London", type: "Full-time", workMode: "On-Site", team: "Customer Success Team", category: "Delivery & Success",
     tags: ["Training", "Onboarding", "Technical Support"], seniority: "Associate", postedAt: "5 days ago"
-    // No deadline here
   },
 
   // AI & Software Engineering Team
@@ -173,31 +170,114 @@ const FilterDropdown = ({ label, value, options, onChange, icon: Icon }) => {
 
 // --- Layout Components ---
 
+// Optimized Hover Card
 const HoverCard = ({ job }) => (
-    <div className="bg-white border border-gray-200 shadow-xl px-4 py-3 text-xs tracking-wide min-w-[220px] rounded-sm">
-        <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-gray-500"><Users size={12} /><span className="uppercase font-semibold text-[10px]">Team</span></div>
-            <div className="text-black font-medium text-sm">{job.team}</div>
-            
-            <div className="flex items-center gap-2 text-gray-500 mt-1"><Briefcase size={12} /><span className="uppercase font-semibold text-[10px]">Seniority</span></div>
-            <div className="text-black font-medium text-sm">{job.seniority}</div>
-            
-            <div className="grid grid-cols-2 gap-2 mt-1">
-                <div>
-                    <div className="flex items-center gap-2 text-gray-500"><Calendar size={12} /><span className="uppercase font-semibold text-[10px]">Posted</span></div>
-                    <div className="text-black font-medium text-sm">{job.postedAt}</div>
+    <div className="bg-white border border-gray-100 shadow-[0_12px_32px_rgb(0,0,0,0.08)] p-5 text-xs tracking-wide min-w-[260px] rounded-lg animate-fade-in-up">
+        {/* Header with Team and Type */}
+        <div className="flex items-center justify-between border-b border-gray-50 pb-3 mb-3">
+             <div className="font-semibold text-gray-900 text-sm max-w-[70%] truncate">{job.team}</div>
+             <span className="inline-block bg-gray-50 border border-gray-200 text-gray-600 text-[10px] px-2 py-0.5 rounded-full font-medium">
+               {job.type}
+             </span>
+        </div>
+
+        {/* Details Grid */}
+        <div className="space-y-3">
+            <div className="flex justify-between items-center group/item">
+                <div className="flex items-center gap-2 text-gray-400">
+                    <Briefcase size={12} />
+                    <span>Seniority</span>
                 </div>
-                {/* Conditionally render closing date */}
-                {job.deadline && (
-                  <div>
-                      <div className="flex items-center gap-2 text-gray-500"><Timer size={12} /><span className="uppercase font-semibold text-[10px]">Closing Date</span></div>
-                      <div className="text-red-600 font-medium text-sm">{job.deadline}</div>
-                  </div>
-                )}
+                <div className="text-gray-800 font-medium">{job.seniority}</div>
             </div>
+
+            <div className="flex justify-between items-center group/item">
+                 <div className="flex items-center gap-2 text-gray-400">
+                    <MapPin size={12} />
+                    <span>Location</span>
+                </div>
+                <div className="text-gray-800 font-medium">{job.location}</div>
+            </div>
+            
+            <div className="flex justify-between items-center group/item">
+                 <div className="flex items-center gap-2 text-gray-400">
+                    <Calendar size={12} />
+                    <span>Posted</span>
+                </div>
+                <div className="text-gray-800 font-medium">{job.postedAt}</div>
+            </div>
+
+            {/* Conditionally render closing date */}
+            {job.deadline && (
+              <div className="flex justify-between items-center group/item pt-2 border-t border-gray-50 mt-2">
+                  <div className="flex items-center gap-2 text-gray-400">
+                      <Timer size={12} />
+                      <span>Deadline</span>
+                  </div>
+                  <div className="text-black font-semibold">{job.deadline}</div>
+              </div>
+            )}
         </div>
     </div>
 );
+
+// New: Single Team List View Layout
+const SingleTeamListView = ({ jobs, onJobClick }) => {
+  return (
+    <div className="flex flex-col gap-0 animate-fade-in max-w-5xl mx-auto">
+      {/* Header Row */}
+      <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-black text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-2 px-2">
+        <div className="col-span-5">Role</div>
+        <div className="col-span-2">Seniority</div>
+        <div className="col-span-2">Location</div>
+        <div className="col-span-2">Work Mode</div>
+        <div className="col-span-1 text-right">Apply</div>
+      </div>
+      
+      {jobs.length > 0 ? (
+        jobs.map(job => (
+          <div 
+            key={job.id} 
+            onClick={() => onJobClick(job)}
+            className="group relative grid grid-cols-1 md:grid-cols-12 gap-4 py-5 border-b border-gray-100 items-center cursor-pointer hover:bg-gray-50 transition-all rounded-lg px-2"
+          >
+             {/* Title & Hover Trigger */}
+             <div className="col-span-5 relative">
+                <span className="font-semibold text-gray-900 group-hover:text-black text-base md:text-sm transition-colors">{job.title}</span>
+                {/* Simplified Mobile Details visible only on small screens */}
+                <div className="md:hidden flex gap-2 mt-1 text-xs text-gray-500">
+                   <span>{job.location}</span> • <span>{job.type}</span>
+                </div>
+
+                {/* Hover Popover */}
+                <div className="absolute left-10 bottom-full mb-2 hidden group-hover:block z-20 pointer-events-none transform -translate-x-0">
+                   <HoverCard job={job} />
+                   <div className="absolute left-6 top-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white drop-shadow-sm ml-2"></div>
+                </div>
+             </div>
+             
+             <div className="hidden md:block col-span-2 text-sm text-gray-600 font-medium">{job.seniority}</div>
+             <div className="hidden md:block col-span-2 text-sm text-gray-600">{job.location}</div>
+             <div className="hidden md:block col-span-2 text-sm text-gray-600">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
+                  {job.workMode}
+                </span>
+             </div>
+             <div className="hidden md:flex col-span-1 text-right justify-end">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200 text-gray-400 group-hover:border-black group-hover:bg-black group-hover:text-white transition-all transform group-hover:translate-x-1">
+                  <ArrowRight size={14} />
+                </div>
+             </div>
+          </div>
+        ))
+      ) : (
+        <div className="py-20 text-center text-gray-400 italic">
+          No current openings for this team.
+        </div>
+      )}
+    </div>
+  );
+};
 
 const NewspaperItem = ({ job, onClick }) => (
   <div className="relative group">
@@ -214,8 +294,10 @@ const NewspaperItem = ({ job, onClick }) => (
     </div>
 
     {/* -- HOVER POPOVER -- */}
-    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-20 animate-fade-in-up pointer-events-none">
+    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-20 pointer-events-none transform -translate-x-2">
       <HoverCard job={job} />
+      {/* Decorative Arrow */}
+       <div className="absolute left-6 top-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white drop-shadow-sm ml-2"></div>
     </div>
   </div>
 );
@@ -251,7 +333,7 @@ const NewspaperLayout = ({ data, onJobClick }) => {
               </div>
             ))
           ) : (
-             <div className="text-sm text-gray-400 italic">No open positions matching filters.</div>
+             <div className="text-sm text-gray-400 italic mt-2">No positions.</div>
           )}
         </div>
       ))}
@@ -259,181 +341,72 @@ const NewspaperLayout = ({ data, onJobClick }) => {
   );
 };
 
-const TableRowItem = ({ job, onClick }) => (
-  <div className="relative group">
-    <div onClick={() => onClick(job)} className="border-t border-gray-200 group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 cursor-pointer relative z-10">
-      <div className="flex flex-col md:flex-row items-start md:items-center py-6 px-2 md:px-4 gap-4 md:gap-0">
-        {/* Role */}
-        <div className="flex-grow md:w-5/12">
-          <h4 className="text-lg md:text-xl font-medium tracking-tight">{job.title}</h4>
-        </div>
-        
-        {/* Location */}
-        <div className="w-full md:w-2/12 text-sm font-light opacity-70 group-hover:opacity-100 flex items-center gap-2 md:block">
-          <span className="md:hidden font-medium w-24 inline-block">Location:</span>{job.location}
-        </div>
-
-        {/* Work Mode */}
-        <div className="w-full md:w-2/12 text-sm font-light opacity-70 group-hover:opacity-100 flex items-center gap-2 md:block">
-          <span className="md:hidden font-medium w-24 inline-block">Work Mode:</span>
-          <span className={`inline-flex items-center gap-1.5 ${job.workMode === 'Remote' ? 'text-blue-600 group-hover:text-white' : ''}`}>
-            {job.workMode === 'Remote' && <Globe size={12} className="md:hidden lg:inline-block" />}
-            {job.workMode}
-          </span>
-        </div>
-
-        {/* Type */}
-        <div className="w-full md:w-2/12 text-sm font-light opacity-70 group-hover:opacity-100 flex items-center gap-2 md:block">
-          <span className="md:hidden font-medium w-24 inline-block">Type:</span>{job.type}
-        </div>
-
-        {/* Arrow */}
-        <div className="hidden md:flex justify-end w-1/12 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:translate-x-2">
-          <ArrowRight size={20} />
-        </div>
-      </div>
-    </div>
-    
-    {/* -- HOVER POPOVER FOR TABLE -- */}
-    <div className="absolute left-8 bottom-full mb-2 hidden group-hover:block z-50 animate-fade-in-up pointer-events-none">
-       <HoverCard job={job} />
-       {/* Small Arrow for Popover */}
-       <div className="absolute left-4 top-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white drop-shadow-sm"></div>
-    </div>
-  </div>
-);
-
-const TableLayout = ({ data, onJobClick }) => {
-  // Group simply by Team for Table Layout
-  const groupedByTeam = useMemo(() => {
-    const groups = {};
-    data.forEach(job => {
-      if (!groups[job.team]) groups[job.team] = [];
-      groups[job.team].push(job);
-    });
-    return groups;
-  }, [data]);
-
-  if (data.length === 0) {
-      return <div className="py-20 text-center text-gray-400">No positions found matching your criteria.</div>;
-  }
-
-  return (
-    <div className="flex flex-col animate-fade-in pb-20">
-      {Object.entries(groupedByTeam).map(([team, jobs]) => (
-        <div key={team} className="mb-20">
-          <div className="flex items-end mb-6">
-            <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wider text-black border-b-4 border-black pb-2 inline-block">
-              {team}
-            </h2>
-            <span className="ml-4 text-gray-400 text-sm mb-3 font-mono">({jobs.length})</span>
-          </div>
-          <div className="flex flex-col">
-             {/* Header Row */}
-             <div className="hidden md:flex py-3 px-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100">
-                <div className="w-5/12">Role</div>
-                <div className="w-2/12">Location</div>
-                <div className="w-2/12">Work Mode</div>
-                <div className="w-2/12">Type</div>
-                <div className="w-1/12 text-right">Apply</div>
-             </div>
-            {jobs.map(job => <TableRowItem key={job.id} job={job} onClick={onJobClick} />)}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const LayoutSwitcher = ({ current, onChange }) => (
-  <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-lg">
-    {[
-      { id: 'newspaper', label: 'Newspaper', icon: LayoutTemplate }, 
-      { id: 'table', label: 'Table', icon: List }
-    ].map(opt => (
-      <button key={opt.id} onClick={() => onChange(opt.id)} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${current === opt.id ? 'bg-white text-black shadow-sm' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200'}`}>
-        <opt.icon size={14} /><span className="hidden sm:inline">{opt.label}</span>
-      </button>
-    ))}
-  </div>
-);
-
 // --- Main Views ---
 
 const ListingView = ({ onJobClick }) => {
-  const [layoutMode, setLayoutMode] = useState('newspaper');
-  
-  // Filter States
+  // Filter States - Only Team remaining
   const [filterTeam, setFilterTeam] = useState('All');
-  const [filterLocation, setFilterLocation] = useState('All');
-  const [filterWorkMode, setFilterWorkMode] = useState('All');
 
   // Derive unique options
   const teams = useMemo(() => [...new Set(ALL_JOBS.map(j => j.team))].sort(), []);
-  const locations = useMemo(() => [...new Set(ALL_JOBS.map(j => j.location))].sort(), []);
-  const workModes = useMemo(() => [...new Set(ALL_JOBS.map(j => j.workMode))].sort(), []);
 
   // Filter Logic
   const filteredJobs = useMemo(() => {
     return ALL_JOBS.filter(job => {
       const matchTeam = filterTeam === 'All' || job.team === filterTeam;
-      const matchLocation = filterLocation === 'All' || job.location === filterLocation;
-      const matchWorkMode = filterWorkMode === 'All' || job.workMode === filterWorkMode;
-      return matchTeam && matchLocation && matchWorkMode;
+      return matchTeam;
     });
-  }, [filterTeam, filterLocation, filterWorkMode]);
+  }, [filterTeam]);
 
-  // Reset page when filters change (optional)
-  useEffect(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [layoutMode]);
+  // Determine which layout to show
+  const showNewspaperLayout = filterTeam === 'All';
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20 animate-fade-in">
         
         {/* Controls Bar */}
-        <div className="sticky top-0 bg-white/95 backdrop-blur-sm z-30 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 mb-16 py-6 border-b border-gray-200 transition-all">
+        <div className="sticky top-0 bg-white/95 backdrop-blur-sm z-30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-16 py-6 border-b border-gray-200 transition-all">
            
-           {/* Filters */}
-           <div className="flex flex-wrap gap-6 md:gap-8 w-full xl:w-auto">
-              <FilterDropdown 
-                label="All Teams" 
-                value={filterTeam} 
-                options={teams} 
-                onChange={setFilterTeam} 
-                icon={Users}
-              />
-              <FilterDropdown 
-                label="All Locations" 
-                value={filterLocation} 
-                options={locations} 
-                onChange={setFilterLocation}
-                icon={MapPin}
-              />
-              <FilterDropdown 
-                label="All Modes" 
-                value={filterWorkMode} 
-                options={workModes} 
-                onChange={setFilterWorkMode}
-                icon={Building2}
-              />
+           <div className="flex items-center gap-4">
+               {/* Back Button (Only visible when filtering) */}
+               {filterTeam !== 'All' && (
+                  <button 
+                    onClick={() => setFilterTeam('All')}
+                    className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 hover:bg-black hover:border-black hover:text-white transition-all"
+                    title="Clear Filter"
+                  >
+                    <ArrowLeft size={14} />
+                  </button>
+               )}
+
+               {/* Filters */}
+               <div className="flex flex-wrap gap-6 w-full md:w-auto">
+                  <FilterDropdown 
+                    label="All Teams" 
+                    value={filterTeam} 
+                    options={teams} 
+                    onChange={setFilterTeam} 
+                    icon={Users}
+                  />
+               </div>
            </div>
 
-           {/* View Switcher */}
-           <div className="flex items-center justify-between w-full xl:w-auto gap-4">
+           {/* Position Count */}
+           <div className="flex items-center justify-between w-full md:w-auto gap-4">
               <span className="text-xs text-gray-400 font-medium uppercase tracking-wider block">
                 {filteredJobs.length} Positions Found
               </span>
-              <div className="h-4 w-px bg-gray-300 hidden xl:block"></div>
-              <LayoutSwitcher current={layoutMode} onChange={setLayoutMode} />
            </div>
         </div>
 
-        {/* Content Area */}
+        {/* Dynamic Content Area */}
         <div className="min-h-[500px]">
-          {layoutMode === 'newspaper' && <NewspaperLayout data={filteredJobs} onJobClick={onJobClick} />}
-          {layoutMode === 'table' && <TableLayout data={filteredJobs} onJobClick={onJobClick} />}
+          {showNewspaperLayout ? (
+             <NewspaperLayout data={filteredJobs} onJobClick={onJobClick} />
+          ) : (
+             <SingleTeamListView jobs={filteredJobs} onJobClick={onJobClick} />
+          )}
         </div>
         
         <div className="mt-20 py-16 text-center border-t border-gray-100">
@@ -516,11 +489,10 @@ const DetailView = ({ job, onBack }) => {
 
              <div className="flex items-center gap-2"><Building2 size={16} />{job.workMode}</div>
 
-             {/* Conditionally render closing date */}
              {job.deadline && (
                <>
                  <span className="text-gray-300">/</span>
-                 <div className="flex items-center gap-2"><Timer size={16} className="text-red-500" /><span className="text-red-600">Closing Date: {job.deadline}</span></div>
+                 <div className="flex items-center gap-2"><Timer size={16} className="text-gray-400" /><span className="text-gray-600">Closing Date: {job.deadline}</span></div>
                </>
              )}
           </div>
@@ -572,54 +544,15 @@ const DetailView = ({ job, onBack }) => {
                  <h4 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Employment</h4>
                  <p className="text-sm text-gray-600 mb-6">{job.type}</p>
 
-                 {/* Conditionally render closing date */}
                  {job.deadline && (
                    <>
-                     <h4 className="text-sm font-bold uppercase tracking-widest text-red-400 mb-4">Closing Date</h4>
-                     <p className="text-sm text-red-600 font-medium">{job.deadline}</p>
+                     <h4 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Closing Date</h4>
+                     <p className="text-sm text-gray-900 font-medium">{job.deadline}</p>
                    </>
                  )}
               </div>
            </div>
         </div>
-
-        {/* Application Form */}
-        <div className="mt-32 pt-20 border-t border-gray-200">
-           <div className="max-w-2xl mx-auto">
-              <h3 className="text-3xl font-light text-gray-900 mb-2 text-center">Apply for this Job</h3>
-              <p className="text-gray-500 text-center mb-12">Submit your application below.</p>
-              
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                       <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">First Name</label>
-                       <input type="text" className="w-full border-b border-gray-300 py-2 focus:border-black focus:outline-none transition-colors bg-transparent" />
-                    </div>
-                    <div>
-                       <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Last Name</label>
-                       <input type="text" className="w-full border-b border-gray-300 py-2 focus:border-black focus:outline-none transition-colors bg-transparent" />
-                    </div>
-                 </div>
-                 
-                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Email</label>
-                    <input type="email" className="w-full border-b border-gray-300 py-2 focus:border-black focus:outline-none transition-colors bg-transparent" />
-                 </div>
-
-                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Resume / CV</label>
-                    <div className="border border-dashed border-gray-300 p-8 text-center hover:bg-gray-50 cursor-pointer transition-colors mt-2">
-                       <p className="text-sm text-gray-500">Drag & drop your resume here or click to upload</p>
-                    </div>
-                 </div>
-
-                 <div className="pt-8 text-center">
-                    <Button className="w-full md:w-auto px-12 py-4 text-base">Submit Application</Button>
-                 </div>
-              </form>
-           </div>
-        </div>
-
       </main>
     </div>
   );

@@ -22,6 +22,10 @@
     }
   }
 
+  .careers-page .page-header {
+    margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  }
+
   .page-header__grid {
     display: flex;
     flex-direction: column;

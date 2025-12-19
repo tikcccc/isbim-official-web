@@ -313,19 +313,12 @@ export const RELATED_NEWS_QUERY = defineQuery(
 
 /** Fetch all open career positions */
 export const CAREERS_QUERY = defineQuery(
-  `*[_type == "career" && defined(slug.current)] | order(coalesce(team->sortOrder, pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
+  `*[_type == "career" && defined(slug.current)] | order(coalesce(team->sortOrder, team->pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
     _id,
     _type,
     "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
-    pillar->{
-      _id,
-      title,
-      slug,
-      sortOrder,
-      description
-    },
     team->{
       _id,
       title,
@@ -350,6 +343,13 @@ export const CAREERS_QUERY = defineQuery(
     experienceLevel,
     tags,
     postedAt,
+    expiresAt,
+    applicationUrl,
+    sections,
+    contentImage{
+      ...,
+      alt
+    },
     sortOrder
   }`
 );
@@ -362,13 +362,6 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     "isDraft": string::startsWith(_id, "drafts."),
     title,
     slug,
-    pillar->{
-      _id,
-      title,
-      slug,
-      sortOrder,
-      description
-    },
     team->{
       _id,
       title,
@@ -488,11 +481,6 @@ export const CAREER_METADATA_QUERY = defineQuery(
       title,
       slug
     },
-    pillar->{
-      title,
-      slug,
-      sortOrder
-    },
     team->{
       title,
       pillar->{
@@ -505,7 +493,6 @@ export const CAREER_METADATA_QUERY = defineQuery(
     workModel,
     sections[]{
       title,
-      kind,
       "text": pt::text(content)
     },
     contentImage{

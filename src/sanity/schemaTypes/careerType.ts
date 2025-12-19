@@ -27,14 +27,6 @@ export const careerType = defineType({
       group: "listing",
     }),
     defineField({
-      name: "pillar",
-      title: "Pillar (Column Header)",
-      type: "reference",
-      to: [{ type: "careerPillar" }],
-      description: "Optional override. Defaults to the pillar on the selected team.",
-      group: "listing",
-    }),
-    defineField({
       name: "team",
       title: "Team / Subgroup",
       type: "reference",
@@ -146,20 +138,6 @@ export const careerType = defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: "kind",
-              title: "Section Type",
-              type: "string",
-              options: {
-                list: [
-                  { title: "Overview", value: "overview" },
-                  { title: "Responsibilities", value: "responsibilities" },
-                  { title: "Requirements", value: "requirements" },
-                  { title: "Benefits", value: "benefits" },
-                  { title: "Custom", value: "custom" },
-                ],
-              },
-            }),
-            defineField({
               name: "content",
               title: "Content",
               type: "array",
@@ -168,10 +146,10 @@ export const careerType = defineType({
             }),
           ],
           preview: {
-            select: { title: "title", kind: "kind" },
-            prepare: ({ title, kind }) => ({
+            select: { title: "title" },
+            prepare: ({ title }) => ({
               title,
-              subtitle: kind ? `${kind}` : "Section",
+              subtitle: "Section",
             }),
           },
         }),
@@ -180,19 +158,16 @@ export const careerType = defineType({
         {
           _type: "section",
           title: "The Role",
-          kind: "overview",
           content: [],
         },
         {
           _type: "section",
           title: "Core Responsibilities",
-          kind: "responsibilities",
           content: [],
         },
         {
           _type: "section",
           title: "Requirements",
-          kind: "requirements",
           content: [],
         },
       ],
@@ -286,12 +261,11 @@ export const careerType = defineType({
     select: {
       title: "title",
       teamTitle: "team.title",
-      pillarTitle: "pillar.title",
       teamPillarTitle: "team.pillar.title",
       location: "locations.0.title",
     },
-    prepare({ title, teamTitle, pillarTitle, teamPillarTitle, location }) {
-      const pillar = pillarTitle || teamPillarTitle;
+    prepare({ title, teamTitle, teamPillarTitle, location }) {
+      const pillar = teamPillarTitle;
       const subtitle = [teamTitle || pillar, location].filter(Boolean).join(" • ");
       return {
         title,

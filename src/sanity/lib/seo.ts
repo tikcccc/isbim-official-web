@@ -222,7 +222,7 @@ export async function generateCareerMetadata(
       team?: { title?: string; pillar?: { title?: string; slug?: string; sortOrder?: number } };
       employmentType?: string;
       workModel?: string;
-      sections?: Array<{ title?: string; kind?: string; text?: string }>;
+      sections?: Array<{ title?: string; text?: string }>;
       seo?: {
         metaTitle?: string;
         metaDescription?: string;
@@ -249,7 +249,7 @@ export async function generateCareerMetadata(
 
     const title = career.seo?.metaTitle || career.title;
     const teamTitle = career.team?.title;
-    const pillar = career.team?.pillar?.title || career.pillar?.title;
+    const pillar = career.team?.pillar?.title;
     const sectionSnippet =
       career.sections
         ?.map((s) => (s?.text || "").trim())
