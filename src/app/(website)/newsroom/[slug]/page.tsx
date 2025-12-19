@@ -184,9 +184,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
       <JsonLd data={articleSchema} id="newsroom-detail-article" />
 
       {/* Main news detail content */}
-      <main className="newsroom-page min-h-screen">
-        {/* Noise overlay for editorial texture */}
-        <div className="newsroom-noise-overlay" />
+      <main className="newsroom-page surface-noise-overlay min-h-screen">
+        <div className="noise-grain" />
 
         {/* News detail client component handles display and interactivity */}
         <div className="container-content">

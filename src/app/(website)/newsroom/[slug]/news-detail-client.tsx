@@ -109,8 +109,8 @@ export default function NewsDetailClient({
       <div className="noise-grain" />
 
       <div className="container-content flex items-center gap-3 md:gap-4 py-4">
-        <Link href="/newsroom" className="newsroom-back-btn news-font-body">
-          <ArrowLeft className="newsroom-back-icon" />
+        <Link href="/newsroom" className="newsroom-back-btn news-font-body group">
+          <ArrowLeft className="newsroom-back-icon transition-transform duration-200 group-hover:-translate-x-1" />
           Back to Newsroom
         </Link>
       </div>
