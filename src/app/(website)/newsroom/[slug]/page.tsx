@@ -29,8 +29,9 @@ interface NewsItem {
   publishedAt: string;
   excerpt?: string;
   body?: PortableTextBlock[]; // Rich text array
-  mainImage?: SanityImage & {
-    alt?: string;
+  mainImage?: {
+    asset: SanityImage;
+    alt: string;
   };
   category: {
     _id: string;
@@ -45,7 +46,8 @@ interface NewsItem {
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
-    openGraphImage?: SanityImage & {
+    openGraphImage?: {
+      asset: SanityImage;
       alt?: string;
     };
     keywords?: string[];
@@ -56,7 +58,8 @@ interface NewsMetadata {
   title?: string;
   subtitle?: string;
   excerpt?: string;
-  mainImage?: SanityImage & {
+  mainImage?: {
+    asset: SanityImage;
     alt?: string;
   };
   publishedAt?: string;
@@ -64,7 +67,8 @@ interface NewsMetadata {
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
-    openGraphImage?: SanityImage & {
+    openGraphImage?: {
+      asset: SanityImage;
       alt?: string;
     };
     keywords?: string[];
@@ -103,7 +107,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const modifiedTime = newsData._updatedAt;
   const author = newsData.author || "isBIM Team";
   const keywords = newsData.seo?.keywords?.filter(Boolean);
-  const ogImageSource = newsData.seo?.openGraphImage || newsData.mainImage;
+  const ogImageSource = newsData.seo?.openGraphImage?.asset || newsData.mainImage?.asset;
   const fallbackOgImage = `${siteUrl}/images/og/newsroom.jpg`;
   const ogImageUrl = ogImageSource
     ? (urlFor(ogImageSource)?.width(1200).height(630).fit("crop").url() || fallbackOgImage)
@@ -193,7 +197,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
     { name: newsDetail.title, url: `${siteUrl}${detailPath}` },
   ]);
 
-  const ogImageSource = newsDetail.seo?.openGraphImage || newsDetail.mainImage;
+  const ogImageSource = newsDetail.seo?.openGraphImage?.asset || newsDetail.mainImage?.asset;
   const fallbackOgImage = `${siteUrl}/images/og/newsroom.jpg`;
   const ogImageUrl = ogImageSource
     ? (urlFor(ogImageSource as SanityImage)?.width(1200).height(630).fit("crop").url() || fallbackOgImage)
