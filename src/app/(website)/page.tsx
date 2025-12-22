@@ -8,22 +8,32 @@ import { generatePageMetadata } from "@/lib/seo";
 import { composeKeywords } from "@/lib/seo-generators";
 import { JsonLd, createOrganizationSchema, createSoftwareApplicationSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
+import { languageTag } from "@/paraglide/runtime";
 
 /**
  * Generate metadata for home page
  * Enhanced with dual identity (AI + Construction) and Hong Kong emphasis
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const keywords = composeKeywords("home", [], "en");
+  const locale = languageTag();
+  const keywords = composeKeywords("home", [], locale);
+  const title = locale === "zh"
+    ? "AI 与建筑科技公司 | isBIM 香港"
+    : "AI & Construction Technology Company | isBIM Hong Kong";
+  const description = locale === "zh"
+    ? "isBIM 是香港领先的 AI 科技公司与建筑科技公司，提供 JARVIS AI 套件、BIM 咨询与创新建造解决方案，为全球基础设施项目加速交付。"
+    : "isBIM is Hong Kong's leading AI technology company and construction technology company. We deliver JARVIS AI Suite, BIM consultancy, and innovative construction solutions for global infrastructure projects. Combining artificial intelligence with construction industry expertise.";
+  const imageAlt = locale === "zh"
+    ? "isBIM - 来自香港的 AI 与建筑科技平台"
+    : "isBIM - AI and Construction Technology Platform from Hong Kong";
 
   return generatePageMetadata({
-    title: "AI & Construction Technology Company | isBIM Hong Kong",
-    description:
-      "isBIM is Hong Kong's leading AI technology company and construction technology company. We deliver JARVIS AI Suite, BIM consultancy, and innovative construction solutions for global infrastructure projects. Combining artificial intelligence with construction industry expertise.",
+    title,
+    description,
     path: "/",
-    locale: "en",
-    image: "/images/cta.png",
-    imageAlt: "isBIM - AI and Construction Technology Platform from Hong Kong",
+    locale,
+    image: "/images/og/home.jpg",
+    imageAlt,
     keywords,
   });
 }
@@ -35,7 +45,7 @@ export default function Home() {
   const organizationSchema = createOrganizationSchema({
     name: "isBIM Limited",
     url: siteUrl,
-    logo: `${siteUrl}/images/logo.png`,
+    logo: `${siteUrl}/icons/isbim_black.svg`,
     description: "Hong Kong's leading AI and construction technology company delivering JARVIS AI Suite and innovative construction solutions for global infrastructure projects.",
     sameAs: [
       "https://www.linkedin.com/company/isbim",

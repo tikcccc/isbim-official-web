@@ -11,6 +11,11 @@ import {
 import NewsDetailClient from "./news-detail-client";
 import type { Image as SanityImage } from "sanity";
 import type { PortableTextBlock } from "@portabletext/types";
+import { getSiteUrl } from "@/lib/env";
+import { buildHref } from "@/lib/i18n/route-builder";
+import { languageTag } from "@/paraglide/runtime";
+import { generateHreflangAlternates } from "@/lib/seo";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -24,9 +29,8 @@ interface NewsItem {
   publishedAt: string;
   excerpt?: string;
   body?: PortableTextBlock[]; // Rich text array
-  mainImage?: {
-    asset: SanityImage;
-    alt: string;
+  mainImage?: SanityImage & {
+    alt?: string;
   };
   category: {
     _id: string;
@@ -41,8 +45,8 @@ interface NewsItem {
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
-    openGraphImage?: {
-      asset: SanityImage;
+    openGraphImage?: SanityImage & {
+      alt?: string;
     };
     keywords?: string[];
   };
@@ -52,13 +56,17 @@ interface NewsMetadata {
   title?: string;
   subtitle?: string;
   excerpt?: string;
-  mainImage?: { asset: SanityImage };
+  mainImage?: SanityImage & {
+    alt?: string;
+  };
   publishedAt?: string;
   author?: string;
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
-    openGraphImage?: { asset: SanityImage };
+    openGraphImage?: SanityImage & {
+      alt?: string;
+    };
     keywords?: string[];
   };
   _updatedAt?: string;
@@ -73,6 +81,11 @@ interface PageProps {
  */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const locale = languageTag();
+  const siteUrl = getSiteUrl();
+  const localizedPath = buildHref(`/newsroom/${slug}`, locale);
+  const canonicalUrl = `${siteUrl}${localizedPath}`;
+  const alternates = generateHreflangAlternates(`/newsroom/${slug}`, locale);
 
   const newsData = await sanityFetch<NewsMetadata | null>({
     query: NEWS_METADATA_QUERY,
@@ -87,22 +100,45 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = newsData.seo?.metaTitle || newsData.title || "News";
   const description = newsData.seo?.metaDescription || newsData.subtitle || newsData.excerpt || "";
   const publishedTime = newsData.publishedAt;
+  const modifiedTime = newsData._updatedAt;
   const author = newsData.author || "isBIM Team";
+  const keywords = newsData.seo?.keywords?.filter(Boolean);
+  const ogImageSource = newsData.seo?.openGraphImage || newsData.mainImage;
+  const fallbackOgImage = `${siteUrl}/images/og/newsroom.jpg`;
+  const ogImageUrl = ogImageSource
+    ? (urlFor(ogImageSource)?.width(1200).height(630).fit("crop").url() || fallbackOgImage)
+    : fallbackOgImage;
 
   return {
     title,
     description,
+    keywords: keywords && keywords.length > 0 ? keywords : undefined,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: alternates.languages,
+    },
     openGraph: {
       title,
       description,
       type: "article",
+      url: canonicalUrl,
       publishedTime,
+      modifiedTime,
       authors: [author],
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogImageUrl],
     },
   };
 }
@@ -145,11 +181,23 @@ export default async function NewsDetailPage({ params }: PageProps) {
     .slice(0, 3);
 
   // Breadcrumb Schema for navigation
+  const locale = languageTag();
+  const siteUrl = getSiteUrl();
+  const homePath = buildHref("/", locale);
+  const newsroomPath = buildHref("/newsroom", locale);
+  const detailPath = buildHref(`/newsroom/${newsDetail.slug.current}`, locale);
+  const canonicalUrl = `${siteUrl}${detailPath}`;
   const breadcrumbSchema = createBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Newsroom", url: "/newsroom" },
-    { name: newsDetail.title, url: `/newsroom/${newsDetail.slug.current}` },
+    { name: "Home", url: `${siteUrl}${homePath}` },
+    { name: "Newsroom", url: `${siteUrl}${newsroomPath}` },
+    { name: newsDetail.title, url: `${siteUrl}${detailPath}` },
   ]);
+
+  const ogImageSource = newsDetail.seo?.openGraphImage || newsDetail.mainImage;
+  const fallbackOgImage = `${siteUrl}/images/og/newsroom.jpg`;
+  const ogImageUrl = ogImageSource
+    ? (urlFor(ogImageSource as SanityImage)?.width(1200).height(630).fit("crop").url() || fallbackOgImage)
+    : fallbackOgImage;
 
   // Article Schema for SEO
   const articleSchema = {
@@ -159,6 +207,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
     description: newsDetail.subtitle || newsDetail.excerpt,
     datePublished: newsDetail.publishedAt,
     dateModified: newsDetail.publishedAt,
+    ...(ogImageUrl && { image: ogImageUrl }),
     author: {
       "@type": "Person",
       name: newsDetail.author || "isBIM Team",
@@ -168,12 +217,12 @@ export default async function NewsDetailPage({ params }: PageProps) {
       name: "isBIM",
       logo: {
         "@type": "ImageObject",
-        url: "https://isbim.com.hk/logo.png",
+        url: `${siteUrl}/icons/isbim_black.svg`,
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://isbim.com.hk/newsroom/${newsDetail.slug.current}`,
+      "@id": canonicalUrl,
     },
   };
 

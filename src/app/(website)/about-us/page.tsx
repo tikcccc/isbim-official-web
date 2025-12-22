@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { generateAboutPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createOrganizationSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
+import { languageTag } from "@/paraglide/runtime";
 import AboutPageClient from "./about-page-client";
 
 /**
@@ -13,7 +14,8 @@ import AboutPageClient from "./about-page-client";
  * - Dual identity: AI technology company + Construction technology company
  */
 export async function generateMetadata(): Promise<Metadata> {
-  return generateAboutPageSEO("en");
+  const locale = languageTag();
+  return generateAboutPageSEO(locale);
 }
 
 /**
@@ -29,7 +31,7 @@ export default function AboutUsPage() {
   const organizationSchema = createOrganizationSchema({
     name: "isBIM Limited",
     url: siteUrl,
-    logo: `${siteUrl}/images/logo.png`,
+    logo: `${siteUrl}/icons/isbim_black.svg`,
     description: "isBIM is Hong Kong's leading AI technology company and construction technology company. We develop JARVIS AI Suite and deliver innovative construction solutions for global infrastructure projects. Combining artificial intelligence with construction industry expertise.",
     sameAs: [
       "https://www.linkedin.com/company/isbim",

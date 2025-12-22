@@ -7,7 +7,7 @@
  * - Block crawling of admin/internal routes
  * - Support Chinese search engines (Baidu, Sogou, 360Search)
  *
- * Access: https://isbim.com/robots.txt
+ * Access: /robots.txt
  */
 
 import type { MetadataRoute } from "next";

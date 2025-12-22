@@ -58,7 +58,7 @@ export interface BaseMetadataOptions {
 /**
  * Default Open Graph image
  */
-export const DEFAULT_OG_IMAGE = "/images/og-default.png";
+export const DEFAULT_OG_IMAGE = "/images/og/home.jpg";
 
 /**
  * Generate page metadata with SEO best practices
@@ -95,10 +95,13 @@ export function generatePageMetadata(options: BaseMetadataOptions): Metadata {
   } = options;
 
   const siteUrl = getSiteUrl();
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  const localePrefix = locale ? `/${locale}` : "";
+  const localizedUrl = `${siteUrl}${localePrefix}${cleanPath}`;
   const fullTitle = title.includes(SITE_CONFIG.name)
     ? title
     : `${title} | ${SITE_CONFIG.name}`;
-  const url = canonical || `${siteUrl}${path}`;
+  const url = canonical || localizedUrl;
   const ogImage = image ? (image.startsWith("http") ? image : `${siteUrl}${image}`) : `${siteUrl}${DEFAULT_OG_IMAGE}`;
 
   const metadata: Metadata = {
@@ -108,9 +111,9 @@ export function generatePageMetadata(options: BaseMetadataOptions): Metadata {
     alternates: {
       canonical: url,
       languages: {
-        "en": `${siteUrl}/en${path}`,
-        "zh": `${siteUrl}/zh${path}`,
-        "zh-CN": `${siteUrl}/zh${path}`, // Baidu prefers zh-CN
+        "en": `${siteUrl}/en${cleanPath}`,
+        "zh": `${siteUrl}/zh${cleanPath}`,
+        "zh-CN": `${siteUrl}/zh${cleanPath}`, // Baidu prefers zh-CN
       },
     },
     openGraph: {
@@ -188,7 +191,7 @@ export function generateOrganizationSchema() {
     "@type": "Organization",
     name: SITE_CONFIG.name,
     url: siteUrl,
-    logo: `${siteUrl}/images/logo.png`,
+    logo: `${siteUrl}/icons/isbim_black.svg`,
     description: SITE_CONFIG.description,
     sameAs: [
       SITE_CONFIG.social.linkedin,
@@ -242,7 +245,7 @@ export function generateArticleSchema(options: ArticleSchemaOptions) {
       name: SITE_CONFIG.name,
       logo: {
         "@type": "ImageObject",
-        url: `${siteUrl}/images/logo.png`,
+        url: `${siteUrl}/icons/isbim_black.svg`,
       },
     },
     url: url,

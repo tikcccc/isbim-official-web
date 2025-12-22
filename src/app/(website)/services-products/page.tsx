@@ -18,6 +18,9 @@ import { ServicesGrid } from "@/components/services-products/services-grid";
 import { CtaSection } from "@/components/services-products/cta-section";
 import { generateServicesPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
+import { languageTag } from "@/paraglide/runtime";
+import { getSiteUrl } from "@/lib/env";
+import { buildHref } from "@/lib/i18n/route-builder";
 
 /**
  * Generate metadata for Services & Products page
@@ -28,14 +31,20 @@ import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
  * - Hong Kong location and dual identity (AI + Construction tech)
  */
 export async function generateMetadata(): Promise<Metadata> {
-  return generateServicesPageSEO("en");
+  const locale = languageTag();
+  return generateServicesPageSEO(locale);
 }
 
 export default function ServicesProductsPage() {
+  const locale = languageTag();
+  const siteUrl = getSiteUrl();
+  const homePath = buildHref("/", locale);
+  const servicesPath = buildHref("/services-products", locale);
+
   // Breadcrumb Schema for navigation
   const breadcrumbSchema = createBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Services & Products", url: "/services-products" },
+    { name: "Home", url: `${siteUrl}${homePath}` },
+    { name: "Services & Products", url: `${siteUrl}${servicesPath}` },
   ]);
 
   return (

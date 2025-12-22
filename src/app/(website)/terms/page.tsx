@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { languageTag } from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/env";
 import TermsClient from "./terms-client";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,10 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? "Read the Terms of Use that apply to the use of any service, software, website, or AI platform provided by isBIM Limited, including the JARVIS AI Suite."
       : "阅读适用于 isBIM Limited 提供的任何服务、软件、网站或 AI 平台（包括 JARVIS AI 套件）的使用条款。";
 
-  const canonicalUrl =
-    locale === "en"
-      ? "https://isbim.hk/en/terms"
-      : "https://isbim.hk/zh/terms";
+  const siteUrl = getSiteUrl();
+  const canonicalUrl = `${siteUrl}/${locale}/terms`;
 
   return {
     title,

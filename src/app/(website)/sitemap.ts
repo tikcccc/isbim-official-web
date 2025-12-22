@@ -7,7 +7,7 @@
  * - Support multi-language with proper hreflang
  * - Cache with tag-based revalidation
  *
- * Access: https://isbim.com/sitemap.xml
+ * Access: /sitemap.xml
  *
  * Features:
  * - Automatic URL generation from Sanity content
@@ -19,11 +19,8 @@
 import type { MetadataRoute } from "next";
 import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import {
-  POSTS_SITEMAP_QUERY,
-  PRODUCTS_SITEMAP_QUERY,
   NEWS_SITEMAP_QUERY,
   CAREERS_SITEMAP_QUERY,
-  PROJECTS_SITEMAP_QUERY,
 } from "@/sanity/lib/queries";
 import { ROUTES } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
@@ -39,19 +36,12 @@ interface SitemapEntry {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
   const now = new Date();
+  const defaultLocale = "en";
+  const withLocale = (route: string, locale: string) =>
+    `${siteUrl}/${locale}${route === "/" ? "" : route}`;
 
   // Fetch all dynamic content slugs from Sanity
-  const [posts, products, news, careers, projects] = await Promise.all([
-    sanityFetch<SitemapEntry[]>({
-      query: POSTS_SITEMAP_QUERY,
-      tags: ["post"],
-      revalidate: REVALIDATE.HOUR,
-    }).catch(() => []),
-    sanityFetch<SitemapEntry[]>({
-      query: PRODUCTS_SITEMAP_QUERY,
-      tags: ["product"],
-      revalidate: REVALIDATE.DAY,
-    }).catch(() => []),
+  const [news, careers] = await Promise.all([
     sanityFetch<SitemapEntry[]>({
       query: NEWS_SITEMAP_QUERY,
       tags: ["news"],
@@ -62,85 +52,80 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       tags: ["career"],
       revalidate: REVALIDATE.DAY,
     }).catch(() => []),
-    sanityFetch<SitemapEntry[]>({
-      query: PROJECTS_SITEMAP_QUERY,
-      tags: ["project"],
-      revalidate: REVALIDATE.DAY,
-    }).catch(() => []),
   ]);
 
   // Static pages (high priority, frequent changes)
   const staticPages: MetadataRoute.Sitemap = [
     {
-      url: `${siteUrl}`,
+      url: withLocale(ROUTES.HOME, defaultLocale),
       lastModified: now,
       changeFrequency: "daily",
       priority: 1.0,
       alternates: {
         languages: {
-          en: `${siteUrl}/en`,
-          zh: `${siteUrl}/zh`,
+          en: withLocale(ROUTES.HOME, "en"),
+          zh: withLocale(ROUTES.HOME, "zh"),
         },
       },
     },
     {
-      url: `${siteUrl}${ROUTES.ABOUT}`,
+      url: withLocale(ROUTES.ABOUT, defaultLocale),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
       alternates: {
         languages: {
-          en: `${siteUrl}/en${ROUTES.ABOUT}`,
-          zh: `${siteUrl}/zh${ROUTES.ABOUT}`,
+          en: withLocale(ROUTES.ABOUT, "en"),
+          zh: withLocale(ROUTES.ABOUT, "zh"),
         },
       },
     },
     {
-      url: `${siteUrl}${ROUTES.SERVICES_PRODUCTS}`,
+      url: withLocale(ROUTES.SERVICES_PRODUCTS, defaultLocale),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
       alternates: {
         languages: {
-          en: `${siteUrl}/en${ROUTES.SERVICES_PRODUCTS}`,
-          zh: `${siteUrl}/zh${ROUTES.SERVICES_PRODUCTS}`,
+          en: withLocale(ROUTES.SERVICES_PRODUCTS, "en"),
+          zh: withLocale(ROUTES.SERVICES_PRODUCTS, "zh"),
         },
       },
     },
     {
-      url: `${siteUrl}${ROUTES.NEWSROOM}`,
+      url: withLocale(ROUTES.NEWSROOM, defaultLocale),
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.8,
       alternates: {
         languages: {
-          en: `${siteUrl}/en${ROUTES.NEWSROOM}`,
-          zh: `${siteUrl}/zh${ROUTES.NEWSROOM}`,
+          en: withLocale(ROUTES.NEWSROOM, "en"),
+          zh: withLocale(ROUTES.NEWSROOM, "zh"),
         },
       },
     },
     {
-      url: `${siteUrl}${ROUTES.CAREERS}`,
+      url: withLocale(ROUTES.CAREERS, defaultLocale),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.7,
       alternates: {
         languages: {
-          en: `${siteUrl}/en${ROUTES.CAREERS}`,
-          zh: `${siteUrl}/zh${ROUTES.CAREERS}`,
+          en: withLocale(ROUTES.CAREERS, "en"),
+          zh: withLocale(ROUTES.CAREERS, "zh"),
         },
       },
     },
     // Note: Contact page included but under redesign (lower priority)
     {
-      url: `${siteUrl}${ROUTES.CONTACT}`,
+      url: withLocale(ROUTES.CONTACT, defaultLocale),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.5, // Lower priority - page under redesign
       alternates: {
         languages: {
-          en: `${siteUrl}/en${ROUTES.CONTACT}`,
-          zh: `${siteUrl}/zh${ROUTES.CONTACT}`,
+          en: withLocale(ROUTES.CONTACT, "en"),
+          zh: withLocale(ROUTES.CONTACT, "zh"),
         },
       },
     },
@@ -150,14 +135,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const jarvisPages: MetadataRoute.Sitemap = Object.values(ROUTES.JARVIS)
     .filter((route) => route !== ROUTES.JARVIS.SUITE) // Exclude /jarvis-ai-suite
     .map((route) => ({
-      url: `${siteUrl}${route}`,
+      url: withLocale(route, defaultLocale),
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.9,
       alternates: {
         languages: {
-          en: `${siteUrl}/en${route}`,
-          zh: `${siteUrl}/zh${route}`,
+          en: withLocale(route, "en"),
+          zh: withLocale(route, "zh"),
         },
       },
     }));
@@ -168,80 +153,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ROUTES.PROJECT_FINANCE,
     ROUTES.VENTURE_INVESTMENTS,
   ].map((route) => ({
-    url: `${siteUrl}${route}`,
+    url: withLocale(route, defaultLocale),
     lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.8,
     alternates: {
       languages: {
-        en: `${siteUrl}/en${route}`,
-        zh: `${siteUrl}/zh${route}`,
+        en: withLocale(route, "en"),
+        zh: withLocale(route, "zh"),
       },
     },
   }));
 
   // Dynamic Sanity content pages
-  const postPages: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${siteUrl}/posts/${post.slug}`,
-    lastModified: new Date(post._updatedAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-    alternates: {
-      languages: {
-        en: `${siteUrl}/en/posts/${post.slug}`,
-        zh: `${siteUrl}/zh/posts/${post.slug}`,
-      },
-    },
-  }));
-
-  const productPages: MetadataRoute.Sitemap = products.map((product) => ({
-    url: `${siteUrl}/products/${product.slug}`,
-    lastModified: new Date(product._updatedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-    alternates: {
-      languages: {
-        en: `${siteUrl}/en/products/${product.slug}`,
-        zh: `${siteUrl}/zh/products/${product.slug}`,
-      },
-    },
-  }));
-
   const newsPages: MetadataRoute.Sitemap = news.map((item) => ({
-    url: `${siteUrl}/newsroom/${item.slug}`,
+    url: withLocale(`/newsroom/${item.slug}`, defaultLocale),
     lastModified: new Date(item._updatedAt),
     changeFrequency: "monthly" as const,
     priority: 0.7,
     alternates: {
       languages: {
-        en: `${siteUrl}/en/newsroom/${item.slug}`,
-        zh: `${siteUrl}/zh/newsroom/${item.slug}`,
+        en: withLocale(`/newsroom/${item.slug}`, "en"),
+        zh: withLocale(`/newsroom/${item.slug}`, "zh"),
       },
     },
   }));
 
   const careerPages: MetadataRoute.Sitemap = careers.map((career) => ({
-    url: `${siteUrl}/careers/${career.slug}`,
+    url: withLocale(`/careers/${career.slug}`, defaultLocale),
     lastModified: new Date(career._updatedAt),
     changeFrequency: "weekly" as const,
     priority: 0.7,
     alternates: {
       languages: {
-        en: `${siteUrl}/en/careers/${career.slug}`,
-        zh: `${siteUrl}/zh/careers/${career.slug}`,
-      },
-    },
-  }));
-
-  const projectPages: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${siteUrl}/projects/${project.slug}`,
-    lastModified: new Date(project._updatedAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-    alternates: {
-      languages: {
-        en: `${siteUrl}/en/projects/${project.slug}`,
-        zh: `${siteUrl}/zh/projects/${project.slug}`,
+        en: withLocale(`/careers/${career.slug}`, "en"),
+        zh: withLocale(`/careers/${career.slug}`, "zh"),
       },
     },
   }));
@@ -251,10 +197,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages,
     ...jarvisPages,
     ...servicePages,
-    ...postPages,
-    ...productPages,
     ...newsPages,
     ...careerPages,
-    ...projectPages,
   ];
 }

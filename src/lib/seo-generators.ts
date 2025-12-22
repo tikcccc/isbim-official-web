@@ -13,6 +13,8 @@
 
 import type { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo";
+import { ROUTES } from "@/lib/constants";
+import { COMMON_IMAGES } from "@/lib/media-config";
 
 /**
  * Hierarchical Keyword System
@@ -184,6 +186,35 @@ export const SEO_KEYWORDS = {
   },
 } as const;
 
+const PRODUCT_ROUTES: Record<keyof typeof SEO_KEYWORDS.products, string> = {
+  agent: ROUTES.JARVIS.AGENT,
+  pay: ROUTES.JARVIS.PAY,
+  air: ROUTES.JARVIS.AIR,
+  eagleEye: ROUTES.JARVIS.EAGLE_EYE,
+  ssss: ROUTES.JARVIS.SSSS,
+  dwss: ROUTES.JARVIS.DWSS,
+  cdcp: ROUTES.JARVIS.CDCP,
+  assets: ROUTES.JARVIS.ASSETS,
+};
+
+const SERVICE_ROUTES: Record<keyof typeof SEO_KEYWORDS.services, string> = {
+  jpm: ROUTES.JARVIS.JPM,
+  bim: ROUTES.BIM_CONSULTANCY,
+  finance: ROUTES.PROJECT_FINANCE,
+  venture: ROUTES.VENTURE_INVESTMENTS,
+};
+
+const PRODUCT_OG_IMAGES: Record<keyof typeof SEO_KEYWORDS.products, string> = {
+  agent: "/images/og/jarvis-agent.jpg",
+  pay: "/images/og/jarvis-pay.jpg",
+  air: "/images/og/jarvis-air.jpg",
+  eagleEye: "/images/og/jarvis-eagle-eye.jpg",
+  ssss: "/images/og/jarvis-ssss.jpg",
+  dwss: "/images/og/jarvis-dwss.jpg",
+  cdcp: "/images/og/jarvis-cdcp.jpg",
+  assets: "/images/og/jarvis-assets.jpg",
+};
+
 /**
  * Smart Keyword Composer
  *
@@ -312,7 +343,8 @@ export function generateProductPageSEO(
     description: enhancedDescription,
     keywords,
     locale,
-    image: `/images/products/${productKey}-og.png`,
+    path: PRODUCT_ROUTES[productKey],
+    image: PRODUCT_OG_IMAGES[productKey] || COMMON_IMAGES.ctaBackground,
   });
 }
 
@@ -350,7 +382,8 @@ export function generateServicePageSEO(
     description: enhancedDescription,
     keywords,
     locale,
-    image: `/images/services/${serviceKey}-og.png`,
+    path: SERVICE_ROUTES[serviceKey],
+    image: "/images/og/services.jpg",
   });
 }
 
@@ -403,6 +436,7 @@ export function generateServicesPageSEO(locale: string = "en"): Metadata {
       keywords,
       locale,
       path: "/services-products",
+      image: "/images/og/services.jpg",
     });
   }
 
@@ -412,6 +446,7 @@ export function generateServicesPageSEO(locale: string = "en"): Metadata {
     keywords,
     locale,
     path: "/services-products",
+    image: "/images/og/services.jpg",
   });
 }
 
@@ -431,6 +466,7 @@ export function generateNewsroomPageSEO(locale: string = "en"): Metadata {
       keywords,
       locale,
       path: "/newsroom",
+      image: "/images/og/newsroom.jpg",
     });
   }
 
@@ -440,6 +476,7 @@ export function generateNewsroomPageSEO(locale: string = "en"): Metadata {
     keywords,
     locale,
     path: "/newsroom",
+    image: "/images/og/newsroom.jpg",
   });
 }
 

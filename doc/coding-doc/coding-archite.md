@@ -1,4 +1,4 @@
-# isBIM Official Web Architecture (v3.10)
+# isBIM Official Web Architecture (v3.13)
 
 **文件说明:** 本文件记录 isBIM 官网的系统架构、技术栈分层、文件结构和模块关系。当添加/移除核心依赖、修改文件夹结构、增加新架构层(认证、支付、分析)或更新环境变量结构时需要更新此文件。
 
@@ -7,7 +7,7 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2025-12-13 (Footer refactor: FooterBase/FooterRenderer/FooterConfig + footer-tokens, removed HideDefaultFooter pattern)
+**Last Updated**: 2025-12-22 (OG image set + metadataBase + JobPosting graph + jarvis-ai-suite noindex)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
@@ -17,12 +17,13 @@
 
 ## Tech Stack
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
-- Paraglide v1 i18n (LocaleContext pattern) - use `sourceLanguageTag/availableLanguageTags`
+- Paraglide v1 i18n (LocaleContext pattern + PrefixStrategy) - /en and /zh are always prefixed routes
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (`menu-store.ts`, `footer-store.ts`)
 - CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
 - Email: Dual-provider system (Resend primary, Brevo backup) - switch via `EMAIL_PROVIDER` env var
+- SEO: `generatePageMetadata`, JSON-LD schemas, sitemap/robots generators
 
 
 ## App Structure (high level)
@@ -42,6 +43,7 @@ src/app/
     newsroom/page.tsx
     careers/page.tsx
     contact/page.tsx
+    contact/contact-client.tsx # client-only contact form UI
     privacy/page.tsx            # minimal placeholder
     terms/page.tsx              # minimal placeholder
     cookies/page.tsx            # minimal placeholder
@@ -79,6 +81,7 @@ src/components/
 - Menu overlay JARVIS AI Suite cards now deep-link to their localized product routes (uses `buildHref` + `ROUTES.JARVIS.*` on click).
 - **Lenis + ScrollTrigger**: `smooth-scroll-provider.tsx` connects Lenis scroll events to ScrollTrigger (`lenisInstance.on("scroll", ScrollTrigger.update)`) and refreshes at 300ms/1000ms/window-load to handle Edge browser's deferred image loading.
 - **Footer architecture**: Single global `<FooterRenderer>` in `(website)/layout.tsx` reads Zustand `footer-store`; per-page/layout sets variant via `<FooterConfig variant="charcoal" | "default" />`. Tokens live in `src/styles/footer-tokens.css`. `HideDefaultFooter` removed.
+- **PageTransition context**: `useTransitionComplete()` gates client animations until the transition overlay finishes (prevents early ScrollTrigger calculations).
 
 ### Sections (selected)
 ```
@@ -90,7 +93,7 @@ src/components/sections/
   section5-cta.tsx
   scroll-prompt.tsx
 ```
-- **Section3**: Uses `useLayoutEffect` + `gsap.context()` for ScrollTrigger animations; `invalidateOnRefresh: true` ensures correct position calculations after layout shifts.
+- **Section3**: Uses `useLayoutEffect` + `gsap.context()` for ScrollTrigger animations; gated by `useTransitionComplete()`; `invalidateOnRefresh: true` ensures correct position calculations after layout shifts.
 
 ### Services & Products Page
 ```
@@ -195,6 +198,12 @@ src/lib/
 next.config.ts            # images.qualities: [75, 85, 90, 100] for Next.js 15+ image quality validation
 ```
 
+### SEO & Sitemap
+- `src/lib/seo.ts` + `src/lib/seo-generators.ts`: shared metadata helpers (OpenGraph/Twitter/hreflang) with locale-prefixed canonicals.
+- JSON-LD: Root `Organization` in `src/app/layout.tsx`; product pages add `SoftwareApplication` + `Breadcrumb`; home adds org + suite schema.
+- Sitemap: `src/app/(website)/sitemap.ts` emits locale-prefixed URLs; includes static pages + Sanity news/careers slugs with `en`/`zh` alternates.
+- Robots: `src/app/(website)/robots.ts` disallows `/studio`, `/api`, `/_next`; exposes sitemap URL; blocks GPTBot/Google-Extended.
+
 ### Environment Variables
 Project uses three environment file layers:
 
@@ -279,8 +288,10 @@ src/app/api/revalidate/route.ts    # webhook endpoint with SANITY_WEBHOOK_SECRET
 - **Hierarchical keywords**: 5 levels (Brand → Identity → Technology → Specific → Geographic)
 - **Critical keywords** guaranteed on all pages: isBIM, Hong Kong/香港, AI technology company, Construction technology company
 - **Schema.org structured data**: Organization, SoftwareApplication (for JARVIS products), Breadcrumb
+- **OG images**: 1200x630 assets in `public/images/og` for home/services/newsroom and all JARVIS products
+- **Noindex**: `/jarvis-ai-suite` marked `noIndex` while redesigning
 - **P0 pages optimized**: Home, About Us, Services & Products, Newsroom (with metadata + schemas)
-- **Sitemap**: Excludes `/jarvis-ai-suite` (redesign), lowers `/contact` priority
+- **Sitemap**: Excludes `/jarvis-ai-suite` (redesign), lowers `/contact` priority, locale-prefixed URLs only
 - **Generators**: `generateProductPageSEO()`, `generateServicePageSEO()`, `generateAboutPageSEO()`, `generateServicesPageSEO()`, `generateNewsroomPageSEO()`, `generateCareersPageSEO()`
 
 ### Sanity Data Layer
@@ -335,6 +346,7 @@ src/sanity/schemaTypes/
 ```
 public/
   images/
+    og/                   # 1200x630 Open Graph assets (home/services/newsroom/product)
   videos/
   icons/
   fonts/Alliance/*.woff2  # via next/font/local
@@ -384,8 +396,9 @@ public/
 - **Studio isolation**: Studio lives under `(studio)` route group; keep bare layout for Studio only.
 - **Sanity usage in app**: Use typed queries and `sanityFetch` for all data operations; home uses `IMAGE_ASSET_BY_SLUG_QUERY` with cache tags and hourly revalidation.
 - **Motion**: Use `MotionProvider`/`m` from `components/motion/lazy-motion` instead of direct `motion` imports; keep `AnimatePresence` named imports.
-- **SEO Metadata**: Use generators from `seo-generators.ts` (`generateProductPageSEO`, `generateServicePageSEO`, etc.) for all pages; generators enforce critical keywords (isBIM + Hong Kong/香港 + AI/Construction tech dual identity) automatically. Build canonical + hreflang via `generateHreflangAlternates` in `lib/seo.ts`.
+- **SEO Metadata**: Use generators from `seo-generators.ts` (`generateProductPageSEO`, `generateServicePageSEO`, etc.) for all pages; generators enforce critical keywords (isBIM + Hong Kong/香港 + AI/Construction tech dual identity) automatically. Canonical URLs are locale-prefixed; `metadataBase` is set in `src/app/layout.tsx`.
 - **SEO Schemas**: Use helpers from `json-ld.tsx` (`createOrganizationSchema`, `createSoftwareApplicationSchema`, `createBreadcrumbSchema`) and render with `<JsonLd data={schema} id="unique-id" />`. Organization schema for company pages, SoftwareApplication for JARVIS products, Breadcrumb for navigation hierarchy.
+- **Careers JobPosting**: List page emits `JobPosting` graph for all published roles with localized URLs.
 - **SEO Sitemap**: Exclude `/jarvis-ai-suite` (redesign) and lower `/contact` priority; keep robots exclusions for Studio/API/Next assets/admin/json/revalidate.
 - **ISR**: Sanity webhook hits `api/revalidate` with `SANITY_WEBHOOK_SECRET` (HMAC) and revalidates tags from payload.
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).

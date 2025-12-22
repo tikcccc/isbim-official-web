@@ -9,6 +9,9 @@ import {
 } from "@/sanity/lib/queries";
 import NewsroomPageClient from "./newsroom-page-client";
 import type { Image as SanityImage } from 'sanity';
+import { languageTag } from "@/paraglide/runtime";
+import { getSiteUrl } from "@/lib/env";
+import { buildHref } from "@/lib/i18n/route-builder";
 
 export const revalidate = 0; // Disable ISR: always fetch fresh data
 
@@ -55,7 +58,8 @@ interface NewsCategory {
  * - AI and construction tech innovation
  */
 export async function generateMetadata(): Promise<Metadata> {
-  return generateNewsroomPageSEO("en");
+  const locale = languageTag();
+  return generateNewsroomPageSEO(locale);
 }
 
 /**
@@ -91,9 +95,13 @@ export default async function NewsroomPage() {
   });
 
   // Breadcrumb Schema for navigation
+  const locale = languageTag();
+  const siteUrl = getSiteUrl();
+  const homePath = buildHref("/", locale);
+  const newsroomPath = buildHref("/newsroom", locale);
   const breadcrumbSchema = createBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Newsroom", url: "/newsroom" },
+    { name: "Home", url: `${siteUrl}${homePath}` },
+    { name: "Newsroom", url: `${siteUrl}${newsroomPath}` },
   ]);
 
   return (

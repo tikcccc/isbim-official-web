@@ -128,79 +128,6 @@ const scheduleIdle = (cb: () => void) => {
   }
 };
 
-// Hook: Detect network quality for adaptive preloading
-function useConnectionQuality() {
-  const [quality, setQuality] = useState<"slow" | "fast">("fast");
-
-  useEffect(() => {
-    const nav = navigator as Navigator & { connection?: { effectiveType?: string } };
-    const conn = nav.connection;
-    if (conn?.effectiveType) {
-      const slowTypes = ["slow-2g", "2g", "3g"];
-      setQuality(slowTypes.includes(conn.effectiveType) ? "slow" : "fast");
-    }
-  }, []);
-
-  return quality;
-}
-
-// Hook: Smart video preloader with progressive loading
-function useSmartVideoPreloader(
-  videoRefs: React.RefObject<(HTMLVideoElement | null)[]>,
-  isInViewport: boolean
-) {
-  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(new Set());
-  const connectionQuality = useConnectionQuality();
-
-  const preloadVideo = useCallback((index: number) => {
-    if (loadedIndices.has(index)) return;
-
-    const video = videoRefs.current[index];
-    if (!video) return;
-
-    video.preload = 'auto';
-    video.load();
-    setLoadedIndices(prev => new Set(prev).add(index));
-  }, [loadedIndices, videoRefs]);
-
-  const preloadRange = useCallback((startIndex: number, count: number) => {
-    for (let i = 0; i < count; i++) {
-      const index = startIndex + i;
-      if (index < platforms.length) {
-        preloadVideo(index);
-      }
-    }
-  }, [preloadVideo]);
-
-  // Phase 1: Preload first 2 videos when section enters viewport
-  useEffect(() => {
-    if (!isInViewport || connectionQuality === 'slow') return;
-
-    const timer = setTimeout(() => {
-      preloadRange(0, 2);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [isInViewport, connectionQuality, preloadRange]);
-
-  // Phase 3: Idle preloading - load remaining videos after 3s
-  useEffect(() => {
-    if (!isInViewport || connectionQuality === 'slow') return;
-
-    const idleTimer = setTimeout(() => {
-      for (let i = 2; i < platforms.length; i++) {
-        if (!loadedIndices.has(i)) {
-          preloadVideo(i);
-        }
-      }
-    }, 3000);
-
-    return () => clearTimeout(idleTimer);
-  }, [isInViewport, connectionQuality, loadedIndices, preloadVideo]);
-
-  return { preloadVideo, preloadRange, loadedIndices };
-}
-
 export function Section4PlatformList() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isInViewport, setIsInViewport] = useState(false);
@@ -216,8 +143,6 @@ export function Section4PlatformList() {
   const motionBase = readVar("--motion-base", 0.5);
   const springStiffness = readVar("--spring-stiffness", 200);
   const springDamping = readVar("--spring-damping", 20);
-
-  const { preloadRange } = useSmartVideoPreloader(videoRefs, isInViewport);
 
   // IntersectionObserver: Track viewport visibility
   useEffect(() => {
@@ -246,7 +171,7 @@ export function Section4PlatformList() {
     });
   }, [isInViewport, posterUrls]);
 
-  // Phase 2: Smart hover handler with progressive preload
+  // Hover handler: load/play video on demand
   const handleHover = useCallback((index: number) => {
     setHoveredIndex(index);
 
@@ -267,10 +192,7 @@ export function Section4PlatformList() {
         video.addEventListener("canplay", onCanPlay, { once: true });
       });
     }
-
-    // Preload next 2 videos
-    preloadRange(index + 1, 2);
-  }, [isInViewport, preloadRange]);
+  }, [isInViewport]);
 
   const handleLeave = useCallback(() => {
     if (hoveredIndex !== null) {
@@ -359,7 +281,7 @@ function PlatformRow({
     }
   };
 
-  const shouldAttachMedia = isInViewport;
+  const shouldAttachMedia = isInViewport && isHovered;
 
   return (
     <Link
@@ -403,7 +325,7 @@ function PlatformRow({
               <video
                 ref={videoRef}
                 src={shouldAttachMedia ? item.videoUrl : undefined}
-                poster={shouldAttachMedia ? item.posterUrl : undefined}
+                poster={item.posterUrl}
                 loop
                 muted
                 playsInline
