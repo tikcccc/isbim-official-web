@@ -69,10 +69,8 @@ export default async function CareersPage() {
       },
     });
 
-    const { ["@context"]: _context, ...schema } = baseSchema;
-
     return {
-      ...schema,
+      ...baseSchema,
       url: jobUrl,
       ...(career.applicationUrl && { applicationUrl: career.applicationUrl }),
       ...(career.expiresAt && { validThrough: career.expiresAt }),
