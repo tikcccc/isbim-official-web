@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as m from "@/paraglide/messages";
 import { cn } from "@/lib/utils";
+import { useTransitionComplete } from "@/components/layout/page-transition";
 import styles from "./section3-placeholder.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,10 +13,13 @@ gsap.registerPlugin(ScrollTrigger);
 export function Section3Placeholder() {
   const triggerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
+  const isTransitionComplete = useTransitionComplete();
 
   useLayoutEffect(() => {
+    if (!isTransitionComplete) return;
+
     const ctx = gsap.context(() => {
-      if (textRef.current) {
+      if (textRef.current && triggerRef.current) {
         // Create the "sparse to dense" animation
         gsap.fromTo(
           textRef.current,
@@ -46,7 +50,7 @@ export function Section3Placeholder() {
 
     // Cleanup using context revert
     return () => ctx.revert();
-  }, []);
+  }, [isTransitionComplete]);
 
   return (
     <section
