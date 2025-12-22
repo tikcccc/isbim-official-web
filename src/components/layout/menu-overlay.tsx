@@ -210,10 +210,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
   const { lenis } = useLenis();
   // Recompute menu labels when locale changes so translations stay in sync
   const locale = useLocale();
-  const menuData = useMemo(() => {
-    void locale;
-    return getMenuData();
-  }, [locale]);
+  const menuData = getMenuData();
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const scrollStateRef = useRef({
     target: 0,
