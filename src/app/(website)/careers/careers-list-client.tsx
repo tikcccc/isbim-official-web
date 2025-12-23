@@ -486,7 +486,7 @@ export default function CareersListClient({ careers }: { careers: Career[] }) {
       <section className="container-content section-padding pb-24">
         <div className={cn(styles.emptyCard, "p-8 text-center")}>
           <p className={cn(styles.emptyCardText, "font-body-lg")}>
-            No open positions right now. Check back soon or contact us for upcoming roles.
+            No Open Roless right now. Check back soon or contact us for upcoming roles.
           </p>
         </div>
       </section>
