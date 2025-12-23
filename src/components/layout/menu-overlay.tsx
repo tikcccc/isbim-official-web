@@ -28,6 +28,7 @@ interface MenuLink {
   title: string;
   href: string;
   type: "link";
+  disabled?: boolean;
 }
 
 interface MenuGroup {
@@ -35,6 +36,7 @@ interface MenuGroup {
   type: "group";
   children: MenuChild[];
   href?: string;
+  disabled?: boolean;
 }
 
 type MenuItem = MenuLink | MenuGroup;
@@ -72,6 +74,7 @@ const getMenuData = () => ({
       title: messages.menu_nav_services(),
       type: "group" as const,
       href: ROUTES.SERVICES_PRODUCTS,
+      disabled: true,
       children: [
         {
           title: messages.menu_nav_jarvis_suite(),
@@ -379,7 +382,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                       className="flex flex-col"
                     >
                       {/* Top Level Item */}
-                      {item.type === "link" ? (
+                      {item.type === "link" && !item.disabled ? (
                         <Link
                           href={item.href}
                           onClick={closeMenu}
@@ -390,7 +393,16 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                             {item.title}
                           </span>
                         </Link>
-                      ) : item.href ? (
+                      ) : item.type === "link" ? (
+                        <div
+                          className="flex items-center gap-4 cursor-default select-none"
+                          aria-disabled="true"
+                        >
+                          <span className={`${styles.navTopItemTitle} layout-nav-heading text-neutral-600`}>
+                            {item.title}
+                          </span>
+                        </div>
+                      ) : item.href && !item.disabled ? (
                         <Link
                           href={item.href}
                           onClick={closeMenu}
@@ -402,8 +414,15 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           </span>
                         </Link>
                       ) : (
-                        <div className={`group flex items-center gap-4 cursor-pointer ${styles.navTopItem}`}>
-                          <span className={`${styles.navTopItemTitle} layout-nav-heading`}>
+                        <div
+                          className="flex items-center gap-4 cursor-default select-none"
+                          aria-disabled="true"
+                        >
+                          <span
+                            className={`${styles.navTopItemTitle} layout-nav-heading ${
+                              item.disabled ? "text-neutral-600" : ""
+                            }`}
+                          >
                             {item.title}
                           </span>
                         </div>
@@ -727,14 +746,12 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                         </m.h2>
                       </div>
                       <m.div variants={fadeInUp}>
-                        <Link
-                          href={ROUTES.SERVICES_PRODUCTS}
-                          onClick={closeMenu}
-                          prefetch
-                          className={styles.exploreCta}
+                        <div
+                          className={`${styles.exploreCta} pointer-events-none cursor-default opacity-50`}
+                          aria-disabled="true"
                         >
                           Explore <ArrowRight size={14} />
-                        </Link>
+                        </div>
                       </m.div>
                     </div>
 

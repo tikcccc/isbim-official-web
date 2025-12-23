@@ -173,13 +173,9 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
 
           {/* Column 3: Company */}
           <div className="footer-column">
-            <Link
-              href={ROUTES.SERVICES_PRODUCTS}
-              prefetch
-              className="footer-heading transition-all duration-200 w-fit hover:tracking-[0.22em]"
-            >
+            <span className="footer-heading w-fit">
               {messages.footer_company()}
-            </Link>
+            </span>
             <ul className="space-y-1.25 footer-body">
               {companyLinks.map((link) => (
                 <m.li
