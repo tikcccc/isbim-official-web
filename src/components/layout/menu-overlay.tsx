@@ -398,7 +398,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           className="flex items-center gap-4 cursor-default select-none"
                           aria-disabled="true"
                         >
-                          <span className={`${styles.navTopItemTitle} layout-nav-heading text-neutral-600`}>
+                          <span className={`${styles.navTopItemTitle} layout-nav-heading`}>
                             {item.title}
                           </span>
                         </div>
@@ -419,9 +419,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                           aria-disabled="true"
                         >
                           <span
-                            className={`${styles.navTopItemTitle} layout-nav-heading ${
-                              item.disabled ? "text-neutral-600" : ""
-                            }`}
+                            className={`${styles.navTopItemTitle} layout-nav-heading`}
                           >
                             {item.title}
                           </span>
