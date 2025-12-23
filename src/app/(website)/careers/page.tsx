@@ -91,7 +91,7 @@ export default async function CareersPage() {
       )}
 
       <PageHeader
-        title="Careers"
+        title="Open Position"
         subtitle="isBIM delivers nation-scale infrastructure that powers the global economy. From AI factories in APAC to smart cities in Africa, we build the backbone of emerging economies—faster, cheaper, safer, greener. Join a flat hierarchy where every hire owns their impact from day one."
       />
 
