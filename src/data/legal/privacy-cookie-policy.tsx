@@ -5,7 +5,7 @@ export function getPrivacyCookiePolicyData(_locale: "en" | "zh"): LegalPageData 
   void _locale;
 
   return {
-    pageTitle: "PRIVACY & COOKIE POLICY",
+    pageTitle: "Privacy & Cookie Policy",
     lastUpdated: "Last updated: April 2025",
     intro: "Review our privacy, cookie, and site terms in the sections below.",
     sections: [

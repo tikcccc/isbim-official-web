@@ -8,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = languageTag();
   const title =
     locale === "en"
-      ? "Privacy & Cookie Policy | isBIM"
-      : "Privacy & Cookie Policy | isBIM";
+      ? "Privacy & Cookie Policy| isBIM"
+      : "Privacy & Cookie Policy| isBIM";
   const description =
     locale === "en"
       ? "Read the combined privacy, cookie, and usage terms for isbim Limited's website."
