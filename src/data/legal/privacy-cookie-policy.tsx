@@ -5,15 +5,15 @@ export function getPrivacyCookiePolicyData(_locale: "en" | "zh"): LegalPageData 
   void _locale;
 
   return {
-    pageTitle: "Privacy & Cookie Policy",
-    lastUpdated: "Last updated: December 2025",
+    pageTitle: "PRIVACY & COOKIE POLICY",
+    lastUpdated: "Last updated: April 2025",
     intro: "Review our privacy, cookie, and site terms in the sections below.",
     sections: [
       {
         title: "Terms and Conditions",
         content: (
           <p>
-            isbim Limited ("We") reserve our rights to amend these terms and
+            isbim Limited (&quot;We&quot;) reserve our rights to amend these terms and
             conditions from time to time. Every time you wish to use our Site,
             please check these terms and conditions to ensure you understand the
             terms and conditions that are currently applicable. By using our
@@ -111,8 +111,8 @@ export function getPrivacyCookiePolicyData(_locale: "en" | "zh"): LegalPageData 
         content: (
           <p>
             These Terms and Conditions shall be governed by the laws of the Hong
-            Kong Special Administration Region of the People's Republic of China
-            ("Hong Kong") and you agree to submit to the non-exclusive
+            Kong Special Administration Region of the People&apos;s Republic of China
+            (&quot;Hong Kong&quot;) and you agree to submit to the non-exclusive
             jurisdiction of the Hong Kong courts in the event of disputes
             arising out of or in relation to these terms and conditions.
           </p>
