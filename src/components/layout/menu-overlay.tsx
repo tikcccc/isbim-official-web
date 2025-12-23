@@ -601,25 +601,14 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
               >
                 <div className="flex flex-col gap-3">
                   <Link
-                    href="/terms"
+                    href="/privacy-cookie-policy"
                     onClick={closeMenu}
                     prefetch
                     className={styles.footerLink}
                   >
                     <TypewriterText
-                      text={messages.menu_nav_legal()}
+                      text="Privacy & Cookie Policy"
                       delay={1.0}
-                    />
-                  </Link>
-                  <Link
-                    href="/privacy"
-                    onClick={closeMenu}
-                    prefetch
-                    className={styles.footerLink}
-                  >
-                    <TypewriterText
-                      text={messages.footer_privacy()}
-                      delay={1.1}
                     />
                   </Link>
                 </div>

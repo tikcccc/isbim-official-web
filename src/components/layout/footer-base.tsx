@@ -218,29 +218,11 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
           <div className="footer-legal-links">
             <m.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
               <Link
-                href="/privacy"
+                href="/privacy-cookie-policy"
                 prefetch
                 className="footer-link inline-flex items-center gap-1"
               >
-                {messages.footer_privacy()}
-              </Link>
-            </m.div>
-            <m.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
-              <Link
-                href="/terms"
-                prefetch
-                className="footer-link inline-flex items-center gap-1"
-              >
-                {messages.footer_terms()}
-              </Link>
-            </m.div>
-            <m.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
-              <Link
-                href="/cookies"
-                prefetch
-                className="footer-link inline-flex items-center gap-1"
-              >
-                {messages.footer_cookies()}
+                Privacy & Cookie Policy
               </Link>
             </m.div>
           </div>

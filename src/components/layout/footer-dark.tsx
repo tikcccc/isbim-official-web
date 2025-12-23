@@ -173,14 +173,12 @@ export function FooterDark() {
         <div className="flex flex-col md:flex-row justify-between items-center text-[13px] text-gray-500 space-y-3 md:space-y-0">
           <p>{messages.footer_copyright()}</p>
           <div className="flex space-x-7">
-            <Link href="/privacy" prefetch className="hover:text-white transition-colors">
-              {messages.footer_privacy()}
-            </Link>
-            <Link href="/terms" prefetch className="hover:text-white transition-colors">
-              {messages.footer_terms()}
-            </Link>
-            <Link href="/cookies" prefetch className="hover:text-white transition-colors">
-              {messages.footer_cookies()}
+            <Link
+              href="/privacy-cookie-policy"
+              prefetch
+              className="hover:text-white transition-colors"
+            >
+              Privacy & Cookie Policy
             </Link>
           </div>
         </div>
