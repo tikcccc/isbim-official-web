@@ -98,8 +98,6 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               imageClassName="object-cover"
-              priority
-              fetchPriority="high"
             />
             <div className={cn("absolute inset-0", styles.mediaOverlay)} />
           </div>

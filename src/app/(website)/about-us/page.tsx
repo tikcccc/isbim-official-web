@@ -54,22 +54,6 @@ export default function AboutUsPage() {
       {/* Client component with all animations and interactivity */}
       <AboutPageClient heroImageSrc="/images/about/hero.png" />
 
-      {/* Preload hero image variants for the about page */}
-      <SmartImage
-        src="/images/about/hero.webp"
-        sources={[
-          { src: "/images/about/hero.avif", type: "image/avif" },
-          { src: "/images/about/hero.webp", type: "image/webp" },
-        ]}
-        fallbackSrc="/images/about/hero.png"
-        alt="About isBIM"
-        preload
-        priority
-        width={3540}
-        height={2360}
-        sizes="100vw"
-        wrapperClassName="hidden"
-      />
     </>
   );
 }

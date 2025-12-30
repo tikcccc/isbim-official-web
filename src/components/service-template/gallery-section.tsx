@@ -145,7 +145,6 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref, ima
               fill
               sizes="(min-width: 1024px) 60vw, 90vw"
               imageClassName="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-              priority={index === 0}
             />
           </div>
         </div>
