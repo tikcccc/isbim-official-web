@@ -30,8 +30,10 @@ import { cn } from "@/lib/utils";
 import {
   sourceLanguageTag,
   isAvailableLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
+import * as m from "@/paraglide/messages";
 
 export const revalidate = 3600;
 
@@ -96,6 +98,10 @@ const portableTextComponents: PortableTextComponents = {
 
 export default async function CareerDetailPage({ params }: PageProps) {
   const { slug } = await params;
+  const runtimeLocale = languageTag();
+  const locale = (isAvailableLanguageTag(runtimeLocale) ? runtimeLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const t = <T>(fn: (params?: any, options?: any) => string) =>
+    fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
   const career =
@@ -110,18 +116,18 @@ export default async function CareerDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const teamTitle = career.team?.title || "General Team";
-  const pillarTitle = career.team?.pillar?.title || "Open Roles";
+  const teamTitle = career.team?.title || t(m.careers_team_default);
+  const pillarTitle = career.team?.pillar?.title || t(m.careers_pillar_default);
   const locations = (career.locations || [])
     .map((loc) => loc?.title)
     .filter(Boolean) as string[];
-  const primaryLocation = locations[0] || "Global / Flexible";
+  const primaryLocation = locations[0] || t(m.careers_location_default);
 
-  const workModelLabel = formatWorkModel(career.workModel);
-  const employmentTypeLabel = formatEmploymentType(career.employmentType);
-  const experienceLabel = formatExperience(career.experienceLevel);
-  const postedLabel = career.postedAt ? formatDate(career.postedAt) : null;
-  const expiresLabel = career.expiresAt ? formatDate(career.expiresAt) : null;
+  const workModelLabel = formatWorkModel(career.workModel, locale);
+  const employmentTypeLabel = formatEmploymentType(career.employmentType, locale);
+  const experienceLabel = formatExperience(career.experienceLevel, locale);
+  const postedLabel = career.postedAt ? formatDate(career.postedAt, locale) : null;
+  const expiresLabel = career.expiresAt ? formatDate(career.expiresAt, locale) : null;
 
   return (
     <main className="surface-noise-overlay min-h-screen">
@@ -137,7 +143,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
               size={18}
               className="mr-3 group-hover:-translate-x-1 transition-transform"
             />
-            Back to Positions
+            {t(m.careers_back_to_positions)}
           </Link>
           <span className={cn(styles.pillarLabel, "hidden md:block font-label-sm tracking-[0.2em]")}>
             {pillarTitle}
@@ -183,7 +189,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 <div className="flex items-center gap-2">
                   <Timer size={16} />
                   <span className={styles.metaDeadlineLabel}>
-                    Closing Date: {expiresLabel}
+                    {t(m.careers_closing_date_label)}: {expiresLabel}
                   </span>
                 </div>
               </>
@@ -214,19 +220,19 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 href={career.applicationUrl}
                 target="_blank"
                 rel="noreferrer"
-                className={cn(
-                  "btn-primary w-full md:w-auto inline-flex items-center justify-center gap-3 font-body-base",
-                  styles.applyButton
-                )}
-              >
-                Apply for this Role <ArrowUpRight size={18} />
-              </a>
-            ) : (
-              <span className={cn(styles.applyPlaceholder, "w-full md:w-auto inline-flex items-center justify-center gap-3 font-body-base")}>
-                Applications opening soon
-              </span>
-            )}
-          </div>
+              className={cn(
+                "btn-primary w-full md:w-auto inline-flex items-center justify-center gap-3 font-body-base",
+                styles.applyButton
+              )}
+            >
+              {t(m.careers_apply_cta)} <ArrowUpRight size={18} />
+            </a>
+          ) : (
+            <span className={cn(styles.applyPlaceholder, "w-full md:w-auto inline-flex items-center justify-center gap-3 font-body-base")}>
+              {t(m.careers_apply_placeholder)}
+            </span>
+          )}
+        </div>
         </header>
 
         <div className="flex flex-col lg:flex-row gap-20">
@@ -247,8 +253,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 ))
               ) : (
                 <p className={cn(styles.proseParagraph, "font-body-lg")}>
-                  We&apos;re finalizing the full description. Reach out if you want to
-                  learn more about this role.
+                  {t(m.careers_description_pending)}
                 </p>
               )}
             </div>
@@ -257,13 +262,13 @@ export default async function CareerDetailPage({ params }: PageProps) {
           <aside className="hidden lg:block w-72 shrink-0">
             <div className={cn(styles.sidebar, "sticky top-44 p-6")}>
               <h4 className={cn(styles.sidebarTitle, "font-label-sm mb-4")}>
-                Role Details
+                {t(m.careers_role_details)}
               </h4>
 
               <div className="space-y-6">
                 <div>
                   <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                    Department
+                    {t(m.careers_department_label)}
                   </p>
                   <p className={cn(styles.sidebarValue, "font-body-base")}>{teamTitle}</p>
                 </div>
@@ -271,7 +276,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 {experienceLabel && (
                   <div>
                     <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                      Seniority
+                      {t(m.careers_seniority_label)}
                     </p>
                     <p className={cn(styles.sidebarValue, "font-body-base")}>{experienceLabel}</p>
                   </div>
@@ -280,7 +285,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 {workModelLabel && (
                   <div>
                     <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                      Work Mode
+                      {t(m.careers_work_mode_label)}
                     </p>
                     <p className={cn(styles.sidebarValue, "font-body-base")}>{workModelLabel}</p>
                   </div>
@@ -288,17 +293,17 @@ export default async function CareerDetailPage({ params }: PageProps) {
 
                 <div>
                   <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                    Office
+                    {t(m.careers_office_label)}
                   </p>
                   <p className={cn(styles.sidebarValue, "font-body-base")}>
-                    {locations.join(", ") || "Flexible"}
+                    {locations.join(", ") || t(m.careers_location_default)}
                   </p>
                 </div>
 
                 {employmentTypeLabel && (
                   <div>
                     <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                      Employment
+                      {t(m.careers_employment_label)}
                     </p>
                     <p className={cn(styles.sidebarValue, "font-body-base")}>{employmentTypeLabel}</p>
                   </div>
@@ -307,7 +312,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 {postedLabel && (
                   <div>
                     <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                      Posted
+                      {t(m.careers_posted_label)}
                     </p>
                     <p className={cn(styles.sidebarValue, "font-body-base")}>{postedLabel}</p>
                   </div>
@@ -316,7 +321,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 {expiresLabel && (
                   <div>
                     <p className={cn(styles.sidebarLabel, "font-label-sm mb-2")}>
-                      Closing Date
+                      {t(m.careers_closing_date_label)}
                     </p>
                     <p className={cn(styles.sidebarStrongValue, "font-body-base")}>
                       {expiresLabel}
@@ -331,7 +336,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                     rel="noreferrer"
                     className={cn(styles.sidebarAction, "font-body-base pt-4 inline-flex items-center justify-between w-full")}
                   >
-                    Submit application <ArrowUpRight size={14} />
+                    {t(m.careers_submit_application)} <ArrowUpRight size={14} />
                   </a>
                 ) : null}
               </div>

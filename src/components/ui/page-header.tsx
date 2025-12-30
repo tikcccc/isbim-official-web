@@ -22,7 +22,9 @@ export function PageHeader({ title, subtitle, className }: PageHeaderProps) {
     >
       <div className="page-header__grid">
         <div className="page-header__title-col">
-          <h1 className="font-page-header-title page-header__title">{title}</h1>
+          <h1 className="font-page-header-title page-header__title">
+            {title}
+          </h1>
         </div>
         <div className="page-header__subtitle-col">
           <div className="page-header__accent-line" />

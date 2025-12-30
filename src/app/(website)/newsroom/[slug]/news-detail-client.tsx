@@ -1,16 +1,18 @@
-'use client';
+"use client";
 
-import { m } from '@/components/motion/lazy-motion';
-import { ArrowLeft, Share2, Home, Tag } from 'lucide-react';
-import Image from 'next/image';
-import { Link } from '@/lib/i18n';
-import { urlFor } from '@/sanity/lib/image';
-import { PortableText } from '@portabletext/react';
-import type { PortableTextComponents } from '@portabletext/react';
-import type { ReactNode } from 'react';
-import type { Image as SanityImage } from 'sanity';
-import type { PortableTextBlock } from '@portabletext/types';
-import { useEffect } from 'react';
+import { m as motion } from "@/components/motion/lazy-motion";
+import { ArrowLeft, Share2, Home, Tag } from "lucide-react";
+import Image from "next/image";
+import { Link } from "@/lib/i18n";
+import { urlFor } from "@/sanity/lib/image";
+import { PortableText } from "@portabletext/react";
+import type { PortableTextComponents } from "@portabletext/react";
+import type { ReactNode } from "react";
+import type { Image as SanityImage } from "sanity";
+import type { PortableTextBlock } from "@portabletext/types";
+import { useEffect } from "react";
+import { languageTag } from "@/paraglide/runtime";
+import * as m from "@/paraglide/messages";
 
 // Types for Sanity data
 interface NewsItem {
@@ -56,16 +58,21 @@ export default function NewsDetailClient({
   relatedNews,
   recentNews,
 }: NewsDetailClientProps) {
+  const locale = languageTag();
+  const intlLocale = locale === "zh" ? "zh-HK" : "en-US";
+  const t = <T>(fn: (params?: any, options?: any) => string) =>
+    fn({}, { languageTag: locale });
+
   const imageUrl = newsDetail.mainImage
     ? urlFor(newsDetail.mainImage.asset)?.width(1600).height(685).url()
     : null;
 
   // Format date
   const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(date).toLocaleDateString(intlLocale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -84,7 +91,7 @@ export default function NewsDetailClient({
     } else {
       // Fallback: Copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      alert(t(m.news_share_copied));
     }
   };
 
@@ -99,7 +106,7 @@ export default function NewsDetailClient({
   }, [newsDetail, relatedNews, recentNews]);
 
   return (
-    <m.div
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -111,7 +118,7 @@ export default function NewsDetailClient({
       <div className="container-content flex items-center gap-3 md:gap-4 py-4">
         <Link href="/newsroom" className="newsroom-back-btn news-font-body group">
           <ArrowLeft className="newsroom-back-icon transition-transform duration-200 group-hover:-translate-x-1" />
-          Back to Newsroom
+          {t(m.news_back_to_newsroom)}
         </Link>
       </div>
 
@@ -122,22 +129,24 @@ export default function NewsDetailClient({
           {/* Sidebar Metadata */}
           <div className="space-y-6 pt-2">
             <div>
-              <MonoLabel className="block mb-1">Published</MonoLabel>
+              <MonoLabel className="block mb-1">{t(m.news_published_label)}</MonoLabel>
               <div className="news-font-detail-meta text-[var(--text-muted)]">{formatDate(newsDetail.publishedAt)}</div>
             </div>
             <div>
-              <MonoLabel className="block mb-1">Category</MonoLabel>
+              <MonoLabel className="block mb-1">{t(m.news_category_label)}</MonoLabel>
               <div className="flex flex-wrap gap-2">
                 <span className="news-font-detail-meta text-[var(--text-muted)]">{newsDetail.category.title}</span>
               </div>
             </div>
             <div>
-              <MonoLabel className="block mb-1">Read Time</MonoLabel>
-              <div className=" news-font-detail-meta text-[var(--text-muted)]">{newsDetail.readTime} MIN READ</div>
+              <MonoLabel className="block mb-1">{t(m.news_read_time_label)}</MonoLabel>
+              <div className=" news-font-detail-meta text-[var(--text-muted)]">
+                {newsDetail.readTime} {t(m.news_read_time_suffix)}
+              </div>
             </div>
             {newsDetail.author && (
               <div>
-                <MonoLabel className="block mb-1">Author</MonoLabel>
+                <MonoLabel className="block mb-1">{t(m.news_author_label)}</MonoLabel>
                 <div className=" news-font-detail-meta text-[var(--text-muted)]">{newsDetail.author}</div>
               </div>
             )}
@@ -176,7 +185,7 @@ export default function NewsDetailClient({
           <div className="hidden md:block newsroom-detail-sidebar">
             <div className="newsroom-detail-sticky">
               <div className="newsroom-section-marker"></div>
-              <MonoLabel>Section 01</MonoLabel>
+              <MonoLabel>{t(m.news_srcoll_down)}</MonoLabel>
             </div>
           </div>
 
@@ -210,16 +219,20 @@ export default function NewsDetailClient({
       {relatedNews.length > 0 && (
         <div className="container-content mt-20 pt-12 border-t newsroom-border-strong">
           <h3 className="news-font-label newsroom-text-primary mb-8">
-            Related Intelligence
+            {t(m.news_related_intelligence)}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {relatedNews.map(related => (
+            {relatedNews.map((related) => (
               <Link
                 key={related._id}
                 href={`/newsroom/${related.slug.current}`}
                 className="group"
               >
-                <RelatedCard post={related} />
+                <RelatedCard
+                  post={related}
+                  intlLocale={intlLocale}
+                  readStoryLabel={t(m.news_read_story)}
+                />
               </Link>
             ))}
           </div>
@@ -230,16 +243,20 @@ export default function NewsDetailClient({
       {recentNews.length > 0 && (
         <div className="container-content mt-20 pt-12 border-t newsroom-border-subtle">
           <h3 className="news-font-label-lg newsroom-text-primary mb-8">
-            Recent News
+            {t(m.news_recent_news)}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {recentNews.map(recent => (
+            {recentNews.map((recent) => (
               <Link
                 key={recent._id}
                 href={`/newsroom/${recent.slug.current}`}
                 className="group"
               >
-                <RelatedCard post={recent} />
+                <RelatedCard
+                  post={recent}
+                  intlLocale={intlLocale}
+                  readStoryLabel={t(m.news_read_story)}
+                />
               </Link>
             ))}
           </div>
@@ -256,18 +273,26 @@ export default function NewsDetailClient({
         </Link>
         <Link href="/newsroom" className="flex items-center gap-2 news-font-label-lg newsroom-text-primary font-bold">
           <Home className="w-4 h-4" />
-          News Feed
+          {t(m.newsroom_title)}
         </Link>
         <button onClick={handleShare} className="p-2 newsroom-text-subtle hover:newsroom-text-primary news-font-label">
           <Share2 className="w-5 h-5" />
         </button>
       </div>
-    </m.div>
+    </motion.div>
   );
 }
 
 // Related Article Card Component
-function RelatedCard({ post }: { post: NewsItem }) {
+function RelatedCard({
+  post,
+  intlLocale,
+  readStoryLabel,
+}: {
+  post: NewsItem;
+  intlLocale: string;
+  readStoryLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(533).url()
     : null;
@@ -281,7 +306,11 @@ function RelatedCard({ post }: { post: NewsItem }) {
           </MonoLabel>
         </div>
         <MonoLabel>
-          {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+          {new Date(post.publishedAt).toLocaleDateString(intlLocale, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}
         </MonoLabel>
       </div>
 
@@ -322,7 +351,7 @@ function RelatedCard({ post }: { post: NewsItem }) {
 
       <div className="newsroom-card-footer mt-auto flex items-center justify-between -mx-0">
         <span className="news-font-label newsroom-cta-link">
-          Read Story
+          {readStoryLabel}
         </span>
         <ArrowRight className="w-3 h-3 newsroom-icon-soft transition-all group-hover:text-[var(--newsroom-accent-cta)] group-hover:translate-x-1" />
       </div>

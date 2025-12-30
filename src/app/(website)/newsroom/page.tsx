@@ -12,6 +12,7 @@ import type { Image as SanityImage } from 'sanity';
 import { languageTag } from "@/paraglide/runtime";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
+import * as m from "@/paraglide/messages";
 
 export const revalidate = 0; // Disable ISR: always fetch fresh data
 
@@ -99,9 +100,11 @@ export default async function NewsroomPage() {
   const siteUrl = getSiteUrl();
   const homePath = buildHref("/", locale);
   const newsroomPath = buildHref("/newsroom", locale);
+  const homeLabel = m.breadcrumb_home({}, { languageTag: locale });
+  const newsroomLabel = m.menu_nav_newsroom({}, { languageTag: locale });
   const breadcrumbSchema = createBreadcrumbSchema([
-    { name: "Home", url: `${siteUrl}${homePath}` },
-    { name: "Newsroom", url: `${siteUrl}${newsroomPath}` },
+    { name: homeLabel, url: `${siteUrl}${homePath}` },
+    { name: newsroomLabel, url: `${siteUrl}${newsroomPath}` },
   ]);
 
   return (

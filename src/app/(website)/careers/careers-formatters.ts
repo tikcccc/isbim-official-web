@@ -1,9 +1,26 @@
 import type { Career } from "@/sanity/lib/types";
+import * as m from "@/paraglide/messages";
+import {
+  isAvailableLanguageTag,
+  languageTag as getLanguageTag,
+  sourceLanguageTag,
+  type AvailableLanguageTag,
+} from "@/paraglide/runtime";
 
-export const formatDate = (value?: string | null, locale: string = "en-US") => {
+const resolveLanguage = (tag?: string): AvailableLanguageTag =>
+  isAvailableLanguageTag(tag) ? tag : sourceLanguageTag;
+
+const toIntlLocale = (lang: AvailableLanguageTag) =>
+  lang === "zh" ? "zh-HK" : "en-US";
+
+const translate = (fn: (params?: any, options?: any) => string, lang: AvailableLanguageTag) =>
+  fn({}, { languageTag: lang });
+
+export const formatDate = (value?: string | null, locale?: AvailableLanguageTag) => {
   if (!value) return null;
+  const lang = resolveLanguage(locale ?? getLanguageTag());
   try {
-    return new Intl.DateTimeFormat(locale, {
+    return new Intl.DateTimeFormat(toIntlLocale(lang), {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -13,52 +30,54 @@ export const formatDate = (value?: string | null, locale: string = "en-US") => {
   }
 };
 
-export const formatWorkModel = (value?: Career["workModel"]) => {
+export const formatWorkModel = (value?: Career["workModel"], locale?: AvailableLanguageTag) => {
+  const lang = resolveLanguage(locale ?? getLanguageTag());
   switch (value) {
     case "onsite":
-      return "On-site";
+      return translate(m.careers_work_model_onsite, lang);
     case "hybrid":
-      return "Hybrid";
+      return translate(m.careers_work_model_hybrid, lang);
     case "remote":
-      return "Remote";
+      return translate(m.careers_work_model_remote, lang);
     default:
       return null;
   }
 };
 
-export const formatEmploymentType = (value?: Career["employmentType"]) => {
+export const formatEmploymentType = (value?: Career["employmentType"], locale?: AvailableLanguageTag) => {
+  const lang = resolveLanguage(locale ?? getLanguageTag());
   switch (value) {
     case "full-time":
-      return "Full-time";
+      return translate(m.careers_employment_full_time, lang);
     case "part-time":
-      return "Part-time";
+      return translate(m.careers_employment_part_time, lang);
     case "contract":
-      return "Contract";
+      return translate(m.careers_employment_contract, lang);
     case "internship":
-      return "Internship";
+      return translate(m.careers_employment_internship, lang);
     case "temporary":
-      return "Temporary";
+      return translate(m.careers_employment_temporary, lang);
     default:
       return null;
   }
 };
 
-export const formatExperience = (value?: Career["experienceLevel"]) => {
+export const formatExperience = (value?: Career["experienceLevel"], locale?: AvailableLanguageTag) => {
+  const lang = resolveLanguage(locale ?? getLanguageTag());
   switch (value) {
     case "intern":
-      return "Intern";
+      return translate(m.careers_experience_intern, lang);
     case "junior":
-      return "Junior";
+      return translate(m.careers_experience_junior, lang);
     case "mid":
-      return "Mid-level";
+      return translate(m.careers_experience_mid, lang);
     case "senior":
-      return "Senior";
+      return translate(m.careers_experience_senior, lang);
     case "lead":
-      return "Lead";
+      return translate(m.careers_experience_lead, lang);
     case "director":
-      return "Director";
+      return translate(m.careers_experience_director, lang);
     default:
       return null;
   }
 };
-

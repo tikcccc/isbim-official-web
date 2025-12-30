@@ -16,6 +16,7 @@ import { buildHref } from "@/lib/i18n/route-builder";
 import { languageTag } from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { urlFor } from "@/sanity/lib/image";
+import * as m from "@/paraglide/messages";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -98,10 +99,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 
   if (!newsData) {
-    return { title: "Article Not Found" };
+    return { title: m.news_not_found_title({}, { languageTag: locale }) };
   }
 
-  const title = newsData.seo?.metaTitle || newsData.title || "News";
+  const title =
+    newsData.seo?.metaTitle ||
+    newsData.title ||
+    m.menu_nav_newsroom({}, { languageTag: locale });
   const description = newsData.seo?.metaDescription || newsData.subtitle || newsData.excerpt || "";
   const publishedTime = newsData.publishedAt;
   const modifiedTime = newsData._updatedAt;
@@ -191,9 +195,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
   const newsroomPath = buildHref("/newsroom", locale);
   const detailPath = buildHref(`/newsroom/${newsDetail.slug.current}`, locale);
   const canonicalUrl = `${siteUrl}${detailPath}`;
+  const homeLabel = m.breadcrumb_home({}, { languageTag: locale });
+  const newsroomLabel = m.menu_nav_newsroom({}, { languageTag: locale });
   const breadcrumbSchema = createBreadcrumbSchema([
-    { name: "Home", url: `${siteUrl}${homePath}` },
-    { name: "Newsroom", url: `${siteUrl}${newsroomPath}` },
+    { name: homeLabel, url: `${siteUrl}${homePath}` },
+    { name: newsroomLabel, url: `${siteUrl}${newsroomPath}` },
     { name: newsDetail.title, url: `${siteUrl}${detailPath}` },
   ]);
 

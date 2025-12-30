@@ -9,6 +9,7 @@ import { languageTag } from "@/paraglide/runtime";
 import { JsonLd, createJobPostingSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
+import * as m from "@/paraglide/messages";
 
 export const revalidate = 3600;
 
@@ -28,6 +29,8 @@ export default async function CareersPage() {
 
   const publishedCareers = careers.filter((career) => !career.isDraft);
   const locale = languageTag();
+  const t = (fn: (params?: any, options?: any) => string) =>
+    fn({}, { languageTag: locale });
   const siteUrl = getSiteUrl();
 
   const employmentTypeMap: Record<string, string> = {
@@ -91,8 +94,8 @@ export default async function CareersPage() {
       )}
 
       <PageHeader
-        title="Open Roles"
-        subtitle="isBIM delivers nation-scale infrastructure that powers the global economy. From AI factories in APAC to smart cities in Africa, we build the backbone of emerging economies—faster, cheaper, safer, greener. Join a flat hierarchy where every hire owns their impact from day one."
+        title={t(m.careers_page_header_title)}
+        subtitle={t(m.careers_page_header_subtitle)}
       />
 
       <CareersListClient careers={publishedCareers} />

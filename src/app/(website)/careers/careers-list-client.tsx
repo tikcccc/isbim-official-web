@@ -21,6 +21,13 @@ import {
   formatWorkModel,
 } from "./careers-formatters";
 import styles from "./careers-list.module.css";
+import {
+  languageTag as getLanguageTag,
+  isAvailableLanguageTag,
+  sourceLanguageTag,
+  type AvailableLanguageTag,
+} from "@/paraglide/runtime";
+import * as m from "@/paraglide/messages";
 
 type FilterOption = {
   value: string;
@@ -46,17 +53,45 @@ type Job = {
   expiresAt?: string | null;
 };
 
+type Labels = {
+  role: string;
+  location: string;
+  workMode: string;
+  apply: string;
+  seniority: string;
+  posted: string;
+  deadline: string;
+  positionsFound: string;
+  allTeams: string;
+  clearFilter: string;
+  roleFallback: string;
+  flexible: string;
+  teamEmpty: string;
+  categoryEmpty: string;
+  listEmpty: string;
+};
+
 const FILTER_ALL = "all";
 
-const normalizeCareers = (careers: Career[]): Job[] =>
+const translate = (
+  fn: (params?: any, options?: any) => string,
+  languageTag: AvailableLanguageTag
+) => fn({}, { languageTag });
+
+const normalizeCareers = (
+  careers: Career[],
+  locale: AvailableLanguageTag
+): Job[] =>
   careers.map((career) => {
     const locations = (career.locations || [])
       .map((loc) => loc?.title)
       .filter(Boolean) as string[];
 
-    const teamTitle = career.team?.title || "General Team";
+    const teamTitle =
+      career.team?.title || translate(m.careers_team_default, locale);
     const teamKey = career.team?.slug?.current || career.team?._id || teamTitle;
-    const pillarTitle = career.team?.pillar?.title || "Open Roles";
+    const pillarTitle =
+      career.team?.pillar?.title || translate(m.careers_pillar_default, locale);
 
     return {
       id: career._id,
@@ -67,10 +102,14 @@ const normalizeCareers = (careers: Career[]): Job[] =>
       teamOrder: career.team?.sortOrder ?? 999,
       categoryTitle: pillarTitle,
       categoryOrder: career.team?.pillar?.sortOrder ?? 999,
-      location: locations[0] || "Global / Flexible",
-      employmentTypeLabel: formatEmploymentType(career.employmentType),
-      workModelLabel: formatWorkModel(career.workModel),
-      experienceLabel: formatExperience(career.experienceLevel),
+      location: locations[0] || translate(m.careers_location_default, locale),
+      employmentTypeLabel:
+        formatEmploymentType(career.employmentType, locale) ||
+        translate(m.careers_role_fallback, locale),
+      workModelLabel:
+        formatWorkModel(career.workModel, locale) ||
+        translate(m.careers_flexible, locale),
+      experienceLabel: formatExperience(career.experienceLevel, locale),
       tags: career.tags || [],
       postedAt: career.postedAt || null,
       expiresAt: career.expiresAt || null,
@@ -181,14 +220,22 @@ const FilterDropdown = ({
   );
 };
 
-const HoverCard = ({ job }: { job: Job }) => (
+const HoverCard = ({
+  job,
+  labels,
+  locale,
+}: {
+  job: Job;
+  labels: Labels;
+  locale: AvailableLanguageTag;
+}) => (
   <div className={cn(styles.hoverCard, styles.fadeInUp, "font-legal")}>
     <div className={styles.hoverCardHeader}>
       <div className={cn(styles.hoverCardTeam, "font-body-base font-semibold max-w-[70%] truncate")}>
         {job.teamTitle}
       </div>
       <span className={cn(styles.hoverCardBadge, "font-legal")}>
-        {job.employmentTypeLabel || "Role"}
+        {job.employmentTypeLabel || labels.roleFallback}
       </span>
     </div>
 
@@ -196,7 +243,7 @@ const HoverCard = ({ job }: { job: Job }) => (
       <div className="flex justify-between items-center">
         <div className={cn(styles.hoverCardMetaKey, "font-legal")}>
           <Briefcase size={12} />
-          <span>Seniority</span>
+          <span>{labels.seniority}</span>
         </div>
         <div className={cn(styles.hoverCardMetaValue, "font-legal")}>
           {job.experienceLabel || "—"}
@@ -206,7 +253,7 @@ const HoverCard = ({ job }: { job: Job }) => (
       <div className="flex justify-between items-center">
         <div className={cn(styles.hoverCardMetaKey, "font-legal")}>
           <MapPin size={12} />
-          <span>Location</span>
+          <span>{labels.location}</span>
         </div>
         <div className={cn(styles.hoverCardMetaValue, "font-legal")}>
           {job.location}
@@ -217,10 +264,10 @@ const HoverCard = ({ job }: { job: Job }) => (
         <div className="flex justify-between items-center">
           <div className={cn(styles.hoverCardMetaKey, "font-legal")}>
             <Calendar size={12} />
-            <span>Posted</span>
+            <span>{labels.posted}</span>
           </div>
           <div className={cn(styles.hoverCardMetaValue, "font-legal")}>
-            {formatDate(job.postedAt)}
+            {formatDate(job.postedAt, locale)}
           </div>
         </div>
       )}
@@ -229,10 +276,10 @@ const HoverCard = ({ job }: { job: Job }) => (
         <div className={cn(styles.hoverCardDeadlineRow, "flex justify-between items-center")}>
           <div className={cn(styles.hoverCardMetaKey, "font-legal")}>
             <Timer size={12} />
-            <span>Deadline</span>
+            <span>{labels.deadline}</span>
           </div>
           <div className={cn(styles.hoverCardDeadlineValue, "font-legal")}>
-            {formatDate(job.expiresAt)}
+            {formatDate(job.expiresAt, locale)}
           </div>
         </div>
       )}
@@ -240,7 +287,14 @@ const HoverCard = ({ job }: { job: Job }) => (
   </div>
 );
 
-const SingleTeamListView = ({ jobs }: { jobs: Job[] }) => {
+const SingleTeamListView = ({
+  jobs,
+  labels,
+}: {
+  jobs: Job[];
+  labels: Labels;
+  locale: AvailableLanguageTag;
+}) => {
   return (
     <div className={cn(styles.fadeIn, "container-content flex flex-col gap-0")}>
       <div
@@ -249,11 +303,11 @@ const SingleTeamListView = ({ jobs }: { jobs: Job[] }) => {
           "hidden md:grid grid-cols-12 gap-4 pb-4 mb-2 px-2 font-legal uppercase tracking-[0.24em] font-semibold"
         )}
       >
-        <div className="col-span-5">Role</div>
-        <div className="col-span-2">Seniority</div>
-        <div className="col-span-2">Location</div>
-        <div className="col-span-2">Work Mode</div>
-        <div className="col-span-1 text-right">Apply</div>
+        <div className="col-span-5">{labels.role}</div>
+        <div className="col-span-2">{labels.seniority}</div>
+        <div className="col-span-2">{labels.location}</div>
+        <div className="col-span-2">{labels.workMode}</div>
+        <div className="col-span-1 text-right">{labels.apply}</div>
       </div>
 
       {jobs.length > 0 ? (
@@ -273,7 +327,7 @@ const SingleTeamListView = ({ jobs }: { jobs: Job[] }) => {
 
               <div className={cn(styles.listRowMobileMeta, "md:hidden flex gap-2 mt-1 font-legal")}>
                 <span>{job.location}</span> •{" "}
-                <span>{job.employmentTypeLabel || "Role"}</span>
+                <span>{job.employmentTypeLabel || labels.roleFallback}</span>
               </div>
 
               <div
@@ -282,7 +336,7 @@ const SingleTeamListView = ({ jobs }: { jobs: Job[] }) => {
                   "absolute left-10 bottom-full mb-2 hidden group-hover:block pointer-events-none transform -translate-x-0"
                 )}
               >
-                <HoverCard job={job} />
+                <HoverCard job={job} labels={labels} locale={locale} />
                 <div className={styles.popoverArrow} />
               </div>
             </div>
@@ -307,14 +361,22 @@ const SingleTeamListView = ({ jobs }: { jobs: Job[] }) => {
         ))
       ) : (
         <div className={cn(styles.emptyState, "font-body-base italic")}>
-          No current openings for this team.
+          {labels.teamEmpty}
         </div>
       )}
     </div>
   );
 };
 
-const NewspaperItem = ({ job }: { job: Job }) => (
+const NewspaperItem = ({
+  job,
+  labels,
+  locale,
+}: {
+  job: Job;
+  labels: Labels;
+  locale: AvailableLanguageTag;
+}) => (
   <div className="relative group">
     <Link
       href={`/careers/${job.slug}`}
@@ -327,7 +389,7 @@ const NewspaperItem = ({ job }: { job: Job }) => (
         <div className={cn(styles.newspaperMeta, "flex items-center gap-3 font-legal uppercase tracking-[0.2em]")}>
           <span>{job.location}</span>
           <span className={cn(styles.newspaperDot, "w-1 h-1 rounded-full")} />
-          <span>{job.workModelLabel || "Flexible"}</span>
+          <span>{job.workModelLabel || labels.flexible}</span>
         </div>
       </div>
       <ArrowRight
@@ -342,7 +404,7 @@ const NewspaperItem = ({ job }: { job: Job }) => (
         "absolute left-0 bottom-full mb-2 hidden group-hover:block pointer-events-none transform -translate-x-2"
       )}
     >
-      <HoverCard job={job} />
+      <HoverCard job={job} labels={labels} locale={locale} />
       <div className={styles.popoverArrow} />
     </div>
   </div>
@@ -423,7 +485,15 @@ const groupForNewspaperLayout = (data: Job[]): CategoryGroup[] => {
     }));
 };
 
-const NewspaperLayout = ({ data }: { data: Job[] }) => {
+const NewspaperLayout = ({
+  data,
+  labels,
+  locale,
+}: {
+  data: Job[];
+  labels: Labels;
+  locale: AvailableLanguageTag;
+}) => {
   const groupedData = useMemo(() => groupForNewspaperLayout(data), [data]);
 
   return (
@@ -442,13 +512,15 @@ const NewspaperLayout = ({ data }: { data: Job[] }) => {
                 </h3>
                 <div className="flex flex-col gap-1">
                   {team.jobs.map((job) => (
-                    <NewspaperItem key={job.id} job={job} />
+                    <NewspaperItem key={job.id} job={job} labels={labels} locale={locale} />
                   ))}
                 </div>
               </div>
             ))
           ) : (
-            <div className={cn(styles.emptyState, "font-body-base italic mt-2")}>No positions.</div>
+            <div className={cn(styles.emptyState, "font-body-base italic mt-2")}>
+              {labels.categoryEmpty}
+            </div>
           )}
         </div>
       ))}
@@ -457,7 +529,28 @@ const NewspaperLayout = ({ data }: { data: Job[] }) => {
 };
 
 export default function CareersListClient({ careers }: { careers: Career[] }) {
-  const jobs = useMemo(() => normalizeCareers(careers), [careers]);
+  const runtimeLocale = getLanguageTag();
+  const locale = (isAvailableLanguageTag(runtimeLocale) ? runtimeLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const t = (fn: (params?: any, options?: any) => string) => fn({}, { languageTag: locale });
+  const labels: Labels = {
+    role: t(m.careers_role_label),
+    location: t(m.careers_location_label),
+    workMode: t(m.careers_work_mode_label),
+    apply: t(m.careers_apply_label),
+    seniority: t(m.careers_seniority_label),
+    posted: t(m.careers_posted_label),
+    deadline: t(m.careers_deadline_label),
+    positionsFound: t(m.careers_positions_found),
+    allTeams: t(m.careers_filter_all_teams),
+    clearFilter: t(m.careers_filter_clear),
+    roleFallback: t(m.careers_role_fallback),
+    flexible: t(m.careers_flexible),
+    teamEmpty: t(m.careers_team_empty),
+    categoryEmpty: t(m.careers_category_empty),
+    listEmpty: t(m.careers_empty_list),
+  };
+
+  const jobs = useMemo(() => normalizeCareers(careers, locale), [careers, locale]);
   const [filterTeam, setFilterTeam] = useState(FILTER_ALL);
 
   const teamOptions = useMemo(() => {
@@ -486,7 +579,7 @@ export default function CareersListClient({ careers }: { careers: Career[] }) {
       <section className="container-content section-padding pb-24">
         <div className={cn(styles.emptyCard, "p-8 text-center")}>
           <p className={cn(styles.emptyCardText, "font-body-lg")}>
-            No Open Roless right now. Check back soon or contact us for upcoming roles.
+            {labels.listEmpty}
           </p>
         </div>
       </section>
@@ -505,7 +598,7 @@ export default function CareersListClient({ careers }: { careers: Career[] }) {
                 type="button"
                 onClick={() => setFilterTeam(FILTER_ALL)}
                 className={styles.clearFilterButton}
-                title="Clear Filter"
+                title={labels.clearFilter}
               >
                 <ArrowLeft size={14} />
               </button>
@@ -513,7 +606,7 @@ export default function CareersListClient({ careers }: { careers: Career[] }) {
 
             <div className="flex flex-wrap gap-6 w-full md:w-auto">
               <FilterDropdown
-                label="All Teams"
+                label={labels.allTeams}
                 value={filterTeam}
                 options={teamOptions}
                 onChange={setFilterTeam}
@@ -524,16 +617,16 @@ export default function CareersListClient({ careers }: { careers: Career[] }) {
 
           <div className="flex items-center justify-between w-full md:w-auto gap-4">
             <span className={cn(styles.resultCount, "font-legal uppercase tracking-[0.24em] font-semibold")}>
-              {filteredJobs.length} Positions Found
+              {filteredJobs.length} {labels.positionsFound}
             </span>
           </div>
         </div>
 
         <div className="min-h-[500px]">
           {showNewspaperLayout ? (
-            <NewspaperLayout data={filteredJobs} />
+            <NewspaperLayout data={filteredJobs} labels={labels} locale={locale} />
           ) : (
-            <SingleTeamListView jobs={filteredJobs} />
+            <SingleTeamListView jobs={filteredJobs} labels={labels} locale={locale} />
           )}
         </div>
       </div>
