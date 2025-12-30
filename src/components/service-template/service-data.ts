@@ -117,7 +117,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       subTitle: "Construction Tech",
       desc: "Globalising construction tech.",
       tag: "Physics + Intelligence",
-      img: "/images/view3.png",
+      img: "/images/venture hero.jpg",
     },
     narrative: {
       label: "The Playbook",
