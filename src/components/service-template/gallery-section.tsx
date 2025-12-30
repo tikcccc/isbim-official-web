@@ -17,6 +17,10 @@ interface GallerySectionProps {
   gallery: ServiceContent['gallery'];
   heading: string;
   sectionTitleClass: string;
+  imageVariants?: Record<
+    string,
+    { src: string; fallback?: string; sources?: { src: string; type?: string; media?: string }[] }
+  >;
   colors: {
     textInvStrong: string;
     textInvBase: string;
@@ -26,7 +30,14 @@ interface GallerySectionProps {
   contactHref?: string;
 }
 
-export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading, sectionTitleClass, colors, contactHref }) => {
+export const GallerySection: React.FC<GallerySectionProps> = ({
+  gallery,
+  heading,
+  sectionTitleClass,
+  imageVariants,
+  colors,
+  contactHref,
+}) => {
   const shouldReduceMotion = !!useReducedMotion();
 
   return (
@@ -50,6 +61,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
               key={idx}
               item={item}
               index={idx}
+              imageVariants={imageVariants}
               colors={colors}
               shouldReduceMotion={shouldReduceMotion}
               contactHref={contactHref}
@@ -64,12 +76,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ gallery, heading
 interface GalleryItemProps {
   item: GallerySectionProps['gallery']['items'][number];
   index: number;
+  imageVariants?: GallerySectionProps['imageVariants'];
   colors: GallerySectionProps['colors'];
   shouldReduceMotion: boolean;
   contactHref?: string;
 }
 
-function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: GalleryItemProps) {
+function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref, imageVariants }: GalleryItemProps) {
   const { ref, inView } = useInView<HTMLDivElement>({
     threshold: 0.2,
     triggerOnce: true,
@@ -108,6 +121,10 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
         rel: item.href ? 'noreferrer' : undefined,
       }
     : { className: 'block' };
+  const variant = imageVariants?.[item.img];
+  const imageSrc = variant?.src ?? item.img;
+  const imageSources = variant?.sources;
+  const imageFallback = variant?.fallback ?? item.img;
 
   return (
     <Wrapper {...wrapperProps}>
@@ -121,7 +138,9 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
         <div className={`md:col-span-7 overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
           <div className={`${styles.galleryMedia}`}>
             <SmartImage
-              src={item.img}
+              src={imageSrc}
+              sources={imageSources}
+              fallbackSrc={imageFallback}
               alt={item.loc}
               fill
               sizes="(min-width: 1024px) 60vw, 90vw"

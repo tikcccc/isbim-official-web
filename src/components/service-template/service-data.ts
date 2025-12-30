@@ -37,7 +37,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       subTitle: "Project Management",
       desc: "Building the backbone of emerging economies.",
       tag: "Hong Kong Precision – China Scale",
-      img: "/images/view1.png",
+      img: "/images/services/jpm/hero.png",
     },
     narrative: {
       label: "The Methodology",
@@ -146,7 +146,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "The Portfolio",
       meta: "Re-engineering Construction",
       items: [
-        { id: "01", loc: "VERTICAL AI", title: "Autonomous Agents", desc: "Backing teams that automate complex construction workflows through generative design and scheduling.", metric: "SEED TO SERIES A", img: "/images/view1.png" },
+        { id: "01", loc: "VERTICAL AI", title: "Autonomous Agents", desc: "Backing teams that automate complex construction workflows through generative design and scheduling.", metric: "SEED TO SERIES A", img: "/images/services/jpm/hero.png" },
         { id: "02", loc: "HARDWARE", title: "Modular Robotics", desc: "Industrializing on-site assembly with precision robotics and computer vision systems.", metric: "GLOBAL PILOTS", img: "/images/view2.png" },
         { id: "03", loc: "SMART CITIES", title: "Urban Operating Systems", desc: "Deploying city-scale digital twins and IoT networks to manage energy grid and traffic flows in emerging megacities.", metric: "SERIES B", img: "/images/view4.png" },
       ],

@@ -119,7 +119,7 @@ export default function Home() {
       </div>
 
       {/* Section 5: Call to Action with dual-column layout (full-width gray background) */}
-      <Section5CTA imageUrl="/images/cta.png" imageAlt="Call to action" />
+      <Section5CTA imageUrl="/images/cta/cta.png" imageAlt="Call to action" />
     </div>
   );
 }

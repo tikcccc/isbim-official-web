@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as messages from "@/paraglide/messages";
-import Image from "next/image";
 import { ROUTES } from "@/lib/constants";
 import { LocalizedLink } from "@/components/ui/localized-link";
 import { cn } from "@/lib/utils";
+import { SmartImage } from "@/components/ui/smart-image";
 import styles from "./section5-cta.module.css";
 
 interface Section5CTAProps {
@@ -87,12 +87,17 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
               styles.mediaBg
             )}
           >
-            <Image
-              src={imageUrl ?? "/images/cta.png"}
+            <SmartImage
+              src={imageUrl ?? "/images/cta/cta.webp"}
+              sources={[
+                { src: "/images/cta/cta.avif", type: "image/avif" },
+                { src: "/images/cta/cta.webp", type: "image/webp" },
+              ]}
+              fallbackSrc="/images/cta/cta.png"
               alt={imageAlt ?? "Modern business technology and collaboration"}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              imageClassName="object-cover"
               priority
               fetchPriority="high"
             />
@@ -146,4 +151,3 @@ export function Section5CTA({ imageUrl, imageAlt }: Section5CTAProps) {
     </section>
   );
 }
-

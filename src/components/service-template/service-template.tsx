@@ -21,6 +21,12 @@ import * as messages from '@/paraglide/messages';
 import { ROUTES } from '@/lib/constants';
 import { SmartImage } from '@/components/ui/smart-image';
 
+type ImageVariant = {
+  src: string;
+  fallback?: string;
+  sources?: { src: string; type?: string; media?: string }[];
+};
+
 // Token-aligned color class shortcuts
 const COLORS = {
   textStrong: 'text-[var(--text-strong)]',
@@ -43,6 +49,84 @@ const SECTION_TITLE_BASE = 'font-service-section-title pb-4 inline-block';
 const SECTION_TITLE_PLAIN = `${COLORS.textSub} ${SECTION_TITLE_BASE}`;
 const SECTION_TITLE_STYLE = `${COLORS.textInvSub} ${SECTION_TITLE_BASE}`;
 
+const IMAGE_VARIANTS: Record<string, ImageVariant> = {
+  // Hero backgrounds
+  "/images/services/jpm/hero.png": {
+    src: "/images/services/jpm/hero.webp",
+    sources: [{ src: "/images/services/jpm/hero.avif", type: "image/avif" }],
+    fallback: "/images/services/jpm/hero.png",
+  },
+  "/images/services/bim/hero.png": {
+    src: "/images/services/bim/hero.webp",
+    sources: [{ src: "/images/services/bim/hero.avif", type: "image/avif" }],
+    fallback: "/images/services/bim/hero.png",
+  },
+  "/images/services/ventures/hero.jpg": {
+    src: "/images/services/ventures/hero.webp",
+    sources: [{ src: "/images/services/ventures/hero.avif", type: "image/avif" }],
+    fallback: "/images/services/ventures/hero.jpg",
+  },
+  "/images/services/finance/hero.jpg": {
+    src: "/images/services/finance/hero.webp",
+    sources: [{ src: "/images/services/finance/hero.avif", type: "image/avif" }],
+    fallback: "/images/services/finance/hero.jpg",
+  },
+  // JPM gallery
+  "/images/services/jpm/gallery-1.png": {
+    src: "/images/services/jpm/gallery-1.webp",
+    sources: [{ src: "/images/services/jpm/gallery-1.avif", type: "image/avif" }],
+    fallback: "/images/services/jpm/gallery-1.png",
+  },
+  "/images/services/jpm/gallery-2.jpg": {
+    src: "/images/services/jpm/gallery-2.webp",
+    sources: [{ src: "/images/services/jpm/gallery-2.avif", type: "image/avif" }],
+    fallback: "/images/services/jpm/gallery-2.jpg",
+  },
+  // BIM gallery
+  "/images/services/bim/gallery-1.png": {
+    src: "/images/services/bim/gallery-1.webp",
+    sources: [{ src: "/images/services/bim/gallery-1.avif", type: "image/avif" }],
+    fallback: "/images/services/bim/gallery-1.png",
+  },
+  "/images/services/bim/gallery-2.png": {
+    src: "/images/services/bim/gallery-2.webp",
+    sources: [{ src: "/images/services/bim/gallery-2.avif", type: "image/avif" }],
+    fallback: "/images/services/bim/gallery-2.png",
+  },
+  // Venture gallery
+  "/images/services/ventures/gallery-1.jpg": {
+    src: "/images/services/ventures/gallery-1.webp",
+    sources: [{ src: "/images/services/ventures/gallery-1.avif", type: "image/avif" }],
+    fallback: "/images/services/ventures/gallery-1.jpg",
+  },
+  "/images/services/ventures/gallery-2.jpg": {
+    src: "/images/services/ventures/gallery-2.webp",
+    sources: [{ src: "/images/services/ventures/gallery-2.avif", type: "image/avif" }],
+    fallback: "/images/services/ventures/gallery-2.jpg",
+  },
+  "/images/services/ventures/gallery-3.jpg": {
+    src: "/images/services/ventures/gallery-3.webp",
+    sources: [{ src: "/images/services/ventures/gallery-3.avif", type: "image/avif" }],
+    fallback: "/images/services/ventures/gallery-3.jpg",
+  },
+  // Finance gallery
+  "/images/services/finance/gallery-1.jpg": {
+    src: "/images/services/finance/gallery-1.webp",
+    sources: [{ src: "/images/services/finance/gallery-1.avif", type: "image/avif" }],
+    fallback: "/images/services/finance/gallery-1.jpg",
+  },
+  "/images/services/finance/gallery-2.jpg": {
+    src: "/images/services/finance/gallery-2.webp",
+    sources: [{ src: "/images/services/finance/gallery-2.avif", type: "image/avif" }],
+    fallback: "/images/services/finance/gallery-2.jpg",
+  },
+  "/images/services/finance/gallery-3.avif": {
+    src: "/images/services/finance/gallery-3.webp",
+    sources: [{ src: "/images/services/finance/gallery-3.avif", type: "image/avif" }],
+    fallback: "/images/services/finance/gallery-3-source.avif",
+  },
+};
+
 interface ServiceTemplateProps {
   initialService: ServiceTab;
 }
@@ -52,6 +136,10 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
   const content = getLocalizedServiceContent(activeTab);
   const meta = getLocalizedServiceMeta(activeTab);
   const prefersReducedMotion = useReducedMotion();
+  const heroVariant = IMAGE_VARIANTS[content.hero.img];
+  const heroSrc = heroVariant?.src ?? content.hero.img;
+  const heroSources = heroVariant?.sources;
+  const heroFallback = heroVariant?.fallback ?? content.hero.img;
   const engineHeading =
     activeTab === "JPM"
       ? messages.service_jpm_engine_heading?.() ?? " Hong Kong Precision x China Scale : The Four-Pillar Engine"
@@ -100,8 +188,9 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
           }
         >
           <SmartImage
-            src={content.hero.img}
-            fallbackSrc="/images/ai-suite-cover.jpg"
+            src={heroSrc}
+            sources={heroSources}
+            fallbackSrc={heroFallback}
             alt={`${content.hero.title} hero`}
             fill
             priority
@@ -167,6 +256,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
           gallery={content.gallery}
           heading={galleryHeading}
           sectionTitleClass={SECTION_TITLE_STYLE}
+          imageVariants={IMAGE_VARIANTS}
           colors={{
             textInvStrong: COLORS.textInvStrong,
             textInvBase: COLORS.textInvBase,

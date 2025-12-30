@@ -1,7 +1,6 @@
 ﻿'use client';
 
 import React, { useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { CTASection } from '@/components/layout/cta-section';
 import { cn } from '@/lib/utils';
 import { useMenuStore } from '@/stores/menu-store';
@@ -13,6 +12,7 @@ import { ROUTES } from '@/lib/constants';
 import { TypewriterWidth } from '@/components/animations';
 import { LocalizedLink } from '@/components/ui/localized-link';
 import { PageHeader } from '@/components/ui/page-header';
+import { SmartImage } from '@/components/ui/smart-image';
 
 /**
  * About Us Page
@@ -359,13 +359,14 @@ const Section = ({ id, title, subtitle, content, imageSrc, children }: SectionPr
         {imageSrc && (
           <div className={`section-${id}-anim opacity-0 mt-16`}>
              <div className="relative w-full aspect-video overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
-                <Image
+                <SmartImage
                   src={imageSrc}
                   alt={title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
-                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  imageClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   priority={id === 1}
+                  fallbackSrc={imageSrc}
                 />
              </div>
           </div>
@@ -381,7 +382,7 @@ interface AboutPageProps {
   heroImageSrc?: string;
 }
 
-export default function AboutPage({ heroImageSrc = "/images/cta.png" }: AboutPageProps) {
+export default function AboutPage({ heroImageSrc = "/images/about/hero.png" }: AboutPageProps) {
   const { closeMenu } = useMenuStore();
 
   useEffect(() => {
@@ -418,12 +419,17 @@ export default function AboutPage({ heroImageSrc = "/images/cta.png" }: AboutPag
       <div className="pb-16 relative overflow-hidden">
         <div className="container-content relative z-10">
           <div className="relative w-full aspect-[3528/1859] overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
-            <Image
-              src={heroImageSrc}
+            <SmartImage
+              src={heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".webp")}
+              sources={[
+                { src: heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".avif"), type: "image/avif" },
+                { src: heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".webp"), type: "image/webp" },
+              ]}
+              fallbackSrc={heroImageSrc}
               alt="isBIM Hero"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
-              className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+              imageClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               priority
             />
           </div>

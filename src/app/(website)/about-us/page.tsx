@@ -4,6 +4,7 @@ import { JsonLd, createOrganizationSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
 import { languageTag } from "@/paraglide/runtime";
 import AboutPageClient from "./about-page-client";
+import { SmartImage } from "@/components/ui/smart-image";
 
 /**
  * About Us Page Metadata
@@ -51,7 +52,24 @@ export default function AboutUsPage() {
       <JsonLd data={organizationSchema} id="about-organization-schema" />
 
       {/* Client component with all animations and interactivity */}
-      <AboutPageClient heroImageSrc="/images/about-us.png" />
+      <AboutPageClient heroImageSrc="/images/about/hero.png" />
+
+      {/* Preload hero image variants for the about page */}
+      <SmartImage
+        src="/images/about/hero.webp"
+        sources={[
+          { src: "/images/about/hero.avif", type: "image/avif" },
+          { src: "/images/about/hero.webp", type: "image/webp" },
+        ]}
+        fallbackSrc="/images/about/hero.png"
+        alt="About isBIM"
+        preload
+        priority
+        width={3540}
+        height={2360}
+        sizes="100vw"
+        wrapperClassName="hidden"
+      />
     </>
   );
 }
