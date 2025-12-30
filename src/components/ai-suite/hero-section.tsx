@@ -12,9 +12,8 @@ export function HeroSection() {
       <div className={styles.background} aria-hidden="true">
         {/* 背景圖片 - 帶緩慢縮放動畫 */}
         <SmartImage
-          src="/images/ai-suite/hero.webp"
+          src="/images/ai-suite/hero.avif"
           sources={[
-            { src: "/images/ai-suite/hero.avif", type: "image/avif" },
             { src: "/images/ai-suite/hero.webp", type: "image/webp" },
           ]}
           fallbackSrc="/images/ai-suite/hero.jpg"

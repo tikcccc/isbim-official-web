@@ -52,77 +52,77 @@ const SECTION_TITLE_STYLE = `${COLORS.textInvSub} ${SECTION_TITLE_BASE}`;
 const IMAGE_VARIANTS: Record<string, ImageVariant> = {
   // Hero backgrounds
   "/images/services/jpm/hero.png": {
-    src: "/images/services/jpm/hero.webp",
-    sources: [{ src: "/images/services/jpm/hero.avif", type: "image/avif" }],
+    src: "/images/services/jpm/hero.avif",
+    sources: [{ src: "/images/services/jpm/hero.webp", type: "image/webp" }],
     fallback: "/images/services/jpm/hero.png",
   },
   "/images/services/bim/hero.png": {
-    src: "/images/services/bim/hero.webp",
-    sources: [{ src: "/images/services/bim/hero.avif", type: "image/avif" }],
+    src: "/images/services/bim/hero.avif",
+    sources: [{ src: "/images/services/bim/hero.webp", type: "image/webp" }],
     fallback: "/images/services/bim/hero.png",
   },
   "/images/services/ventures/hero.jpg": {
-    src: "/images/services/ventures/hero.webp",
-    sources: [{ src: "/images/services/ventures/hero.avif", type: "image/avif" }],
+    src: "/images/services/ventures/hero.avif",
+    sources: [{ src: "/images/services/ventures/hero.webp", type: "image/webp" }],
     fallback: "/images/services/ventures/hero.jpg",
   },
   "/images/services/finance/hero.jpg": {
-    src: "/images/services/finance/hero.webp",
-    sources: [{ src: "/images/services/finance/hero.avif", type: "image/avif" }],
+    src: "/images/services/finance/hero.avif",
+    sources: [{ src: "/images/services/finance/hero.webp", type: "image/webp" }],
     fallback: "/images/services/finance/hero.jpg",
   },
   // JPM gallery
   "/images/services/jpm/gallery-1.png": {
-    src: "/images/services/jpm/gallery-1.webp",
-    sources: [{ src: "/images/services/jpm/gallery-1.avif", type: "image/avif" }],
+    src: "/images/services/jpm/gallery-1.avif",
+    sources: [{ src: "/images/services/jpm/gallery-1.webp", type: "image/webp" }],
     fallback: "/images/services/jpm/gallery-1.png",
   },
   "/images/services/jpm/gallery-2.jpg": {
-    src: "/images/services/jpm/gallery-2.webp",
-    sources: [{ src: "/images/services/jpm/gallery-2.avif", type: "image/avif" }],
+    src: "/images/services/jpm/gallery-2.avif",
+    sources: [{ src: "/images/services/jpm/gallery-2.webp", type: "image/webp" }],
     fallback: "/images/services/jpm/gallery-2.jpg",
   },
   // BIM gallery
   "/images/services/bim/gallery-1.png": {
-    src: "/images/services/bim/gallery-1.webp",
-    sources: [{ src: "/images/services/bim/gallery-1.avif", type: "image/avif" }],
+    src: "/images/services/bim/gallery-1.avif",
+    sources: [{ src: "/images/services/bim/gallery-1.webp", type: "image/webp" }],
     fallback: "/images/services/bim/gallery-1.png",
   },
   "/images/services/bim/gallery-2.png": {
-    src: "/images/services/bim/gallery-2.webp",
-    sources: [{ src: "/images/services/bim/gallery-2.avif", type: "image/avif" }],
+    src: "/images/services/bim/gallery-2.avif",
+    sources: [{ src: "/images/services/bim/gallery-2.webp", type: "image/webp" }],
     fallback: "/images/services/bim/gallery-2.png",
   },
   // Venture gallery
   "/images/services/ventures/gallery-1.jpg": {
-    src: "/images/services/ventures/gallery-1.webp",
-    sources: [{ src: "/images/services/ventures/gallery-1.avif", type: "image/avif" }],
+    src: "/images/services/ventures/gallery-1.avif",
+    sources: [{ src: "/images/services/ventures/gallery-1.webp", type: "image/webp" }],
     fallback: "/images/services/ventures/gallery-1.jpg",
   },
   "/images/services/ventures/gallery-2.jpg": {
-    src: "/images/services/ventures/gallery-2.webp",
-    sources: [{ src: "/images/services/ventures/gallery-2.avif", type: "image/avif" }],
+    src: "/images/services/ventures/gallery-2.avif",
+    sources: [{ src: "/images/services/ventures/gallery-2.webp", type: "image/webp" }],
     fallback: "/images/services/ventures/gallery-2.jpg",
   },
   "/images/services/ventures/gallery-3.jpg": {
-    src: "/images/services/ventures/gallery-3.webp",
-    sources: [{ src: "/images/services/ventures/gallery-3.avif", type: "image/avif" }],
+    src: "/images/services/ventures/gallery-3.avif",
+    sources: [{ src: "/images/services/ventures/gallery-3.webp", type: "image/webp" }],
     fallback: "/images/services/ventures/gallery-3.jpg",
   },
   // Finance gallery
   "/images/services/finance/gallery-1.jpg": {
-    src: "/images/services/finance/gallery-1.webp",
-    sources: [{ src: "/images/services/finance/gallery-1.avif", type: "image/avif" }],
+    src: "/images/services/finance/gallery-1.avif",
+    sources: [{ src: "/images/services/finance/gallery-1.webp", type: "image/webp" }],
     fallback: "/images/services/finance/gallery-1.jpg",
   },
   "/images/services/finance/gallery-2.jpg": {
-    src: "/images/services/finance/gallery-2.webp",
-    sources: [{ src: "/images/services/finance/gallery-2.avif", type: "image/avif" }],
+    src: "/images/services/finance/gallery-2.avif",
+    sources: [{ src: "/images/services/finance/gallery-2.webp", type: "image/webp" }],
     fallback: "/images/services/finance/gallery-2.jpg",
   },
   "/images/services/finance/gallery-3.avif": {
-    src: "/images/services/finance/gallery-3.webp",
-    sources: [{ src: "/images/services/finance/gallery-3.avif", type: "image/avif" }],
+    src: "/images/services/finance/gallery-3.avif",
+    sources: [{ src: "/images/services/finance/gallery-3.webp", type: "image/webp" }],
     fallback: "/images/services/finance/gallery-3-source.avif",
   },
 };

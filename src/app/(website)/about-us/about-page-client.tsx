@@ -420,9 +420,8 @@ export default function AboutPage({ heroImageSrc = "/images/about/hero.png" }: A
         <div className="container-content relative z-10">
           <div className="relative w-full aspect-[3528/1859] overflow-hidden bg-[var(--about-border)]/40 about-shadow-card border about-border about-radius-lg group">
             <SmartImage
-              src={heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".webp")}
+              src={heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".avif")}
               sources={[
-                { src: heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".avif"), type: "image/avif" },
                 { src: heroImageSrc.replace(/\.(png|jpe?g|webp|avif)$/i, ".webp"), type: "image/webp" },
               ]}
               fallbackSrc={heroImageSrc}
