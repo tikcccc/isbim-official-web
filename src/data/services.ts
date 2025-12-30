@@ -459,7 +459,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_finance_gallery_item_1_title",
           desc: "service_finance_gallery_item_1_desc",
           metric: "service_finance_gallery_item_1_metric",
-          img: "/images/project esg.jpeg",
+          img: "/images/project esg.avif",
         },
       ],
     },
