@@ -2,6 +2,7 @@
 
 import { TypewriterText } from '@/components/animations/typewriter';
 import * as m from '@/paraglide/messages';
+import { SmartImage } from '@/components/ui/smart-image';
 import styles from './hero-section.module.css';
 
 export function HeroSection() {
@@ -10,7 +11,21 @@ export function HeroSection() {
       {/* Background layer */}
       <div className={styles.background} aria-hidden="true">
         {/* 背景圖片 - 帶緩慢縮放動畫 */}
-        <div className={styles.backgroundImage} />
+        <SmartImage
+          src="/images/ai-suite-cover.webp"
+          sources={[
+            { src: "/images/ai-suite-cover.avif", type: "image/avif" },
+            { src: "/images/ai-suite-cover.webp", type: "image/webp" },
+          ]}
+          fallbackSrc="/images/ai-suite-cover.jpg"
+          alt="JARVIS AI Suite background"
+          fill
+          sizes="100vw"
+          priority
+          preload
+          wrapperClassName={styles.backgroundImage}
+          imageClassName="will-change-transform"
+        />
         {/* 層 1：基礎暗化漸變 */}
         <div className={styles.backgroundOverlay} />
         {/* 層 2：徑向暈影聚焦 */}

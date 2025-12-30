@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useReducedMotion } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
 import { FooterConfig } from '@/components/layout/footer-config';
@@ -20,6 +19,7 @@ import { TimelineSection } from './timeline-section';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import * as messages from '@/paraglide/messages';
 import { ROUTES } from '@/lib/constants';
+import { SmartImage } from '@/components/ui/smart-image';
 
 // Token-aligned color class shortcuts
 const COLORS = {
@@ -99,12 +99,15 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
                 }
           }
         >
-          <Image
+          <SmartImage
             src={content.hero.img}
+            fallbackSrc="/images/ai-suite-cover.jpg"
             alt={`${content.hero.title} hero`}
             fill
             priority
-            className="object-cover"
+            sizes="100vw"
+            wrapperClassName="absolute inset-0"
+            imageClassName="object-cover"
           />
         </m.div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40"></div>

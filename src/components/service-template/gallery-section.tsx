@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { useReducedMotion } from 'framer-motion';
 import { m } from '@/components/motion/lazy-motion';
@@ -10,6 +9,7 @@ import { useInView } from '@/hooks';
 import { DESIGN_TOKENS } from '@/lib/design-tokens';
 import { ServiceContent } from '@/data/services';
 import { Link } from '@/lib/i18n';
+import { SmartImage } from '@/components/ui/smart-image';
 import shared from './service-shared.module.css';
 import styles from './gallery-section.module.css';
 
@@ -120,12 +120,12 @@ function GalleryItem({ item, index, colors, shouldReduceMotion, contactHref }: G
       >
         <div className={`md:col-span-7 overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
           <div className={`${styles.galleryMedia}`}>
-            <Image
+            <SmartImage
               src={item.img}
               alt={item.loc}
               fill
               sizes="(min-width: 1024px) 60vw, 90vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+              imageClassName="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               priority={index === 0}
             />
           </div>
