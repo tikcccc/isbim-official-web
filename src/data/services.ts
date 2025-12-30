@@ -340,7 +340,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
       subTitle: "service_venture_hero_subtitle",
       desc: "service_venture_hero_desc",
       tag: "service_venture_hero_tag",
-      img: "/images/view3.png",
+      img: "/images/venture hero.jpg",
     },
     narrative: {
       label: "service_venture_narrative_label",
