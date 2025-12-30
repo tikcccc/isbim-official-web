@@ -194,6 +194,7 @@ export function ServiceTemplate({ initialService }: ServiceTemplateProps) {
             alt={`${content.hero.title} hero`}
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             wrapperClassName="absolute inset-0"
             imageClassName="object-cover"

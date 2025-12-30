@@ -22,6 +22,7 @@ export function HeroSection() {
           fill
           sizes="100vw"
           priority
+          fetchPriority="high"
           preload
           wrapperClassName={styles.backgroundImage}
           imageClassName="will-change-transform"

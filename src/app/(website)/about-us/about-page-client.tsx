@@ -431,6 +431,7 @@ export default function AboutPage({ heroImageSrc = "/images/about/hero.png" }: A
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1600px"
               imageClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>
