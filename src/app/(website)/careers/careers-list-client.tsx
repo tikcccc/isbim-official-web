@@ -73,10 +73,10 @@ type Labels = {
 
 const FILTER_ALL = "all";
 
-const translate = (
-  fn: (params?: any, options?: any) => string,
-  languageTag: AvailableLanguageTag
-) => fn({}, { languageTag });
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
+
+const translate = (fn: MessageFn, languageTag: AvailableLanguageTag) =>
+  fn({}, { languageTag });
 
 const normalizeCareers = (
   careers: Career[],
@@ -531,7 +531,7 @@ const NewspaperLayout = ({
 export default function CareersListClient({ careers }: { careers: Career[] }) {
   const runtimeLocale = getLanguageTag();
   const locale = (isAvailableLanguageTag(runtimeLocale) ? runtimeLocale : sourceLanguageTag) as AvailableLanguageTag;
-  const t = (fn: (params?: any, options?: any) => string) => fn({}, { languageTag: locale });
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
   const labels: Labels = {
     role: t(m.careers_role_label),
     location: t(m.careers_location_label),

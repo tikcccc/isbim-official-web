@@ -25,6 +25,8 @@ import * as m from "@/paraglide/messages";
 
 export const revalidate = 0; // Always fresh per locale
 
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
+
 // Types for Sanity data
 interface NewsItem {
   _id: string;
@@ -171,7 +173,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
   const headersList = await headers();
   const headerLocale = headersList.get("x-language-tag");
   const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
-  const t = (fn: (params?: any, options?: any) => string) => fn({}, { languageTag: locale });
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   const newsDetail = await sanityFetch<NewsItem | null>({
     query: NEWS_DETAIL_QUERY,

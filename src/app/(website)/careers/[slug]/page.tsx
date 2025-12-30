@@ -36,6 +36,8 @@ import * as m from "@/paraglide/messages";
 
 export const revalidate = 0;
 
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -100,8 +102,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
   const headersList = await headers();
   const headerLocale = headersList.get("x-language-tag");
   const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
-  const t = <T>(fn: (params?: any, options?: any) => string) =>
-    fn({}, { languageTag: locale });
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
   const career =

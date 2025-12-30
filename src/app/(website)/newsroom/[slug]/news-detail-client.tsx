@@ -14,6 +14,8 @@ import { useEffect } from "react";
 import { languageTag } from "@/paraglide/runtime";
 import * as m from "@/paraglide/messages";
 
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: "en" | "zh" }) => string;
+
 // Types for Sanity data
 interface NewsItem {
   _id: string;
@@ -60,8 +62,7 @@ export default function NewsDetailClient({
 }: NewsDetailClientProps) {
   const locale = languageTag();
   const intlLocale = locale === "zh" ? "zh-HK" : "en-US";
-  const t = <T>(fn: (params?: any, options?: any) => string) =>
-    fn({}, { languageTag: locale });
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   const imageUrl = newsDetail.mainImage
     ? urlFor(newsDetail.mainImage.asset)?.width(1600).height(685).url()

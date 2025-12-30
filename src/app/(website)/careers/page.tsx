@@ -18,6 +18,8 @@ import * as m from "@/paraglide/messages";
 
 export const revalidate = 0;
 
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
+
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
   const headerLocale = headersList.get("x-language-tag");
@@ -29,8 +31,7 @@ export default async function CareersPage() {
   const headersList = await headers();
   const headerLocale = headersList.get("x-language-tag");
   const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
-  const t = (fn: (params?: any, options?: any) => string) =>
-    fn({}, { languageTag: locale });
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
   const careers =

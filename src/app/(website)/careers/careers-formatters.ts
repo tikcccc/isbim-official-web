@@ -13,7 +13,9 @@ const resolveLanguage = (tag?: string): AvailableLanguageTag =>
 const toIntlLocale = (lang: AvailableLanguageTag) =>
   lang === "zh" ? "zh-HK" : "en-US";
 
-const translate = (fn: (params?: any, options?: any) => string, lang: AvailableLanguageTag) =>
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
+
+const translate = (fn: MessageFn, lang: AvailableLanguageTag) =>
   fn({}, { languageTag: lang });
 
 export const formatDate = (value?: string | null, locale?: AvailableLanguageTag) => {
