@@ -78,6 +78,13 @@ const FEATURE_VIDEO_CDN_BASE_URL = normalizeBaseUrl(
 );
 
 /**
+ * Dedicated CDN override for the JARVIS Assets hero video.
+ * Falls back to local asset when no remote video base is configured.
+ */
+const ASSETS_BANNER_CDN_URL =
+  "https://posix-jarvis-hk.obs.ap-southeast-1.myhuaweicloud.com/jarvis/share/isbim-website-assets/assets/assets-banner.mp4";
+
+/**
  * Media URL Mode
  * Determines if using local or remote media sources.
  */
@@ -287,7 +294,7 @@ export const JARVIS_VIDEOS = {
   ssss: getVideoUrl("4S.mp4"),
   dwss: getVideoUrl("dwss.mp4"),
   cdcp: getVideoUrl("CDCP.mp4"),
-  assets: getVideoUrl("Assets.mp4"),
+  assets: VIDEO_CDN_BASE_URL ? ASSETS_BANNER_CDN_URL : getVideoUrl("Assets.mp4"),
   banner: getVideoUrl("banner.mp4"),
 } as const;
 

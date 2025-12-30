@@ -290,6 +290,7 @@ const HoverCard = ({
 const SingleTeamListView = ({
   jobs,
   labels,
+  locale,
 }: {
   jobs: Job[];
   labels: Labels;
