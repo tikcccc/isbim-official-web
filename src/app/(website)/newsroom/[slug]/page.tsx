@@ -24,6 +24,7 @@ import { urlFor } from "@/sanity/lib/image";
 import * as m from "@/paraglide/messages";
 
 export const revalidate = 0; // Always fresh per locale
+export const dynamic = "force-dynamic";
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 

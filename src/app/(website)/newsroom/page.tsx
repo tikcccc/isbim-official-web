@@ -20,6 +20,7 @@ import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
 export const revalidate = 0; // Disable ISR: always fetch fresh data
+export const dynamic = "force-dynamic";
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 

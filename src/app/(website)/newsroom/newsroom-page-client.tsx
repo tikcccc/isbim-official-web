@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { m } from '@/components/motion/lazy-motion';
 import {
   ArrowRight,
@@ -12,6 +12,8 @@ import { urlFor } from '@/sanity/lib/image';
 import { Link } from '@/lib/i18n';
 import type { PortableTextBlock } from '@portabletext/types';
 import type { Image as SanityImage } from 'sanity';
+import { useLocale } from "@/lib/i18n/locale-context";
+import * as m18n from "@/paraglide/messages";
 
 // --- Types ---
 interface NewsPost {
@@ -48,7 +50,6 @@ interface NewsCategory {
 
 type LayoutMode = 'grid' | 'feed' | 'magazine';
 type CategoryFilter = string | 'All';
-
 // Shared cubic-bezier easing (must be a 4-value tuple for Framer Motion)
 const MOTION_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -86,7 +87,7 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
 );
 
 // --- Hero Section Component ---
-function HeroSection({ post }: { post: NewsPost }) {
+function HeroSection({ post, readFeaturedLabel }: { post: NewsPost; readFeaturedLabel: string }) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(1920).height(1080).url()
     : null;
@@ -217,7 +218,7 @@ function HeroSection({ post }: { post: NewsPost }) {
             {/* Read More CTA with Arrow */}
             <m.div className="mt-8 flex items-center gap-3" variants={heroItemVariants}>
               <span className="news-font-label-lg newsroom-text-inverse-strong">
-                Read Featured Story
+                {readFeaturedLabel}
               </span>
               <MoveRight className="w-5 h-5 md:w-6 md:h-6 newsroom-text-inverse transition-transform duration-300 group-hover:translate-x-2" />
             </m.div>
@@ -241,6 +242,9 @@ export default function NewsroomPageClient({
   categories,
   featuredNews,
 }: NewsroomPageClientProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const locale = useLocale() as "en" | "zh";
+
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
       console.groupCollapsed('[Newsroom][Debug] Initial payload');
@@ -319,8 +323,8 @@ function NewsListView({
       : null;
 
   // List without hero (filtered data, excluding hero post)
-  const listWithoutHero = filteredData.filter((post) =>
-    heroPost && post._id !== heroPost._id
+  const listWithoutHero = filteredData.filter(
+    (post) => heroPost && post._id !== heroPost._id
   );
 
   // Featured card logic for grid view:
@@ -338,7 +342,12 @@ function NewsListView({
       className="pb-20"
     >
       {/* Hero Section (Magazine Cover Style with Embedded Title) */}
-      {heroPost && <HeroSection post={heroPost} />}
+      {heroPost && (
+        <HeroSection
+          post={heroPost}
+          readFeaturedLabel={m18n.news_read_story({}, { languageTag: locale })}
+        />
+      )}
 
       {/* Container for Controls & List */}
       <div className="container-content">
@@ -349,21 +358,25 @@ function NewsListView({
             <div className="newsroom-filter-section">
               {['All', ...derivedCategories.map(cat => cat._id)].map((catId) => {
                 const cat = derivedCategories.find(c => c._id === catId);
-                const label = catId === 'All' ? 'View All' : (cat?.title ?? '');
+                const label =
+                  catId === "All"
+                    ? m18n.newsroom_all_categories({}, { languageTag: locale })
+                    : cat?.title ?? "";
                 return (
-                <button
-                  key={catId}
-                  type="button"
-                  onClick={() => setFilter(catId as CategoryFilter)}
-                  className={`newsroom-filter-btn ${filter === catId ? 'active' : ''}`}
-                >
-                  {label}
-                </button>
-              )})}
+                  <button
+                    key={catId}
+                    type="button"
+                    onClick={() => setFilter(catId as CategoryFilter)}
+                    className={`newsroom-filter-btn ${filter === catId ? 'active' : ''}`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </div>
 
             <h2 className="news-font-section newsroom-text-primary">
-              Latest Briefings
+              {m18n.newsroom_title({}, { languageTag: locale })}
             </h2>
           </div>
 
