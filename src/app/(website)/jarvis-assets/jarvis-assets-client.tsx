@@ -1,7 +1,11 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
+import {
+  JARVIS_VIDEOS,
+  JARVIS_POSTERS,
+  JARVIS_FEATURE_VIDEOS,
+} from "@/lib/media-config";
 import {
   ProductPageLayout,
   type MetadataItem,
@@ -17,9 +21,9 @@ import {
  */
 export default function JarvisAssetsClient() {
   const featureVideos = {
-    portfolio: JARVIS_VIDEOS.assets,
-    predictive: JARVIS_VIDEOS.assets,
-    esg: JARVIS_VIDEOS.assets,
+    portfolio: JARVIS_FEATURE_VIDEOS.assets.feature1,
+    predictive: JARVIS_FEATURE_VIDEOS.assets.feature2,
+    esg: JARVIS_FEATURE_VIDEOS.assets.feature3,
   };
 
   // Metadata with icons - subtitles from feature detail titles

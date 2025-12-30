@@ -70,6 +70,14 @@ function getVideoBase(): string {
 const VIDEO_BASE_URL = getVideoBase();
 
 /**
+ * Feature Video CDN Base URL
+ * Optional override specifically for feature-section videos.
+ */
+const FEATURE_VIDEO_CDN_BASE_URL = normalizeBaseUrl(
+  env.NEXT_PUBLIC_FEATURE_VIDEO_CDN_URL
+);
+
+/**
  * Media URL Mode
  * Determines if using local or remote media sources.
  */
@@ -119,6 +127,25 @@ export const MEDIA_CONFIG = {
 export function getVideoUrl(filename: string): string {
   const base = VIDEO_BASE_URL || MEDIA_CONFIG.videos.local;
   return encodeURI(`${base}/${filename}`);
+}
+
+/**
+ * Get Feature Video URL
+ * Builds URL for feature-section videos (product-scoped folders).
+ *
+ * @param product - Product folder name (e.g., "agent", "4s")
+ * @param filename - Video filename within the product folder
+ */
+export function getFeatureVideoUrl(
+  product: string,
+  filename: string
+): string {
+  if (FEATURE_VIDEO_CDN_BASE_URL) {
+    return encodeURI(`${FEATURE_VIDEO_CDN_BASE_URL}/${product}/${filename}`);
+  }
+
+  const base = VIDEO_BASE_URL || MEDIA_CONFIG.videos.local;
+  return encodeURI(`${base}/${product}/${filename}`);
 }
 
 /**
@@ -265,6 +292,53 @@ export const JARVIS_VIDEOS = {
 } as const;
 
 /**
+ * JARVIS Feature Videos
+ * Dedicated feature-section video sets per product (3 videos each).
+ */
+export const JARVIS_FEATURE_VIDEOS = {
+  agent: {
+    feature1: getFeatureVideoUrl("agent", "agent-01.mp4"),
+    feature2: getFeatureVideoUrl("agent", "agent-02.mp4"),
+    feature3: getFeatureVideoUrl("agent", "agent-03.mp4"),
+  },
+  ssss: {
+    feature1: getFeatureVideoUrl("4s", "4s-01.mp4"),
+    feature2: getFeatureVideoUrl("4s", "4s-02.mp4"),
+    feature3: getFeatureVideoUrl("4s", "4s-03.mp4"),
+  },
+  assets: {
+    feature1: getFeatureVideoUrl("assets", "assets-01.mp4"),
+    feature2: getFeatureVideoUrl("assets", "assets-02.mp4"),
+    feature3: getFeatureVideoUrl("assets", "assets-03.mp4"),
+  },
+  cdcp: {
+    feature1: getFeatureVideoUrl("CDCP", "cdcp-01.mp4"),
+    feature2: getFeatureVideoUrl("CDCP", "cdcp-02.mp4"),
+    feature3: getFeatureVideoUrl("CDCP", "cdcp-03.mp4"),
+  },
+  dwss: {
+    feature1: getFeatureVideoUrl("dwss", "dwss-01.mp4"),
+    feature2: getFeatureVideoUrl("dwss", "dwss-02.mp4"),
+    feature3: getFeatureVideoUrl("dwss", "dwss-03.mp4"),
+  },
+  eagleEye: {
+    feature1: getFeatureVideoUrl("eagle", "ee-01.mp4"),
+    feature2: getFeatureVideoUrl("eagle", "ee-02.mp4"),
+    feature3: getFeatureVideoUrl("eagle", "ee-03.mp4"),
+  },
+  pay: {
+    feature1: getFeatureVideoUrl("jarvis-pay", "pay-01.mp4"),
+    feature2: getFeatureVideoUrl("jarvis-pay", "pay-02.mp4"),
+    feature3: getFeatureVideoUrl("jarvis-pay", "pay-03.mp4"),
+  },
+  air: {
+    feature1: getFeatureVideoUrl("air", "air-01.mp4"),
+    feature2: getFeatureVideoUrl("air", "air-02.mp4"),
+    feature3: getFeatureVideoUrl("air", "air-03.mp4"),
+  },
+} as const;
+
+/**
  * JARVIS Video Posters (first-frame snapshots)
  * Stored under /images/post for use as preload/fallback posters.
  */
@@ -310,6 +384,7 @@ export function getMediaInfo() {
     mode: MEDIA_MODE,
     baseUrl: MEDIA_BASE_URL || "local",
     videoBase: VIDEO_BASE_URL,
+    featureVideoBase: FEATURE_VIDEO_CDN_BASE_URL || VIDEO_BASE_URL,
     isRemote: isRemoteMedia(),
     config: MEDIA_CONFIG,
   };
@@ -320,12 +395,14 @@ export default {
   MEDIA_MODE,
   MEDIA_CONFIG,
   getVideoUrl,
+  getFeatureVideoUrl,
   getImageUrl,
   getIconUrl,
   getFontUrl,
   getMediaAssetUrl,
   createMediaAsset,
   JARVIS_VIDEOS,
+  JARVIS_FEATURE_VIDEOS,
   JARVIS_POSTERS,
   COMMON_IMAGES,
   isRemoteMedia,

@@ -1,7 +1,11 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { JARVIS_VIDEOS, JARVIS_POSTERS, getVideoUrl } from "@/lib/media-config";
+import {
+  JARVIS_VIDEOS,
+  JARVIS_POSTERS,
+  JARVIS_FEATURE_VIDEOS,
+} from "@/lib/media-config";
 import {
   ProductPageLayout,
   type MetadataItem,
@@ -22,11 +26,7 @@ import {
  * - jarvis-pay-client.tsx (Client): All content and translations
  */
 export default function JarvisPayClient() {
-  const featureVideos = {
-    feature1: getVideoUrl("jarvis-pay-feature1.mp4"),
-    feature2: getVideoUrl("jarvis-pay-feature2.mp4"),
-    feature3: getVideoUrl("jarvis-pay-feature3.mp4"),
-  };
+  const featureVideos = JARVIS_FEATURE_VIDEOS.pay;
 
   // Metadata with icons - subtitles derived from existing feature descriptions
   const metadata: MetadataItem[] = [

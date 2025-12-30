@@ -376,7 +376,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_venture_gallery_item_1_title",
           desc: "service_venture_gallery_item_1_desc",
           metric: "service_venture_gallery_item_1_metric",
-          img: "/images/view1.png",
+          img: "/images/accentrix_logo.jpg",
           href: "https://www.accentrix.com/",
         },
         {
@@ -385,7 +385,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_venture_gallery_item_2_title",
           desc: "service_venture_gallery_item_2_desc",
           metric: "service_venture_gallery_item_2_metric",
-          img: "/images/view2.png",
+          img: "/images/jarvis_logo.jpg",
           href: "https://www.isbim.com/",
         },
         {
@@ -394,7 +394,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_venture_gallery_item_3_title",
           desc: "service_venture_gallery_item_3_desc",
           metric: "service_venture_gallery_item_3_metric",
-          img: "/images/view4.png",
+          img: "/images/bim_stacks_logo.jpg",
           href: "http://www.bimstack.net/#/",
         },
       ],

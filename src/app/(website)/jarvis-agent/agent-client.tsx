@@ -1,6 +1,10 @@
 'use client';
 
-import { JARVIS_VIDEOS, JARVIS_POSTERS } from '@/lib/media-config';
+import {
+  JARVIS_VIDEOS,
+  JARVIS_POSTERS,
+  JARVIS_FEATURE_VIDEOS,
+} from '@/lib/media-config';
 import { AgentPageLayout } from '@/components/agent/agent-page-layout';
 import * as m from '@/paraglide/messages';
 import {
@@ -11,6 +15,8 @@ import {
 } from '@/components/product-template';
 
 export default function AgentClient() {
+  const featureVideos = JARVIS_FEATURE_VIDEOS.agent;
+
   // Metadata with icons - subtitles from feature details
   const metadata: MetadataItem[] = [
     {
@@ -48,7 +54,7 @@ export default function AgentClient() {
           index: '0.1',
           title: [m.jarvis_agent_feature1_title_line1()],
           description: m.jarvis_agent_feature1_desc(),
-          mediaSrc: JARVIS_VIDEOS.agent,
+          mediaSrc: featureVideos.feature1,
           mediaType: 'video',
           mediaPoster: JARVIS_POSTERS.agent,
           videoLabel: m.jarvis_agent_toggle_video(),
@@ -72,7 +78,7 @@ export default function AgentClient() {
           index: '0.2',
           title: [m.jarvis_agent_feature2_title_line1()],
           description: m.jarvis_agent_feature2_desc(),
-          mediaSrc: JARVIS_VIDEOS.agent,
+          mediaSrc: featureVideos.feature2,
           mediaType: 'video',
           mediaPoster: JARVIS_POSTERS.agent,
           videoLabel: m.jarvis_agent_toggle_video(),
@@ -96,7 +102,7 @@ export default function AgentClient() {
           index: '0.3',
           title: [m.jarvis_agent_feature3_title_line1()],
           description: m.jarvis_agent_feature3_desc(),
-          mediaSrc: JARVIS_VIDEOS.agent,
+          mediaSrc: featureVideos.feature3,
           mediaType: 'video',
           mediaPoster: JARVIS_POSTERS.agent,
           videoLabel: m.jarvis_agent_toggle_video(),

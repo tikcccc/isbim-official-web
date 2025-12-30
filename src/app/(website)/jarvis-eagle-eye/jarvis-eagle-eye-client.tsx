@@ -1,7 +1,11 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { getVideoUrl, JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
+import {
+  JARVIS_VIDEOS,
+  JARVIS_POSTERS,
+  JARVIS_FEATURE_VIDEOS,
+} from "@/lib/media-config";
 import {
   ProductPageLayout,
   type MetadataItem,
@@ -18,9 +22,9 @@ import {
  */
 export default function JarvisEagleEyeClient() {
   const featureVideos = {
-    capture: getVideoUrl("eye1.mp4"),
-    detection: getVideoUrl("eye2.mp4"),
-    collaboration: getVideoUrl("eye3.mp4"),
+    capture: JARVIS_FEATURE_VIDEOS.eagleEye.feature1,
+    detection: JARVIS_FEATURE_VIDEOS.eagleEye.feature2,
+    collaboration: JARVIS_FEATURE_VIDEOS.eagleEye.feature3,
   };
 
   // Metadata with icons - subtitles from feature detail titles

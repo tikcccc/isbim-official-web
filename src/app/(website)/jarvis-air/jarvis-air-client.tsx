@@ -1,7 +1,11 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
+import {
+  JARVIS_VIDEOS,
+  JARVIS_POSTERS,
+  JARVIS_FEATURE_VIDEOS,
+} from "@/lib/media-config";
 import {
   ProductPageLayout,
   type MetadataItem,
@@ -22,9 +26,9 @@ import {
  */
 export default function JarvisAirClient() {
   const featureVideos = {
-    masterPlanning: JARVIS_VIDEOS.air,
-    landscape: JARVIS_VIDEOS.air,
-    interiors: JARVIS_VIDEOS.air,
+    masterPlanning: JARVIS_FEATURE_VIDEOS.air.feature1,
+    landscape: JARVIS_FEATURE_VIDEOS.air.feature2,
+    interiors: JARVIS_FEATURE_VIDEOS.air.feature3,
   };
 
   // Metadata with icons - subtitles from feature detail titles

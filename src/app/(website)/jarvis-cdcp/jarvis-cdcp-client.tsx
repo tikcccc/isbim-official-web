@@ -1,7 +1,11 @@
 "use client";
 
 import * as m from "@/paraglide/messages";
-import { getVideoUrl, JARVIS_VIDEOS, JARVIS_POSTERS } from "@/lib/media-config";
+import {
+  JARVIS_VIDEOS,
+  JARVIS_POSTERS,
+  JARVIS_FEATURE_VIDEOS,
+} from "@/lib/media-config";
 import {
   ProductPageLayout,
   type MetadataItem,
@@ -17,9 +21,9 @@ import {
  */
 export default function JarvisCdcpClient() {
   const featureVideos = {
-    singleSource: getVideoUrl("CDCP1.mp4"),
-    bim: getVideoUrl("CDCP2.mp4"),
-    availability: getVideoUrl("CDCP3.mp4"),
+    singleSource: JARVIS_FEATURE_VIDEOS.cdcp.feature1,
+    bim: JARVIS_FEATURE_VIDEOS.cdcp.feature2,
+    availability: JARVIS_FEATURE_VIDEOS.cdcp.feature3,
   };
 
   // Metadata with icons - subtitles from feature detail titles
