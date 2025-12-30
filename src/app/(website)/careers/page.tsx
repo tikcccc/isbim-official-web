@@ -1,24 +1,37 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { PageHeader } from "@/components/ui/page-header";
 import CareersListClient from "./careers-list-client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { CAREERS_QUERY } from "@/sanity/lib/queries";
 import type { Career } from "@/sanity/lib/types";
 import { generateCareersPageSEO } from "@/lib/seo-generators";
-import { languageTag } from "@/paraglide/runtime";
+import {
+  isAvailableLanguageTag,
+  sourceLanguageTag,
+  type AvailableLanguageTag,
+} from "@/paraglide/runtime";
 import { JsonLd, createJobPostingSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = languageTag();
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
   return generateCareersPageSEO(locale);
 }
 
 export default async function CareersPage() {
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const t = (fn: (params?: any, options?: any) => string) =>
+    fn({}, { languageTag: locale });
+
   type CareerQueryResult = Career & { isDraft?: boolean };
   const careers =
     (await sanityFetch<CareerQueryResult[]>({
@@ -28,9 +41,6 @@ export default async function CareersPage() {
     }).catch(() => [])) || [];
 
   const publishedCareers = careers.filter((career) => !career.isDraft);
-  const locale = languageTag();
-  const t = (fn: (params?: any, options?: any) => string) =>
-    fn({}, { languageTag: locale });
   const siteUrl = getSiteUrl();
 
   const employmentTypeMap: Record<string, string> = {

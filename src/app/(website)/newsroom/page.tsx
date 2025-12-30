@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { generateNewsroomPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -9,7 +10,11 @@ import {
 } from "@/sanity/lib/queries";
 import NewsroomPageClient from "./newsroom-page-client";
 import type { Image as SanityImage } from 'sanity';
-import { languageTag } from "@/paraglide/runtime";
+import {
+  isAvailableLanguageTag,
+  sourceLanguageTag,
+  type AvailableLanguageTag,
+} from "@/paraglide/runtime";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
@@ -59,7 +64,9 @@ interface NewsCategory {
  * - AI and construction tech innovation
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = languageTag();
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
   return generateNewsroomPageSEO(locale);
 }
 
@@ -72,6 +79,11 @@ export async function generateMetadata(): Promise<Metadata> {
  * - Uses ISR for optimal performance
  */
 export default async function NewsroomPage() {
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const t = (fn: (params?: any, options?: any) => string) => fn({}, { languageTag: locale });
+
   // Fetch data from Sanity CMS
   const [newsList, categories, featuredNews] = await Promise.all([
     sanityFetch<NewsItem[]>({
@@ -96,12 +108,11 @@ export default async function NewsroomPage() {
   });
 
   // Breadcrumb Schema for navigation
-  const locale = languageTag();
   const siteUrl = getSiteUrl();
   const homePath = buildHref("/", locale);
   const newsroomPath = buildHref("/newsroom", locale);
-  const homeLabel = m.breadcrumb_home({}, { languageTag: locale });
-  const newsroomLabel = m.menu_nav_newsroom({}, { languageTag: locale });
+  const homeLabel = t(m.breadcrumb_home);
+  const newsroomLabel = t(m.menu_nav_newsroom);
   const breadcrumbSchema = createBreadcrumbSchema([
     { name: homeLabel, url: `${siteUrl}${homePath}` },
     { name: newsroomLabel, url: `${siteUrl}${newsroomPath}` },

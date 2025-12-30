@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -13,12 +14,16 @@ import type { Image as SanityImage } from "sanity";
 import type { PortableTextBlock } from "@portabletext/types";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
-import { languageTag } from "@/paraglide/runtime";
+import {
+  isAvailableLanguageTag,
+  sourceLanguageTag,
+  type AvailableLanguageTag,
+} from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { urlFor } from "@/sanity/lib/image";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 0; // Always fresh per locale
 
 // Types for Sanity data
 interface NewsItem {
@@ -86,7 +91,9 @@ interface PageProps {
  */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const locale = languageTag();
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
   const siteUrl = getSiteUrl();
   const localizedPath = buildHref(`/newsroom/${slug}`, locale);
   const canonicalUrl = `${siteUrl}${localizedPath}`;
@@ -161,6 +168,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  */
 export default async function NewsDetailPage({ params }: PageProps) {
   const { slug } = await params;
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const t = (fn: (params?: any, options?: any) => string) => fn({}, { languageTag: locale });
 
   const newsDetail = await sanityFetch<NewsItem | null>({
     query: NEWS_DETAIL_QUERY,
@@ -189,14 +200,13 @@ export default async function NewsDetailPage({ params }: PageProps) {
     .slice(0, 3);
 
   // Breadcrumb Schema for navigation
-  const locale = languageTag();
   const siteUrl = getSiteUrl();
   const homePath = buildHref("/", locale);
   const newsroomPath = buildHref("/newsroom", locale);
   const detailPath = buildHref(`/newsroom/${newsDetail.slug.current}`, locale);
   const canonicalUrl = `${siteUrl}${detailPath}`;
-  const homeLabel = m.breadcrumb_home({}, { languageTag: locale });
-  const newsroomLabel = m.menu_nav_newsroom({}, { languageTag: locale });
+  const homeLabel = t(m.breadcrumb_home);
+  const newsroomLabel = t(m.menu_nav_newsroom);
   const breadcrumbSchema = createBreadcrumbSchema([
     { name: homeLabel, url: `${siteUrl}${homePath}` },
     { name: newsroomLabel, url: `${siteUrl}${newsroomPath}` },

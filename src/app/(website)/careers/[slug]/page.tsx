@@ -30,12 +30,11 @@ import { cn } from "@/lib/utils";
 import {
   sourceLanguageTag,
   isAvailableLanguageTag,
-  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -98,8 +97,9 @@ const portableTextComponents: PortableTextComponents = {
 
 export default async function CareerDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const runtimeLocale = languageTag();
-  const locale = (isAvailableLanguageTag(runtimeLocale) ? runtimeLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-language-tag");
+  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
   const t = <T>(fn: (params?: any, options?: any) => string) =>
     fn({}, { languageTag: locale });
 
