@@ -242,7 +242,6 @@ export default function NewsroomPageClient({
   categories,
   featuredNews,
 }: NewsroomPageClientProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const locale = useLocale() as "en" | "zh";
 
   useEffect(() => {
@@ -267,6 +266,7 @@ export default function NewsroomPageClient({
         newsData={initialNews}
         categories={categories}
         featuredNews={featuredNews}
+        locale={locale}
       />
     </div>
   );
@@ -278,10 +278,12 @@ function NewsListView({
   newsData,
   categories,
   featuredNews,
+  locale,
 }: {
   newsData: NewsPost[];
   categories: NewsCategory[];
   featuredNews: NewsPost | null;
+  locale: "en" | "zh";
 }) {
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [filter, setFilter] = useState<CategoryFilter>('All');
