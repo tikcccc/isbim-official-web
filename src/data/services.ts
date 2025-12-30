@@ -255,7 +255,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_jpm_gallery_item_1_title",
           desc: "service_jpm_gallery_item_1_desc",
           metric: "service_jpm_gallery_item_1_metric",
-          img: "/images/JPM CAMEROON.jpeg",
+          img: "/images/JPM CAMEROON.png",
         },
         {
           id: "02",
