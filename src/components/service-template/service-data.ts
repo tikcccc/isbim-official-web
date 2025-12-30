@@ -187,7 +187,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
       title: "Asset Classes",
       meta: "Making Infrastructure Bankable",
       items: [
-        { id: "01", loc: "GREEN ENERGY", title: "Renewable Power", desc: "Structuring finance for solar and wind transmission grids in emerging markets.", metric: "ESG COMPLIANT", img: "/images/view2.png" },
+        { id: "01", loc: "GREEN ENERGY", title: "Renewable Power", desc: "Structuring finance for solar and wind power projects in emerging markets.", metric: "ESG COMPLIANT", img: "/images/view2.png" },
         { id: "02", loc: "DIGITAL INFRA", title: "Data Centres", desc: "Providing cost certainty and opaque cost trajectory solutions for emerging markets.", metric: "AUDITED COST CURVES", img: "/images/view3.png" },
       ],
     },

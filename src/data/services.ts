@@ -255,7 +255,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_jpm_gallery_item_1_title",
           desc: "service_jpm_gallery_item_1_desc",
           metric: "service_jpm_gallery_item_1_metric",
-          img: "/images/view2.png",
+          img: "/images/JPM CAMEROON.jpeg",
         },
         {
           id: "02",
@@ -263,7 +263,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           title: "service_jpm_gallery_item_2_title",
           desc: "service_jpm_gallery_item_2_desc",
           metric: "service_jpm_gallery_item_2_metric",
-          img: "/images/view3.png",
+          img: "/images/JPM Abuja.jpg",
         },
       ],
     },
