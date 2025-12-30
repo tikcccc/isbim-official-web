@@ -340,7 +340,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
       subTitle: "service_venture_hero_subtitle",
       desc: "service_venture_hero_desc",
       tag: "service_venture_hero_tag",
-      img: "/images/venture hero.jpg",
+      img: "/images/ventures-hero.jpg",
     },
     narrative: {
       label: "service_venture_narrative_label",
@@ -407,7 +407,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
       subTitle: "service_finance_hero_subtitle",
       desc: "service_finance_hero_desc",
       tag: "service_finance_hero_tag",
-      img: "/images/view4.png",
+      img: "/images/project hero.jpg",
     },
     narrative: {
       label: "service_finance_narrative_label",
