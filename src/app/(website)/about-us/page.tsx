@@ -4,7 +4,6 @@ import { JsonLd, createOrganizationSchema } from "@/components/seo/json-ld";
 import { getSiteUrl } from "@/lib/env";
 import { languageTag } from "@/paraglide/runtime";
 import AboutPageClient from "./about-page-client";
-import { SmartImage } from "@/components/ui/smart-image";
 
 /**
  * About Us Page Metadata

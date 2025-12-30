@@ -111,6 +111,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
       params: { slug },
       tags: ["career", `career:${slug}`],
       revalidate,
+      cache: "no-store",
     }).catch(() => null)) || null;
 
   if (!career || career.isDraft) {

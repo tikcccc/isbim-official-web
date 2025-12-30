@@ -17,6 +17,7 @@ import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
 export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
@@ -39,6 +40,7 @@ export default async function CareersPage() {
       query: CAREERS_QUERY,
       tags: ["career"],
       revalidate,
+      cache: "no-store",
     }).catch(() => [])) || [];
 
   const publishedCareers = careers.filter((career) => !career.isDraft);

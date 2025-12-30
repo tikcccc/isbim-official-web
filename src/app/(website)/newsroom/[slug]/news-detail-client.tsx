@@ -11,7 +11,7 @@ import type { ReactNode } from "react";
 import type { Image as SanityImage } from "sanity";
 import type { PortableTextBlock } from "@portabletext/types";
 import { useEffect } from "react";
-import { languageTag } from "@/paraglide/runtime";
+import { useLocale } from "@/lib/i18n/locale-context";
 import * as m from "@/paraglide/messages";
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: "en" | "zh" }) => string;
@@ -60,7 +60,7 @@ export default function NewsDetailClient({
   relatedNews,
   recentNews,
 }: NewsDetailClientProps) {
-  const locale = languageTag();
+  const locale = useLocale() as "en" | "zh";
   const intlLocale = locale === "zh" ? "zh-HK" : "en-US";
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 

@@ -179,6 +179,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
     query: NEWS_DETAIL_QUERY,
     params: { slug },
     tags: [`sanity:news:${slug}`],
+    cache: "no-store",
   });
 
   if (!newsDetail) {
@@ -189,12 +190,14 @@ export default async function NewsDetailPage({ params }: PageProps) {
     query: RELATED_NEWS_QUERY,
     params: { categoryId: newsDetail.category._id, currentSlug: slug },
     tags: ["sanity:news"],
+    cache: "no-store",
   });
 
   const recentNewsRaw = await sanityFetch<NewsItem[]>({
     query: NEWS_LIST_QUERY,
     params: { start: 0, end: 4 },
     tags: ["sanity:news"],
+    cache: "no-store",
   });
 
   const recentNews = recentNewsRaw

@@ -14,6 +14,7 @@ import {
 import type { Career } from "@/sanity/lib/types";
 import { Link } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/lib/i18n/locale-context";
 import {
   formatDate,
   formatEmploymentType,
@@ -22,7 +23,6 @@ import {
 } from "./careers-formatters";
 import styles from "./careers-list.module.css";
 import {
-  languageTag as getLanguageTag,
   isAvailableLanguageTag,
   sourceLanguageTag,
   type AvailableLanguageTag,
@@ -530,8 +530,8 @@ const NewspaperLayout = ({
 };
 
 export default function CareersListClient({ careers }: { careers: Career[] }) {
-  const runtimeLocale = getLanguageTag();
-  const locale = (isAvailableLanguageTag(runtimeLocale) ? runtimeLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const currentLocale = useLocale();
+  const locale = (isAvailableLanguageTag(currentLocale) ? currentLocale : sourceLanguageTag) as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
   const labels: Labels = {
     role: t(m.careers_role_label),
