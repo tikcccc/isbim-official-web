@@ -116,11 +116,11 @@
   }
 
   .exploreCta {
-    @apply text-[10px] font-[family-name:var(--font-alliance-2)] font-medium border border-white/20 px-6 py-3 text-neutral-300 uppercase tracking-widest flex items-center gap-2 transition-all;
+    @apply text-[10px] font-[family-name:var(--font-alliance-2)] font-medium border border-white/25 px-6 py-3 text-neutral-300 uppercase tracking-widest inline-flex items-center gap-2 transition-colors;
   }
 
   .exploreCta:hover {
-    @apply bg-white text-black;
+    @apply text-white border-white/60;
   }
 
   .statLabel {

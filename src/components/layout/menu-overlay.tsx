@@ -733,12 +733,14 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                         </m.h2>
                       </div>
                       <m.div variants={fadeInUp}>
-                        <div
-                          className={`${styles.exploreCta} pointer-events-none cursor-default opacity-50`}
-                          aria-disabled="true"
+                        <Link
+                          href={ROUTES.JARVIS.SUITE}
+                          onClick={closeMenu}
+                          prefetch
+                          className={styles.exploreCta}
                         >
                           Explore <ArrowRight size={14} />
-                        </div>
+                        </Link>
                       </m.div>
                     </div>
 
