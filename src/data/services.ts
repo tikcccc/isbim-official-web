@@ -386,7 +386,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
           desc: "service_venture_gallery_item_2_desc",
           metric: "service_venture_gallery_item_2_metric",
           img: "/images/services/ventures/gallery-2.jpg",
-          href: "https://www.isbim.com/",
+          href: "https://www.jarvisdt.com/",
         },
         {
           id: "03",
