@@ -425,7 +425,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContentDefinition> = {
     stats: {
       intro: "service_finance_stats_intro",
       label: "service_finance_stats_label",
-      main: { val: "30 Days", label: "service_finance_stats_main_label" },
+      main: { val: "10+ Years", label: "service_finance_stats_main_label" },
       grid: [
         { val: "Live", label: "service_finance_stats_grid_1_label" },
         { val: "Audited", label: "service_finance_stats_grid_2_label" },
