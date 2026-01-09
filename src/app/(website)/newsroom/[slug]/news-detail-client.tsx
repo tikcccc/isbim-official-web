@@ -380,6 +380,11 @@ const portableTextComponents: PortableTextComponents = {
     },
   },
   block: {
+    normal: ({ children }: { children?: ReactNode }) => (
+      <p className="news-font-body-lg leading-relaxed text-[var(--text-muted)] mb-6 last:mb-0">
+        {children}
+      </p>
+    ),
     h2: ({ children }: { children?: ReactNode }) => <h2 className="news-font-card font-semibold newsroom-text-primary mt-8 mb-4">{children}</h2>,
     h3: ({ children }: { children?: ReactNode }) => <h3 className="news-font-body-lg font-semibold newsroom-text-primary mt-6 mb-3">{children}</h3>,
     blockquote: ({ children }: { children?: ReactNode }) => (
