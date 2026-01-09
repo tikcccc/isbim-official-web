@@ -23,18 +23,18 @@ export const postType = defineType({
     }),
     defineField({
       name: 'content',
-      title: 'Content',
+      title: 'Content (Optional)',
       type: 'array',
       of: [{ type: 'block' }],
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Published at',
+      title: 'Published at (Optional)',
       type: 'datetime',
     }),
     defineField({
       name: 'seo',
-      title: 'SEO & Social',
+      title: 'SEO & Social (Optional)',
       type: 'object',
       description: 'SEO and social media sharing settings',
       options: {
@@ -44,14 +44,14 @@ export const postType = defineType({
       fields: [
         defineField({
           name: 'metaTitle',
-          title: 'Meta Title',
+          title: 'Meta Title (Optional)',
           type: 'string',
           description: 'Override the default title for SEO (recommended: 50-60 characters)',
           validation: (Rule) => Rule.max(60).warning('Keep title under 60 characters for best SEO results'),
         }),
         defineField({
           name: 'metaDescription',
-          title: 'Meta Description',
+          title: 'Meta Description (Optional)',
           type: 'text',
           rows: 3,
           description: 'Description for search engines (recommended: 150-160 characters)',
@@ -59,7 +59,7 @@ export const postType = defineType({
         }),
         defineField({
           name: 'openGraphImage',
-          title: 'Open Graph Image',
+          title: 'Open Graph Image (Optional)',
           type: 'image',
           description: 'Image for social media sharing (recommended: 1200x630px)',
           options: {
@@ -69,14 +69,14 @@ export const postType = defineType({
             {
               name: 'alt',
               type: 'string',
-              title: 'Alt Text',
+              title: 'Alt Text (Optional)',
               description: 'Important for accessibility and SEO',
             },
           ],
         }),
         defineField({
           name: 'keywords',
-          title: 'Focus Keywords',
+          title: 'Focus Keywords (Optional)',
           type: 'array',
           of: [{ type: 'string' }],
           description: 'Keywords for SEO (optional)',

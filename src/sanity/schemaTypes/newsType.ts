@@ -21,7 +21,7 @@ export const newsType = defineType({
     }),
     defineField({
       name: 'subtitle',
-      title: 'Subtitle',
+      title: 'Subtitle (Optional)',
       type: 'string',
       description: 'Brief subtitle (optional, max 200 chars)',
       validation: (Rule) => Rule.max(200),
@@ -39,7 +39,7 @@ export const newsType = defineType({
     // Content
     defineField({
       name: 'mainImage',
-      title: 'Main Image',
+      title: 'Main Image (Optional)',
       type: 'image',
       options: { hotspot: true },
     }),
@@ -66,12 +66,12 @@ export const newsType = defineType({
               {
                 name: 'link',
                 type: 'object',
-                title: 'Link',
+                title: 'Link (Optional)',
                 fields: [
                   {
                     name: 'href',
                     type: 'url',
-                    title: 'URL',
+                    title: 'URL (Optional)',
                   },
                 ],
               },
@@ -85,7 +85,7 @@ export const newsType = defineType({
             {
               name: 'caption',
               type: 'string',
-              title: 'Caption',
+              title: 'Caption (Optional)',
             },
           ],
         },
@@ -120,7 +120,7 @@ export const newsType = defineType({
     // Status control
     defineField({
       name: 'featured',
-      title: 'Featured',
+      title: 'Featured (Optional)',
       type: 'boolean',
       description: 'Show as featured article (top of list)',
       initialValue: false,
@@ -128,21 +128,21 @@ export const newsType = defineType({
     // SEO fields (optional; auto-generated if blank)
     defineField({
       name: 'seo',
-      title: 'SEO & Social',
+      title: 'SEO & Social (Optional)',
       type: 'object',
       options: { collapsible: true, collapsed: true },
       description: 'Optional. Defaults to title/subtitle/excerpt and main image if left blank.',
       fields: [
         defineField({
           name: 'metaTitle',
-          title: 'Meta Title',
+          title: 'Meta Title (Optional)',
           type: 'string',
           description: 'Optional. Defaults to title if blank.',
           validation: (Rule) => Rule.max(60).warning('Keep under 60 characters'),
         }),
         defineField({
           name: 'metaDescription',
-          title: 'Meta Description',
+          title: 'Meta Description (Optional)',
           type: 'text',
           rows: 3,
           description: 'Optional. Auto-generated from subtitle/excerpt/body if blank.',
@@ -150,14 +150,14 @@ export const newsType = defineType({
         }),
         defineField({
           name: 'openGraphImage',
-          title: 'Open Graph Image',
+          title: 'Open Graph Image (Optional)',
           type: 'image',
           description: 'Optional social image (1200x630). Defaults to main image if blank.',
           options: { hotspot: true },
         }),
         defineField({
           name: 'keywords',
-          title: 'Keywords',
+          title: 'Keywords (Optional)',
           type: 'array',
           of: [{ type: 'string' }],
           options: { layout: 'tags' },

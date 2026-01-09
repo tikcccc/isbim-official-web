@@ -35,7 +35,7 @@ export const careerTeamType = defineType({
     }),
     defineField({
       name: "sortOrder",
-      title: "Sort Order",
+      title: "Sort Order (Optional)",
       type: "number",
       description: "Priority within pillar: High shows first, Low shows last.",
       options: {

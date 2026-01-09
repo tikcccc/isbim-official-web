@@ -56,6 +56,7 @@ export const careerType = defineType({
         ],
         layout: "radio",
       },
+      validation: (Rule) => Rule.required(),
       initialValue: "onsite",
       group: "listing",
     }),
@@ -79,7 +80,7 @@ export const careerType = defineType({
     }),
     defineField({
       name: "experienceLevel",
-      title: "Seniority",
+      title: "Seniority (Optional)",
       type: "string",
       options: {
         list: [
@@ -95,17 +96,8 @@ export const careerType = defineType({
       group: "listing",
     }),
     defineField({
-      name: "tags",
-      title: "Tags",
-      type: "array",
-      of: [{ type: "string" }],
-      options: { layout: "tags" },
-      description: "Free-form labels for search/filter (e.g. AI, BIM, FinOps).",
-      group: "listing",
-    }),
-    defineField({
       name: "sortOrder",
-      title: "Sort Order",
+      title: "Sort Order (Optional)",
       type: "number",
       description: "Priority: High shows first, Low shows last.",
       options: {
@@ -176,9 +168,10 @@ export const careerType = defineType({
     }),
     defineField({
       name: "applicationUrl",
-      title: "Application URL",
+      title: "Application URL (Optional)",
       type: "url",
-      description: "External form/ATS link for this role.",
+      description: "External form/ATS link for this role. Defaults to the shared application form if left blank（https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302）.",
+      initialValue: "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302",
       group: "content",
     }),
     defineField({
@@ -191,21 +184,21 @@ export const careerType = defineType({
         defineField({
           name: "alt",
           type: "string",
-          title: "Alt Text",
+          title: "Alt Text (Optional)",
         }),
       ],
       group: "content",
     }),
     defineField({
       name: "postedAt",
-      title: "Posted At",
+      title: "Posted At (Optional)",
       type: "datetime",
       initialValue: () => new Date().toISOString(),
       group: "content",
     }),
     defineField({
       name: "expiresAt",
-      title: "Expires At",
+      title: "Expires At (Optional)",
       type: "datetime",
       group: "content",
     }),
@@ -213,20 +206,20 @@ export const careerType = defineType({
     // SEO
     defineField({
       name: "seo",
-      title: "SEO & Social",
+      title: "SEO & Social (Optional)",
       type: "object",
       options: { collapsible: true, collapsed: true },
       fields: [
         defineField({
           name: "metaTitle",
-          title: "Meta Title",
+          title: "Meta Title (Optional)",
           type: "string",
           description: "Optional. Defaults to the job title if left blank.",
           validation: (Rule) => Rule.max(60).warning("Keep under 60 characters"),
         }),
         defineField({
           name: "metaDescription",
-          title: "Meta Description",
+          title: "Meta Description (Optional)",
           type: "text",
           rows: 3,
           description: "Optional. Auto-generated from content if left blank.",
@@ -234,7 +227,7 @@ export const careerType = defineType({
         }),
         defineField({
           name: "openGraphImage",
-          title: "Open Graph Image",
+          title: "Open Graph Image (Optional)",
           type: "image",
           description: "1200x630 recommended; defaults to a generic careers image if not set.",
           options: { hotspot: true },
@@ -242,13 +235,13 @@ export const careerType = defineType({
             defineField({
               name: "alt",
               type: "string",
-              title: "Alt Text",
+              title: "Alt Text (Optional)",
             }),
           ],
         }),
         defineField({
           name: "keywords",
-          title: "Keywords",
+          title: "Keywords (Optional)",
           type: "array",
           of: [{ type: "string" }],
           options: { layout: "tags" },

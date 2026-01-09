@@ -114,10 +114,9 @@ export interface Career extends SanityDocument {
   slug: Slug;
   team?: CareerTeam;
   locations?: CareerLocation[];
-  workModel?: "onsite" | "hybrid" | "remote";
+  workModel: "onsite" | "hybrid" | "remote";
   employmentType?: "full-time" | "part-time" | "contract" | "internship" | "temporary";
   experienceLevel?: "intern" | "junior" | "mid" | "senior" | "lead" | "director";
-  tags?: string[];
   sortOrder?: number;
   sections?: CareerSection[];
   contentImage?: Image;

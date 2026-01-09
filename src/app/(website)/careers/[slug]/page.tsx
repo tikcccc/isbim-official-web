@@ -127,6 +127,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
   const experienceLabel = formatExperience(career.experienceLevel, locale);
   const postedLabel = career.postedAt ? formatDate(career.postedAt, locale) : null;
   const expiresLabel = career.expiresAt ? formatDate(career.expiresAt, locale) : null;
+  const applicationUrl = career.applicationUrl || "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302";
 
   return (
     <main className="surface-noise-overlay min-h-screen">
@@ -180,11 +181,10 @@ export default async function CareerDetailPage({ params }: PageProps) {
           </h1>
 
           <div className="flex flex-col md:flex-row gap-6">
-            {career.applicationUrl ? (
-              <a
-                href={career.applicationUrl}
-                target="_blank"
-                rel="noreferrer"
+            <a
+              href={applicationUrl}
+              target="_blank"
+              rel="noreferrer"
               className={cn(
                 "btn-primary w-full md:w-auto inline-flex items-center justify-center gap-3 font-body-base",
                 styles.applyButton
@@ -192,12 +192,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
             >
               {t(m.careers_apply_cta)} <ArrowUpRight size={18} />
             </a>
-          ) : (
-            <span className={cn(styles.applyPlaceholder, "w-full md:w-auto inline-flex items-center justify-center gap-3 font-body-base")}>
-              {t(m.careers_apply_placeholder)}
-            </span>
-          )}
-        </div>
+          </div>
         </header>
 
         <div className="flex flex-col lg:flex-row gap-20">
@@ -294,16 +289,14 @@ export default async function CareerDetailPage({ params }: PageProps) {
                   </div>
                 )}
 
-                {career.applicationUrl ? (
-                  <a
-                    href={career.applicationUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={cn(styles.sidebarAction, "font-body-base pt-4 inline-flex items-center justify-between w-full")}
-                  >
-                    {t(m.careers_submit_application)} <ArrowUpRight size={14} />
-                  </a>
-                ) : null}
+                <a
+                  href={applicationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={cn(styles.sidebarAction, "font-body-base pt-4 inline-flex items-center justify-between w-full")}
+                >
+                  {t(m.careers_submit_application)} <ArrowUpRight size={14} />
+                </a>
               </div>
             </div>
           </aside>

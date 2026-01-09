@@ -27,7 +27,7 @@ export const careerPillarType = defineType({
     }),
     defineField({
       name: "sortOrder",
-      title: "Sort Order",
+      title: "Sort Order (Optional)",
       type: "number",
       description: "Priority for columns: High shows first, Low shows last.",
       options: {

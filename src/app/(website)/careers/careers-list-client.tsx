@@ -48,7 +48,6 @@ type Job = {
   employmentTypeLabel?: string | null;
   workModelLabel?: string | null;
   experienceLabel?: string | null;
-  tags: string[];
   postedAt?: string | null;
   expiresAt?: string | null;
 };
@@ -110,7 +109,6 @@ const normalizeCareers = (
         formatWorkModel(career.workModel, locale) ||
         translate(m.careers_flexible, locale),
       experienceLabel: formatExperience(career.experienceLevel, locale),
-      tags: career.tags || [],
       postedAt: career.postedAt || null,
       expiresAt: career.expiresAt || null,
     };

@@ -13,7 +13,7 @@ export const newsCategoryType = defineType({
     }),
     defineField({
       name: 'sortOrder',
-      title: 'Sort Order',
+      title: 'Sort Order (Optional)',
       type: 'number',
       description: 'Priority: High shows first.',
       options: {
