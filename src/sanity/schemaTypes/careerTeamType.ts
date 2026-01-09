@@ -31,7 +31,7 @@ export const careerTeamType = defineType({
       title: "Description (Optional)",
       type: "text",
       rows: 3,
-      description: "Optional blurb for hover/preview.",
+      description: "",
     }),
     defineField({
       name: "sortOrder",
