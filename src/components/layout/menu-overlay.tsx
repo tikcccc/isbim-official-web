@@ -138,7 +138,7 @@ const getMenuData = () => ({
   stats: [
     { value: "2,600+", label: "LIVE_PROJECTS", desc: messages.menu_stat_live_projects() },
     { value: "1.2B", label: "TOTAL_SQFT", desc: messages.menu_stat_sqft() },
-    { value: "71%", label: "DEFECT_REDUCTION", desc: messages.menu_stat_defect() },
+    { value: "100%", label: "DEFECT_ELIMINATION", desc: messages.menu_stat_defect() },
     { value: "45%", label: "FASTER_DELIVERY", desc: messages.menu_stat_delivery() },
   ],
   // Impact metrics
