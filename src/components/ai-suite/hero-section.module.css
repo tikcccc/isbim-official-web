@@ -105,29 +105,7 @@
   50% { opacity: 0.7; transform: scale(1.03); }
 }
 
-/* 層 4：掃描線效果 */
-.scanLine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 49%,
-    rgba(255, 255, 255, 0.03) 50%,
-    transparent 51%,
-    transparent 100%
-  );
-  background-size: 100% 300%;
-  animation: scanMove 8s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes scanMove {
-  0% { background-position: 0 -100%; }
-  100% { background-position: 0 200%; }
-}
-
-/* 層 5：微粒浮動效果 */
+/* 層 4：微粒浮動效果 */
 .particles {
   position: absolute;
   inset: 0;

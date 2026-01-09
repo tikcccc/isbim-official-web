@@ -32,9 +32,7 @@ export function HeroSection() {
         <div className={styles.backgroundVignette} />
         {/* 層 3：光暈呼吸效果 */}
         <div className={styles.lightPulse} />
-        {/* 層 4：掃描線效果 */}
-        <div className={styles.scanLine} />
-        {/* 層 5：微粒浮動效果 */}
+        {/* 層 4：微粒浮動效果 */}
         <div className={styles.particles} />
       </div>
 
