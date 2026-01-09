@@ -89,7 +89,7 @@ export const SERVICE_CONTENT: Record<ServiceTab, ServiceContent> = {
     engine: [
       { id: "01", title: "Full BIM Modelling", desc: "LOD 300-500, Revit/IFC standards, and clash-free coordination for zero ambiguity." },
       { id: "02", title: "On-site Secondment", desc: "CIC/BSI-certified BIM Managers & Coordinators deployed directly to your project team." },
-      { id: "03", title: "End-to-End Consultancy", desc: "From BEP creation and CDE setup to rigorous ISO 19650 compliance audits." },
+      { id: "03", title: "End-to-End Consultancy", desc: "From BEP creation and CDCP setup to rigorous ISO 19650 compliance audits." },
       { id: "04", title: "Tendering Support", desc: "BIM-embedded BOQs, 5D cost models, and full ContractBIM compliance support." },
     ],
     stats: {

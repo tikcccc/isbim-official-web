@@ -141,7 +141,7 @@ export const SEO_KEYWORDS = {
       "data collaboration",
       "BIM coordination",
       "version control",
-      "common data environment",
+      "Common Data Collaboration Platform",
       "CDE platform",
     ],
     assets: [

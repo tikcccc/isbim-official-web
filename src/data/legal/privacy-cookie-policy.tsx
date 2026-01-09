@@ -18,8 +18,9 @@ export function getPrivacyCookiePolicyData(_locale: "en" | "zh"): LegalPageData 
         title: m.privacy_cookie_disclaimer_title(),
         content: (
           <>
-            <p className="mb-4">{m.privacy_cookie_disclaimer_p1()}</p>
-            <p className="mb-4">{m.privacy_cookie_disclaimer_p2()}</p>
+            <p>{m.privacy_cookie_disclaimer_p1()}</p>
+            <p className="mb-4" aria-hidden="true">&nbsp;</p>
+            <p>{m.privacy_cookie_disclaimer_p2()}</p>
             <p>
               {m.privacy_cookie_disclaimer_p3_prefix()}
               <a href="tel:+85223828380" className="cookies-email-link">
@@ -39,6 +40,7 @@ export function getPrivacyCookiePolicyData(_locale: "en" | "zh"): LegalPageData 
         content: (
           <>
             <p className="mb-4">{m.privacy_cookie_ownership_p1()}</p>
+            <p className="mb-4" aria-hidden="true">&nbsp;</p>
             <p>{m.privacy_cookie_ownership_p2()}</p>
           </>
         ),
