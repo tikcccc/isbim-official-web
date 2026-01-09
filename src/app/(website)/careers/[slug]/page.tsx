@@ -6,7 +6,6 @@ import {
   ArrowLeft,
   ArrowUpRight,
   MapPin,
-  Tag,
   Timer,
   Users,
 } from "lucide-react";
@@ -179,20 +178,6 @@ export default async function CareerDetailPage({ params }: PageProps) {
           <h1 className={cn(styles.title, "font-hero-headline mb-8")}>
             {career.title}
           </h1>
-
-          {career.tags && career.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-12">
-              {career.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className={cn(styles.tagChip, "font-legal")}
-                >
-                  <Tag size={10} className={styles.tagIcon} />
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
 
           <div className="flex flex-col md:flex-row gap-6">
             {career.applicationUrl ? (

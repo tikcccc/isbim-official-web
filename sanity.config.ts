@@ -6,7 +6,7 @@ export default defineConfig({
   name: 'default',
   title: 'isBIM Sanity Studio',
 
-  projectId: '4y8vgu6z',
+  projectId: 'racyn2dq',
   dataset: 'production',
 
   basePath: '/studio',
