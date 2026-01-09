@@ -7,15 +7,14 @@
  * - Type-safe configuration from environment variables
  *
  * CDN Strategy:
- * - Production: Use CDN for read operations (faster, cached)
- * - Development: Bypass CDN for fresh data during development
- * - Write operations: Always bypass CDN for immediate consistency
+ * - Always bypass CDN for freshest data (useCdn: false)
+ * - Write operations also bypass CDN for immediate consistency
  *
  * Usage:
  * ```tsx
  * import { client, writeClient } from "@/sanity/lib/client";
  *
- * // Read operations (uses CDN in production)
+ * // Read operations (bypasses CDN for fresh data)
  * const data = await client.fetch(query);
  *
  * // Write operations (bypasses CDN)
@@ -24,7 +23,7 @@
  */
 
 import { createClient } from "next-sanity";
-import { sanityConfig, isProduction } from "@/lib/env";
+import { sanityConfig } from "@/lib/env";
 
 export const projectId = sanityConfig.projectId;
 export const dataset = sanityConfig.dataset;
@@ -32,14 +31,13 @@ export const apiVersion = sanityConfig.apiVersion;
 
 /**
  * Read-only client for data fetching
- * Uses CDN in production for better performance
- * Bypasses CDN in development for fresh data
+ * Always bypass CDN for fresh data (both dev and prod)
  */
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: isProduction(),
+  useCdn: false,
   perspective: "published",
   stega: {
     enabled: false,
