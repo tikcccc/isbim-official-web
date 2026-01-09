@@ -5,8 +5,6 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import {
   ArrowLeft,
   ArrowUpRight,
-  Briefcase,
-  Building2,
   MapPin,
   Tag,
   Timer,
@@ -159,31 +157,11 @@ export default async function CareerDetailPage({ params }: PageProps) {
               {teamTitle}
             </div>
 
-            {experienceLabel && (
-              <>
-                <span className={styles.metaSeparator}>/</span>
-                <div className="flex items-center gap-2">
-                  <Briefcase size={16} />
-                  {experienceLabel}
-                </div>
-              </>
-            )}
-
             <span className={styles.metaSeparator}>/</span>
             <div className="flex items-center gap-2">
               <MapPin size={16} />
               {primaryLocation}
             </div>
-
-            {workModelLabel && (
-              <>
-                <span className={styles.metaSeparator}>/</span>
-                <div className="flex items-center gap-2">
-                  <Building2 size={16} />
-                  {workModelLabel}
-                </div>
-              </>
-            )}
 
             {expiresLabel && (
               <>
