@@ -16,4 +16,12 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+  document: {
+    actions: (previous, context) =>
+      context.schemaType === "applicationSettings"
+        ? previous.filter(({ action }) => action !== "delete" && action !== "duplicate")
+        : previous,
+    newDocumentOptions: (previous) =>
+      previous.filter((templateItem) => templateItem.templateId !== "applicationSettings"),
+  },
 })

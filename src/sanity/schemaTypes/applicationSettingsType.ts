@@ -4,7 +4,6 @@ export const applicationSettingsType = defineType({
   name: "applicationSettings",
   title: "Application Settings",
   type: "document",
-  __experimental_actions: ["update", "publish"],
   initialValue: {
     url: "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302",
   },
