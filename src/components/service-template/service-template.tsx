@@ -61,10 +61,10 @@ const IMAGE_VARIANTS: Record<string, ImageVariant> = {
     sources: [{ src: "/images/services/bim/hero.webp", type: "image/webp" }],
     fallback: "/images/services/bim/hero.png",
   },
-  "/images/services/ventures/hero.jpg": {
+  "/images/services/ventures/hero.jpeg": {
     src: "/images/services/ventures/hero.avif",
     sources: [{ src: "/images/services/ventures/hero.webp", type: "image/webp" }],
-    fallback: "/images/services/ventures/hero.jpg",
+    fallback: "/images/services/ventures/hero.jpeg",
   },
   "/images/services/finance/hero.jpg": {
     src: "/images/services/finance/hero.avif",
