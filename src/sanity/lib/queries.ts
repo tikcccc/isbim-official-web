@@ -311,6 +311,15 @@ export const RELATED_NEWS_QUERY = defineQuery(
  * Career Queries
  */
 
+/** Fetch the global application URL (singleton) */
+export const APPLICATION_SETTINGS_QUERY = defineQuery(
+  `*[_type == "applicationSettings" && _id == "applicationSettings"][0] {
+    _id,
+    _type,
+    url
+  }`
+);
+
 /** Fetch all open career positions */
 export const CAREERS_QUERY = defineQuery(
   `*[_type == "career" && defined(slug.current)] | order(coalesce(team->sortOrder, team->pillar->sortOrder, sortOrder, 1000) asc, postedAt desc, _createdAt desc) {
@@ -343,7 +352,6 @@ export const CAREERS_QUERY = defineQuery(
     experienceLevel,
     postedAt,
     expiresAt,
-    applicationUrl,
     sections,
     contentImage{
       ...,
@@ -386,7 +394,6 @@ export const CAREER_BY_SLUG_QUERY = defineQuery(
     sections,
     postedAt,
     expiresAt,
-    applicationUrl,
     sortOrder,
     seo
   }`
@@ -497,7 +504,6 @@ export const CAREER_METADATA_QUERY = defineQuery(
       ...,
       alt
     },
-    applicationUrl,
     seo,
     _updatedAt
   }`

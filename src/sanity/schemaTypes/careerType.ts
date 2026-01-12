@@ -167,14 +167,6 @@ export const careerType = defineType({
       group: "content",
     }),
     defineField({
-      name: "applicationUrl",
-      title: "Application URL (Optional)",
-      type: "url",
-      description: "External form/ATS link for this role. Defaults to the shared application form if left blank（https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302）.",
-      initialValue: "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302",
-      group: "content",
-    }),
-    defineField({
       name: "contentImage",
       title: "Content Image (Optional)",
       type: "image",

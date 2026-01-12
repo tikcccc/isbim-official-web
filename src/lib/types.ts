@@ -203,7 +203,6 @@ export interface SanityCareer {
   };
   postedAt?: string;
   expiresAt?: string;
-  applicationUrl?: string;
 }
 
 export interface SanityProject {
@@ -221,6 +220,12 @@ export interface SanityProject {
     alt?: string;
   }>;
   featured?: boolean;
+}
+
+export interface SanityApplicationSettings {
+  _id: string;
+  _type: "applicationSettings";
+  url: string;
 }
 
 // Locale Types

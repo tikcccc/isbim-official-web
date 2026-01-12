@@ -122,13 +122,20 @@ export interface Career extends SanityDocument {
   contentImage?: Image;
   postedAt?: string;
   expiresAt?: string;
-  applicationUrl?: string;
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
     openGraphImage?: Image;
     keywords?: string[];
   };
+}
+
+/**
+ * Application settings (singleton)
+ */
+export interface ApplicationSettings extends SanityDocument {
+  _type: "applicationSettings";
+  url: string;
 }
 
 /**

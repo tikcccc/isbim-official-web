@@ -13,8 +13,9 @@ import {
   generateCareerMetadata,
   sanityFetch,
   CAREER_BY_SLUG_QUERY,
+  APPLICATION_SETTINGS_QUERY,
 } from "@/sanity/lib";
-import type { Career } from "@/sanity/lib/types";
+import type { Career, ApplicationSettings } from "@/sanity/lib/types";
 import { Link } from "@/lib/i18n";
 import {
   formatDate,
@@ -102,14 +103,20 @@ export default async function CareerDetailPage({ params }: PageProps) {
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
-  const career =
-    (await sanityFetch<CareerQueryResult | null>({
+  const [career, applicationSettings] = await Promise.all([
+    sanityFetch<CareerQueryResult | null>({
       query: CAREER_BY_SLUG_QUERY,
       params: { slug },
       tags: ["career", `career:${slug}`],
       revalidate,
       cache: "no-store",
-    }).catch(() => null)) || null;
+    }).catch(() => null),
+    sanityFetch<ApplicationSettings | null>({
+      query: APPLICATION_SETTINGS_QUERY,
+      tags: ["applicationSettings"],
+      cache: "no-store",
+    }).catch(() => null),
+  ]);
 
   if (!career || career.isDraft) {
     notFound();
@@ -127,7 +134,8 @@ export default async function CareerDetailPage({ params }: PageProps) {
   const experienceLabel = formatExperience(career.experienceLevel, locale);
   const postedLabel = career.postedAt ? formatDate(career.postedAt, locale) : null;
   const expiresLabel = career.expiresAt ? formatDate(career.expiresAt, locale) : null;
-  const applicationUrl = career.applicationUrl || "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302";
+  const applicationUrl =
+    applicationSettings?.url || "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302";
 
   return (
     <main className="surface-noise-overlay min-h-screen">

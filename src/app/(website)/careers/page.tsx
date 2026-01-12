@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 import { PageHeader } from "@/components/ui/page-header";
 import CareersListClient from "./careers-list-client";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { CAREERS_QUERY } from "@/sanity/lib/queries";
-import type { Career } from "@/sanity/lib/types";
+import { CAREERS_QUERY, APPLICATION_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import type { ApplicationSettings, Career } from "@/sanity/lib/types";
 import { generateCareersPageSEO } from "@/lib/seo-generators";
 import {
   isAvailableLanguageTag,
@@ -35,16 +35,23 @@ export default async function CareersPage() {
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
-  const careers =
-    (await sanityFetch<CareerQueryResult[]>({
+  const [careers, applicationSettings] = await Promise.all([
+    sanityFetch<CareerQueryResult[]>({
       query: CAREERS_QUERY,
       tags: ["career"],
       revalidate,
       cache: "no-store",
-    }).catch(() => [])) || [];
+    }).catch(() => []),
+    sanityFetch<ApplicationSettings | null>({
+      query: APPLICATION_SETTINGS_QUERY,
+      tags: ["applicationSettings"],
+      cache: "no-store",
+    }).catch(() => null),
+  ]);
 
   const publishedCareers = careers.filter((career) => !career.isDraft);
   const siteUrl = getSiteUrl();
+  const applicationUrl = applicationSettings?.url || "https://forms.jarvisbim.com.cn/f/5ae840d915fd604188882302";
 
   const employmentTypeMap: Record<string, string> = {
     "full-time": "FULL_TIME",
@@ -88,7 +95,7 @@ export default async function CareersPage() {
     return {
       ...baseSchema,
       url: jobUrl,
-      ...(career.applicationUrl && { applicationUrl: career.applicationUrl }),
+      ...(applicationUrl && { applicationUrl }),
       ...(career.expiresAt && { validThrough: career.expiresAt }),
     };
   });
