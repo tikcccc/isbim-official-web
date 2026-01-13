@@ -363,7 +363,7 @@ function RelatedCard({
 // Portable Text Components for rich text rendering
 const portableTextComponents: PortableTextComponents = {
   marks: {
-    strong: ({ children }: { children?: ReactNode }) => <strong className="news-font-body font-semibold newsroom-text-primary">{children}</strong>,
+    strong: ({ children }: { children?: ReactNode }) => <strong>{children}</strong>,
     em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
     link: ({ value, children }: { value?: { href?: string }; children?: ReactNode }) => {
       const target = (value?.href || '').startsWith('http') ? '_blank' : undefined;

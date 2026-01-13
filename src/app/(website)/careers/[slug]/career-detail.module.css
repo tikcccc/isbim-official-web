@@ -93,6 +93,7 @@
 
   .proseParagraph {
     color: var(--text-muted);
+    white-space: pre-wrap;
   }
 
   .proseListBulletMarker {

@@ -455,6 +455,15 @@
     margin-bottom: var(--newsroom-stack);
   }
 
+  .newsroom-prose p {
+    white-space: pre-wrap;
+  }
+
+  .newsroom-prose strong {
+    font-weight: var(--weight-semibold);
+    color: var(--text-strong);
+  }
+
   .newsroom-related {
     max-width: var(--newsroom-container-max);
     margin-left: auto;
