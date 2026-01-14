@@ -325,16 +325,19 @@ function NewsListView({
       : null;
 
   // List without hero (filtered data, excluding hero post)
-  const listWithoutHero = filteredData.filter(
-    (post) => heroPost && post._id !== heroPost._id
-  );
+  const filteredWithoutHero = heroPost
+    ? filteredData.filter((post) => post._id !== heroPost._id)
+    : filteredData;
+
+  const hasFilteredResults = filteredWithoutHero.length > 0;
 
   // Featured card logic for grid view:
   // Use the newest article from the filtered remaining list
-  const newestPost = listWithoutHero.length > 0 ? listWithoutHero[0] : null;
+  const newestPost = hasFilteredResults ? filteredWithoutHero[0] : null;
 
   // Remaining list data (exclude the featured card post)
-  const listData = listWithoutHero.slice(1);
+  const gridListData = newestPost ? filteredWithoutHero.slice(1) : [];
+  const listData = filteredWithoutHero;
 
   return (
     <m.div
@@ -413,7 +416,7 @@ function NewsListView({
 
         {/* Layout Renderer */}
         <div className="min-h-[500px]">
-          {listData.length === 0 ? (
+          {!hasFilteredResults ? (
             <div className="py-20 text-center newsroom-border border-dashed newsroom-surface-quiet">
               <p className="newsroom-label-xs newsroom-text-soft">No More Intelligence Found</p>
             </div>
@@ -433,7 +436,7 @@ function NewsListView({
                     </m.div>
                   )}
 
-                  {listData.map((post) => (
+                  {gridListData.map((post) => (
                     <m.div variants={itemVariants} key={post._id}>
                       <GridCard post={post} />
                     </m.div>
