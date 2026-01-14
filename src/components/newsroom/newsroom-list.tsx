@@ -59,10 +59,15 @@ export default function NewsroomList({
     ? initialNews.filter((news) => news.category._id === selectedCategory)
     : initialNews;
 
+  // Only hide the featured card on the list when we're actually showing it
+  const showFeatured = Boolean(featuredNews && !selectedCategory);
+
   // Separate featured from regular news (if not already separated)
-  const regularNews = featuredNews
-    ? filteredNews.filter((news) => news._id !== featuredNews._id)
+  const regularNews = showFeatured
+    ? filteredNews.filter((news) => news._id !== featuredNews!._id)
     : filteredNews;
+
+  const hasRegularNews = regularNews.length > 0;
 
   return (
     <div className="newsroom-container">
@@ -140,14 +145,14 @@ export default function NewsroomList({
         </div>
 
         {/* Featured News (if exists and no category filter) */}
-        {featuredNews && !selectedCategory && (
+        {showFeatured && featuredNews && (
           <div className="mb-12 newsroom-animate-in">
             <FeaturedNewsCard news={featuredNews} />
           </div>
         )}
 
         {/* News Grid/Magazine/Feed */}
-        {filteredNews.length > 0 ? (
+        {hasRegularNews ? (
           <div
             className={`
               ${layoutMode === 'grid' ? 'newsroom-grid' : ''}
