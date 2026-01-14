@@ -65,13 +65,38 @@ export function SmoothScrollProvider({
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
+    let latestScroll = 0;
+
     // Initialize Lenis with centralized config
     const lenisInstance = new Lenis(LENIS_CONFIG);
 
     setLenis(lenisInstance);
 
     // dY"` Connect Lenis with ScrollTrigger for proper integration
-    lenisInstance.on("scroll", ScrollTrigger.update);
+    const handleLenisScroll = ({ scroll }: { scroll: number }) => {
+      latestScroll = scroll;
+      ScrollTrigger.update();
+    };
+    lenisInstance.on("scroll", handleLenisScroll);
+
+    // Tell ScrollTrigger to use Lenis for scroll values
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        if (typeof value === "number") {
+          lenisInstance.scrollTo(value, { immediate: true });
+        }
+        return latestScroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.documentElement.style.transform ? "transform" : "fixed",
+    });
 
     // Request animation frame loop
     function raf(time: number) {
@@ -106,9 +131,28 @@ export function SmoothScrollProvider({
       clearTimeout(refreshTimer1);
       clearTimeout(refreshTimer2);
       window.removeEventListener("load", handleLoad);
-      lenisInstance.off("scroll", ScrollTrigger.update);
+      lenisInstance.off("scroll", handleLenisScroll);
       lenisInstance.destroy();
       setLenis(null);
+
+      // Restore default scroller proxy to avoid leaking Lenis reference
+      ScrollTrigger.scrollerProxy(document.documentElement, {
+        scrollTop(value) {
+          if (typeof value === "number") {
+            window.scrollTo(0, value);
+          }
+          return window.scrollY || window.pageYOffset;
+        },
+        getBoundingClientRect() {
+          return {
+            top: 0,
+            left: 0,
+            width: window.innerWidth,
+            height: window.innerHeight,
+          };
+        },
+        pinType: "fixed",
+      });
     };
   }, []);
 

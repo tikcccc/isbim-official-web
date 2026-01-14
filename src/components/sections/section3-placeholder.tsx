@@ -45,6 +45,9 @@ export function Section3Placeholder() {
             },
           }
         );
+
+        // Recompute trigger positions now that transition is done
+        ScrollTrigger.refresh();
       }
     }, triggerRef);
 
