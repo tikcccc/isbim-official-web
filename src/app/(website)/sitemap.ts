@@ -24,6 +24,7 @@ import {
 } from "@/sanity/lib/queries";
 import { ROUTES } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
+import { sourceLanguageTag } from "@/paraglide/runtime";
 
 interface SitemapEntry {
   slug: string;
@@ -36,7 +37,7 @@ interface SitemapEntry {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
   const now = new Date();
-  const defaultLocale = "en";
+  const defaultLocale = sourceLanguageTag;
   const withLocale = (route: string, locale: string) =>
     `${siteUrl}/${locale}${route === "/" ? "" : route}`;
 
@@ -131,6 +132,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // Legal pages (low priority, rare updates)
+  const legalRoutes = [
+    "/privacy-cookie-policy",
+    "/privacy",
+    "/terms",
+    "/cookies",
+  ];
+
+  const legalPages: MetadataRoute.Sitemap = legalRoutes.map((route) => ({
+    url: withLocale(route, defaultLocale),
+    lastModified: now,
+    changeFrequency: "yearly" as const,
+    priority: 0.3,
+    alternates: {
+      languages: {
+        en: withLocale(route, "en"),
+        zh: withLocale(route, "zh"),
+      },
+    },
+  }));
+
   // JARVIS product pages (excluding SUITE - under redesign)
   const jarvisPages: MetadataRoute.Sitemap = Object.values(ROUTES.JARVIS)
     .filter((route) => route !== ROUTES.JARVIS.SUITE) // Exclude /jarvis-ai-suite
@@ -195,6 +217,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Combine all pages
   return [
     ...staticPages,
+    ...legalPages,
     ...jarvisPages,
     ...servicePages,
     ...newsPages,

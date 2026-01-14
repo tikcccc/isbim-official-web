@@ -3,7 +3,7 @@
 **Purpose:** Tracks all outstanding engineering tasks for the isBIM website. Remove items when done to keep the list lean.  
 **Rules:** Finish -> delete; Add new items by priority/category; Review weekly.  
 **Usage:** Claim/finish -> delete checkbox; Remove a section if fully done; Add new tasks under the right category.  
-**Last Updated:** 2025-11-29
+**Last Updated:** 2026-01-13
 
 ## Table of Contents
 - [High Priority](#high-priority)
@@ -21,6 +21,7 @@
 
 ### Huawei Cloud deployment (HK main + CN accelerated domain)
 **Background:** Deploy Next.js app to Huawei Cloud Hong Kong; keep primary domain on HK/overseas CDN and provide an ICP-licensed CN domain with mainland nodes.
+- [ ] Domain/DNS: secure primary + CN domains; provision SSL certs; pick canonical host (www vs apex) and enforce 301 at CDN/ELB.
 - [ ] Docker/CI: Add multi-stage Dockerfile (Node 20, `next build`, copy `.next/standalone` + `.next/static` + `public`, entry `server.js`), push image to SWR; update CI pipeline to buildx and push.
 - [ ] Runtime: Deploy to CCE (preferred) or ECS with ELB in HK; configure readiness/liveness probes; allow egress to `*.sanity.io`, Resend, Brevo; set `NEXT_CACHE_DIR` and mount SFS/EVS if running multiple replicas.
 - [ ] CDN: Main domain on HK/overseas nodes; CN domain (ICP) on mainland+global nodes; CNAME to respective CDN; back-to-origin via ELB. Cache long: `/_next/static/*`, `/public/*`, media. No/short cache: `/api/*`, `/actions/*`, `/studio/*`, `/_next/image*`, ISR pages, `/api/revalidate`. Keep `Host`/XFF, enable gzip/Brotli, HTTP/2/3.
@@ -77,6 +78,11 @@
 ---
 
 ## SEO Tasks
+
+### Pre-launch SEO infra (pending domain/DNS)
+- [ ] Set `NEXT_PUBLIC_SITE_URL` to final domain; verify `metadataBase`, sitemap, robots, and canonical/hreflang output.
+- [ ] Add Google Search Console verification (HTML file or `metadata.verification`) after domain is live.
+- [ ] Submit `/sitemap.xml` to GSC post-launch; confirm robots access and successful crawl/render in production.
 
 ### Infrastructure checks
 - [ ] Validate metadata and structured data in Google Search Console.

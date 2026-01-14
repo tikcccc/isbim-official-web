@@ -526,7 +526,7 @@ export const PROJECT_METADATA_QUERY = defineQuery(
 
 /** Fetch all post slugs for sitemap */
 export const POSTS_SITEMAP_QUERY = defineQuery(
-  `*[_type == "post" && defined(slug.current)] {
+  `*[_type == "post" && defined(slug.current) && !(_id in path("drafts.**"))] {
     "slug": slug.current,
     _updatedAt
   }`
@@ -534,7 +534,7 @@ export const POSTS_SITEMAP_QUERY = defineQuery(
 
 /** Fetch all product slugs for sitemap */
 export const PRODUCTS_SITEMAP_QUERY = defineQuery(
-  `*[_type == "product" && defined(slug.current)] {
+  `*[_type == "product" && defined(slug.current) && !(_id in path("drafts.**"))] {
     "slug": slug.current,
     _updatedAt
   }`
@@ -542,7 +542,7 @@ export const PRODUCTS_SITEMAP_QUERY = defineQuery(
 
 /** Fetch all news slugs for sitemap */
 export const NEWS_SITEMAP_QUERY = defineQuery(
-  `*[_type == "news" && defined(slug.current)] {
+  `*[_type == "news" && defined(slug.current) && !(_id in path("drafts.**"))] {
     "slug": slug.current,
     _updatedAt
   }`
@@ -550,7 +550,7 @@ export const NEWS_SITEMAP_QUERY = defineQuery(
 
 /** Fetch all career slugs for sitemap */
 export const CAREERS_SITEMAP_QUERY = defineQuery(
-  `*[_type == "career" && defined(slug.current)] {
+  `*[_type == "career" && defined(slug.current) && !(_id in path("drafts.**"))] {
     "slug": slug.current,
     _updatedAt
   }`
@@ -558,7 +558,7 @@ export const CAREERS_SITEMAP_QUERY = defineQuery(
 
 /** Fetch all project slugs for sitemap */
 export const PROJECTS_SITEMAP_QUERY = defineQuery(
-  `*[_type == "project" && defined(slug.current)] {
+  `*[_type == "project" && defined(slug.current) && !(_id in path("drafts.**"))] {
     "slug": slug.current,
     _updatedAt
   }`
