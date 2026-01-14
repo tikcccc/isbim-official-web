@@ -130,11 +130,14 @@ export const IMAGE_ASSET_BY_SLUG_QUERY = defineQuery(
 
 /** Fetch all news categories */
 export const NEWS_CATEGORIES_QUERY = defineQuery(
-  `*[_type == "newsCategory"] | order(title asc) {
+  `*[_type == "newsCategory" && !(_id in path("drafts.**"))] | order(sortOrder asc, title asc) {
     _id,
     "isDraft": string::startsWith(_id, "drafts."),
     title,
-    sortOrder
+    sortOrder,
+    slug,
+    description,
+    color
   }`
 );
 

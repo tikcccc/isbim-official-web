@@ -288,9 +288,14 @@ function NewsListView({
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [filter, setFilter] = useState<CategoryFilter>('All');
 
+  // Drop draft categories coming from Sanity to keep filter ids in sync with published news refs
+  const publishedCategories = categories.filter(
+    (cat) => !cat._id.startsWith('drafts.')
+  );
+
   const derivedCategories: NewsCategory[] =
-    categories.length > 0
-      ? categories
+    publishedCategories.length > 0
+      ? publishedCategories
       : Array.from(
           new Map(
             newsData.map((post) => [
