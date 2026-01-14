@@ -288,7 +288,7 @@ export function createMediaAsset(
  */
 export const JARVIS_VIDEOS = {
   agent: getVideoUrl("Agent.mp4"),
-  pay: getVideoUrl("pay.mp4"),
+  pay: "https://posix-jarvis-hk.obs.ap-southeast-1.myhuaweicloud.com/jarvis/eagle-eye/public/2011383915025141760.mp4",
   air: getVideoUrl("Air.mp4"),
   eagleEye: getVideoUrl("Eagle Eye.mp4"),
   ssss: getVideoUrl("4S.mp4"),
@@ -329,7 +329,7 @@ export const JARVIS_FEATURE_VIDEOS = {
     feature3: getFeatureVideoUrl("dwss", "dwss-03.mp4"),
   },
   eagleEye: {
-    feature1: getFeatureVideoUrl("eagle", "ee-01.mp4"),
+    feature1: "https://posix-jarvis-hk.obs.ap-southeast-1.myhuaweicloud.com/jarvis/eagle-eye/public/2011383335854673920.mp4",
     feature2: getFeatureVideoUrl("eagle", "ee-02.mp4"),
     feature3: getFeatureVideoUrl("eagle", "ee-03.mp4"),
   },
