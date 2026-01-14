@@ -77,6 +77,10 @@ const itemVariants = {
   }
 };
 
+// Use fixed UTC formatting to avoid hydration mismatches across time zones
+const formatDate = (dateString: string) =>
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'UTC' }).format(new Date(dateString));
+
 // --- Utility Components ---
 
 // MonoLabel: font-mono text-xs tracking-wider uppercase text-gray-500
@@ -182,20 +186,20 @@ function HeroSection({ post, readFeaturedLabel }: { post: NewsPost; readFeatured
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
               <m.div className="flex gap-3 mb-6" variants={heroItemVariants}>
-                {post.tags.map(tag => (
-                  <span key={tag} className="newsroom-hero-badge news-font-mono-xs">
-                    {tag}
-                  </span>
-                ))}
-              </m.div>
-            )}
-
-            {/* Date */}
-            <m.div className="mb-4" variants={heroItemVariants}>
-              <span className="news-font-label newsroom-text-inverse-sub">
-                {new Date(post.publishedAt).toLocaleDateString('en-CA')}
+            {post.tags.map(tag => (
+              <span key={tag} className="newsroom-hero-badge news-font-mono-xs">
+                {tag}
               </span>
-            </m.div>
+            ))}
+          </m.div>
+        )}
+
+        {/* Date */}
+        <m.div className="mb-4" variants={heroItemVariants}>
+          <span className="news-font-label newsroom-text-inverse-sub">
+            {formatDate(post.publishedAt)}
+          </span>
+        </m.div>
 
             {/* Title */}
             <m.h2
@@ -508,7 +512,7 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
               [{post.category.title}]
             </MonoLabel>
           </div>
-          <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
+          <MonoLabel>{formatDate(post.publishedAt)}</MonoLabel>
         </div>
 
         <h3 className="newsroom-card-title-featured news-font-card-lg newsroom-text-primary newsroom-mb-sm group-hover:underline decoration-2 underline-offset-8">
@@ -550,7 +554,7 @@ function GridCard({ post }: { post: NewsPost }) {
         <div className="flex gap-2">
           <MonoLabel className="newsroom-text-soft group-hover:newsroom-text-primary transition-colors">[{post.category.title}]</MonoLabel>
         </div>
-        <MonoLabel className="newsroom-text-subtle">{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
+        <MonoLabel className="newsroom-text-subtle">{formatDate(post.publishedAt)}</MonoLabel>
       </div>
 
       <div className="flex-1 flex flex-col">
@@ -625,7 +629,7 @@ function MagazineCard({ post }: { post: NewsPost }) {
 
       <div className="flex flex-col h-full justify-center">
       <div className="flex items-center gap-4 mb-4">
-        <MonoLabel>{new Date(post.publishedAt).toLocaleDateString('en-CA')}</MonoLabel>
+        <MonoLabel>{formatDate(post.publishedAt)}</MonoLabel>
           <div className="h-px w-8 newsroom-border-subtle"></div>
         <MonoLabel className="newsroom-text-soft group-hover:newsroom-text-primary transition-colors">
           [{post.category.title}]
@@ -656,7 +660,7 @@ function FeedRow({ post }: { post: NewsPost }) {
     >
       <div className="w-32 shrink-0">
         <MonoLabel className="newsroom-text-subtle group-hover:newsroom-text-primary transition-colors">
-          {new Date(post.publishedAt).toLocaleDateString('en-CA')}
+          {formatDate(post.publishedAt)}
         </MonoLabel>
       </div>
       <div className="flex-1">
