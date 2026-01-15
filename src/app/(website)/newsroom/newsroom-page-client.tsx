@@ -431,10 +431,10 @@ function NewsListView({
             </div>
           ) : (
             <m.div
+              key={`${layout}-${filter}`}
               variants={containerVariants}
               initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-100px" }}
+              animate="show"
             >
               {/* GRID VIEW: Newest article as featured card (full width), then regular cards */}
               {layout === 'grid' && (
