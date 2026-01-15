@@ -179,18 +179,6 @@ export default function ContactClient() {
       {/* Global noise texture overlay */}
       <div className="noise-grain" />
 
-      {/* Background coordinate decorations */}
-      <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
-        {/* Left vertical coordinate */}
-        <div className="absolute top-1/2 left-10 contact-bg-coord font-mono -rotate-90 origin-left">
-          COORD: {displayLat} N
-        </div>
-        {/* Bottom horizontal coordinate */}
-        <div className="absolute bottom-10 left-1/2 contact-bg-coord font-mono">
-          COORD: {displayLon} E
-        </div>
-      </div>
-
       {/* Main Content */}
         <main className="pb-20 md:pb-22 lg:pb-24 relative z-10">
           {/* Page Header - Swiss Style */}
