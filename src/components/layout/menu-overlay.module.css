@@ -108,7 +108,7 @@
   }
 
   .defaultHeadline {
-    @apply text-3xl font-light text-white max-w-lg leading-snug;
+    @apply text-3xl font-light text-white max-w-xl leading-snug;
   }
 
   .defaultHeadlineHighlight {
