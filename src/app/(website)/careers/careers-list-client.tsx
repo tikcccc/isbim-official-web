@@ -314,7 +314,6 @@ const SingleTeamListView = ({
           <Link
             key={job.id}
             href={`/careers/${job.slug}`}
-            locale={locale}
             className={cn(
               styles.listRow,
               "group relative grid grid-cols-1 md:grid-cols-12 gap-4 py-5 items-center px-2"
@@ -380,7 +379,6 @@ const NewspaperItem = ({
   <div className="relative group">
     <Link
       href={`/careers/${job.slug}`}
-      locale={locale}
       className={cn(styles.newspaperItemRow, "flex justify-between items-start py-3")}
     >
       <div className="flex flex-col gap-1 pr-4">

@@ -31,7 +31,7 @@
  */
 
 import React, { createContext, useContext } from "react";
-import type { AvailableLanguageTag } from "@/paraglide/runtime";
+import { setLanguageTag, type AvailableLanguageTag } from "@/paraglide/runtime";
 
 /**
  * Locale Context Type
@@ -93,6 +93,11 @@ export function LocaleProvider({ locale, children }: LocaleProviderProps) {
   React.useEffect(() => {
     setCurrentLocale(locale);
   }, [locale]);
+
+  // Keep Paraglide runtime in sync with LocaleContext for client navigation.
+  React.useEffect(() => {
+    setLanguageTag(() => currentLocale);
+  }, [currentLocale]);
 
   return (
     <LocaleContext.Provider value={{ locale: currentLocale, setLocale: setCurrentLocale }}>
