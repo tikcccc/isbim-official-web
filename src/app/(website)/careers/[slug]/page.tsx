@@ -145,6 +145,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
         <div className={styles.backRow}>
           <Link
             href="/careers"
+            locale={locale}
             className={cn(styles.backLink, "group flex items-center font-body-base")}
           >
             <ArrowLeft
