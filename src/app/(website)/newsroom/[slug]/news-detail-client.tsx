@@ -116,7 +116,7 @@ export default function NewsDetailClient({
       {/* Global noise texture overlay */}
       <div className="noise-grain" />
 
-      <div className="container-content flex items-center gap-3 md:gap-4 py-4">
+      <div className="container-content flex items-center gap-3 md:gap-4 py-3 md:py-4">
         <Link href="/newsroom" className="newsroom-back-btn news-font-body group">
           <ArrowLeft className="newsroom-back-icon transition-transform duration-200 group-hover:-translate-x-1" />
           {t(m.news_back_to_newsroom)}
@@ -124,33 +124,58 @@ export default function NewsDetailClient({
       </div>
 
       {/* Article Content */}
-      <article className="container-content py-12">
+      <article className="container-content pt-6 pb-12 md:py-12">
         {/* Article Header */}
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(180px,22%)_minmax(0,1fr)] xl:grid-cols-[minmax(180px,18%)_minmax(0,1fr)] gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(180px,22%)_minmax(0,1fr)] xl:grid-cols-[minmax(180px,18%)_minmax(0,1fr)] gap-8 mb-8 md:mb-12">
           {/* Sidebar Metadata */}
-          <div className="space-y-6 pt-2">
-            <div>
-              <MonoLabel className="block mb-1">{t(m.news_published_label)}</MonoLabel>
-              <div className="news-font-detail-meta text-[var(--text-muted)]">{formatDate(newsDetail.publishedAt)}</div>
+          <div className="pt-2">
+            <div className="flex flex-wrap gap-2 md:hidden">
+              <span className="inline-flex items-center gap-2 rounded-full border newsroom-border-subtle px-3 py-1.5 newsroom-surface-muted news-font-label leading-tight">
+                <span className="newsroom-text-subtle">{t(m.news_published_label)}</span>
+                <span className="text-[var(--text-strong)]">{formatDate(newsDetail.publishedAt)}</span>
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border newsroom-border-subtle px-3 py-1.5 newsroom-surface-muted news-font-label leading-tight">
+                <span className="newsroom-text-subtle">{t(m.news_category_label)}</span>
+                <span className="text-[var(--text-strong)]">{newsDetail.category.title}</span>
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border newsroom-border-subtle px-3 py-1.5 newsroom-surface-muted news-font-label leading-tight">
+                <span className="newsroom-text-subtle">{t(m.news_read_time_label)}</span>
+                <span className="text-[var(--text-strong)]">
+                  {newsDetail.readTime} {t(m.news_read_time_suffix)}
+                </span>
+              </span>
+              {newsDetail.author && (
+                <span className="inline-flex items-center gap-2 rounded-full border newsroom-border-subtle px-3 py-1.5 newsroom-surface-muted news-font-label leading-tight">
+                  <span className="newsroom-text-subtle">{t(m.news_author_label)}</span>
+                  <span className="text-[var(--text-strong)]">{newsDetail.author}</span>
+                </span>
+              )}
             </div>
-            <div>
-              <MonoLabel className="block mb-1">{t(m.news_category_label)}</MonoLabel>
-              <div className="flex flex-wrap gap-2">
-                <span className="news-font-detail-meta text-[var(--text-muted)]">{newsDetail.category.title}</span>
-              </div>
-            </div>
-            <div>
-              <MonoLabel className="block mb-1">{t(m.news_read_time_label)}</MonoLabel>
-              <div className=" news-font-detail-meta text-[var(--text-muted)]">
-                {newsDetail.readTime} {t(m.news_read_time_suffix)}
-              </div>
-            </div>
-            {newsDetail.author && (
+
+            <div className="hidden md:block space-y-6">
               <div>
-                <MonoLabel className="block mb-1">{t(m.news_author_label)}</MonoLabel>
-                <div className=" news-font-detail-meta text-[var(--text-muted)]">{newsDetail.author}</div>
+                <MonoLabel className="block mb-1">{t(m.news_published_label)}</MonoLabel>
+                <div className="news-font-detail-meta text-[var(--text-muted)]">{formatDate(newsDetail.publishedAt)}</div>
               </div>
-            )}
+              <div>
+                <MonoLabel className="block mb-1">{t(m.news_category_label)}</MonoLabel>
+                <div className="flex flex-wrap gap-2">
+                  <span className="news-font-detail-meta text-[var(--text-muted)]">{newsDetail.category.title}</span>
+                </div>
+              </div>
+              <div>
+                <MonoLabel className="block mb-1">{t(m.news_read_time_label)}</MonoLabel>
+                <div className=" news-font-detail-meta text-[var(--text-muted)]">
+                  {newsDetail.readTime} {t(m.news_read_time_suffix)}
+                </div>
+              </div>
+              {newsDetail.author && (
+                <div>
+                  <MonoLabel className="block mb-1">{t(m.news_author_label)}</MonoLabel>
+                  <div className=" news-font-detail-meta text-[var(--text-muted)]">{newsDetail.author}</div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Main Title & Subtitle */}
