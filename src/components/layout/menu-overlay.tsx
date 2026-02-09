@@ -89,6 +89,7 @@ const getMenuData = () => ({
       ],
     },
     { title: messages.menu_nav_newsroom(), href: ROUTES.NEWSROOM, type: "link" as const },
+    { title: messages.menu_nav_case_studies(), href: ROUTES.CASE_STUDIES, type: "link" as const },
     { title: messages.menu_nav_careers(), href: ROUTES.CAREERS, type: "link" as const },
     { title: messages.menu_nav_contact(), href: ROUTES.CONTACT, type: "link" as const },
   ] as MenuItem[],

@@ -229,7 +229,7 @@ const PRODUCT_OG_IMAGES: Record<keyof typeof SEO_KEYWORDS.products, string> = {
  * @returns Array of SEO keywords (max 20)
  */
 export function composeKeywords(
-  pageType: "home" | "product" | "service" | "about" | "newsroom" | "careers",
+  pageType: "home" | "product" | "service" | "about" | "newsroom" | "caseStudies" | "careers",
   specific: readonly string[] = [],
   locale: string = "en"
 ): string[] {
@@ -291,6 +291,16 @@ export function composeKeywords(
         "press releases",
         "company updates",
         "construction technology news",
+      ].slice(0, 15);
+
+    case "caseStudies":
+      return [
+        ...base.slice(0, 3),
+        ...identity.slice(0, 2),
+        "case studies",
+        "project portfolio",
+        "project outcomes",
+        "construction technology case studies",
       ].slice(0, 15);
 
     case "careers":
@@ -477,6 +487,36 @@ export function generateNewsroomPageSEO(locale: string = "en"): Metadata {
     locale,
     path: "/newsroom",
     image: "/images/og/newsroom.jpg",
+  });
+}
+
+/**
+ * Generate Case Studies Page SEO Metadata
+ *
+ * @param locale - Language locale
+ * @returns Next.js Metadata object
+ */
+export function generateCaseStudiesPageSEO(locale: string = "en"): Metadata {
+  const keywords = composeKeywords("caseStudies", [], locale);
+
+  if (locale === "zh") {
+    return generatePageMetadata({
+      title: "案例中心 | isBIM 建筑科技案例 | 香港",
+      description: "探索 isBIM 过往项目与成功实践。了解 JARVIS AI 套件如何在真实基础设施项目中提升效率、质量与交付速度。",
+      keywords,
+      locale,
+      path: "/case-studies",
+      image: "/images/og/case-studies.jpg",
+    });
+  }
+
+  return generatePageMetadata({
+    title: "Case Studies | isBIM Construction Technology Projects | Hong Kong",
+    description: "Explore past isBIM projects and proven outcomes. See how JARVIS AI Suite improves delivery speed, quality, and execution across real infrastructure projects.",
+    keywords,
+    locale,
+    path: "/case-studies",
+    image: "/images/og/case-studies.jpg",
   });
 }
 

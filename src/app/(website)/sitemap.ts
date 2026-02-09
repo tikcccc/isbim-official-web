@@ -20,6 +20,7 @@ import type { MetadataRoute } from "next";
 import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import {
   NEWS_SITEMAP_QUERY,
+  CASE_STUDIES_SITEMAP_QUERY,
   CAREERS_SITEMAP_QUERY,
 } from "@/sanity/lib/queries";
 import { ROUTES } from "@/lib/constants";
@@ -42,10 +43,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     `${siteUrl}/${locale}${route === "/" ? "" : route}`;
 
   // Fetch all dynamic content slugs from Sanity
-  const [news, careers] = await Promise.all([
+  const [news, caseStudies, careers] = await Promise.all([
     sanityFetch<SitemapEntry[]>({
       query: NEWS_SITEMAP_QUERY,
       tags: ["news"],
+      revalidate: REVALIDATE.HOUR,
+    }).catch(() => []),
+    sanityFetch<SitemapEntry[]>({
+      query: CASE_STUDIES_SITEMAP_QUERY,
+      tags: ["caseStudy"],
       revalidate: REVALIDATE.HOUR,
     }).catch(() => []),
     sanityFetch<SitemapEntry[]>({
@@ -102,6 +108,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         languages: {
           en: withLocale(ROUTES.NEWSROOM, "en"),
           zh: withLocale(ROUTES.NEWSROOM, "zh"),
+        },
+      },
+    },
+    {
+      url: withLocale(ROUTES.CASE_STUDIES, defaultLocale),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: withLocale(ROUTES.CASE_STUDIES, "en"),
+          zh: withLocale(ROUTES.CASE_STUDIES, "zh"),
         },
       },
     },
@@ -201,6 +219,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   }));
 
+  const caseStudyPages: MetadataRoute.Sitemap = caseStudies.map((item) => ({
+    url: withLocale(`/case-studies/${item.slug}`, defaultLocale),
+    lastModified: new Date(item._updatedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+    alternates: {
+      languages: {
+        en: withLocale(`/case-studies/${item.slug}`, "en"),
+        zh: withLocale(`/case-studies/${item.slug}`, "zh"),
+      },
+    },
+  }));
+
   const careerPages: MetadataRoute.Sitemap = careers.map((career) => ({
     url: withLocale(`/careers/${career.slug}`, defaultLocale),
     lastModified: new Date(career._updatedAt),
@@ -221,6 +252,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...jarvisPages,
     ...servicePages,
     ...newsPages,
+    ...caseStudyPages,
     ...careerPages,
   ];
 }

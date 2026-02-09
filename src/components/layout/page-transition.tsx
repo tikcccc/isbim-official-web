@@ -222,7 +222,10 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const transitionKey = `${pathname}?${searchKey}|${locale}`;
     const shouldScrollTopRef = useRef(false);
     const { lenis } = useLenis();
-    const disableTransition = pathname.includes('/newsroom') || pathname.includes('/careers');
+    const disableTransition =
+        pathname.includes('/newsroom') ||
+        pathname.includes('/case-studies') ||
+        pathname.includes('/careers');
 
     // Transition state
     const [isEnterComplete, setIsEnterComplete] = useState(false);

@@ -49,6 +49,7 @@ export function FooterDark() {
     { name: "Venture Investments", href: ROUTES.VENTURE_INVESTMENTS },
     { name: "About Us", href: ROUTES.ABOUT },
     { name: "Newsroom", href: ROUTES.NEWSROOM },
+    { name: "Case Studies", href: ROUTES.CASE_STUDIES },
     { name: "Careers", href: ROUTES.CAREERS },
     { name: "Contact Us", href: ROUTES.CONTACT },
   ];

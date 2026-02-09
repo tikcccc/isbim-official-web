@@ -23,6 +23,7 @@ import {
   POST_METADATA_QUERY,
   PRODUCT_METADATA_QUERY,
   NEWS_METADATA_QUERY,
+  CASE_STUDY_METADATA_QUERY,
   CAREER_METADATA_QUERY,
   PROJECT_METADATA_QUERY,
 } from "./queries";
@@ -197,6 +198,68 @@ export async function generateNewsMetadata(
       title: "Error Loading News",
       description: "An error occurred while loading the news article.",
       path: `/newsroom/${slug}`,
+      locale,
+      noIndex: true,
+    });
+  }
+}
+
+/**
+ * Generate metadata for a case study
+ *
+ * @param slug - Case study slug
+ * @param locale - Current locale
+ * @returns Next.js Metadata object
+ */
+export async function generateCaseStudyMetadata(
+  slug: string,
+  locale: string = "en"
+): Promise<Metadata> {
+  try {
+    const caseStudy = await sanityFetch<{
+      title: string;
+      subtitle?: string;
+      mainImage?: Image;
+      publishedAt?: string;
+      _updatedAt: string;
+    } | null>({
+      query: CASE_STUDY_METADATA_QUERY,
+      params: { slug },
+      tags: buildCacheTags("caseStudy", slug),
+      revalidate: REVALIDATE.HOUR,
+    });
+
+    if (!caseStudy) {
+      return generatePageMetadata({
+        title: "Case Study Not Found",
+        description: "The requested case study could not be found.",
+        path: `/case-studies/${slug}`,
+        locale,
+        noIndex: true,
+      });
+    }
+
+    const imageUrl = caseStudy.mainImage
+      ? urlFor(caseStudy.mainImage)?.width(1200).height(630).url()
+      : undefined;
+
+    return generatePageMetadata({
+      title: caseStudy.title,
+      description: caseStudy.subtitle || `Explore case study: ${caseStudy.title}`,
+      path: `/case-studies/${slug}`,
+      locale,
+      image: imageUrl,
+      type: "article",
+      publishedTime: caseStudy.publishedAt,
+      modifiedTime: caseStudy._updatedAt,
+      keywords: [...COMMON_KEYWORDS, "case study", "project", "portfolio"],
+    });
+  } catch (error) {
+    console.error(`[SEO] Failed to generate case study metadata for slug: ${slug}`, error);
+    return generatePageMetadata({
+      title: "Error Loading Case Study",
+      description: "An error occurred while loading the case study.",
+      path: `/case-studies/${slug}`,
       locale,
       noIndex: true,
     });

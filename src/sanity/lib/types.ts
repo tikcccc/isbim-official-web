@@ -77,6 +77,34 @@ export interface News extends SanityDocument {
 }
 
 /**
+ * Case Study document type
+ */
+export interface CaseStudy extends SanityDocument {
+  _type: "caseStudy";
+  title: string;
+  slug: Slug;
+  subtitle?: string;
+  publishedAt?: string;
+  body?: PortableTextBlock[];
+  mainImage?: Image;
+  category?: {
+    _id: string;
+    title: string;
+    sortOrder?: number;
+  };
+  tags?: string[];
+  author?: string;
+  readTime?: number;
+  featured?: boolean;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    openGraphImage?: Image;
+    keywords?: string[];
+  };
+}
+
+/**
  * Career document type
  */
 export interface CareerPillar extends SanityDocument {

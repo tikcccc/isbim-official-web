@@ -1,4 +1,4 @@
-# isBIM Official Web Architecture (v3.13)
+# isBIM Official Web Architecture (v3.14)
 
 **文件说明:** 本文件记录 isBIM 官网的系统架构、技术栈分层、文件结构和模块关系。当添加/移除核心依赖、修改文件夹结构、增加新架构层(认证、支付、分析)或更新环境变量结构时需要更新此文件。
 
@@ -7,7 +7,7 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2025-12-22 (OG image set + metadataBase + JobPosting graph + jarvis-ai-suite noindex)
+**Last Updated**: 2026-02-09 (Case Studies architecture added as a Newsroom-parallel Sanity module)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
@@ -20,7 +20,7 @@
 - Paraglide v1 i18n (LocaleContext pattern + PrefixStrategy) - /en and /zh are always prefixed routes
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (`menu-store.ts`, `footer-store.ts`)
-- CMS: Sanity only for dynamic content (Newsroom posts, Careers positions); other pages use local/static data
+- CMS: Sanity only for dynamic content (Newsroom posts, Case Studies entries, Careers positions); other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
 - Email: Dual-provider system (Resend primary, Brevo backup) - switch via `EMAIL_PROVIDER` env var
 - SEO: `generatePageMetadata`, JSON-LD schemas, sitemap/robots generators
@@ -41,6 +41,8 @@ src/app/
     project-finance/page.tsx
     venture-investments/page.tsx
     newsroom/page.tsx
+    case-studies/page.tsx
+    case-studies/[slug]/page.tsx
     careers/page.tsx
     contact/page.tsx
     contact/contact-client.tsx # client-only contact form UI
@@ -125,6 +127,21 @@ src/app/(website)/newsroom/
 - **Data**: Sanity CMS (newsType with full schema, newsCategoryType with colors)
 - Reference: `doc/reference-doc/pages/newsroom/newsroom-page.html` (original prototype)
 
+### Case Studies Page (Case Center)
+```
+src/app/(website)/case-studies/
+  page.tsx                      # Server Component - SEO + data fetching from Sanity
+  case-studies-page-client.tsx  # Client Component - same interaction model as Newsroom list
+  [slug]/
+    page.tsx                    # Server Component - case detail page with SEO
+    case-detail-client.tsx      # Client Component - detail view with related cases
+```
+- **Architecture Pattern**: 1:1 parallel module copied from Newsroom (Server + Client split)
+  - List page: Server fetches from Sanity, client handles filtering/layout switching
+  - Detail page: Separate route with Server/Client split for SEO optimization
+- **Data**: Sanity CMS (`caseStudyType`, `caseStudyCategoryType`) with field structure mirrored from `newsType` / `newsCategoryType`
+- **Implementation Strategy**: Prefer copy-first (independent files/namespaces) over deep abstraction, so future Case Studies-specific changes do not affect Newsroom
+
 ### Product Template (JARVIS Product Pages)
 ```
 src/components/product-template/
@@ -147,7 +164,7 @@ src/app/(website)/jarvis-pay/
   - Solution: All page content translations must execute in dedicated client file (e.g., `jarvis-pay-client.tsx`)
   - Advantages: (1) Single page refresh on locale switch, (2) No `dynamic = "force-dynamic"` needed, (3) Real-time locale responsiveness
 - **Data Source**: Static resources only (Paraglide m.* translations), NOT Sanity CMS
-- **Contrast with Dynamic Pages**: Newsroom/Careers use Server Component + Sanity + ISR pattern (different from Product Template)
+- **Contrast with Dynamic Pages**: Newsroom/Careers/Case Studies use Server Component + Sanity + ISR pattern (different from Product Template)
 - Design reference: `doc/reference-doc/pages/product-template/`
 - Layout: use dedicated `layout.tsx` with `<FooterConfig variant="charcoal" />`; global FooterRenderer applies the variant (HideDefaultFooter removed)
 - Responsive scroll height: 250vh mobile, 350vh desktop (via `mobileScrollHeight`/`desktopScrollHeight` props)
@@ -201,7 +218,7 @@ next.config.ts            # images.qualities: [75, 85, 90, 100] for Next.js 15+ 
 ### SEO & Sitemap
 - `src/lib/seo.ts` + `src/lib/seo-generators.ts`: shared metadata helpers (OpenGraph/Twitter/hreflang) with locale-prefixed canonicals.
 - JSON-LD: Root `Organization` in `src/app/layout.tsx`; product pages add `SoftwareApplication` + `Breadcrumb`; home adds org + suite schema.
-- Sitemap: `src/app/(website)/sitemap.ts` emits locale-prefixed URLs; includes static pages + Sanity news/careers slugs with `en`/`zh` alternates.
+- Sitemap: `src/app/(website)/sitemap.ts` emits locale-prefixed URLs; includes static pages + Sanity news/case-studies/careers slugs with `en`/`zh` alternates.
 - Robots: `src/app/(website)/robots.ts` disallows `/studio`, `/api`, `/_next`; exposes sitemap URL; blocks GPTBot/Google-Extended.
 
 ### Environment Variables
@@ -270,9 +287,10 @@ src/schemas/
   - services-design-tokens.css  # services/products page palette (dark + emerald), selection, badge/border helpers
   - contact-design-tokens.css   # contact page palette (light bg + product gradient), form/panel/badge utilities; layout/spacing (container/section/stack/form-grid), shape/shadow, motion (fast/base/slow/delay), underline/CTA animation tokens
   - newsroom-design-tokens.css  # newsroom page design (A-class content page aligned with Home: white #FDFDFD, Alliance fonts, magazine editorial style, transparent cards, noise overlay); includes layout/spacing (container/section/grid), shape/shadow, motion tokens (fast/base/slow/stagger) reused in Framer variants
+  - case-studies-design-tokens.css # cloned from newsroom tokens initially; can diverge for case-specific visual direction
   - layout-design-tokens.css    # shared layout tokens for nav/menu/footer typography (AllianceNo2 headings, AllianceNo1 links/labels)
     ```
-    - globals.css: imports home/product/aboutus/services/contact/newsroom/layout tokens; retains custom variant + shared shimmer (services/products hero)
+    - globals.css: imports home/product/aboutus/services/contact/newsroom/case-studies/layout tokens; retains custom variant + shared shimmer (services/products hero)
 
 ### SEO & ISR
 ```
@@ -290,16 +308,16 @@ src/app/api/revalidate/route.ts    # webhook endpoint with SANITY_WEBHOOK_SECRET
 - **Schema.org structured data**: Organization, SoftwareApplication (for JARVIS products), Breadcrumb
 - **OG images**: 1200x630 assets in `public/images/og` for home/services/newsroom and all JARVIS products
 - **Noindex**: `/jarvis-ai-suite` marked `noIndex` while redesigning
-- **P0 pages optimized**: Home, About Us, Services & Products, Newsroom (with metadata + schemas)
+- **P0 pages optimized**: Home, About Us, Services & Products, Newsroom, Case Studies (with metadata + schemas)
 - **Sitemap**: Excludes `/jarvis-ai-suite` (redesign), lowers `/contact` priority, locale-prefixed URLs only
-- **Generators**: `generateProductPageSEO()`, `generateServicePageSEO()`, `generateAboutPageSEO()`, `generateServicesPageSEO()`, `generateNewsroomPageSEO()`, `generateCareersPageSEO()`
+- **Generators**: `generateProductPageSEO()`, `generateServicePageSEO()`, `generateAboutPageSEO()`, `generateServicesPageSEO()`, `generateNewsroomPageSEO()`, `generateCaseStudiesPageSEO()`, `generateCareersPageSEO()`
 
 ### Sanity Data Layer
 ```
 src/sanity/lib/
   client.ts            # Sanity clients (read/write) with env-based CDN
   fetch.ts             # Type-safe fetch wrapper with Next.js cache + tags
-  queries.ts           # Typed GROQ queries (defineQuery): NEWS_CATEGORIES_QUERY, FEATURED_NEWS_QUERY, NEWS_LIST_QUERY (with pagination), NEWS_BY_CATEGORY_QUERY, NEWS_DETAIL_QUERY, RELATED_NEWS_QUERY, NEWS_METADATA_QUERY, NEWS_SITEMAP_QUERY
+  queries.ts           # Typed GROQ queries (defineQuery): NEWS_* + CASE_STUDY_* (mirrored from NEWS_*) + CAREER_* + sitemap queries
   types.ts             # TypeScript types for all schemas
   image.ts             # Image URL builder
   index.ts             # Barrel export
@@ -311,6 +329,8 @@ src/sanity/lib/
 src/sanity/schemaTypes/
   newsType.ts          # News posts with comprehensive fields (title, slug, subtitle, mainImage, excerpt, body, category reference, tags, author, readTime, featured, status, SEO group)
   newsCategoryType.ts  # News categories (title, slug, description, color for badges)
+  caseStudyType.ts     # Case Studies entries, same field structure as newsType
+  caseStudyCategoryType.ts # Case Studies categories, same structure as newsCategoryType
   careerType.ts        # Career positions (live)
   index.ts             # register schemas
 ```
@@ -339,6 +359,8 @@ src/sanity/schemaTypes/
 | newsCategory | `slug` | slug | auto-generated from title | src/sanity/schemaTypes/newsCategoryType.ts |
 | newsCategory | `description` | text | optional | src/sanity/schemaTypes/newsCategoryType.ts |
 | newsCategory | `color` | string | hex color for badges (e.g., #10b981) | src/sanity/schemaTypes/newsCategoryType.ts |
+| caseStudy | same field set as `news` | mixed | 1:1 mirror of newsroom content model | src/sanity/schemaTypes/caseStudyType.ts |
+| caseStudyCategory | same field set as `newsCategory` | mixed | 1:1 mirror of newsroom category model | src/sanity/schemaTypes/caseStudyCategoryType.ts |
 | career | `metaTitle` | string | max ~60 chars | src/sanity/schemaTypes/careerType.ts |
 | career | `metaDescription` | text | max ~160 chars | src/sanity/schemaTypes/careerType.ts |
 
@@ -346,7 +368,7 @@ src/sanity/schemaTypes/
 ```
 public/
   images/
-    og/                   # 1200x630 Open Graph assets (home/services/newsroom/product)
+    og/                   # 1200x630 Open Graph assets (home/services/newsroom/case-studies/product)
   videos/
   icons/
   fonts/Alliance/*.woff2  # via next/font/local
@@ -360,7 +382,7 @@ public/
 ## Patterns & Rules (current)
 - **Content sources & Rendering Patterns**:
   - **Static Product Pages** (Jarvis Pay, etc.): Client Component pattern (ProductPageLayout), Paraglide m.* translations, no Sanity
-  - **Dynamic Content Pages** (Newsroom, Careers): Server Component + Sanity CMS + ISR, use `sanityFetch()` with cache tags
+  - **Dynamic Content Pages** (Newsroom, Case Studies, Careers): Server Component + Sanity CMS + ISR, use `sanityFetch()` with cache tags
   - Videos: CDN links (via `media-config`/`JARVIS_VIDEOS`)
   - Images: prefer local `/public` assets
 - **Email (Contact Form)**:
@@ -385,7 +407,7 @@ public/
   - Never handcraft `/${locale}` paths
   - See [navigation-prefetch-guide.md](./navigation-prefetch-guide.md) for detailed strategy
 - **Hydration**: Locale provided via Context from layout; `suppressHydrationWarning` removed from `<html>/<body>`.
-- **Design tokens**: Single source of truth in `design-tokens.ts`; drives GSAP/Framer configs (`lib/animations.ts`, `lib/animation-variants.ts`) and hooks (`use-media-query.ts`). No duplicate breakpoints/z-index in `constants.ts`. Per-page tokens now cover color/typography/spacing/layout/shape/shadow/motion; use provided utility classes (`home-*`, `product-*`, `about-*`, `contact-*`, `newsroom-*`, `layout-*`) instead of ad-hoc Tailwind spacing/radius/transition values.
+- **Design tokens**: Single source of truth in `design-tokens.ts`; drives GSAP/Framer configs (`lib/animations.ts`, `lib/animation-variants.ts`) and hooks (`use-media-query.ts`). No duplicate breakpoints/z-index in `constants.ts`. Per-page tokens now cover color/typography/spacing/layout/shape/shadow/motion; use provided utility classes (`home-*`, `product-*`, `about-*`, `contact-*`, `newsroom-*`, `case-studies-*`, `layout-*`) instead of ad-hoc Tailwind spacing/radius/transition values.
 - **Providers**: Global providers centralized in `AppProviders`; Zustand store limited to `menu-store.ts`.
 - **Env**: Use `lib/env.ts`; do not read `process.env` directly in app code.
 - **Legal pages**: `/privacy`, `/terms`, `/cookies` exist as placeholders to prevent 404 in nav/footer/menu.
@@ -406,6 +428,7 @@ public/
 - **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
 - **Contact page**: Light architectural theme (`bg-[#f8fafc]`, product template purple→cyan gradient accents); uses `contact-design-tokens.css` for panel/form/badge utilities + layout/stack/form-grid/shape/shadow/motion tokens (underline + CTA overlays). Client Component with `useLocale()` + inline i18n. Form uses Server Action (`submitContactForm`), Zod validation, OpenStreetMap embed + Google Maps link.
 - **Newsroom page**: A-class content page aligned with Home (white background #FDFDFD); uses `newsroom-design-tokens.css` for magazine editorial styling (color/type + layout/spacing + shape/shadow + motion). Server Component + Sanity CMS + ISR pattern (NOT Product Template client pattern). Architecture: List page (`newsroom/page.tsx`) fetches news via `NEWS_LIST_QUERY`/`NEWS_BY_CATEGORY_QUERY`/`FEATURED_NEWS_QUERY`/`NEWS_CATEGORIES_QUERY`; Detail page (`newsroom/[slug]/page.tsx`) uses `NEWS_DETAIL_QUERY` + `RELATED_NEWS_QUERY`. Features: Three layout modes (Grid/Magazine/Feed), category filtering with dynamic color badges, transparent cards with white featured card, Framer Motion staggered animations (durations/stagger aligned to tokens), noise overlay texture. Design reference: `doc/reference-doc/pages/newsroom/newsroom-redesign.html`. Data: Sanity newsType (title, slug, subtitle, mainImage, excerpt, body, category reference, tags, author, readTime, featured, status, SEO) + newsCategoryType (title, slug, description, color).
+- **Case Studies page**: Mirrors Newsroom architecture 1:1 under `/case-studies` with independent file namespace and Sanity document types (`caseStudy`, `caseStudyCategory`). Implemented as a code-copy module from Newsroom (list/detail/client/query/schema/SEO flow) to keep modification boundaries clear; only extract shared helpers when both modules have stable common behavior.
 
 ### Product Template - updated guardrails (2025-02)
 - Server wrapper (`page.tsx`): only `generateMetadata` may call `m.*()`. JSON-LD text should use static strings; build URLs with `getSiteUrl()` + `buildHref()` (no hand-crafted `/${locale}`).
@@ -416,4 +439,4 @@ public/
 ## Backlog / Placeholder
 - Animations: `parallax-section.tsx`, `slide-in.tsx`, `animations.css`, `typography.css`.
 - Sections: `section3-placeholder.tsx` (content pending).
-- Sanity: `newsType.ts`, `careerType.ts`, `projectType.ts`, `schemaTypes/index.ts` registration updates.
+- Sanity: `projectType.ts` decision (deprecate or merge).

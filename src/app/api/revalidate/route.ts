@@ -98,7 +98,7 @@ async function revalidateContent(payload: { _type?: string; _id?: string; slug?:
   }
 
   // For critical content types, also revalidate the all tag
-  const criticalTypes = ["post", "news", "career", "product", "imageAsset"];
+  const criticalTypes = ["post", "news", "caseStudy", "caseStudyCategory", "career", "product", "imageAsset"];
   if (criticalTypes.includes(_type)) {
     revalidateTag("sanity:all");
   }

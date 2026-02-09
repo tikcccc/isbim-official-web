@@ -311,6 +311,161 @@ export const RELATED_NEWS_QUERY = defineQuery(
 );
 
 /**
+ * Case Study Queries
+ */
+
+/** Fetch all case study categories */
+export const CASE_STUDY_CATEGORIES_QUERY = defineQuery(
+  `*[_type == "caseStudyCategory" && !(_id in path("drafts.**"))] | order(sortOrder asc, title asc) {
+    _id,
+    "isDraft": string::startsWith(_id, "drafts."),
+    title,
+    sortOrder,
+    slug,
+    description,
+    color
+  }`
+);
+
+/** Fetch featured case study (latest featured) */
+export const FEATURED_CASE_STUDY_QUERY = defineQuery(
+  `*[_type == "caseStudy" && featured == true && defined(slug.current)] | order(publishedAt desc)[0] {
+    _id,
+    _type,
+    "isDraft": string::startsWith(_id, "drafts."),
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    body,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      sortOrder
+    },
+    author,
+    readTime,
+    featured
+  }`
+);
+
+/** Fetch case study list with pagination */
+export const CASE_STUDY_LIST_QUERY = defineQuery(
+  `*[_type == "caseStudy" && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
+    _id,
+    _type,
+    "isDraft": string::startsWith(_id, "drafts."),
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    body,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      sortOrder
+    },
+    author,
+    readTime,
+    featured
+  }`
+);
+
+/** Fetch case studies by category with pagination */
+export const CASE_STUDY_BY_CATEGORY_QUERY = defineQuery(
+  `*[_type == "caseStudy" && category._ref == $categoryId && defined(slug.current)] | order(publishedAt desc) [$start...$end] {
+    _id,
+    _type,
+    "isDraft": string::startsWith(_id, "drafts."),
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      sortOrder
+    },
+    author,
+    readTime,
+    featured
+  }`
+);
+
+/** Fetch a single case study by slug with full details */
+export const CASE_STUDY_DETAIL_QUERY = defineQuery(
+  `*[_type == "caseStudy" && slug.current == $slug][0] {
+    _id,
+    _type,
+    "isDraft": string::startsWith(_id, "drafts."),
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    body,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      sortOrder
+    },
+    author,
+    readTime,
+    featured,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage {
+        asset,
+        alt
+      },
+      keywords
+    },
+    _createdAt,
+    _updatedAt
+  }`
+);
+
+/** Fetch related case studies by category (excluding current case) */
+export const RELATED_CASE_STUDIES_QUERY = defineQuery(
+  `*[_type == "caseStudy" && category._ref == $categoryId && slug.current != $currentSlug && defined(slug.current)] | order(publishedAt desc) [0...3] {
+    _id,
+    _type,
+    "isDraft": string::startsWith(_id, "drafts."),
+    title,
+    slug,
+    subtitle,
+    publishedAt,
+    mainImage {
+      asset,
+      alt
+    },
+    category->{
+      _id,
+      title,
+      sortOrder
+    },
+    author,
+    readTime
+  }`
+);
+
+/**
  * Career Queries
  */
 
@@ -480,6 +635,24 @@ export const NEWS_METADATA_QUERY = defineQuery(
   }`
 );
 
+/** Fetch case study metadata for SEO */
+export const CASE_STUDY_METADATA_QUERY = defineQuery(
+  `*[_type == "caseStudy" && slug.current == $slug][0] {
+    title,
+    subtitle,
+    mainImage,
+    publishedAt,
+    author,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage,
+      keywords
+    },
+    _updatedAt
+  }`
+);
+
 /** Fetch career metadata for SEO */
 export const CAREER_METADATA_QUERY = defineQuery(
   `*[_type == "career" && slug.current == $slug][0] {
@@ -546,6 +719,14 @@ export const PRODUCTS_SITEMAP_QUERY = defineQuery(
 /** Fetch all news slugs for sitemap */
 export const NEWS_SITEMAP_QUERY = defineQuery(
   `*[_type == "news" && defined(slug.current) && !(_id in path("drafts.**"))] {
+    "slug": slug.current,
+    _updatedAt
+  }`
+);
+
+/** Fetch all case study slugs for sitemap */
+export const CASE_STUDIES_SITEMAP_QUERY = defineQuery(
+  `*[_type == "caseStudy" && defined(slug.current) && !(_id in path("drafts.**"))] {
     "slug": slug.current,
     _updatedAt
   }`

@@ -142,6 +142,8 @@ export const CACHE_TAGS = {
   IMAGES: "sanity:imageAsset",
   /** All news items */
   NEWS: "sanity:news",
+  /** All case studies */
+  CASE_STUDIES: "sanity:caseStudy",
   /** All careers */
   CAREERS: "sanity:career",
   /** All projects */

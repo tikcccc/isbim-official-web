@@ -47,6 +47,7 @@ export {
   generatePostMetadata,
   generateProductMetadata,
   generateNewsMetadata,
+  generateCaseStudyMetadata,
   generateCareerMetadata,
   generateProjectMetadata,
 } from "./seo";

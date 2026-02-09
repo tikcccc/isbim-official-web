@@ -168,6 +168,10 @@ export const mainNavigation: NavigationItem[] = [
     href: ROUTES.NEWSROOM,
   },
   {
+    label: "Case Studies",
+    href: ROUTES.CASE_STUDIES,
+  },
+  {
     label: "Careers",
     href: ROUTES.CAREERS,
   },
@@ -211,6 +215,7 @@ export const footerNavigation = {
     items: [
       { label: "About Us", href: ROUTES.ABOUT },
       { label: "Newsroom", href: ROUTES.NEWSROOM },
+      { label: "Case Studies", href: ROUTES.CASE_STUDIES },
       { label: "Careers", href: ROUTES.CAREERS },
       { label: "Contact", href: ROUTES.CONTACT },
     ],
@@ -264,6 +269,10 @@ export const mobileNavigation: NavigationItem[] = [
   {
     label: "Newsroom",
     href: ROUTES.NEWSROOM,
+  },
+  {
+    label: "Case Studies",
+    href: ROUTES.CASE_STUDIES,
   },
   {
     label: "Careers",

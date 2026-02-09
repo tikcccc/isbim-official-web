@@ -53,6 +53,7 @@ export function FooterBase({ variant = "default" }: { variant?: FooterVariant })
     { name: messages.menu_nav_venture(), href: ROUTES.VENTURE_INVESTMENTS },
     { name: messages.menu_nav_about(), href: ROUTES.ABOUT },
     { name: messages.menu_nav_newsroom(), href: ROUTES.NEWSROOM },
+    { name: messages.menu_nav_case_studies(), href: ROUTES.CASE_STUDIES },
     { name: messages.menu_nav_careers(), href: ROUTES.CAREERS },
     { name: messages.menu_nav_contact(), href: ROUTES.CONTACT },
   ];

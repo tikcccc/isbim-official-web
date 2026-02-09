@@ -65,6 +65,9 @@ export const ROUTES = {
   /** Newsroom */
   NEWSROOM: "/newsroom",
 
+  /** Case Studies */
+  CASE_STUDIES: "/case-studies",
+
   /** Careers */
   CAREERS: "/careers",
 
@@ -159,6 +162,7 @@ export const NAV_IDS = {
   SERVICES: "services",
   JARVIS_SUITE: "jarvis-suite",
   NEWSROOM: "newsroom",
+  CASE_STUDIES: "case-studies",
   CAREERS: "careers",
   CONTACT: "contact",
 } as const;
