@@ -6,7 +6,6 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   CASE_STUDY_DETAIL_QUERY,
   CASE_STUDY_METADATA_QUERY,
-  RELATED_CASE_STUDIES_QUERY,
   CASE_STUDY_LIST_QUERY,
 } from "@/sanity/lib/queries";
 import CaseDetailClient from "./case-detail-client";
@@ -187,13 +186,6 @@ export default async function CaseDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const relatedCases = await sanityFetch<CaseStudyItem[]>({
-    query: RELATED_CASE_STUDIES_QUERY,
-    params: { categoryId: caseDetail.category._id, currentSlug: slug },
-    tags: ["caseStudy"],
-    cache: "no-store",
-  });
-
   const recentCasesRaw = await sanityFetch<CaseStudyItem[]>({
     query: CASE_STUDY_LIST_QUERY,
     params: { start: 0, end: 4 },
@@ -265,7 +257,6 @@ export default async function CaseDetailPage({ params }: PageProps) {
         {/* Case detail client component handles display and interactivity */}
         <CaseDetailClient
           caseDetail={caseDetail}
-          relatedCases={relatedCases}
           recentCases={recentCases}
         />
       </main>

@@ -44,7 +44,6 @@ interface CaseStudyItem {
 
 interface CaseDetailClientProps {
   caseDetail: CaseStudyItem;
-  relatedCases: CaseStudyItem[];
   recentCases: CaseStudyItem[];
 }
 
@@ -57,7 +56,6 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
 
 export default function CaseDetailClient({
   caseDetail,
-  relatedCases,
   recentCases,
 }: CaseDetailClientProps) {
   const locale = useLocale() as "en" | "zh";
@@ -100,11 +98,10 @@ export default function CaseDetailClient({
     if (process.env.NODE_ENV !== 'production') {
       console.groupCollapsed('[CaseStudies][Debug] Detail payload');
       console.log('caseDetail', caseDetail);
-      console.log('relatedCases', relatedCases);
       console.log('recentCases', recentCases);
       console.groupEnd();
     }
-  }, [caseDetail, relatedCases, recentCases]);
+  }, [caseDetail, recentCases]);
 
   return (
     <motion.div
@@ -240,30 +237,6 @@ export default function CaseDetailClient({
           </div>
         )}
       </article>
-
-      {/* Related Intelligence Section */}
-      {relatedCases.length > 0 && (
-        <div className="container-content mt-20 pt-12 border-t case-studies-border-strong">
-          <h3 className="case-font-label case-studies-text-primary mb-8">
-            {t(m.case_related_cases)}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {relatedCases.map((related) => (
-              <Link
-                key={related._id}
-                href={`/case-studies/${related.slug.current}`}
-                className="group"
-              >
-                <RelatedCard
-                  post={related}
-                  intlLocale={intlLocale}
-                  readStoryLabel={t(m.case_read_story)}
-                />
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Recent Cases Section */}
       {recentCases.length > 0 && (

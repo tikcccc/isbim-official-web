@@ -44,7 +44,6 @@ interface NewsItem {
 
 interface NewsDetailClientProps {
   newsDetail: NewsItem;
-  relatedNews: NewsItem[];
   recentNews: NewsItem[];
 }
 
@@ -57,7 +56,6 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
 
 export default function NewsDetailClient({
   newsDetail,
-  relatedNews,
   recentNews,
 }: NewsDetailClientProps) {
   const locale = useLocale() as "en" | "zh";
@@ -100,11 +98,10 @@ export default function NewsDetailClient({
     if (process.env.NODE_ENV !== 'production') {
       console.groupCollapsed('[Newsroom][Debug] Detail payload');
       console.log('newsDetail', newsDetail);
-      console.log('relatedNews', relatedNews);
       console.log('recentNews', recentNews);
       console.groupEnd();
     }
-  }, [newsDetail, relatedNews, recentNews]);
+  }, [newsDetail, recentNews]);
 
   return (
     <motion.div
@@ -240,30 +237,6 @@ export default function NewsDetailClient({
           </div>
         )}
       </article>
-
-      {/* Related Intelligence Section */}
-      {relatedNews.length > 0 && (
-        <div className="container-content mt-20 pt-12 border-t newsroom-border-strong">
-          <h3 className="news-font-label newsroom-text-primary mb-8">
-            {t(m.news_related_intelligence)}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {relatedNews.map((related) => (
-              <Link
-                key={related._id}
-                href={`/newsroom/${related.slug.current}`}
-                className="group"
-              >
-                <RelatedCard
-                  post={related}
-                  intlLocale={intlLocale}
-                  readStoryLabel={t(m.news_read_story)}
-                />
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Recent News Section */}
       {recentNews.length > 0 && (

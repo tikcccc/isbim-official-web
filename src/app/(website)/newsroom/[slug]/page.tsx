@@ -6,7 +6,6 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   NEWS_DETAIL_QUERY,
   NEWS_METADATA_QUERY,
-  RELATED_NEWS_QUERY,
   NEWS_LIST_QUERY,
 } from "@/sanity/lib/queries";
 import NewsDetailClient from "./news-detail-client";
@@ -187,13 +186,6 @@ export default async function NewsDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const relatedNews = await sanityFetch<NewsItem[]>({
-    query: RELATED_NEWS_QUERY,
-    params: { categoryId: newsDetail.category._id, currentSlug: slug },
-    tags: ["sanity:news"],
-    cache: "no-store",
-  });
-
   const recentNewsRaw = await sanityFetch<NewsItem[]>({
     query: NEWS_LIST_QUERY,
     params: { start: 0, end: 4 },
@@ -265,7 +257,6 @@ export default async function NewsDetailPage({ params }: PageProps) {
         {/* News detail client component handles display and interactivity */}
         <NewsDetailClient
           newsDetail={newsDetail}
-          relatedNews={relatedNews}
           recentNews={recentNews}
         />
       </main>
