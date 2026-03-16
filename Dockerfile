@@ -12,10 +12,11 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN --mount=type=secret,id=next_env,required=false \
-    set -a \
-    && if [ -f /run/secrets/next_env ]; then . /run/secrets/next_env; fi \
-    && set +a \
-    && npm run build
+    if [ -f /run/secrets/next_env ]; then \
+      node --env-file=/run/secrets/next_env /usr/local/lib/node_modules/npm/bin/npm-cli.js run build; \
+    else \
+      npm run build; \
+    fi
 
 FROM node:20-bookworm-slim AS runner
 WORKDIR /app
