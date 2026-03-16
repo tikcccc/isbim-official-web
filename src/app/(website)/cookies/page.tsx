@@ -2,27 +2,24 @@ import { Metadata } from "next";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/env";
 import { languageTag } from "@/paraglide/runtime";
+import * as m from "@/paraglide/messages";
 import CookiesClient from "./cookies-client";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = languageTag();
-  const title = locale === "en"
-    ? "Cookie Policy | isBIM"
-    : "Cookie 声明 | isBIM";
-
-  const description = locale === "en"
-    ? "Learn how isBIM uses cookies and similar technologies to provide secure and efficient services while maintaining a minimal data footprint."
-    : "了解 isBIM 如何使用 Cookie 和类似技术提供安全高效的服务,同时保持最小化的数据足迹。";
+  const locale = languageTag() as "en" | "zh";
+  const title = `${m.cookies_meta_title({}, { languageTag: locale })} | isBIM`;
+  const description = m.cookies_meta_description({}, { languageTag: locale });
 
   const siteUrl = getSiteUrl();
   const canonicalUrl = `${siteUrl}/${locale}/cookies`;
+  const hreflangAlternates = generateHreflangAlternates("/cookies", locale);
 
   return {
     title,
     description,
     alternates: {
       canonical: canonicalUrl,
-      languages: generateHreflangAlternates("/cookies"),
+      languages: hreflangAlternates.languages,
     },
     openGraph: {
       title,

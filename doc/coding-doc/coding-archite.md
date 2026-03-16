@@ -7,12 +7,12 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2026-02-09 (Case Studies architecture added as a Newsroom-parallel Sanity module)
+**Last Updated**: 2026-03-16 (SEO metadata parity, sitemap timestamps, and cached dynamic-content fetches aligned)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
 - **Architecture**: Pure frontend application with Next.js Server Actions (no separate backend)
-- **Rendering**: SSG + ISR (Incremental Static Regeneration) for optimal performance
+- **Rendering**: Hybrid rendering. Locale-prefixed website shell is request-scoped for language negotiation; static marketing pages remain cache-friendly and Sanity-backed pages use cached fetches with hourly/day revalidation.
 - **Serverless Compatibility**: ⚠️ Current rate limiting uses in-memory Map (not serverless-compatible); requires distributed cache (Redis) or container deployment with session affinity for multi-instance scenarios
 
 ## Tech Stack
@@ -20,7 +20,7 @@
 - Paraglide v1 i18n (LocaleContext pattern + PrefixStrategy) - /en and /zh are always prefixed routes
 - Animations: Lenis (smooth scroll), GSAP, Framer Motion via `MotionProvider` + `m`
 - Data/UI: TanStack Query, Zustand (`menu-store.ts`, `footer-store.ts`)
-- CMS: Sanity only for dynamic content (Newsroom posts, Case Studies entries, Careers positions); other pages use local/static data
+- CMS: Sanity for dynamic content (Newsroom posts, Case Studies entries, Careers positions) plus internal contact form submission records; other pages use local/static data
 - Media: videos via CDN (`media-config` + `NEXT_PUBLIC_VIDEO_CDN_URL`/`NEXT_PUBLIC_MEDIA_URL`), images prefer local `/public` assets
 - Email: Dual-provider system (Resend primary, Brevo backup) - switch via `EMAIL_PROVIDER` env var
 - SEO: `generatePageMetadata`, JSON-LD schemas, sitemap/robots generators
@@ -54,7 +54,7 @@ src/app/
   (studio)/
     studio/[[...index]]/page.tsx  # Sanity Studio (NextStudio)
   actions/
-    contact-form.action.ts      # Server Action for contact form (Zod validation + rate limiting + email sending)
+    contact-form.action.ts      # Server Action for contact form (Zod validation + rate limiting + Sanity persistence + email sending)
   api/
     revalidate/route.ts         # Sanity webhook -> on-demand ISR (HMAC secret)
 ```
@@ -122,6 +122,7 @@ src/app/(website)/newsroom/
 - **Architecture Pattern**: Server Component + Client Component hybrid (matches prototype exactly)
   - List page: Server fetches from Sanity, client handles all interactivity
   - Detail page: Separate route with Server/Client split for SEO optimization
+  - Cache model: Sanity data uses hourly revalidation instead of `no-store`
 - **Client Features**: View switching (grid/magazine/feed), category filtering, pagination, internal routing
 - **Design**: Original prototype style - white background (#FDFDFD), editorial magazine layout
 - **Data**: Sanity CMS (newsType with full schema, newsCategoryType with colors)
@@ -139,6 +140,7 @@ src/app/(website)/case-studies/
 - **Architecture Pattern**: 1:1 parallel module copied from Newsroom (Server + Client split)
   - List page: Server fetches from Sanity, client handles filtering/layout switching
   - Detail page: Separate route with Server/Client split for SEO optimization
+  - Cache model: Sanity data uses hourly revalidation instead of `no-store`
 - **Data**: Sanity CMS (`caseStudyType`, `caseStudyCategoryType`) with field structure mirrored from `newsType` / `newsCategoryType`
 - **Implementation Strategy**: Prefer copy-first (independent files/namespaces) over deep abstraction, so future Case Studies-specific changes do not affect Newsroom
 
@@ -162,9 +164,9 @@ src/app/(website)/jarvis-pay/
   - `{product}-client.tsx` (Client Component): ALL content m.*() translations executed client-side
   - Key: m.*() calls in Server Component are pre-rendered and passed as static strings → causes locale mismatch
   - Solution: All page content translations must execute in dedicated client file (e.g., `jarvis-pay-client.tsx`)
-  - Advantages: (1) Single page refresh on locale switch, (2) No `dynamic = "force-dynamic"` needed, (3) Real-time locale responsiveness
+  - Advantages: (1) Single page refresh on locale switch, (2) No page-level `dynamic = "force-dynamic"` needed, (3) Real-time locale responsiveness
 - **Data Source**: Static resources only (Paraglide m.* translations), NOT Sanity CMS
-- **Contrast with Dynamic Pages**: Newsroom/Careers/Case Studies use Server Component + Sanity + ISR pattern (different from Product Template)
+- **Contrast with Dynamic Pages**: Newsroom/Careers/Case Studies use Server Component + Sanity + cached revalidation pattern (different from Product Template)
 - Design reference: `doc/reference-doc/pages/product-template/`
 - Layout: use dedicated `layout.tsx` with `<FooterConfig variant="charcoal" />`; global FooterRenderer applies the variant (HideDefaultFooter removed)
 - Responsive scroll height: 250vh mobile, 350vh desktop (via `mobileScrollHeight`/`desktopScrollHeight` props)
@@ -217,9 +219,9 @@ next.config.ts            # images.qualities: [75, 85, 90, 100] for Next.js 15+ 
 
 ### SEO & Sitemap
 - `src/lib/seo.ts` + `src/lib/seo-generators.ts`: shared metadata helpers (OpenGraph/Twitter/hreflang) with locale-prefixed canonicals.
-- JSON-LD: Root `Organization` in `src/app/layout.tsx`; product pages add `SoftwareApplication` + `Breadcrumb`; home adds org + suite schema.
-- Sitemap: `src/app/(website)/sitemap.ts` emits locale-prefixed URLs; includes static pages + Sanity news/case-studies/careers slugs with `en`/`zh` alternates.
-- Robots: `src/app/(website)/robots.ts` disallows `/studio`, `/api`, `/_next`; exposes sitemap URL; blocks GPTBot/Google-Extended.
+- JSON-LD: Rendered server-side in the initial HTML. Root `Organization` in `src/app/layout.tsx`; product pages add `SoftwareApplication` + `Breadcrumb`; home adds org + suite schema.
+- Sitemap: `src/app/(website)/sitemap.ts` emits locale-prefixed URLs; includes static pages + Sanity news/case-studies/careers slugs with `en`/`zh` alternates and maintained `lastModified` timestamps for static pages.
+- Robots: `src/app/(website)/robots.ts` disallows `/studio`, `/api`, `/admin`; exposes sitemap URL; blocks GPTBot/Google-Extended. `/_next` assets remain crawlable.
 
 ### Environment Variables
 Project uses three environment file layers:
@@ -332,6 +334,7 @@ src/sanity/schemaTypes/
   caseStudyType.ts     # Case Studies entries, same field structure as newsType
   caseStudyCategoryType.ts # Case Studies categories, same structure as newsCategoryType
   careerType.ts        # Career positions (live)
+  contactFormSubmissionType.ts # Contact form leads captured from website submissions (read-only submission fields + internal status/notes)
   index.ts             # register schemas
 ```
 
@@ -387,6 +390,7 @@ public/
   - Images: prefer local `/public` assets
 - **Email (Contact Form)**:
   - Backend: Dual-provider system via Server Actions (`submitContactForm` in `actions/contact-form.action.ts`)
+  - Persistence: Valid submissions are written to Sanity `contactFormSubmission` documents before notification email delivery
   - Providers: Resend (primary, 3000/月) + Brevo (backup, 9000/月), switch via `EMAIL_PROVIDER` env
   - Architecture: `email-client.ts` routes to `resend-client.ts`/`brevo-client.ts` based on config
   - Dual emails: Internal notification (English, to `CONTACT_EMAIL_TO`) + User confirmation (i18n: en/zh)
@@ -426,7 +430,7 @@ public/
 - **Media**: Do not hardcode `/videos/*`; use `getVideoUrl` or `JARVIS_VIDEOS` so CDN overrides work (spaces auto-encoded).
 - **Services page**: Keep dark cyberpunk theme (`bg-[#050505]`, emerald accents); wrap with `BackgroundLayers`, `ServicesGrid`, `CtaSection`; use `ServiceCard`/`SpotlightCard`/`CornerBrackets` for interactive cards and `servicesData` for content. Page layout uses `<FooterConfig variant="charcoal" />` + global `FooterRenderer` (no HideDefaultFooter).
 - **About Us**: Use the shared `Section` wrapper with `TypewriterWidth` for headings; keep defaults (1.5s, 40 steps, blue cursor, ScrollTrigger once) and reuse existing reveal timelines (no bespoke GSAP per section).
-- **Contact page**: Light architectural theme (`bg-[#f8fafc]`, product template purple→cyan gradient accents); uses `contact-design-tokens.css` for panel/form/badge utilities + layout/stack/form-grid/shape/shadow/motion tokens (underline + CTA overlays). Client Component with `useLocale()` + inline i18n. Form uses Server Action (`submitContactForm`), Zod validation, OpenStreetMap embed + Google Maps link.
+- **Contact page**: Light architectural theme (`bg-[#f8fafc]`, product template purple→cyan gradient accents); uses `contact-design-tokens.css` for panel/form/badge utilities + layout/stack/form-grid/shape/shadow/motion tokens (underline + CTA overlays). Client Component with `useLocale()` + inline i18n. Form uses Server Action (`submitContactForm`), Zod validation, Sanity lead persistence (`contactFormSubmission` list in Studio), and OpenStreetMap embed + Google Maps link.
 - **Newsroom page**: A-class content page aligned with Home (white background #FDFDFD); uses `newsroom-design-tokens.css` for magazine editorial styling (color/type + layout/spacing + shape/shadow + motion). Server Component + Sanity CMS + ISR pattern (NOT Product Template client pattern). Architecture: List page (`newsroom/page.tsx`) fetches news via `NEWS_LIST_QUERY`/`NEWS_BY_CATEGORY_QUERY`/`FEATURED_NEWS_QUERY`/`NEWS_CATEGORIES_QUERY`; Detail page (`newsroom/[slug]/page.tsx`) uses `NEWS_DETAIL_QUERY` + `RELATED_NEWS_QUERY`. Features: Three layout modes (Grid/Magazine/Feed), category filtering with dynamic color badges, transparent cards with white featured card, Framer Motion staggered animations (durations/stagger aligned to tokens), noise overlay texture. Design reference: `doc/reference-doc/pages/newsroom/newsroom-redesign.html`. Data: Sanity newsType (title, slug, subtitle, mainImage, excerpt, body, category reference, tags, author, readTime, featured, status, SEO) + newsCategoryType (title, slug, description, color).
 - **Case Studies page**: Mirrors Newsroom architecture 1:1 under `/case-studies` with independent file namespace and Sanity document types (`caseStudy`, `caseStudyCategory`). Implemented as a code-copy module from Newsroom (list/detail/client/query/schema/SEO flow) to keep modification boundaries clear; only extract shared helpers when both modules have stable common behavior.
 

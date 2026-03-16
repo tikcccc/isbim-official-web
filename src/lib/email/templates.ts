@@ -11,6 +11,13 @@
  * 2. User Confirmation - Sent to user (i18n based on locale)
  */
 
+import {
+  getContactCompanyTypeTitle,
+  getContactServiceTitle,
+  type ContactCompanyTypeValue,
+  type ContactServiceValue,
+} from "@/lib/contact-form-options";
+
 /**
  * Contact form data structure
  */
@@ -20,16 +27,9 @@ export interface ContactFormData {
   email: string;
   phoneNumber?: string;
   companyName?: string;
-  companyType?:
-    | "Architectural"
-    | "Engineering"
-    | "Contractor"
-    | "Developer"
-    | "Government"
-    | "IT"
-    | "Other";
+  companyType?: ContactCompanyTypeValue;
   jobTitle?: string;
-  service: string;
+  service: ContactServiceValue;
   marketingConsent?: boolean;
 }
 
@@ -56,6 +56,8 @@ export function generateInternalNotificationEmail(
     timeStyle: "long",
   });
   const marketingConsent = data.marketingConsent ?? false;
+  const companyTypeLabel = getContactCompanyTypeTitle(data.companyType);
+  const serviceLabel = getContactServiceTitle(data.service);
 
   const subject = `New Contact Form Submission - ${fullName}`;
 
@@ -109,7 +111,7 @@ export function generateInternalNotificationEmail(
 
       <!-- Company Details -->
       ${
-        data.companyName || data.companyType || data.jobTitle
+        data.companyName || companyTypeLabel || data.jobTitle
           ? `
       <h2 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1e293b;">Company & Position</h2>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
@@ -124,11 +126,11 @@ export function generateInternalNotificationEmail(
             : ""
         }
         ${
-          data.companyType
+          companyTypeLabel
             ? `
         <tr style="border-bottom: 1px solid #e2e8f0;">
           <td style="padding: 12px 8px; font-weight: 600; color: #64748b;">Type</td>
-          <td style="padding: 12px 8px; color: #1e293b;">${data.companyType}</td>
+          <td style="padding: 12px 8px; color: #1e293b;">${companyTypeLabel}</td>
         </tr>
         `
             : ""
@@ -151,7 +153,7 @@ export function generateInternalNotificationEmail(
       <!-- Service Request -->
       <h2 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1e293b;">Service Requested</h2>
       <div style="background-color: #dcfce7; border-left: 4px solid #16a34a; padding: 16px; margin-bottom: 24px;">
-        <p style="margin: 0; font-size: 16px; font-weight: 600; color: #166534;">${data.service}</p>
+        <p style="margin: 0; font-size: 16px; font-weight: 600; color: #166534;">${serviceLabel}</p>
       </div>
 
       <!-- Marketing Consent -->
@@ -193,12 +195,12 @@ Email: ${data.email}
 ${data.phoneNumber ? `Phone: ${data.phoneNumber}` : ""}
 
 ${
-  data.companyName || data.companyType || data.jobTitle
+  data.companyName || companyTypeLabel || data.jobTitle
     ? `
 COMPANY & POSITION
 ------------------
 ${data.companyName ? `Company: ${data.companyName}` : ""}
-${data.companyType ? `Type: ${data.companyType}` : ""}
+${companyTypeLabel ? `Type: ${companyTypeLabel}` : ""}
 ${data.jobTitle ? `Job Title: ${data.jobTitle}` : ""}
 `
     : ""
@@ -206,7 +208,7 @@ ${data.jobTitle ? `Job Title: ${data.jobTitle}` : ""}
 
 SERVICE REQUESTED
 -----------------
-${data.service}
+${serviceLabel}
 
 MARKETING CONSENT
 -----------------
@@ -246,6 +248,7 @@ export function generateUserConfirmationEmail(
   const contactInfoText = isZh
     ? "如有緊急事項,請致電"
     : "For urgent matters, please call";
+  const serviceValueLabel = getContactServiceTitle(data.service);
 
   const html = `
 <!DOCTYPE html>
@@ -283,7 +286,7 @@ export function generateUserConfirmationEmail(
           <td style="padding: 12px 0; font-size: 14px; color: #64748b; font-weight: 600;">${serviceLabel}:</td>
         </tr>
         <tr>
-          <td style="padding: 0 0 16px 0; font-size: 15px; color: #0ea5e9; font-weight: 600;">${data.service}</td>
+          <td style="padding: 0 0 16px 0; font-size: 15px; color: #0ea5e9; font-weight: 600;">${serviceValueLabel}</td>
         </tr>
       </table>
 
@@ -328,7 +331,7 @@ ${bodyText}
 
 ${submissionDetailsTitle}
 ${"-".repeat(submissionDetailsTitle.length)}
-${serviceLabel}: ${data.service}
+${serviceLabel}: ${serviceValueLabel}
 
 ${contactInfoText}: +852 2382 8380
 Email: solution@isbim.com.hk

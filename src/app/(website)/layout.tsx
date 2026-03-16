@@ -11,7 +11,7 @@ import { AppProviders } from "@/providers/app-providers";
 import { Topbar } from "@/components/layout/topbar";
 import { FooterRenderer } from "@/components/layout/footer-renderer";
 import { Toaster } from "@/components/ui/sonner";
-import { sanityFetch, MENU_LATEST_NEWS_QUERY } from "@/sanity/lib";
+import { sanityFetch, MENU_LATEST_NEWS_QUERY, REVALIDATE } from "@/sanity/lib";
 import type { MenuNewsPreview } from "@/components/layout/menu-overlay";
 
 export default async function WebsiteLayout({ children }: { children: React.ReactNode }) {
@@ -25,7 +25,7 @@ export default async function WebsiteLayout({ children }: { children: React.Reac
   const menuNews = await sanityFetch<MenuNewsPreview[]>({
     query: MENU_LATEST_NEWS_QUERY,
     tags: ["news"],
-    cache: "no-store",
+    revalidate: REVALIDATE.HOUR,
   }).catch(() => [] as MenuNewsPreview[]);
 
   return (

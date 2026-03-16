@@ -21,6 +21,12 @@ import {
   type ContactFormInput,
 } from "@/schemas/contact-form.schema";
 import {
+  CONTACT_COMPANY_TYPE_VALUES,
+  CONTACT_SERVICE_VALUES,
+  type ContactCompanyTypeValue,
+  type ContactServiceValue,
+} from "@/lib/contact-form-options";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -50,70 +56,33 @@ export default function ContactClient() {
   const formRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
   const searchParams = useSearchParams();
-  const serviceOptions = [
-    {
-      value: "BIM Consultancy",
-      label: messages.contact_service_option_bim_consultancy(),
-    },
-    {
-      value: "AI Solutions",
-      label: messages.contact_service_option_ai_solutions(),
-    },
-    {
-      value: "Software Training",
-      label: messages.contact_service_option_training(),
-    },
-    {
-      value: "3D Modeling",
-      label: messages.contact_service_option_modeling(),
-    },
-    {
-      value: "jarvis-desktop",
-      label: messages.contact_service_option_jarvis_desktop(),
-    },
-    {
-      value: "jarvis-cloud",
-      label: messages.contact_service_option_jarvis_cloud(),
-    },
-    {
-      value: "support",
-      label: messages.contact_service_option_support(),
-    },
-    {
-      value: "other",
-      label: messages.contact_service_option_other(),
-    },
-  ];
-  const companyTypeOptions = [
-    {
-      value: "Architectural",
-      label: messages.contact_company_type_architectural(),
-    },
-    {
-      value: "Engineering",
-      label: messages.contact_company_type_engineering(),
-    },
-    {
-      value: "Contractor",
-      label: messages.contact_company_type_contractor(),
-    },
-    {
-      value: "Developer",
-      label: messages.contact_company_type_developer(),
-    },
-    {
-      value: "Government",
-      label: messages.contact_company_type_government(),
-    },
-    {
-      value: "IT",
-      label: messages.contact_company_type_it(),
-    },
-    {
-      value: "Other",
-      label: messages.contact_company_type_other(),
-    },
-  ];
+  const serviceLabels: Record<ContactServiceValue, string> = {
+    "BIM Consultancy": messages.contact_service_option_bim_consultancy(),
+    "AI Solutions": messages.contact_service_option_ai_solutions(),
+    "Software Training": messages.contact_service_option_training(),
+    "3D Modeling": messages.contact_service_option_modeling(),
+    "jarvis-desktop": messages.contact_service_option_jarvis_desktop(),
+    "jarvis-cloud": messages.contact_service_option_jarvis_cloud(),
+    support: messages.contact_service_option_support(),
+    other: messages.contact_service_option_other(),
+  };
+  const serviceOptions = CONTACT_SERVICE_VALUES.map((value) => ({
+    value,
+    label: serviceLabels[value],
+  }));
+  const companyTypeLabels: Record<ContactCompanyTypeValue, string> = {
+    Architectural: messages.contact_company_type_architectural(),
+    Engineering: messages.contact_company_type_engineering(),
+    Contractor: messages.contact_company_type_contractor(),
+    Developer: messages.contact_company_type_developer(),
+    Government: messages.contact_company_type_government(),
+    IT: messages.contact_company_type_it(),
+    Other: messages.contact_company_type_other(),
+  };
+  const companyTypeOptions = CONTACT_COMPANY_TYPE_VALUES.map((value) => ({
+    value,
+    label: companyTypeLabels[value],
+  }));
 
   useEffect(() => {
     setMounted(true);
@@ -129,7 +98,6 @@ export default function ContactClient() {
   } = useForm<ContactFormInput>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      service: "",
       marketingConsent: false,
     },
   });
@@ -369,7 +337,7 @@ export default function ContactClient() {
                         label={messages.contact_label_service()}
                         value={selectedService || ""}
                         onChange={(value) =>
-                          setValue("service", value, {
+                          setValue("service", value as ContactFormInput["service"], {
                             shouldValidate: true,
                             shouldDirty: true,
                           })

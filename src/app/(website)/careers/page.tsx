@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { PageHeader } from "@/components/ui/page-header";
 import CareersListClient from "./careers-list-client";
-import { sanityFetch } from "@/sanity/lib/fetch";
+import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import { CAREERS_QUERY, APPLICATION_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import type { ApplicationSettings, Career } from "@/sanity/lib/types";
 import { generateCareersPageSEO } from "@/lib/seo-generators";
 import {
-  isAvailableLanguageTag,
-  sourceLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import { JsonLd, createJobPostingSchema } from "@/components/seo/json-ld";
@@ -16,22 +14,17 @@ import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+export const revalidate = REVALIDATE.HOUR;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   return generateCareersPageSEO(locale);
 }
 
 export default async function CareersPage() {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
@@ -40,12 +33,11 @@ export default async function CareersPage() {
       query: CAREERS_QUERY,
       tags: ["career"],
       revalidate,
-      cache: "no-store",
     }).catch(() => []),
     sanityFetch<ApplicationSettings | null>({
       query: APPLICATION_SETTINGS_QUERY,
       tags: ["applicationSettings"],
-      cache: "no-store",
+      revalidate: REVALIDATE.DAY,
     }).catch(() => null),
   ]);
 

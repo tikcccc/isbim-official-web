@@ -167,6 +167,28 @@ export interface ApplicationSettings extends SanityDocument {
 }
 
 /**
+ * Contact form submission document type
+ */
+export interface ContactFormSubmission extends SanityDocument {
+  _type: "contactFormSubmission";
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber?: string;
+  companyName: string;
+  companyType?: string;
+  jobTitle?: string;
+  service: string;
+  marketingConsent?: boolean;
+  locale: "en" | "zh";
+  submittedAt: string;
+  status: "new" | "in-progress" | "closed";
+  notificationStatus: "pending" | "sent" | "failed";
+  notificationError?: string;
+  internalNotes?: string;
+}
+
+/**
  * Project document type
  */
 export interface Project extends SanityDocument {

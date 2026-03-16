@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
-import { sanityFetch } from "@/sanity/lib/fetch";
+import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import {
   NEWS_DETAIL_QUERY,
   NEWS_METADATA_QUERY,
@@ -14,16 +13,14 @@ import type { PortableTextBlock } from "@portabletext/types";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import {
-  isAvailableLanguageTag,
-  sourceLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { urlFor } from "@/sanity/lib/image";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 0; // Always fresh per locale
-export const dynamic = "force-dynamic";
+export const revalidate = REVALIDATE.HOUR;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
@@ -93,9 +90,7 @@ interface PageProps {
  */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const siteUrl = getSiteUrl();
   const localizedPath = buildHref(`/newsroom/${slug}`, locale);
   const canonicalUrl = `${siteUrl}${localizedPath}`;
@@ -104,7 +99,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const newsData = await sanityFetch<NewsMetadata | null>({
     query: NEWS_METADATA_QUERY,
     params: { slug },
-    tags: [`sanity:news:${slug}`],
+    tags: [`news:${slug}`],
+    revalidate,
   });
 
   if (!newsData) {
@@ -170,16 +166,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  */
 export default async function NewsDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   const newsDetail = await sanityFetch<NewsItem | null>({
     query: NEWS_DETAIL_QUERY,
     params: { slug },
-    tags: [`sanity:news:${slug}`],
-    cache: "no-store",
+    tags: [`news:${slug}`],
+    revalidate,
   });
 
   if (!newsDetail) {
@@ -189,8 +183,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
   const recentNewsRaw = await sanityFetch<NewsItem[]>({
     query: NEWS_LIST_QUERY,
     params: { start: 0, end: 4 },
-    tags: ["sanity:news"],
-    cache: "no-store",
+    tags: ["news"],
+    revalidate,
   });
 
   const recentNews = recentNewsRaw

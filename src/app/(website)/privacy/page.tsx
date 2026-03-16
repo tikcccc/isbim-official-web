@@ -2,28 +2,24 @@ import type { Metadata } from "next";
 import { languageTag } from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/env";
+import * as m from "@/paraglide/messages";
 import PrivacyClient from "./privacy-client";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = languageTag();
-  const title =
-    locale === "en"
-      ? "Privacy Policy | isBIM"
-      : "隐私政策 | isBIM";
-  const description =
-    locale === "en"
-      ? "Learn how isBIM Limited respects your privacy rights and protects information collected through our corporate website, JARVIS AI Suite, and mobile applications."
-      : "了解 isBIM Limited 如何尊重您的隐私权并保护通过我们的企业网站、JARVIS AI 套件和移动应用收集的信息。";
+  const locale = languageTag() as "en" | "zh";
+  const title = `${m.privacy_title({}, { languageTag: locale })} | isBIM`;
+  const description = m.privacy_meta_description({}, { languageTag: locale });
 
   const siteUrl = getSiteUrl();
   const canonicalUrl = `${siteUrl}/${locale}/privacy`;
+  const hreflangAlternates = generateHreflangAlternates("/privacy", locale);
 
   return {
     title,
     description,
     alternates: {
       canonical: canonicalUrl,
-      languages: generateHreflangAlternates("/privacy"),
+      languages: hreflangAlternates.languages,
     },
     openGraph: {
       title,

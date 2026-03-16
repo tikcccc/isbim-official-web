@@ -15,6 +15,8 @@ import type { Image as SanityImage } from 'sanity';
 import { useLocale } from "@/lib/i18n/locale-context";
 import * as m18n from "@/paraglide/messages";
 
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: "en" | "zh" }) => string;
+
 // --- Types ---
 interface NewsPost {
   _id: string;
@@ -91,7 +93,15 @@ const MonoLabel = ({ children, className = "" }: { children: React.ReactNode; cl
 );
 
 // --- Hero Section Component ---
-function HeroSection({ post, readFeaturedLabel }: { post: NewsPost; readFeaturedLabel: string }) {
+function HeroSection({
+  post,
+  heading,
+  readFeaturedLabel,
+}: {
+  post: NewsPost;
+  heading: string;
+  readFeaturedLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(1920).height(1080).url()
     : null;
@@ -169,7 +179,7 @@ function HeroSection({ post, readFeaturedLabel }: { post: NewsPost; readFeatured
               variants={titleVariants}
             >
               <h1 className="newsroom-hero-title news-font-hero">
-                Newsroom
+                {heading}
               </h1>
             </m.div>
           </div>
@@ -289,6 +299,7 @@ function NewsListView({
   featuredNews: NewsPost | null;
   locale: "en" | "zh";
 }) {
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [filter, setFilter] = useState<CategoryFilter>('All');
 
@@ -347,6 +358,17 @@ function NewsListView({
   // Remaining list data (exclude the featured card post)
   const gridListData = newestPost ? filteredWithoutHero.slice(1) : [];
   const listData = filteredWithoutHero;
+  const labels = {
+    heroHeading: t(m18n.menu_nav_newsroom),
+    allCategories: t(m18n.newsroom_all_categories),
+    sectionHeading: t(m18n.newsroom_title),
+    layoutGrid: t(m18n.newsroom_layout_grid),
+    layoutMagazine: t(m18n.newsroom_layout_magazine),
+    layoutFeed: t(m18n.newsroom_layout_feed),
+    emptyState: t(m18n.newsroom_empty_state),
+    readStory: t(m18n.news_read_story),
+    readFullBriefing: t(m18n.news_read_full_briefing),
+  };
 
   return (
     <m.div
@@ -359,7 +381,8 @@ function NewsListView({
       {heroPost && (
         <HeroSection
           post={heroPost}
-          readFeaturedLabel={m18n.news_read_story({}, { languageTag: locale })}
+          heading={labels.heroHeading}
+          readFeaturedLabel={labels.readStory}
         />
       )}
 
@@ -374,7 +397,7 @@ function NewsListView({
                 const cat = derivedCategories.find(c => c._id === catId);
                 const label =
                   catId === "All"
-                    ? m18n.newsroom_all_categories({}, { languageTag: locale })
+                    ? labels.allCategories
                     : cat?.title ?? "";
                 return (
                   <button
@@ -390,7 +413,7 @@ function NewsListView({
             </div>
 
             <h2 className="news-font-section newsroom-text-primary">
-              {m18n.newsroom_title({}, { languageTag: locale })}
+              {labels.sectionHeading}
             </h2>
           </div>
 
@@ -400,7 +423,7 @@ function NewsListView({
               type="button"
               onClick={() => setLayout('grid')}
               className={`newsroom-layout-btn ${layout === 'grid' ? 'active' : ''}`}
-              title="Grid View"
+              title={labels.layoutGrid}
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
@@ -408,7 +431,7 @@ function NewsListView({
               type="button"
               onClick={() => setLayout('magazine')}
               className={`newsroom-layout-btn ${layout === 'magazine' ? 'active' : ''}`}
-              title="Strategic View"
+              title={labels.layoutMagazine}
             >
               <AlignJustify className="w-4 h-4" />
             </button>
@@ -416,7 +439,7 @@ function NewsListView({
               type="button"
               onClick={() => setLayout('feed')}
               className={`newsroom-layout-btn ${layout === 'feed' ? 'active' : ''}`}
-              title="Data Feed"
+              title={labels.layoutFeed}
             >
               <List className="w-4 h-4" />
             </button>
@@ -427,7 +450,7 @@ function NewsListView({
         <div className="min-h-[500px]">
           {!hasFilteredResults ? (
             <div className="py-20 text-center newsroom-border border-dashed newsroom-surface-quiet">
-              <p className="newsroom-label-xs newsroom-text-soft">No More Intelligence Found</p>
+              <p className="newsroom-label-xs newsroom-text-soft">{labels.emptyState}</p>
             </div>
           ) : (
             <m.div
@@ -441,13 +464,13 @@ function NewsListView({
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                   {newestPost && (
                     <m.div variants={itemVariants} key={newestPost._id} className="col-span-1 md:col-span-2 lg:col-span-3">
-                      <FeaturedGridCard post={newestPost} />
+                      <FeaturedGridCard post={newestPost} readStoryLabel={labels.readStory} />
                     </m.div>
                   )}
 
                   {gridListData.map((post) => (
                     <m.div variants={itemVariants} key={post._id}>
-                      <GridCard post={post} />
+                      <GridCard post={post} readStoryLabel={labels.readStory} />
                     </m.div>
                   ))}
                 </div>
@@ -457,7 +480,7 @@ function NewsListView({
                 <div className="flex flex-col gap-12 max-w-5xl">
                   {listData.map((post) => (
                     <m.div variants={itemVariants} key={post._id}>
-                      <MagazineCard post={post} />
+                      <MagazineCard post={post} readFullBriefingLabel={labels.readFullBriefing} />
                     </m.div>
                   ))}
                 </div>
@@ -482,7 +505,13 @@ function NewsListView({
 
 // --- Cards & Components ---
 
-function FeaturedGridCard({ post }: { post: NewsPost }) {
+function FeaturedGridCard({
+  post,
+  readStoryLabel,
+}: {
+  post: NewsPost;
+  readStoryLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(1200).height(675).url()
     : null;
@@ -533,7 +562,7 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
 
         <div className="newsroom-card-footer">
           <span className="news-font-label-lg newsroom-text-primary group-hover:newsroom-text-accent transition-colors">
-            Read Story
+            {readStoryLabel}
           </span>
           <ArrowRight className="w-4 h-4 group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
         </div>
@@ -542,7 +571,13 @@ function FeaturedGridCard({ post }: { post: NewsPost }) {
   );
 }
 
-function GridCard({ post }: { post: NewsPost }) {
+function GridCard({
+  post,
+  readStoryLabel,
+}: {
+  post: NewsPost;
+  readStoryLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(533).url()
     : null;
@@ -594,7 +629,7 @@ function GridCard({ post }: { post: NewsPost }) {
 
       <div className="mt-auto pt-3 border-t newsroom-border-subtle flex items-center justify-between group-hover:newsroom-surface-quiet -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
         <span className="news-font-label newsroom-text-subtle group-hover:newsroom-text-accent transition-colors">
-          Read Story
+          {readStoryLabel}
         </span>
         <ArrowRight className="w-3 h-3 newsroom-text-soft group-hover:newsroom-text-accent group-hover:translate-x-1 transition-all" />
       </div>
@@ -602,7 +637,13 @@ function GridCard({ post }: { post: NewsPost }) {
   );
 }
 
-function MagazineCard({ post }: { post: NewsPost }) {
+function MagazineCard({
+  post,
+  readFullBriefingLabel,
+}: {
+  post: NewsPost;
+  readFullBriefingLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(500).url()
     : null;
@@ -645,7 +686,7 @@ function MagazineCard({ post }: { post: NewsPost }) {
           {post.excerpt ? post.excerpt.substring(0, hasImage ? 180 : 300) : post.subtitle}...
         </p>
         <span className="flex items-center gap-2 news-font-label font-semibold mt-auto group-hover:translate-x-2 transition-transform newsroom-text-accent">
-          Read Full Briefing <ArrowRight className="w-3 h-3" />
+          {readFullBriefingLabel} <ArrowRight className="w-3 h-3" />
         </span>
       </div>
     </Link>

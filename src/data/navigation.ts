@@ -27,6 +27,7 @@
  */
 
 import { ROUTES } from "@/lib/constants";
+import * as messages from "@/paraglide/messages";
 
 export interface NavigationItem {
   /** Display label (i18n key reference) */
@@ -223,7 +224,7 @@ export const footerNavigation = {
   legal: {
     label: "Legal",
     items: [
-      { label: "Privacy & Cookie Policy", href: "/privacy-cookie-policy" },
+      { label: messages.privacy_cookie_title(), href: "/privacy-cookie-policy" },
     ],
   },
 };

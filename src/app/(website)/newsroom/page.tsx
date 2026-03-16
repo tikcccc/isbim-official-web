@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { generateNewsroomPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
-import { sanityFetch } from "@/sanity/lib/fetch";
+import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import {
   NEWS_LIST_QUERY,
   NEWS_CATEGORIES_QUERY,
@@ -11,16 +10,14 @@ import {
 import NewsroomPageClient from "./newsroom-page-client";
 import type { Image as SanityImage } from 'sanity';
 import {
-  isAvailableLanguageTag,
-  sourceLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 0; // Disable ISR: always fetch fresh data
-export const dynamic = "force-dynamic";
+export const revalidate = REVALIDATE.HOUR;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
@@ -67,9 +64,7 @@ interface NewsCategory {
  * - AI and construction tech innovation
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   return generateNewsroomPageSEO(locale);
 }
 
@@ -82,9 +77,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * - Uses ISR for optimal performance
  */
 export default async function NewsroomPage() {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   // Fetch data from Sanity CMS
@@ -92,18 +85,18 @@ export default async function NewsroomPage() {
     sanityFetch<NewsItem[]>({
       query: NEWS_LIST_QUERY,
       params: { start: 0, end: 12 },
-      tags: ["sanity:news"],
-      cache: "no-store",
+      tags: ["news"],
+      revalidate,
     }),
     sanityFetch<NewsCategory[]>({
       query: NEWS_CATEGORIES_QUERY,
-      tags: ["sanity:newsCategory"],
-      cache: "no-store",
+      tags: ["newsCategory"],
+      revalidate,
     }),
     sanityFetch<NewsItem | null>({
       query: FEATURED_NEWS_QUERY,
-      tags: ["sanity:news"],
-      cache: "no-store",
+      tags: ["news"],
+      revalidate,
     }),
   ]).catch(() => {
     // Fallback to empty data if Sanity fetch fails

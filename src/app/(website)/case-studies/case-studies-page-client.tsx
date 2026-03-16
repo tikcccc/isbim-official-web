@@ -15,6 +15,8 @@ import type { Image as SanityImage } from 'sanity';
 import { useLocale } from "@/lib/i18n/locale-context";
 import * as m18n from "@/paraglide/messages";
 
+type MessageFn = (params?: Record<string, never>, options?: { languageTag?: "en" | "zh" }) => string;
+
 // --- Types ---
 interface CaseStudyPost {
   _id: string;
@@ -297,6 +299,7 @@ function CaseStudiesListView({
   featuredCaseStudy: CaseStudyPost | null;
   locale: "en" | "zh";
 }) {
+  const t = (fn: MessageFn) => fn({}, { languageTag: locale });
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [filter, setFilter] = useState<CategoryFilter>('All');
 
@@ -355,6 +358,14 @@ function CaseStudiesListView({
   // Remaining list data (exclude the featured card post)
   const gridListData = newestPost ? filteredWithoutHero.slice(1) : [];
   const listData = filteredWithoutHero;
+  const labels = {
+    allCategories: t(m18n.case_studies_all_categories),
+    sectionHeading: t(m18n.case_studies_title),
+    layoutGrid: t(m18n.case_studies_layout_grid),
+    layoutMagazine: t(m18n.case_studies_layout_magazine),
+    layoutFeed: t(m18n.case_studies_layout_feed),
+    readCase: t(m18n.case_read_story),
+  };
 
   return (
     <m.div
@@ -367,8 +378,8 @@ function CaseStudiesListView({
       {heroPost && (
         <HeroSection
           post={heroPost}
-          readFeaturedLabel={m18n.case_read_story({}, { languageTag: locale })}
-          heading={m18n.case_studies_title({}, { languageTag: locale })}
+          readFeaturedLabel={labels.readCase}
+          heading={labels.sectionHeading}
         />
       )}
 
@@ -383,7 +394,7 @@ function CaseStudiesListView({
                 const cat = derivedCategories.find(c => c._id === catId);
                 const label =
                   catId === "All"
-                    ? m18n.case_studies_all_categories({}, { languageTag: locale })
+                    ? labels.allCategories
                     : cat?.title ?? "";
                 return (
                   <button
@@ -399,7 +410,7 @@ function CaseStudiesListView({
             </div>
 
             <h2 className="case-font-section case-studies-text-primary">
-              {m18n.case_studies_title({}, { languageTag: locale })}
+              {labels.sectionHeading}
             </h2>
           </div>
 
@@ -409,7 +420,7 @@ function CaseStudiesListView({
               type="button"
               onClick={() => setLayout('grid')}
               className={`case-studies-layout-btn ${layout === 'grid' ? 'active' : ''}`}
-              title="Grid View"
+              title={labels.layoutGrid}
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
@@ -417,7 +428,7 @@ function CaseStudiesListView({
               type="button"
               onClick={() => setLayout('magazine')}
               className={`case-studies-layout-btn ${layout === 'magazine' ? 'active' : ''}`}
-              title="Strategic View"
+              title={labels.layoutMagazine}
             >
               <AlignJustify className="w-4 h-4" />
             </button>
@@ -425,7 +436,7 @@ function CaseStudiesListView({
               type="button"
               onClick={() => setLayout('feed')}
               className={`case-studies-layout-btn ${layout === 'feed' ? 'active' : ''}`}
-              title="Data Feed"
+              title={labels.layoutFeed}
             >
               <List className="w-4 h-4" />
             </button>
@@ -452,13 +463,13 @@ function CaseStudiesListView({
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                   {newestPost && (
                     <m.div variants={itemVariants} key={newestPost._id} className="col-span-1 md:col-span-2 lg:col-span-3">
-                      <FeaturedGridCard post={newestPost} />
+                      <FeaturedGridCard post={newestPost} readCaseLabel={labels.readCase} />
                     </m.div>
                   )}
 
                   {gridListData.map((post) => (
                     <m.div variants={itemVariants} key={post._id}>
-                      <GridCard post={post} />
+                      <GridCard post={post} readCaseLabel={labels.readCase} />
                     </m.div>
                   ))}
                 </div>
@@ -468,7 +479,7 @@ function CaseStudiesListView({
                 <div className="flex flex-col gap-12 max-w-5xl">
                   {listData.map((post) => (
                     <m.div variants={itemVariants} key={post._id}>
-                      <MagazineCard post={post} />
+                      <MagazineCard post={post} readCaseLabel={labels.readCase} />
                     </m.div>
                   ))}
                 </div>
@@ -493,7 +504,13 @@ function CaseStudiesListView({
 
 // --- Cards & Components ---
 
-function FeaturedGridCard({ post }: { post: CaseStudyPost }) {
+function FeaturedGridCard({
+  post,
+  readCaseLabel,
+}: {
+  post: CaseStudyPost;
+  readCaseLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(1200).height(675).url()
     : null;
@@ -544,7 +561,7 @@ function FeaturedGridCard({ post }: { post: CaseStudyPost }) {
 
         <div className="case-studies-card-footer">
           <span className="case-font-label-lg case-studies-text-primary group-hover:case-studies-text-accent transition-colors">
-            Read Case
+            {readCaseLabel}
           </span>
           <ArrowRight className="w-4 h-4 group-hover:case-studies-text-accent group-hover:translate-x-1 transition-all" />
         </div>
@@ -553,7 +570,13 @@ function FeaturedGridCard({ post }: { post: CaseStudyPost }) {
   );
 }
 
-function GridCard({ post }: { post: CaseStudyPost }) {
+function GridCard({
+  post,
+  readCaseLabel,
+}: {
+  post: CaseStudyPost;
+  readCaseLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(533).url()
     : null;
@@ -605,7 +628,7 @@ function GridCard({ post }: { post: CaseStudyPost }) {
 
       <div className="mt-auto pt-3 border-t case-studies-border-subtle flex items-center justify-between group-hover:case-studies-surface-quiet -mx-0 px-2 pb-2 transition-colors rounded-b-sm">
         <span className="case-font-label case-studies-text-subtle group-hover:case-studies-text-accent transition-colors">
-          Read Case
+          {readCaseLabel}
         </span>
         <ArrowRight className="w-3 h-3 case-studies-text-soft group-hover:case-studies-text-accent group-hover:translate-x-1 transition-all" />
       </div>
@@ -613,7 +636,13 @@ function GridCard({ post }: { post: CaseStudyPost }) {
   );
 }
 
-function MagazineCard({ post }: { post: CaseStudyPost }) {
+function MagazineCard({
+  post,
+  readCaseLabel,
+}: {
+  post: CaseStudyPost;
+  readCaseLabel: string;
+}) {
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage.asset)?.width(800).height(500).url()
     : null;
@@ -656,7 +685,7 @@ function MagazineCard({ post }: { post: CaseStudyPost }) {
           {post.excerpt ? post.excerpt.substring(0, hasImage ? 180 : 300) : post.subtitle}...
         </p>
         <span className="flex items-center gap-2 case-font-label font-semibold mt-auto group-hover:translate-x-2 transition-transform case-studies-text-accent">
-          Read Case <ArrowRight className="w-3 h-3" />
+          {readCaseLabel} <ArrowRight className="w-3 h-3" />
         </span>
       </div>
     </Link>

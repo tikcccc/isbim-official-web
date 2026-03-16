@@ -608,7 +608,7 @@ export function MenuOverlay({ newsPreview = [] }: { newsPreview?: MenuNewsPrevie
                     className={styles.footerLink}
                   >
                     <TypewriterText
-                      text="Privacy & Cookie Policy"
+                      text={messages.privacy_cookie_title()}
                       delay={1.0}
                     />
                   </Link>

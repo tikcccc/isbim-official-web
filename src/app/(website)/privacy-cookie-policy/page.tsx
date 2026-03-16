@@ -2,28 +2,27 @@ import type { Metadata } from "next";
 import { languageTag } from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/env";
+import * as m from "@/paraglide/messages";
 import PrivacyCookiePolicyClient from "./privacy-cookie-policy-client";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = languageTag();
-  const title =
-    locale === "en"
-      ? "Privacy & Cookie Policy| isBIM"
-      : "Privacy & Cookie Policy| isBIM";
-  const description =
-    locale === "en"
-      ? "Read the combined privacy, cookie, and usage terms for isbim Limited's website."
-      : "Read the combined privacy, cookie, and usage terms for isbim Limited's website.";
+  const locale = languageTag() as "en" | "zh";
+  const title = `${m.privacy_cookie_title({}, { languageTag: locale })} | isBIM`;
+  const description = m.privacy_cookie_meta_description({}, { languageTag: locale });
 
   const siteUrl = getSiteUrl();
   const canonicalUrl = `${siteUrl}/${locale}/privacy-cookie-policy`;
+  const hreflangAlternates = generateHreflangAlternates(
+    "/privacy-cookie-policy",
+    locale
+  );
 
   return {
     title,
     description,
     alternates: {
       canonical: canonicalUrl,
-      languages: generateHreflangAlternates("/privacy-cookie-policy"),
+      languages: hreflangAlternates.languages,
     },
     openGraph: {
       title,

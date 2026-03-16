@@ -1,7 +1,7 @@
 "use client";
 
 import * as messages from "@/paraglide/messages";
-import { Search, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { m } from "@/components/motion/lazy-motion";
 import { Link } from "@/lib/i18n";
 import Image from "next/image";
@@ -19,7 +19,7 @@ import { useLocale } from "@/lib/i18n/locale-context";
  * - Fixed at the top with margin for floating effect
  * - Transparent background with backdrop blur
  * - Logo on the left
- * - Get Started button, LocaleSwitcher, Search, and Menu on the right
+ * - Get Started button, LocaleSwitcher, and Menu on the right
  * - When menu is open: becomes solid black and sits at top of menu overlay
  */
 
@@ -85,18 +85,6 @@ export function Topbar({ newsPreview = [] }: { newsPreview?: MenuNewsPreview[] }
 
           {/* Locale Switcher - hidden when menu is open */}
           {!isOpen && <LocaleSwitcher />}
-
-          {/* Search button */}
-          <m.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 flex items-center justify-center border border-white/20 rounded-lg
-                     hover:bg-white/10 transition-colors text-white"
-            style={radius10}
-            aria-label="Search"
-          >
-            <Search className="w-4 h-4 md:w-5 md:h-5" />
-          </m.button>
 
           {/* Menu / Close button */}
           <m.button

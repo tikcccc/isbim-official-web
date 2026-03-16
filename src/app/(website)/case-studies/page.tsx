@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { generateCaseStudiesPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
-import { sanityFetch } from "@/sanity/lib/fetch";
+import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import {
   CASE_STUDY_LIST_QUERY,
   CASE_STUDY_CATEGORIES_QUERY,
@@ -11,16 +10,14 @@ import {
 import CaseStudiesPageClient from "./case-studies-page-client";
 import type { Image as SanityImage } from 'sanity';
 import {
-  isAvailableLanguageTag,
-  sourceLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 0; // Disable ISR: always fetch fresh data
-export const dynamic = "force-dynamic";
+export const revalidate = REVALIDATE.HOUR;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
@@ -67,9 +64,7 @@ interface CaseStudyCategory {
  * - AI and construction tech innovation
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   return generateCaseStudiesPageSEO(locale);
 }
 
@@ -82,9 +77,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * - Uses ISR for optimal performance
  */
 export default async function CaseStudiesPage() {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   // Fetch data from Sanity CMS
@@ -93,17 +86,17 @@ export default async function CaseStudiesPage() {
       query: CASE_STUDY_LIST_QUERY,
       params: { start: 0, end: 12 },
       tags: ["caseStudy"],
-      cache: "no-store",
+      revalidate,
     }),
     sanityFetch<CaseStudyCategory[]>({
       query: CASE_STUDY_CATEGORIES_QUERY,
       tags: ["caseStudyCategory"],
-      cache: "no-store",
+      revalidate,
     }),
     sanityFetch<CaseStudyItem | null>({
       query: FEATURED_CASE_STUDY_QUERY,
       tags: ["caseStudy"],
-      cache: "no-store",
+      revalidate,
     }),
   ]).catch(() => {
     // Fallback to empty data if Sanity fetch fails

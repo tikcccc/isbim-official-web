@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
-import { sanityFetch } from "@/sanity/lib/fetch";
+import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
 import {
   CASE_STUDY_DETAIL_QUERY,
   CASE_STUDY_METADATA_QUERY,
@@ -14,16 +13,14 @@ import type { PortableTextBlock } from "@portabletext/types";
 import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import {
-  isAvailableLanguageTag,
-  sourceLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import { generateHreflangAlternates } from "@/lib/seo";
 import { urlFor } from "@/sanity/lib/image";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 0; // Always fresh per locale
-export const dynamic = "force-dynamic";
+export const revalidate = REVALIDATE.HOUR;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
@@ -93,9 +90,7 @@ interface PageProps {
  */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const siteUrl = getSiteUrl();
   const localizedPath = buildHref(`/case-studies/${slug}`, locale);
   const canonicalUrl = `${siteUrl}${localizedPath}`;
@@ -105,6 +100,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     query: CASE_STUDY_METADATA_QUERY,
     params: { slug },
     tags: [`caseStudy:${slug}`],
+    revalidate,
   });
 
   if (!caseData) {
@@ -170,16 +166,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  */
 export default async function CaseDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   const caseDetail = await sanityFetch<CaseStudyItem | null>({
     query: CASE_STUDY_DETAIL_QUERY,
     params: { slug },
     tags: [`caseStudy:${slug}`],
-    cache: "no-store",
+    revalidate,
   });
 
   if (!caseDetail) {
@@ -190,7 +184,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
     query: CASE_STUDY_LIST_QUERY,
     params: { start: 0, end: 4 },
     tags: ["caseStudy"],
-    cache: "no-store",
+    revalidate,
   });
 
   const recentCases = recentCasesRaw

@@ -22,8 +22,10 @@
 "use server";
 
 import { headers } from "next/headers";
-import { contactFormSchema } from "@/schemas/contact-form.schema";
+import { sanityConfig } from "@/lib/env";
 import { sendContactFormEmails } from "@/lib/email";
+import { contactFormSchema, type ContactFormInput } from "@/schemas/contact-form.schema";
+import { writeClient } from "@/sanity/lib";
 
 /**
  * Server action response type
@@ -33,6 +35,8 @@ interface SubmitContactFormResponse {
   message?: string;
   error?: string;
 }
+
+type ContactFormNotificationStatus = "pending" | "sent" | "failed";
 
 /**
  * Rate limiter using in-memory Map
@@ -114,6 +118,56 @@ async function getClientIp(): Promise<string> {
   return "unknown";
 }
 
+async function createContactFormSubmission(
+  data: ContactFormInput,
+  locale: "en" | "zh"
+): Promise<string> {
+  if (!sanityConfig.token) {
+    throw new Error("SANITY_API_TOKEN is not configured.");
+  }
+
+  const submission = await writeClient.create({
+    _type: "contactFormSubmission",
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    companyName: data.companyName,
+    service: data.service,
+    marketingConsent: data.marketingConsent ?? false,
+    locale,
+    submittedAt: new Date().toISOString(),
+    status: "new",
+    notificationStatus: "pending",
+    ...(data.phoneNumber ? { phoneNumber: data.phoneNumber } : {}),
+    ...(data.companyType ? { companyType: data.companyType } : {}),
+    ...(data.jobTitle ? { jobTitle: data.jobTitle } : {}),
+  });
+
+  return submission._id;
+}
+
+async function updateContactFormNotificationStatus(
+  submissionId: string,
+  status: ContactFormNotificationStatus,
+  error?: string
+): Promise<void> {
+  if (!sanityConfig.token) {
+    return;
+  }
+
+  const patch = writeClient.patch(submissionId).set({
+    notificationStatus: status,
+  });
+
+  if (status === "failed" && error) {
+    patch.set({ notificationError: error });
+  } else {
+    patch.unset(["notificationError"]);
+  }
+
+  await patch.commit();
+}
+
 /**
  * Submit contact form
  *
@@ -158,14 +212,56 @@ export async function submitContactForm(
     // Extract validated data
     const validatedData = validation.data;
 
+    // Persist lead data when Sanity write permissions are available, but do not block email delivery if CMS persistence fails.
+    let submissionId: string | null = null;
+    try {
+      submissionId = await createContactFormSubmission(validatedData, locale);
+    } catch (persistenceError) {
+      console.error(
+        "Failed to persist contact form submission to Sanity. Email delivery will continue:",
+        persistenceError
+      );
+    }
+
     // Send emails
     const emailResult = await sendContactFormEmails(validatedData, locale);
 
     if (!emailResult.success) {
+      if (submissionId) {
+        console.error(
+          `Contact form email failed for Sanity submission ${submissionId}:`,
+          emailResult.error
+        );
+
+        try {
+          await updateContactFormNotificationStatus(
+            submissionId,
+            "failed",
+            emailResult.error
+          );
+        } catch (notificationError) {
+          console.error(
+            `Failed to update notification status for submission ${submissionId}:`,
+            notificationError
+          );
+        }
+      }
+
       return {
         success: false,
         error: emailResult.error,
       };
+    }
+
+    if (submissionId) {
+      try {
+        await updateContactFormNotificationStatus(submissionId, "sent");
+      } catch (notificationError) {
+        console.error(
+          `Failed to update notification status for submission ${submissionId}:`,
+          notificationError
+        );
+      }
     }
 
     // Success response

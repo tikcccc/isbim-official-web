@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import {
@@ -14,6 +13,7 @@ import {
   sanityFetch,
   CAREER_BY_SLUG_QUERY,
   APPLICATION_SETTINGS_QUERY,
+  REVALIDATE,
 } from "@/sanity/lib";
 import type { Career, ApplicationSettings } from "@/sanity/lib/types";
 import { Link } from "@/lib/i18n";
@@ -26,13 +26,12 @@ import {
 import styles from "./career-detail.module.css";
 import { cn } from "@/lib/utils";
 import {
-  sourceLanguageTag,
-  isAvailableLanguageTag,
+  languageTag,
   type AvailableLanguageTag,
 } from "@/paraglide/runtime";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = 0;
+export const revalidate = REVALIDATE.HOUR;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 
@@ -42,10 +41,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
 
   return generateCareerMetadata(slug, locale);
 }
@@ -97,9 +93,7 @@ const portableTextComponents: PortableTextComponents = {
 
 export default async function CareerDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-language-tag");
-  const locale = (isAvailableLanguageTag(headerLocale) ? headerLocale : sourceLanguageTag) as AvailableLanguageTag;
+  const locale = languageTag() as AvailableLanguageTag;
   const t = (fn: MessageFn) => fn({}, { languageTag: locale });
 
   type CareerQueryResult = Career & { isDraft?: boolean };
@@ -109,12 +103,11 @@ export default async function CareerDetailPage({ params }: PageProps) {
       params: { slug },
       tags: ["career", `career:${slug}`],
       revalidate,
-      cache: "no-store",
     }).catch(() => null),
     sanityFetch<ApplicationSettings | null>({
       query: APPLICATION_SETTINGS_QUERY,
       tags: ["applicationSettings"],
-      cache: "no-store",
+      revalidate: REVALIDATE.DAY,
     }).catch(() => null),
   ]);
 

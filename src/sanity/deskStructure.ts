@@ -1,6 +1,6 @@
 import type { StructureResolver } from "sanity/desk";
 
-const SINGLETON_TYPES = new Set(["applicationSettings"]);
+const CUSTOMIZED_TYPES = new Set(["applicationSettings", "contactFormSubmission"]);
 
 export const deskStructure: StructureResolver = (S) =>
   S.list()
@@ -14,8 +14,16 @@ export const deskStructure: StructureResolver = (S) =>
             .schemaType("applicationSettings")
             .documentId("applicationSettings")
         ),
+      S.listItem()
+        .title("Contact Form")
+        .id("contactFormSubmission")
+        .child(
+          S.documentTypeList("contactFormSubmission")
+            .title("Contact Form")
+            .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
+        ),
       S.divider(),
       ...S.documentTypeListItems().filter(
-        (listItem) => !SINGLETON_TYPES.has(listItem.getId() || "")
+        (listItem) => !CUSTOMIZED_TYPES.has(listItem.getId() || "")
       ),
     ]);

@@ -18,6 +18,10 @@
  */
 
 import { z } from "zod";
+import {
+  CONTACT_COMPANY_TYPE_VALUES,
+  CONTACT_SERVICE_VALUES,
+} from "@/lib/contact-form-options";
 import { VALIDATION } from "@/lib/constants";
 
 /**
@@ -65,20 +69,9 @@ export const contactFormSchema = z.object({
 
   /** Company type - optional enum */
   companyType: z
-    .enum(
-      [
-        "Architectural",
-        "Engineering",
-        "Contractor",
-        "Developer",
-        "Government",
-        "IT",
-        "Other",
-      ],
-      {
-        message: "Please select a valid company type",
-      }
-    )
+    .enum(CONTACT_COMPANY_TYPE_VALUES, {
+      message: "Please select a valid company type",
+    })
     .optional(),
 
   /** Job title - optional, max 100 characters */
@@ -90,7 +83,9 @@ export const contactFormSchema = z.object({
     .or(z.literal("")),
 
   /** Service requested - required */
-  service: z.string().min(1, "Please select a service"),
+  service: z.enum(CONTACT_SERVICE_VALUES, {
+    message: "Please select a valid service",
+  }),
 
   /** Marketing consent - optional boolean */
   marketingConsent: z.boolean().optional(),

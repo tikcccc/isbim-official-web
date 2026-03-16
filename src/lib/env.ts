@@ -235,6 +235,10 @@ export function getContactEmailTo(): string {
   return env.CONTACT_EMAIL_TO || "solution@isbim.com.hk";
 }
 
+function shouldUseResendDevSender(): boolean {
+  return !isProduction() && getEmailProvider() === "resend";
+}
+
 /**
  * Get internal notification email sender
  * Returns the sender address for internal contact form notifications.
@@ -245,9 +249,11 @@ export function getContactEmailTo(): string {
  * Default: "isBIM Contact Form <noreply@resend.dev>"
  */
 export function getEmailFromInternal(): string {
-  return (
-    env.EMAIL_FROM_INTERNAL || "isBIM Contact Form <noreply@resend.dev>"
-  );
+  if (shouldUseResendDevSender()) {
+    return "isBIM Contact Form <noreply@resend.dev>";
+  }
+
+  return env.EMAIL_FROM_INTERNAL || "isBIM Contact Form <noreply@isbim.com.hk>";
 }
 
 /**
@@ -260,7 +266,11 @@ export function getEmailFromInternal(): string {
  * Default: "isBIM <noreply@resend.dev>"
  */
 export function getEmailFromUser(): string {
-  return env.EMAIL_FROM_USER || "isBIM <noreply@resend.dev>";
+  if (shouldUseResendDevSender()) {
+    return "isBIM <noreply@resend.dev>";
+  }
+
+  return env.EMAIL_FROM_USER || "isBIM <noreply@isbim.com.hk>";
 }
 
 /**
