@@ -13,6 +13,7 @@ Next.js 15 app for isBIM’s marketing site and embedded Sanity Studio. Uses Par
 
 ## Requirements
 - Node 18.18+ (Next.js 15), npm.
+- Docker 24+ with BuildKit enabled if you want to build the container image.
 
 ## Scripts
 - `npm run dev` – start dev server.
@@ -34,6 +35,21 @@ Next.js 15 app for isBIM’s marketing site and embedded Sanity Studio. Uses Par
 2) Dev: `npm run dev` and open http://localhost:3000
 3) Lint: `npm run lint`
 4) Analyze bundles: `npm run analyze` and open `.next/analyze/client.html`
+
+## Docker
+Build the image with a BuildKit secret so `.env.production` is available during `next build` without being copied into the image layers:
+
+```bash
+docker build --secret id=next_env,src=.env.production -t isbim-official-web .
+```
+
+Run the container with runtime envs:
+
+```bash
+docker run --rm -p 3000:3000 --env-file .env.production isbim-official-web
+```
+
+`NEXT_PUBLIC_*` variables are compiled into the client bundle at build time. If those values change, rebuild the image.
 
 ## Notes
 - Studio is excluded from public providers/topbar/footer; keep it minimal.

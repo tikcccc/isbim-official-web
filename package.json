@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "bun run paraglide:compile && next build",
+    "build": "npm run paraglide:compile && next build",
     "start": "next start",
     "lint": "eslint",
     "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "npm run paraglide:compile && cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@getbrevo/brevo": "^3.0.1",

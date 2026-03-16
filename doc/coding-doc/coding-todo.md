@@ -3,7 +3,7 @@
 **Purpose:** Tracks all outstanding engineering tasks for the isBIM website. Remove items when done to keep the list lean.  
 **Rules:** Finish -> delete; Add new items by priority/category; Review weekly.  
 **Usage:** Claim/finish -> delete checkbox; Remove a section if fully done; Add new tasks under the right category.  
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-03-16
 
 ## Table of Contents
 - [High Priority](#high-priority)
@@ -22,7 +22,7 @@
 ### Huawei Cloud deployment (HK main + CN accelerated domain)
 **Background:** Deploy Next.js app to Huawei Cloud Hong Kong; keep primary domain on HK/overseas CDN and provide an ICP-licensed CN domain with mainland nodes.
 - [ ] Domain/DNS: secure primary + CN domains; provision SSL certs; pick canonical host (www vs apex) and enforce 301 at CDN/ELB.
-- [ ] Docker/CI: Add multi-stage Dockerfile (Node 20, `next build`, copy `.next/standalone` + `.next/static` + `public`, entry `server.js`), push image to SWR; update CI pipeline to buildx and push.
+- [ ] CI: Wire buildx to build/push the checked-in Docker image to SWR, tag by commit/release, and pass build-time env secret for `next build`.
 - [ ] Runtime: Deploy to CCE (preferred) or ECS with ELB in HK; configure readiness/liveness probes; allow egress to `*.sanity.io`, Resend, Brevo; set `NEXT_CACHE_DIR` and mount SFS/EVS if running multiple replicas.
 - [ ] CDN: Main domain on HK/overseas nodes; CN domain (ICP) on mainland+global nodes; CNAME to respective CDN; back-to-origin via ELB. Cache long: `/_next/static/*`, `/public/*`, media. No/short cache: `/api/*`, `/actions/*`, `/studio/*`, `/_next/image*`, ISR pages, `/api/revalidate`. Keep `Host`/XFF, enable gzip/Brotli, HTTP/2/3.
 - [ ] Env/Secrets: Set `NODE_ENV=production`, `NEXT_PUBLIC_SITE_URL`, `SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_READ_TOKEN`, `SANITY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `BREVO_API_KEY`, `EMAIL_PROVIDER`, `CONTACT_EMAIL_TO`, `EMAIL_FROM_*`, `NEXT_PUBLIC_MEDIA_URL`, `NEXT_PUBLIC_VIDEO_CDN_URL`, `RATE_LIMIT_REDIS_URL` (Redis), optional `NEXT_CACHE_DIR`. Store in CCE Secret/ConfigMap or ECS env.
@@ -31,7 +31,6 @@
 - [ ] Email deliverability: Verify Resend (primary) and Brevo (backup) for `isbim.com.hk`; set SPF/DKIM/DMARC; ensure egress allowed; confirm dual-provider switch via `EMAIL_PROVIDER`.
 - [ ] Observability/security: Enable WAF/CC on both CDNs; ELB logs to LTS; container logs to AOM/LTS; health checks on `/` or `/robots.txt`; CDN and WAF exclude `/api/revalidate` from caching.
 - [ ] Health probe: Add `/api/health` lightweight route checking Redis (and Sanity token reachability if cheap); set liveness/readiness to that path; use higher `initialDelaySeconds` to avoid startup kills.
-- [ ] Next.js config: Ensure `output: "standalone"` and `images.remotePatterns`/`images.domains` cover Sanity CDN and media CDN domains.
 - [ ] Trust proxy: Configure trust proxy (app/middleware) so `X-Forwarded-For` yields real client IP for Redis rate limiting behind CDN/ELB.
 - [ ] WAF/CDN rules: Allow Sanity webhook IPs; ensure `Set-Cookie` headers are not cached at CDN; keep `/api/revalidate` uncached.
 

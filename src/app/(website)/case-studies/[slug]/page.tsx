@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
-import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   CASE_STUDY_DETAIL_QUERY,
   CASE_STUDY_METADATA_QUERY,
@@ -20,7 +20,7 @@ import { generateHreflangAlternates } from "@/lib/seo";
 import { urlFor } from "@/sanity/lib/image";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = REVALIDATE.HOUR;
+export const revalidate = 3600;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 

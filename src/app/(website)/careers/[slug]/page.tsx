@@ -31,7 +31,7 @@ import {
 } from "@/paraglide/runtime";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = REVALIDATE.HOUR;
+export const revalidate = 3600;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 

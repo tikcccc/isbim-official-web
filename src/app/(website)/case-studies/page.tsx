@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { generateCaseStudiesPageSEO } from "@/lib/seo-generators";
 import { JsonLd, createBreadcrumbSchema } from "@/components/seo/json-ld";
-import { sanityFetch, REVALIDATE } from "@/sanity/lib/fetch";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   CASE_STUDY_LIST_QUERY,
   CASE_STUDY_CATEGORIES_QUERY,
@@ -17,7 +17,7 @@ import { getSiteUrl } from "@/lib/env";
 import { buildHref } from "@/lib/i18n/route-builder";
 import * as m from "@/paraglide/messages";
 
-export const revalidate = REVALIDATE.HOUR;
+export const revalidate = 3600;
 
 type MessageFn = (params?: Record<string, never>, options?: { languageTag?: AvailableLanguageTag }) => string;
 

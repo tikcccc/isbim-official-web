@@ -7,12 +7,14 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2026-03-16 (SEO metadata parity, sitemap timestamps, and cached dynamic-content fetches aligned)
+**Last Updated**: 2026-03-16 (SEO metadata parity, sitemap timestamps, cached dynamic-content fetches, and Docker containerization aligned)
 
 ## Deployment Architecture
 - **Deployment Target**: Huawei Cloud (华为云)
 - **Architecture**: Pure frontend application with Next.js Server Actions (no separate backend)
 - **Rendering**: Hybrid rendering. Locale-prefixed website shell is request-scoped for language negotiation; static marketing pages remain cache-friendly and Sanity-backed pages use cached fetches with hourly/day revalidation.
+- **Containerization**: Multi-stage `Dockerfile` builds Next.js standalone output on Node 20 and runs `server.js` from `.next/standalone`; runtime image copies `.next/static` + `public` only.
+- **Build-time env contract**: Docker build should inject `NEXT_PUBLIC_*` site/Sanity/media variables during `next build` (current Dockerfile expects BuildKit secret `next_env` such as `.env.production`). Runtime secrets stay in container env/secret stores.
 - **Serverless Compatibility**: ⚠️ Current rate limiting uses in-memory Map (not serverless-compatible); requires distributed cache (Redis) or container deployment with session affinity for multi-instance scenarios
 
 ## Tech Stack
@@ -415,7 +417,7 @@ public/
 - **Providers**: Global providers centralized in `AppProviders`; Zustand store limited to `menu-store.ts`.
 - **Env**: Use `lib/env.ts`; do not read `process.env` directly in app code.
 - **Legal pages**: `/privacy`, `/terms`, `/cookies` exist as placeholders to prevent 404 in nav/footer/menu.
-- **Build tooling**: Turbopack disabled due to Sanity bundle issues; scripts use Webpack (`next dev`, `next build`).
+- **Build tooling**: Turbopack disabled due to Sanity bundle issues; scripts use Webpack (`next dev`, `next build`) and production container builds target `output: "standalone"`.
 - **Sanity Client**: Use `client` (read, CDN-enabled in prod) or `writeClient` (write, CDN-bypassed) from `@/sanity/lib/client`.
 - **Sanity Fetching**: Use `sanityFetch()` from `@/sanity/lib/fetch` with typed queries from `queries.ts`; supports tag-based revalidation and environment-aware caching.
 - **Cache Strategy**: Tag all queries (`sanity:all`, `sanity:{type}`, `sanity:{type}:{id}`); use `REVALIDATE` constants for time-based revalidation; use `revalidateTag()` for on-demand invalidation.
