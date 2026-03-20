@@ -8,9 +8,15 @@
 - 按时间倒序排列(最新的在前)
 - 仅记录重大变更,避免记录小修小补
 
-**Last Updated**: 2025-11-30
+**Last Updated**: 2026-03-20
 
 ---
+
+## 2026-03-20 (v4.3)
+- **Deployment Tooling**: Added root-level `build.sh` so image builds follow a stable `mode + version + .env.build.*` contract similar to Jarvis `web`, but kept isBIM as a single Next.js SSR workload.
+- **Environment Architecture**: Added committed templates `.env.local.example`, `.env.production.example`, `.env.build.example`, `.env.runtime.example`; repo now treats real `.env*` files as local or CI/CD working copies.
+- **Deployment Documentation**: Added `部署文档/` with resource inventory, local Docker guide, CCE guide, release runbook, and env reference tailored to `Sanity + Resend/Brevo`, not Strapi.
+- **Files**: `build.sh`, `.env*.example`, `部署文档/*`, `README.md`, `deploy/cce/README.md`, `doc/coding-doc/coding-archite.md`, `.gitignore`
 
 ## 2025-11-30 (v4.2)
 - **Product Template System**: Created Palantir-inspired product page template for JARVIS product showcase pages

@@ -3,7 +3,7 @@
 **Purpose:** Tracks all outstanding engineering tasks for the isBIM website. Remove items when done to keep the list lean.  
 **Rules:** Finish -> delete; Add new items by priority/category; Review weekly.  
 **Usage:** Claim/finish -> delete checkbox; Remove a section if fully done; Add new tasks under the right category.  
-**Last Updated:** 2026-03-16
+**Last Updated:** 2026-03-18
 
 ## Table of Contents
 - [High Priority](#high-priority)
@@ -23,9 +23,9 @@
 **Background:** Deploy Next.js app to Huawei Cloud Hong Kong; keep primary domain on HK/overseas CDN and provide an ICP-licensed CN domain with mainland nodes.
 - [ ] Domain/DNS: secure primary + CN domains; provision SSL certs; pick canonical host (www vs apex) and enforce 301 at CDN/ELB.
 - [ ] CI: Wire buildx to build/push the checked-in Docker image to SWR, tag by commit/release, and pass build-time env secret for `next build`.
-- [ ] Runtime: Deploy to CCE (preferred) or ECS with ELB in HK; configure readiness/liveness probes; allow egress to `*.sanity.io`, Resend, Brevo; set `NEXT_CACHE_DIR` and mount SFS/EVS if running multiple replicas.
+- [ ] Runtime: Deploy to CCE in HK; configure readiness/liveness probes; allow egress to `*.sanity.io`, Resend, Brevo, and OBS/CDN origins; set `NEXT_CACHE_DIR` and mount SFS/EVS only if running multiple replicas.
 - [ ] CDN: Main domain on HK/overseas nodes; CN domain (ICP) on mainland+global nodes; CNAME to respective CDN; back-to-origin via ELB. Cache long: `/_next/static/*`, `/public/*`, media. No/short cache: `/api/*`, `/actions/*`, `/studio/*`, `/_next/image*`, ISR pages, `/api/revalidate`. Keep `Host`/XFF, enable gzip/Brotli, HTTP/2/3.
-- [ ] Env/Secrets: Set `NODE_ENV=production`, `NEXT_PUBLIC_SITE_URL`, `SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_READ_TOKEN`, `SANITY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `BREVO_API_KEY`, `EMAIL_PROVIDER`, `CONTACT_EMAIL_TO`, `EMAIL_FROM_*`, `NEXT_PUBLIC_MEDIA_URL`, `NEXT_PUBLIC_VIDEO_CDN_URL`, `RATE_LIMIT_REDIS_URL` (Redis), optional `NEXT_CACHE_DIR`. Store in CCE Secret/ConfigMap or ECS env.
+- [ ] Env/Secrets: Set `NODE_ENV=production`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`, `SANITY_API_TOKEN`, `SANITY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `BREVO_API_KEY`, `EMAIL_PROVIDER`, `CONTACT_EMAIL_TO`, `EMAIL_FROM_*`, `NEXT_PUBLIC_MEDIA_URL`, `NEXT_PUBLIC_VIDEO_CDN_URL`, `NEXT_PUBLIC_FEATURE_VIDEO_CDN_URL`, `RATE_LIMIT_REDIS_URL` (Redis), optional `NEXT_CACHE_DIR`. Store in CCE Secret/ConfigMap.
 - [ ] Rate limiting: Replace contact-form in-memory Map with Redis (Huawei DCS) using `RATE_LIMIT_REDIS_URL`; keep logic 3/IP/5min; add graceful fallback if Redis absent (single-replica only).
 - [ ] Webhook/ISR: Configure Sanity webhook to `https://<primary-domain>/api/revalidate` with `SANITY_WEBHOOK_SECRET`; verify ISR/regeneration works via CDN (no cache on that path).
 - [ ] Email deliverability: Verify Resend (primary) and Brevo (backup) for `isbim.com.hk`; set SPF/DKIM/DMARC; ensure egress allowed; confirm dual-provider switch via `EMAIL_PROVIDER`.
@@ -43,7 +43,7 @@
 - [ ] Add domain `isbim.com.hk`; fetch DNS records.
 - [ ] DNS: SPF `v=spf1 include:_spf.resend.com ~all`; DKIM `resend._domainkey`; DMARC optional `v=DMARC1; p=none; rua=mailto:dmarc@isbim.com.hk`.
 - [ ] Wait for DNS propagation; confirm "Verified" in Resend.
-- [ ] Vercel env: ensure `EMAIL_PROVIDER=resend`, `RESEND_API_KEY`, `EMAIL_FROM_INTERNAL=isBIM Contact Form <noreply@isbim.com.hk>`, `EMAIL_FROM_USER=isBIM <noreply@isbim.com.hk>`, `CONTACT_EMAIL_TO=solution@isbim.com.hk`.
+- [ ] CCE env: ensure `EMAIL_PROVIDER=resend`, `RESEND_API_KEY`, `EMAIL_FROM_INTERNAL=isBIM Contact Form <noreply@isbim.com.hk>`, `EMAIL_FROM_USER=isBIM <noreply@isbim.com.hk>`, `CONTACT_EMAIL_TO=solution@isbim.com.hk`.
 - [ ] Prod test: submit form; log shows resend; internal mail received; user confirmation received; not in spam; rate limit (3/IP/5min) works.
 
 #### Option B: Brevo domain verification (optional fallback)
@@ -52,7 +52,7 @@
 - [ ] DNS: SPF `v=spf1 include:spf.brevo.com ~all`; DKIM `mail._domainkey`; DMARC optional `v=DMARC1; p=none; rua=mailto:dmarc@isbim.com.hk`.
 - [ ] Wait for DNS propagation; confirm "Authenticated".
 - [ ] Note SPF merge if both providers: `v=spf1 include:_spf.resend.com include:spf.brevo.com ~all`.
-- [ ] Vercel env when switching: set `EMAIL_PROVIDER=brevo`, ensure `BREVO_API_KEY`, redeploy.
+- [ ] CCE env when switching: set `EMAIL_PROVIDER=brevo`, ensure `BREVO_API_KEY`, rolling-redeploy workload.
 - [ ] Brevo test: submit form; log shows brevo; mail delivered; deliverability acceptable.
 
 **Related files:** `.env.local`, `.env.production`, `src/lib/email/email-client.ts`, `src/lib/email/brevo-client.ts`, `src/lib/email/resend-client.ts`, `src/lib/email/send-contact-email.ts`, `src/lib/env.ts`, `src/schemas/contact-form.schema.ts`.

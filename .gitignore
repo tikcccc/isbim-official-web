@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.local.example
+!.env.production.example
+!.env.build.example
+!.env.runtime.example
 
 # vercel
 .vercel
@@ -42,3 +46,4 @@ yarn-error.log*
 
 
 .package-lock.json
+/deploy/cce/secret.yaml

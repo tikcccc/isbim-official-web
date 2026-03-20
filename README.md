@@ -37,19 +37,43 @@ Next.js 15 app for isBIM’s marketing site and embedded Sanity Studio. Uses Par
 4) Analyze bundles: `npm run analyze` and open `.next/analyze/client.html`
 
 ## Docker
-Build the image with a BuildKit secret so `.env.production` is available during `next build` without being copied into the image layers:
+
+Recommended local container flow:
 
 ```bash
-docker build --secret id=next_env,src=.env.production -t isbim-official-web .
+cp .env.build.example .env.build.local
+cp .env.runtime.example .env.runtime
+./build.sh 0.1.0 local
+docker run --rm -p 3000:3000 --env-file .env.runtime isbim-official-web:0.1.0-local
+```
+
+If you need to call Docker directly, build the image with a BuildKit secret so the build-time env file is available during `next build` without being copied into the image layers:
+
+```bash
+docker build --secret id=next_env,src=.env.build.local -t isbim-official-web:local .
 ```
 
 Run the container with runtime envs:
 
 ```bash
-docker run --rm -p 3000:3000 --env-file .env.production isbim-official-web
+docker run --rm -p 3000:3000 --env-file .env.runtime isbim-official-web:local
 ```
 
 `NEXT_PUBLIC_*` variables are compiled into the client bundle at build time. If those values change, rebuild the image.
+
+## CCE Deployment
+- Online deployment target is Huawei Cloud CCE, not `docker-compose`.
+- The checked-in `Dockerfile` only builds the image. CCE still needs Kubernetes resources to run it.
+- Use `deploy/cce/README.md`, `deploy/cce/kustomization.yaml`, and `部署文档/03-华为云CCE部署手册.md` for the deployment layer.
+- This repo deploys one Next.js SSR workload. Sanity remains an external managed service, even though `/studio` is served from the same app.
+- Build-time and runtime envs are intentionally split:
+  - build: `.env.build.example` -> `.env.build.production` (or CI/CD injected equivalents)
+  - runtime: `deploy/cce/configmap.yaml` + `deploy/cce/secret.yaml`
+
+## Deployment Docs
+- Entry point: `部署文档/00-文档索引.md`
+- Resource inventory: `部署文档/01-资源清单.md`
+- Env architecture: `部署文档/05-环境变量参考.md`
 
 ## Notes
 - Studio is excluded from public providers/topbar/footer; keep it minimal.

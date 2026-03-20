@@ -1,4 +1,4 @@
-# isBIM Official Web Architecture (v3.14)
+# isBIM Official Web Architecture (v3.17)
 
 **文件说明:** 本文件记录 isBIM 官网的系统架构、技术栈分层、文件结构和模块关系。当添加/移除核心依赖、修改文件夹结构、增加新架构层(认证、支付、分析)或更新环境变量结构时需要更新此文件。
 
@@ -7,15 +7,32 @@
 - 保持简洁,使用列表和代码块
 - 删除过时的架构信息
 
-**Last Updated**: 2026-03-16 (SEO metadata parity, sitemap timestamps, cached dynamic-content fetches, and Docker containerization aligned)
+**Last Updated**: 2026-03-20 (build/env template architecture added and deployment docs aligned)
 
 ## Deployment Architecture
-- **Deployment Target**: Huawei Cloud (华为云)
+- **Deployment Target**: Huawei Cloud CCE (华为云 Kubernetes) with CDN/WAF + ELB ingress; this project is documented as CCE-based SSR container deployment, not ECS VM deployment
 - **Architecture**: Pure frontend application with Next.js Server Actions (no separate backend)
 - **Rendering**: Hybrid rendering. Locale-prefixed website shell is request-scoped for language negotiation; static marketing pages remain cache-friendly and Sanity-backed pages use cached fetches with hourly/day revalidation.
 - **Containerization**: Multi-stage `Dockerfile` builds Next.js standalone output on Node 20 and runs `server.js` from `.next/standalone`; runtime image copies `.next/static` + `public` only.
-- **Build-time env contract**: Docker build should inject `NEXT_PUBLIC_*` site/Sanity/media variables during `next build` (current Dockerfile expects BuildKit secret `next_env` such as `.env.production`). Runtime secrets stay in container env/secret stores.
-- **Serverless Compatibility**: ⚠️ Current rate limiting uses in-memory Map (not serverless-compatible); requires distributed cache (Redis) or container deployment with session affinity for multi-instance scenarios
+- **Build-time env contract**: `./build.sh` loads `.env.build.<mode>` (or `.env.build`) and passes it to Docker BuildKit as `next_env`; `NEXT_PUBLIC_*` site/Sanity/media variables must be fixed before `next build`, while runtime secrets stay in container env/secret stores.
+- **Runtime topology**: `Huawei CDN/WAF -> ELB / Ingress -> CCE Service -> Next.js standalone Pod(s)`; Sanity, Resend/Brevo, OBS media/CDN, and optional Redis/DCS stay as managed external services
+- **Deploy unit in this repo**: one Next.js SSR workload only; Sanity is an external managed CMS dependency, not a second self-hosted container in this repository
+- **Probe surface**: `GET /api/revalidate` currently returns webhook health JSON and can be used as a lightweight HTTP probe until a dedicated `/api/health` route exists
+- **Scaling constraint**: ⚠️ Current rate limiting uses in-memory Map; safe for single-replica CCE runtime, but multi-replica rollout requires distributed cache (Redis / Huawei DCS) or sticky-session compromise
+
+### Deploy / CCE Checklist
+- **Repo manifests**: checked-in deployment templates now live under `deploy/cce/` (`namespace.yaml`, `serviceaccount.yaml`, `configmap.yaml`, `secret.example.yaml`, `deployment.yaml`, `service.yaml`, `ingress.yaml`, `kustomization.yaml`)
+- [ ] Build the checked-in `Dockerfile` into a Node 20 standalone image and push it to Huawei Cloud SWR via `./build.sh <version> production`; inject build-time `NEXT_PUBLIC_*` variables through `.env.build.production` or equivalent CI/CD env
+- [ ] Create a CCE workload for the SSR container, keep container port `3000`, and preserve the runtime entrypoint `node server.js`
+- [ ] Expose the workload through Kubernetes `Service` + Huawei ELB or Ingress so public traffic follows `CDN/WAF -> ELB/Ingress -> Service -> Pod`
+- [ ] Store runtime secrets in CCE `Secret` and non-secret config in `ConfigMap`; minimum values are `NODE_ENV`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`, `SANITY_API_TOKEN`, `SANITY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `BREVO_API_KEY`, `EMAIL_PROVIDER`, `CONTACT_EMAIL_TO`, `EMAIL_FROM_*`, `NEXT_PUBLIC_VIDEO_CDN_URL`, `NEXT_PUBLIC_FEATURE_VIDEO_CDN_URL`, and optional `NEXT_PUBLIC_MEDIA_URL`
+- [ ] Configure readiness/liveness probes against `GET /api/revalidate` (current) or `/robots.txt` (fallback); switch probes to `/api/health` once a dedicated route exists
+- [ ] Allow egress from CCE to `*.sanity.io`, Resend, Brevo, and Huawei OBS/CDN origins; include Redis / DCS if rate limiting moves to shared storage
+- [ ] Keep the app single-replica until rate limiting is migrated away from in-memory storage; if replicas are required, add Redis / DCS and forward the real client IP via `X-Forwarded-For`
+- [ ] Use shared cache/storage only when the rollout needs multi-replica cache persistence; if enabled, mount SFS/EVS and point `NEXT_CACHE_DIR` at that volume
+- [ ] Put the public hostname behind Huawei CDN/WAF; long-cache `/_next/static/*`, `public/*`, and media assets, but bypass or keep short cache for `/_next/image*`, ISR-backed pages, and `/api/revalidate`
+- [ ] Configure Sanity webhook delivery to `https://<primary-domain>/api/revalidate`, verify HMAC secret handling, and ensure CDN/WAF do not cache or block the webhook path
+- [ ] Ship container stdout/stderr, ELB access logs, and CDN/WAF logs to LTS/AOM so SSR errors, webhook failures, and outbound provider issues can be traced without node-level SSH access
 
 ## Tech Stack
 - Next.js 15 (App Router, Webpack build), TypeScript, Tailwind CSS v4
@@ -226,7 +243,7 @@ next.config.ts            # images.qualities: [75, 85, 90, 100] for Next.js 15+ 
 - Robots: `src/app/(website)/robots.ts` disallows `/studio`, `/api`, `/admin`; exposes sitemap URL; blocks GPTBot/Google-Extended. `/_next` assets remain crawlable.
 
 ### Environment Variables
-Project uses three environment file layers:
+Project now uses an explicit build/runtime split with tracked templates and local/CI working copies:
 
 **1. `src/lib/env.ts` (TypeScript module)**
 - NOT an env file - code layer for type-safe env access
@@ -234,17 +251,29 @@ Project uses three environment file layers:
 - Runtime validation in development mode
 - Single source of truth for environment variable access
 
-**2. `.env.local` (Local development)**
+**2. `.env.local.example -> .env.local` (Local development)**
 - Used for localhost:3000 development
-- Highest priority - overrides all other env files
-- NOT committed to Git (.gitignore)
-- Contains development-safe values (e.g., `EMAIL_FROM_INTERNAL=isBIM Contact Form <noreply@resend.dev>`)
+- Template is committed; `.env.local` stays local-only
+- Dev-safe sender defaults should use `@resend.dev`
 
-**3. `.env.production` (Production template)**
-- Reference template for production deployment
-- Committed to Git (with placeholder values)
-- Not used directly - deployment platforms (Vercel) use these as reference
-- Contains production values (e.g., `EMAIL_FROM_INTERNAL=isBIM Contact Form <noreply@isbim.com.hk>`)
+**3. `.env.production.example -> .env.production` (Direct process production mode)**
+- Used for local `npm run build && npm run start` validation
+- Template is committed; `.env.production` stays local-only
+- Suitable for direct-process production simulation, not as the only CCE fact source
+
+**4. `.env.build.example -> .env.build.local / .env.build.production` (Image build)**
+- Used by `./build.sh`
+- Holds SWR coordinates and build-time `NEXT_PUBLIC_*` values only
+- Passed to Docker BuildKit as the `next_env` secret during image build
+
+**5. `.env.runtime.example -> .env.runtime` (Local Docker runtime)**
+- Used by `docker run --env-file .env.runtime`
+- Holds runtime `Sanity`/email/webhook env values for local container testing
+
+**6. `deploy/cce/configmap.yaml` + `deploy/cce/secret.yaml` (CCE runtime)**
+- `ConfigMap`: non-secret runtime config and mirrored `NEXT_PUBLIC_*`
+- `Secret`: runtime sensitive values such as `SANITY_API_TOKEN`, `SANITY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `BREVO_API_KEY`
+- Current repo keeps only `secret.example.yaml`; real `secret.yaml` is environment-specific
 
 **Email Sender Configuration:**
 - Development: `@resend.dev` domain (no verification needed)
@@ -255,6 +284,12 @@ Project uses three environment file layers:
 - Primary: Resend (default, 3000/月免费)
 - Backup: Brevo (9000/月免费)
 - Variables: `RESEND_API_KEY` (required), `BREVO_API_KEY` (optional), `EMAIL_PROVIDER` (resend|brevo, default: resend)
+
+**Current deployment guardrails:**
+- `.env.local`, `.env.production`, `.env.build.*`, `.env.runtime` are working copies and should not be treated as repository truth
+- `NEXT_PUBLIC_*` must be stable before `./build.sh` because they affect both browser output and `next.config.ts` remote media patterns
+- This repo has no Strapi/CMS env contract such as `STRAPI_URL`; deployment env differences from Jarvis come from `Sanity` + email API usage
+- Deployment-specific operator docs live in `部署文档/`
 
 ### UI Components
 ```
@@ -397,8 +432,8 @@ public/
   - Architecture: `email-client.ts` routes to `resend-client.ts`/`brevo-client.ts` based on config
   - Dual emails: Internal notification (English, to `CONTACT_EMAIL_TO`) + User confirmation (i18n: en/zh)
   - Rate limiting: 3 submissions per IP per 5 minutes (in-memory Map)
-    - ⚠️ **Serverless limitation**: Not compatible with multi-instance serverless
-    - **Deployment options**: Single-instance container | Distributed cache (Redis) | Remove rate limiting
+    - ⚠️ **CCE scaling limitation**: Not compatible with multi-replica CCE rollout unless the counter moves to shared storage
+    - **Deployment options**: Single-replica CCE workload | CCE + distributed cache (Redis / DCS) | Remove rate limiting
   - Validation: Zod schema (`contact-form.schema.ts`) with server-side enforcement
   - Templates: HTML + plain text, responsive, provider-agnostic
   - Environment: `RESEND_API_KEY`/`BREVO_API_KEY`, `EMAIL_PROVIDER` (default: resend), `CONTACT_EMAIL_TO` (default: solution@isbim.com.hk)
